@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -56,7 +57,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
@@ -64,9 +67,11 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteEditListener;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -101,6 +106,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	private LoadProjectTask loadProjectTask;
 	public boolean isLoading = false;
+
+	private boolean fragmentStartedFirstTime = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -158,7 +165,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
+		} else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
+				.equals(programName) && fragmentStartedFirstTime) {
+			showInfoFragmentIfNeeded();
 		}
+
+		fragmentStartedFirstTime = false;
 	}
 
 	@Override
@@ -213,7 +225,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
 		if (spriteRenamedReceiver != null) {
@@ -257,7 +269,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
 			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		}
-
 	}
 
 	@Override
@@ -283,7 +294,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -433,7 +443,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
 		dataContainer.cleanUserListForSprite(spriteToEdit);
 
-
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
@@ -493,7 +502,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteAdapter.notifyDataSetChanged();
 				onSpriteChecked();
 			}
-
 		});
 	}
 
@@ -672,11 +680,26 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
 		getActivity().findViewById(R.id.fragment_sprites_list).setVisibility(View.VISIBLE);
 		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+
+		showInfoFragmentIfNeeded();
+	}
+
+	private void showInfoFragmentIfNeeded() {
+		if (needToShowLegoNXTInfoDialog()) {
+			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
+			dialog.show(this.getActivity().getSupportFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+	}
+
+	private boolean needToShowLegoNXTInfoDialog() {
+		boolean isLegoNXTInfoDialogDisabled = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		return !isLegoNXTInfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) != 0;
 	}
 
 	@Override
 	public void onLoadProjectFailure() {
 		getActivity().onBackPressed();
 	}
-
 }

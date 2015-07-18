@@ -239,7 +239,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		super.onActivityCreated(savedInstanceState);
 
 		listView = getListView();
-		
+
 		if (listView != null) {
 			registerForContextMenu(listView);
 		}
@@ -292,7 +292,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			menu.findItem(R.id.backpack).setVisible(false);
 			menu.findItem(R.id.unpacking).setVisible(false);
 		}
-
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -371,7 +370,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
 		if (lookDeletedReceiver != null) {
@@ -469,7 +468,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -701,7 +699,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 			ToastUtil.showError(getActivity(), R.string.error_load_image);
 		}
-
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
@@ -716,7 +713,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				adapter.notifyDataSetChanged();
 				onLookChecked();
 			}
-
 		});
 	}
 
@@ -863,7 +859,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public interface OnLookDataListChangedAfterNewListener {
 
 		void onLookDataListChangedAfterNew(LookData soundInfo);
-
 	}
 
 	private class LookDeletedReceiver extends BroadcastReceiver {

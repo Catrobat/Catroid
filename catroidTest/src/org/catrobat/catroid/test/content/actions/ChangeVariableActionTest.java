@@ -38,17 +38,17 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 	private static final double INITIALIZED_VALUE = 0.0;
 	private Sprite testSprite;
 	private UserVariable userVariable;
-    Project project;
+	Project project;
 
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-        project = new Project(null, "testProject");
-        ProjectManager.getInstance().setProject(project);
+		project = new Project(null, "testProject");
+		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
-        super.setUp();
+		super.setUp();
 	}
 
 	public void testChangeUserVariableWithNumericalFormula() {

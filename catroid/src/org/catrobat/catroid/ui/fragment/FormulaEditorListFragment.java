@@ -41,6 +41,9 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.SettingsActivity;
+
+import java.util.Arrays;
 
 public class FormulaEditorListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
 
@@ -52,22 +55,23 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
-	public static final String[] TAGS = {OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG};
+	public static final String[] TAGS = { OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG };
 
-	private static final int[] OBJECT_ITEMS = {R.string.formula_editor_object_x, R.string.formula_editor_object_y,
+	private static final int[] OBJECT_ITEMS = { R.string.formula_editor_object_x, R.string.formula_editor_object_y,
 			R.string.formula_editor_object_transparency, R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
 			R.string.formula_editor_object_layer, R.string.formula_editor_object_x_velocity,
-			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity};
+			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity,
+			R.string.formula_editor_object_layer };
 
-	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
+	private static final int[] LOGIC_ITEMS = { R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal, R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not, R.string.formula_editor_function_true,
-			R.string.formula_editor_function_false};
+			R.string.formula_editor_function_false };
 
-	private static final int[] FUNCTIONS_ITEMS = {R.string.formula_editor_function_sin,
+	private static final int[] FUNCTIONS_ITEMS = { R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
@@ -77,9 +81,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
 			R.string.formula_editor_function_length, R.string.formula_editor_function_number_of_items, R.string.formula_editor_function_letter,
-			R.string.formula_editor_function_join, R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
+			R.string.formula_editor_function_join, R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains };
 
-	private static final int[] FUNCTIONS_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
+	private static final int[] FUNCTIONS_PARAMETERS = { R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
 			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
 			R.string.formula_editor_function_pi_parameter, R.string.formula_editor_function_sqrt_parameter,
@@ -88,16 +92,30 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_arcsin_parameter, R.string.formula_editor_function_arccos_parameter,
 			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
-			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_number_of_items_parameter ,R.string.formula_editor_function_letter_parameter,
+			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_number_of_items_parameter, R.string.formula_editor_function_letter_parameter,
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_list_item_parameter,
-			R.string.formula_editor_function_contains_parameter};
+			R.string.formula_editor_function_contains_parameter };
 
-	private static final int[] SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
+	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
-			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position};
+			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position,
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness };
+
+	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
+			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
+			R.string.formula_editor_sensor_lego_nxt_4 };
+
+	private static final int[] PHIRO_SENSOR_ITEMS = { R.string.formula_editor_phiro_sensor_front_left,
+			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
+			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
+			R.string.formula_editor_phiro_sensor_bottom_right };
+
+	private static final int[] FACE_DETECTION_SENSOR_ITEMS = { R.string.formula_editor_sensor_face_detected,
+			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
+			R.string.formula_editor_sensor_face_y_position };
 
 	private String actionBarTitle;
 	private int[] itemsIds;
@@ -123,9 +141,14 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		setHasOptionsMenu(true);
 
 		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
-		itemsIds = new int[]{};
+		itemsIds = new int[] {};
 
 		if (tag.equals(OBJECT_TAG)) {
 			itemsIds = OBJECT_ITEMS;
@@ -134,7 +157,21 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		} else if (tag.equals(LOGIC_TAG)) {
 			itemsIds = LOGIC_ITEMS;
 		} else if (tag.equals(SENSOR_TAG)) {
-			itemsIds = SENSOR_ITEMS;
+			itemsIds = DEFAULT_SENSOR_ITEMS;
+
+			Context context = this.getActivity().getApplicationContext();
+
+			if (SettingsActivity.isFaceDetectionPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
+			}
 		}
 
 		String[] items = new String[itemsIds.length];
@@ -147,6 +184,20 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.fragment_formula_editor_list_item, items);
 		setListAdapter(arrayAdapter);
+	}
+
+	private static int[] concatAll(int[] first, int[]... rest) {
+		int totalLength = first.length;
+		for (int[] array : rest) {
+			totalLength += array.length;
+		}
+		int[] result = Arrays.copyOf(first, totalLength);
+		int offset = first.length;
+		for (int[] array : rest) {
+			System.arraycopy(array, 0, result, offset, array.length);
+			offset += array.length;
+		}
+		return result;
 	}
 
 	@Override
@@ -182,15 +233,14 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	@Override
 	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-				FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
-						.beginTransaction();
-				fragTransaction.hide(this);
-				fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
-						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
-				fragTransaction.commit();
-				return true;
+			FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
+					.beginTransaction();
+			fragTransaction.hide(this);
+			fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
+					FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+			fragTransaction.commit();
+			return true;
 		}
 		return false;
 	}
-
 }

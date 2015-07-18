@@ -81,12 +81,9 @@ class LocalConnectionProxy implements BluetoothConnection {
 
 			modelRunner = new ModelRunner(deviceModel, serverInputStreamFromClientsOutputStream, serverOutputStreamToClientsInputStream);
 			modelRunner.start();
-
 		} catch (IOException e) {
 			Assert.fail("Error with ConnectionProxy Stream pipes.");
 		}
-
-
 	}
 
 	@Override
@@ -106,8 +103,7 @@ class LocalConnectionProxy implements BluetoothConnection {
 		try {
 			observedOutputStream.close();
 			observedInputStream.close();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			Log.e(TAG, "Error on disconnect while closing streams");
 		}
 

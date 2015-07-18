@@ -64,12 +64,18 @@ import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
 import org.catrobat.catroid.content.actions.LedAction;
-import org.catrobat.catroid.content.actions.LegoNxtMotorActionAction;
+import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
+import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
+import org.catrobat.catroid.content.actions.PhiroMotorMoveForwardAction;
+import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
+import org.catrobat.catroid.content.actions.PhiroPlayToneAction;
+import org.catrobat.catroid.content.actions.PhiroRGBLightAction;
+import org.catrobat.catroid.content.actions.PhiroSensorAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
@@ -93,9 +99,14 @@ import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -236,8 +247,8 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createLegoNxtMotorActionAction(Sprite sprite, Motor motorEnum, Formula speed) {
-		LegoNxtMotorActionAction action = Actions.action(LegoNxtMotorActionAction.class);
+	public Action createLegoNxtMotorMoveAction(Sprite sprite, LegoNxtMotorMoveBrick.Motor motorEnum, Formula speed) {
+		LegoNxtMotorMoveAction action = Actions.action(LegoNxtMotorMoveAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
@@ -264,6 +275,60 @@ public class ActionFactory extends Actions {
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
+		return action;
+	}
+
+	public Action createPhiroPlayToneActionAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum,
+			Formula duration) {
+		PhiroPlayToneAction action = action(PhiroPlayToneAction.class);
+		action.setSelectedTone(toneEnum);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(duration);
+		return action;
+	}
+
+	public Action createPhiroMotorMoveForwardActionAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum,
+			Formula speed) {
+		PhiroMotorMoveForwardAction action = action(PhiroMotorMoveForwardAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public Action createPhiroMotorMoveBackwardActionAction(Sprite sprite, PhiroMotorMoveBackwardBrick.Motor motorEnum,
+			Formula speed) {
+		PhiroMotorMoveBackwardAction action = action(PhiroMotorMoveBackwardAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public Action createPhiroRgbLedEyeActionAction(Sprite sprite, PhiroRGBLightBrick.Eye eye,
+			Formula red, Formula green, Formula blue) {
+		PhiroRGBLightAction action = action(PhiroRGBLightAction.class);
+		action.setSprite(sprite);
+		action.setEyeEnum(eye);
+		action.setRed(red);
+		action.setGreen(green);
+		action.setBlue(blue);
+		return action;
+	}
+
+	public Action createPhiroSendSelectedSensorAction(Sprite sprite, int sensorNumber, Action ifAction, Action
+			elseAction) {
+		PhiroSensorAction action = action(PhiroSensorAction.class);
+		action.setSprite(sprite);
+		action.setSensor(sensorNumber);
+		action.setIfAction(ifAction);
+		action.setElseAction(elseAction);
+		return action;
+	}
+
+	public Action createPhiroMotorStopActionAction(PhiroMotorStopBrick.Motor motorEnum) {
+		PhiroMotorStopAction action = action(PhiroMotorStopAction.class);
+		action.setMotorEnum(motorEnum);
 		return action;
 	}
 

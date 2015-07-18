@@ -62,7 +62,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	private ArrayList<UserBrickParameter> userBrickParameters;
 
 	@XStreamAlias("userBrickPositionToParameter")
-	private ArrayList<Pair<Integer,Integer>> userBrickPositionToParameter;
+	private ArrayList<Pair<Integer, Integer>> userBrickPositionToParameter;
 
 	// belonging to stored brick
 	private transient int lastDataVersion = 0;
@@ -114,8 +114,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			if (getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).isVariable) {
 				if (userBrickParameterList == null) {
 					parameter.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
-				}
-				else {
+				} else {
 					parameter.setFormulaWithBrickField(BrickField.USER_BRICK, userBrickParameterList.get(elementPosition).getFormulaWithBrickField(BrickField.USER_BRICK));
 				}
 				parameter.variableName = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).name;
@@ -254,7 +253,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 					} catch (InterpretationException interpretationException) {
 						Log.e(TAG, "InterpretationException!", interpretationException);
 					}
-
 				} else {
 					currentTextView.setId(id);
 					currentTextView.setTextAppearance(context, R.style.BrickEditText);
@@ -340,11 +338,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		this.definitionBrick = definitionBrick;
 	}
 
-	public UserScriptDefinitionBrickElements getUserScriptDefinitionBrickElements(){
+	public UserScriptDefinitionBrickElements getUserScriptDefinitionBrickElements() {
 		return definitionBrick.getUserScriptDefinitionBrickElements();
 	}
 
-	public void setUserScriptDefinitionBrickElements(UserScriptDefinitionBrickElements elements){
+	public void setUserScriptDefinitionBrickElements(UserScriptDefinitionBrickElements elements) {
 		definitionBrick.setUserScriptDefinitionBrickElements(elements);
 	}
 
@@ -361,11 +359,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	public void setUserBrickPositionToParameter(Pair<Integer, Integer> userBrickPositionToParameterPair, int index) {
-			userBrickPositionToParameter.set(index, userBrickPositionToParameterPair);
+		userBrickPositionToParameter.set(index, userBrickPositionToParameterPair);
 	}
 
 	public void addUserBrickPositionToParameter(Pair<Integer, Integer> userBrickPositionToParameterPair) {
-			userBrickPositionToParameter.add(userBrickPositionToParameterPair);
+		userBrickPositionToParameter.add(userBrickPositionToParameterPair);
 	}
 
 	public int getUserBrickIndexInScript(Pair<Integer, Integer> userBrickPositionToParameterPair) {

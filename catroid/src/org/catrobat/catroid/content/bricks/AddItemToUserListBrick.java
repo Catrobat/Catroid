@@ -56,7 +56,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 	private static final long serialVersionUID = 1L;
 	private transient AdapterView<?> adapterView;
 
-	public AddItemToUserListBrick(){
+	public AddItemToUserListBrick() {
 		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
 	}
 
@@ -65,7 +65,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 		this.userList = userList;
 	}
 
-	public AddItemToUserListBrick( double value) {
+	public AddItemToUserListBrick(double value) {
 		initializeBrickFields(new Formula(value));
 	}
 
@@ -170,6 +170,8 @@ public class AddItemToUserListBrick extends UserListBrick {
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.add_item_to_userlist_spinner);
 		userListSpinner.setFocusableInTouchMode(false);
 		userListSpinner.setFocusable(false);
+		userListSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
@@ -207,7 +209,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 			editVariable.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -215,7 +216,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 
 	@Override
 	public Brick clone() {
-		AddItemToUserListBrick clonedBrick = new AddItemToUserListBrick( getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).clone(), userList);
+		AddItemToUserListBrick clonedBrick = new AddItemToUserListBrick(getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).clone(), userList);
 		return clonedBrick;
 	}
 
@@ -228,5 +229,4 @@ public class AddItemToUserListBrick extends UserListBrick {
 		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
 		setFormulaWithBrickField(BrickField.LIST_ADD_ITEM, listAddItemFormula);
 	}
-
 }

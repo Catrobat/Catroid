@@ -189,25 +189,20 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testZeroRepeats() throws InterruptedException {
-		final int decoyDeltaY = -150;
-		final int expectedDeltaY = 150;
+		final float decoyDeltaY = -150f;
+		final float expectedDeltaY = 150f;
 
-		ActionFactory factory = testSprite.getActionFactory();
-		RepeatAction repeatAction = factory.createRepeatAction(testSprite, new Formula(0),
-				factory.sequence(factory.createChangeYByNAction(testSprite,new Formula(decoyDeltaY))));
+		final RepeatAction repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, new Formula(0),
+				testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(decoyDeltaY)));
+		repeatAction.act(1f);
 
-		SequenceAction action = factory.sequence(repeatAction,
-				factory.createChangeYByNAction(testSprite, new Formula(expectedDeltaY)));
+		testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(expectedDeltaY)).act(1f);
 
-		boolean wait = false;
-		while (!wait) {
-			wait = action.act(1.0f);
-		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
 		assertEquals("Executed the wrong number of times!", 0, executedCount);
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+				testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithValidStringFormula() {
@@ -225,7 +220,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
-		assertEquals("Null Formula should not have been possible to interpret!", 0 , repeatCountValue);
+		assertEquals("Null Formula should not have been possible to interpret!", 0, repeatCountValue);
 	}
 
 	public void testNotANumberFormula() {
@@ -249,6 +244,5 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		}
 		assertEquals("Executed the wrong number of times!", expected,
 				testSprite.look.getYInUserInterfaceDimensionUnit());
-
 	}
 }

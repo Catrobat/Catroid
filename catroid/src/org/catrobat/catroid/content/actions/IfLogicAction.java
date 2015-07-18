@@ -50,10 +50,10 @@ public class IfLogicAction extends Action {
 			Double interpretation = ifCondition.interpretDouble(sprite);
 			ifConditionValue = interpretation.intValue() != 0 ? true : false;
 			isInterpretedCorrectly = true;
-        } catch (InterpretationException interpretationException) {
-            isInterpretedCorrectly = false;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			isInterpretedCorrectly = false;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	@Override
@@ -104,5 +104,4 @@ public class IfLogicAction extends Action {
 		ifAction.setActor(actor);
 		elseAction.setActor(actor);
 	}
-
 }

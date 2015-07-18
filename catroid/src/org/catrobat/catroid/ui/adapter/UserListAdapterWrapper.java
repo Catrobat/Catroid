@@ -80,7 +80,6 @@ public class UserListAdapterWrapper extends BaseAdapter {
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 			}
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
-
 		} else {
 			view = dataAdapter.getViewForUserListItem(position - 1, convertView, parent);
 		}
@@ -101,7 +100,6 @@ public class UserListAdapterWrapper extends BaseAdapter {
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 			}
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
-
 		} else {
 			view = dataAdapter.getDropDownViewForUserListItem(position - 1, convertView, parent);
 		}

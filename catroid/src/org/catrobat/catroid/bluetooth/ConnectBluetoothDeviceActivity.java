@@ -34,7 +34,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -52,7 +51,6 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 public class ConnectBluetoothDeviceActivity extends Activity {
@@ -60,11 +58,9 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 	public static final String TAG = ConnectBluetoothDeviceActivity.class.getSimpleName();
 
 	public static final String DEVICE_TO_CONNECT = "org.catrobat.catroid.bluetooth.DEVICE";
-	public static final String AUTO_CONNECT = "auto_connect";
 
 	private static final int DEVICE_MAC_ADDRESS_LENGTH = 18;
 
-	private static ArrayList<String> autoConnectIDs;
 	private static BluetoothDeviceFactory btDeviceFactory;
 	private static BluetoothConnectionFactory btConnectionFactory;
 
@@ -74,14 +70,6 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
 	private ArrayAdapter<String> newDevicesArrayAdapter;
-	private boolean autoConnect;
-
-	private static final String OUI_LEGO = "00:16:53";
-
-	static {
-		autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add(OUI_LEGO);
-	}
 
 	private static BluetoothDeviceFactory getDeviceFactory() {
 		if (btDeviceFactory == null) {
@@ -150,6 +138,9 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
 				setProgressBarIndeterminateVisibility(false);
+
+				findViewById(R.id.device_list_progress_bar).setVisibility(View.GONE);
+
 				setTitle(getString(R.string.select_device) + " " + btDevice.getName());
 				if (newDevicesArrayAdapter.isEmpty()) {
 					String noDevices = getResources().getString(R.string.none_found);
@@ -195,15 +186,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 				result = RESULT_OK;
 				BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 				btDeviceService.deviceConnected(btDevice);
-			}
-			else if (autoConnect) {
-				Log.i(TAG, "auto connect wasn't successful, show available devices instead.");
-				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_auto_connection_failed);
-				ConnectBluetoothDeviceActivity.this.setVisible(true);
-				autoConnect = false;
-				return;
-			}
-			else {
+			} else {
 				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
 			}
 
@@ -216,14 +199,10 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		autoConnect = this.getIntent().getExtras().getBoolean(AUTO_CONNECT);
-		if (autoConnect) {
-			this.setVisible(false);
-		}
+		createAndSetDeviceService();
 
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.device_list);
-		setTitle(R.string.select_device);
+		setTitle(getString(R.string.select_device) + " " + btDevice.getName());
 
 		setResult(Activity.RESULT_CANCELED);
 
@@ -261,21 +240,11 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 	private void listAndSelectDevices() {
 
-		createAndSetDeviceService();
-
 		Set<android.bluetooth.BluetoothDevice> pairedDevices = btManager.getBluetoothAdapter().getBondedDevices();
 
-		android.bluetooth.BluetoothDevice bluetoothDevice = null;
-		int possibleConnections = 0;
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (android.bluetooth.BluetoothDevice device : pairedDevices) {
-				for (String item : autoConnectIDs) {
-					if (device.getAddress().startsWith(item)) {
-						bluetoothDevice = device;
-						possibleConnections++;
-					}
-				}
 				pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 			}
 		}
@@ -285,16 +254,11 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 			pairedDevicesArrayAdapter.add(noDevices);
 		}
 
-		if (autoConnect && possibleConnections == 1) {
-			connectDevice(bluetoothDevice.getAddress());
-		}
-		else {
-			this.setVisible(true);
-		}
+		this.setVisible(true);
 	}
 
 	protected void createAndSetDeviceService() {
-		Class<BluetoothDevice> serviceType = (Class<BluetoothDevice>)getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
+		Class<BluetoothDevice> serviceType = (Class<BluetoothDevice>) getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
 
 		btDevice = getDeviceFactory().createDevice(serviceType, this.getApplicationContext());
 	}
@@ -317,9 +281,10 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 	private void doDiscovery() {
 
 		setProgressBarIndeterminateVisibility(true);
-		setTitle(R.string.scanning);
 
 		findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
+
+		findViewById(R.id.device_list_progress_bar).setVisibility(View.VISIBLE);
 
 		if (btManager.getBluetoothAdapter().isDiscovering()) {
 			btManager.getBluetoothAdapter().cancelDiscovery();

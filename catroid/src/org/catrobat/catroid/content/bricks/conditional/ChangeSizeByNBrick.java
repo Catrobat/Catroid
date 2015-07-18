@@ -33,9 +33,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
 import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -106,7 +104,7 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
 		TextView textChangeSizeBy = (TextView) prototypeView
 				.findViewById(R.id.brick_change_size_by_prototype_text_view);
-            textChangeSizeBy.setText(String.valueOf(BrickValues.CHANGE_SIZE_BY));
+		textChangeSizeBy.setText(String.valueOf(BrickValues.CHANGE_SIZE_BY));
 		return prototypeView;
 	}
 
@@ -126,7 +124,6 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 			editChangeSize.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

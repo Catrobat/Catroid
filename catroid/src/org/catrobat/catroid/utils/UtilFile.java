@@ -60,6 +60,10 @@ public final class UtilFile {
 		}
 
 		File[] contents = fileOrDirectory.listFiles();
+		if (contents == null) {
+			return 0;
+		}
+
 		long size = 0;
 		for (File file : contents) {
 			size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();
@@ -127,7 +131,11 @@ public final class UtilFile {
 		}
 
 		Log.v(TAG, sb.toString() + "delete: " + fileOrDirectory.getName());
-		return fileOrDirectory.delete();
+
+		//http://stackoverflow.com/questions/11539657/open-failed-ebusy-device-or-resource-busy
+		final File renameBeforeDelete = new File(fileOrDirectory.getAbsolutePath() + System.currentTimeMillis());
+		fileOrDirectory.renameTo(renameBeforeDelete);
+		return renameBeforeDelete.delete();
 	}
 
 	public static File saveFileToProject(String project, String name, int fileID, Context context, FileType type) {

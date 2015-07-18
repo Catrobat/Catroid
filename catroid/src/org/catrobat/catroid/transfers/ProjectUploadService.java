@@ -46,7 +46,7 @@ import java.io.IOException;
 public class ProjectUploadService extends IntentService {
 
 	private static final String TAG = ProjectUploadService.class.getSimpleName();
-	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROBAT_EXTENSION;
+	public static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROBAT_EXTENSION;
 
 	private String projectPath;
 	private String projectName;
@@ -81,7 +81,7 @@ public class ProjectUploadService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 
-		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
+		receiver = intent.getParcelableExtra("receiver");
 		try {
 			if (projectPath == null) {
 				result = false;
@@ -116,7 +116,7 @@ public class ProjectUploadService extends IntentService {
 
 			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
 			String userEmail = UtilDeviceInfo.getUserEmail(this);
-			String language = UtilDeviceInfo.getUserLanguageCode(this);
+			String language = UtilDeviceInfo.getUserLanguageCode();
 
 			Context context = getApplicationContext();
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
@@ -144,5 +144,4 @@ public class ProjectUploadService extends IntentService {
 		}
 		super.onDestroy();
 	}
-
 }

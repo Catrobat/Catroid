@@ -42,7 +42,6 @@ public class LedOffBrick extends BrickBaseType {
 	private transient View prototypeView;
 
 	public LedOffBrick() {
-
 	}
 
 	@Override

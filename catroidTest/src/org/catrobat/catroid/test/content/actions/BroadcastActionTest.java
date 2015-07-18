@@ -123,6 +123,9 @@ public class BroadcastActionTest extends AndroidTestCase {
 		BroadcastBrick broadcastBrickLoop = new BroadcastBrick(message);
 		broadcastScript.addBrick(broadcastBrickLoop);
 
+		WaitBrick wb = new WaitBrick(5);
+		broadcastScript.addBrick(wb);
+
 		sprite.addScript(broadcastScript);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);

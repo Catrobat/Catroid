@@ -33,9 +33,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
 import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -108,7 +106,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_set_transparency, null);
 		TextView textSetTransparency = (TextView) prototypeView
 				.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
-        textSetTransparency.setText(String.valueOf(BrickValues.SET_TRANSPARENCY));
+		textSetTransparency.setText(String.valueOf(BrickValues.SET_TRANSPARENCY));
 		return prototypeView;
 	}
 
@@ -132,7 +130,6 @@ public class SetTransparencyBrick extends FormulaBrick {
 			editTransparency.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

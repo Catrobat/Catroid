@@ -75,7 +75,7 @@ public final class BrickValues {
 	public static final String LEGO_MOTOR = "A";
 	public static final int LEGO_ANGLE = 180;
 	public static final int LEGO_SPEED = 100;
-	public static final int LEGO_DURATION = 1;
+	public static final float LEGO_DURATION = 1.0f;
 	public static final int LEGO_FREQUENCY = 2;
 
 	//Constants Drone
@@ -93,6 +93,14 @@ public final class BrickValues {
 	public static final double INSERT_ITEM_INTO_USERLIST_VALUE = 1d;
 	public static final int REPLACE_ITEM_IN_USERLIST_INDEX = 1;
 	public static final double REPLACE_ITEM_IN_USERLIST_VALUE = 1d;
+
+	//Constants Phiro
+	public static final int PHIRO_SPEED = 100;
+	public static final int PHIRO_DURATION = 1;
+	public static final int PHIRO_VALUE_RED = 0;
+	public static final int PHIRO_VALUE_GREEN = 255;
+	public static final int PHIRO_VALUE_BLUE = 255;
+	public static final String PHIRO_IF_SENSOR_DEFAULT_VALUE = "Front Left Sensor";
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

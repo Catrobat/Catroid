@@ -106,7 +106,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
-
 	}
 
 	@Override
@@ -265,7 +264,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertTrue("SoundList not in project", projectString.contains("soundList"));
 		try {
 			ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
-			assertTrue("Load project worked correctly", true);
 		} catch (ProjectException projectException) {
 			fail("Project is not loaded successfully");
 		}

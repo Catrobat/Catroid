@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-
 import android.util.Log;
 
 public enum Functions {
@@ -44,5 +43,4 @@ public enum Functions {
 		}
 		return null;
 	}
-
 }

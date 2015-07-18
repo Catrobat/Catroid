@@ -69,7 +69,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();
 	}
-	
+
 	public RepeatBrick(Formula timesToRepeat) {
 		initializeBrickFields(timesToRepeat);
 	}
@@ -175,7 +175,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 			editRepeat.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

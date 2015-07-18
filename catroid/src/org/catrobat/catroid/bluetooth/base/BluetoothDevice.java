@@ -22,16 +22,19 @@
  */
 package org.catrobat.catroid.bluetooth.base;
 
+import org.catrobat.catroid.devices.arduino.phiro.Phiro;
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.stage.StageResourceInterface;
 
 import java.util.UUID;
 
 public interface BluetoothDevice extends StageResourceInterface {
 
-//	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
+	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
+	Class<Phiro> PHIRO = Phiro.class;
+
 //	Class<Arduino> ARDUINO = Arduino.class;
 //	Class<Albert> ALBERT = Albert.class;
-//	Class<Albert> KODEY = Albert.class;
 
 	String getName();
 	Class<? extends BluetoothDevice> getDeviceType();

@@ -117,5 +117,4 @@ public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<Script
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

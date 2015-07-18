@@ -41,8 +41,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
@@ -56,6 +60,8 @@ public class SetVariableBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 	private transient AdapterView<?> adapterView;
 
+	private transient String defaultPrototypeToken = null;
+
 	public SetVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE);
 	}
@@ -63,6 +69,13 @@ public class SetVariableBrick extends UserVariableBrick {
 	public SetVariableBrick(Formula variableFormula, UserVariable userVariable) {
 		this.userVariable = userVariable;
 		initializeBrickFields(variableFormula);
+	}
+
+	public SetVariableBrick(Sensors defaultValue) {
+		this.userVariable = null;
+		Formula variableFormula = new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR, defaultValue.name(), null));
+		initializeBrickFields(variableFormula);
+		defaultPrototypeToken = defaultValue.name();
 	}
 
 	public SetVariableBrick(double value) {
@@ -73,6 +86,14 @@ public class SetVariableBrick extends UserVariableBrick {
 	private void initializeBrickFields(Formula variableFormula) {
 		addAllowedBrickField(BrickField.VARIABLE);
 		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	public UserVariable getUserVariable() {
+		return userVariable;
 	}
 
 	@Override
@@ -190,6 +211,8 @@ public class SetVariableBrick extends UserVariableBrick {
 
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
+		variableSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
@@ -201,7 +224,14 @@ public class SetVariableBrick extends UserVariableBrick {
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
+
+		if (defaultPrototypeToken != null) {
+			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
+			textSetVariable.setText(context.getText(defaultValueId));
+		} else {
+			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
+		}
+
 		return prototypeView;
 	}
 
@@ -226,21 +256,27 @@ public class SetVariableBrick extends UserVariableBrick {
 			editVariable.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
 	}
 
 	@Override
-	public Brick clone() {
+	public SetVariableBrick copyBrickForSprite(Sprite sprite) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		SetVariableBrick copyBrick = clone();
+		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
+		return copyBrick;
+	}
+
+	@Override
+	public SetVariableBrick clone() {
 		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
-				.clone(), userVariable);
+				.clone(), null);
 		return clonedBrick;
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE);
 	}
-
 }

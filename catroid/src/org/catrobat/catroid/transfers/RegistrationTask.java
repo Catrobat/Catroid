@@ -81,8 +81,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			}
 
 			String email = UtilDeviceInfo.getUserEmail(context);
-			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = UtilDeviceInfo.getUserCountryCode(context);
+			String language = UtilDeviceInfo.getUserLanguageCode();
+			String country = UtilDeviceInfo.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
@@ -90,13 +90,11 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 					country, token, context);
 
 			return true;
-
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			message = webconnectionException.getMessage();
 		}
 		return false;
-
 	}
 
 	@Override
@@ -141,6 +139,5 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	public interface OnRegistrationCompleteListener {
 
 		void onRegistrationComplete();
-
 	}
 }

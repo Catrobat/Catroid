@@ -133,7 +133,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertFalse(lookName + " is still in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
-
 	}
 
 	public void testSpinnerUpdatesRename() {
@@ -161,7 +160,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
-
 	}
 
 	public void testAdapterUpdateInScriptActivity() {

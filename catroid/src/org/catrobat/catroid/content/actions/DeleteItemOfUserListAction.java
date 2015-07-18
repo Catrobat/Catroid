@@ -50,7 +50,6 @@ public class DeleteItemOfUserListAction extends TemporalAction {
 
 		try {
 			indexToDelete = formulaIndexToDelete == null ? 1 : formulaIndexToDelete.interpretInteger(sprite);
-
 		} catch (InterpretationException interpretationException) {
 			indexToDelete = 1;
 		}
@@ -75,5 +74,4 @@ public class DeleteItemOfUserListAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

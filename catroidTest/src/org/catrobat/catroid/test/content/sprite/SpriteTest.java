@@ -298,7 +298,6 @@ public class SpriteTest extends AndroidTestCase {
 
 		assertEquals("Wrong script list size", 1, sprite.getNumberOfScripts());
 		assertEquals("Wrong script remained", secondScript, sprite.getScript(0));
-
 	}
 
 	public void testGetScriptIndex() {
@@ -340,7 +339,5 @@ public class SpriteTest extends AndroidTestCase {
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
 		}
-
 	}
-
 }

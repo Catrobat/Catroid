@@ -42,5 +42,4 @@ public class TestFaceDetector extends FaceDetector {
 	public void sendFaceDetected(boolean detected) {
 		this.onFaceDetected(detected);
 	}
-
 }

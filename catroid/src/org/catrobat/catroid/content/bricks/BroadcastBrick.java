@@ -145,6 +145,8 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
+		broadcastSpinner.setEnabled(false);
+
 		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
 		setSpinnerSelection(broadcastSpinner);
@@ -170,7 +172,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -215,7 +216,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			protected String getTitle() {
 				return getString(R.string.dialog_new_broadcast_message_title);
 			}
-
 		};
 
 		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");

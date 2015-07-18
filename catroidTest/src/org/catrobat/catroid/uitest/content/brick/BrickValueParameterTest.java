@@ -38,26 +38,24 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
-
 	public BrickValueParameterTest() {
 		super(MainMenuActivity.class);
-
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 
-		// enable mindstorm bricks, if disabled at start
+		// enable mindstorms bricks, if disabled at start
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
+		if (!sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true).commit();
 		}
 		createProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
@@ -65,10 +63,10 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 	@Override
 	public void tearDown() throws Exception {
-		// disable mindstorm bricks, if enabled
+		// disable mindstorms bricks, if enabled
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 		}
 		super.tearDown();
 	}
@@ -285,9 +283,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		solo.clickOnText(solo.getString(R.string.brick_speak));
 		solo.sleep(300);
-		
+
 		UiTestUtils.dragFloatingBrickDownwards(solo);
-		
+
 		solo.sleep(300);
 
 		String speakEditTextValue = ((TextView) solo.getView(R.id.brick_speak_edit_text)).getText().toString();
@@ -404,7 +402,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		solo.searchText(solo.getString(R.string.nxt_play_tone));
 		TextView nxtPlayToneSecondsTextView = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
-		int nXTPlayTonePrototypeValue = Integer.parseInt(nxtPlayToneSecondsTextView.getText().toString());
+		float nXTPlayTonePrototypeValue = Float.parseFloat(nxtPlayToneSecondsTextView.getText().toString());
 		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_DURATION, nXTPlayTonePrototypeValue);
 
 		TextView nxtPlayToneFreqTextView = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
@@ -417,7 +415,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				legoNxtMotorStopSpinner.getSelectedItem().toString());
 
 		Spinner legoNxtMotorActionSpinner = (Spinner) solo.getView(R.id.lego_motor_action_spinner);
-		assertEquals("Spinner value in LegoNxtMotorActionBrick is not correct", BrickValues.LEGO_MOTOR,
+		assertEquals("Spinner value in LegoNxtMotorMoveBrick is not correct", BrickValues.LEGO_MOTOR,
 				legoNxtMotorActionSpinner.getSelectedItem().toString());
 
 		Spinner legoNxtMotorTurnAngleSpinner = (Spinner) solo.getView(R.id.lego_motor_turn_angle_spinner);
@@ -493,7 +491,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView insertItemInUserListIndexTextValue = (TextView) solo.getView(R.id.brick_insert_item_into_userlist_value_prototype_view);
 		assertEquals("Value in insert item in userlist is not correct", "1.0", insertItemInUserListIndexTextValue.getText().toString());
 
-
 		solo.searchText(solo.getString(R.string.brick_replace_item_in_userlist_replace_in_list));
 		Spinner replaceItemInListSpinner = (Spinner) solo.getView(R.id.replace_item_in_userlist_spinner);
 		assertEquals("Value in replaceItemInListSpinner is not correct", "BrickValueParameterTestUserList",
@@ -504,10 +501,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		TextView replaceItemInUserListIndexTextValue = (TextView) solo.getView(R.id.brick_replace_item_in_userlist_value_prototype_view);
 		assertEquals("Value in replaceItemInList is not correct", "1.0", replaceItemInUserListIndexTextValue.getText().toString());
-
-
-
-
 	}
 
 	private void createProject() {
@@ -527,5 +520,4 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

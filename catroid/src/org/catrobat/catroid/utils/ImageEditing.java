@@ -85,8 +85,6 @@ public final class ImageEditing {
 		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
 		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
 
-
-
 		if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
 			newWidth = outputRectangleWidth;
 			newHeight = outputRectangleHeight;

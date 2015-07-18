@@ -57,7 +57,7 @@ public class NewStringDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_string));
 	}
 
-	public void testDialogCreation(){
+	public void testDialogCreation() {
 		assertTrue(NewStringDialog.class.getSimpleName() + " did not load under 5 seconds!",
 				solo.waitForFragmentByTag(NewStringDialog.DIALOG_FRAGMENT_TAG, 5000));
 	}
@@ -72,13 +72,13 @@ public class NewStringDialogTest extends BaseActivityInstrumentationTestCase<Mai
 
 	public void testNegativeButton() {
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
-		assertTrue("New " + NewStringDialog.class.getSimpleName() +   " should be closed!", solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+		assertTrue("New " + NewStringDialog.class.getSimpleName() + " should be closed!", solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 		assertEquals("Wrong string in Formula Editor edit text!", "\'" + NOTE + "\' ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
 	}
 
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("testSprite" );
+		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new NoteBrick(NOTE));
 

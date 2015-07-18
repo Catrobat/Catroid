@@ -172,7 +172,7 @@ public class AddItemToUserListTest extends BaseActivityInstrumentationTestCase<M
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		addItemToUserListBrick = new AddItemToUserListBrick( 10);
+		addItemToUserListBrick = new AddItemToUserListBrick(10);
 		script.addBrick(addItemToUserListBrick);
 
 		sprite.addScript(script);
@@ -182,5 +182,4 @@ public class AddItemToUserListTest extends BaseActivityInstrumentationTestCase<M
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

@@ -41,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -65,7 +66,17 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(SLEEP_TIME);
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
+				getInstrumentation().getTargetContext(), false);
+		super.tearDown();
+	}
+
 	public void testFaceDetectionStart() {
+		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
+				getInstrumentation().getTargetContext(), true);
+
 		assertFalse("Face detection should not be running in ScriptActivity",
 				FaceDetectionHandler.isFaceDetectionRunning());
 		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));
@@ -86,6 +97,9 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testCameraSetting() {
+		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
+				getInstrumentation().getTargetContext(), true);
+
 		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());

@@ -78,7 +78,6 @@ public class ChangeTransparencyByNBrickTest extends BaseActivityInstrumentationT
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.brick_change_transparency_edit_text, EFFECT_TO_CHANGE, Brick.BrickField.TRANSPARENCY_CHANGE,
 				changeTransparencyByNBrick);
-
 	}
 
 	private void createProject() {

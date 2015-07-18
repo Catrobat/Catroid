@@ -28,6 +28,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.devices.arduino.phiro.Phiro;
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
@@ -49,6 +55,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
+
+	private static BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -165,7 +173,30 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return (double) instance.facePositionY;
 
 			case LOUDNESS:
-				return (double) instance.loudness;
+				return Double.valueOf(instance.loudness);
+
+			case NXT_SENSOR_1:
+			case NXT_SENSOR_2:
+			case NXT_SENSOR_3:
+			case NXT_SENSOR_4:
+
+				LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
+				if (nxt != null) {
+					return Double.valueOf(nxt.getSensorValue(sensor));
+				}
+				break;
+
+			case PHIRO_BOTTOM_LEFT:
+			case PHIRO_BOTTOM_RIGHT:
+			case PHIRO_FRONT_LEFT:
+			case PHIRO_FRONT_RIGHT:
+			case PHIRO_SIDE_LEFT:
+			case PHIRO_SIDE_RIGHT:
+				Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
+				if (phiro != null) {
+					return Double.valueOf(phiro.getSensorValue(sensor));
+				}
+				break;
 		}
 		return 0d;
 	}
@@ -223,5 +254,4 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.facePositionY = 0f;
 		}
 	}
-
 }

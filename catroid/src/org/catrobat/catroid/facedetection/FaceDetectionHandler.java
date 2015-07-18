@@ -24,16 +24,14 @@ package org.catrobat.catroid.facedetection;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.ui.SettingsActivity;
 
 public final class FaceDetectionHandler {
 
@@ -42,10 +40,10 @@ public final class FaceDetectionHandler {
 	private static boolean running = false;
 	private static boolean paused = false;
 
-    // Suppress default constructor for noninstantiability
-    private FaceDetectionHandler() {
-        throw new AssertionError();
-    }
+	// Suppress default constructor for noninstantiability
+	private FaceDetectionHandler() {
+		throw new AssertionError();
+	}
 
 	private static void createFaceDetector() {
 		if (isIcsFaceDetectionSupported()) {
@@ -61,8 +59,8 @@ public final class FaceDetectionHandler {
 
 	public static boolean startFaceDetection(Context context) {
 		if (context != null && !useFaceDetection(context)) {
-            SensorHandler.clearFaceDetectionValues();
-            return true;
+			SensorHandler.clearFaceDetectionValues();
+			return true;
 		}
 		if (running) {
 			return true;
@@ -95,8 +93,8 @@ public final class FaceDetectionHandler {
 			return;
 		}
 
-        faceDetector.stopFaceDetection();
-        running = false;
+		faceDetector.stopFaceDetection();
+		running = false;
 	}
 
 	public static void pauseFaceDetection() {
@@ -157,16 +155,13 @@ public final class FaceDetectionHandler {
 			Camera camera = CameraManager.getInstance().getCamera();
 			possibleFaces = getNumberOfCameras(camera);
 		} catch (Exception exception) {
-            Log.e(TAG, "Camera unaccessable!", exception);
+			Log.e(TAG, "Camera unaccessable!", exception);
 		}
 		return possibleFaces > 0;
 	}
 
 	public static boolean useFaceDetection(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean useFaceDetection = preferences.getBoolean(
-				context.getResources().getString(R.string.preference_key_use_face_detection), true);
-		return useFaceDetection;
+		return SettingsActivity.isFaceDetectionPreferenceEnabled(context);
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

@@ -155,13 +155,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
 
-		int statusCode = 0;
-		int statusCodeWrongLanguageVersion = 518;
-		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
-		Log.v("statusCode=", "" + statusCode);
-
 		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
-		assertEquals("Wrong status code from Web", statusCodeWrongLanguageVersion, statusCode);
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
@@ -193,14 +187,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
 
-		int statusCode = 0;
-		int statusCodeOffensiveLanguage = 511;
-		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
-		Log.v("statusCode=", "" + statusCode);
-
 		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
-		assertEquals("Wrong status code from Web should be 511 for offensive language", statusCodeOffensiveLanguage,
-				statusCode);
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
@@ -385,7 +372,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		assertTrue("Upload of unmodified standard project should not be possible, but succeeded",
 				solo.searchText(solo.getString(R.string.error_upload_default_project)));
-
 	}
 
 	@Device
@@ -585,9 +571,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
 			Log.v("serverID=", "" + serverProjectId);
-
 		} catch (JSONException e) {
-			fail("JSON exception orrured");
+			fail("JSON exception occurred");
 		}
 	}
 
@@ -640,5 +625,4 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
 	}
-
 }

@@ -44,7 +44,6 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public IfOnEdgeBounceBrick() {
-
 	}
 
 	@Override
@@ -91,7 +90,6 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 
 			TextView ifBounceLabel = (TextView) view.findViewById(R.id.brick_if_on_edge_bounce_label);
 			ifBounceLabel.setTextColor(ifBounceLabel.getTextColors().withAlpha(alphaValue));
-
 		}
 
 		return view;

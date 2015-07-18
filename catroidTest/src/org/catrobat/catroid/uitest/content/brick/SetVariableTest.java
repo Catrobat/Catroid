@@ -230,5 +230,4 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 			solo.waitForText(solo.getString(R.string.formula_editor_data), 0, 1000);
 		}
 	}
-
 }

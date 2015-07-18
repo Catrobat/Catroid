@@ -49,7 +49,6 @@ public class ShowActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown as expected", true);
 		}
 	}
 }

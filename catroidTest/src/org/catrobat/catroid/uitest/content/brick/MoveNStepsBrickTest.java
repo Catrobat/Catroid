@@ -76,7 +76,6 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-
 	}
 
 	public void testGoNStepsBackBrick() {
@@ -101,14 +100,14 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE);
 
-        try{
-            assertEquals("Wrong text in field.", STEPS_TO_MOVE,
+		try {
+			assertEquals("Wrong text in field.", STEPS_TO_MOVE,
 					(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble(null));
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
-        assertEquals(
+		assertEquals(
 				"Value in Brick is not updated.",
 				STEPS_TO_MOVE,
 				Double.valueOf(((TextView) solo.getView(R.id.brick_move_n_steps_edit_text)).getText().toString()

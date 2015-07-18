@@ -35,13 +35,13 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	private Formula yPosition = new Formula(Y_POSITION_VALUE);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -58,8 +58,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		try {
 			sprite.getActionFactory().createPlaceAtAction(null, xPosition, yPosition).act(1.0f);
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException e) {
-			assertTrue("Exception thrown successful", true);
+		} catch (NullPointerException expected) {
 		}
 	}
 

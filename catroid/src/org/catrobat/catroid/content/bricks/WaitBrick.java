@@ -35,9 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-
 import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -109,15 +107,15 @@ public class WaitBrick extends FormulaBrick {
 		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
 
 		if (getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).isSingleNumberFormula()) {
-            try{
+			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.second_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 				));
-            }catch(InterpretationException interpretationException){
-                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
-            }
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+			}
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -136,10 +134,10 @@ public class WaitBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_wait, null);
 		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
-		textWait.setText(String.valueOf(BrickValues.WAIT/1000));
+		textWait.setText(String.valueOf(BrickValues.WAIT / 1000));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
-        times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-                Utils.convertDoubleToPluralInteger(BrickValues.WAIT/1000)));
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.WAIT / 1000)));
 		return prototypeView;
 	}
 
@@ -162,7 +160,6 @@ public class WaitBrick extends FormulaBrick {
 			editWait.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

@@ -203,7 +203,6 @@ public class UserBrickTest extends AndroidTestCase {
 		assertNotSame("legoBrick.getRequiredResources(): ", UserBrick.NO_RESOURCES, legoBrick.getRequiredResources());
 
 		assertEquals("brick.getRequiredResources(): ", legoBrick.getRequiredResources(), brick.getRequiredResources());
-
 	}
 
 	public void testDeleteBrick() {

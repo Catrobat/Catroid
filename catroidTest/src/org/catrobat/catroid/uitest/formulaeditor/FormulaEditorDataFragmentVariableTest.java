@@ -499,7 +499,6 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.clickOnText(solo.getString(R.string.delete));
 
 		assertFalse("Local Headline still shown", solo.searchText(localHeadline, true));
-
 	}
 
 	public void testSelectAllVariablesActionModeButton() {
@@ -558,5 +557,4 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 	private ListView getVariableListView() {
 		return solo.getCurrentViews(ListView.class).get(1);
 	}
-
 }

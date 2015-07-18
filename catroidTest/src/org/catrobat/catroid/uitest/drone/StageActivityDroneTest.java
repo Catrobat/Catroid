@@ -23,10 +23,15 @@
 package org.catrobat.catroid.uitest.drone;
 
 //import android.app.Service;
+
 import android.content.ComponentName;
-//import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+
+//import android.content.Intent;
 //import android.util.Log;
 //
 //import com.parrot.freeflight.drone.DroneProxy;
@@ -36,9 +41,7 @@ import android.os.IBinder;
 //import org.catrobat.catroid.stage.PreStageActivity;
 //import org.catrobat.catroid.stage.StageActivity;
 //import org.catrobat.catroid.test.drone.DroneTestUtils;
-import org.catrobat.catroid.ui.MainMenuActivity;
 //import org.catrobat.catroid.uitest.annotation.Device;
-import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 //import org.catrobat.catroid.uitest.util.Reflection;
 //import org.catrobat.catroid.uitest.util.UiTestUtils;
 //import org.mockito.Mockito;
@@ -46,7 +49,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> implements
 		ServiceConnection {
 
-//	private static final String TAG = StageActivityDroneTest.class.getSimpleName();
+	//	private static final String TAG = StageActivityDroneTest.class.getSimpleName();
 //
 //	private PreStageActivity preStageActivity;
 //	private DroneControlService droneControlService;
@@ -57,10 +60,11 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 		super(MainMenuActivity.class);
 	}
 
-	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest(){
+	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest() {
 		assertSame("Remove me!!", "Remove me!!", "Remove me!!");
 	}
-//
+
+	//
 //	@Override
 //	protected void setUp() throws Exception {
 //		super.setUp();
@@ -133,9 +137,9 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 //		droneControlService = ((DroneControlService.LocalBinder) service).getService();
 	}
 
-//
+	//
 	@Override
- 	public void onServiceDisconnected(ComponentName name) {
+	public void onServiceDisconnected(ComponentName name) {
 //		droneControlService = null;
- 	}
+	}
 }

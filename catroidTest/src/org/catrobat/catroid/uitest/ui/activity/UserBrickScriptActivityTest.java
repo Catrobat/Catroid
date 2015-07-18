@@ -135,5 +135,4 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 		solo.goBack();
 		solo.goBack();
 	}
-
 }

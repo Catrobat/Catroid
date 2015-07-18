@@ -90,7 +90,6 @@ public class UserListValuesAdapter extends BaseAdapter implements View.OnClickLi
 		return view;
 	}
 
-
 	@Override
 	public View getDropDownView(final int position, View convertView, ViewGroup parent) {
 		View view = convertView;
@@ -122,6 +121,5 @@ public class UserListValuesAdapter extends BaseAdapter implements View.OnClickLi
 
 	@Override
 	public void onClick(View view) {
-
 	}
 }

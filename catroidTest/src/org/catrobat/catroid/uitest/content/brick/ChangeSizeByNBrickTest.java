@@ -80,16 +80,15 @@ public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<
 
 		Formula currentSize = changeSizeByNBrick.getFormulaWithBrickField(Brick.BrickField.SIZE_CHANGE);
 
-        try{
-            assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize.interpretDouble(null));
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field");
-        }
+		try {
+			assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize.interpretDouble(null));
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field");
+		}
 
 		TextView textView = ((TextView) solo.getView(R.id.brick_change_size_by_edit_text));
 		assertEquals("Text not updated", SIZE_TO_CHANGE,
 				Double.parseDouble(textView.getText().toString().replace(',', '.')));
-
 	}
 
 	private void createProject() {

@@ -221,7 +221,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private Uri decodeUri(Uri uri) throws NullPointerException {
-		String[] filePathColumn = {MediaStore.Images.Media.DATA};
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
@@ -257,9 +257,7 @@ public class NewSpriteDialog extends DialogFragment {
 					startActivityForResult(intent, REQUEST_CREATE_POCKET_PAINT_IMAGE);
 				}
 			}
-
 		});
-
 	}
 
 	private void setupGalleryButton(View parentView) {

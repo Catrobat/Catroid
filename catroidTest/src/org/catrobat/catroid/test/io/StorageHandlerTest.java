@@ -32,27 +32,35 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.conditional.HideBrick;
 import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.drone.DroneBrickFactory;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.BufferedReader;
@@ -162,8 +170,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("XPosition was not deserialized right", xPosition,
 				interpretFormula(actualXPosition, null).intValue());
 		assertEquals("YPosition was not deserialized right", yPosition,
-                interpretFormula(actualYPosition, null).intValue());
-
+				interpretFormula(actualYPosition, null).intValue());
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
@@ -261,7 +268,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-
 		File tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 		File currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 		assertFalse(tmpCodeFile.getName() + " exists!", tmpCodeFile.exists());
@@ -298,14 +304,14 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	// TODO: add XML header validation based on xsd
 
-    private Float interpretFormula(Formula formula, Sprite sprite) {
-        try {
-            return formula.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
-        }
-        return Float.NaN;
-    }
+	private Float interpretFormula(Formula formula, Sprite sprite) {
+		try {
+			return formula.interpretFloat(sprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
+		}
+		return Float.NaN;
+	}
 
 	public void testGetRequiredResources() {
 		int resources = generateMultiplePermissionsProject().getRequiredResources();
@@ -337,59 +343,70 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 	}
 
-	//	public void testAliasesAndXmlHeader() {
-	//
-	//		String projectName = "myProject";
-	//
-	//		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-	//		if (projectFile.exists()) {
-	//			UtilFile.deleteDirectory(projectFile);
-	//		}
-	//
-	//		Project project = new Project(getContext(), projectName);
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Script startScript = new StartScript(sprite);
-	//		Script whenScript = new WhenScript(sprite);
-	//		sprite.addScript(startScript);
-	//		sprite.addScript(whenScript);
-	//		project.addSprite(sprite);
-	//
-	//		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
-	//		ArrayList<Brick> whenScriptBrickList = new ArrayList<Brick>();
-	//		startScriptBrickList.add(new ChangeXByNBrick(sprite, 4));
-	//		startScriptBrickList.add(new ChangeYByNBrick(sprite, 5));
-	//		startScriptBrickList.add(new ComeToFrontBrick(sprite));
-	//		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
-	//		startScriptBrickList.add(new HideBrick(sprite));
-	//		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
-	//
-	//		whenScriptBrickList.add(new PlaySoundBrick(sprite));
-	//		whenScriptBrickList.add(new SetSizeToBrick(sprite, 50));
-	//		whenScriptBrickList.add(new SetLookBrick(sprite));
-	//		whenScriptBrickList.add(new SetXBrick(sprite, 50));
-	//		whenScriptBrickList.add(new SetYBrick(sprite, 50));
-	//		whenScriptBrickList.add(new ShowBrick(sprite));
-	//		whenScriptBrickList.add(new WaitBrick(sprite, 1000));
-	//
-	//		for (Brick b : startScriptBrickList) {
-	//			startScript.addBrick(b);
-	//		}
-	//		for (Brick b : whenScriptBrickList) {
-	//			whenScript.addBrick(b);
-	//		}
-	//
-	//		storageHandler.saveProject(project);
-	//		String projectString = TestUtils.getProjectfileAsString(projectName);
-	//		assertFalse("project contains package information", projectString.contains("org.catrobat"));
-	//
-	//		String xmlHeader = (String) Reflection.getPrivateField(XmlSerializer.class, "XML_HEADER");
-	//		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
-	//
-	//		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-	//		if (projectFile.exists()) {
-	//			UtilFile.deleteDirectory(projectFile);
-	//		}
-	//	}
+	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
+				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
+				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
+		};
+
+		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronTask", false);
+
+		Project project = generateMultiplePermissionsProject();
+		ProjectManager.getInstance().setProject(project);
+
+		String projectName = project.getName();
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), sensorMapping);
+
+		ProjectManager.getInstance().saveProject(getContext());
+		Setting setting = project.getSettings().get(0);
+
+		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
+
+		LegoNXTSetting nxtSetting = (LegoNXTSetting) setting;
+		NXTSensor.Sensor[] actualSensorMapping = nxtSetting.getSensorMapping();
+
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor", sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+
+		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
+		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
+
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), changedSensorMapping);
+
+		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().loadProject(projectName, getContext());
+
+		actualSensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(getContext());
+
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor, settings not correctly loaded from project",
+				sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+
+		project = ProjectManager.getInstance().getCurrentProject();
+
+		setting = project.getSettings().get(0);
+		nxtSetting = (LegoNXTSetting) setting;
+
+		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
+
+		actualSensorMapping = nxtSetting.getSensorMapping();
+
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor", sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+	}
 
 	private Project generateMultiplePermissionsProject() {
 		final Project project = new Project(getContext(), projectName);
@@ -400,7 +417,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		HideBrick hideBrick = new HideBrick();
 		ShowBrick showBrick = new ShowBrick();
 		SpeakBrick speakBrick = new SpeakBrick("");
-		LegoNxtMotorActionBrick motorBrick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
+		LegoNxtMotorMoveBrick motorBrick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
 				Sensors.FACE_SIZE.name(), null)));
 		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, firstSprite,

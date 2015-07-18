@@ -29,7 +29,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.94f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.95f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -59,6 +59,7 @@ public final class Constants {
 
 	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
+	public static final String BLUETOOTH_PHIRO_PRO = "BLUETOOTH_PHIRO_PRO";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";
 	public static final String CAMERA_LED = "CAMERA_LED";
 	public static final String VIBRATOR = "VIBRATOR";
@@ -75,18 +76,21 @@ public final class Constants {
 	public static final String CLOSING_BRACE = ")";
 
 	//Web:
-	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
+	public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
 
-	public static final String CATROBAT_HELP_URL = "https://www.pocketcode.org/tutorial";
+	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
+
+	public static final String FLAVOR_DEFAULT = "PocketCode";
+	public static final String PLATFORM_DEFAULT = "Android";
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";

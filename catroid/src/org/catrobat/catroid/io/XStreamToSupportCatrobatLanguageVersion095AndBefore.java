@@ -55,13 +55,19 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -225,9 +231,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(LedOnBrick.class.getSimpleName());
 		brickInfoMap.put("ledOnBrick", brickInfo);
 
-		brickInfo = new BrickInfo(LegoNxtMotorActionBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(LegoNxtMotorMoveBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.LEGO_NXT_SPEED);
-		brickInfoMap.put("legoNxtMotorActionBrick", brickInfo);
+		brickInfoMap.put("legoNxtMotorMoveBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LegoNxtMotorStopBrick.class.getSimpleName());
 		brickInfoMap.put("legoNxtMotorStopBrick", brickInfo);
@@ -240,6 +246,37 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("frequency", BrickField.LEGO_NXT_FREQUENCY);
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 		brickInfoMap.put("legoNxtPlayToneBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroMotorMoveForwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
+		brickInfoMap.put("phiroMotorMoveForwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroMotorMoveBackwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
+		brickInfoMap.put("phiroMotorMoveBackwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroMotorStopBrick.class.getSimpleName());
+		brickInfoMap.put("phiroMotorStopBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroPlayToneBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.PHIRO_DURATION_IN_SECONDS);
+		brickInfoMap.put("phiroPlayToneBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroRGBLightBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_RED);
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_GREEN);
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_BLUE);
+		brickInfoMap.put("phiroRGBLightBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroIfLogicBeginBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("ifPhiroSensorCondition", BrickField.IF_PHIRO_SENSOR_CONDITION);
+		brickInfoMap.put("phiroSensorBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());
+		brickInfoMap.put("phiroSensorElseBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
+		brickInfoMap.put("phiroSensorEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);
@@ -316,7 +353,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfoMap.put("speakBrick", brickInfo);
 
 		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
-		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
+		brickInfoMap.put("whenBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);
@@ -397,6 +434,8 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		initializeBrickInfoMap();
 		Document originalDocument = getDocument(file);
 		if (originalDocument != null) {
+			updateLegoNXTFields(originalDocument);
+
 			convertChildNodeToAttribute(originalDocument, "lookList", "name");
 			convertChildNodeToAttribute(originalDocument, "object", "name");
 
@@ -407,7 +446,31 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
 			checkReferences(originalDocument.getDocumentElement());
+
 			saveDocument(originalDocument, file);
+		}
+	}
+
+	private void updateLegoNXTFields(Document originalDocument) {
+
+		final String oldDriveMotors = "MOTOR_A_C";
+		final String newDriveMotors = "MOTOR_B_C";
+
+		final String oldMotorMoveBrickName = "legoNxtMotorActionBrick";
+		final String newMotorMoveBrickName = "legoNxtMotorMoveBrick";
+
+		NodeList motors = originalDocument.getElementsByTagName("motor");
+		for (int i = 0; i < motors.getLength(); i++) {
+			Node motor = motors.item(i);
+			if (motor.getTextContent().equals(oldDriveMotors)) {
+				motor.setTextContent(newDriveMotors);
+			}
+		}
+
+		NodeList motorMoveBricks = originalDocument.getElementsByTagName(oldMotorMoveBrickName);
+		for (int i = 0; i < motorMoveBricks.getLength(); i++) {
+			Node motorMoveBrick = motorMoveBricks.item(i);
+			originalDocument.renameNode(motorMoveBrick, motorMoveBrick.getNamespaceURI(), newMotorMoveBrickName);
 		}
 	}
 
@@ -417,7 +480,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
 			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
 			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
-		}catch(Exception exception){
+		} catch (Exception exception) {
 			Log.e(TAG, "Failed to modify variables tag", exception);
 		}
 	}
@@ -497,8 +560,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 	}
 
 	private void copyAttributesIfNeeded(Node sourceNode, Element destinationNode) {
-		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick") ||
-				sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
+		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick")
+				|| sourceNode.getNodeName().equals("ifLogicElseBrick")
+				|| sourceNode.getNodeName().equals("ifLogicEndBrick")) {
 			return;
 		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
@@ -562,10 +626,10 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 					Node brickNode = brickListChildNodes.item(j);
 					Element newBrickNode = originalDocument.createElement("brick");
 
-					if (brickNode.getNodeName().equals("setGhostEffectBrick")){
+					if (brickNode.getNodeName().equals("setGhostEffectBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "setTransparencyBrick");
 					}
-					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")){
+					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "changeTransparencyByNBrick");
 					}
 
@@ -579,13 +643,17 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 							for (int k = 0; k < brickChildNodes.getLength(); k++) {
 								Element brickChild = (Element) brickChildNodes.item(k);
 
+								if (brickChild.getNodeName().equals("changeGhostEffect")) {
+									originalDocument.renameNode(brickChild, brickChild.getNamespaceURI(), "changeTransparency");
+								}
+
 								if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
 									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
 									handleUserVariableNode(newBrickNode, brickChild);
-								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
-										brickChild.getNodeName().equals("ifElseBrick") ||
-										brickChild.getNodeName().equals("ifEndBrick")) {
+								} else if (brickChild.getNodeName().equals("loopEndBrick")
+										|| brickChild.getNodeName().equals("ifElseBrick")
+										|| brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
 								} else {
 									newBrickNode.appendChild(brickChild);
@@ -746,5 +814,4 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			return brickClassName;
 		}
 	}
-
 }

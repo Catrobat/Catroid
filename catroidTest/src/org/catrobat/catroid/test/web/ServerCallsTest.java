@@ -28,16 +28,9 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilZip;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
-
-import java.io.File;
 
 /*
  * This tests need an internet connection
@@ -90,7 +83,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertFalse("WebconnectionException: the token should be valid \nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getMessage(), true);
 		}
-
 	}
 
 	public void testRegisterWithExistingUser() {
@@ -121,7 +113,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					"an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
 							+ e.getMessage(), true);
 		}
-
 	}
 
 	public void testRegisterWithExistingUserButWrongPws() {
@@ -145,7 +136,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 			assertFalse("should never be reached because the password is wrong", true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is wrong", true);
@@ -153,7 +143,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
-
 	}
 
 	public void testRegisterWithNewUserButExistingEmail() {
@@ -178,7 +167,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertFalse(
 					"should never be reached because two registrations with the same email address are not allowed",
 					true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email already exists on the server", true);
@@ -187,7 +175,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
-
 	}
 
 	public void testRegisterWithTooShortPassword() {
@@ -201,7 +188,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 			assertFalse("should never be reached because the password is too short", true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is too short", true);
@@ -223,7 +209,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 			assertFalse("should never be reached because the email is not valid", true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email is not valid", true);
@@ -234,24 +219,6 @@ public class ServerCallsTest extends AndroidTestCase {
 		}
 	}
 
-	public void testCheckTokenAnonymous() {
-		try {
-			String anonymousToken = "0";
-			String username = "anonymous";
-			boolean tokenOk = ServerCalls.getInstance().checkToken(anonymousToken, username);
-
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
-			assertTrue("token should be ok", tokenOk);
-
-		} catch (WebconnectionException e) {
-			assertFalse(
-					"an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
-							+ e.getMessage(), true);
-			e.printStackTrace();
-		}
-
-	}
-
 	public void testCheckTokenWrong() {
 		try {
 			String wrongToken = "blub";
@@ -259,64 +226,13 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
-			assertFalse("should not be reanched, exception is thrown", tokenOk);
-
+			assertFalse("should not be reached, exception is thrown", tokenOk);
 		} catch (WebconnectionException e) {
 			assertTrue("exception is thrown if we pass a wrong token", true);
 			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
-	}
-
-	public void testUploadWithExistingUserWithoutEmail() {
-		File zipFile = null;
-		try {
-			Project project = TestUtils
-					.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
-
-			Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
-			StorageHandler.getInstance().saveProject(project);
-
-			String projectPath = Constants.DEFAULT_ROOT + "/" + TestUtils.DEFAULT_TEST_PROJECT_NAME;
-
-			File directoryPath = new File(projectPath);
-			String[] paths = directoryPath.list();
-
-			for (int i = 0; i < paths.length; i++) {
-				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
-			}
-
-			String zipFileString = Utils.buildPath(Constants.TMP_PATH, "upload" + Constants.CATROBAT_EXTENSION);
-			zipFile = new File(zipFileString);
-			if (!zipFile.exists()) {
-				zipFile.getParentFile().mkdirs();
-				zipFile.createNewFile();
-			}
-
-			UtilZip.writeToZipFile(paths, zipFileString);
-
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
-			String token = Constants.NO_TOKEN;
-
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
-					getContext());
-			token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(Constants.TOKEN, "");
-			ServerCalls.useTestUrl = true;
-			ServerCalls.getInstance().uploadProject("test", "", zipFileString, null, "de", token, testUser, null, 0,
-					getContext());
-
-		} catch (Exception exception) {
-			Log.e(LOG_TAG, "testUploadWithExistingUserWithoutEmail: error", exception);
-			fail("Upload with existing user but without e-mail failed!");
-		} finally {
-			if (zipFile != null) {
-				zipFile.delete();
-			}
-		}
-
 	}
 
 	public void testCheckTokenOk() {
@@ -339,13 +255,10 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
-
 		} catch (WebconnectionException e) {
 			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
 					true);
 			e.printStackTrace();
 		}
-
 	}
-
 }

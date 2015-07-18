@@ -42,6 +42,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -130,7 +131,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 
-
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
 			variableSpinner.setEnabled(true);
@@ -152,7 +152,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
-
 				}
 				return false;
 			}
@@ -187,6 +186,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
+		variableSpinner.setEnabled(false);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
@@ -230,15 +230,22 @@ public class ChangeVariableBrick extends UserVariableBrick {
 			editVariable.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 		return view;
 	}
 
 	@Override
-	public Brick clone() {
+	public ChangeVariableBrick copyBrickForSprite(Sprite sprite) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		ChangeVariableBrick copyBrick = clone();
+		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
+		return copyBrick;
+	}
+
+	@Override
+	public ChangeVariableBrick clone() {
 		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
-				BrickField.VARIABLE_CHANGE).clone(), userVariable, inUserBrick);
+				BrickField.VARIABLE_CHANGE).clone(), null, inUserBrick);
 		return clonedBrick;
 	}
 
@@ -252,5 +259,4 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE_CHANGE);
 	}
-
 }

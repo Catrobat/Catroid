@@ -75,4 +75,10 @@
     <color name="bluetooth_device_list_divider_color" >#505050</color >
     <color name="dialog_text_line" >#696969</color >
 
+    <!-- Phiro RGBColor Chooser Colors -->
+    <color name="color_chooser_rgb_red">#FFEB4618</color>
+    <color name="color_chooser_rgb_green">#FF078707</color>
+    <color name="color_chooser_rgb_blue">#FF0284E7</color>
+    <color name="holo_blue_bright">#33B5E5</color>
+
 </resources>

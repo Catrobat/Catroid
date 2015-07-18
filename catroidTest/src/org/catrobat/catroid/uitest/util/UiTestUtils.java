@@ -198,13 +198,11 @@ public final class UiTestUtils {
 	public static final int SOUNDS_INDEX = 2;
 
 	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
-
 	static {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
 	}
-
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("sprite1");
@@ -483,16 +481,14 @@ public final class UiTestUtils {
 		solo.sleep(200);
 
 		Formula formula = theBrick.getFormulaWithBrickField(brickField);
-		try{
+		try {
 			assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
-		}catch (InterpretationException interpretationException) {
+		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
 		}
 
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(",", ".")
-						.replace(" ", "")), 0.01f);
-
+				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
 	}
 
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField,
@@ -512,9 +508,9 @@ public final class UiTestUtils {
 
 		Formula formula = (Formula) theBrick.getFormulaWithBrickField(brickField);
 		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
-		try{
+		try {
 			assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
-		}catch (InterpretationException interpretationException) {
+		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
 		}
 		assertEquals("Text not updated in the brick list", "\'" + newValue + "\'",
@@ -605,7 +601,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_change_variable, R.string.category_data);
 		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_data);
 
-		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
+		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -667,8 +663,7 @@ public final class UiTestUtils {
 		solo.sleep(600);
 	}
 
-	public static void deleteFirstUserBrick(Solo solo, String brickName)
-	{
+	public static void deleteFirstUserBrick(Solo solo, String brickName) {
 		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 5000);
 		if (!fragmentAppeared) {
 			fail("add brick fragment should appear");
@@ -1098,8 +1093,6 @@ public final class UiTestUtils {
 		brickList.add(new GoNStepsBackBrick(0));
 		brickList.add(new HideBrick());
 		brickList.add(new IfOnEdgeBounceBrick());
-		//brickList.add(new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 0));
-		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
 		brickList.add(new MoveNStepsBrick(0));
 		brickList.add(new NextLookBrick());
 		brickList.add(new NoteBrick(""));
@@ -1170,7 +1163,6 @@ public final class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(firstScript);
-
 	}
 
 	public static void createEmptyProject() {
@@ -1510,10 +1502,9 @@ public final class UiTestUtils {
 		} else if (overflowMenuItemName != null) {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 			solo.clickOnMenuItem(overflowMenuItemName, true);
-		}
-		else {
-			fail("Cannot click on element with menuItemid " + menuItemId +
-					" or overflowMenuItemName " + overflowMenuItemName);
+		} else {
+			fail("Cannot click on element with menuItemid " + menuItemId + " or overflowMenuItemName "
+					+ overflowMenuItemName);
 		}
 
 		solo.sleep(400);
@@ -1587,7 +1578,6 @@ public final class UiTestUtils {
 					"de", "at", token, context);
 
 			assert (userRegistered);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			fail("Error creating test user.");
@@ -1703,7 +1693,7 @@ public final class UiTestUtils {
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
 				upEvent.recycle();
-				Log.d("Robotium - waitForLogMessage", "longClickAndDrag finished: " + (int) yTo);
+				Log.d("Robotium: waitForLogMsg", "longClickAndDrag finished: " + (int) yTo);
 			}
 		});
 
@@ -1923,7 +1913,6 @@ public final class UiTestUtils {
 			if (view.getText().equals(text)) {
 				return view;
 			}
-
 		}
 		return null;
 	}
@@ -2110,12 +2099,12 @@ public final class UiTestUtils {
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
 	}
 
-	public static void clickOnCheckBox(Solo solo, int checkBoxIndex){
+	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {
 		solo.clickOnCheckBox(checkBoxIndex);
 		solo.sleep(100);
 	}
 
-	public static void clickOnText(Solo solo, String text){
+	public static void clickOnText(Solo solo, String text) {
 		solo.waitForText(text);
 		solo.clickOnText(text);
 		solo.sleep(100);

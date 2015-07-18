@@ -71,6 +71,7 @@ public final class TestUtils {
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String CORRUPT_PROJECT_NAME = "copiedProject";
+	public static final String EMPTY_PROJECT = "emptyProject";
 
 	private static final String TAG = TestUtils.class.getSimpleName();
 
@@ -267,6 +268,12 @@ public final class TestUtils {
 				DEFAULT_TEST_PROJECT_NAME);
 	}
 
+	public static Project createEmptyProject() {
+		Project project = new Project(null, EMPTY_PROJECT);
+		StorageHandler.getInstance().saveProject(project);
+		return project;
+	}
+
 	public static void deleteTestProjects(String... additionalProjectNames) {
 		Log.d(TAG, "deleteTestProjects");
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
@@ -300,12 +307,12 @@ public final class TestUtils {
 
 		notificationMap.clear();
 	}
-	
+
 	public static Script addUserBrickToSpriteAndGetUserScript(UserBrick userBrick, Sprite sprite) {
-		 UserScriptDefinitionBrick definitionBrick = (UserScriptDefinitionBrick) Reflection.getPrivateField(userBrick,
-		 "definitionBrick");
-		 sprite.addUserBrick(userBrick);
-		 return definitionBrick.getScriptSafe();
+		UserScriptDefinitionBrick definitionBrick = (UserScriptDefinitionBrick) Reflection.getPrivateField(userBrick,
+				"definitionBrick");
+		sprite.addUserBrick(userBrick);
+		return definitionBrick.getScriptSafe();
 	}
 
 	public static void removeFromPreferences(Context context, String key) {

@@ -72,5 +72,4 @@ public class XStreamBrickConverter extends ReflectionConverter {
 		Log.i(TAG, "Brick " + type + " not found in packages");
 		return super.doUnmarshal(result, reader, context);
 	}
-
 }

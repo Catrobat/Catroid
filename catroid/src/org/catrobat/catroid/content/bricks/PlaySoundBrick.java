@@ -61,7 +61,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	private transient AdapterView<?> adapterView;
 
 	public PlaySoundBrick() {
-
 	}
 
 	@Override
@@ -146,7 +145,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -171,6 +169,8 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		Spinner playSoundSpinner = (Spinner) prototypeView.findViewById(R.id.playsound_spinner);
 		playSoundSpinner.setFocusableInTouchMode(false);
 		playSoundSpinner.setFocusable(false);
+		playSoundSpinner.setEnabled(false);
+
 		SpinnerAdapter playSoundSpinnerAdapter = createSoundAdapter(context);
 		playSoundSpinner.setAdapter(playSoundSpinnerAdapter);
 		setSpinnerSelection(playSoundSpinner);

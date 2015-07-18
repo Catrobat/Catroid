@@ -32,16 +32,16 @@ import org.catrobat.catroid.physics.content.ActionFactory;
 
 public class SetYActionTest extends AndroidTestCase {
 
-    private static final float Y_POSITION = 73.3f;
+	private static final float Y_POSITION = 73.3f;
 	private Formula yPosition = new Formula(Y_POSITION);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -59,7 +59,6 @@ public class SetYActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of SetYBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown  as expected", true);
 		}
 	}
 

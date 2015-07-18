@@ -119,7 +119,6 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 		moveNStepsAction.restart();
 		moveNStepsAction.act(1.0f);
 		checkPosition(2 * expectedX, 2 * expectedY);
-
 	}
 
 	public void testBrickWithValidStringFormula() {

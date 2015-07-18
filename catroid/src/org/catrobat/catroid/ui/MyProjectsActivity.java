@@ -95,7 +95,6 @@ public class MyProjectsActivity extends BaseActivity {
 			case R.id.show_details:
 				handleShowDetails(!projectsListFragment.getShowDetails(), item);
 				break;
-
 		}
 		return super.onOptionsItemSelected(item);
 	}

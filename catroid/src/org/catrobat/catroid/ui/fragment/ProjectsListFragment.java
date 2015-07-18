@@ -71,6 +71,7 @@ import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.UtilMerge;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -368,6 +369,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			return;
 		}
 
+		menu.add(0, R.string.merge_button, 1, getString(R.string.merge_button) + ": " + ProjectManager.getInstance().getCurrentProject().getName());
 		menu.setHeaderTitle(projectToEdit.projectName);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_my_projects, menu);
@@ -395,7 +397,9 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			case R.id.context_menu_upload:
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
 				break;
-
+			case R.string.merge_button:
+				UtilMerge.mergeProjectInCurrentProject(projectToEdit.projectName, this.getActivity());
+				break;
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -577,7 +581,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				adapter.notifyDataSetChanged();
 				onProjectChecked();
 			}
-
 		});
 	}
 
@@ -589,5 +592,4 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			}
 		}
 	}
-
 }

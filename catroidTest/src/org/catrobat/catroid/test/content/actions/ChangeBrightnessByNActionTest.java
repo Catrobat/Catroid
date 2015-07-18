@@ -45,7 +45,6 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNormalBehavior() {
-		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite brightness value", INITIALIZED_VALUE,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
@@ -66,7 +65,6 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown correctly", true);
 		}
 	}
 
@@ -78,7 +76,6 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
 				+ BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testNullFormula() {

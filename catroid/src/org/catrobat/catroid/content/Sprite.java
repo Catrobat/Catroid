@@ -75,7 +75,6 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite() {
-
 	}
 
 	private Object readResolve() {
@@ -112,6 +111,10 @@ public class Sprite implements Serializable, Cloneable {
 		if (userBricks == null) {
 			userBricks = new ArrayList<UserBrick>();
 		}
+	}
+
+	public List<Script> getScriptList() {
+		return scriptList;
 	}
 
 	public void resetSprite() {
@@ -315,7 +318,6 @@ public class Sprite implements Serializable, Cloneable {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
 				whenParallelAction.addAction(sequence);
-
 			}
 		}
 		look.setWhenParallelAction(whenParallelAction);
@@ -360,7 +362,6 @@ public class Sprite implements Serializable, Cloneable {
 	public void addScript(Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
-
 		}
 	}
 

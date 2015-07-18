@@ -156,6 +156,27 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.FACE_X_POSITION);
 			case R.string.formula_editor_sensor_face_y_position:
 				return buildSensor(Sensors.FACE_Y_POSITION);
+			case R.string.formula_editor_phiro_sensor_front_left:
+				return buildSensor(Sensors.PHIRO_FRONT_LEFT);
+			case R.string.formula_editor_phiro_sensor_front_right:
+				return buildSensor(Sensors.PHIRO_FRONT_RIGHT);
+			case R.string.formula_editor_phiro_sensor_side_left:
+				return buildSensor(Sensors.PHIRO_SIDE_LEFT);
+			case R.string.formula_editor_phiro_sensor_side_right:
+				return buildSensor(Sensors.PHIRO_SIDE_RIGHT);
+			case R.string.formula_editor_phiro_sensor_bottom_left:
+				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
+			case R.string.formula_editor_phiro_sensor_bottom_right:
+				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
+
+			case R.string.formula_editor_sensor_lego_nxt_1:
+				return buildSensor(Sensors.NXT_SENSOR_1);
+			case R.string.formula_editor_sensor_lego_nxt_2:
+				return buildSensor(Sensors.NXT_SENSOR_2);
+			case R.string.formula_editor_sensor_lego_nxt_3:
+				return buildSensor(Sensors.NXT_SENSOR_3);
+			case R.string.formula_editor_sensor_lego_nxt_4:
+				return buildSensor(Sensors.NXT_SENSOR_4);
 
 			//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:
@@ -314,5 +335,4 @@ public class InternFormulaKeyboardAdapter {
 		returnList.add(new InternToken(InternTokenType.STRING, myString));
 		return returnList;
 	}
-
 }

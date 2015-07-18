@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2015 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -146,11 +146,8 @@
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".bluetooth.DeviceListActivity"
-            android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".bluetooth.ConnectBluetoothDeviceActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="true"

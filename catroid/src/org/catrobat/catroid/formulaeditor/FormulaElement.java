@@ -70,7 +70,6 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			this.rightChild.parent = this;
 		}
-
 	}
 
 	public ElementType getElementType() {
@@ -206,11 +205,9 @@ public class FormulaElement implements Serializable {
 			Object userListValue = userListValues.get(0);
 			if (userListValue instanceof String) {
 				return userListValue;
-
 			} else {
 				return userListValue;
 			}
-
 		} else {
 			return interpretMultipleItemsUserList(userListValues);
 		}
@@ -437,7 +434,6 @@ public class FormulaElement implements Serializable {
 		return userList.getList().get(index);
 	}
 
-
 	private Object interpretFunctionJoin(Sprite sprite) {
 		return interpretInterpretFunctionJoinParameter(leftChild, sprite)
 				+ interpretInterpretFunctionJoinParameter(rightChild, sprite);
@@ -574,7 +570,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretOperator(Operators operator, Sprite sprite) {
 
-		if (leftChild != null) {// binary operator
+		if (leftChild != null) { // binary operator
 			Object leftObject;
 			Object rightObject;
 			try {
@@ -642,8 +638,7 @@ public class FormulaElement implements Serializable {
 					right = interpretOperator(rightObject);
 					return left != 0d || right != 0d ? 1d : 0d;
 			}
-
-		} else {//unary operators
+		} else { //unary operators
 			Object rightObject;
 			try {
 				rightObject = rightChild.interpretRecursive(sprite);
@@ -854,7 +849,6 @@ public class FormulaElement implements Serializable {
 				return Double.toString(((Double) userVariableValue)).length();
 			}
 		}
-
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
@@ -887,12 +881,12 @@ public class FormulaElement implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int ressources = Brick.NO_RESOURCES;
+		int resources = Brick.NO_RESOURCES;
 		if (leftChild != null) {
-			ressources |= leftChild.getRequiredResources();
+			resources |= leftChild.getRequiredResources();
 		}
 		if (rightChild != null) {
-			ressources |= rightChild.getRequiredResources();
+			resources |= rightChild.getRequiredResources();
 		}
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);
@@ -901,13 +895,27 @@ public class FormulaElement implements Serializable {
 				case FACE_SIZE:
 				case FACE_X_POSITION:
 				case FACE_Y_POSITION:
-					ressources |= Brick.FACE_DETECTION;
+					resources |= Brick.FACE_DETECTION;
+					break;
+
+				case NXT_SENSOR_1:
+				case NXT_SENSOR_2:
+				case NXT_SENSOR_3:
+				case NXT_SENSOR_4:
+					resources |= Brick.BLUETOOTH_LEGO_NXT;
+					break;
+
+				case PHIRO_FRONT_LEFT:
+				case PHIRO_FRONT_RIGHT:
+				case PHIRO_SIDE_LEFT:
+				case PHIRO_SIDE_RIGHT:
+				case PHIRO_BOTTOM_LEFT:
+				case PHIRO_BOTTOM_RIGHT:
+					resources |= Brick.BLUETOOTH_PHIRO;
 					break;
 				default:
-
 			}
 		}
-		return ressources;
+		return resources;
 	}
-
 }

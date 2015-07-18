@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeBrightnessByNBrick;
@@ -82,7 +83,6 @@ public class BrickCloneTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		sprite = new Sprite("testSprite");
-
 	}
 
 	public void testBrickCloneWithFormula() {
@@ -113,7 +113,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new IfLogicBeginBrick(10);
 		brickClone(brick, Brick.BrickField.IF_CONDITION);
 
-		brick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
+		brick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.LEGO_NXT_SPEED);
 
 		brick = new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
@@ -161,7 +161,6 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new WaitBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
 
-
 		brick = new PlaceAtBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.X_POSITION, Brick.BrickField.Y_POSITION);
 
@@ -174,7 +173,6 @@ public class BrickCloneTest extends AndroidTestCase {
 
 		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.SPEAK);
-
 	}
 
 	public void testVariableReferencesSetVariableBrick() throws Exception {
@@ -210,7 +208,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
 		UserVariable clonedVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, clonedSprite);
-		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(clonedBrick, "userVariable");
+		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
 
 		// check them
 		assertNotNull("variable should be in container", clonedVariable);

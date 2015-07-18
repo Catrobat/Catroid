@@ -113,7 +113,6 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		}
 	}
 
-
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGoNStepsBackAction(null, steps);
@@ -121,7 +120,6 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of GoNStepsBackBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown successful", true);
 		}
 	}
 
@@ -178,5 +176,4 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		assertEquals("Unexpected sprite Z position", 1, sprite.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 2, sprite2.look.getZIndex());
 	}
-
 }

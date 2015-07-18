@@ -135,7 +135,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected IfElseBrick but was "
-				+ projectBrickList.get(1).getClass().getSimpleName(),
+						+ projectBrickList.get(1).getClass().getSimpleName(),
 				projectBrickList.get(1) instanceof IfLogicElseBrick);
 
 		assertTrue("Wrong Brick instance - expected ChangeYByNBrick but was "
@@ -158,7 +158,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
-				+ projectBrickList.get(2).getClass().getSimpleName(),
+						+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof IfLogicEndBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);

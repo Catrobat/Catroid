@@ -70,7 +70,6 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", true, look.isVisible());
 		assertEquals("Wrong initialization!", Touchable.enabled, look.getTouchable());
 		assertEquals("Wrong initialization!", "", look.getImagePath());
-
 	}
 
 	public void testImagePath() {
@@ -360,5 +359,4 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong brightness value!", 0f, look.getBrightnessInUserInterfaceDimensionUnit());
 		assertEquals("Wrong brightness value!", 0f, Reflection.getPrivateField(look, "brightness"));
 	}
-
 }

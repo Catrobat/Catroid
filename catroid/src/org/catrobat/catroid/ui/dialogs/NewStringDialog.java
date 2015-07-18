@@ -49,7 +49,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 	public NewStringDialog() {
 	}
 
-	public static NewStringDialog newInstance(){
+	public static NewStringDialog newInstance() {
 		return new NewStringDialog();
 	}
 

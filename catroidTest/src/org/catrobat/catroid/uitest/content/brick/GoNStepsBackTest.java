@@ -41,9 +41,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-/**
- * @author Daniel Burtscher
- */
 public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int STEPS_TO_GO_BACK = 17;
 
@@ -82,14 +79,14 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, STEPS_TO_GO_BACK);
 
-        try{
-            assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
+		try {
+			assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
 					goNStepsBackBrick.getFormulaWithBrickField(Brick.BrickField.STEPS).interpretDouble(null).intValue());
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
-        assertEquals(
+		assertEquals(
 				"Value in Brick is not updated.",
 				(double) STEPS_TO_GO_BACK,
 				Double.valueOf(((TextView) solo.getView(R.id.brick_go_back_edit_text)).getText().toString()
@@ -111,7 +108,6 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 				secondsTextView.getText().equals(
 						dragDropListView.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, 2))
 		);
-
 	}
 
 	private void createProject() {

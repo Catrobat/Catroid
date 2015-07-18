@@ -54,7 +54,6 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ChangeXByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown successful", true);
 		}
 	}
 
@@ -71,7 +70,6 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("ChangeXByNBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testBrickWithStringFormula() {

@@ -47,16 +47,15 @@ public final class UtilDeviceInfo {
 		return null;
 	}
 
-	public static String getUserLanguageCode(Context context) {
+	public static String getUserLanguageCode() {
 		return Locale.getDefault().getLanguage();
 	}
 
-	public static String getUserCountryCode(Context context) {
+	public static String getUserCountryCode() {
 		String country = Locale.getDefault().getCountry();
 		if (country.isEmpty()) {
 			country = SERVER_VALUE_FOR_UNDEFINED_COUNTRY;
 		}
 		return country;
 	}
-
 }

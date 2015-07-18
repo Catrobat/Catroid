@@ -65,8 +65,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
 			fail("Project shouldn't be compatible");
-		} catch (CompatibilityProjectException compatibilityException) {
-			assertTrue("Incompatible project correctly identified", true);
+		} catch (CompatibilityProjectException expected) {
 		} catch (ProjectException projectException) {
 			fail("Failed to identify incompatible project");
 		}
@@ -82,7 +81,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 		} catch (ProjectException projectException) {
 			fail("Error loading project");
 		}
-
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
@@ -101,8 +99,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(NEW_PROJECT, getContext());
 			fail("Load project didn't failed to load project");
-		} catch (ProjectException projectException) {
-			assertTrue("Failure test of loading project is successful", true);
+		} catch (ProjectException expected) {
 		}
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -119,8 +116,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(DOES_NOT_EXIST, getContext());
 			fail("Load project didn't failed to load project");
-		} catch (ProjectException projectException) {
-			assertTrue("Failure test of loading project is successful", true);
+		} catch (ProjectException expected) {
 		}
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -149,7 +145,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
 		for (int i = 0; i < 3; i++) {
 			currentProject.setDescription(currentProject.getDescription() + i);
-			projectManager.saveProject();
+			projectManager.saveProject(getContext());
 		}
 
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance

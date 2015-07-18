@@ -491,5 +491,4 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 	}
-
 }

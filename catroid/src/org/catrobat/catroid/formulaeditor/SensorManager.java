@@ -36,7 +36,6 @@ public class SensorManager implements SensorManagerInterface {
 	@Override
 	public void unregisterListener(SensorEventListener listener) {
 		this.sensorManager.unregisterListener(listener);
-
 	}
 
 	@Override
@@ -63,5 +62,4 @@ public class SensorManager implements SensorManagerInterface {
 				return false;
 		}
 	}
-
 }

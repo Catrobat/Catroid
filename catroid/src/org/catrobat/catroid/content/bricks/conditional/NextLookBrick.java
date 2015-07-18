@@ -46,7 +46,6 @@ public class NextLookBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public NextLookBrick() {
-
 	}
 
 	@Override
@@ -112,7 +111,6 @@ public class NextLookBrick extends BrickBaseType {
 			nextLookLabel.setTextColor(nextLookLabel.getTextColors().withAlpha(alphaValue));
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

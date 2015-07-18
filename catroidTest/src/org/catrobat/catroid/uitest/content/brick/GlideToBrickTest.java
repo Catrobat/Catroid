@@ -89,28 +89,28 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
 		Formula formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.DURATION_IN_SECONDS);
-        try{
-            float temp = formula.interpretFloat(sprite);
-            assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000), Math.round(temp * 1000));
-        }catch (InterpretationException interpretationException){
-            fail("Wrong duration input in Glide to brick");
-        }
+		try {
+			float temp = formula.interpretFloat(sprite);
+			assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000), Math.round(temp * 1000));
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong duration input in Glide to brick");
+		}
 
 		formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.X_DESTINATION);
-        try{
-            int temp = formula.interpretInteger(sprite);
-            assertEquals("Wrong x input in Glide to brick", xPosition, temp);
-        }catch (InterpretationException interpretationException){
-            fail("Wrong xDestination input in Glide to brick");
-        }
+		try {
+			int temp = formula.interpretInteger(sprite);
+			assertEquals("Wrong x input in Glide to brick", xPosition, temp);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong xDestination input in Glide to brick");
+		}
 
 		formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.Y_DESTINATION);
-        try{
-            int temp = formula.interpretInteger(sprite);
-            assertEquals("Wrong y input in Glide to brick", yPosition, temp);
-        }catch (InterpretationException interpretationException){
-            fail("Wrong yDestination input in Glide to brick");
-        }
+		try {
+			int temp = formula.interpretInteger(sprite);
+			assertEquals("Wrong y input in Glide to brick", yPosition, temp);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong yDestination input in Glide to brick");
+		}
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_duration, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
@@ -141,6 +141,5 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-
 	}
 }

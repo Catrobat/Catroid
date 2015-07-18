@@ -68,5 +68,4 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 	public void setInUserBrick(boolean inUserBrick) {
 		this.inUserBrick = inUserBrick;
 	}
-
 }

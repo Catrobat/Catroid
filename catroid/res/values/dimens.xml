@@ -48,6 +48,10 @@
     <dimen name="brick_data_edit_cursor_size" >58dp</dimen >
     <!-- -->
 
+    <!-- PhiroProColorChooserFragment -->
+    <dimen name="fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width" >5dp</dimen >
+    <!-- -->
+
     <!-- Dialog -->
     <dimen name="dialog_item_height" >48dp</dimen >
     <dimen name="dialog_item_margin" >16dp</dimen >

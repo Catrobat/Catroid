@@ -97,7 +97,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.sleep(200);
 
 		assertEquals(ProgramMenuActivity.class.getSimpleName()
-				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+						+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
 				activityInfo.screenOrientation);
 	}
 

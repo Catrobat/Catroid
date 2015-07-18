@@ -33,13 +33,12 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
 import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class LegoNxtPlayToneBrick extends FormulaBrick {
@@ -54,7 +53,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 	}
 
-	public LegoNxtPlayToneBrick(int frequencyValue, int durationValue) {
+	public LegoNxtPlayToneBrick(int frequencyValue, float durationValue) {
 		initializeBrickFields(new Formula(frequencyValue), new Formula(durationValue));
 	}
 
@@ -78,8 +77,12 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
-		textDuration.setText(String.valueOf(BrickValues.LEGO_DURATION));
+
+		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
+		nf.setMinimumFractionDigits(1);
+		textDuration.setText(nf.format(BrickValues.LEGO_DURATION));
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_text_view);
+
 		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
 		return prototypeView;
 	}
@@ -183,7 +186,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 			editLegoDuration.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

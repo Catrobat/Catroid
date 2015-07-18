@@ -92,7 +92,6 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 	public void onResume() {
 		super.onResume();
 		Log.d("CatroidFragmentTag", "FormulaEditorData onresume()");
-
 	}
 
 	@Override
@@ -155,7 +154,6 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 			onKey(null, keyEvent.getKeyCode(), keyEvent);
 		}
-
 	}
 
 	@Override
@@ -254,7 +252,6 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 			default:
 				return super.onContextItemSelected(item);
 		}
-
 	}
 
 	@Override
@@ -345,7 +342,7 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 			adapter.notifyDataSetChanged();
 			mode.setTitle("0 "
 					+ getActivity().getResources().getQuantityString(
-							R.plurals.formula_editor_data_fragment_context_action_item_selected, 0));
+					R.plurals.formula_editor_data_fragment_context_action_item_selected, 0));
 			BottomBar.hideBottomBar(getActivity());
 			addSelectAllActionModeButton(mode, menu);
 			return true;
@@ -394,5 +391,4 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 
 		return null;
 	}
-
 }

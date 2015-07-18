@@ -110,7 +110,6 @@ public final class SensorTestServerConnection {
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("LIGHT_END"));
 			assertTrue(assertString, response.charAt(0) == expectedChar);
-
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -144,7 +143,6 @@ public final class SensorTestServerConnection {
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("VIBRATION_END"));
 			assertTrue(assertString, response.charAt(0) == expectedChar);
-
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -164,7 +162,6 @@ public final class SensorTestServerConnection {
 			response = receiveFromServer.readLine();
 			Log.d(TAG, "response received! " + response);
 			clientSocket.close();
-
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {

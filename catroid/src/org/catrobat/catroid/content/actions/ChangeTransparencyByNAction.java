@@ -41,9 +41,9 @@ public class ChangeTransparencyByNAction extends TemporalAction {
 			Float newChangeTransparency = changeTransparency == null ? Float.valueOf(0f) : changeTransparency
 					.interpretFloat(sprite);
 			sprite.look.changeTransparencyInUserInterfaceDimensionUnit(newChangeTransparency);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

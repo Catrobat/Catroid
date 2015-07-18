@@ -41,7 +41,6 @@ public class DroneTakeOffBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public DroneTakeOffBrick() {
-
 	}
 
 	@Override

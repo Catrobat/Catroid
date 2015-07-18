@@ -31,7 +31,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetTransparencyActionTest extends InstrumentationTestCase {
 
-    private static final float TRANSPARENCY = 91f;
+	private static final float TRANSPARENCY = 91f;
 	private Formula effect = new Formula(TRANSPARENCY);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
@@ -65,7 +65,6 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 			action.act(1.0f);
 			fail("Execution of SetTransparencyBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown as expected", true);
 		}
 	}
 
@@ -83,7 +82,6 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 		sprite.getActionFactory().createSetTransparencyAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetTransparencyBrick executed", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testNotANumberFormula() {

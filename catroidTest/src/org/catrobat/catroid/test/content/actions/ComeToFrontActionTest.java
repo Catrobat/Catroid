@@ -104,15 +104,11 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 				if (actualZIndex == zIndex) {
 					zIndexFound = true;
 					break;
-
 				}
-
 			}
 			assertTrue("z-indexing not correct. z-index have to be from 0 to n-1 each value only once", zIndexFound);
 		}
-
 	}
-
 
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
@@ -122,7 +118,6 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ComeToFrontBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown successful", true);
 		}
 	}
 
