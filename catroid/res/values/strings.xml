@@ -721,6 +721,10 @@
     <string name="formula_editor_function_arctan_parameter">(0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_floor">floor</string>
+    <string name="formula_editor_function_floor_parameter">(0.7)</string>
+    <string name="formula_editor_function_ceil">ceil</string>
+    <string name="formula_editor_function_ceil_parameter">(0.3)</string>
     <string name="formula_editor_function_max">max</string>
     <string name="formula_editor_function_max_parameter">(0,1)</string>
     <string name="formula_editor_function_min">min</string>
