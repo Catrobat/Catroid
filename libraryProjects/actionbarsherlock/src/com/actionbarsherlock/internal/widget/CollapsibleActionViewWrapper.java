@@ -2,6 +2,7 @@ package com.actionbarsherlock.internal.widget;
 
 import android.view.View;
 import android.widget.FrameLayout;
+
 import com.actionbarsherlock.view.CollapsibleActionView;
 
 /**

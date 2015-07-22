@@ -67,6 +67,23 @@ public final class BrickValues {
 	public static final float DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 0.2f;
 	public static final String STRING_VALUE = "default";
 
+	public static final int DRONE_ALTITUDE_MIN = 3;
+	public static final int DRONE_ALTITUDE_DEFAULT = 10;
+	public static final int DRONE_ALTITUDE_MAX = 100;
+
+	public static final int DRONE_VERTICAL_MIN = 200;
+	public static final int DRONE_VERTICAL_DEFAULT = 700;
+	public static final int DRONE_VERTICAL_MAX = 2000;
+
+	public static final int DRONE_ROTATION_MIN = 40;
+	public static final int DRONE_ROTATION_DEFAULT = 100;
+	public static final int DRONE_ROTATION_MAX = 350;
+
+	public static final int DRONE_TILT_MIN = 5;
+	public static final int DRONE_TILT_DEFAULT = 12;
+	public static final int DRONE_TILT_MAX = 30;
+
+
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
 	public static final double CHANGE_VARIABLE = 1d;

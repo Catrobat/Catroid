@@ -2,10 +2,10 @@
 package com.actionbarsherlock.internal.widget;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.Gravity;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.util.Log;
+import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
