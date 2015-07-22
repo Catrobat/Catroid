@@ -311,6 +311,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public void onResume() {
+
 		super.onResume();
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
@@ -593,6 +594,17 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 		NewLookDialog dialog = NewLookDialog.newInstance();
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				if (ProjectManager.getInstance().getCommingFromScriptFragment()) {
+					ProjectManager.getInstance().setCommingFromScriptFragment(false);
+					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+					isResultHandled = true;
+					LookController.getInstance().switchToScriptFragment(LookFragment.this);
+				}
+			}
+		});
 		dialog.showDialog(this);
 	}
 

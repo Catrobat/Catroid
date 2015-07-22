@@ -71,10 +71,20 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
+	private boolean commingFromScriptFragment;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
+		this.commingFromScriptFragment = false;
+	}
+
+	public void setCommingFromScriptFragment(boolean value) {
+		this.commingFromScriptFragment = value;
+	}
+
+	public boolean getCommingFromScriptFragment() {
+		return this.commingFromScriptFragment;
 	}
 
 	public static ProjectManager getInstance() {
