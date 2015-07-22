@@ -134,7 +134,6 @@ public final class ServerCalls {
 			Log.v(TAG, "Url to upload: " + serverUrl);
 
 			File file = new File(zipFileString);
-
 			RequestBody requestBody = new MultipartBuilder()
 					.type(MultipartBuilder.FORM)
 					.addFormDataPart(
@@ -176,7 +175,6 @@ public final class ServerCalls {
 				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
 			} else {
 				Log.v(TAG, "Upload not successful");
-				StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
 				throw new WebconnectionException(response.code(), "Upload failed! HTTP Status code was " + response.code());
 			}
 
