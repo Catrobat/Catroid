@@ -37,10 +37,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.view.ActionMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -197,10 +196,10 @@ public final class Utils {
 	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
 		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
 		MenuItem item = menu.findItem(R.id.select_all);
-		View view = MenuItemCompat.getActionView(item);
+		View view = item.getActionView();
 		if (view.getId() == R.id.select_all) {
 			View selectAllView = inflater.inflate(R.layout.action_mode_select_all, null);
-			MenuItemCompat.setActionView(item, selectAllView);
+			item.setActionView(selectAllView);
 			return selectAllView;
 		}
 		return null;

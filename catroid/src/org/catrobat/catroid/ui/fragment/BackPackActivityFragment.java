@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-public abstract class BackPackActivityFragment extends BaseListFragment {
+import android.app.ListFragment;
+
+public abstract class BackPackActivityFragment extends ListFragment {
 
 	protected boolean actionModeActive = false;
 

@@ -22,14 +22,15 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,7 +44,7 @@ import org.catrobat.catroid.ui.SettingsActivity;
 
 import java.util.Arrays;
 
-public class FormulaEditorListFragment extends BaseListFragment implements Dialog.OnKeyListener {
+public class FormulaEditorListFragment extends ListFragment implements Dialog.OnKeyListener {
 
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
@@ -120,7 +121,7 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getSupportFragmentManager()
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
@@ -208,9 +209,9 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 			menu.getItem(index).setVisible(false);
 		}
 
-		getSupportActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSupportActivity().getSupportActionBar().setTitle(actionBarTitle);
-		getSupportActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
+		getActivity().getActionBar().setTitle(actionBarTitle);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -221,8 +222,8 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 	}
 
 	public void showFragment(Context context) {
-		FragmentActivity activity = (FragmentActivity) context;
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		Activity activity = (Activity) context;
+		FragmentManager fragmentManager = activity.getFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -235,13 +236,12 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 	@Override
 	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-				FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager()
-						.beginTransaction();
-				fragTransaction.hide(this);
-				fragTransaction.show(getActivity().getSupportFragmentManager().findFragmentByTag(
+			FragmentTransaction fragTransaction = getActivity().getFragmentManager().beginTransaction();
+			fragTransaction.hide(this);
+			fragTransaction.show(getActivity().getFragmentManager().findFragmentByTag(
 						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
-				fragTransaction.commit();
-				return true;
+			fragTransaction.commit();
+			return true;
 		}
 		return false;
 	}

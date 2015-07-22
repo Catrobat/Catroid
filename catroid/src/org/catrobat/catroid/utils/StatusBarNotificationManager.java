@@ -32,7 +32,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -139,7 +138,7 @@ public final class StatusBarNotificationManager {
 		PendingIntent doesNothingPendingIntent = PendingIntent.getActivity(context, -1, new Intent(),
 				PendingIntent.FLAG_ONE_SHOT);
 
-		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+		Notification.Builder notificationBuilder = new Notification.Builder(context);
 		notificationBuilder.setContentTitle(data.getNotificationTitleWorking())
 				.setContentText(data.getNotificationTextWorking()).setSmallIcon(data.getNotificationIcon())
 				.setOngoing(true).setContentIntent(doesNothingPendingIntent);
@@ -156,7 +155,7 @@ public final class StatusBarNotificationManager {
 			return;
 		}
 
-		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
+		Notification.Builder notificationBuilder = notificationData.getNotificationBuilder();
 		notificationBuilder.setProgress(100, progressInPercent, false);
 		notificationManager.notify(id, notificationBuilder.build());
 
@@ -187,7 +186,7 @@ public final class StatusBarNotificationManager {
 			Log.d(TAG, "NotificationData is null.");
 			return;
 		}
-		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
+		Notification.Builder notificationBuilder = notificationData.getNotificationBuilder();
 		notificationData.setNotificationTextDone(serverAnswer);
 
 		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -195,7 +194,7 @@ public final class StatusBarNotificationManager {
 				.setContentText(serverAnswer)
 				.setTicker(context.getResources().getText(R.string.notification_upload_rejected))
 				.setSound(alarmSound)
-				.setStyle(new NotificationCompat.BigTextStyle().bigText(serverAnswer))
+				.setStyle(new Notification.BigTextStyle().bigText(serverAnswer))
 				.setProgress(0, 0, false)
 				.setAutoCancel(true)
 				.setPriority(Notification.PRIORITY_MAX)

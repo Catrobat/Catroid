@@ -21,24 +21,23 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menu_rate_app"
-        app:showAsAction="withText"
+        android:showAsAction="withText"
         android:title="@string/main_menu_rate_app" />
     <item
         android:id="@+id/menu_terms_of_use"
-        app:showAsAction="withText"
+        android:showAsAction="withText"
         android:title="@string/main_menu_terms_of_use" />
     <item
         android:id="@+id/menu_about"
-        app:showAsAction="withText"
+        android:showAsAction="withText"
         android:title="@string/main_menu_about_pocketcode" />
     <item
         android:id="@+id/settings"
-        app:showAsAction="never"
+        android:showAsAction="never"
         android:title="@string/settings" />
 
 </menu>

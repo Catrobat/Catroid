@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.view.ActionMode;
+import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 

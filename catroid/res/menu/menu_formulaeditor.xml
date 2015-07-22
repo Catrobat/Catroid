@@ -21,18 +21,17 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
      <item
         android:id="@+id/menu_undo"
         android:title="@string/undo"
-        app:showAsAction="ifRoom"
+        android:showAsAction="ifRoom"
         android:icon="@drawable/icon_undo" />
     
     <item
         android:id="@+id/menu_redo"
         android:title="@string/redo"
-        app:showAsAction="ifRoom"
+        android:showAsAction="ifRoom"
         android:icon="@drawable/icon_redo" />
 
 </menu>

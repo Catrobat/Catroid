@@ -24,22 +24,22 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -404,14 +404,14 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
 					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
-			actionMode = getSupportActivity().startSupportActionMode(unpackingModeCallBack);
+			actionMode = getActivity().startActionMode(unpackingModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -465,7 +465,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
 					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
-			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 		}

@@ -24,12 +24,12 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -54,7 +54,7 @@ public class NewLookDialog extends DialogFragment {
 			throw new RuntimeException("This dialog (NewLookDialog) can only be called by the LookFragment.");
 		}
 		this.fragment = (LookFragment) fragment;
-		show(fragment.getActivity().getSupportFragmentManager(), TAG);
+		show(fragment.getActivity().getFragmentManager(), TAG);
 	}
 
 	@Override

@@ -22,13 +22,14 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -60,7 +61,7 @@ import org.catrobat.catroid.ui.dialogs.UserBrickEditElementDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyListener,
+public class UserBrickDataEditorFragment extends Fragment implements OnKeyListener,
 		DragAndDropBrickLayoutListener, UserBrickEditElementDialog.DialogListener, LineBreakListener {
 
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
@@ -81,19 +82,18 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
-		getSupportActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
+		getActivity().getActionBar().setTitle(getString(R.string.brick_data_editor_title));
 
 		currentBrick = (UserScriptDefinitionBrick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 	}
 
 	public static void showFragment(View view, UserScriptDefinitionBrick brick) {
-		FragmentActivity activity;
-		activity = (FragmentActivity) view.getContext();
+		Activity activity = (Activity) view.getContext();
 
 		UserBrickDataEditorFragment dataEditorFragment = (UserBrickDataEditorFragment) activity
-				.getSupportFragmentManager().findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);
+				.getFragmentManager().findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);
 
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		FragmentManager fragmentManager = activity.getFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
 		fragTransaction.addToBackStack(null);
@@ -118,9 +118,9 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 	}
 
 	private void onUserDismiss() {
-		FragmentActivity activity = getActivity();
+		Activity activity = getActivity();
 
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		FragmentManager fragmentManager = activity.getFragmentManager();
 		fragmentManager.popBackStack();
 
 		if (activity instanceof ScriptActivity) {
@@ -222,7 +222,7 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 
 		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog(fragmentView);
 		dialog.addDialogListener(this);
-		dialog.show(getActivity().getSupportFragmentManager(),
+		dialog.show(getActivity().getFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);
 
 		UserBrickEditElementDialog.setTakenVariables(takenVariables);
@@ -343,9 +343,9 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 			menu.getItem(index).setVisible(false);
 		}
 
-		getSupportActivity().getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		getSupportActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSupportActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
+		getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
+		getActivity().getActionBar().setTitle(getString(R.string.brick_data_editor_title));
 
 		super.onPrepareOptionsMenu(menu);
 	}

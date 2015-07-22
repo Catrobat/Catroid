@@ -25,28 +25,27 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -121,7 +120,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private boolean isResultHandled = false;
 	private OnLookDataListChangedAfterNewListener lookDataListChangedAfterNewListener;
 	private Lock viewSwitchLock = new ViewSwitchLock();
-	private FragmentActivity activity;
+	private Activity activity;
 	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -242,7 +241,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		this.activity = (FragmentActivity) activity;
+		this.activity = activity;
 	}
 
 	@Override
@@ -619,7 +618,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(copyModeCallBack);
+			actionMode = getActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(activity);
 			isRenameActionMode = false;
@@ -629,7 +628,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(renameModeCallBack);
+			actionMode = getActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(activity);
 			isRenameActionMode = true;
@@ -639,7 +638,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(activity);
 			isRenameActionMode = false;
@@ -781,7 +780,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override

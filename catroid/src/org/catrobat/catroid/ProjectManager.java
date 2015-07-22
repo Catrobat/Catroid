@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
@@ -112,7 +112,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return INSTANCE;
 	}
 
-	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
+	public void uploadProject(String projectName, Activity fragmentActivity) {
 		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
 			LoadProjectTask loadProjectTask = new LoadProjectTask(fragmentActivity, projectName, false, false);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
@@ -467,19 +467,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	@Override
-	public void onTokenNotValid(FragmentActivity fragmentActivity) {
+	public void onTokenNotValid(Activity fragmentActivity) {
 		showLoginRegisterDialog(fragmentActivity);
 	}
 
 	@Override
-	public void onCheckTokenSuccess(FragmentActivity fragmentActivity) {
+	public void onCheckTokenSuccess(Activity fragmentActivity) {
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(fragmentActivity.getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		uploadProjectDialog.show(fragmentActivity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void showLoginRegisterDialog(FragmentActivity fragmentActivity) {
+	private void showLoginRegisterDialog(Activity fragmentActivity) {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(fragmentActivity.getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+		loginRegisterDialog.show(fragmentActivity.getFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

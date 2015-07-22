@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -219,7 +219,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			}
 		};
 
-		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
+		editDialog.show(((Activity) context).getFragmentManager(), "dialog_broadcast_brick");
 	}
 
 	@Override

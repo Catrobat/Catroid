@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -34,7 +35,6 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
@@ -166,8 +166,7 @@ public class ShowTextBrick extends UserVariableBrick {
 						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(ShowTextBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
+					dialog.show(((Activity) view.getContext()).getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
 
@@ -180,7 +179,7 @@ public class ShowTextBrick extends UserVariableBrick {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(ShowTextBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();

@@ -23,19 +23,19 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -195,7 +195,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onCategorySelected(String category) {
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.add(R.id.script_fragment_container, addBrickFragment,
 				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
@@ -252,7 +252,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 		fragmentTransaction.add(R.id.script_fragment_container, brickCategoryFragment,
@@ -296,7 +296,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void startActionMode(ActionMode.Callback actionModeCallback) {
-		actionMode = getSupportActivity().startSupportActionMode(actionModeCallback);
+		actionMode = getActivity().startActionMode(actionModeCallback);
 
 		for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
 			adapter.getView(i, null, getListView());
@@ -370,7 +370,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
+				menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override

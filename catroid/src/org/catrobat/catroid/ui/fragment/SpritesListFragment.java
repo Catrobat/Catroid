@@ -23,6 +23,8 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.ListFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,12 +33,11 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -79,7 +80,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SpritesListFragment extends BaseListFragment implements OnSpriteEditListener,
+public class SpritesListFragment extends ListFragment implements OnSpriteEditListener,
 		OnLoadProjectCompleteListener {
 
 	public static final String TAG = SpritesListFragment.class.getSimpleName();
@@ -163,7 +164,6 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 
 			isLoading = true;
-			this.getActivity().supportInvalidateOptionsMenu();
 
 			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
@@ -375,7 +375,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(renameModeCallBack);
+			actionMode = getActivity().startActionMode(renameModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
@@ -383,7 +383,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
@@ -415,7 +415,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(copyModeCallBack);
+			actionMode = getActivity().startActionMode(copyModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
@@ -546,7 +546,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -742,7 +742,6 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 		initListeners();
 		spriteAdapter.notifyDataSetChanged();
 		isLoading = false;
-		this.getActivity().supportInvalidateOptionsMenu();
 		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
 		getActivity().findViewById(R.id.fragment_sprites_list).setVisibility(View.VISIBLE);
 		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
@@ -753,7 +752,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 	private void showInfoFragmentIfNeeded() {
 		if (needToShowLegoNXTInfoDialog()) {
 			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
-			dialog.show(this.getActivity().getSupportFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}
 

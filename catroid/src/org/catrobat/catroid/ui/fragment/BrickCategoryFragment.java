@@ -22,8 +22,9 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.ActionBar;
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public class BrickCategoryFragment extends BaseListFragment {
+public class BrickCategoryFragment extends ListFragment {
 
 	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
 
@@ -128,7 +129,7 @@ public class BrickCategoryFragment extends BaseListFragment {
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getSupportActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 
 		this.previousActionBarTitle = actionBar.getTitle();
@@ -136,7 +137,7 @@ public class BrickCategoryFragment extends BaseListFragment {
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getSupportActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(this.previousActionBarTitle);
 	}

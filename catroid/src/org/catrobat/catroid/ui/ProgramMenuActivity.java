@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -58,7 +58,7 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		BottomBar.hideAddButton(this);
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {

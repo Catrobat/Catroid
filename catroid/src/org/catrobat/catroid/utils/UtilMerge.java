@@ -27,7 +27,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -61,7 +60,7 @@ public final class UtilMerge {
 	private UtilMerge() {
 	}
 
-	public static void mergeProjectInCurrentProject(String projectNameToMergeFrom, FragmentActivity activity) {
+	public static void mergeProjectInCurrentProject(String projectNameToMergeFrom, Activity activity) {
 		try {
 			project = ProjectManager.getInstance().getCurrentProject();
 			Project projectToMergeFrom = loadProjectContent(projectNameToMergeFrom, activity);

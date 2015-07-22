@@ -22,12 +22,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <item
         android:id="@+id/select_all"
-        app:actionViewClass="android.widget.TextView"
+        android:actionViewClass="android.widget.TextView"
         tools:ignore="all" >
     </item>
 

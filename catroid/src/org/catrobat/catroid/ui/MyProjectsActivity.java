@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,7 +52,7 @@ public class MyProjectsActivity extends BaseActivity {
 
 		BottomBar.hidePlayButton(this);
 
-		projectsListFragment = (ProjectsListFragment) getSupportFragmentManager().findFragmentById(
+		projectsListFragment = (ProjectsListFragment) getFragmentManager().findFragmentById(
 				R.id.fragment_projects_list);
 	}
 
@@ -99,7 +99,7 @@ public class MyProjectsActivity extends BaseActivity {
 	}
 
 	private void setUpActionBar() {
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 		actionBar.setTitle(R.string.my_projects_activity_title);
 		actionBar.setHomeButtonEnabled(true);
 	}
@@ -121,7 +121,7 @@ public class MyProjectsActivity extends BaseActivity {
 		}
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.setOpenedFromProjectList(true);
-		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+		dialog.show(getFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void handleShowDetails(boolean showDetails, MenuItem item) {

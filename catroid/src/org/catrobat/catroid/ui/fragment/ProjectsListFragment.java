@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.ListFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,11 +32,11 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -82,7 +83,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class ProjectsListFragment extends BaseListFragment implements OnProjectRenameListener,
+public class ProjectsListFragment extends ListFragment implements OnProjectRenameListener,
 		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
@@ -450,21 +451,21 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(renameModeCallBack);
+			actionMode = getActivity().startActionMode(renameModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(copyModeCallBack);
+			actionMode = getActivity().startActionMode(copyModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
@@ -472,19 +473,19 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 	private void showRenameDialog() {
 		RenameProjectDialog dialogRenameProject = RenameProjectDialog.newInstance(projectToEdit.projectName);
 		dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
-		dialogRenameProject.show(getActivity().getSupportFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
+		dialogRenameProject.show(getActivity().getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void showSetDescriptionDialog() {
 		SetDescriptionDialog dialogSetDescription = SetDescriptionDialog.newInstance(projectToEdit.projectName);
 		dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-		dialogSetDescription.show(getActivity().getSupportFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+		dialogSetDescription.show(getActivity().getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void showCopyProjectDialog() {
 		CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
 		dialogCopyProject.setParentFragment(parentFragment);
-		dialogCopyProject.show(getActivity().getSupportFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+		dialogCopyProject.show(getActivity().getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void showConfirmDeleteDialog() {
@@ -568,7 +569,7 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);

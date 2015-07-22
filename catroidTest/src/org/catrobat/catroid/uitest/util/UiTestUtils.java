@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.util;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.Instrumentation;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -35,8 +36,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -1996,11 +1995,11 @@ public final class UiTestUtils {
 
 	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
 			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
-		if (!(solo.getCurrentActivity() instanceof FragmentActivity)) {
+		if (!(solo.getCurrentActivity() instanceof Activity)) {
 			fail("Current activity is not a FragmentActivity");
 		}
 
-		FragmentManager fragmentManager = ((FragmentActivity) solo.getCurrentActivity()).getSupportFragmentManager();
+		FragmentManager fragmentManager = solo.getCurrentActivity().getFragmentManager();
 
 		NewSpriteDialog dialog;
 

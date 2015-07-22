@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +39,7 @@ import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
@@ -53,10 +53,11 @@ public class BaseActivity extends AppCompatActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		// Partly from http://stackoverflow.com/a/5069354
 		unbindDrawables(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
 		System.gc();
+
+		super.onDestroy();
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class BaseActivity extends AppCompatActivity {
 		super.onResume();
 
 		if (getTitleActionBar() != null) {
-			getSupportActionBar().setTitle(getTitleActionBar());
+			getActionBar().setTitle(getTitleActionBar());
 		}
 	}
 
@@ -99,11 +100,11 @@ public class BaseActivity extends AppCompatActivity {
 				return true;
 			case R.id.menu_terms_of_use:
 				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
-				termsOfUseDialog.show(getSupportFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+				termsOfUseDialog.show(getFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				aboutDialog.show(getFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			default:
 				break;

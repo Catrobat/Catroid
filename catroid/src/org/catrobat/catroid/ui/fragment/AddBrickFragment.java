@@ -22,7 +22,11 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,14 +36,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,7 +71,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddBrickFragment extends BaseListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
+public class AddBrickFragment extends ListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
@@ -200,14 +201,14 @@ public class AddBrickFragment extends BaseListFragment implements DeleteModeList
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setTitle(previousActionBarTitle);
 	}
 
@@ -357,7 +358,7 @@ public class AddBrickFragment extends BaseListFragment implements DeleteModeList
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 
 			unregisterForContextMenu(this.getListView());
 			BottomBar.hideBottomBar(getActivity());

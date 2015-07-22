@@ -91,7 +91,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			args.putBoolean(TermsOfUseDialogFragment.DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, true);
 			TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
 			termsOfUseDialog.setArguments(args);
-			termsOfUseDialog.show(prestageStageActivity.getSupportFragmentManager(),
+			termsOfUseDialog.show(prestageStageActivity.getFragmentManager(),
 					TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
 		}
 	}

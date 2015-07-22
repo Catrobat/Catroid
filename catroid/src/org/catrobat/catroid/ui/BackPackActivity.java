@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +56,7 @@ public class BackPackActivity extends BaseActivity {
 	public static final String ACTION_SCRIPT_DELETED = "org.catrobat.catroid.SCRIPT_DELETED";
 	private static int currentFragmentPosition;
 	private boolean backpackItem = false;
-	private FragmentManager fragmentManager = getSupportFragmentManager();
+	private FragmentManager fragmentManager = getFragmentManager();
 	private BackPackSoundFragment backPackSoundFragment = null;
 	private BackPackLookFragment backPackLookFragment = null;
 	private BackPackScriptFragment backPackScriptFragment = null;
@@ -86,7 +86,7 @@ public class BackPackActivity extends BaseActivity {
 		fragmentTransaction.commit();
 		fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 	}

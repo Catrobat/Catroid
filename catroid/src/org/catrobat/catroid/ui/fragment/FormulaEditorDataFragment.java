@@ -22,17 +22,18 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.view.ActionMode;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -64,8 +65,7 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.utils.Utils;
 
-
-public class FormulaEditorDataFragment extends BaseListFragment implements Dialog.OnKeyListener,
+public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
 		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
 
 	public static final String USER_DATA_TAG = "userDataFragment";
@@ -129,9 +129,9 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 		}
 		menu.findItem(R.id.formula_editor_data_item_delete).setVisible(true);
 
-		getSupportActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSupportActivity().getSupportActionBar().setTitle(actionBarTitle);
-		getSupportActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
+		getActivity().getActionBar().setTitle(actionBarTitle);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -140,7 +140,7 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 	public void onListItemClick(int position) {
 		if (!inContextMode) {
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity()
-					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+					.getFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 			if (formulaEditor != null) {
 				Object itemToAdd = adapter.getItem(position);
 				if (itemToAdd instanceof UserVariable) {
@@ -202,7 +202,7 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 		super.onStart();
 	}
 
-	public void setAddButtonListener(final FragmentActivity fragmentActivity) {
+	public void setAddButtonListener(final Activity fragmentActivity) {
 		ImageButton buttonAdd = (ImageButton) fragmentActivity.findViewById(R.id.button_add);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -220,7 +220,7 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 		switch (item.getItemId()) {
 			case R.id.formula_editor_data_item_delete:
 				inContextMode = true;
-				contextActionMode = getSupportActivity().startSupportActionMode(contextModeCallback);
+				contextActionMode = getActivity().startActionMode(contextModeCallback);
 				return true;
 
 			default:
@@ -264,8 +264,8 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 	}
 
 	public void showFragment(Context context) {
-		FragmentActivity activity = (FragmentActivity) context;
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		Activity activity = (Activity) context;
+		FragmentManager fragmentManager = activity.getFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
 		Fragment formulaEditorFragment = fragmentManager
@@ -302,11 +302,11 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 				BottomBar.hideBottomBar(getActivity());
 				((ScriptActivity) getActivity()).updateHandleAddButtonClickListener();
 
-				FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
+				FragmentTransaction fragmentTransaction = getActivity().getFragmentManager()
 						.beginTransaction();
 				fragmentTransaction.hide(this);
 				FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getActivity()
-						.getSupportFragmentManager().findFragmentByTag(
+						.getFragmentManager().findFragmentByTag(
 								FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 				formulaEditorFragment.updateBrickView();
 				fragmentTransaction.show(formulaEditorFragment);
@@ -319,7 +319,7 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override

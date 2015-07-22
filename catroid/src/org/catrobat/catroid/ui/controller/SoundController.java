@@ -24,9 +24,12 @@ package org.catrobat.catroid.ui.controller;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -37,9 +40,6 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -564,9 +564,9 @@ public final class SoundController {
 		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
-		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = scriptActivity.getFragmentManager().beginTransaction();
 		fragmentTransaction.hide(soundFragment);
-		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.show(scriptActivity.getFragmentManager().findFragmentByTag(ScriptFragment.TAG));
 		fragmentTransaction.commit();
 
 		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
