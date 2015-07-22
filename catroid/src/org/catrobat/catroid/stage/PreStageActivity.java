@@ -24,10 +24,15 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -57,8 +62,10 @@ import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class PreStageActivity extends BaseActivity {
@@ -76,6 +83,8 @@ public class PreStageActivity extends BaseActivity {
 	private DroneInitializer droneInitializer = null;
 
 	private Intent returnToActivityIntent = null;
+    private WifiScanReceiver wifiReciever;
+    private WifiManager wifi;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -227,6 +236,7 @@ public class PreStageActivity extends BaseActivity {
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityResume();
 		}
+        registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
 		super.onResume();
 		if (requiredResourceCounter == 0) {
@@ -239,6 +249,7 @@ public class PreStageActivity extends BaseActivity {
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityPause();
 		}
+        unregisterReceiver(wifiReciever);
 
 		super.onPause();
 	}
@@ -399,5 +410,24 @@ public class PreStageActivity extends BaseActivity {
 			ToastUtil.showError(PreStageActivity.this, R.string.no_flash_led_available);
 			resourceFailed();
 		}
-	}
 }
+
+    private class WifiScanReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(getClass().getSimpleName(), "onReceive entered");
+
+            List<ScanResult> list = wifi.getScanResults();
+            Set<String> ssidSet = new HashSet<>();
+            for (android.net.wifi.ScanResult network : list) {
+                ssidSet.add(network.SSID);
+            }
+
+            for (String ssid : ssidSet) {
+                Log.d(getClass().getSimpleName(), "Liste von SSIDs: " + ssid);
+            }
+        }
+    }
+}
+
