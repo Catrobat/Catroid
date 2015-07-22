@@ -249,7 +249,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 		int doubleClickIndex = externFormulaString.length();
 		int offsetRight = 0;
-		while (offsetRight < 3) {
+		while (offsetRight < 2) {
 			internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, true);
 
 			assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
@@ -293,7 +293,7 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 		int doubleClickIndex = externFormulaString.length();
 		int offsetRight = 0;
-		while (offsetRight < 3) {
+		while (offsetRight < 2) {
 			internFormula.setCursorAndSelection(doubleClickIndex - offsetRight, true);
 
 			assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());

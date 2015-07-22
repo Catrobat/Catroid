@@ -177,8 +177,6 @@ public class InternToExternGenerator {
 			internTokenList.remove(0);
 			internTokenListIndex++;
 		}
-
-		generatedExternFormulaString += " ";
 	}
 
 	private String generateExternStringFromToken(InternToken internToken) {
