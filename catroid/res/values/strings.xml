@@ -633,7 +633,12 @@
     <string name="brick_drone_set_config">Set config</string>
     <string name="brick_drone_toggle_video">Toggle video</string>
     <string name="brick_drone_switch_camera">Switch camera</string>
-    <string name="brick_drone_set_altitude">Set maximum height</string>
+    <string name="brick_drone_set_altitude">Altitude limit</string>
+    <string name="brick_drone_set_vertical_speed">Speed limit</string>
+    <string name="brick_drone_set_rotation_speed">Rotation limit</string>
+    <string name="brick_drone_set_tilt_angle">Tilt angle</string>
+    <string name="brick_drone_meter">meter</string>
+    <string name="brick_drone_set_advanced_config">Set advanced config</string>
     <!--  -->
 
     <!-- Phiro bricks -->
@@ -776,7 +781,7 @@
     <string name="formula_editor_sensor_drone_record_ready">drone_record_ready</string>
     <string name="formula_editor_sensor_drone_recording">drone_recording</string>
     <string name="formula_editor_sensor_drone_num_frames">drone_num_frames</string>
-     <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
+    <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>

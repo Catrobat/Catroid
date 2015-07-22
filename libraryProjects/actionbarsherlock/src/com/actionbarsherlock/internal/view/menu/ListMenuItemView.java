@@ -16,8 +16,6 @@
 
 package com.actionbarsherlock.internal.view.menu;
 
-import com.actionbarsherlock.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -31,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.actionbarsherlock.R;
 
 /**
  * The item view for each item in the ListView-based MenuViews.

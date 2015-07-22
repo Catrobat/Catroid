@@ -2,6 +2,7 @@ package com.actionbarsherlock.app;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+
 import com.actionbarsherlock.internal.view.menu.MenuItemWrapper;
 import com.actionbarsherlock.internal.view.menu.MenuWrapper;
 import com.actionbarsherlock.view.Menu;

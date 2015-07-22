@@ -29,13 +29,11 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.ConnectBluetoothDeviceActivity;
-
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-
 import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils;
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.uitest.annotation.Device;
