@@ -24,16 +24,26 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.content.IntentFilter;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -55,6 +65,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -66,6 +77,7 @@ public class PreStageActivity extends BaseActivity {
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
+
 
 	private int requiredResourceCounter;
 
@@ -106,16 +118,41 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if (DroneServiceWrapper.checkARDroneAvailability()) {
+			Log.d("WIFITEST", "before Wifi names");
 
-//			WifiManager mainWifiObj;
-//			mainWifiObj = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
-//
-//			Log.d("wifi before", Boolean.toString(mainWifiObj.isWifiEnabled()));
-//			if (!mainWifiObj.isWifiEnabled())
-//			{
-//				mainWifiObj.setWifiEnabled(true);
-//			}
-//			Log.d("wifi after", Boolean.toString(mainWifiObj.isWifiEnabled()));
+			WifiManager wifi = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
+			if(!wifi.isWifiEnabled()) {
+				Context context = getApplicationContext();
+				CharSequence text = "Wifi is being turned on!";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+			}
+			wifi.setWifiEnabled(true);
+			List<WifiConfiguration> list2 = wifi.getConfiguredNetworks();
+			List<String> listItems = new ArrayList<String>();
+			final List<Integer> listItems2 = new ArrayList<Integer>();
+
+			for( WifiConfiguration i : list2 ) {
+				Log.d("PreStageActivity", i.SSID);
+				Log.d("PreStageActivity", new String(""+i.networkId));
+				listItems.add(i.SSID);
+				listItems2.add(i.networkId);
+			}
+
+			final CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Select your Drone");
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+					wifiManager.enableNetwork(listItems2.get(item), true);
+				}
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
+
 
 			CatroidApplication.loadNativeLibs();
 			if (CatroidApplication.parrotLibrariesLoaded) {

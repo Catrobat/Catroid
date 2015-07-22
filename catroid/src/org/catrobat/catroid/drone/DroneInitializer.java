@@ -210,9 +210,9 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
             showUnCancellableErrorDialog(prestageStageActivity,
                     prestageStageActivity.getString(R.string.error_no_drone_connected_title),
                     prestageStageActivity.getString(R.string.error_no_drone_connected));
+
         }
     }
-
 
     public void onPrestageActivityDestroy() {
         if (droneControlService != null) {
