@@ -22,8 +22,14 @@
  */
 package org.catrobat.catroid;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -53,9 +59,13 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.transfers.CheckVersionTask;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.DefaultActivityLauncher;
+import org.catrobat.catroid.utils.MockActivityLauncher;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -63,7 +73,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
+public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckVersionTask.OnCheckVersionListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
@@ -75,6 +85,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleCorrectAddButton;
+	private boolean runningUploadOldVersionTest;
+	private boolean mockPlayStoreStarted;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -108,27 +120,41 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return this.handleCorrectAddButton;
 	}
 
+	public void setRunningUploadOldVersionTest(boolean value) {
+		this.runningUploadOldVersionTest = value;
+	}
+
+	public boolean getRunningUploadOldVersionTest() {
+		return this.runningUploadOldVersionTest;
+	}
+
+	public void setMockPlayStoreStartedTrue() {
+		this.mockPlayStoreStarted = true;
+	}
+
+	public boolean getMockPlayStoreStarted() {
+		return this.mockPlayStoreStarted;
+	}
+
 	public static ProjectManager getInstance() {
 		return INSTANCE;
 	}
 
 	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
-		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(fragmentActivity, projectName, false, false);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
-		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog(fragmentActivity);
-		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(fragmentActivity, token, username);
-			checkTokenTask.setOnCheckTokenCompleteListener(this);
-			checkTokenTask.execute();
+		try {
+			PackageInfo info = fragmentActivity.getPackageManager().getPackageInfo(fragmentActivity.getPackageName(),
+					0);
+			String version;
+			if (runningUploadOldVersionTest) {
+				version = "test";
+			} else {
+				version = info.versionName;
+			}
+			CheckVersionTask checkVersionTask = new CheckVersionTask(fragmentActivity, version, projectName);
+			checkVersionTask.setOnCheckVersionListener(this);
+			checkVersionTask.execute();
+		} catch (PackageManager.NameNotFoundException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
 	}
 
@@ -477,9 +503,77 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		uploadProjectDialog.show(fragmentActivity.getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
+	@Override
+	public void onVersionValid(FragmentActivity fragmentActivity, String projectName) {
+		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
+			LoadProjectTask loadProjectTask = new LoadProjectTask(fragmentActivity, projectName, false, false);
+			loadProjectTask.setOnLoadProjectCompleteListener(this);
+			loadProjectTask.execute();
+		}
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
+			showLoginRegisterDialog(fragmentActivity);
+		} else {
+			CheckTokenTask checkTokenTask = new CheckTokenTask(fragmentActivity, token, username);
+			checkTokenTask.setOnCheckTokenCompleteListener(this);
+			checkTokenTask.execute();
+		}
+	}
+
+	@Override
+	public void onVersionInvalid(FragmentActivity fragmentActivity) {
+		showWrongVersionDialog(fragmentActivity);
+	}
+
 	private void showLoginRegisterDialog(FragmentActivity fragmentActivity) {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(fragmentActivity.getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showWrongVersionDialog(final FragmentActivity fragmentActivity) {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(fragmentActivity);
+		builder.setTitle(R.string.error);
+		builder.setMessage(R.string.error_outdated_pocketcode_version);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				openPlayStoreWithPocketCode(fragmentActivity);
+			}
+		});
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	private void openPlayStoreWithPocketCode(FragmentActivity fragmentActivity) {
+		final String appPackageName = fragmentActivity.getPackageName();
+		try {
+			tryPlayStoreIntent(Constants.APP_STORE_URL_ONE, appPackageName, fragmentActivity);
+		} catch (android.content.ActivityNotFoundException anfe) {
+			tryPlayStoreIntent(Constants.APP_STORE_URL_TWO, appPackageName, fragmentActivity);
+		}
+	}
+
+	private void tryPlayStoreIntent(String url, String appPackageName, FragmentActivity fragmentActivity) {
+		Intent playStoreIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(url + appPackageName));
+		if (ProjectManager.getInstance().getRunningUploadOldVersionTest()) {
+			MockActivityLauncher launcher = new MockActivityLauncher();
+			launcher.start(fragmentActivity, playStoreIntent);
+		} else {
+			DefaultActivityLauncher launcher = new DefaultActivityLauncher();
+			launcher.start(fragmentActivity, playStoreIntent);
+		}
 	}
 
 	@Override

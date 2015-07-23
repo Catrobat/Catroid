@@ -92,6 +92,10 @@ public final class Constants {
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
+	public static final String POCKET_CODE_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=org"
+			+ ".catrobat.catroid&hl=de";
+	public static final String APP_STORE_URL_ONE = "market://details?id=";
+	public static final String APP_STORE_URL_TWO = "https://play.google.com/store/apps/details?id=";
 
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 

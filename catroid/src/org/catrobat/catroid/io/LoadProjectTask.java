@@ -109,6 +109,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 				Dialog errorDialog = builder.create();
 				errorDialog.show();
 			} else {
+				linearLayoutProgressCircle.setVisibility(View.GONE);
 				onLoadProjectCompleteListener.onLoadProjectSuccess(startProjectActivity);
 			}
 		}

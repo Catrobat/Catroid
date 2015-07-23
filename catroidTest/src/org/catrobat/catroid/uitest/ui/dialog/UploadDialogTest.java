@@ -175,6 +175,27 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 	}
 
+	public void testUploadProjectWithOldPocketCodeVersion() {
+		UiTestUtils.createValidUser(getActivity());
+		ProjectManager.getInstance().setRunningUploadOldVersionTest(true);
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		assertTrue("Error Dialog for wrong version did not open.", solo.waitForText(solo.getString(R.string
+				.error_outdated_pocketcode_version)));
+		solo.clickOnText(solo.getString(R.string.no));
+		assertTrue("Did not return to MainMenu after dismissing error dialog.", solo.waitForActivity(MainMenuActivity
+				.class
+				.getSimpleName()));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		assertTrue("Error Dialog for wrong version did not open.",
+				solo.waitForText(solo.getString(R.string.error_outdated_pocketcode_version)));
+		solo.clickOnText(solo.getString(R.string.yes));
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(300);
+		assertTrue("Play Store mock Activity did not open after confirming update dialog.", ProjectManager.getInstance()
+				.getMockPlayStoreStarted());
+		ProjectManager.getInstance().setRunningUploadOldVersionTest(false);
+	}
+
 	private void createTestProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		if (directory.exists()) {
