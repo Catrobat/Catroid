@@ -58,8 +58,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-
-	private static final String SCRIPT_FRAGMENT_TEST_TAG = ScriptFragmentTest.class.getSimpleName();
+	private static final String TAG = ScriptFragmentTest.class.getSimpleName();
 
 	public ScriptFragmentTest() {
 		super(MainMenuActivity.class);
@@ -692,8 +691,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(
 					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		} catch (IOException e) {
+			Log.e(TAG, "Could not create standard project", e);
 			fail("Could not create standard project");
-			e.printStackTrace();
 		}
 
 		if (standardProject == null) {
@@ -766,7 +765,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	@SuppressWarnings("deprecation")
 	public void testReturnFromStageAfterInvokingFormulaEditor() {
 		if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0) == 0) {
-			Log.i(SCRIPT_FRAGMENT_TEST_TAG, "Developer option \'Don't keep activities\' is not set.");
+			Log.i(TAG, "Developer option 'Don't keep activities' is not set.");
 			return;
 		}
 

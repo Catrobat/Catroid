@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.utils;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
@@ -39,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SimulatedSensorManager implements SensorManagerInterface {
+	private static final String TAG = SimulatedSensorManager.class.getSimpleName();
 
 	public class Pair<L, R> {
 		private L firstEntry;
@@ -172,16 +174,9 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 				Constructor<SensorEvent> constructor = SensorEvent.class.getDeclaredConstructor(int.class);
 				constructor.setAccessible(true);
 				sensorEvent = constructor.newInstance(3);
-			} catch (NoSuchMethodException noSuchMethodException) {
-				noSuchMethodException.printStackTrace();
-			} catch (IllegalArgumentException illegalArgumentException) {
-				illegalArgumentException.printStackTrace();
-			} catch (InstantiationException instantiationException) {
-				instantiationException.printStackTrace();
-			} catch (IllegalAccessException illegalAccessException) {
-				illegalAccessException.printStackTrace();
-			} catch (InvocationTargetException invocationTargetException) {
-				invocationTargetException.printStackTrace();
+			} catch (NoSuchMethodException | IllegalArgumentException | InstantiationException
+					| IllegalAccessException | InvocationTargetException ex) {
+				Log.e(TAG, "Sleep was interrupted.", ex);
 			}
 
 			if (sensorEvent == null) {

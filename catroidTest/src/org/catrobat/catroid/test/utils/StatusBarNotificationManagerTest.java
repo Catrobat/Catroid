@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.utils;
 
 import android.os.Bundle;
 import android.test.AndroidTestCase;
+import android.util.Log;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
@@ -32,6 +33,7 @@ import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
 public class StatusBarNotificationManagerTest extends AndroidTestCase {
+	private static final String TAG = StatusBarNotificationManagerTest.class.getSimpleName();
 
 	private final StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 
@@ -78,7 +80,7 @@ public class StatusBarNotificationManagerTest extends AndroidTestCase {
 		try {
 			notificationManager.showOrUpdateNotification(-1, 0);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.e(TAG, "showOrUpdateNotification() failed", ex);
 			fail("there shouldn't be any exception thrown");
 		}
 	}

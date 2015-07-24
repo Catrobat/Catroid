@@ -38,11 +38,8 @@ public class SystemOutTest extends TestCase {
 	private String errorMessages;
 	private boolean errorFound;
 
-	private static final String[] SYSTEM_OUT_DIRECTORIES = Utils.SOURCE_FILE_DIRECTORIES;
-	private static final String[] STACK_TRACE_DIRECTORIES = Utils.PRINT_STACK_TRACE_TEST_DIRECTORIES;
+	private static final String[] TOAST_STACK_TRACE_DIRECTORIES = Utils.TOAST_STACK_TRACE_TEST_DIRECTORIES;
 	private static final String[] IGNORED_FILES = { "SystemOutTest.java", "ToastUtil.java", "BTServer.java" };
-	private static final String SYSTEM_OUT = "System.out";
-	private static final String PRINT_STACK_TRACE = ".printStackTrace()";
 	private static final String TOAST_STRING = "Toast.makeText";
 	private static final String SUPERTOAST_STRING = "SuperToast";
 
@@ -98,24 +95,14 @@ public class SystemOutTest extends TestCase {
 		errorFound = false;
 	}
 
-	public void testForSystemOut() throws IOException {
-		checkForStringInFiles(SYSTEM_OUT, SYSTEM_OUT_DIRECTORIES);
-		assertFalse("Files with 'System.out' found! \nPlease use 'Log.d(TAG, message)' instead \n\n" + errorMessages, errorFound);
-	}
-
-	public void testForPrintStackTrace() throws IOException {
-		checkForStringInFiles(PRINT_STACK_TRACE, STACK_TRACE_DIRECTORIES);
-		assertFalse("Files with '.printStackTrace()' found! \nPlease use 'Log.e(TAG, \"Reason for Exception\", exception)' or 'Log.e(TAG, Log.getStackTraceString(exception))' instead\n\n" + errorMessages, errorFound);
-	}
-
 	public void testForToast() throws IOException {
-		checkForStringInFiles(TOAST_STRING, STACK_TRACE_DIRECTORIES);
+		checkForStringInFiles(TOAST_STRING, TOAST_STACK_TRACE_DIRECTORIES);
 		assertFalse("Files with 'Toast.makeText(context, text, duration)' found! \nPlease use 'ToastUtil.showError(context, message), or "
 				+ "ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
 	}
 
 	public void testForSuperToast() throws IOException {
-		checkForStringInFiles(SUPERTOAST_STRING, STACK_TRACE_DIRECTORIES);
+		checkForStringInFiles(SUPERTOAST_STRING, TOAST_STACK_TRACE_DIRECTORIES);
 		assertFalse("Files with 'SuperToast' found! \nPlease use 'ToastUtil.showError(context, message), or "
 				+ "ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
 	}

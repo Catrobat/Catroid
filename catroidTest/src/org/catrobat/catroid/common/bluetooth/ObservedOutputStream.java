@@ -28,9 +28,9 @@ import java.io.OutputStream;
 class ObservedOutputStream extends OutputStream {
 
 	private final OutputStream outputStream;
-	private final Logger logger;
+	private final BluetoothLogger logger;
 
-	ObservedOutputStream(OutputStream outputStream, Logger logger) {
+	ObservedOutputStream(OutputStream outputStream, BluetoothLogger logger) {
 		this.outputStream = outputStream;
 		this.logger = logger;
 	}
