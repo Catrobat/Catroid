@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.utiltests;
 
 import android.os.Environment;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -40,6 +41,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class UtilFileTest extends InstrumentationTestCase {
+	private static final String TAG = UtilFileTest.class.getSimpleName();
 	private static final String CATROID_DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
 
@@ -112,7 +114,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 			printWriter = new PrintWriter(testFile);
 			printWriter.print("catroid");
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "File handling error", e);
 		} finally {
 			if (printWriter != null) {
 				printWriter.close();

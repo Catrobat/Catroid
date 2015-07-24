@@ -147,7 +147,7 @@ public final class ConnectionDataLogger {
 
 	private BluetoothConnection connectionProxy;
 
-	private Logger logger = new Logger() {
+	private BluetoothLogger logger = new BluetoothLogger() {
 
 		@Override
 		public void logSentData(byte[] b) {
@@ -218,7 +218,7 @@ public final class ConnectionDataLogger {
 		return connectionProxy;
 	}
 
-	Logger getLogger() {
+	BluetoothLogger getLogger() {
 		return logger;
 	}
 }

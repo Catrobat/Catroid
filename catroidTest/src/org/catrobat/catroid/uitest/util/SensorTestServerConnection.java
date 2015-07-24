@@ -37,6 +37,7 @@ import static junit.framework.Assert.assertTrue;
 
 @SuppressWarnings("AvoidUsingHardCodedIP")
 public final class SensorTestServerConnection {
+
 	private static final String TAG = SensorTestServerConnection.class.getSimpleName();
 
 	// fields to provide ethernet connection to the arduino server
@@ -113,7 +114,7 @@ public final class SensorTestServerConnection {
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.w(TAG, "InterruptedException", e);
 		}
 	}
 
@@ -146,7 +147,7 @@ public final class SensorTestServerConnection {
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.w(TAG, "InterruptedException", e);
 		}
 	}
 
@@ -165,7 +166,7 @@ public final class SensorTestServerConnection {
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.w(TAG, "InterruptedException", e);
 		}
 	}
 }

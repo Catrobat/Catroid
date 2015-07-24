@@ -175,7 +175,7 @@ public final class UiTestUtils {
 	public static final String PROJECTNAME1 = "testingproject1";
 	public static final String PROJECTNAME2 = "testingproject2";
 	public static final String PROJECTNAME3 = "testingproject3";
-	public static final String PROJECTNAMEOFFENSIVELANGUAGE = "fuck i have to use fuck";
+	public static final String PROJECTNAMEOFFENSIVELANGUAGE = "fuck i have to use fuck penis";
 	public static final String PROJECTDESCRIPTION1 = "testdescription1";
 	public static final String PROJECTDESCRIPTION2 = "testdescription2";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
@@ -1243,7 +1243,7 @@ public final class UiTestUtils {
 
 			return tempFile;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "File handling error", e);
 			return null;
 		}
 	}
@@ -1576,7 +1576,7 @@ public final class UiTestUtils {
 
 			assert (userRegistered);
 		} catch (WebconnectionException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Error creating test user.", e);
 			fail("Error creating test user.");
 		}
 	}
@@ -1690,7 +1690,7 @@ public final class UiTestUtils {
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
 				upEvent.recycle();
-				Log.d("Robotium - waitForLogMessage", "longClickAndDrag finished: " + (int) yTo);
+				Log.d(TAG, "longClickAndDrag finished: " + (int) yTo);
 			}
 		});
 
@@ -2032,8 +2032,8 @@ public final class UiTestUtils {
 					SpinnerAdapterWrapper.class);
 			constructor.setAccessible(true);
 			dialog = constructor.newInstance(DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner);
-		} catch (Exception exception) {
-			exception.printStackTrace();
+		} catch (Exception e) {
+			Log.e(TAG, "Reflection failure.", e);
 			fail("Reflection failure");
 			return;
 		}

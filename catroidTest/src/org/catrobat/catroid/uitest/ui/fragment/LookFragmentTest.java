@@ -58,6 +58,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = LookFragmentTest.class.getSimpleName();
+
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
 	private static final int RESOURCE_IMAGE2 = org.catrobat.catroid.test.R.drawable.catroid_banzai;
 	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.test.R.drawable.catroid_sunglasses_jpg;
@@ -662,7 +664,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
 					RESOURCE_IMAGE2, getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Image was not created", e);
 			fail("Image was not created");
 		}
 		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
@@ -689,7 +691,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
 					RESOURCE_IMAGE, getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Image was not created", e);
 			fail("Image was not created");
 		}
 		md5ChecksumImageFile = Utils.md5Checksum(imageFile);
@@ -1239,8 +1241,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		try {
 			UiTestUtils.cropImage(pathToImageFile, sampleSize);
 		} catch (FileNotFoundException e) {
+			Log.e(TAG, "Image was not found", e);
 			fail("Test failed because file was not found");
-			e.printStackTrace();
 		}
 
 		UiTestUtils.clickOnHomeActionBarButton(solo);

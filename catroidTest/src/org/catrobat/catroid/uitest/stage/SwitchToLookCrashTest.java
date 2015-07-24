@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.stage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -51,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = SwitchToLookCrashTest.class.getSimpleName();
 
 	public SwitchToLookCrashTest() {
 		super(MainMenuActivity.class);
@@ -77,7 +79,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 					Constants.IMAGE_DIRECTORY, nyanCatPng);
 			writeBufferToFile(inputStream, nyanCatPath);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Image not loaded from Assets", e);
 			fail("Image not loaded from Assets");
 		}
 
@@ -129,7 +131,7 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 					Constants.IMAGE_DIRECTORY, manImageJpg);
 			writeBufferToFile(inputStream, manImagePath);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Image not loaded from Assets", e);
 			fail("Image not loaded from Assets");
 		}
 

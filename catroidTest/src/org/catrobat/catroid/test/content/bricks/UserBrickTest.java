@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -48,6 +49,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserBrickTest extends AndroidTestCase {
+	private static final String TAG = UserBrickTest.class.getSimpleName();
+
 	private Sprite sprite;
 	private Project project;
 
@@ -165,7 +168,7 @@ public class UserBrickTest extends AndroidTestCase {
 			try {
 				assertEquals("outerBrick.formula.interpretDouble: ", (float) moveValue, formula.interpretFloat(sprite));
 			} catch (InterpretationException e) {
-				e.printStackTrace();
+				Log.e(TAG, "Interpretation Error", e);
 			}
 		}
 
