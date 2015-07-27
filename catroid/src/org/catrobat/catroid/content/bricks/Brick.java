@@ -52,10 +52,10 @@ public interface Brick extends Serializable, Cloneable {
 		IF_PHIRO_SENSOR_CONDITION,
 
 		PHYSICS_BOUNCE_FACTOR, PHYSICS_FRICTION, PHYSICS_GRAVITY_X, PHYSICS_GRAVITY_Y, PHYSICS_MASS,
-		PHYSICS_VELOCITY_X, PHYSICS_VELOCITY_Y, PHYSICS_TURN_LEFT_SPEED,  PHYSICS_TURN_RIGHT_SPEED
+		PHYSICS_VELOCITY_X, PHYSICS_VELOCITY_Y, PHYSICS_TURN_LEFT_SPEED, PHYSICS_TURN_RIGHT_SPEED
 	}
 
-	//use bitwise | for using multiple ressources in a brick
+	//use bitwise | for using multiple resources in a brick
 	int NO_RESOURCES = 0x0;
 	//int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;

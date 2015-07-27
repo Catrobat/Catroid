@@ -185,7 +185,7 @@ public final class LookController {
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-		String[] projection = {MediaStore.MediaColumns.DATA};
+		String[] projection = { MediaStore.MediaColumns.DATA };
 		return new CursorLoader(activity, imageUri, projection, null, null, null);
 	}
 

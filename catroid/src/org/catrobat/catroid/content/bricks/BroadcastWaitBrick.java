@@ -42,7 +42,6 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
 
-
 import java.util.List;
 
 public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessage {

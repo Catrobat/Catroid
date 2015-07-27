@@ -313,7 +313,7 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			physicsWorld = project.resetPhysicsWorld();//TODO[physics]
+			physicsWorld = project.resetPhysicsWorld(); //TODO[physics]
 
 			Sprite sprite;
 			if (spriteSize > 0) {
@@ -515,7 +515,6 @@ public class StageListener implements ApplicationListener {
 						tempPhysicsObject.getY() + font.getXHeight() * 2 + fontOffset * 2);
 				font.draw(batch, "direction: " + tempPhysicsObject.getDirection(), tempPhysicsObject.getX(),
 						tempPhysicsObject.getY() + font.getXHeight() * 3 + fontOffset * 3);
-
 			}
 		}
 		batch.end();

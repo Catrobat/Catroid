@@ -87,8 +87,8 @@ public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
 		assertEquals("Unexpected bounce-factor value", BOUNCE_FACTOR / 100.f,
 				physicsObject.getBounceFactor());
 
-		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(String.
-				valueOf("not a numerical string"))).act(1.0f);
+		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(String
+				.valueOf("not a numerical string"))).act(1.0f);
 		assertEquals("Unexpected bounce-factor value", BOUNCE_FACTOR / 100.f,
 				physicsObject.getBounceFactor());
 	}

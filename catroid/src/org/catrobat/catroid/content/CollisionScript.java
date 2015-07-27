@@ -51,5 +51,4 @@ public class CollisionScript extends BroadcastScript {
 		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 		return cloneScript;
 	}
-
 }

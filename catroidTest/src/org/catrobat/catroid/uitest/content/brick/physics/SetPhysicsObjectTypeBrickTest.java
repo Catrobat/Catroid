@@ -123,5 +123,4 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

@@ -224,7 +224,6 @@ public class StandardProjectCreatorDefault extends StandardProjectCreator {
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(whackedMoleLookData.getChecksum(), whackedMoleLookData.getAbsolutePath());
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(backgroundLookData.getChecksum(), backgroundLookData.getAbsolutePath());
 
-
 			waitBrick = new WaitBrick(randomWait.clone());
 			mole1StartScript.addBrick(waitBrick);
 

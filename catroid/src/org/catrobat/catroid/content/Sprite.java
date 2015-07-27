@@ -330,7 +330,6 @@ public class Sprite implements Serializable, Cloneable {
 		return sequence;
 	}
 
-
 	public void startScriptBroadcast(Script s, boolean overload) {
 		SequenceAction sequence = ActionFactory.sequence();
 		s.run(this, sequence);

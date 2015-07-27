@@ -198,7 +198,7 @@ public final class ImageEditing {
 		}
 		double widthScaleFactor = ((double) newWidth) / ((double) originalWidth);
 		double heightScaleFactor = ((double) newHeight) / ((double) originalHeight);
-		return new Vector2((float)widthScaleFactor, (float)heightScaleFactor);
+		return new Vector2((float) widthScaleFactor, (float) heightScaleFactor);
 	}
 
 	//method from developer.android.com

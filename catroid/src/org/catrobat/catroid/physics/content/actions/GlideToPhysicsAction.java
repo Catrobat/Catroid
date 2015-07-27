@@ -49,5 +49,4 @@ public class GlideToPhysicsAction extends GlideToAction {
 	public void setPhysicsLook(PhysicsLook physicsLook) {
 		this.physicsLook = physicsLook;
 	}
-
 }

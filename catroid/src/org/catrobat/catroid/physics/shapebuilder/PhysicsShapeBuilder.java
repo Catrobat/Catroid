@@ -39,7 +39,7 @@ import java.util.Map;
 public class PhysicsShapeBuilder {
 
 	public static final int BASE_SHAPE_BUILDER_THREAD_PRIORITY = 3;
-	public static final float[] ACCURACY_LEVELS = {0.05f, 0.125f, 0.25f, 0.50f, 0.75f, 1.0f, 4.0f};
+	public static final float[] ACCURACY_LEVELS = { 0.05f, 0.125f, 0.25f, 0.50f, 0.75f, 1.0f, 4.0f };
 	public static final float MAX_ORIGINAL_PIXMAP_SIZE = 256.0f;
 	public static final float COORDINATE_SCALING_DECIMAL_ACCURACY = 100.0f;
 	private static final String TAG = PhysicsShapeBuilder.class.getSimpleName();
@@ -68,14 +68,13 @@ public class PhysicsShapeBuilder {
 			activeShapeBuilderThreadMap.put(getThreadKey(lookData), baseShapeBuilderThread);
 		}
 		Shape[] shapes = shapeMap.get(key);
-		while (shapes == null) {
+		if (shapes == null) {
 			int accuracyLevelIndex = getAccuracyLevelIndex(accuracyLevel);
 			if (accuracyLevelIndex > 0) {
 				accuracyLevel = ACCURACY_LEVELS[accuracyLevelIndex - 1];
 				shapes = getShape(lookData, accuracyLevel);
-				scaleFactor *= accuracyLevel;
 			} else {
-				break; // BAD
+				return null; // BAD
 			}
 		}
 		scaleFactor /= accuracyLevel * sizeAdjustmentScaleFactor;
@@ -220,5 +219,4 @@ public class PhysicsShapeBuilder {
 			physicsShapeBuilder.cleanupFinishedThread(lookData);
 		}
 	}
-
 }

@@ -51,25 +51,25 @@ public class SetVariableActionTest extends AndroidTestCase {
 	}
 
 	public void testSetVariableWithNumericalFormula() {
-		testSprite.getActionFactory().createSetVariableAction(testSprite,new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
 		assertEquals("Variable not changed", SET_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testSetVariableWithInvalidUserVariable() {
-		testSprite.getActionFactory().createSetVariableAction(testSprite,new Formula(SET_VARIABLE_VALUE), null).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(SET_VARIABLE_VALUE), null).act(1f);
 		assertEquals("Variable changed, but should not!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testSetVariableWithNumericalStringFormula() {
-
-        String myString = "155";
-		testSprite.getActionFactory().createSetVariableAction(testSprite,new Formula(myString), userVariable).act(1f);
-		assertEquals("String UserVariable not changed!", Double.valueOf(myString), userVariable.getValue());
+		String myString = "155";
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(myString), userVariable).act(1f);
+		assertEquals("String UserVariable not changed!", Double.valueOf(myString), Double.valueOf((String) userVariable
+				.getValue()));
 	}
 
 	public void testSetVariableWithStringFormula() {
 		String myString = "myString";
-		testSprite.getActionFactory().createSetVariableAction(testSprite,new Formula(myString), userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(myString), userVariable).act(1f);
 		assertEquals("String UserVariable not changed!", myString, (String) userVariable.getValue());
 	}
 
@@ -79,8 +79,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		testSprite.getActionFactory().createSetVariableAction(testSprite,new Formula(Double.NaN), userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(Double.NaN), userVariable).act(1f);
 		assertEquals("String UserVariable not changed!", Double.NaN, userVariable.getValue());
 	}
 }
-

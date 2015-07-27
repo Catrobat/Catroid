@@ -102,8 +102,8 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_broadcast);
 
-		//to gain focus
-		solo.clickOnScreen(400,400);
+		// to gain focus
+		solo.clickOnScreen(400, 400);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}

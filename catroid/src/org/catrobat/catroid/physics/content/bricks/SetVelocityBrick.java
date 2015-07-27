@@ -146,11 +146,9 @@ public class SetVelocityBrick extends FormulaBrick {
 			editY.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
-
 	}
 
 	@Override

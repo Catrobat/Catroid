@@ -59,7 +59,6 @@ public class TurnLeftSpeedActionTest extends PhysicsBaseTest {
 		assertEquals("Unexpected rotation speed value", 0.0f, physicsObject.getRotationSpeed());
 
 		action.act(1.0f);
-
 	}
 
 	public void testBrickWithStringFormula() {
@@ -83,5 +82,4 @@ public class TurnLeftSpeedActionTest extends PhysicsBaseTest {
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Unexpected rotation speed value", 0f, physicsObject.getRotationSpeed());
 	}
-
 }

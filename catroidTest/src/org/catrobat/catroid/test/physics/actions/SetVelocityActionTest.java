@@ -32,7 +32,7 @@ import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 public class SetVelocityActionTest extends PhysicsBaseTest {
 
 	private static final float VELOCITY_X = 10.0f;
-	private static final float VELOCITY_Y= 11.0f;
+	private static final float VELOCITY_Y = 11.0f;
 
 	public void testNormalBehavior() {
 		initVelocityValue(VELOCITY_X, VELOCITY_Y);
@@ -103,5 +103,4 @@ public class SetVelocityActionTest extends PhysicsBaseTest {
 		assertEquals("Unexpected velocityX value", 0f, velocityVector.x);
 		assertEquals("Unexpected velocityY value", 0f, velocityVector.y);
 	}
-
 }

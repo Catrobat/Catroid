@@ -93,5 +93,4 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 			physicsWorld.step(0.0f);
 		}
 	}
-
 }

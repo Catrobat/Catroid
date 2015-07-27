@@ -138,7 +138,7 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 		if (convexpoints.length < 9) {
 			PolygonShape polygon = new PolygonShape();
 			polygon.set(convexpoints);
-			return new Shape[]{polygon};
+			return new Shape[] { polygon };
 		}
 
 		List<Shape> shapes = new ArrayList<Shape>(convexpoints.length / 6 + 1);

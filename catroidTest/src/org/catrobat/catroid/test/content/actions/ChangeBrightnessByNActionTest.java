@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-
 public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
 	private static final float INITIALIZED_VALUE = 100f;

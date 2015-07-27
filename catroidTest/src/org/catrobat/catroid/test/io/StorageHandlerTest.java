@@ -186,7 +186,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testDefaultProject() throws IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		Project project =StandardProjectHandler.createAndSaveStandardProject(projectName, getContext());
+		Project project = StandardProjectHandler.createAndSaveStandardProject(projectName, getContext());
 		projectManager.setProject(project);
 		//Project project = StandardProjectHandler.createAndSaveStandardProject(getContext());
 		//project.setName(projectName);

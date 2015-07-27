@@ -111,5 +111,4 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

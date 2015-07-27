@@ -24,7 +24,8 @@ package org.catrobat.catroid.physics;
 
 public final class PhysicsDebugSettings {
 
-	private PhysicsDebugSettings(){} // Make sure that utility classes (classes that contain only static methods or fields in their API) do not have a public constructor.
+	private PhysicsDebugSettings() {
+	} // Make sure that utility classes (classes that contain only static methods or fields in their API) do not have a public constructor.
 
 	public static class Render {
 		public static final boolean RENDER_COLLISION_FRAMES = false;

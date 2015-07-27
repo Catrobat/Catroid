@@ -85,5 +85,4 @@ public class GravityActionTest extends PhysicsBaseTest {
 		physicsObject.setVelocity(0.0f, 0.0f);
 		physicsObject.setPosition(0.0f, 0.0f);
 	}
-
 }

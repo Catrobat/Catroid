@@ -60,5 +60,4 @@ public class SetMassAction extends TemporalAction {
 	public void setMass(Formula mass) {
 		this.mass = mass;
 	}
-
 }

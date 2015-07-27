@@ -105,5 +105,4 @@ public class TurnLeftSpeedBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

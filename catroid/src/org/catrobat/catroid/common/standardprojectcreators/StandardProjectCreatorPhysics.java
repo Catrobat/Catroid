@@ -90,7 +90,6 @@ public class StandardProjectCreatorPhysics extends StandardProjectCreator {
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.physics_background_480_800, context);
 
-
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
 				backgroundImageScaleFactor
@@ -117,11 +116,11 @@ public class StandardProjectCreatorPhysics extends StandardProjectCreator {
 		Sprite leftArm = new Sprite("Left arm");
 		Sprite rightArm = new Sprite("Right arm");
 
-		Sprite[] upperBouncers = {new Sprite("Left cat bouncer"), new Sprite("Middle cat bouncer"),
-				new Sprite("Right cat bouncer")};
+		Sprite[] upperBouncers = { new Sprite("Left cat bouncer"), new Sprite("Middle cat bouncer"),
+				new Sprite("Right cat bouncer") };
 
-		Sprite[] lowerBouncers = {new Sprite("Left circle bouncer"), new Sprite("Middle circle bouncer"),
-				new Sprite("Right circle bouncer")};
+		Sprite[] lowerBouncers = { new Sprite("Left circle bouncer"), new Sprite("Middle circle bouncer"),
+				new Sprite("Right circle bouncer") };
 
 		Sprite middleBouncer = new Sprite("Cat head bouncer");
 		Sprite leftHardBouncer = new Sprite("Left hard bouncer");
@@ -148,7 +147,7 @@ public class StandardProjectCreatorPhysics extends StandardProjectCreator {
 
 		// Ball
 		StartScript startScript = new StartScript();
-		startScript.addBrick(new SetGravityBrick(new Vector2(0.0f, -35.0f * (float)backgroundImageScaleVector.y)));
+		startScript.addBrick(new SetGravityBrick(new Vector2(0.0f, -35.0f * (float) backgroundImageScaleVector.y)));
 		ball.addScript(startScript);
 
 		Script ballStartScript = createElement(context, projectName, ball, "physics_pinball",
@@ -239,8 +238,8 @@ public class StandardProjectCreatorPhysics extends StandardProjectCreator {
 				124.0f, -1.0f);*/
 
 		// Lower circle bouncers
-		Vector2[] lowerBouncersPositions = {new Vector2(-100.0f, 0.0f),
-				new Vector2(0.0f, -70.0f), new Vector2(100.0f, 0.0f)};
+		Vector2[] lowerBouncersPositions = { new Vector2(-100.0f, 0.0f),
+				new Vector2(0.0f, -70.0f), new Vector2(100.0f, 0.0f) };
 		for (int index = 0; index < lowerBouncers.length; index++) {
 			Script lowerBouncerStartScript = createElement(context, projectName, lowerBouncers[index], "physics_bouncer_100",
 					R.drawable.physics_bouncer_100, lowerBouncersPositions[index], Float.NaN, 60f);
@@ -254,8 +253,8 @@ public class StandardProjectCreatorPhysics extends StandardProjectCreator {
 		middleBouncerStartScript.addBrick(new TurnLeftSpeedBrick(100));
 
 		// Upper bouncers
-		Vector2[] upperBouncersPositions = {new Vector2(-150.0f, 200.0f), new Vector2(0.0f, 300.f),
-				new Vector2(150.0f, 200.0f)};
+		Vector2[] upperBouncersPositions = { new Vector2(-150.0f, 200.0f), new Vector2(0.0f, 300.f),
+				new Vector2(150.0f, 200.0f) };
 		for (int index = 0; index < upperBouncers.length; index++) {
 			Script upperBouncersStartScript = createElement(context, projectName, upperBouncers[index], "physics_bouncer_200",
 					R.drawable.physics_bouncer_200, upperBouncersPositions[index], Float.NaN, 50f);

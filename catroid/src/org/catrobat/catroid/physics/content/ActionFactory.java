@@ -225,7 +225,7 @@ public class ActionFactory extends Actions {
 		action.setDuration(0);
 		action.setInterpolation(null);
 		action.setSprite(sprite);
-		return action;//XXX: wrong action???
+		return action; //XXX: wrong action???
 	}
 
 	public Action createGoNStepsBackAction(Sprite sprite, Formula steps) {
@@ -498,7 +498,6 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-
 	public Action createIfLogicAction(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = Actions.action(IfLogicAction.class);
 		action.setIfAction(ifAction);
@@ -531,7 +530,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action  createUserBrickAction(Action userBrickAction) {
+	public Action createUserBrickAction(Action userBrickAction) {
 		UserBrickAction action = action(UserBrickAction.class);
 		action.setAction(userBrickAction);
 		return action;
@@ -681,5 +680,4 @@ public class ActionFactory extends Actions {
 		action.setDuration(duration);
 		return action;
 	}
-
 }

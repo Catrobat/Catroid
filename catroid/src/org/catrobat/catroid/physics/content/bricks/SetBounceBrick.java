@@ -128,7 +128,6 @@ public class SetBounceBrick extends FormulaBrick {
 			editX.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

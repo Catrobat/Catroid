@@ -63,21 +63,21 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 
 	public void testChangeUserVariableWithNumericalStringFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(String.valueOf(CHANGE_VARIABLE_VALUE)), userVariable).act(1f);
-        assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
+		assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableWithStringFormula() {
-		testSprite.getActionFactory().createChangeVariableAction(testSprite,  new Formula(NOT_NUMERICAL_STRING), userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(NOT_NUMERICAL_STRING), userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNullFormula() {
-		testSprite.getActionFactory().createChangeVariableAction(testSprite,  null, userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite, null, userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNotANumberFormula() {
-		testSprite.getActionFactory().createChangeVariableAction(testSprite,  new Formula(Double.NaN), userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(Double.NaN), userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 }

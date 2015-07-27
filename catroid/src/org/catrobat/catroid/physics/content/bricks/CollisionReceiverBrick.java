@@ -164,7 +164,6 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 				if ((ressources & Brick.PHYSIC) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
 					messageAdapter.add(spriteName + "<->" + sprite.getName());
 					ressources &= ~Brick.PHYSIC;
-
 				}
 			}
 		}
@@ -193,7 +192,6 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
-
 		}
 		return view;
 	}

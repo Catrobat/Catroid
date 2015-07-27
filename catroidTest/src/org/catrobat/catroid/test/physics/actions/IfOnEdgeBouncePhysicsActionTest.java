@@ -88,7 +88,6 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		assertTrue("Unexpected Y-value", sprite.look.getY() == setYValue);
 		assertTrue("Unexpected velocity-Y-value", physicsObject.getVelocity().y == setVelocityYValue);
 
-
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
 		logState("Values after action creation", sprite, physicsObject);

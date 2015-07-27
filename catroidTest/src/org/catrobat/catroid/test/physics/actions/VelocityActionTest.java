@@ -45,7 +45,6 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
-
 	}
 
 	public void testPositiveYVelocityWithoutGravity() {
@@ -83,7 +82,6 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			assertTrue("Post-step x-coordinate (" + postStepXCoordinate + ") differs from pre-step x-coordinate ("
 					+ preStepXCoordinate + "), should be equal!", postStepXCoordinate == preStepXCoordinate);
 		}
-
 	}
 
 	public void testNegativeYVelocityWithoutGravity() {
@@ -121,7 +119,6 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			assertTrue("Post-step x-coordinate (" + postStepXCoordinate + ") differs from pre-step x-coordinate ("
 					+ preStepXCoordinate + "), should be equal!", postStepXCoordinate == preStepXCoordinate);
 		}
-
 	}
 
 	public void testPositiveXVelocityWithoutGravity() {
@@ -159,7 +156,6 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			assertTrue("Post-step Y-coordinate (" + postStepYCoordinate + ") differs from pre-step x-coordinate ("
 					+ preStepYCoordinate + "), should be equal!", postStepYCoordinate == preStepYCoordinate);
 		}
-
 	}
 
 	public void testNegativeXVelocityWithoutGravity() {
@@ -197,7 +193,6 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			assertTrue("Post-step Y-coordinate (" + postStepYCoordinate + ") differs from pre-step x-coordinate ("
 					+ preStepYCoordinate + "), should be equal!", postStepYCoordinate == preStepYCoordinate);
 		}
-
 	}
 
 	private void skipWorldStabilizingSteps() {
@@ -205,5 +200,4 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			physicsWorld.step(1.0f);
 		}
 	}
-
 }

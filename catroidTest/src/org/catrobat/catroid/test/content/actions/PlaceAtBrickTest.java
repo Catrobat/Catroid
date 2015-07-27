@@ -81,14 +81,14 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(String.valueOf(X_POSITION_VALUE)),
-                new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
+				new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
 		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(NOT_NUMERICAL_STRING),
-                new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
+				new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
 		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,

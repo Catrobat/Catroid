@@ -127,5 +127,4 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

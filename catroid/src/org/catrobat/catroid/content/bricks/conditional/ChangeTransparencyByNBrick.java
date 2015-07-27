@@ -106,7 +106,7 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_change_transparency, null);
 		TextView textChangeGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_change_transparency_prototype_text_view);
-        textChangeGhostEffect.setText(String.valueOf(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
+		textChangeGhostEffect.setText(String.valueOf(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		return prototypeView;
 	}
 

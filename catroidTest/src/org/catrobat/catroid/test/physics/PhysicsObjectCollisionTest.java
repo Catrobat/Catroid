@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.physics;
 
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -36,13 +35,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-
 public class PhysicsObjectCollisionTest extends PhysicsCollisionBaseTest {
-
 
 	private List<HashSet<Fixture>> contactFixturePairs = new ArrayList<HashSet<Fixture>>();
 	private HashSet<Fixture> expectedcontactFixtures = new HashSet<Fixture>();
-
 
 	public PhysicsObjectCollisionTest() {
 		spritePosition = new Vector2(-125f, 0f);
@@ -123,5 +119,4 @@ public class PhysicsObjectCollisionTest extends PhysicsCollisionBaseTest {
 		assertTrue("Error in simulation", simulateFullCollision());
 		assertFalse("Two non-physics objects should not collide with each other", contactFixturePairs.contains(expectedcontactFixtures));
 	}
-
 }

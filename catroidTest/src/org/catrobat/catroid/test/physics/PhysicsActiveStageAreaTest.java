@@ -37,11 +37,10 @@ import java.io.File;
 
 public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 
-	private static final float EXPECTED_CIRCUMFERENCE_125X125 = (float) Math.sqrt(2 * Math.pow(125/2f, 2));
+	private static final float EXPECTED_CIRCUMFERENCE_125X125 = (float) Math.sqrt(2 * Math.pow(125 / 2f, 2));
 	private static final float CIRCUMFERENCE_COMPARISON_DELTA = 1.0f;
 	private PhysicsObject physicsObject;
 	private PhysicsLook physicsLook;
-
 
 	@Override
 	protected void setUp() throws Exception {
@@ -147,5 +146,4 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 		physicsLook.updatePhysicsObjectState(true);
 		assertTrue("physicsObject inside active area is hung up", !physicsLook.isHangedUp());
 	}
-
 }

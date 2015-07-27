@@ -66,10 +66,10 @@ public class PhysicsObject {
 	private float circumference;
 	private boolean ifOnEdgeBounce = false;
 
-	private Vector2 bodyAABBLowerLeft;
-	private Vector2 bodyAABBUpperRight;
-	private Vector2 fixtureAABBLowerLeft;
-	private Vector2 fixtureAABBUpperRight;
+	private Vector2 bodyAabbLowerLeft;
+	private Vector2 bodyAabbUpperRight;
+	private Vector2 fixtureAabbLowerLeft;
+	private Vector2 fixtureAabbUpperRight;
 	private Vector2 tmpVertice;
 
 	private Vector2 velocity = new Vector2();
@@ -344,17 +344,17 @@ public class PhysicsObject {
 	}
 
 	public void getBoundaryBox(Vector2 lowerLeft, Vector2 upperRight) {
-		calculateAABB();
-		lowerLeft.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBLowerLeft).x;
-		lowerLeft.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBLowerLeft).y;
-		upperRight.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).x;
-		upperRight.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).y;
+		calculateAabb();
+		lowerLeft.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAabbLowerLeft).x;
+		lowerLeft.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAabbLowerLeft).y;
+		upperRight.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAabbUpperRight).x;
+		upperRight.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAabbUpperRight).y;
 	}
 
 	public Vector2 getBoundaryBoxDimensions() {
-		calculateAABB();
-		float aabbWidth = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.x - bodyAABBLowerLeft.x)) + 1.0f;
-		float aabbHeight = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.y - bodyAABBLowerLeft.y)) + 1.0f;
+		calculateAabb();
+		float aabbWidth = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAabbUpperRight.x - bodyAabbLowerLeft.x)) + 1.0f;
+		float aabbHeight = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAabbUpperRight.y - bodyAabbLowerLeft.y)) + 1.0f;
 		return new Vector2(aabbWidth, aabbHeight);
 	}
 
@@ -403,56 +403,54 @@ public class PhysicsObject {
 		return collisionMaskRecord == PhysicsWorld.MASK_NOCOLLISION;
 	}
 
-	private void calculateAABB() {
-		bodyAABBLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		bodyAABBUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+	private void calculateAabb() {
+		bodyAabbLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		bodyAabbUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size;
 		Array<Fixture> fixtures = body.getFixtureList();
 		if (fixtures.size == 0) {
-			bodyAABBLowerLeft.x = 0;
-			bodyAABBLowerLeft.y = 0;
-			bodyAABBUpperRight.x = 0;
-			bodyAABBUpperRight.y = 0;
+			bodyAabbLowerLeft.x = 0;
+			bodyAabbLowerLeft.y = 0;
+			bodyAabbUpperRight.x = 0;
+			bodyAabbUpperRight.y = 0;
 		}
 		for (int i = 0; i < len; i++) {
 			Fixture fixture = fixtures.get(i);
-			calculateAABB(fixture, transform);
+			calculateAabb(fixture, transform);
 		}
 	}
 
-	private void calculateAABB(Fixture fixture, Transform transform) {
-		fixtureAABBLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		fixtureAABBUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+	private void calculateAabb(Fixture fixture, Transform transform) {
+		fixtureAabbLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		fixtureAabbUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		if (fixture.getType() == Shape.Type.Circle) {
 			CircleShape shape = (CircleShape) fixture.getShape();
 			float radius = shape.getRadius();
 			tmpVertice.set(shape.getPosition());
 			tmpVertice.rotate(transform.getRotation()).add(transform.getPosition());
-			fixtureAABBLowerLeft.set(tmpVertice.x - radius, tmpVertice.y - radius);
-			fixtureAABBUpperRight.set(tmpVertice.x + radius, tmpVertice.y + radius);
-
+			fixtureAabbLowerLeft.set(tmpVertice.x - radius, tmpVertice.y - radius);
+			fixtureAabbUpperRight.set(tmpVertice.x + radius, tmpVertice.y + radius);
 		} else if (fixture.getType() == Shape.Type.Polygon) {
 			PolygonShape shape = (PolygonShape) fixture.getShape();
 			int vertexCount = shape.getVertexCount();
 
 			shape.getVertex(0, tmpVertice);
-			fixtureAABBLowerLeft.set(transform.mul(tmpVertice));
-			fixtureAABBUpperRight.set(fixtureAABBLowerLeft);
+			fixtureAabbLowerLeft.set(transform.mul(tmpVertice));
+			fixtureAabbUpperRight.set(fixtureAabbLowerLeft);
 			for (int i = 1; i < vertexCount; i++) {
 				shape.getVertex(i, tmpVertice);
 				transform.mul(tmpVertice);
-				fixtureAABBLowerLeft.x = Math.min(fixtureAABBLowerLeft.x, tmpVertice.x);
-				fixtureAABBLowerLeft.y = Math.min(fixtureAABBLowerLeft.y, tmpVertice.y);
-				fixtureAABBUpperRight.x = Math.max(fixtureAABBUpperRight.x, tmpVertice.x);
-				fixtureAABBUpperRight.y = Math.max(fixtureAABBUpperRight.y, tmpVertice.y);
+				fixtureAabbLowerLeft.x = Math.min(fixtureAabbLowerLeft.x, tmpVertice.x);
+				fixtureAabbLowerLeft.y = Math.min(fixtureAabbLowerLeft.y, tmpVertice.y);
+				fixtureAabbUpperRight.x = Math.max(fixtureAabbUpperRight.x, tmpVertice.x);
+				fixtureAabbUpperRight.y = Math.max(fixtureAabbUpperRight.y, tmpVertice.y);
 			}
 		}
 
-		bodyAABBLowerLeft.x = Math.min(fixtureAABBLowerLeft.x, bodyAABBLowerLeft.x);
-		bodyAABBLowerLeft.y = Math.min(fixtureAABBLowerLeft.y, bodyAABBLowerLeft.y);
-		bodyAABBUpperRight.x = Math.max(fixtureAABBUpperRight.x, bodyAABBUpperRight.x);
-		bodyAABBUpperRight.y = Math.max(fixtureAABBUpperRight.y, bodyAABBUpperRight.y);
+		bodyAabbLowerLeft.x = Math.min(fixtureAabbLowerLeft.x, bodyAabbLowerLeft.x);
+		bodyAabbLowerLeft.y = Math.min(fixtureAabbLowerLeft.y, bodyAabbLowerLeft.y);
+		bodyAabbUpperRight.x = Math.max(fixtureAabbUpperRight.x, bodyAabbUpperRight.x);
+		bodyAabbUpperRight.y = Math.max(fixtureAabbUpperRight.y, bodyAabbUpperRight.y);
 	}
-
 }

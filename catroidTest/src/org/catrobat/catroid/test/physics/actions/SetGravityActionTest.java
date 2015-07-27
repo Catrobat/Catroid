@@ -34,7 +34,7 @@ import org.catrobat.catroid.test.utils.Reflection;
 public class SetGravityActionTest extends PhysicsBaseTest {
 
 	private static final float GRAVITY_X = 10.0f;
-	private static final float GRAVITY_Y= 10.0f;
+	private static final float GRAVITY_Y = 10.0f;
 
 	public void testNormalBehavior() {
 		float gravityX = GRAVITY_X;
@@ -119,5 +119,4 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		assertEquals("Unexpected gravityX value", PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
 		assertEquals("Unexpected gravityY value", PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
 	}
-
 }

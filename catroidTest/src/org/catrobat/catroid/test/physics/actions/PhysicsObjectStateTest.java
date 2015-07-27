@@ -156,7 +156,6 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 		allConditionsInactiveCheck();
 	}
 
-
 	// HELPER ----------------------------------------------------------------------------------------------------------
 
 	private void allConditionsInactiveCheck() {

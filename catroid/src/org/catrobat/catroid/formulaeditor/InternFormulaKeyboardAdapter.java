@@ -71,7 +71,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.id.formula_editor_keyboard_9:
 				return buildNumber("9");
 
-
 			//FUNCTIONS:
 
 			case R.string.formula_editor_function_sin:

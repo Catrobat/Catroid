@@ -58,7 +58,6 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		sprite = new Sprite("testSprite");
-
 	}
 
 	public void testClonePhysicsBricksWithFormula() {

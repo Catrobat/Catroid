@@ -57,12 +57,12 @@ public final class PhysicsTestUtils {
 	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, Shape shape) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(new Sprite("TestSprite"));
 
-		if (type != null ) {
-				physicsObject.setType(type);
+		if (type != null) {
+			physicsObject.setType(type);
 		}
 
 		if (shape != null) {
-				physicsObject.setShape(new Shape[]{shape});
+			physicsObject.setShape(new Shape[] { shape });
 		}
 		return physicsObject;
 	}
@@ -113,5 +113,4 @@ public final class PhysicsTestUtils {
 		lookData.setPixmap(pixmap);
 		return lookData;
 	}
-
 }

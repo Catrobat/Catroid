@@ -26,8 +26,8 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-
 public interface PhysicsCollisionTestReceiver {
+
 	void beginContactCallback(Contact contact);
 
 	void endContactCallback(Contact contact);

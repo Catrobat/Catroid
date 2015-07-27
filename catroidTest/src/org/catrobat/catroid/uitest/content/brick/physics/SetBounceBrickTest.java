@@ -104,5 +104,4 @@ public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

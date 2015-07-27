@@ -58,5 +58,4 @@ public class PhysicsCollisionTest extends InstrumentationTestCase {
 		assertEquals("sprite1 name not equal to key2 partition", sprite1.getName(), key2SubstringSprite1);
 		assertEquals("sprite2 name not equal to key2 partition", sprite2.getName(), key2SubstringSprite2);
 	}
-
 }

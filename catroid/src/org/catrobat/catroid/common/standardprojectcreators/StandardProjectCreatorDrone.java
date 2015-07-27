@@ -231,13 +231,11 @@ public class StandardProjectCreatorDrone extends StandardProjectCreator {
 	private Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
 			int yPosition, File lookFile) {
 		return createDroneSprite(spriteName, brickName, xPostition, yPosition, lookFile, 0, 0);
-
 	}
 
 	private Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
 			int yPosition, File lookFile, int timeInMilliseconds) {
 		return createDroneSprite(spriteName, brickName, xPostition, yPosition, lookFile, timeInMilliseconds, 20);
-
 	}
 
 	private Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
@@ -270,6 +268,4 @@ public class StandardProjectCreatorDrone extends StandardProjectCreator {
 
 		return sprite;
 	}
-
-
 }

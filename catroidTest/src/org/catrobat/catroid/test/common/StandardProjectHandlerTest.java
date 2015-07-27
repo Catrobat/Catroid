@@ -60,8 +60,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	@Override
 	public void setUp() {
 		TestUtils.clearProject(TEST_PROJECT_NAME);
-		StandardProjectHandler.getInstance().setStandardProjectCreator(StandardProjectHandler.
-				StandardProjectCreatorType.STANDARD_PROJECT_CREATOR_DEFAULT);
+		StandardProjectHandler.getInstance().setStandardProjectCreator(StandardProjectHandler
+				.StandardProjectCreatorType.STANDARD_PROJECT_CREATOR_DEFAULT);
 	}
 
 	public void testCreateStandardProject() throws IOException {
@@ -152,9 +152,9 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		assertTrue("default project does not exist.", StorageHandler.getInstance().projectExists(defaultStandardProject
 				.getName()));
 
-		standardProjectHandler.setStandardProjectCreator(StandardProjectHandler.StandardProjectCreatorType.
-				STANDARD_PROJECT_CREATOR_DRONE);
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED == true) {
+		standardProjectHandler.setStandardProjectCreator(StandardProjectHandler.StandardProjectCreatorType
+				.STANDARD_PROJECT_CREATOR_DRONE);
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 			Project droneStandardProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
 			assertEquals("default drone project name not as expected", getContext().getString(
 					R.string.default_drone_project_name), droneStandardProject.getName());
@@ -165,8 +165,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 					standardProjectHandler, "standardProjectCreator") instanceof StandardProjectCreatorDefault);
 		}
 
-		standardProjectHandler.setStandardProjectCreator(StandardProjectHandler.StandardProjectCreatorType.
-				STANDARD_PROJECT_CREATOR_PHYSICS);
+		standardProjectHandler.setStandardProjectCreator(StandardProjectHandler.StandardProjectCreatorType
+				.STANDARD_PROJECT_CREATOR_PHYSICS);
 		Project physicsStandardProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
 		assertEquals("default physics project name not as expected", getContext().getString(
 				R.string.default_project_name_physics), physicsStandardProject.getName());
@@ -176,5 +176,4 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		TestUtils.clearProject(getContext().getString(R.string.default_drone_project_name));
 		TestUtils.clearProject(getContext().getString(R.string.default_project_name_physics));
 	}
-
 }

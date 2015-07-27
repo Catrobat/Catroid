@@ -85,7 +85,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			new PhysicsObject(null, new Sprite("TestSprite"));
 			fail("Creating a physics object with no body doesn't cause a NullPointerException");
 		} catch (NullPointerException exception) {
-			Log.e(TAG,exception.toString());
+			Log.e(TAG, exception.toString());
 		}
 	}
 
@@ -432,7 +432,6 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
 			assertEquals("Body mass isn't set to MIN_MASS", PhysicsObject.MIN_MASS,
 					PhysicsTestUtils.getMass(physicsObject));
-
 		}
 	}
 

@@ -82,5 +82,4 @@ public class TurnRightSpeedActionTest extends PhysicsBaseTest {
 		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Unexpected rotation speed value", 0f, physicsObject.getRotationSpeed());
 	}
-
 }

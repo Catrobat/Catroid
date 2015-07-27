@@ -47,7 +47,6 @@ public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 		physicsObject.setDirection(0);
 		physicsObject.setRotationSpeed(TURN_TEST_SPEED);
 
-
 		assertEquals("Unexpected initial speed", TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
 		skipWorldStabilizingSteps();
 		float expectedDegrees = TURN_TEST_SPEED * TEST_STEP_DELTA_TIME;

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.physics;
 
-
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
@@ -80,11 +79,9 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 		}
 	}
 
-
 	public void testIfBroadcastsAreCorrectPreparedAndFired() {
 		assertTrue("collision rate is not zero before step", isContactRateOk());
 		assertTrue("no collision detected", simulateFullCollision());
 		assertTrue("collision rate is not zero after step", isContactRateOk());
 	}
-
 }

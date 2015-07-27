@@ -83,6 +83,5 @@ public class PhysicsCollisionBroadcast {
 				+ "     contactCounter: %s\n";
 
 		return String.format(str, objectName1, objectName2, String.valueOf(contactCounter));
-
 	}
 }

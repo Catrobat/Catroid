@@ -353,7 +353,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfoMap.put("speakBrick", brickInfo);
 
 		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
-		brickInfoMap.put("whenBrick", brickInfo);
+		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);

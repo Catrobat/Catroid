@@ -193,7 +193,6 @@ public class LookTest extends InstrumentationTestCase {
 			assertEquals("higher negative angle break down to wrong angle", expectedNegativeCatroidAngles[index],
 					convertNegativeZeroToPosigiveZero(catroidAngle));
 		}
-
 	}
 
 	public void testCatroidAngleToStageAngle() {
@@ -299,7 +298,6 @@ public class LookTest extends InstrumentationTestCase {
 		look.changeDirectionInUserInterfaceDimensionUnit(360f);
 		assertEquals("Wrong degrees value!", 90f, look.getDirectionInUserInterfaceDimensionUnit());
 		assertEquals("Wrong degrees value!", -360f, look.getRotation());
-
 	}
 
 	public void testWidthAndHeight() {

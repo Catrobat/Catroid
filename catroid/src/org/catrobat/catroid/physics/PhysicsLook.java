@@ -45,7 +45,6 @@ public class PhysicsLook extends Look {
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 	}
 
-
 	@Override
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
 		updateTransparency(percent, false);
@@ -224,13 +223,7 @@ public class PhysicsLook extends Look {
 				public boolean isTrue() {
 					//Log.d(TAG, "PhysicsWorld.activeArea.x: " + PhysicsWorld.activeArea.x);
 					//Log.d(TAG, "PhysicsWorld.activeArea.y: " + PhysicsWorld.activeArea.y);
-					if (isOutsideActiveArea()) {
-						//Log.d(TAG, "positionCondition: TRUE");
-						return true;
-					} else {
-						//Log.d(TAG, "positionCondition: FALSE");
-						return false;
-					}
+					return isOutsideActiveArea();
 				}
 
 				private boolean isOutsideActiveArea() {
@@ -294,7 +287,6 @@ public class PhysicsLook extends Look {
 
 			fixConditions.add(glideToCondition);
 		}
-
 
 		private boolean checkInvisible() {
 			if (!PhysicsLook.super.isVisible()) {

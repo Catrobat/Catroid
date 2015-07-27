@@ -101,7 +101,6 @@ public class SetFrictionBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).setTextFieldId(R.id.brick_set_friction_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).refreshTextField(view);
 
-
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -124,7 +123,6 @@ public class SetFrictionBrick extends FormulaBrick {
 			editX.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

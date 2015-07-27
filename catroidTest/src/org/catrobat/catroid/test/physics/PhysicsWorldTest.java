@@ -76,7 +76,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 
 		assertEquals("Wrong configuration", 6, Reflection.getPrivateField(physicsWorld, "STABILIZING_STEPS"));
 
-		short expectedCategoryBoundaryBox= 0x0002;
+		short expectedCategoryBoundaryBox = 0x0002;
 		short expectedCategoryPhysicsObject = 0x0004;
 		assertEquals("Wrong configuration", 0x0000, PhysicsWorld.NOCOLLISION_MASK);
 		assertEquals("Wrong configuration", expectedCategoryBoundaryBox, PhysicsWorld.CATEGORY_BOUNDARYBOX);
@@ -106,7 +106,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 			physicsWorld.getPhysicsObject(null);
 			fail("Get physics object of a null sprite didn't cause a null pointer exception");
 		} catch (NullPointerException exception) {
-			Log.d(TAG,"");
+			Log.d(TAG, "");
 		}
 	}
 

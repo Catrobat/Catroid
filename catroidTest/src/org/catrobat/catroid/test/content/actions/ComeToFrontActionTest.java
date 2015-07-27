@@ -43,7 +43,6 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-
 	public void testComeToFront() {
 		Project project = new Project(getContext(), "testProject");
 		Group parentGroup = new Group();

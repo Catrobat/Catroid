@@ -88,7 +88,6 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 				checked = isChecked;
 				adapter.handleCheck(brickInstance, isChecked);
 			}
-
 		});
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
