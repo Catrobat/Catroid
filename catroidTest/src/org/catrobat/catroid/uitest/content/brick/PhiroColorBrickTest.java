@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -41,26 +43,28 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SET_RED = 0;
 	private static final int SET_GREEN = 100;
 	private static final int SET_BLUE = 200;
 	private static final int SET_COLOR_INITIALLY = -70;
+	private static final int SET_COLOR_FOR_SEEKBAR_TEST = 50;
+	private static final int SEEKBAR_MIDDLE = 126;
 
 	private Project project;
 	private PhiroRGBLightBrick colorBrick;
 
 	public PhiroColorBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		// normally super.setUp should be called first
-		// but kept the test failing due to view is null
-		// when starting in ScriptActivity
-		createProject();
 		super.setUp();
+		createProject();
+
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	public void testPhiroLightBrick() {
@@ -110,6 +114,40 @@ public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		solo.pressSpinnerItem(phiroSpinnerIndex, -1);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", lights[0], currentSpinner.getSelectedItem());
+	}
+
+	public void testPhiroSeekbar() {
+		ProjectManager.getInstance().getCurrentScript().removeBrick(colorBrick);
+		colorBrick = new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, SET_COLOR_FOR_SEEKBAR_TEST, 0, 0);
+		ProjectManager.getInstance().getCurrentScript().addBrick(colorBrick);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.clickOnText(Integer.toString(SET_COLOR_FOR_SEEKBAR_TEST));
+
+		assertTrue("Red seekbar not found!", solo.waitForView(R.id.color_rgb_seekbar_red));
+		assertTrue("Green seekbar not found!", solo.waitForView(R.id.color_rgb_seekbar_green));
+		assertTrue("Blue seekbar not found!", solo.waitForView(R.id.color_rgb_seekbar_blue));
+
+		solo.clickOnView(solo.getView(R.id.color_rgb_seekbar_red));
+		solo.sleep(500);
+		TextView redText = (TextView) solo.getView(R.id.rgb_red_value);
+		assertEquals("Red seekbar not set", String.valueOf(SEEKBAR_MIDDLE), redText.getText().subSequence(0, 3));
+
+		solo.sleep(500);
+		solo.clickOnView(solo.getView(R.id.color_rgb_seekbar_green));
+		TextView greenText = (TextView) solo.getView(R.id.rgb_green_value);
+		assertEquals("Green seekbar not set", String.valueOf(SEEKBAR_MIDDLE), greenText.getText().subSequence(0, 3));
+
+		solo.sleep(500);
+		solo.clickOnView(solo.getView(R.id.color_rgb_seekbar_blue));
+		TextView blueText = (TextView) solo.getView(R.id.rgb_blue_value);
+		assertEquals("Blue seekbar not set", String.valueOf(SEEKBAR_MIDDLE), blueText.getText().subSequence(0, 3));
+
+		solo.clickOnText(Integer.toString(SEEKBAR_MIDDLE));
+		assertTrue("One ore more Values are not correct in Formula Editor", solo.waitForText(Integer.toString(SEEKBAR_MIDDLE), 4, 10000));
+		solo.goBack();
+		assertTrue("One or more Values are not correct in Brick", solo.waitForText(Integer.toString(SEEKBAR_MIDDLE),
+				3, 10000));
 	}
 
 	private void createProject() {
