@@ -502,6 +502,7 @@ public final class StandardProjectHandler {
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile2.getName(), soundFile2.getAbsolutePath());
 
 			mole2Sprite.setName(mole2Name);
+			mole2Sprite.setId(ProjectManager.getInstance().getNewId());
 			defaultProject.addSprite(mole2Sprite);
 
 			Script tempScript = mole2Sprite.getScript(0);
@@ -520,6 +521,7 @@ public final class StandardProjectHandler {
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile3.getName(), soundFile3.getAbsolutePath());
 
 			mole3Sprite.setName(mole3Name);
+			mole3Sprite.setId(ProjectManager.getInstance().getNewId());
 			defaultProject.addSprite(mole3Sprite);
 
 			tempScript = mole3Sprite.getScript(0);
@@ -538,6 +540,7 @@ public final class StandardProjectHandler {
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile4.getName(), soundFile4.getAbsolutePath());
 
 			mole4Sprite.setName(mole4Name);
+			mole4Sprite.setId(ProjectManager.getInstance().getNewId());
 			defaultProject.addSprite(mole4Sprite);
 
 			tempScript = mole4Sprite.getScript(0);

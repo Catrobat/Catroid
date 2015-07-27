@@ -460,6 +460,10 @@ public final class Utils {
 		return projectName;
 	}
 
+	private static String removeIdTagFromXmlForStandardProjectTest(String project) {
+		return project.replaceAll("<id>[0-9]*</id>", "");
+	}
+
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
 			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
@@ -477,6 +481,8 @@ public final class Utils {
 			start = projectToCheckXMLString.indexOf("<objectList>");
 			end = projectToCheckXMLString.indexOf("</objectList>");
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
+			standardProjectSpriteList = removeIdTagFromXmlForStandardProjectTest(standardProjectSpriteList);
+			projectToCheckStringList = removeIdTagFromXmlForStandardProjectTest(projectToCheckStringList);
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
 		} catch (IllegalArgumentException illegalArgumentException) {

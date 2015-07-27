@@ -50,7 +50,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
@@ -67,8 +66,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.SortedSet;
 
 public final class SoundController {
 	public static final int REQUEST_SELECT_OR_RECORD_SOUND = 0;
@@ -401,26 +398,6 @@ public final class SoundController {
 		}
 		SoundController.getInstance().updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName(),
 				soundInfoList, adapter);
-	}
-
-	private void deleteSound(int position, ArrayList<SoundInfo> soundInfoList, Activity activity) {
-		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
-		soundInfoList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
-	}
-
-	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, ArrayList<SoundInfo> soundInfoList,
-			MediaPlayer mediaPlayer) {
-		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedSounds.iterator();
-		SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-		int numberDeleted = 0;
-		while (iterator.hasNext()) {
-			int position = iterator.next();
-			deleteSound(position - numberDeleted, soundInfoList, activity);
-			++numberDeleted;
-		}
 	}
 
 	public SoundInfo updateBackPackActivity(String title, String fileName, ArrayList<SoundInfo> soundInfoList,

@@ -130,6 +130,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		menu.findItem(R.id.backpack).setVisible(false);
 		menu.findItem(R.id.unpacking).setVisible(false);
 
+		menu.findItem(R.id.menu_undo).setVisible(false);
+		menu.findItem(R.id.menu_redo).setVisible(false);
+
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -621,5 +624,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startBackPackActionMode() {
+	}
+
+	public void startUndoActionMode() {
+	}
+
+	public void startRedoActionMode() {
 	}
 }

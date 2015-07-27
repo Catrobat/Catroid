@@ -108,9 +108,6 @@
   <string name="sprite">Oggetto</string>
   <string name="sprites">Oggetti</string>
   <string name="spritelist_background_headline">Sfondo</string>
-  <string name="dialog_confirm_delete_object_title">Elimina questo oggetto?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Eliminare questi oggetti?</string>
-  <string name="dialog_confirm_delete_object_message">Questa azione non può essere annullata!</string>
   <string name="select_all">Seleziona tutto</string>
   <string name="copy_sprite_name_suffix">_Copia</string>
   <string name="scripts">Script</string>
@@ -143,9 +140,6 @@
   <string name="select_look_from_gallery">Seleziona un\'immagine</string>
   <string name="select_look_from_camera">Seleziona foto</string>
   <string name="look_measure">Misura:</string>
-  <string name="dialog_confirm_delete_look_title">Eliminare questo aspetto?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Elimina questi aspetti?</string>
-  <string name="dialog_confirm_delete_look_message">Questa azione non può essere annullata!</string>
   <string name="lookname">Nome dell\'aspetto:</string>
   <string name="fragment_sound_text_description">Fare clic su \"+\" per aggiungere suoni</string>
   <string name="rename_sound_dialog">Rinomina suono</string>
