@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.content.brick;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -41,6 +42,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -190,6 +192,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 	}
 
+	@Device
 	public void testAddNewLook() {
 		String newText = solo.getString(R.string.new_broadcast_message);
 
@@ -210,15 +213,15 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		LookFragment lookFragment = (LookFragment) currentActivity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
 		lookFragment.startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
-
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForFragmentByTag(LookFragment.TAG);
+		//This is needed, because the spinner is only updated, when you actually click on the dialog
+		//and not using the MockActivity. This functionality is tested in testDismissNewLookDialog()
+		solo.clickOnView(solo.getView(Spinner.class, 0));
 
-		solo.sleep(3000);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(testFile));
 
-		assertTrue(testFile + " is not selected in Spinner", solo.isSpinnerTextSelected(testFile));
+		solo.goBack();
 		solo.goBack();
 
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
