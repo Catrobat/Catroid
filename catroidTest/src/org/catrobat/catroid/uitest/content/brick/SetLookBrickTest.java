@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.content.brick;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -216,7 +217,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.goBack();
 		//This is needed, because the spinner is only updated, when you actually click on the dialog
 		//and not using the MockActivity. This functionality is tested in testDismissNewLookDialog()
-		solo.clickOnText(lookName);
+		solo.clickOnView(solo.getView(Spinner.class, 0));
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText(testFile));
 
