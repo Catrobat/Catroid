@@ -35,19 +35,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pDeviceList;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.content.IntentFilter;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -72,10 +66,8 @@ import org.catrobat.catroid.utils.VibratorUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class PreStageActivity extends BaseActivity {
@@ -95,6 +87,7 @@ public class PreStageActivity extends BaseActivity {
     private Intent returnToActivityIntent = null;
     private WifiScanReceiver wifiReciever;
     private WifiManager wifi;
+    private WifiConnectionReceiver wifiConnection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,24 +120,28 @@ public class PreStageActivity extends BaseActivity {
 
         if (DroneServiceWrapper.checkARDroneAvailability()) {
 
-            wifi = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
-            wifiReciever = new WifiScanReceiver();
-            registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            if (isConnectedViaWifi()) {
+                CatroidApplication.loadNativeLibs();
+                if (CatroidApplication.parrotLibrariesLoaded) {
+                    if (droneInitializer == null) {
+                        droneInitializer = new DroneInitializer(PreStageActivity.this);
+                    }
+                    Log.d("PreStageActivity", "init drone now");
+                    droneInitializer.initialise();
+                }
+            } else {
+                wifi = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
+                wifiReciever = new WifiScanReceiver();
+                registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-            wifi.setWifiEnabled(true);
-            wifi.startScan();
+                wifi.setWifiEnabled(true);
+                wifi.startScan();
 
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-            registerReceiver(wifiReciever, intentFilter);
-
-            /*
-            CatroidApplication.loadNativeLibs();
-            if (CatroidApplication.parrotLibrariesLoaded) {
-                droneInitializer = getDroneInitialiser();
-                droneInitializer.initialise();
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+                wifiConnection = null; // new WifiConnectionReceiver();
+                registerReceiver(wifiReciever, intentFilter);
             }
-            */
         }
 
         FaceDetectionHandler.resetFaceDedection();
@@ -262,7 +259,13 @@ public class PreStageActivity extends BaseActivity {
         if (droneInitializer != null) {
             droneInitializer.onPrestageActivityPause();
         }
-        unregisterReceiver(wifiReciever);
+
+        if (wifiReciever != null) {
+            unregisterReceiver(wifiReciever);
+        }
+        if (wifiConnection != null) {
+            unregisterReceiver(wifiConnection);
+        }
 
         super.onPause();
     }
@@ -424,64 +427,111 @@ public class PreStageActivity extends BaseActivity {
         }
     }
 
-    private class WifiScanReceiver extends BroadcastReceiver {
+    public boolean isConnectedViaWifi() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
+
+    public class WifiScanReceiver extends BroadcastReceiver {
+
+        private boolean isAlreadyConnected = false;
+
+        private boolean addNetworkAndActivate(ScanResult scanResult) {
+
+            WifiConfiguration wc = null;
+            List<WifiConfiguration> configs = wifi.getConfiguredNetworks();
+
+            for (WifiConfiguration wifiConfiguration : configs) {
+                try {
+                    if (wifiConfiguration.SSID.equals("\"" + scanResult.SSID + "\"")) {
+                        wc = wifiConfiguration;
+                        break;
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+            // not configured, create new
+            if (wc == null) {
+                wc = new WifiConfiguration();
+
+                wc.SSID = "\"" + scanResult.SSID + "\"";
+
+                int res = wifi.addNetwork(wc);
+
+                if (res == -1)
+                    return false;
+
+                if (!wifi.saveConfiguration())
+                    return false;
+            }
+
+            boolean active = wifi.enableNetwork(wc.networkId, true);
+
+            return active;
+        }
 
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("PreStageActivity", "onReceive entered");
-            WifiManager wifiManager = wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
-
-            if(wifiManager.isWifiEnabled()) {
+            if (wifi.isWifiEnabled() && !isAlreadyConnected) {
                 List<WifiConfiguration> list = wifi.getConfiguredNetworks();
-                List<ScanResult> list2 = wifi.getScanResults();
+                List<ScanResult> result = wifi.getScanResults();
+
 
                 List<String> ssidSet = new ArrayList<String>();
                 final List<Integer> networkIdSet = new ArrayList<Integer>();
-                for (ScanResult network : list2) {
+                for (ScanResult network : result) {
                     Log.d("PreStageActivity", "SSIDs" + network.SSID);
                     WifiConfiguration wifiConfig = new WifiConfiguration();
                     wifiConfig.SSID = String.format("\"%s\"", network.SSID);
 
 
-                    if(network.SSID.startsWith("ardrone2")) {
+                    if (network.SSID.startsWith("ardrone2")) {
                         Log.d("PreStageActivity", "ardrone2 found!!!!");
-                        int netId = wifiManager.addNetwork(wifiConfig);
-                        wifiManager.enableNetwork(netId, true);
+                        isAlreadyConnected = addNetworkAndActivate(network);
 
+                        /*
+                            wifiManager.disconnect();
+                            int netId = wifiManager.addNetwork(wifiConfig);
+                            wifiManager.enableNetwork(netId, true);
+                            wifiManager.reconnect();
+                         */
+                        break;
                     }
                     //ssidSet.add(network.SSID);
                     //networkIdSet.add(network.networkId);
                 }
+
             }
 
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (isAlreadyConnected) {
+                final String action = intent.getAction();
+                if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
+                    Log.d("PreStageActivity", "before intent getBooleanExtra");
+                    if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
+                        if (isConnectedViaWifi()) {
+                            Log.d("PreStageActivity", "is connected to wifi!");
+                        }
 
-
-
-            if(mWifi.isConnected()){
-                Log.d("PreStageActivity", "is connected to");
-
-                CatroidApplication.loadNativeLibs();
-                if (CatroidApplication.parrotLibrariesLoaded) {
-                    if (droneInitializer == null) {
-                        droneInitializer = new DroneInitializer(PreStageActivity.this);
+                        CatroidApplication.loadNativeLibs();
+                        if (CatroidApplication.parrotLibrariesLoaded) {
+                            if (droneInitializer == null) {
+                                droneInitializer = new DroneInitializer(PreStageActivity.this);
+                            }
+                            Log.d("PreStageActivity", "init drone now");
+                            droneInitializer.initialise();
+                            isAlreadyConnected = false;
+                        }
+                    } else {
+                        Log.d("PreStageActivity", "is NOT connected to wifi!");
                     }
-
-                    droneInitializer.initialise();
-                }
-            } else {
-                Log.d("PreStageActivity", "is NOT connected to");
-            }
-
-            final String action = intent.getAction();
-            if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
-                Log.d("PreStageActivity", "before intent getBooleanExtra");
-                if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)){
-                    Log.d("PreStageActivity", "is connected to wifi!");
-                } else {
-                    Log.d("PreStageActivity", "is NOT connected to wifi!");
                 }
             }
 
@@ -509,12 +559,12 @@ public class PreStageActivity extends BaseActivity {
                 Log.d(getClass().getSimpleName(), "Liste von SSIDs: " + ssid);
             }
             */
-			//showAvailableSSIDSetDialog(ssidSet, networkIdSet);
+            //showAvailableSSIDSetDialog(ssidSet, networkIdSet);
 
         }
 
-		private void showAvailableSSIDSetDialog(final List<String> ssidSet, final List<Integer> networkIdSet) {
-			final CharSequence[] items = ssidSet.toArray(new CharSequence[ssidSet.size()]);
+        private void showAvailableSSIDSetDialog(final List<String> ssidSet, final List<Integer> networkIdSet) {
+            final CharSequence[] items = ssidSet.toArray(new CharSequence[ssidSet.size()]);
 
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -559,7 +609,20 @@ public class PreStageActivity extends BaseActivity {
             });
 
 
-		}
+        }
+
+        public boolean isAlreadyConnected() {
+            return isAlreadyConnected;
+        }
+    }
+
+    private class WifiConnectionReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+        }
     }
 
 

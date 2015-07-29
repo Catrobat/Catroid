@@ -70,7 +70,7 @@ public class DroneConnectToWifi extends AsyncTask<String, Void, Boolean> {
                 droneInitializer = new DroneInitializer(context);
             }
 
-            droneInitializer.initialise();
+            // droneInitializer.initialise();
         }
 
 
