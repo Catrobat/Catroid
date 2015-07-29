@@ -69,7 +69,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int ACTION_MODE_DELETE = 1;
 	private static final int ACTION_MODE_RENAME = 2;
 
-	private static final int TIME_TO_WAIT = 50;
+	private static final int TIME_TO_WAIT = 200;
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
@@ -274,6 +274,86 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertEquals("Look not renamed in LookDataList", newLookName, getLookName(0));
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
+	}
+
+	public void testMoveLookUp() {
+		moveLookUp(SECOND_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look didn't move up (testMoveLookUp 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look didn't move up (testMoveLookUp 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookDown() {
+		moveLookDown(FIRST_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look didn't move down (testMoveLookDown 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look didn't move down (testMoveLookDown 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookToBottom() {
+		moveLookToBottom(FIRST_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look didn't move bottom (testMoveLookToBottom 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look didn't move bottom (testMoveLookToBottom 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookToTop() {
+		moveLookToTop(SECOND_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look didn't move top (testMoveLookToTop 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look didn't move top (testMoveLookToTop 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookUpFirstEntry() {
+		moveLookUp(FIRST_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look moved (testMoveLookUpFirstEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look moved (testMoveLookUpFirstEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookDownLastEntry() {
+		moveLookDown(SECOND_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look moved (testMoveLookDownLastEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look moved (testMoveLookDownLastEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookToTopFirstEntry() {
+		moveLookToTop(FIRST_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look moved (testMoveLookToTopFirstEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look moved (testMoveLookToTopFirstEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookToBottomLastEntry() {
+		moveLookToBottom(SECOND_TEST_LOOK_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Look moved (testMoveLookToBottomLastEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look moved (testMoveLookToBottomLastEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
 	}
 
 	public void testShowAndHideDetails() {
@@ -635,13 +715,16 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
 
 		renameLook(FIRST_TEST_LOOK_NAME, defaultLookName);
+		solo.sleep(200);
 		renameLook(SECOND_TEST_LOOK_NAME, defaultLookName);
+		solo.sleep(200);
 
 		String expectedLookName = defaultLookName + "1";
 		assertEquals(assertMessageText, expectedLookName, getLookName(1));
 
 		String copiedLookName = FIRST_TEST_LOOK_NAME + "_" + copyAdditionString;
 		renameLook(copiedLookName, defaultLookName);
+		solo.sleep(200);
 
 		expectedLookName = defaultLookName + "2";
 		assertEquals(assertMessageText, expectedLookName, getLookName(2));
@@ -649,12 +732,14 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		expectedLookName = defaultLookName + "1";
 		newLookName = "x";
 		renameLook(expectedLookName, newLookName);
+		solo.sleep(200);
 
 		solo.scrollToTop();
 		clickOnContextMenuItem(newLookName, copy);
 
 		copiedLookName = newLookName + "_" + copyAdditionString;
 		renameLook(copiedLookName, defaultLookName);
+		solo.sleep(200);
 
 		assertEquals(assertMessageText, expectedLookName, getLookName(3));
 
@@ -1337,6 +1422,22 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		UiTestUtils.enterText(solo, 0, newLookName);
 		solo.sendKey(Solo.ENTER);
+	}
+
+	private void moveLookDown(String lookToMove) {
+		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_down));
+	}
+
+	private void moveLookUp(String lookToMove) {
+		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_up));
+	}
+
+	private void moveLookToBottom(String lookToMove) {
+		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_to_bottom));
+	}
+
+	private void moveLookToTop(String lookToMove) {
+		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_to_top));
 	}
 
 	private LookFragment getLookFragment() {

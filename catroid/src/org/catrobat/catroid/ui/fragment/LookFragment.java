@@ -90,6 +90,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -287,6 +288,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		menu.findItem(R.id.rename).setVisible(true);
 		menu.findItem(R.id.show_details).setVisible(true);
 		menu.findItem(R.id.settings).setVisible(true);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
 
 		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			menu.findItem(R.id.backpack).setVisible(false);
@@ -442,6 +447,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_backpack).setVisible(false);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
+
+		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedLookPosition != lookDataList.size() - 1);
+		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedLookPosition != lookDataList.size() - 1);
+
+		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedLookPosition != 0);
+		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedLookPosition != 0);
 	}
 
 	@Override
@@ -469,6 +484,17 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
+			case R.id.context_menu_move_down:
+				moveLookDataDown();
+				break;
+			case R.id.context_menu_move_up:
+				moveLookDataUp();
+				break;
+			case R.id.context_menu_move_to_bottom:
+				moveLookDataToBottom();
+				break;
+			case R.id.context_menu_move_to_top:
+				moveLookDataToTop();
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -786,6 +812,30 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	protected void showDeleteDialog() {
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedLookPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void moveLookDataDown() {
+		Collections.swap(lookDataList, selectedLookPosition + 1, selectedLookPosition);
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveLookDataUp() {
+		Collections.swap(lookDataList, selectedLookPosition - 1, selectedLookPosition);
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveLookDataToBottom() {
+		for (int i = selectedLookPosition; i < lookDataList.size() - 1; i++) {
+			Collections.swap(lookDataList, i, i + 1);
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveLookDataToTop() {
+		for (int i = selectedLookPosition; i > 0; i--) {
+			Collections.swap(lookDataList, i, i - 1);
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override

@@ -66,7 +66,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
 
-	private static final int TIME_TO_WAIT = 100;
+	private static final int TIME_TO_WAIT = 200;
 
 	private static final int TIME_TO_WAIT_BACKPACK = 1000;
 
@@ -89,6 +89,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private SoundInfo soundInfo2;
 
 	private File externalSoundFile;
+	private File soundFile;
 
 	private ArrayList<SoundInfo> soundInfoList;
 
@@ -112,7 +113,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
@@ -152,6 +153,86 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void tearDown() throws Exception {
 		externalSoundFile.delete();
 		super.tearDown();
+	}
+
+	public void testMoveSoundUp() {
+		moveSoundUp(SECOND_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound didn't move up (testMoveSoundUp 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound didn't move up (testMoveSoundUp 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
+	}
+
+	public void testMoveSoundDown() {
+		moveSoundDown(FIRST_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound didn't move down (testMoveSoundDown 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound didn't move down (testMoveSoundDown 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
+	}
+
+	public void testMoveSoundToBottom() {
+		moveSoundToBottom(FIRST_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound didn't move bottom (testMoveSoundToBottom 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound didn't move bottom (testMoveSoundToBottom 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
+	}
+
+	public void testMoveSoundToTop() {
+		moveSoundToTop(SECOND_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound didn't move top (testMoveSoundToTop 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound didn't move top (testMoveSoundToTop 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
+	}
+
+	public void testMoveSoundUpFirstEntry() {
+		moveSoundUp(FIRST_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound moved (testMoveSoundUpFirstEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound moved (testMoveSoundUpFirstEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
+	}
+
+	public void testMoveSoundDownLastEntry() {
+		moveSoundDown(SECOND_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound moved (testMoveSoundDownLastEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound moved (testMoveSoundDownLastEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
+	}
+
+	public void testMoveSoundToTopFirstEntry() {
+		moveSoundToTop(FIRST_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound moved (testMoveSoundToTopFirstEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound moved (testMoveSoundToTopFirstEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
+	}
+
+	public void testMoveSoundToBottomLastEntry() {
+		moveSoundToBottom(SECOND_TEST_SOUND_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		assertEquals("Sound moved (testMoveSoundToBottomLastEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
+		assertEquals("Sound moved (testMoveSoundToBottomLastEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
 	}
 
 	public void testInitialLayout() {
@@ -1215,7 +1296,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.no));
 
-		solo.sleep(300);
+		solo.sleep(500);
 		int viewAmountAfterDeleteMode = solo.getCurrentViews().size();
 
 		assertTrue("checkboxes or other delete elements are still visible", viewAmountBeforeDeleteMode == viewAmountAfterDeleteMode);
@@ -1335,5 +1416,21 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
 					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
 		}
+	}
+
+	private void moveSoundDown(String soundToMove) {
+		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_down));
+	}
+
+	private void moveSoundUp(String soundToMove) {
+		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_up));
+	}
+
+	private void moveSoundToBottom(String soundToMove) {
+		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_to_bottom));
+	}
+
+	private void moveSoundToTop(String soundToMove) {
+		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_to_top));
 	}
 }
