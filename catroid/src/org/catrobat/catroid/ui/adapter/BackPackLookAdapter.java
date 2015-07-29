@@ -23,54 +23,48 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class LookAdapter extends LookBaseAdapter implements ScriptActivityAdapterInterface {
+public class BackPackLookAdapter extends LookBaseAdapter implements ScriptActivityAdapterInterface {
 
-	private LookFragment lookFragment;
+	private BackPackLookFragment backpackLookFragment;
+	private FragmentActivity currentFragmentActivity;
 
-	public LookAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
-			boolean showDetails) {
+	public BackPackLookAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
+			boolean showDetails, BackPackLookFragment backPackLookFragment) {
 		super(context, resource, textViewResourceId, items, showDetails);
+		this.backpackLookFragment = backPackLookFragment;
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		if (lookFragment == null) {
+		if (backpackLookFragment == null) {
 			return convertView;
 		}
-		return lookFragment.getView(position, convertView);
+		return this.backpackLookFragment.getView(position, convertView);
 	}
 
-	public void onDestroyActionModeBackPack() {
+	public void onDestroyActionModeUnpacking() {
 		Iterator<Integer> iterator = checkedLooks.iterator();
 		while (iterator.hasNext()) {
 			int position = iterator.next();
-			BackPackListManager.getInstance().addLookToActionBarLookDataArrayList(lookDataItems.get(position));
+			LookController.getInstance().copyLook(position, BackPackListManager.getCurrentLookDataArrayList(), currentFragmentActivity, BackPackListManager.getInstance().getCurrentLookFragment());
 		}
-
-		if (!checkedLooks.isEmpty()) {
-			Intent intent = new Intent(lookFragment.getActivity(), BackPackActivity.class);
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 1);
-			intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
-			lookFragment.getActivity().startActivity(intent);
-		}
-
-		lookFragment.clearCheckedLooksAndEnableButtons();
+		backpackLookFragment.clearCheckedLooksAndEnableButtons();
 	}
 
-	public void setLookFragment(LookFragment lookFragment) {
-		this.lookFragment = lookFragment;
+	public void setCurrentActivity(FragmentActivity activity) {
+		this.currentFragmentActivity = activity;
 	}
 }

@@ -33,7 +33,7 @@ ext {
             "phiro"                             : true,
             "led_brick"                         : false,
             "vibration_brick"                   : false,
-            "backpack"                          : false,
+            "backpack"                          : true,
             "parrot_ar_drone"                   : false,
             "apk_generator"                     : false,
             "computer_vision_enhancement"       : true,

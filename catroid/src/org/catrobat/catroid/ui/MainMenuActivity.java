@@ -92,6 +92,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		if (!BackPackListManager.isBackpackFlag()) {
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+			BackPackListManager.getInstance().setLookDataArrayListEmpty();
 		}
 
 		//TODO Drone do not create project for now

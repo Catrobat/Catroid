@@ -42,9 +42,7 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActi
 
 	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
 			boolean showDetails, BackPackSoundFragment backPackSoundFragment) {
-
 		super(context, resource, textViewResourceId, items, showDetails);
-
 		this.backPackSoundFragment = backPackSoundFragment;
 	}
 
@@ -61,7 +59,7 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActi
 		while (iterator.hasNext()) {
 			int position = iterator.next();
 			SoundController.getInstance().copySound(soundInfoItems.get(position),
-					BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
+					BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentSoundAdapter());
 		}
 		backPackSoundFragment.clearCheckedSoundsAndEnableButtons();
 	}

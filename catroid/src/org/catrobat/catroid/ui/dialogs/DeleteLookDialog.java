@@ -77,7 +77,7 @@ public class DeleteLookDialog extends DialogFragment {
 	private void handleDeleteLook(int position) {
 		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 
-		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
+		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath(), false);
 		lookDataList.remove(position);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
