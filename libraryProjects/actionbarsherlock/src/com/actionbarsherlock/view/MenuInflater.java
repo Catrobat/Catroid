@@ -17,11 +17,6 @@
 
 package com.actionbarsherlock.view;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -34,6 +29,13 @@ import android.view.View;
 
 import com.actionbarsherlock.R;
 import com.actionbarsherlock.internal.view.menu.MenuItemImpl;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * This class is used to instantiate menu XML files into Menu objects.

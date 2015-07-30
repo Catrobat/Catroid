@@ -49,7 +49,7 @@
             android:id="@+id/brick_drone_move_label"
             style="@style/BrickText.Multiple" />
         
-         <TextView
+        <TextView
             android:id="@+id/brick_drone_move_text_view_second"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true" />

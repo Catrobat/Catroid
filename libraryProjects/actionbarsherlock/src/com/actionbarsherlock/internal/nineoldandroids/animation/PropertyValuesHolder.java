@@ -18,13 +18,15 @@ package com.actionbarsherlock.internal.nineoldandroids.animation;
 
 //import android.util.FloatProperty;
 //import android.util.IntProperty;
+
 import android.util.Log;
-//import android.util.Property;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+//import android.util.Property;
 
 /**
  * This class holds information about a property and the values that that property
