@@ -29,6 +29,8 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.facebook.AccessToken;
+
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -54,7 +56,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -132,9 +134,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog(activity);
+		if ((token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) && AccessToken.getCurrentAccessToken() == null) {
+			showSignInDialog(fragmentActivity);
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
@@ -480,7 +482,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	@Override
 	public void onTokenNotValid(Activity activity) {
-		showLoginRegisterDialog(activity);
+		showSignInDialog(activity);
 	}
 
 	@Override
@@ -489,9 +491,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		uploadProjectDialog.show(activity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void showLoginRegisterDialog(Activity activity) {
-		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(activity.getFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	private void showSignInDialog(Activity activity) {
+		SignInDialog signInDialog = new SignInDialog();
+		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

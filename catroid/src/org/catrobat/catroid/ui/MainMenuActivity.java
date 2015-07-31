@@ -30,8 +30,18 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -58,6 +68,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private static final String TYPE_HTTP = "http";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private CallbackManager callbackManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +78,32 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		Utils.updateScreenWidthAndHeight(this);
+
+		FacebookSdk.sdkInitialize(getApplicationContext());
+		callbackManager = CallbackManager.Factory.create();
+
+		LoginManager.getInstance().registerCallback(callbackManager,
+				new FacebookCallback<LoginResult>() {
+					@Override
+					public void onSuccess(LoginResult loginResult) {
+						// TODO: Login token an server senden
+						Toast.makeText(MainMenuActivity.this, loginResult.toString(), Toast.LENGTH_LONG);
+						Log.d("Facebook", loginResult.toString());
+					}
+
+					@Override
+					public void onCancel() {
+						// App code
+						Log.d("Facebook", "cancel");
+					}
+
+					@Override
+					public void onError(FacebookException exception) {
+						// App code
+						Toast.makeText(MainMenuActivity.this, exception.getMessage(), Toast.LENGTH_LONG);
+						Log.d("Facebook", exception.getMessage());
+					}
+				});
 
 		setContentView(R.layout.activity_main_menu);
 
@@ -98,6 +135,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
+		// Logs 'install' and 'app activate' App Events.
+		AppEventsLogger.activateApp(this);
+
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
 
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
@@ -120,6 +160,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.externalStorageAvailable()) {
 			return;
 		}
+
+		// Logs 'app deactivate' App Event.
+		AppEventsLogger.deactivateApp(this);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
@@ -238,4 +281,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	public void onLoadProjectFailure() {
 	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.d("FB", data.getData().toString());
+		callbackManager.onActivityResult(requestCode, resultCode, data);
+	}
+
 }

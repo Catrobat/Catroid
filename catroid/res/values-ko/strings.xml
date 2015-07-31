@@ -239,7 +239,7 @@
   <string name="spritename_invalid">스프라이트 이름이 잘못되었습니다</string>
   <string name="no_spritename_entered">개체 이름을 입력 하세요.</string>
   <string name="sprite_name">개체 이름:</string>
-  <string name="login_register_dialog_title">로그인</string>
+  <string name="sign_in_dialog_title">로그인</string>
   <string name="username">아이디</string>
   <string name="password">비밀번호:</string>
   <string name="login_or_register">로그인 또는 등록</string>

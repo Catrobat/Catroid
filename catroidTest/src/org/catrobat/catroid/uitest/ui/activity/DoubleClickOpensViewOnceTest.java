@@ -45,7 +45,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
@@ -268,7 +268,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					activity.handleUploadButton(null);
 				}
-			}, R.id.main_menu_button_upload, LoginRegisterDialog.DIALOG_FRAGMENT_TAG, true);
+			}, R.id.main_menu_button_upload, SignInDialog.DIALOG_FRAGMENT_TAG, true);
 		}
 	}
 

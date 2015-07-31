@@ -251,7 +251,7 @@
   <string name="spritename_invalid">Este nome de objeto é inválido</string>
   <string name="no_spritename_entered">Por favor, insira um nome de objeto.</string>
   <string name="sprite_name">Nome do objeto:</string>
-  <string name="login_register_dialog_title">Login</string>
+  <string name="sign_in_dialog_title">Login</string>
   <string name="username">Nome de Usuário:</string>
   <string name="password">Senha:</string>
   <string name="login_or_register">Fazer login ou registrar-se</string>

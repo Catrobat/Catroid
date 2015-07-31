@@ -58,4 +58,6 @@
     <string name="animation_cache_enabled" >false</string >
     <!--  -->
 
+    <string name="facebook_app_id" translatable="false">1602051133371458</string>
+
 </resources>

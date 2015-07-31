@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            style="@style/DefaultDialog"
+            android:orientation="vertical"
+            android:paddingBottom="0dp"
+            android:theme="@android:style/Theme.Light" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dialog_item_margin" >
+
+        <TextView
+            android:id="@+id/dialog_signin_oauth_username_thanks"
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/signin_thanks" />
+
+        <TextView
+            android:id="@+id/dialog_signin_oauth_username_choose_username"
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/signin_choose_username" />
+
+        <EditText
+            android:id="@+id/dialog_signin_oauth_username"
+            style="@style/DefaultDialog.EditText"
+            android:inputType="text"
+            android:maxLines="1"
+            android:selectAllOnFocus="true" />
+
+         <TextView
+             android:id="@+id/dialog_signin_oauth_username_choose_username_hint"
+             style="@style/DefaultDialog.TextView"
+             android:text="@string/signin_choose_username_hint" />
+
+    </LinearLayout >
+
+</ScrollView>

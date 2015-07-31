@@ -259,7 +259,7 @@
   <string name="spritename_invalid">To ime je neveljavno</string>
   <string name="no_spritename_entered">Prosimo, vnesite ime predmeta.</string>
   <string name="sprite_name">Ime objekta:</string>
-  <string name="login_register_dialog_title">Prijava</string>
+  <string name="sign_in_dialog_title">Prijava</string>
   <string name="username">Uporabniško ime:</string>
   <string name="password">Geslo:</string>
   <string name="login_or_register">Prijavi ali Registriraj se</string>

@@ -244,7 +244,7 @@
   <string name="spritename_invalid">Dette objekt navn er ugyldigt</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Navn på objekt:</string>
-  <string name="login_register_dialog_title">Log på</string>
+  <string name="sign_in_dialog_title">Log på</string>
   <string name="username">Brugernavn:</string>
   <string name="password">Adgangskode:</string>
   <string name="login_or_register">Log på eller Registrer</string>

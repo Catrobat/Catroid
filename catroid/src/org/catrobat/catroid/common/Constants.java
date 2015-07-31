@@ -96,6 +96,7 @@ public final class Constants {
 
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 
+	//TODO: abklären, ob token mit oauth noch nötig
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";

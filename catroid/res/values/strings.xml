@@ -335,16 +335,25 @@
     <!--  -->
 
 
-    <!-- Login Register dialog -->
-    <string name="login_register_dialog_title">Login</string>
+    <!-- Sign In dialogs -->
+    <string name="sign_in_dialog_title">Sign In</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
-    <string name="login_or_register">Login or Register</string>
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">New account created</string>
     <string name="register_error">Error occurred</string>
     <string name="register_terms">By registering, you agree to our</string>
     <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="or">OR</string>
+    <string name="password_confirm">Confirm Password</string>
+    <string name="email">E-Mail</string>
+    <string name="signin_thanks">Thank you for signing up to Pocket Code!</string>
+    <string name="signin_choose_username">Please choose your username:</string>
+    <string name="signin_choose_username_hint">The username should not be your real name.</string>
+    <string name="show_password">Show password</string>
+    <string name="register_password_mismatch">Passwords do not match</string>
     <!--  -->
 
 
@@ -982,7 +991,6 @@
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
     <string name="variable">Variable</string>
-    <!-- -->
 
 
     <!-- Camera related strings -->

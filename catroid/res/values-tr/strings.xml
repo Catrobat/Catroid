@@ -247,7 +247,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="spritename_invalid">Bu nesne adı geçersiz</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Nesne adı:</string>
-  <string name="login_register_dialog_title">Oturum aç</string>
+  <string name="sign_in_dialog_title">Oturum aç</string>
   <string name="username">Kullanıcı adı:</string>
   <string name="password">Şifre:</string>
   <string name="login_or_register">Giriş yap veya kaydol</string>

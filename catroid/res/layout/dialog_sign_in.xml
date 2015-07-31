@@ -32,46 +32,68 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/dialog_item_margin" >
 
-        <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/username_text"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/username" />
+        <Button
+            android:id="@+id/dialog_sign_in_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/DefaultDialog.Item"
+            android:layout_marginTop="15dp"
+            android:text="@string/login"/>
+
+        <Button
+            android:id="@+id/dialog_sign_in_register"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/DefaultDialog.Item"
+            android:text="@string/register"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/dialog_sign_in_login"/>
 
         <View
-            android:id="@+id/username_text_line"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/username_text" />
-
-        <EditText
-            android:id="@+id/username"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/username_text_line"
-            android:inputType="text"
-            android:maxLines="1"
-            android:selectAllOnFocus="true" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            style="@style/DefaultDialog.TextView"
+            android:layout_below="@+id/dialog_sign_in_register"
+            android:layout_toLeftOf="@+id/dialog_sign_in_or"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"/>
 
         <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/password_text"
+            android:id="@+id/dialog_sign_in_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/DefaultDialog.TextView"
-            android:layout_below="@+id/username"
-            android:text="@string/password" />
+            android:text="@string/or"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@+id/dialog_sign_in_register"
+            android:gravity="center"
+            android:layout_centerHorizontal="true" />
 
         <View
-            android:id="@+id/password_text_id"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/password_text" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            style="@style/DefaultDialog.TextView"
+            android:layout_below="@+id/dialog_sign_in_register"
+            android:layout_toRightOf="@+id/dialog_sign_in_or"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"/>
 
-        <EditText
-            android:id="@+id/password"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/password_text_id"
-            android:inputType="textPassword"
-            android:maxLines="1" >
-        </EditText >
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/dialog_sign_in_facebook_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@+id/dialog_sign_in_or"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true" />
 
         <LinearLayout
             style="@style/DefaultDialog.Item"
-            android:layout_below="@+id/password"
+            android:layout_below="@+id/dialog_sign_in_facebook_login_button"
             android:orientation="vertical"
             android:paddingBottom="4dp"
             android:paddingTop="16dp" >
