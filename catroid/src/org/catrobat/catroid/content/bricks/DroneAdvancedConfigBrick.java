@@ -255,9 +255,4 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
                 getFormulaWithBrickField(BrickField.DRONE_TILT_ANGLE)));
         return null;
     }
-
-//    @Override
-//    protected String getBrickLabel(View view) {
-//        return view.getResources().getString(R.string.brick_drone_set_advanced_config);
-//    }
 }

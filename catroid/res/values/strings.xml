@@ -81,6 +81,7 @@
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
+    <string name="preference_title_drone_config_properties">Drone config properties</string>
     <string name="preference_title_use_face_detection">Face Detection</string>
     <string name="preference_description_use_face_detection">Allow to detect faces</string>
     <string name="preference_title_select_camera">Choose Camera</string>
@@ -512,9 +513,34 @@
     <string name="drone_config_default">basic setting</string>
     <string name="drone_config_outdoor">outdoor setting</string>
     <string name="drone_config_indoor">indoor setting</string>
-    <string name="drone_set_altitude_3m">3 meters</string>
-    <string name="drone_set_altitude_5m">5 meters</string>
-    <string name="drone_set_altitude_10m">10 meters</string>
+
+    <!-- Drone altitude limit values  -->
+    <string name="drone_set_altitude_max_3m">3 meters</string>
+    <string name="drone_set_altitude_max_5m">5 meters</string>
+    <string name="drone_set_altitude_max_10m">10 meters</string>
+    <string name="drone_set_altitude_max_50m">50 meters</string>
+    <string name="drone_set_altitude_max_100m">100 meters</string>
+
+    <!-- Drone max vertical speed limit values  -->
+    <string name="drone_set_vertical_very_slow">Very slow</string>
+    <string name="drone_set_vertical_slow">Slow</string>
+    <string name="drone_set_vertical_medium">Medium</string>
+    <string name="drone_set_vertical_fast">Fast</string>
+    <string name="drone_set_vertical_very_fast">Very Fast</string>
+
+    <!-- Drone max rotation speed limit values  -->
+    <string name="drone_set_rotation_very_slow">Very slow</string>
+    <string name="drone_set_rotation_slow">Slow</string>
+    <string name="drone_set_rotation_medium">Medium</string>
+    <string name="drone_set_rotation_fast">Fast</string>
+    <string name="drone_set_rotation_very_fast">Very Fast</string>
+
+    <!-- Drone max tilt limit values  -->
+    <string name="drone_set_tilt_max_5_degree">5 degree</string>
+    <string name="drone_set_tilt_max_10_degree">10 degree</string>
+    <string name="drone_set_tilt_max_17_degree">17 degree</string>
+    <string name="drone_set_tilt_max_24_degree">24 degree</string>
+    <string name="drone_set_tilt_max_30_degree">30 degree</string>
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
@@ -636,6 +662,7 @@
     <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
     <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
+    <string name="preference_title_drone_properties_setting_description">The selective of drone config properties is program specific and can only be configured for opened programs!</string>
     <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
     <string name="nxt_port_1">Port 1</string>
     <string name="nxt_port_2">Port 2</string>
