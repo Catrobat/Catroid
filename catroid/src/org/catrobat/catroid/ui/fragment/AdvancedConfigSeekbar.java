@@ -43,7 +43,6 @@ public class AdvancedConfigSeekbar {
     private final Brick.BrickField rotationSpeedLimit;
     private final Brick.BrickField tiltAngleLimit;
 
-
     private TextView formulaEditorEditTextAltitude;
     private TextView formulaEditorEditTextVerticalSpeed;
     private TextView formulaEditorEditTextRotationSpeed;
@@ -148,10 +147,12 @@ public class AdvancedConfigSeekbar {
                     case R.id.altitude_limit_seekbar:
                         FormulaEditorFragment.changeInputField(seekbarView, altitudeLimit);
                         changedBrickField = altitudeLimit;
-                        if (seekBar.getProgress() + BrickValues.DRONE_ALTITUDE_MIN < BrickValues.DRONE_ALTITUDE_MAX) {
-                            FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(seekBar.getProgress() + BrickValues.DRONE_ALTITUDE_MIN));
-                        } else {
+                        if (seekBar.getProgress() < BrickValues.DRONE_ALTITUDE_MIN) {
+                            FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(BrickValues.DRONE_ALTITUDE_MIN));
+                        } else if (seekBar.getProgress() + BrickValues.DRONE_ALTITUDE_MIN > BrickValues.DRONE_ALTITUDE_MAX) {
                             FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(BrickValues.DRONE_ALTITUDE_MAX));
+                        } else {
+                            FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(seekBar.getProgress() + BrickValues.DRONE_ALTITUDE_MIN));
                         }
                         break;
                     case R.id.vertical_speed_limit_seekbar:
@@ -184,6 +185,7 @@ public class AdvancedConfigSeekbar {
                     default:
                         break;
                 }
+//                FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(seekBar.getProgress()));
                 // ToDo: this is a hack for saving the value immediately
                 FormulaEditorFragment.changeInputField(seekbarView, getOtherField(changedBrickField));
                 FormulaEditorFragment.changeInputField(seekbarView, changedBrickField);

@@ -46,6 +46,51 @@
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
 
+    <!-- Drone settings spinner-->
+    <string-array name="drone_setting_default_config" >
+        <item >@string/drone_config_default</item >
+        <item >@string/drone_config_outdoor</item >
+        <item >@string/drone_config_indoor</item >
+    </string-array >
+
+    <!-- Drone altitude preferences spinner-->
+    <string-array name="drone_altitude_spinner_items" >
+        <item >@string/drone_set_altitude_max_3m</item >
+        <item >@string/drone_set_altitude_max_5m</item >
+        <item >@string/drone_set_altitude_max_10m</item >
+        <item >@string/drone_set_altitude_max_50m</item >
+        <item >@string/drone_set_altitude_max_100m</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_vertical_speed_items" >
+        <item >@string/drone_set_vertical_very_slow</item >
+        <item >@string/drone_set_vertical_slow</item >
+        <item >@string/drone_set_vertical_medium</item >
+        <item >@string/drone_set_vertical_fast</item >
+        <item >@string/drone_set_vertical_very_fast</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_rotation_speed_items" >
+        <item >@string/drone_set_rotation_very_slow</item >
+        <item >@string/drone_set_rotation_slow</item >
+        <item >@string/drone_set_rotation_medium</item >
+        <item >@string/drone_set_rotation_fast</item >
+        <item >@string/drone_set_rotation_very_fast</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_tilt_angle_items" >
+        <item >@string/drone_set_tilt_max_5_degree</item >
+        <item >@string/drone_set_tilt_max_10_degree</item >
+        <item >@string/drone_set_tilt_max_17_degree</item >
+        <item >@string/drone_set_tilt_max_24_degree</item >
+        <item >@string/drone_set_tilt_max_30_degree</item >
+    </string-array >
+
+
+
     <!-- User Brick UI Data Editor Fragment -->
     <string-array name="data_editor_buttons" >
  		<item >@string/add_text</item >

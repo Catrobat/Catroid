@@ -28,13 +28,13 @@ import android.util.Log;
 
 import com.robotium.solo.Solo;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.MainMenuActivity;
-
 import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.MainMenuActivity;
 
 // CHECKSTYLE DISABLE MethodNameCheck FOR 1000 LINES
 public class BeforeAfterSteps extends ActivityInstrumentationTestCase2<MainMenuActivity> {
