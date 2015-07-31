@@ -249,22 +249,37 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
 		}
 
 		currentSprite = null;
 		currentScript = null;
 	}
 
+	public void initializeNewProject(String projectName, Context context, boolean empty)
+			throws IllegalArgumentException, IOException {
+		initializeNewProject(projectName, context, empty, false);
+	}
+
 	public Project getCurrentProject() {
 		return project;
+	}
+
+	public boolean isCurrentProjectLandscape() {
+		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
+
+		if (virtualScreenWidth > virtualScreenHeight) {
+			return true;
+		}
+		return false;
 	}
 
 	public void setProject(Project project) {

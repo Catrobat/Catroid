@@ -27,7 +27,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,13 +44,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.Utils;
-
-import java.io.IOException;
 
 public class NewProjectDialog extends DialogFragment {
 
@@ -63,9 +58,10 @@ public class NewProjectDialog extends DialogFragment {
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
+	private OrientationDialog orientationDialog;
 	private SharedPreferences sharedPreferences;
 
-	private boolean openendFromProjectList = false;
+	private boolean openedFromProjectList = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -162,39 +158,19 @@ public class NewProjectDialog extends DialogFragment {
 			return;
 		}
 
-		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
-			return;
-		}
+		orientationDialog = new OrientationDialog();
+		orientationDialog.show(getActivity().getSupportFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
+		orientationDialog.setOpenedFromProjectList(openedFromProjectList);
+		orientationDialog.setProjectName(projectName);
+		orientationDialog.setShouldBeEmpty(shouldBeEmpty);
 
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
-
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-		if (isOpenendFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		}
-
-		getActivity().startActivity(intent);
 
 		dismiss();
 	}
 
-	public boolean isOpenendFromProjectList() {
-		return openendFromProjectList;
-	}
-
-	public void setOpenendFromProjectList(boolean openendFromProjectList) {
-		this.openendFromProjectList = openendFromProjectList;
+	public void setOpenedFromProjectList(boolean openedFromProjectList) {
+		this.openedFromProjectList = openedFromProjectList;
 	}
 }
