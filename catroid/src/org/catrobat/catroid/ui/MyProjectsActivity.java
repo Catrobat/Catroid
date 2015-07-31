@@ -121,7 +121,7 @@ public class MyProjectsActivity extends BaseActivity {
 			return;
 		}
 		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.setOpenendFromProjectList(true);
+		dialog.setOpenedFromProjectList(true);
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 

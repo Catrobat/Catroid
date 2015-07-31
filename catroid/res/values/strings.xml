@@ -286,6 +286,7 @@
     <string name="new_project_description_dialog_hint">My Description</string>
     <string name="new_project_name">Program name</string>
     <string name="new_project_empty">Create empty program</string>
+    <string name="project_orientation_title">Orientation:</string>
     <!--  -->
 
 
