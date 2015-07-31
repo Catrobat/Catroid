@@ -49,7 +49,7 @@ public class TextActor extends Actor{
 	private void init(){
 		font = new BitmapFont();
 		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		font.setScale(scale);
+		//font.setScale(scale); // deprecated
 	}
 
 	public void setPosX(int posX) {

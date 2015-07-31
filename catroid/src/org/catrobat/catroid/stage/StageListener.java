@@ -674,7 +674,7 @@ public class StageListener implements ApplicationListener {
 
 	private void drawText(String text, int posX, int posY, float scale){
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.setScale(scale);
+		//font.setScale(scale); deprecated
 
 		Batch batch = stage.getBatch();
 		batch.begin();
