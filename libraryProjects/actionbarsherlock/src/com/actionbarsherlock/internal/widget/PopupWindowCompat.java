@@ -1,14 +1,14 @@
 
 package com.actionbarsherlock.internal.widget;
 
-import java.lang.reflect.Field;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.widget.PopupWindow;
+
+import java.lang.reflect.Field;
 
 /**
  * Works around bugs in the handling of {@link ViewTreeObserver} by

@@ -22,27 +22,25 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
+import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 
 public class DronePlayLedAnimationAction extends TemporalAction {
 
-	private static final String TAG = DronePlayLedAnimationAction.class.getSimpleName();
+    @Override
+    protected void begin() {
+        super.begin();
+        DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+        if (dcs != null) {
+            dcs.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_ORANGE.ordinal());
+        }
+    }
 
-	@Override
-	protected void begin() {
-		super.begin();
-		Log.d(TAG, "begin!");
-		DroneServiceWrapper.getInstance().getDroneService()
-				.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_ORANGE.ordinal());
-	}
-
-	@Override
-	protected void update(float percent) {
-		//Nothing to do
-	}
+    @Override
+    protected void update(float percent) {
+        //Nothing to do
+    }
 }

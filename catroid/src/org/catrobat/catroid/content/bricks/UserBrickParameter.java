@@ -71,8 +71,18 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		return null;
+	}
+
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		return parent.getView(context, brickId, adapter);
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		return null;
 	}
 
 	@Override

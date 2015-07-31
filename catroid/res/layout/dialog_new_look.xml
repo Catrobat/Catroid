@@ -21,19 +21,25 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            style="style/DefaultDialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="0dp" >
+<ScrollView
+    style="style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
 
     <LinearLayout
         android:id="@+id/dialog_new_look"
-        style="@style/DefaultDialog.Item"
-        android:layout_marginTop="8dp"
-        android:baselineAligned="false"
-        android:weightSum="3" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/DefaultDialog.Item"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="false"
+            android:weightSum="3">
 
         <TextView
             android:id="@+id/dialog_new_look_paintroid"
@@ -67,6 +73,34 @@
             android:gravity="center"
             android:text="@string/add_look_from_camera"
             android:textSize="12sp" />
-    </LinearLayout >
+
+
+    </LinearLayout>
+
+               <LinearLayout
+                   android:id="@+id/dialog_new_look_row_2"
+                   style="@style/DefaultDialog.Item"
+                   android:layout_marginTop="8dp"
+                   android:baselineAligned="false"
+                   android:weightSum="3"
+                   android:visibility="gone">
+
+                           <TextView
+                               android:id="@+id/dialog_new_look_drone_video"
+                               android:layout_width="0dp"
+                               android:layout_height="match_parent"
+                               android:layout_weight="1"
+                               android:background="@drawable/new_object_dialog_selector"
+                               android:drawableTop="@drawable/ic_video"
+                               android:gravity="center"
+                               android:text="@string/add_look_drone_video"
+                               android:textSize="12sp" />
+
+               </LinearLayout>
+
+
+        </LinearLayout>
+
+
 
 </ScrollView>

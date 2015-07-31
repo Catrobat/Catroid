@@ -17,10 +17,11 @@
 package com.actionbarsherlock.internal.nineoldandroids.animation;
 
 import android.util.Log;
-//import android.util.Property;
 
-//import java.lang.reflect.Method;
 import java.util.ArrayList;
+
+//import android.util.Property;
+//import java.lang.reflect.Method;
 
 /**
  * This subclass of {@link ValueAnimator} provides support for animating properties on target objects.
@@ -393,10 +394,10 @@ public final class ObjectAnimator extends ValueAnimator {
      * Sets the length of the animation. The default duration is 300 milliseconds.
      *
      * @param duration The length of the animation, in milliseconds.
-     * @return ObjectAnimator The object called with setDuration(). This return
+     * @return ObjectAnimator The object called with setText(). This return
      * value makes it easier to compose statements together that construct and then set the
      * duration, as in
-     * <code>ObjectAnimator.ofInt(target, propertyName, 0, 10).setDuration(500).start()</code>.
+     * <code>ObjectAnimator.ofInt(target, propertyName, 0, 10).setText(500).start()</code>.
      */
     @Override
     public ObjectAnimator setDuration(long duration) {

@@ -24,15 +24,20 @@ package org.catrobat.catroid.content.actions;
 
 public class DroneTurnLeftAction extends DroneMoveAction {
 
-	@Override
-	protected void move() {
-		super.setCommandAndYawEnabled(true);
-		super.getDroneService().turnLeft(super.getPowerNormalized());
-	}
+    @Override
+    protected void move() {
+        if (getDroneService() != null) {
+            super.setCommandAndYawEnabled(true);
+            super.getDroneService().turnLeft(super.getPowerNormalized());
+        }
+    }
 
-	@Override
-	protected void moveEnd() {
-		super.setCommandAndYawEnabled(false);
-		super.getDroneService().turnLeft(DRONE_MOVE_SPEED_STOP);
-	}
+    @Override
+    protected void moveEnd() {
+        if (getDroneService() != null) {
+            super.setCommandAndYawEnabled(false);
+            super.getDroneService().turnLeft(DRONE_MOVE_SPEED_STOP);
+        }
+    }
+
 }

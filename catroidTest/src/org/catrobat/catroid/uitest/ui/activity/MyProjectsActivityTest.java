@@ -266,6 +266,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
+	@Device
 	public void testDeleteStandardProject() {
 		//unzip = true;
 		//saveProjectsToZip();
@@ -299,6 +300,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String yes = solo.getString(R.string.yes);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
 		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
 
 		solo.waitForText(standardProjectName);
@@ -307,6 +309,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
 		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
 
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
@@ -617,6 +620,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
+	@Device
 	public void testDeleteAllProjects() {
 		//unzip = true;
 		//saveProjectsToZip();
@@ -633,7 +637,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		//delete default project if exists:
 		if (UiTestUtils.longClickOnTextInList(solo, defaultProjectName)) {
 			solo.clickOnText(buttonDeleteText);
-
 			solo.waitForText(yes);
 			solo.clickOnText(yes);
 			assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
@@ -646,6 +649,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(buttonDeleteText);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
 		assertTrue("delete dialog not closed in time", solo.waitForText(UiTestUtils.PROJECTNAME1));
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
@@ -666,6 +670,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(buttonDeleteText);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
+
 		assertTrue("delete dialog not closed in time", solo.waitForText(defaultProjectName));
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
@@ -677,6 +683,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
+	@Device
 	public void testDeleteManyProjects() {
 		for (int count = 0; count < 10; count++) {
 			UiTestUtils.createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count);
@@ -704,9 +711,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 					solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count, 0, 200));
 		}
 
+		solo.waitForText(solo.getString(R.string.default_project_name));
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
+	@Device
 	public void testDeleteProjectsWithSpecialChars() {
 		createProjectsWithSpecialChars();
 
@@ -744,6 +753,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
 		assertFalse("Project just two dots not deleted",
 				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
+
+		solo.sleep(200);
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 

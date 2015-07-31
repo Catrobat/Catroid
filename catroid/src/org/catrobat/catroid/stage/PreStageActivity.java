@@ -24,10 +24,18 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -35,6 +43,7 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -44,7 +53,9 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.drone.DroneConnectToWifi;
 import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -53,6 +64,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -60,325 +72,559 @@ import java.util.Locale;
 @SuppressWarnings("deprecation")
 public class PreStageActivity extends BaseActivity {
 
-	private static final String TAG = PreStageActivity.class.getSimpleName();
-	private static final int REQUEST_CONNECT_DEVICE = 1000;
-	public static final int REQUEST_RESOURCES_INIT = 101;
-	public static final int REQUEST_TEXT_TO_SPEECH = 10;
+    private static final String TAG = PreStageActivity.class.getSimpleName();
+    private static final int REQUEST_CONNECT_DEVICE = 1000;
+    public static final int REQUEST_RESOURCES_INIT = 101;
+    public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
-	private int requiredResourceCounter;
+    private int requiredResourceCounter;
 
-	private static TextToSpeech textToSpeech;
-	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
+    private static TextToSpeech textToSpeech;
+    private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
-	private DroneInitializer droneInitializer = null;
+    private DroneInitializer droneInitializer = null;
 
-	private Intent returnToActivityIntent = null;
+    private Intent returnToActivityIntent = null;
+    private WifiScanReceiver wifiReciever;
+    private WifiManager wifi;
+    private WifiConnectionReceiver wifiConnection;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		returnToActivityIntent = new Intent();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        returnToActivityIntent = new Intent();
 
-		if (isFinishing()) {
-			return;
-		}
+        if (isFinishing()) {
+            return;
+        }
 
-		setContentView(R.layout.activity_prestage);
+        setContentView(R.layout.activity_prestage);
 
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		requiredResourceCounter = Integer.bitCount(requiredResources);
+        int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+        requiredResourceCounter = Integer.bitCount(requiredResources);
 
-		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
-			Intent checkIntent = new Intent();
-			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
-		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			connectBTDevice(BluetoothDevice.LEGO_NXT);
-		}
+        if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
+            Intent checkIntent = new Intent();
+            checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+            startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
+        }
 
-		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
-			connectBTDevice(BluetoothDevice.PHIRO);
-		}
+        if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+            connectBTDevice(BluetoothDevice.LEGO_NXT);
+        }
 
-		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
-			droneInitializer = getDroneInitializer();
-			droneInitializer.initialise();
-		}
+        if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
+            connectBTDevice(BluetoothDevice.PHIRO);
+        }
 
-		FaceDetectionHandler.resetFaceDedection();
-		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
-			boolean success = FaceDetectionHandler.startFaceDetection(this);
-			if (success) {
-				resourceInitialized();
-			} else {
-				resourceFailed();
-			}
-		}
+        if (DroneServiceWrapper.checkARDroneAvailability()) {
 
-		if ((requiredResources & Brick.CAMERA_LED) > 0) {
-			if (!CameraManager.getInstance().isFacingBack()) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
-						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								ledInitialize();
-							}
-						});
-				AlertDialog alert = builder.create();
-				alert.show();
-			} else {
-				ledInitialize();
-			}
-		}
+            if (isConnectedViaWifi()) {
+                CatroidApplication.loadNativeLibs();
+                if (CatroidApplication.parrotLibrariesLoaded) {
+                    if (droneInitializer == null) {
+                        droneInitializer = new DroneInitializer(PreStageActivity.this);
+                    }
+                    Log.d("PreStageActivity", "init drone now");
+                    droneInitializer.initialise();
+                }
+            } else {
+                wifi = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
+                wifiReciever = new WifiScanReceiver();
+                registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-		if ((requiredResources & Brick.VIBRATOR) > 0) {
-			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-			if (vibrator != null) {
-				requiredResourceCounter--;
-				VibratorUtil.setContext(this.getBaseContext());
-				VibratorUtil.activateVibratorThread();
-			} else {
-				ToastUtil.showError(PreStageActivity.this, R.string.no_vibrator_available);
-				resourceFailed();
-			}
-		}
+                wifi.setWifiEnabled(true);
+                wifi.startScan();
 
-		if (requiredResourceCounter == Brick.NO_RESOURCES) {
-			startStage();
-		}
-	}
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+                wifiConnection = null; // new WifiConnectionReceiver();
+                registerReceiver(wifiReciever, intentFilter);
+            }
+        }
 
-	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
-		BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+        FaceDetectionHandler.resetFaceDedection();
+        if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+            boolean success = FaceDetectionHandler.startFaceDetection(this);
+            if (success) {
+                resourceInitialized();
+            } else {
+                resourceFailed();
+            }
+        }
 
-		if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE)
-				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
-			resourceInitialized();
-		}
-	}
+        if ((requiredResources & Brick.CAMERA_LED) > 0) {
+            if (!CameraManager.getInstance().isFacingBack()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
+                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                ledInitialize();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                ledInitialize();
+            }
+        }
 
-	public DroneInitializer getDroneInitializer() {
-		if (droneInitializer == null) {
-			droneInitializer = new DroneInitializer(this, returnToActivityIntent);
-		}
-		return droneInitializer;
-	}
+        if ((requiredResources & Brick.VIBRATOR) > 0) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                requiredResourceCounter--;
+                VibratorUtil.setContext(this.getBaseContext());
+                VibratorUtil.activateVibratorThread();
+            } else {
+                ToastUtil.showError(PreStageActivity.this, R.string.no_vibrator_available);
+                resourceFailed();
+            }
+        }
 
-	protected boolean hasFlash() {
-		boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-		boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+        if (requiredResourceCounter == Brick.NO_RESOURCES) {
+            startStage();
+        }
+    }
 
-		if (!hasCamera || !hasLed) {
-			return false;
-		}
+    private void connectBTDevice(Class<? extends BluetoothDevice> service) {
+        BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-		Camera camera = CameraManager.getInstance().getCamera();
+        if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE)
+                == BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
+            resourceInitialized();
+        }
+    }
 
-		try {
-			if (camera == null) {
-				camera = CameraManager.getInstance().getCamera();
-			}
-		} catch (Exception exception) {
-			Log.e(TAG, "failed to open Camera", exception);
-		}
+    public DroneInitializer getDroneInitialiser() {
+        if (droneInitializer == null) {
+            droneInitializer = new DroneInitializer(this);
+        }
+        return droneInitializer;
+    }
 
-		if (camera == null) {
-			return false;
-		}
+    protected boolean hasFlash() {
+        boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+        boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-		Camera.Parameters parameters = camera.getParameters();
+        if (!hasCamera || !hasLed) {
+            return false;
+        }
 
-		if (parameters.getFlashMode() == null) {
-			return false;
-		}
+        Camera camera = CameraManager.getInstance().getCamera();
 
-		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-		if (supportedFlashModes == null || supportedFlashModes.isEmpty()
-				|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
-			return false;
-		}
+        try {
+            if (camera == null) {
+                camera = CameraManager.getInstance().getCamera();
+            }
+        } catch (Exception exception) {
+            Log.e(TAG, "failed to open Camera", exception);
+        }
 
-		return true;
-	}
+        if (camera == null) {
+            return false;
+        }
 
-	@Override
-	public void onResume() {
-		if (droneInitializer != null) {
-			droneInitializer.onPrestageActivityResume();
-		}
+        Camera.Parameters parameters = camera.getParameters();
 
-		super.onResume();
-		if (requiredResourceCounter == 0) {
-			finish();
-		}
-	}
+        if (parameters.getFlashMode() == null) {
+            return false;
+        }
 
-	@Override
-	protected void onPause() {
-		if (droneInitializer != null) {
-			droneInitializer.onPrestageActivityPause();
-		}
+        List<String> supportedFlashModes = parameters.getSupportedFlashModes();
+        if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
+                supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+            return false;
+        }
 
-		super.onPause();
-	}
+        return true;
+    }
 
-	@Override
-	protected void onDestroy() {
-		if (droneInitializer != null) {
-			droneInitializer.onPrestageActivityDestroy();
-		}
+    @Override
+    public void onResume() {
+        if (droneInitializer != null) {
+            droneInitializer.onPrestageActivityResume();
+        }
+        registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-		super.onDestroy();
-	}
+        super.onResume();
+        if (requiredResourceCounter == 0) {
+            finish();
+        }
+    }
 
-	//all resources that should be reinitialized with every stage start
-	public static void shutdownResources() {
-		if (textToSpeech != null) {
-			textToSpeech.stop();
-			textToSpeech.shutdown();
-		}
+    @Override
+    protected void onPause() {
+        if (droneInitializer != null) {
+            droneInitializer.onPrestageActivityPause();
+        }
 
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+        if (wifiReciever != null) {
+            unregisterReceiver(wifiReciever);
+        }
+        if (wifiConnection != null) {
+            unregisterReceiver(wifiConnection);
+        }
 
-		if (FaceDetectionHandler.isFaceDetectionRunning()) {
-			FaceDetectionHandler.stopFaceDetection();
-		}
-	}
+        super.onPause();
+    }
 
-	//all resources that should not have to be reinitialized every stage start
-	public static void shutdownPersistentResources() {
+    @Override
+    protected void onDestroy() {
+        if (droneInitializer != null) {
+            droneInitializer.onPrestageActivityDestroy();
+        }
 
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
+        super.onDestroy();
+    }
 
-		deleteSpeechFiles();
-		if (LedUtil.isActive()) {
-			LedUtil.destroy();
-		}
-		if (VibratorUtil.isActive()) {
-			VibratorUtil.destroy();
-		}
-	}
+    //all resources that should be reinitialized with every stage start
+    public static void shutdownResources() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
 
-	private static void deleteSpeechFiles() {
-		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
-		if (pathToSpeechFiles.isDirectory()) {
-			for (File file : pathToSpeechFiles.listFiles()) {
-				file.delete();
-			}
-		}
-	}
+        ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
 
-	public void resourceFailed() {
-		setResult(RESULT_CANCELED, returnToActivityIntent);
-		finish();
-	}
+        if (FaceDetectionHandler.isFaceDetectionRunning()) {
+            FaceDetectionHandler.stopFaceDetection();
+        }
+    }
 
-	public synchronized void resourceInitialized() {
-		requiredResourceCounter--;
-		if (requiredResourceCounter == 0) {
-			Log.d(TAG, "Start Stage");
+    //all resources that should not have to be reinitialized every stage start
+    public static void shutdownPersistentResources() {
 
-			startStage();
-		}
-	}
+        ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
 
-	public void startStage() {
-		setResult(RESULT_OK, returnToActivityIntent);
-		finish();
-	}
+        deleteSpeechFiles();
+        if (LedUtil.isActive()) {
+            LedUtil.destroy();
+        }
+        if (VibratorUtil.isActive()) {
+            VibratorUtil.destroy();
+        }
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+    private static void deleteSpeechFiles() {
+        File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+        if (pathToSpeechFiles.isDirectory()) {
+            for (File file : pathToSpeechFiles.listFiles()) {
+                file.delete();
+            }
+        }
+    }
 
-		switch (requestCode) {
+    public void resourceFailed() {
+        setResult(RESULT_CANCELED, returnToActivityIntent);
+        finish();
+    }
 
-			case REQUEST_CONNECT_DEVICE:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
-						resourceInitialized();
-						break;
+    public synchronized void resourceInitialized() {
+        requiredResourceCounter--;
+        if (requiredResourceCounter == 0) {
+            Log.d(TAG, "Start Stage");
 
-					case Activity.RESULT_CANCELED:
-						resourceFailed();
-						break;
-				}
-				break;
+            startStage();
+        }
+    }
 
-			case REQUEST_TEXT_TO_SPEECH:
-				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
-						@Override
-						public void onInit(int status) {
-							onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
-							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
-							resourceInitialized();
-							if (status == TextToSpeech.ERROR) {
-								ToastUtil.showError(PreStageActivity.this, "Error occurred while initializing Text-To-Speech engine");
-								resourceFailed();
-							}
-						}
-					});
-					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
-						Intent installIntent = new Intent();
-						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-						startActivity(installIntent);
-						resourceFailed();
-					}
-				} else {
-					AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
-					builder.setMessage(R.string.text_to_speech_engine_not_installed).setCancelable(false)
-							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									Intent installIntent = new Intent();
-									installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-									startActivity(installIntent);
-									resourceFailed();
-								}
-							})
-							.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.cancel();
-									resourceFailed();
-								}
-							});
-					AlertDialog alert = builder.create();
-					alert.show();
-				}
-				break;
-			default:
-				resourceFailed();
-				break;
-		}
-	}
+    public void startStage() {
 
-	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
-			HashMap<String, String> speakParameter) {
-		if (text == null) {
-			text = "";
-		}
+        setResult(RESULT_OK, returnToActivityIntent);
+        finish();
+    }
 
-		if (onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(speechFile, listener,
-				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID))) {
-			int status = textToSpeech.synthesizeToFile(text, speakParameter, speechFile.getAbsolutePath());
-			if (status == TextToSpeech.ERROR) {
-				Log.e(TAG, "File synthesizing failed");
-			}
-		}
-	}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
 
-	private void ledInitialize() {
-		if (hasFlash()) {
-			resourceInitialized();
-			LedUtil.activateLedThread();
-		} else {
-			ToastUtil.showError(PreStageActivity.this, R.string.no_flash_led_available);
-			resourceFailed();
-		}
-	}
+        switch (requestCode) {
+
+            case REQUEST_CONNECT_DEVICE:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        resourceInitialized();
+                        break;
+
+                    case Activity.RESULT_CANCELED:
+                        resourceFailed();
+                        break;
+                }
+                break;
+
+            case REQUEST_TEXT_TO_SPEECH:
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                            onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+                            textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
+                            resourceInitialized();
+                            if (status == TextToSpeech.ERROR) {
+                                ToastUtil.showError(PreStageActivity.this, "Error occurred while initializing Text-To-Speech engine");
+                                resourceFailed();
+                            }
+                        }
+                    });
+                    if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
+                        Intent installIntent = new Intent();
+                        installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                        startActivity(installIntent);
+                        resourceFailed();
+                    }
+                } else {
+                    AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+                    builder.setMessage(R.string.text_to_speech_engine_not_installed).setCancelable(false)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent installIntent = new Intent();
+                                    installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                                    startActivity(installIntent);
+                                    resourceFailed();
+                                }
+                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            resourceFailed();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                break;
+            default:
+                resourceFailed();
+                break;
+        }
+    }
+
+    public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
+                                    HashMap<String, String> speakParameter) {
+        if (text == null) {
+            text = "";
+        }
+
+        if (onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(speechFile, listener,
+                speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID))) {
+            int status = textToSpeech.synthesizeToFile(text, speakParameter, speechFile.getAbsolutePath());
+            if (status == TextToSpeech.ERROR) {
+                Log.e(TAG, "File synthesizing failed");
+            }
+        }
+    }
+
+    private void ledInitialize() {
+        if (hasFlash()) {
+            resourceInitialized();
+            LedUtil.activateLedThread();
+        } else {
+            ToastUtil.showError(PreStageActivity.this, R.string.no_flash_led_available);
+            resourceFailed();
+        }
+    }
+
+    public boolean isConnectedViaWifi() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
+
+    public class WifiScanReceiver extends BroadcastReceiver {
+
+        private boolean isAlreadyConnected = false;
+
+        private boolean addNetworkAndActivate(ScanResult scanResult) {
+
+            WifiConfiguration wc = null;
+            List<WifiConfiguration> configs = wifi.getConfiguredNetworks();
+
+            for (WifiConfiguration wifiConfiguration : configs) {
+                try {
+                    if (wifiConfiguration.SSID.equals("\"" + scanResult.SSID + "\"")) {
+                        wc = wifiConfiguration;
+                        break;
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+            // not configured, create new
+            if (wc == null) {
+                wc = new WifiConfiguration();
+
+                wc.SSID = "\"" + scanResult.SSID + "\"";
+
+                int res = wifi.addNetwork(wc);
+
+                if (res == -1)
+                    return false;
+
+                if (!wifi.saveConfiguration())
+                    return false;
+            }
+
+            boolean active = wifi.enableNetwork(wc.networkId, true);
+
+            return active;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("PreStageActivity", "onReceive entered");
+
+            if (wifi.isWifiEnabled() && !isAlreadyConnected) {
+                List<WifiConfiguration> list = wifi.getConfiguredNetworks();
+                List<ScanResult> result = wifi.getScanResults();
+
+
+                List<String> ssidSet = new ArrayList<String>();
+                final List<Integer> networkIdSet = new ArrayList<Integer>();
+                for (ScanResult network : result) {
+                    Log.d("PreStageActivity", "SSIDs" + network.SSID);
+                    WifiConfiguration wifiConfig = new WifiConfiguration();
+                    wifiConfig.SSID = String.format("\"%s\"", network.SSID);
+
+
+                    if (network.SSID.startsWith("ardrone2")) {
+                        Log.d("PreStageActivity", "ardrone2 found!!!!");
+                        isAlreadyConnected = addNetworkAndActivate(network);
+
+                        /*
+                            wifiManager.disconnect();
+                            int netId = wifiManager.addNetwork(wifiConfig);
+                            wifiManager.enableNetwork(netId, true);
+                            wifiManager.reconnect();
+                         */
+                        break;
+                    }
+                    //ssidSet.add(network.SSID);
+                    //networkIdSet.add(network.networkId);
+                }
+
+            }
+
+            if (isAlreadyConnected) {
+                final String action = intent.getAction();
+                if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
+                    Log.d("PreStageActivity", "before intent getBooleanExtra");
+                    if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
+                        if (isConnectedViaWifi()) {
+                            Log.d("PreStageActivity", "is connected to wifi!");
+                        }
+
+                        CatroidApplication.loadNativeLibs();
+                        if (CatroidApplication.parrotLibrariesLoaded) {
+                            if (droneInitializer == null) {
+                                droneInitializer = new DroneInitializer(PreStageActivity.this);
+                            }
+                            Log.d("PreStageActivity", "init drone now");
+                            droneInitializer.initialise();
+                            isAlreadyConnected = false;
+                        }
+                    } else {
+                        Log.d("PreStageActivity", "is NOT connected to wifi!");
+                    }
+                }
+            }
+
+            /*
+            NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+            if(info != null) {
+                Log.d("PreStageActivity", "info is not null");
+                if(info.isConnected()) {
+                    // Do your work.
+
+                    // e.g. To check the Network Name or other info:
+
+                    WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                    String ssid = wifiInfo.getSSID();
+
+                    Log.d("PreStageActivity", "ssid is = "+ssid);
+                } else {
+                    Log.d("PreStageActivity", "not connected!");
+                }
+            }
+
+            */
+            /*
+            for (String ssid : ssidSet) {
+                Log.d(getClass().getSimpleName(), "Liste von SSIDs: " + ssid);
+            }
+            */
+            //showAvailableSSIDSetDialog(ssidSet, networkIdSet);
+
+        }
+
+        private void showAvailableSSIDSetDialog(final List<String> ssidSet, final List<Integer> networkIdSet) {
+            final CharSequence[] items = ssidSet.toArray(new CharSequence[ssidSet.size()]);
+
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PreStageActivity.this);
+                    builder.setTitle("Select your Drone");
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int item) {
+                            new DroneConnectToWifi(PreStageActivity.this).execute(networkIdSet.get(item).toString(), ssidSet.get(item));
+
+                            Log.d(getClass().getSimpleName(), ssidSet.get(item).toString());
+
+                            //Log.d("PreStageActivity2", "ssid is = " + ssidSet.get(item));
+                            //Log.d("PreStageActivity2", "network id is = "+networkIdSet.get(item));
+
+                            /*
+                            ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                            Log.d("PreStageActivity2", "before isconnected");
+
+                            while (!mWifi.isConnected()) ;
+                            Log.d("PreStageActivity2", "is connected");
+                            CatroidApplication.loadNativeLibs();
+                            if (CatroidApplication.parrotLibrariesLoaded) {
+                                if (droneInitializer == null) {
+                                    droneInitializer = new DroneInitializer(PreStageActivity.this);
+                                }
+
+                                droneInitializer.initialise();
+                            }
+
+                            */
+                            unregisterReceiver(wifiReciever);
+                        }
+
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+            });
+
+
+        }
+
+        public boolean isAlreadyConnected() {
+            return isAlreadyConnected;
+        }
+    }
+
+    private class WifiConnectionReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+        }
+    }
+
+
 }
+

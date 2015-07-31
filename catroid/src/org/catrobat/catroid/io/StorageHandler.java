@@ -22,8 +22,10 @@
  */
 package org.catrobat.catroid.io;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -62,7 +64,6 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -70,7 +71,12 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -108,6 +114,7 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
@@ -304,14 +311,19 @@ public final class StorageHandler {
 
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
-		xstream.alias("brick", DroneTakeOffBrick.class);
-		xstream.alias("brick", DroneLandBrick.class);
+		xstream.alias("brick", DroneTakeOffLandBrick.class);
 		xstream.alias("brick", DroneMoveForwardBrick.class);
 		xstream.alias("brick", DroneMoveBackwardBrick.class);
 		xstream.alias("brick", DroneMoveUpBrick.class);
 		xstream.alias("brick", DroneMoveDownBrick.class);
 		xstream.alias("brick", DroneMoveLeftBrick.class);
 		xstream.alias("brick", DroneMoveRightBrick.class);
+		xstream.alias("brick", DroneSetConfigBrick.class);
+		xstream.alias("brick", SetTextBrick.class);
+		xstream.alias("brick", DroneTurnLeftBrick.class);
+		xstream.alias("brick", DroneTurnRightBrick.class);
+		xstream.alias("brick", DroneSwitchCameraBrick.class);
+		xstream.alias("brick", DroneToggleVideoBrick.class);
 
 		xstream.alias("brick", PhiroMotorMoveBackwardBrick.class);
 		xstream.alias("brick", PhiroMotorMoveForwardBrick.class);
@@ -344,6 +356,12 @@ public final class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
+		File file = new File(DEFAULT_ROOT);
+		if(!file.exists()){
+			Log.d(TAG, "Directory does not exist!");
+			return null;
+		}
+
 		codeFileSanityCheck(projectName);
 
 		Log.d(TAG, "loadProject " + projectName);
@@ -355,8 +373,11 @@ public final class StorageHandler {
 			fileInputStream = new FileInputStream(projectCodeFile);
 			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
 			return project;
-		} catch (Exception exception) {
-			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
+		} catch (FileNotFoundException e) {
+			Log.d(TAG, "Could not load project!");
+			deleteDirectory(file);
+			Log.d(TAG, "loadProject: directory is deleted and " +
+					"default project will be restored!");
 			return null;
 		} finally {
 			if (fileInputStream != null) {
@@ -604,6 +625,27 @@ public final class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
+	public File copyImageFromResourceToCatroid(Activity activity, int imageId, String defaultImageName) throws IOException {
+		Bitmap newImage = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(), imageId);
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		return createImageFromBitmap(projectName, newImage, defaultImageName);
+	}
+
+	public File createImageFromBitmap(String currentProjectName, Bitmap inputImage, String newName) throws IOException {
+
+		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
+
+		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
+
+		if (outputFileDirectory.exists() == false) {
+			outputFileDirectory.mkdirs();
+		}
+
+		File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), newName));
+
+		return createFileFromBitmap(outputFile, inputImage, imageDirectory);
+	}
+
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
 		String newFilePath;
 		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
@@ -673,11 +715,31 @@ public final class StorageHandler {
 		}
 	}
 
+	private File createFileFromBitmap(File outputFile, Bitmap inputImage, File imageDirectory) throws IOException {
+		saveBitmapToImageFile(outputFile, inputImage);
+
+		String checksumCompressedFile = Utils.md5Checksum(outputFile);
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+		String newFilePath = buildPath(imageDirectory.getAbsolutePath(),
+				checksumCompressedFile + "_" + outputFile.getName());
+
+		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
+
+			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
+		}
+
+		File compressedFile = new File(newFilePath);
+		outputFile.renameTo(compressedFile);
+
+		return compressedFile;
+	}
+
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
 				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight,
 				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
+
 
 		saveBitmapToImageFile(outputFile, bitmap);
 
@@ -701,15 +763,16 @@ public final class StorageHandler {
 	}
 
 	public void deleteFile(String filepath) {
-		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-		try {
-			if (container.decrementUsage(filepath)) {
-				File toDelete = new File(filepath);
-				toDelete.delete();
+		File fileToDelete = new File(filepath);
+		if (fileToDelete.exists()) {
+			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+			try {
+				if (container.decrementUsage(filepath)) {
+					fileToDelete.delete();
+				}
+			} catch (FileNotFoundException fileNotFoundException) {
+				Log.e(TAG, Log.getStackTraceString(fileNotFoundException));
 			}
-		} catch (FileNotFoundException fileNotFoundException) {
-			Log.e(TAG, Log.getStackTraceString(fileNotFoundException));
-			//deleteFile(filepath);
 		}
 	}
 
@@ -830,5 +893,22 @@ public final class StorageHandler {
 			return false;
 		}
 		return true;
+	}
+
+	private boolean deleteDirectory(File path) {
+		if (path.exists()) {
+			File[] files = path.listFiles();
+			if (files == null) {
+				return true;
+			}
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					deleteDirectory(files[i]);
+				} else {
+					files[i].delete();
+				}
+			}
+		}
+		return (path.delete());
 	}
 }

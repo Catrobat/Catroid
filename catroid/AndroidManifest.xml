@@ -40,11 +40,14 @@
 
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <!---->
-    <!--&lt;!&ndash; drone &ndash;&gt;-->
-    <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+    
+    <!-- drone permissions -->
+    <uses-feature android:name="android.hardware.wifi" android:required="false" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- drone permissions end -->
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -60,7 +63,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_name_drone"
         android:name=".CatroidApplication"
         android:theme="@style/Theme.Catroid" >
         <activity
@@ -115,6 +118,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".stage.StageActivity"
+            android:configChanges="orientation"
+            android:label="@string/stage"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".drone.DroneStageActivity"
             android:configChanges="orientation"
             android:label="@string/stage"
             android:screenOrientation="portrait"

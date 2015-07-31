@@ -28,12 +28,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import com.parrot.freeflight.service.DroneControlService;
+
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
@@ -113,7 +116,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
-		Double sensorValue;
+		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+		Double sensorValue = 0.0;
 		switch (sensor) {
 
 			case X_ACCELERATION:
@@ -197,6 +201,60 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
+
+			case DRONE_BATTERY_STATUS:
+				return (double) dcs.getDroneNavData().batteryStatus;
+
+			case DRONE_EMERGENCY_STATE:
+				return (double) dcs.getDroneNavData().emergencyState;
+
+			case DRONE_USB_REMAINING_TIME:
+				return (double) dcs.getDroneNavData().usbRemainingTime;
+
+			case DRONE_NUM_FRAMES:
+				return (double) dcs.getDroneNavData().numFrames;
+
+			case DRONE_RECORDING:
+				if (dcs.getDroneNavData().recording) {
+					return 1d;
+				} else {
+					return 0d;
+				}
+
+			case DRONE_FLYING:
+				if (dcs.getDroneNavData().flying) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_INITIALIZED:
+				if (dcs.getDroneNavData().initialized) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_USB_ACTIVE:
+				if (dcs.getDroneNavData().usbActive) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_CAMERA_READY:
+				if (dcs.getDroneNavData().cameraReady) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_RECORD_READY:
+				if (dcs.getDroneNavData().recordReady) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
 		}
 		return 0d;
 	}

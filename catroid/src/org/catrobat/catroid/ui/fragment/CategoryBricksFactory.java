@@ -46,14 +46,17 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneAdvancedConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
@@ -115,6 +118,8 @@ import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+//import org.catrobat.catroid.content.bricks.DroneSetAltitudeBrick;
 
 public class CategoryBricksFactory {
 
@@ -336,9 +341,7 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupDroneCategoryList() {
 		List<Brick> droneBrickList = new ArrayList<Brick>();
-
-		droneBrickList.add(new DroneTakeOffBrick());
-		droneBrickList.add(new DroneLandBrick());
+		droneBrickList.add(new DroneTakeOffLandBrick());
 		droneBrickList.add(new DroneFlipBrick());
 		droneBrickList.add(new DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
 		droneBrickList.add(new DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
@@ -348,6 +351,15 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneMoveBackwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
 		droneBrickList.add(new DroneTurnLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
 		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneSetConfigBrick());
+		droneBrickList.add(new DroneToggleVideoBrick());
+		droneBrickList.add(new DroneSwitchCameraBrick());
+		droneBrickList.add(new DroneAdvancedConfigBrick());
+//		droneBrickList.add(new DroneSetAltitudeBrick());
+
+		// Only for demo purpose
+/*		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
+				BrickValues.STRING_VALUE));*/
 
 		return droneBrickList;
 	}

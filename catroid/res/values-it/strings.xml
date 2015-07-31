@@ -78,9 +78,6 @@
   <string name="dialog_terms_of_use_title">Termini di utilizzo</string>
   <string name="dialog_terms_of_use_info">Per usare Pocket Code e altri programmi offerti dal progetto Catrobat, si deve prendere visione e accettare i nostri Termini d\'uso e di Servizio e seguirli rigorosamente quando si fa uso di Pocket Code e altri programmi. Seguire il link sotto-riportato per leggere i dettagli.\n\n</string>
   <string name="dialog_terms_of_use_link_text">Termini di utilizzo</string>
-  <string name="dialog_terms_of_use_agree_permanent">Accetto in maniera permanente - non chiedermelo di nuovo. Mi assumo la piena responsabilità anche quando questo dispositivo verrà usato da qualcun altro.</string>
-  <string name="dialog_terms_of_use_agree">Accetto</string>
-  <string name="dialog_terms_of_use_do_not_agree">Non accetto</string>
   <string name="dialog_about_title">Su Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code è un ambiente di programmazione e un interprete per dispositivi Android per il linguaggio di programmazione visuale catrobat.\n\n
         Il codice sorgente di Pocket Code è rilasciato principalmente con licenza GNU AGPL v3. 
@@ -328,8 +325,7 @@
   <string name="default_project_var_random_to">casuale fino a</string>
   <string name="default_drone_project_name">Il mio primo programma per Drone</string>
   <string name="default_drone_project_sprites_takeoff">Decolla</string>
-  <string name="default_drone_project_srpites_land">Atterra</string>
-  <string name="default_drone_project_srpites_rotate">Ruota</string>
+  <string name="default_drone_project_sprites_rotate">Ruota</string>
   <string name="default_drone_project_sprites_up">Su</string>
   <string name="default_drone_project_sprites_down">Giù</string>
   <string name="default_drone_project_sprites_left">Sinistra</string>
@@ -411,8 +407,6 @@
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Tutti</string>
-  <string name="brick_drone_takeoff">decolla</string>
-  <string name="brick_drone_land">atterra</string>
   <string name="brick_drone_play_led_animation">Illumina i LED</string>
   <string name="brick_drone_move_left">Muovi a sinistra</string>
   <string name="brick_drone_move_right">Muovi a destra</string>

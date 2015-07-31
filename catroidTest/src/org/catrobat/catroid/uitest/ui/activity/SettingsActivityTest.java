@@ -32,7 +32,10 @@ import android.widget.ListView;
 
 import com.robotium.solo.Solo;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -52,6 +55,59 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		super.setUp();
 		UiTestUtils.createEmptyProject();
 		settings = solo.getString(R.string.settings);
+	}
+
+	public void testToggleDroneSensors() {
+
+		String forumularEditorDroneSensors = "drone_";
+
+		Script currentScript = ProjectManager.getInstance().getCurrentScript();
+		assertNotNull("CurrentScript is NULL", currentScript);
+		if ( currentScript.getBrickList().size() < 1) {
+			currentScript.addBrick(new DroneMoveUpBrick(2000,50));
+		}
+
+		String dronePreferenceString = solo.getString(R.string.preference_description_quadcopter_bricks);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		//disable drone bricks if enabled
+		if (preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false)) {
+			solo.clickOnMenuItem(settings);
+			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+			solo.clickOnText(dronePreferenceString);
+			solo.goBack();
+			solo.waitForActivity(MainMenuActivity.class);
+		}
+
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		solo.waitForActivity(ScriptActivity.class);
+		solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		assertFalse("Drone sensors are showing!", solo.searchText(forumularEditorDroneSensors));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class);
+		solo.clickOnActionBarHomeButton();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnMenuItem(settings);
+		solo.waitForActivity(SettingsActivity.class.getSimpleName());
+
+		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
+
+		solo.clickOnText(dronePreferenceString);
+
+		solo.goBack();
+
+		assertTrue("Drone preference should now be enabled",
+				preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false));
+
+		solo.waitForActivity(MainMenuActivity.class);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		solo.waitForActivity(ScriptActivity.class);
+		solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		assertTrue("Drone sensors are not showing!", solo.searchText(forumularEditorDroneSensors));
+
 	}
 
 	public void testToggleDroneBricks() {

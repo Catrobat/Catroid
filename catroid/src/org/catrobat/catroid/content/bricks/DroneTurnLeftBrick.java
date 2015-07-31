@@ -35,30 +35,26 @@ import java.util.List;
 
 public class DroneTurnLeftBrick extends DroneMoveBrick {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DroneTurnLeftBrick(int durationInMilliseconds, int powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}
+    public DroneTurnLeftBrick(int durationInMilliseconds, int powerInPercent) {
+        super(durationInMilliseconds, powerInPercent);
+    }
 
-	public DroneTurnLeftBrick(Formula durationInMilliseconds, Formula powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}
+    public DroneTurnLeftBrick(Formula durationInMilliseconds, Formula powerInPercent) {
+        super(durationInMilliseconds, powerInPercent);
+    }
 
-	public DroneTurnLeftBrick() {
-		super();
-	}
+    @Override
+    protected String getBrickLabel(View view) {
+        return view.getResources().getString(R.string.brick_drone_turn_left);
+    }
 
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_turn_left);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneTurnLeft(sprite,
-				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
-				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
-		return null;
-	}
+    @Override
+    public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+        sequence.addAction(ExtendedActions.droneTurnLeft(sprite,
+                getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
+                getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
+        return null;
+    }
 }

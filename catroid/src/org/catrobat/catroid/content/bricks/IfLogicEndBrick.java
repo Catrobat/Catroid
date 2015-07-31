@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -86,9 +85,8 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		if (view == null) {
 			alphaValue = 255;
 		}
-
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.brick_if_end_if, null);
+		
+		view = View.inflate(context, R.layout.brick_if_end_if, null);
 		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_if_end_if_checkbox);
@@ -167,8 +165,7 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_if_end_if, null);
+		return View.inflate(context, R.layout.brick_if_end_if, null);
 	}
 
 	@Override

@@ -34,77 +34,77 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public abstract class DroneMoveAction extends TemporalAction {
 
-	private Sprite sprite;
-	private Formula duration;
-	private Formula powerInPercent;
+    private Sprite sprite;
+    private Formula duration;
+    private Formula powerInPercent;
 
-	protected static final float DRONE_MOVE_SPEED_STOP = 0.0f;
+    protected static final float DRONE_MOVE_SPEED_STOP = 0.0f;
 
-	@Override
-	protected void begin() {
-		Float newDuration;
-		try {
-			newDuration = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP) : duration.interpretFloat(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			newDuration = Float.valueOf(DRONE_MOVE_SPEED_STOP);
-		}
-		super.setDuration(newDuration);
-	}
+    @Override
+    protected void begin() {
+        Float newDuration;
+        try {
+            newDuration = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP) : duration.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            newDuration = Float.valueOf(DRONE_MOVE_SPEED_STOP);
+        }
+        super.setDuration(newDuration);
+    }
 
-	public void setDelay(Formula delay) {
-		this.duration = delay;
-	}
+    public void setDelay(Formula delay) {
+        this.duration = delay;
+    }
 
-	public void setPower(Formula powerInPercent) {
-		this.powerInPercent = powerInPercent;
-	}
+    public void setPower(Formula powerInPercent) {
+        this.powerInPercent = powerInPercent;
+    }
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
-	protected float getPowerNormalized() {
-		Float normalizedPower;
-		try {
-			normalizedPower = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP) : powerInPercent.interpretFloat(sprite) / 100;
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			normalizedPower = Float.valueOf(DRONE_MOVE_SPEED_STOP);
-		}
-		return normalizedPower;
-	}
+    protected float getPowerNormalized() {
+        Float normalizedPower;
+        try {
+            normalizedPower = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP) : powerInPercent.interpretFloat(sprite) / 100;
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            normalizedPower = Float.valueOf(DRONE_MOVE_SPEED_STOP);
+        }
+        return normalizedPower;
+    }
 
-	protected DroneControlService getDroneService() {
-		return DroneServiceWrapper.getInstance().getDroneService();
-	}
+    protected DroneControlService getDroneService() {
+        return DroneServiceWrapper.getInstance().getDroneService();
+    }
 
-	protected abstract void move();
+    protected abstract void move();
 
-	protected abstract void moveEnd();
+    protected abstract void moveEnd();
 
-	@Override
-	protected void update(float percent) {
-		//Log.d(TAG, "update!");
-		this.move();
-	}
+    @Override
+    protected void update(float percent) {
+        this.move();
+    }
 
-	// TODO: complete the method
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		//Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		return superReturn;
-	}
+    // TODO: complete the method
+    @Override
+    public boolean act(float delta) {
+        Boolean superReturn = super.act(delta);
+        return superReturn;
+    }
 
-	@Override
-	protected void end() {
-		super.end();
-		moveEnd();
-	}
+    @Override
+    protected void end() {
+        super.end();
+        moveEnd();
+    }
 
-	protected void setCommandAndYawEnabled(boolean enable) {
-		getDroneService().setProgressiveCommandEnabled(enable);
-		getDroneService().setProgressiveCommandCombinedYawEnabled(enable);
-	}
+    protected void setCommandAndYawEnabled(boolean enable) {
+        if (getDroneService() != null) {
+            getDroneService().setProgressiveCommandEnabled(enable);
+            getDroneService().setProgressiveCommandCombinedYawEnabled(enable);
+        }
+    }
 }

@@ -34,6 +34,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -45,16 +46,22 @@ public class LookData implements Serializable, Cloneable {
 	private static final String TAG = LookData.class.getSimpleName();
 
 	@XStreamAsAttribute
-	private String name;
-	private String fileName;
-	private transient Bitmap thumbnailBitmap;
-	private transient Integer width;
-	private transient Integer height;
-	private static final transient int THUMBNAIL_WIDTH = 150;
-	private static final transient int THUMBNAIL_HEIGHT = 150;
-	private transient Pixmap pixmap = null;
-	private transient Pixmap originalPixmap = null;
-	private transient TextureRegion region = null;
+	protected String name;
+	protected String fileName;
+	protected transient Bitmap thumbnailBitmap;
+	protected transient Integer width;
+	protected transient Integer height;
+	protected static final transient int THUMBNAIL_WIDTH = 150;
+	protected static final transient int THUMBNAIL_HEIGHT = 150;
+	protected transient Pixmap pixmap = null;
+	protected transient Pixmap originalPixmap = null;
+	protected transient TextureRegion region = null;
+
+	public static enum LookDataType {
+
+		IMAGE,
+		DRONE_VIDEO
+	}
 
 	@Override
 	public LookData clone() {
@@ -80,7 +87,7 @@ public class LookData implements Serializable, Cloneable {
 
 	public TextureRegion getTextureRegion() {
 		if (region == null) {
-			region = new TextureRegion(new Texture(getPixmap()));
+			setTextureRegion();
 		}
 		return region;
 	}
@@ -115,6 +122,7 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	public LookData() {
+
 	}
 
 	public String getAbsolutePath() {
@@ -148,7 +156,7 @@ public class LookData implements Serializable, Cloneable {
 		return fileName.substring(0, 32);
 	}
 
-	private String getPathToImageDirectory() {
+	protected String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Constants.IMAGE_DIRECTORY);
 	}
@@ -178,5 +186,15 @@ public class LookData implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public void onDraw()
+	{
+		//Nothing to do here
+	}
+
+	public int getRequiredResources()
+	{
+		return Brick.NO_RESOURCES;
 	}
 }

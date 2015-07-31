@@ -16,10 +16,6 @@
 
 package com.actionbarsherlock.internal.view.menu;
 
-import static com.actionbarsherlock.internal.ResourcesCompat.getResources_getInteger;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -33,12 +29,19 @@ import android.view.View.MeasureSpec;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
 import com.actionbarsherlock.R;
 import com.actionbarsherlock.internal.view.View_HasStateListenerSupport;
 import com.actionbarsherlock.internal.view.View_OnAttachStateChangeListener;
 import com.actionbarsherlock.internal.view.menu.ActionMenuView.ActionMenuChildView;
 import com.actionbarsherlock.view.ActionProvider;
 import com.actionbarsherlock.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.actionbarsherlock.internal.ResourcesCompat.getResources_getInteger;
 
 /**
  * MenuPresenter for building action menus as seen in the action bar and action modes.

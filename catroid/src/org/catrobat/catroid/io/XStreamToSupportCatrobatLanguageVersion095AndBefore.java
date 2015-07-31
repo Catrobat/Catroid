@@ -45,7 +45,6 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -53,7 +52,12 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -87,6 +91,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
@@ -382,10 +387,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(DroneFlipBrick.class.getSimpleName());
 		brickInfoMap.put("droneFlipBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneTakeOffBrick.class.getSimpleName());
-		brickInfoMap.put("droneTakeOffBrick", brickInfo);
-
-		brickInfo = new BrickInfo(DroneLandBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(DroneTakeOffLandBrick.class.getSimpleName());
 		brickInfoMap.put("droneTakeOffBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DroneMoveForwardBrick.class.getSimpleName());
@@ -417,6 +419,33 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
 		brickInfoMap.put("droneMoveRightBrick", brickInfo);
+
+
+		brickInfo = new BrickInfo(DroneTurnLeftBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneTurnLeftBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneTurnRightBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneTurnRightBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneToggleVideoBrick.class.getSimpleName());
+		brickInfoMap.put("droneStartVideoBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneSwitchCameraBrick.class.getSimpleName());
+		brickInfoMap.put("droneSwitchCameraBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneSetConfigBrick.class.getSimpleName());
+		brickInfoMap.put("droneSetConfigBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetTextBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
+		brickInfo.addBrickFieldToMap("yDestination", BrickField.Y_DESTINATION);
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
+		brickInfoMap.put("glideToBrick", brickInfo);
+
 	}
 
 	private void initializeScriptInfoMap() {

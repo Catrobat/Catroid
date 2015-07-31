@@ -30,11 +30,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 
@@ -59,10 +59,15 @@ public class NewLookDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_look, null);
+		View dialogView = View.inflate(getActivity(), R.layout.dialog_new_look, null);
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
+
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true))
+		{
+			setupDroneVideoButton(dialogView);
+		}
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -131,5 +136,21 @@ public class NewLookDialog extends DialogFragment {
 				NewLookDialog.this.dismiss();
 			}
 		});
+	}
+
+	private void setupDroneVideoButton(View parentView) {
+		View droneVideoButton = parentView.findViewById(R.id.dialog_new_look_drone_video);
+		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_look_row_2);
+		linearLayout2ndRow.setVisibility(View.VISIBLE);
+
+		droneVideoButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				fragment.addLookDroneVideo();
+				NewLookDialog.this.dismiss();
+			}
+		});
+
 	}
 }

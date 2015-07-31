@@ -450,12 +450,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneTakeOff() {
-		return action(DroneTakeoffAction.class);
-	}
-
-	public static TemporalAction droneLand() {
-		return action(DroneTakeoffAction.class);
+	public static TemporalAction droneTakeOffAndLand() {
+		return action(DroneTakeoffAndLandAction.class);
 	}
 
 	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
@@ -538,12 +534,46 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static TemporalAction droneStartVideo() {
+		return action(DroneStartVideoAction.class);
+	}
+
+	public static TemporalAction droneSwitchCamera () {
+		return action(DroneSwitchCameraAction.class);
+	}
+
 	public static TemporalAction dronePlayLedAnimation() {
 		return action(DronePlayLedAnimationAction.class);
 	}
 
 	public static TemporalAction droneFlip() {
 		return action(DroneFlipAction.class);
+	}
+
+	public static TemporalAction droneSetConfigAction(int ressourceID){
+		DroneSetConfigAction action = action(DroneSetConfigAction.class);
+		action.setRessourceID(ressourceID);
+		return action;
+	}
+
+	public static TemporalAction droneSetAltitudeAction(Sprite sprite, Formula altitude, Formula vertical, Formula rotation, Formula tilt){
+		DroneSetAltitudeAction action = action(DroneSetAltitudeAction.class);
+        action.setSprite(sprite);
+        action.setAltitude(altitude);
+        action.setVerticalSpeed(vertical);
+        action.setRotationSpeed(rotation);
+		action.setTiltAngle(tilt);
+		return action;
+	}
+
+	public static TemporalAction  setText(Sprite sprite, Formula x, Formula y, Formula text) {
+		SetTextAction action = action(SetTextAction.class);
+
+		action.setPosition(x, y);
+		action.setText(text);
+		action.setDuration(5);
+		action.setSprite(sprite);
+		return action;
 	}
 
 	public static LedAction lights(boolean ledValue) {

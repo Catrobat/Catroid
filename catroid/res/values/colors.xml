@@ -36,6 +36,7 @@
     <color name="button_background_top_border_color" >#4D7F8F</color >
     <color name="button_background_bottom_border_color" >#001724</color >
     <color name="holo_blue_light" >#ff33b5e5</color >
+    <color name="terms_of_use_text_color">#E68B00</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color" >#A8DFF4</color >
@@ -80,5 +81,12 @@
     <color name="color_chooser_rgb_green">#FF078707</color>
     <color name="color_chooser_rgb_blue">#FF0284E7</color>
     <color name="holo_blue_bright">#33B5E5</color>
+
+    <!-- Drone advanced preferences -->
+    <color name="drone_altitude_color">#FFEB4618</color>
+    <color name="drone_vertical_color">#FF078707</color>
+    <color name="drone_rotation_color">#FF0284E7</color>,
+    <color name="drone_tilt_color">#FFE01B</color>
+    <color name="drone_holo_blue_bright">#33B5E5</color>
 
 </resources>
