@@ -117,6 +117,8 @@ public class NewSpriteDialog extends DialogFragment {
 
 		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true)) {
 			setupDroneVideoButton(dialogView);
+		} else {
+			disableDroneVideoButton(dialogView);
 		}
 
 		AlertDialog dialog = null;
@@ -300,6 +302,13 @@ public class NewSpriteDialog extends DialogFragment {
 				startActivityForResult(intent, REQUEST_TAKE_PICTURE);
 			}
 		});
+	}
+
+	private void disableDroneVideoButton(View parentView) {
+		View droneVideoButton = parentView.findViewById(R.id.dialog_new_object_drone_video);
+		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_object_step_1_row_2_layout);
+
+		linearLayout2ndRow.setVisibility(View.INVISIBLE);
 	}
 
 	private void setupDroneVideoButton(View parentView) {
