@@ -29,6 +29,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -64,6 +65,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = MainMenuActivityTest.class.getSimpleName();
 
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
@@ -418,8 +420,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 		} catch (IOException e) {
+			Log.e(TAG, "Could not create standard project", e);
 			fail("Could not create standard project");
-			e.printStackTrace();
 		}
 
 		if (standardProject == null) {
@@ -494,7 +496,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		assertTrue("The name of the current testProject2 is not displayed on the continue button", solo.getButton(0)
 				.getText().toString().endsWith(testProject2));
-
 	}
 
 	public void testProjectNameWithNormalAndSpecialCharsVisible() {

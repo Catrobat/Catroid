@@ -38,6 +38,7 @@ public class NXTReply extends MindstormsReply {
 		}
 		return true;
 	}
+
 	@Override
 	public byte getStatusByte() {
 		return data[2];
@@ -47,7 +48,6 @@ public class NXTReply extends MindstormsReply {
 	public byte getCommandByte() {
 		return data[1];
 	}
-
 
 	public NXTReply(byte[] data) {
 		super(data);

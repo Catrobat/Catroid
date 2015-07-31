@@ -76,6 +76,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+
 	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";
 	private static final int IMAGE_RESOURCE_1 = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
 	private static final int IMAGE_RESOURCE_2 = org.catrobat.catroid.test.R.drawable.background_white;
@@ -139,7 +140,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 //		}
 
 		//if (unzip) {
-			//unzipProjects();
+		//unzipProjects();
 		//}
 		super.tearDown();
 	}
@@ -182,7 +183,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 
@@ -231,7 +232,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		UiTestUtils.createTestProject();
@@ -272,7 +273,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		UiTestUtils.createTestProject();
@@ -357,13 +358,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
 
-				byte[] whitePixel = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
-				byte[] blackPixel = {0, 0, 0, (byte) 255};
+				byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+				byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
+						byte[] screenPixel = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
 						assertTrue("Image color should be white",
 								UiTestUtils.comparePixelRgbaArrays(whitePixel, screenPixel));
 
@@ -372,8 +373,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 						break;
 					case 2:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel2 = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
+						byte[] screenPixel2 = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
 						assertTrue("Image color should be black",
 								UiTestUtils.comparePixelRgbaArrays(blackPixel, screenPixel2));
 
@@ -755,7 +756,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.sleep(200);
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
-
 	}
 
 	public void testItemClick() {
@@ -824,7 +824,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 
 		assertTrue(UiTestUtils.PROJECTNAME1 + " has not been deleted!", projectDeleted);
-
 	}
 
 	public void testConfirmDeleteProgramDialogTitleChange() {
@@ -888,7 +887,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnCheckBox(1);
 		assertTrue("Actionbar title is not displayed correctly!",
 				solo.searchText(deleteActionModeTitle + " 2 " + multipleItemAppendixDeleteActionMode));
-
 	}
 
 	public void testCancelDeleteActionMode() {
@@ -899,7 +897,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		String delete = solo.getString(R.string.delete);
@@ -944,7 +942,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 		assertFalse("Project is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
 				R.id.copy, copy, UiTestUtils.PROJECTNAME1));
-
 	}
 
 	public void testRenameProject() {
@@ -992,7 +989,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertEquals("Current project is not the same after renaming!", UiTestUtils.PROJECTNAME1, ProjectManager
 				.getInstance().getCurrentProject().getName());
-
 	}
 
 	public void testRenameCurrentProject() {
@@ -1174,7 +1170,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2));
 		assertTrue("Rename with normal and special characters two was not successful", renameDirectory.isDirectory());
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
-
 	}
 
 	public void testRenameProjectJustSpecialCharacters() {
@@ -1854,8 +1849,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		byte[] greenPixel1 = createScreenshotBitmap();
 
 		//The color values below are those we get on our emulated test device
-		byte[] greenPixel = {0, (byte) 255, 0, (byte) 255};
-		byte[] redPixel = {(byte) 255, 0, 0, (byte) 255};
+		byte[] greenPixel = { 0, (byte) 255, 0, (byte) 255 };
+		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
 
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel1));
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -1872,7 +1867,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
-		playTheProject(false, true, true);// red to green + screenshot
+		playTheProject(false, true, true); // red to green + screenshot
 		byte[] greenPixel2 = createScreenshotBitmap();
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel2));
 		assertFalse("The screenshot has not been changed", UiTestUtils.comparePixelRgbaArrays(redPixel1, greenPixel2));
@@ -1918,9 +1913,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testDeletingProjectAndVerifySettings() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-			StandardProjectHandler.createAndSaveStandardProject("test",getActivity());
+			StandardProjectHandler.createAndSaveStandardProject("test", getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 
@@ -2059,8 +2054,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 					viewBitmap = viewToTest.getDrawingCache();
 					int pixelValue = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
-					pixel = new byte[]{(byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
-							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue)};
+					pixel = new byte[] { (byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
+							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue) };
 				}
 			}
 		}
@@ -2179,7 +2174,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			try {
 				StandardProjectHandler.createAndSaveStandardProject(getActivity());
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, "Standard Project not created", e);
 				fail("Standard Project could not be not created");
 			}
 		}

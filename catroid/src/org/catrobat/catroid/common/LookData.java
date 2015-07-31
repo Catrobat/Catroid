@@ -119,7 +119,6 @@ public class LookData implements Serializable, Cloneable {
 			originalPixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
 		}
 		return originalPixmap;
-
 	}
 
 	public LookData() {
@@ -181,7 +180,7 @@ public class LookData implements Serializable, Cloneable {
 		width = options.outWidth;
 		height = options.outHeight;
 
-		return new int[]{width, height};
+		return new int[] { width, height };
 	}
 
 	@Override

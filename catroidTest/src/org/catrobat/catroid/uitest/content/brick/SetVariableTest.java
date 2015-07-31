@@ -179,7 +179,7 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("UserVariable is null", userVariable);
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
-	
+
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
@@ -230,5 +230,4 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 			solo.waitForText(solo.getString(R.string.formula_editor_data), 0, 1000);
 		}
 	}
-
 }

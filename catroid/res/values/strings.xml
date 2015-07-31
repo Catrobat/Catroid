@@ -29,6 +29,10 @@
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
+    <string name="menu_item_move_down">Move Down</string>
+    <string name="menu_item_move_up">Move Up</string>
+    <string name="menu_item_move_to_top">Move To Top</string>
+    <string name="menu_item_move_to_bottom">Move To Bottom</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>
@@ -500,6 +504,8 @@
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
     <string name="notification_upload_rejected">Uploaded program rejected</string>
+    <string name="notification_upload_retry">Retry</string>
+    <string name="notification_open_play_store">Open Play Store</string>
     <string name="notification_download_title_pending">"Downloading "</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
@@ -633,7 +639,12 @@
     <string name="brick_drone_set_config">Set config</string>
     <string name="brick_drone_toggle_video">Toggle video</string>
     <string name="brick_drone_switch_camera">Switch camera</string>
-    <string name="brick_drone_set_altitude">Set maximum height</string>
+    <string name="brick_drone_set_altitude">Altitude limit</string>
+    <string name="brick_drone_set_vertical_speed">Speed limit</string>
+    <string name="brick_drone_set_rotation_speed">Rotation limit</string>
+    <string name="brick_drone_set_tilt_angle">Tilt angle</string>
+    <string name="brick_drone_meter">meter</string>
+    <string name="brick_drone_set_advanced_config">Set advanced config</string>
     <!--  -->
 
     <!-- Phiro bricks -->
@@ -743,6 +754,10 @@
     <string name="formula_editor_function_arctan_parameter">(0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_floor">floor</string>
+    <string name="formula_editor_function_floor_parameter">(0.7)</string>
+    <string name="formula_editor_function_ceil">ceil</string>
+    <string name="formula_editor_function_ceil_parameter">(0.3)</string>
     <string name="formula_editor_function_max">max</string>
     <string name="formula_editor_function_max_parameter">(0,1)</string>
     <string name="formula_editor_function_min">min</string>
@@ -776,7 +791,7 @@
     <string name="formula_editor_sensor_drone_record_ready">drone_record_ready</string>
     <string name="formula_editor_sensor_drone_recording">drone_recording</string>
     <string name="formula_editor_sensor_drone_num_frames">drone_num_frames</string>
-     <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
+    <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>

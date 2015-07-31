@@ -68,7 +68,6 @@ public final class InternFormulaUtils {
 			}
 
 			functionInternTokenList.add(tempSearchToken);
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN
 				|| nestedFunctionsCounter != 0);
 
@@ -86,7 +85,6 @@ public final class InternFormulaUtils {
 		Collections.reverse(functionInternTokenList);
 
 		return functionInternTokenList;
-
 	}
 
 	public static List<InternToken> getFunctionByParameterDelimiter(List<InternToken> internTokenList,
@@ -122,7 +120,6 @@ public final class InternFormulaUtils {
 			}
 
 			functionInternTokenList.add(tempSearchToken);
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN
 				|| nestedFunctionsCounter != 0);
 
@@ -160,7 +157,6 @@ public final class InternFormulaUtils {
 			}
 
 			functionInternTokenList.add(tempSearchToken);
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE
 				|| nestedFunctionsCounter != 0);
 
@@ -185,7 +181,6 @@ public final class InternFormulaUtils {
 				functionBracketOpenInternTokenListIndex - 1);
 
 		return functionInternTokenList;
-
 	}
 
 	public static List<InternToken> getFunctionByName(List<InternToken> internTokenList, int functionStartListIndex) {
@@ -236,12 +231,10 @@ public final class InternFormulaUtils {
 			}
 
 			functionInternTokenList.add(tempSearchToken);
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE
 				|| nestedFunctionsCounter != 0);
 
 		return functionInternTokenList;
-
 	}
 
 	public static List<InternToken> generateTokenListByBracketOpen(List<InternToken> internTokenList,
@@ -277,11 +270,9 @@ public final class InternFormulaUtils {
 			}
 
 			bracketInternTokenListToReturn.add(tempSearchToken);
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.BRACKET_CLOSE || nestedBracketsCounter != 0);
 
 		return bracketInternTokenListToReturn;
-
 	}
 
 	public static List<InternToken> generateTokenListByBracketClose(List<InternToken> internTokenList,
@@ -317,7 +308,6 @@ public final class InternFormulaUtils {
 			}
 
 			bracketInternTokenListToReturn.add(tempSearchToken);
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.BRACKET_OPEN || nestedBracketsCounter != 0);
 
 		Collections.reverse(bracketInternTokenListToReturn);
@@ -375,7 +365,6 @@ public final class InternFormulaUtils {
 			}
 
 			searchIndex++;
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE
 				|| nestedFunctionsCounter != 0);
 
@@ -459,7 +448,6 @@ public final class InternFormulaUtils {
 		replaceTokenList.add(rightNumber);
 
 		return replaceTokenList;
-
 	}
 
 	public static InternToken insertIntoNumberToken(InternToken numberTokenToBeModified, int externNumberOffset,
@@ -471,7 +459,6 @@ public final class InternFormulaUtils {
 		numberTokenToBeModified.setTokenStringValue(leftPart + numberToInsert + rightPart);
 
 		return numberTokenToBeModified;
-
 	}
 
 	public static List<InternToken> replaceFunctionButKeepParameters(List<InternToken> functionToReplace,
@@ -501,13 +488,11 @@ public final class InternFormulaUtils {
 			if (index < functionParameterCount - 1) {
 				replacedParametersFunction.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 			}
-
 		}
 
 		replacedParametersFunction.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		return replacedParametersFunction;
-
 	}
 
 	static int getFunctionParameterCount(List<InternToken> functionInternTokenList) {
@@ -549,7 +534,6 @@ public final class InternFormulaUtils {
 			}
 
 			searchIndex++;
-
 		} while (tempSearchToken.getInternTokenType() != InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE
 				|| nestedFunctionsCounter != 0);
 		return functionParameterCount;
@@ -618,7 +602,6 @@ public final class InternFormulaUtils {
 					}
 					break;
 			}
-
 		}
 		return true;
 	}
@@ -635,5 +618,4 @@ public final class InternFormulaUtils {
 		}
 		return false;
 	}
-
 }

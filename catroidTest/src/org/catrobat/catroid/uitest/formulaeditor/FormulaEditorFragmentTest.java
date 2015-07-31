@@ -111,7 +111,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		solo.goBack();
 		solo.goBack();
-
 	}
 
 	public void testOnTheFlyUpdateOfBrickEditText() {
@@ -184,7 +183,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		solo.goBack();
 		solo.goBack();
-
 	}
 
 	public void testUndoRedo() {
@@ -228,7 +226,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.goBack();
 		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
 		solo.clickOnButton(solo.getString(R.string.no));
-
 	}
 
 	public void testUndoLimit() {
@@ -265,7 +262,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.goBack();
 		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
 		solo.clickOnButton(solo.getString(R.string.no));
-
 	}
 
 	public void testSimpleInterpretation() {
@@ -452,7 +448,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		int orientation = getActivity().getRequestedOrientation();
 
 		assertTrue("Landscape Orientation isn't deactivated", orientation == Solo.PORTRAIT);
-
 	}
 
 	public void testGoBackAndEditTextSwitches() {
@@ -488,7 +483,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(Y_POS_EDIT_TEXT_RID, 1));
 		isFound = solo.searchText("5") && solo.searchText("-") && solo.searchText("4");
 		assertTrue("5 - 4 not found!", isFound);
-
 	}
 
 	public void testRedoAndUndoButtonViewOfKeyboard() {
@@ -520,7 +514,6 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		assertTrue("Undo Button not inactive!", !undo.isEnabled());
 		assertTrue("Redo Button not active!", redo.isEnabled());
-
 	}
 
 	public void testDeleteButtonViewOfKeyboard() {
@@ -567,7 +560,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnScreen(30, globalVisibleRect.top + 10);
 	}
 
-	private boolean areDeleteButtonsEnabled(ImageButton deleteEditField, ImageButton deleteKeyboard){
+	private boolean areDeleteButtonsEnabled(ImageButton deleteEditField, ImageButton deleteKeyboard) {
 		return deleteEditField.isEnabled() && deleteKeyboard.isEnabled();
 	}
 }

@@ -75,13 +75,11 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			}
 
 			return ServerCalls.getInstance().checkToken(token, username);
-
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			exception = webconnectionException;
 		}
 		return false;
-
 	}
 
 	@Override
@@ -128,6 +126,5 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 		void onTokenNotValid(FragmentActivity fragmentActivity);
 
 		void onCheckTokenSuccess(FragmentActivity fragmentActivity);
-
 	}
 }

@@ -510,7 +510,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
 			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
 			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
-		}catch(Exception exception){
+		} catch (Exception exception) {
 			Log.e(TAG, "Failed to modify variables tag", exception);
 		}
 	}
@@ -590,8 +590,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 	}
 
 	private void copyAttributesIfNeeded(Node sourceNode, Element destinationNode) {
-		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick") ||
-				sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
+		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick")
+				|| sourceNode.getNodeName().equals("ifLogicElseBrick")
+				|| sourceNode.getNodeName().equals("ifLogicEndBrick")) {
 			return;
 		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
@@ -655,10 +656,10 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 					Node brickNode = brickListChildNodes.item(j);
 					Element newBrickNode = originalDocument.createElement("brick");
 
-					if (brickNode.getNodeName().equals("setGhostEffectBrick")){
+					if (brickNode.getNodeName().equals("setGhostEffectBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "setTransparencyBrick");
 					}
-					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")){
+					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "changeTransparencyByNBrick");
 					}
 
@@ -680,9 +681,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
 									handleUserVariableNode(newBrickNode, brickChild);
-								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
-										brickChild.getNodeName().equals("ifElseBrick") ||
-										brickChild.getNodeName().equals("ifEndBrick")) {
+								} else if (brickChild.getNodeName().equals("loopEndBrick")
+										|| brickChild.getNodeName().equals("ifElseBrick")
+										|| brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
 								} else {
 									newBrickNode.appendChild(brickChild);
@@ -843,5 +844,4 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			return brickClassName;
 		}
 	}
-
 }

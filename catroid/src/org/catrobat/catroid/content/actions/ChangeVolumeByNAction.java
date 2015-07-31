@@ -41,9 +41,9 @@ public class ChangeVolumeByNAction extends TemporalAction {
 		try {
 			Float newVolume = volume == null ? Float.valueOf(0f) : volume.interpretFloat(sprite);
 			SoundManager.getInstance().setVolume(SoundManager.getInstance().getVolume() + newVolume);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setVolume(Formula volume) {
@@ -53,5 +53,4 @@ public class ChangeVolumeByNAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

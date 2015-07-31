@@ -1,11 +1,12 @@
 package com.actionbarsherlock.internal.widget;
 
-import java.util.Locale;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.Button;
+
+import java.util.Locale;
 
 public class CapitalizingButton extends Button {
     private static final boolean SANS_ICE_CREAM = Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH;

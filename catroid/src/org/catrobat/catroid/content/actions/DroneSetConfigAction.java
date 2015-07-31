@@ -28,9 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.DroneConfigManager;
 
-/**
- * Created by marc on 18.02.2015.
- */
+
 public class DroneSetConfigAction extends TemporalAction {
 
     private int ressourceID;

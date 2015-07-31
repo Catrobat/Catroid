@@ -117,7 +117,6 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 		BluetoothTestUtils.addPairedDevice(LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME,
 				(ConnectBluetoothDeviceActivity) solo.getCurrentActivity(), getInstrumentation());
 
-
 		ListView deviceList = solo.getCurrentViews(ListView.class).get(0);
 		String connectedDeviceName = null;
 		for (int i = 0; i < deviceList.getCount(); i++) {
@@ -173,12 +172,12 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 
 		PhiroMotorMoveForwardBrick phiro = new PhiroMotorMoveForwardBrick(
 				PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT, 100);
-		commands.add(new int[]{MOTOR_MOVE, PIN_LEFT_MOTOR_FORWARD, 100});
+		commands.add(new int[] { MOTOR_MOVE, PIN_LEFT_MOTOR_FORWARD, 100 });
 		WaitBrick firstWaitBrick = new WaitBrick(100);
 
 		PhiroMotorStopBrick phiroMotorStopBrick = new PhiroMotorStopBrick(
 				PhiroMotorStopBrick.Motor.MOTOR_LEFT);
-		commands.add(new int[]{MOTOR_STOP, PIN_LEFT_MOTOR_FORWARD, PIN_LEFT_MOTOR_BACKWARD});
+		commands.add(new int[] { MOTOR_STOP, PIN_LEFT_MOTOR_FORWARD, PIN_LEFT_MOTOR_BACKWARD });
 
 		whenScript.addBrick(phiro);
 		whenScript.addBrick(firstWaitBrick);

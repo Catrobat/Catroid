@@ -27,6 +27,8 @@ import android.util.Log;
 
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.common.BrickValues;
+
 public final class DroneConfigManager {
 
     private static DroneConfigManager instance;
@@ -46,6 +48,10 @@ public final class DroneConfigManager {
         droneControlService = DroneServiceWrapper.getInstance().getDroneService();
         if (droneControlService != null) {
             droneControlService.resetConfigToDefaults();
+//            setAltitude(BrickValues.DRONE_ALTITUDE_DEFAULT);
+//            setVerticalSpeed(BrickValues.DRONE_VERTICAL_DEFAULT);
+//            setRotationSpeed(BrickValues.DRONE_ROTATION_DEFAULT);
+//            setTiltAngle(BrickValues.DRONE_TILT_DEFAULT);
             Log.d("DroneConfigManager", "Set Config = default");
         }
     }
@@ -74,8 +80,50 @@ public final class DroneConfigManager {
     public void setAltitude(int value) {
         droneControlService = DroneServiceWrapper.getInstance().getDroneService();
         if (droneControlService != null) {
-            droneControlService.getDroneConfig().setAltitudeLimit(value);
+            Log.d("DroneConfigManager", String.format("old altitude = %d", droneControlService.getDroneConfig().getAltitudeLimit()));
+            if (BrickValues.DRONE_ALTITUDE_MIN <= value && value <= BrickValues.DRONE_ALTITUDE_MAX) {
+                droneControlService.getDroneConfig().setAltitudeLimit(value);
+            } else {
+                droneControlService.getDroneConfig().setAltitudeLimit(BrickValues.DRONE_ALTITUDE_DEFAULT);
+            }
+            Log.d("DroneConfigManager", String.format("new altitude = %d", droneControlService.getDroneConfig().getAltitudeLimit()));
         }
     }
 
+    public void setVerticalSpeed(int value) {
+        droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+        if (droneControlService != null) {
+            Log.d("DroneConfigManager", String.format("old vertical = %d", droneControlService.getDroneConfig().getVertSpeedMax()));
+            if (BrickValues.DRONE_VERTICAL_MIN <= value && value <= BrickValues.DRONE_VERTICAL_MAX) {
+                droneControlService.getDroneConfig().setVertSpeedMax(value);
+            } else {
+                droneControlService.getDroneConfig().setVertSpeedMax(BrickValues.DRONE_VERTICAL_DEFAULT);
+            }            Log.d("DroneConfigManager", String.format("new vertical = %d", droneControlService.getDroneConfig().getVertSpeedMax()));
+        }
+    }
+
+    public void setRotationSpeed(int value) {
+        droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+        if (droneControlService != null) {
+            Log.d("DroneConfigManager", String.format("old rotation = %d", droneControlService.getDroneConfig().getYawSpeedMax()));
+            if (BrickValues.DRONE_ROTATION_MIN <= value && value <= BrickValues.DRONE_ROTATION_MAX) {
+                droneControlService.getDroneConfig().setYawSpeedMax(value);
+            } else {
+                droneControlService.getDroneConfig().setYawSpeedMax(BrickValues.DRONE_ALTITUDE_DEFAULT);
+            }            Log.d("DroneConfigManager", String.format("new rotation = %d", droneControlService.getDroneConfig().getYawSpeedMax()));
+        }
+    }
+
+    public void setTiltAngle(int value) {
+        droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+        if (droneControlService != null) {
+            Log.d("DroneConfigManager", String.format("old tilt = %d", droneControlService.getDroneConfig().getDeviceTiltMax()));
+            if (BrickValues.DRONE_TILT_MIN <= value && value <= BrickValues.DRONE_TILT_MAX) {
+                droneControlService.getDroneConfig().setDeviceTiltMax(value);
+            } else {
+                droneControlService.getDroneConfig().setDeviceTiltMax(BrickValues.DRONE_TILT_DEFAULT);
+            }
+            Log.d("DroneConfigManager", String.format("new tilt = %d", droneControlService.getDroneConfig().getDeviceTiltMax()));
+        }
+    }
 }

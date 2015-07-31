@@ -43,10 +43,10 @@ public class GoNStepsBackAction extends TemporalAction {
 		Float stepsValue;
 		try {
 			stepsValue = steps == null ? Float.valueOf(0f) : steps.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			return;
+		}
 
 		int zPosition = sprite.look.getZIndex();
 		if (stepsValue.intValue() > 0 && (zPosition - stepsValue.intValue()) < 1) {
@@ -56,7 +56,6 @@ public class GoNStepsBackAction extends TemporalAction {
 		} else {
 			goNStepsBack(stepsValue.intValue());
 		}
-
 	}
 
 	private void toFront() {
@@ -68,10 +67,8 @@ public class GoNStepsBackAction extends TemporalAction {
 			if (spriteList.get(i).look.getZIndex() > actualSpriteZIndex) {
 				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
 			}
-
 		}
 		sprite.look.setZIndex(spriteList.size() - 1);
-
 	}
 
 	private void goNStepsBack(int steps) {
@@ -81,7 +78,6 @@ public class GoNStepsBackAction extends TemporalAction {
 		if (newSpriteZIndex < 1) {
 
 			newSpriteZIndex = 1;
-
 		}
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -96,10 +92,8 @@ public class GoNStepsBackAction extends TemporalAction {
 					spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
 				}
 			}
-
 		}
 		sprite.look.setZIndex(newSpriteZIndex);
-
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -109,5 +103,4 @@ public class GoNStepsBackAction extends TemporalAction {
 	public void setSteps(Formula steps) {
 		this.steps = steps;
 	}
-
 }

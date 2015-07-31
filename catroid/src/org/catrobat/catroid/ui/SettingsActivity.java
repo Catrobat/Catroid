@@ -54,8 +54,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
 
-
-
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +116,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+		final String[] sensorPreferences = new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
@@ -162,7 +160,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
 		getSharedPreferences(context).edit().putBoolean(settingsString, value).commit();
-
 	}
 
 	private static boolean getBooleanSharedPreference(boolean defaultValue, String settingsString, Context context) {
@@ -176,7 +173,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static NXTSensor.Sensor[] getLegoMindstormsNXTSensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+				new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -188,8 +185,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	}
 
 	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {
-			String sensor = getSharedPreferences(context).getString(sensorSetting, null);
-			return NXTSensor.Sensor.getSensorFromSensorCode(sensor);
+		String sensor = getSharedPreferences(context).getString(sensorSetting, null);
+		return NXTSensor.Sensor.getSensorFromSensorCode(sensor);
 	}
 
 	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor[] sensorMapping) {

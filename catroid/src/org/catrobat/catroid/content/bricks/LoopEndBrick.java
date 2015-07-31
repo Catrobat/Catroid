@@ -54,7 +54,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	public LoopEndBrick() {
-
 	}
 
 	@Override
@@ -121,7 +120,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			background.setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

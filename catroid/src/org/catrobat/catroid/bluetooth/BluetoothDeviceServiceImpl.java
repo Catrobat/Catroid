@@ -37,7 +37,6 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	private Map<Class<? extends BluetoothDevice>, BluetoothDevice> connectedDevices =
 			new HashMap<Class<? extends BluetoothDevice>, BluetoothDevice>();
 
-
 	@Override
 	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
 			Activity activity, int requestCode) {
@@ -99,7 +98,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	public synchronized <T extends BluetoothDevice> T getDevice(Class<T> btDevice) {
 		BluetoothDevice device = connectedDevices.get(btDevice);
 		if (device != null) {
-			return (T)device;
+			return (T) device;
 		}
 		return null;
 	}

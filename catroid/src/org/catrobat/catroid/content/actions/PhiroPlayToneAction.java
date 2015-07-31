@@ -50,10 +50,10 @@ public class PhiroPlayToneAction extends TemporalAction {
 
 		try {
 			durationInterpretation = durationInSeconds.interpretInteger(sprite);
-        } catch (InterpretationException interpretationException) {
-            durationInterpretation = 0;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			durationInterpretation = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 
 		Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
 		if (phiro == null) {
@@ -96,5 +96,4 @@ public class PhiroPlayToneAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

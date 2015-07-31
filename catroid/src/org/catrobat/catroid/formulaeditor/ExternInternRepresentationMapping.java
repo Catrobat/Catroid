@@ -52,7 +52,6 @@ public class ExternInternRepresentationMapping {
 		if (externStringEndIndex >= externStringLength) {
 			externStringLength = externStringEndIndex;
 		}
-
 	}
 
 	public int getExternTokenStartIndex(int internIndex) {

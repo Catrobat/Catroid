@@ -173,6 +173,5 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	public interface OnCategorySelectedListener {
 
 		void onCategorySelected(String category);
-
 	}
 }

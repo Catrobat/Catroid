@@ -49,5 +49,4 @@ public abstract class BackPackActivityFragment extends SherlockListFragment {
 	protected abstract void showDeleteDialog();
 
 	public abstract void startUnPackingActionMode();
-
 }

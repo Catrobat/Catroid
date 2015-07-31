@@ -38,5 +38,4 @@ public class LedAction extends TemporalAction {
 	public void setLedValue(boolean ledValue) {
 		this.ledValue = ledValue;
 	}
-
 }

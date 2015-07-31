@@ -34,14 +34,14 @@ import java.util.UUID;
 
 class BluetoothConnectionProxy implements BluetoothConnection {
 
-	Logger logger;
+	private final BluetoothLogger logger;
 
 	BluetoothConnection btConnection;
 
 	ObservedInputStream observedInputStream;
 	ObservedOutputStream observedOutputStream;
 
-	BluetoothConnectionProxy(String macAddress, UUID uuid, Logger logger) {
+	BluetoothConnectionProxy(String macAddress, UUID uuid, final BluetoothLogger logger) {
 
 		btConnection = new BluetoothConnectionImpl(macAddress, uuid);
 		this.logger = logger;
@@ -71,7 +71,6 @@ class BluetoothConnectionProxy implements BluetoothConnection {
 		}
 
 		return observedInputStream;
-
 	}
 
 	@Override

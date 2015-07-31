@@ -25,12 +25,11 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/DefaultDialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="0dp" >
+    android:paddingBottom="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

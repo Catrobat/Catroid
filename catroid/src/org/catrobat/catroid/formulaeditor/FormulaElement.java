@@ -70,7 +70,6 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			this.rightChild.parent = this;
 		}
-
 	}
 
 	public ElementType getElementType() {
@@ -206,11 +205,9 @@ public class FormulaElement implements Serializable {
 			Object userListValue = userListValues.get(0);
 			if (userListValue instanceof String) {
 				return userListValue;
-
 			} else {
 				return userListValue;
 			}
-
 		} else {
 			return interpretMultipleItemsUserList(userListValues);
 		}
@@ -351,6 +348,10 @@ public class FormulaElement implements Serializable {
 				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
 			case EXP:
 				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.exp(doubleValueOfLeftChild);
+			case FLOOR:
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.floor(doubleValueOfLeftChild);
+			case CEIL:
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.ceil(doubleValueOfLeftChild);
 			case MAX:
 				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.max(doubleValueOfLeftChild,
 						doubleValueOfRightChild);
@@ -436,7 +437,6 @@ public class FormulaElement implements Serializable {
 
 		return userList.getList().get(index);
 	}
-
 
 	private Object interpretFunctionJoin(Sprite sprite) {
 		return interpretInterpretFunctionJoinParameter(leftChild, sprite)
@@ -574,7 +574,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretOperator(Operators operator, Sprite sprite) {
 
-		if (leftChild != null) {// binary operator
+		if (leftChild != null) { // binary operator
 			Object leftObject;
 			Object rightObject;
 			try {
@@ -642,8 +642,7 @@ public class FormulaElement implements Serializable {
 					right = interpretOperator(rightObject);
 					return left != 0d || right != 0d ? 1d : 0d;
 			}
-
-		} else {//unary operators
+		} else { //unary operators
 			Object rightObject;
 			try {
 				rightObject = rightChild.interpretRecursive(sprite);
@@ -845,7 +844,6 @@ public class FormulaElement implements Serializable {
 				return Double.toString(((Double) userVariableValue)).length();
 			}
 		}
-
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
@@ -911,7 +909,6 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.BLUETOOTH_PHIRO;
 					break;
 				default:
-
 			}
 		}
 		if (type == ElementType.SENSOR) {
@@ -952,5 +949,4 @@ public class FormulaElement implements Serializable {
 		}
 		return resources;
 	}
-
 }

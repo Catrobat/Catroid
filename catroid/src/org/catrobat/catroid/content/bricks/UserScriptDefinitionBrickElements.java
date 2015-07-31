@@ -70,7 +70,7 @@ public class UserScriptDefinitionBrickElements implements Serializable {
 		this.userScriptDefinitionBrickElements = userScriptDefinitionBrickElements;
 	}
 
-	public void incrementVersion(){
+	public void incrementVersion() {
 		version++;
 	}
 }

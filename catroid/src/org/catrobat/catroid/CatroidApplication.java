@@ -33,6 +33,7 @@ public class CatroidApplication extends Application {
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
 	private ApplicationSettings settings;
+
 	private static Context context;
 
 	public static final String OS_ARCH = System.getProperty("os.arch");

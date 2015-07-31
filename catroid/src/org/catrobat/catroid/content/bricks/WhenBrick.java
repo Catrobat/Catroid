@@ -45,7 +45,6 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	public WhenBrick() {
-
 	}
 
 	@Override
@@ -138,7 +137,6 @@ public class WhenBrick extends ScriptBrick {
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -166,6 +164,5 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
-
 	}
 }

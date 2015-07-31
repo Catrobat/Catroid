@@ -211,6 +211,8 @@ public class SetVariableBrick extends UserVariableBrick {
 
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
+		variableSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
@@ -225,8 +227,7 @@ public class SetVariableBrick extends UserVariableBrick {
 
 		if (defaultPrototypeToken != null) {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
-				textSetVariable.setText(context.getText(defaultValueId));
-
+			textSetVariable.setText(context.getText(defaultValueId));
 		} else {
 			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
 		}
@@ -255,7 +256,6 @@ public class SetVariableBrick extends UserVariableBrick {
 			editVariable.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -279,5 +279,4 @@ public class SetVariableBrick extends UserVariableBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE);
 	}
-
 }

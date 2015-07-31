@@ -25,11 +25,11 @@ package org.catrobat.catroid.common.bluetooth;
 import java.io.IOException;
 import java.io.InputStream;
 
-class ObservedInputStream extends InputStream{
-	private final Logger logger;
+class ObservedInputStream extends InputStream {
+	private final BluetoothLogger logger;
 	private final InputStream inputStream;
 
-	ObservedInputStream(InputStream inputStream, Logger logger) {
+	ObservedInputStream(InputStream inputStream, BluetoothLogger logger) {
 		this.inputStream = inputStream;
 		this.logger = logger;
 	}

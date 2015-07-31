@@ -101,5 +101,4 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 		assertNotNull("current Look is null", sprite.look);
 	}
-
 }

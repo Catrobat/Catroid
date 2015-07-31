@@ -103,10 +103,9 @@ public class PhiroSensorAction extends Action {
 		this.ifCondition = ifCondition;
 	}
 
-	public void setSensor(int sensorNumber)
-	{
-		this.sensorNumber =sensorNumber;
-		this.setIfCondition(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR, getPhiroProSensorByNumber().name(), null )));
+	public void setSensor(int sensorNumber) {
+		this.sensorNumber = sensorNumber;
+		this.setIfCondition(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR, getPhiroProSensorByNumber().name(), null)));
 	}
 
 	private Sensors getPhiroProSensorByNumber() {

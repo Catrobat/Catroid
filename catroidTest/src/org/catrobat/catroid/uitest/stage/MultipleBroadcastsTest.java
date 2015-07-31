@@ -71,7 +71,6 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 				(int) sprite3.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Sprite4 is at the false x position", sprite4PosX,
 				(int) sprite4.look.getXInUserInterfaceDimensionUnit());
-
 	}
 
 	private void createProject() {

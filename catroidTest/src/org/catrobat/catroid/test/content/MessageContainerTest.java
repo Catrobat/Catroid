@@ -109,8 +109,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		try {
 			ProjectManager.getInstance().loadProject(projectName3, getContext());
 			fail("Project3 should be corrupted");
-		} catch (LoadingProjectException loadingProjectException) {
-			assertTrue("Project corruption test is successful", true);
+		} catch (LoadingProjectException expected) {
 		} catch (ProjectException projectExceptions) {
 			fail("Project corruption test is failed");
 		}

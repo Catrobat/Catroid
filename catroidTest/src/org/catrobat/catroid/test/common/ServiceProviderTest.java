@@ -46,7 +46,6 @@ public class ServiceProviderTest extends AndroidTestCase {
 		assertNotNull("Service is registered now and shouldn't be null", service);
 	}
 
-	private static  class TestService implements CatroidService {
-
+	private static class TestService implements CatroidService {
 	}
 }

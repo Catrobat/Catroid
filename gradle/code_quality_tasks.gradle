@@ -11,8 +11,8 @@
 task checkstyle(type: Checkstyle) {
     configFile file('config/checkstyle.xml')
     source '.'
-    include '**/*.java'
-    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**'
+	include '**/*.java', '**/*.xml'
+	exclude '**/gen/**', '**/build/**', 'libraryProjects/**', 'catroidCucumberTest/**', '.idea/**'
 
     classpath = files()
 
@@ -28,8 +28,10 @@ task checkstyle(type: Checkstyle) {
 task pmd(type: Pmd) {
     // complete rulesets can be used with the abbrevation
     // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
-    ruleSets = ['java-android', 'java-braces', 'java-empty', 'java-sunsecure', 'java-unusedcode', 'config/pmd_basic.xml',
-                'config/pmd_strings.xml', 'config/pmd_unnecessary.xml']
+    ruleSets = ['java-android', 'java-braces', 'java-sunsecure', 'java-unusedcode', 'config/pmd_basic.xml',
+                'config/pmd_empty.xml', 'config/pmd_strings.xml', 'config/pmd_unnecessary.xml',
+                'config/pmd_logging.xml']
+
     source '.'
     include '**/*.java'
     exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', '**/catroidCucumberTest/**'

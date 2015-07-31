@@ -47,5 +47,4 @@ public class PlaySoundAction extends TemporalAction {
 	public void setSound(SoundInfo sound) {
 		this.sound = sound;
 	}
-
 }

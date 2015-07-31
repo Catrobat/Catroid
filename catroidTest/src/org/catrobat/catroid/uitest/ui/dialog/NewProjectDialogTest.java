@@ -41,15 +41,14 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 
-
 public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String testingproject = UiTestUtils.PROJECTNAME1;
 	private String testingProjectJustSpecialChars = UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME;
 	private String testingProjectJustSpecialChars2 = UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2;
 	private String testingProjectWithNormalAndSpecialChars = UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2;
-	private String testingProjectJustOneDot= UiTestUtils.JUST_ONE_DOT_PROJECT_NAME;
-	private String testingProjectJustTwoDots= UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME;
+	private String testingProjectJustOneDot = UiTestUtils.JUST_ONE_DOT_PROJECT_NAME;
+	private String testingProjectJustTwoDots = UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME;
 	private SharedPreferences preferences;
 
 	public NewProjectDialogTest() {
@@ -90,7 +89,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		assertTrue("dialog not loaded in 5 seconds",
-		solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
+				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProjectOne = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectOne, testingProjectJustSpecialChars);
 		solo.clickOnButton(buttonOkText);
@@ -193,7 +192,6 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		int projectNameNumberOfLines = newProjectName.getLineCount();
 
 		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
-
 	}
 
 	public void testCreateEmptyProject() {
@@ -226,5 +224,4 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Checkbox state should not be saved when canceling dialog",
 				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
 	}
-
 }

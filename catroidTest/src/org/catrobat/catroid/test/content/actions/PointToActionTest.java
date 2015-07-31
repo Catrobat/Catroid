@@ -84,5 +84,4 @@ public class PointToActionTest extends AndroidTestCase {
 		pointToAction.act(1.0f);
 		assertEquals("Wrong direction", 135f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), delta);
 	}
-
 }
