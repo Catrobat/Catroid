@@ -42,7 +42,6 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public ClearGraphicEffectBrick() {
-
 	}
 
 	@Override
@@ -89,7 +88,6 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 			clearGraphicEffectLabel.setTextColor(clearGraphicEffectLabel.getTextColors().withAlpha(alphaValue));
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -110,5 +108,4 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 		sequence.addAction(ExtendedActions.clearGraphicEffect(sprite));
 		return null;
 	}
-
 }

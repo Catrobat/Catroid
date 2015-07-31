@@ -32,13 +32,13 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class PointInDirectionActionTest extends AndroidTestCase {
 
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testPointRight() {
 		ExtendedActions.pointInDirection(sprite, new Formula(Direction.RIGHT.getDegrees())).act(1.0f);
@@ -83,7 +83,7 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		 ExtendedActions.pointInDirection(sprite, new Formula(Double.NaN)).act(1.0f);
+		ExtendedActions.pointInDirection(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 }

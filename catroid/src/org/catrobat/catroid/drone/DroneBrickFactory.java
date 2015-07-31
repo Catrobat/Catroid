@@ -112,10 +112,8 @@ public final class DroneBrickFactory {
             case DRONE_ADVANCED_CONFIG_BRICK:
                 return new DroneAdvancedConfigBrick();
 
-            default:
-                return null;
-
-        }
-    }
-
+			default:
+				return null;
+		}
+	}
 }

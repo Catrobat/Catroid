@@ -46,7 +46,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 	public BrickValueParameterTest() {
 		super(MainMenuActivity.class);
-
 	}
 
 	@Override
@@ -284,9 +283,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		solo.clickOnText(solo.getString(R.string.brick_speak));
 		solo.sleep(300);
-		
+
 		UiTestUtils.dragFloatingBrickDownwards(solo);
-		
+
 		solo.sleep(300);
 
 		String speakEditTextValue = ((TextView) solo.getView(R.id.brick_speak_edit_text)).getText().toString();
@@ -492,7 +491,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView insertItemInUserListIndexTextValue = (TextView) solo.getView(R.id.brick_insert_item_into_userlist_value_prototype_view);
 		assertEquals("Value in insert item in userlist is not correct", "1.0", insertItemInUserListIndexTextValue.getText().toString());
 
-
 		solo.searchText(solo.getString(R.string.brick_replace_item_in_userlist_replace_in_list));
 		Spinner replaceItemInListSpinner = (Spinner) solo.getView(R.id.replace_item_in_userlist_spinner);
 		assertEquals("Value in replaceItemInListSpinner is not correct", "BrickValueParameterTestUserList",
@@ -503,10 +501,6 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		TextView replaceItemInUserListIndexTextValue = (TextView) solo.getView(R.id.brick_replace_item_in_userlist_value_prototype_view);
 		assertEquals("Value in replaceItemInList is not correct", "1.0", replaceItemInUserListIndexTextValue.getText().toString());
-
-
-
-
 	}
 
 	private void createProject() {
@@ -526,5 +520,4 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

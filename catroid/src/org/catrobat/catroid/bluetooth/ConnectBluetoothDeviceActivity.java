@@ -186,8 +186,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 				result = RESULT_OK;
 				BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 				btDeviceService.deviceConnected(btDevice);
-			}
-			else {
+			} else {
 				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
 			}
 
@@ -259,7 +258,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 	}
 
 	protected void createAndSetDeviceService() {
-		Class<BluetoothDevice> serviceType = (Class<BluetoothDevice>)getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
+		Class<BluetoothDevice> serviceType = (Class<BluetoothDevice>) getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
 
 		btDevice = getDeviceFactory().createDevice(serviceType, this.getApplicationContext());
 	}
@@ -292,7 +291,6 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 		}
 
 		btManager.getBluetoothAdapter().startDiscovery();
-
 	}
 
 	private int activateBluetooth() {

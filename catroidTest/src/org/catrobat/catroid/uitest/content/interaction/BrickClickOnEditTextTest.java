@@ -99,7 +99,6 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
 		editTextFieldVisibility(solo.getString(R.string.category_lego_nxt));
-
 	}
 
 	private void getIntoActivity() {

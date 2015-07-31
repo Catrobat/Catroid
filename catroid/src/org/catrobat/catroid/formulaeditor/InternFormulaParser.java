@@ -246,7 +246,6 @@ public class InternFormulaParser {
 
 			default:
 				throw new InternFormulaParserException("Parse Error");
-
 		}
 
 		return termTree;
@@ -336,5 +335,4 @@ public class InternFormulaParser {
 		getNextToken();
 		return currentStringValue;
 	}
-
 }

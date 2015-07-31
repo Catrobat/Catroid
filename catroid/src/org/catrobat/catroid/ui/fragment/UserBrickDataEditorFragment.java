@@ -109,7 +109,6 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(dataEditorFragment);
 			BottomBar.hideBottomBar(activity);
-
 		} else if (dataEditorFragment.isHidden()) {
 			dataEditorFragment.updateBrickView();
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
@@ -176,7 +175,6 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 				if (action.equals(resources.getString(R.string.close))) {
 					onUserDismiss();
 				}
-
 			}
 		});
 
@@ -368,5 +366,4 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	public void decreaseIndexOfCurrentlyEditedElement() {
 		indexOfCurrentlyEditedElement--;
 	}
-
 }

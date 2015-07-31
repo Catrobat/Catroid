@@ -104,7 +104,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
 		TextView textChangeBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_change_brightness_prototype_text_view);
-        textChangeBrightness.setText(String.valueOf(BrickValues.CHANGE_BRITHNESS_BY));
+		textChangeBrightness.setText(String.valueOf(BrickValues.CHANGE_BRITHNESS_BY));
 		return prototypeView;
 	}
 
@@ -126,7 +126,6 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 			editBrightness.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

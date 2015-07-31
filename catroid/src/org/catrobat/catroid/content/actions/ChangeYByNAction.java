@@ -52,5 +52,4 @@ public class ChangeYByNAction extends TemporalAction {
 	public void setyMovement(Formula yMovement) {
 		this.yMovement = yMovement;
 	}
-
 }

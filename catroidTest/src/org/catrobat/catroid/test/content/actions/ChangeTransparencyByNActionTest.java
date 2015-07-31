@@ -33,15 +33,15 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 
 	private static final float DELTA = 0.01f;
 	private static final float INCREASE_VALUE = 98.7f;
-    private static final float DECREASE_VALUE = -33.3f;
+	private static final float DECREASE_VALUE = -33.3f;
 	private static final String NOT_NUMERICAL_STRING = "ghosts";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite ghost effect value", 0f,
@@ -62,8 +62,6 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ChangeTransparencyByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown as expected", true);
-
 		}
 	}
 

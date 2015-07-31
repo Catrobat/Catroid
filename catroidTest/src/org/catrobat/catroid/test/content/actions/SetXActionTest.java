@@ -31,22 +31,22 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetXActionTest extends AndroidTestCase {
 
-    private static final float X_POSITION = 91.1f;
+	private static final float X_POSITION = 91.1f;
 	private Formula xPosition = new Formula(X_POSITION);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-        ExtendedActions.setX(sprite, xPosition).act(1.0f);
+		ExtendedActions.setX(sprite, xPosition).act(1.0f);
 		assertEquals("Incorrect sprite x position after SetXBrick executed", X_POSITION,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
@@ -57,7 +57,6 @@ public class SetXActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown as expected", true);
 		}
 	}
 
@@ -88,7 +87,7 @@ public class SetXActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumbserFormula() {
-        ExtendedActions.setX(sprite, new Formula(Double.NaN)).act(1.0f);
+		ExtendedActions.setX(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite x position after SetXBrick executed", 0f,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}

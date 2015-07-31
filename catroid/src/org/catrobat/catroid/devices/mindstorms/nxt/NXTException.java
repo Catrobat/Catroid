@@ -26,7 +26,7 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
 public class NXTException extends MindstormsException {
 
-	NXTError.ErrorCode error;
+	private final NXTError.ErrorCode error;
 
 	public NXTError.ErrorCode getError() {
 		return error;
@@ -40,5 +40,6 @@ public class NXTException extends MindstormsException {
 
 	public NXTException(String message) {
 		super(message);
+		this.error = null;
 	}
 }

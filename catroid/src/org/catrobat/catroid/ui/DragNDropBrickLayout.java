@@ -430,9 +430,8 @@ public class DragNDropBrickLayout extends BrickLayout {
 	}
 
 	/**
-	 * 
 	 * Finds the space closest to x,y where an element can be inserted
-	 * 
+	 *
 	 * @returns index of the element before the space or -1 for the beginning of the array
 	 */
 	private int findClosestInsertableSpace(int x, int y) {
@@ -551,9 +550,7 @@ public class DragNDropBrickLayout extends BrickLayout {
 
 			WindowManager mWindowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
 			mWindowManager.updateViewLayout(window.view, layoutParams);
-
 		}
-
 	}
 
 	private void removeWeirdFloatingWindow(WeirdFloatingWindowData window) {
@@ -591,5 +588,4 @@ public class DragNDropBrickLayout extends BrickLayout {
 			this.height = height;
 		}
 	}
-
 }

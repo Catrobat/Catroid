@@ -121,5 +121,4 @@ public class InternToken {
 	public InternToken deepCopy() {
 		return new InternToken(internTokenType, tokenStringValue);
 	}
-
 }

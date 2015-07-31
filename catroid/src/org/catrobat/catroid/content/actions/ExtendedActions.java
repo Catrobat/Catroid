@@ -337,7 +337,6 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-
 	public static SpeakAction speak(Sprite sprite, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		action.setSprite(sprite);

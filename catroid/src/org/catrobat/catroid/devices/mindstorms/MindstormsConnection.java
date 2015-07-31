@@ -31,5 +31,4 @@ public interface MindstormsConnection {
 	byte[] sendAndReceive(MindstormsCommand command);
 
 	void send(MindstormsCommand command);
-
 }

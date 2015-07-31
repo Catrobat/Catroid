@@ -312,5 +312,4 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.facePositionY = 0f;
 		}
 	}
-
 }

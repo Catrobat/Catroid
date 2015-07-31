@@ -50,7 +50,6 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 
 		try {
 			indexToReplace = formulaIndexToReplace == null ? 1 : formulaIndexToReplace.interpretInteger(sprite);
-
 		} catch (InterpretationException interpretationException) {
 			indexToReplace = 1;
 		}
@@ -79,5 +78,4 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

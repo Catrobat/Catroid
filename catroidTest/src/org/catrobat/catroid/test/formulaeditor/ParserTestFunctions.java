@@ -190,6 +190,36 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, firstParameterList, 0d, testSprite);
 	}
 
+	public void testFloor() {
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.NUMBER, "1.33333",
+				Math.floor(1.33333), testSprite);
+
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.STRING, "45.55555",
+				Math.floor(45.55555), testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLOOR, firstParameterList, Double.NaN, testSprite);
+	}
+
+	public void testCeil() {
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.NUMBER, "1.33333",
+				Math.ceil(1.33333), testSprite);
+
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.STRING, "45.55555",
+				Math.ceil(45.55555), testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.CEIL, firstParameterList, Double.NaN, testSprite);
+	}
+
 	public void testMod() {
 
 		for (int offset = 0; offset < 10; offset += 1) {
@@ -366,7 +396,6 @@ public class ParserTestFunctions extends AndroidTestCase {
 				InternTokenType.STRING, "anotherString");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
-
 	}
 
 	public void testMin() {
@@ -389,5 +418,4 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
 	}
-
 }

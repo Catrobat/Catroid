@@ -80,7 +80,6 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 			}
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
-
 		} else {
 			view = dataAdapter.getView(position - 1, convertView, parent);
 		}
@@ -101,7 +100,6 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 			}
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
-
 		} else {
 			view = dataAdapter.getDropDownView(position - 1, convertView, parent);
 		}
@@ -127,5 +125,4 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 	public void resetIsTouchInDropDownView() {
 		isTouchInDropDownView = false;
 	}
-
 }

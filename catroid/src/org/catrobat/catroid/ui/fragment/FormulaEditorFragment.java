@@ -105,8 +105,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;
 	private OnFormulaChangedListener onFormulaChangedListener;
 
-
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,6 +117,12 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
 		cloneFormulaBrick(formulaBrick);
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 
 	private void setUpActionBar() {
@@ -215,7 +219,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		formulaEditorFragment.setInputFormula(brickField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 	}
 
-
 	public void updateBrickView() {
 		formulaEditorBrick.removeAllViews();
 
@@ -257,7 +260,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		BottomBar.showBottomBar(activity);
 		BottomBar.showPlayButton(activity);
-
 	}
 
 	@Override
@@ -387,7 +389,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return true;
 					}
-
 				}
 				return false;
 			}
@@ -414,7 +415,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 
 		MenuItem undo = menu.findItem(R.id.menu_undo);
-		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
+		if (formulaEditorEditText == null || !formulaEditorEditText.getHistory().undoIsPossible()) {
 			undo.setIcon(R.drawable.icon_undo_disabled);
 			undo.setEnabled(false);
 		} else {
@@ -423,7 +424,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 
 		MenuItem redo = menu.findItem(R.id.menu_redo);
-		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
+		if (formulaEditorEditText == null || !formulaEditorEditText.getHistory().redoIsPossible()) {
 			redo.setIcon(R.drawable.icon_redo_disabled);
 			redo.setEnabled(false);
 		} else {
@@ -524,7 +525,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			}
 			return false;
 		}
-
 	}
 
 	/*
@@ -556,16 +556,16 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 									currentFormula.setDisplayText(null);
 									onUserDismiss();
 								}
-							}).setPositiveButton(R.string.yes, new OnClickListener() {
+							})
+							.setPositiveButton(R.string.yes, new OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							if (saveFormulaIfPossible()) {
-								onUserDismiss();
-							}
-						}
-					}).create().show();
-
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									if (saveFormulaIfPossible()) {
+										onUserDismiss();
+									}
+								}
+							}).create().show();
 				} else {
 					onUserDismiss();
 				}
@@ -592,7 +592,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentFormula.setDisplayText(newString);
 		updateBrickView();
 		currentFormula.refreshTextField(brickView, newString);
-		if (showCustomView == false) {
+		if (!showCustomView) {
 			currentFormula.highlightTextField(brickView);
 		}
 	}
@@ -634,8 +634,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		if (fragment == null) {
 			if (getActivity().getClass().equals(ScriptActivity.class)) {
 				fragment = new FormulaEditorDataFragment(false);
-			}
-			else {
+			} else {
 				fragment = new FormulaEditorDataFragment(true);
 			}
 			Bundle bundle = new Bundle();
@@ -648,7 +647,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		((FormulaEditorDataFragment) fragment).setAddButtonListener(getSherlockActivity());
 		((FormulaEditorDataFragment) fragment).showFragment(context);
 	}
-
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -730,5 +728,4 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			backspaceOnKeyboard.setEnabled(true);
 		}
 	}
-
 }

@@ -45,8 +45,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	public void testCopyAndDeleteBricksInUserScriptInclDefineBrick()
-	{
+	public void testCopyAndDeleteBricksInUserScriptInclDefineBrick() {
 		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, solo.getCurrentActivity());
 		solo.clickOnCheckBox(0);
@@ -91,7 +90,6 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
 		assertEquals("The selected brick could not be deleted!", 3, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
-
 
 		solo.clickOnView(solo.getView(R.id.delete));
 		solo.sleep(100);
@@ -222,8 +220,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 //		assertEquals("The variable \"Variable 1\" should have disappeared", 1, brickElementList);
 //	}
 
-	public void testChangeDeleteUserBrickData()
-	{
+	public void testChangeDeleteUserBrickData() {
 		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
 		String defineString = solo.getCurrentActivity().getString(R.string.define);
 
@@ -256,8 +253,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertFalse("the whole data (Variable, Text and LineBreak) should have disappeared", solo.waitForText(newTextName, 0, 1000) || solo.waitForText(UiTestUtils.TEST_USER_BRICK_NAME, 0, 1000) || solo.waitForText(UiTestUtils.TEST_USER_BRICK_VARIABLE, 0, 1000));
 	}
 
-	public void testEditFormulaWithUserBrickDataAndChangeValuesViaFormulaEditor()
-	{
+	public void testEditFormulaWithUserBrickDataAndChangeValuesViaFormulaEditor() {
 		//add 4 userbrick variables, userbrick text and a userbrick linebreak
 		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
 

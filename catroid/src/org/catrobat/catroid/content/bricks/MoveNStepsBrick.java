@@ -101,15 +101,15 @@ public class MoveNStepsBrick extends FormulaBrick {
 		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
 
 		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
-            try{
+			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.brick_move_n_step_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
 								ProjectManager.getInstance().getCurrentSprite()))
 				));
-            }catch(InterpretationException interpretationException){
-                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
-            }
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+			}
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -130,8 +130,8 @@ public class MoveNStepsBrick extends FormulaBrick {
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		textSteps.setText(String.valueOf(BrickValues.MOVE_STEPS));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
-        times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-                Utils.convertDoubleToPluralInteger(BrickValues.MOVE_STEPS)));
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.MOVE_STEPS)));
 		return prototypeView;
 	}
 
@@ -153,7 +153,6 @@ public class MoveNStepsBrick extends FormulaBrick {
 			moveNStepsEdit.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

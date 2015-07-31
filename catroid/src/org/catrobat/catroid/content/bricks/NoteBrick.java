@@ -40,7 +40,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class NoteBrick extends FormulaBrick implements OnClickListener{
+public class NoteBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 
@@ -109,7 +109,6 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 			noteTextView.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

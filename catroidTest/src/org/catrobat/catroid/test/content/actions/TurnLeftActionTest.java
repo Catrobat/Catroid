@@ -134,7 +134,6 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testTurnLeftNegative() {

@@ -116,5 +116,4 @@ public class XMLValidatingTest extends AndroidTestCase {
 		// TODO: add XML validation based on xsd
 		//	XMLValidationUtil.sendProjectXMLToServerForValidating(project);
 	}
-
 }

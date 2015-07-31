@@ -462,6 +462,4 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 
 		void onListItemClick(int position);
 	}
-
-
 }

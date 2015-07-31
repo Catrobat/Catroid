@@ -33,30 +33,29 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 	private static final float CHANGE_VALUE = 66.6f;
 	private static final String NOT_NUMERICAL_STRING = "yPosition";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-        ExtendedActions.changeYByN(sprite,  new Formula(CHANGE_VALUE)).act(1.0f);
+		ExtendedActions.changeYByN(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		ChangeYByNAction action = ExtendedActions.changeYByN(null,  new Formula(CHANGE_VALUE));
+		ChangeYByNAction action = ExtendedActions.changeYByN(null, new Formula(CHANGE_VALUE));
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeYByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown successful", true);
 		}
 	}
 

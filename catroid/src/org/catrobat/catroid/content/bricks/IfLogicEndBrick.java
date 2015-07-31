@@ -115,7 +115,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 			ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -133,20 +132,12 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == ifElseBrick) {
-			return false;
-		} else {
-			return true;
-		}
+		return brick != ifElseBrick;
 	}
 
 	@Override
 	public boolean isInitialized() {
-		if (ifElseBrick == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return ifElseBrick != null;
 	}
 
 	@Override
@@ -194,5 +185,4 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		copyBrick.ifElseBrick = null;
 		return copyBrick;
 	}
-
 }

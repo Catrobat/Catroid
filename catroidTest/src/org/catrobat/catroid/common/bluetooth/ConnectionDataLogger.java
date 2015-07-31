@@ -40,7 +40,6 @@ public final class ConnectionDataLogger {
 
 	private static final int TIMEOUT_SECONDS = 15;
 
-
 	public byte[] getNextSentMessage() {
 		return getNextSentMessage(0, 0);
 	}
@@ -53,7 +52,6 @@ public final class ConnectionDataLogger {
 		return getNextMessage(sentMessages, messageOffset, messageByteOffset);
 	}
 
-
 	public ArrayList<byte[]> getSentMessages(int messageCountToWaitFor) {
 		return getSentMessages(0, messageCountToWaitFor);
 	}
@@ -61,7 +59,6 @@ public final class ConnectionDataLogger {
 	public ArrayList<byte[]> getSentMessages(int messageByteOffset, int messageCountToWaitFor) {
 		return getMessages(sentMessages, messageByteOffset, messageCountToWaitFor);
 	}
-
 
 	public byte[] getNextReceivedMessage() {
 		return getNextReceivedMessage(0, 0);
@@ -75,7 +72,6 @@ public final class ConnectionDataLogger {
 		return getNextMessage(receivedMessages, messageOffset, messageByteOffset);
 	}
 
-
 	public ArrayList<byte[]> getReceivedMessages(int messageCountToWaitFor) {
 		return getReceivedMessages(0, messageCountToWaitFor);
 	}
@@ -83,7 +79,6 @@ public final class ConnectionDataLogger {
 	public ArrayList<byte[]> getReceivedMessages(int messageByteOffset, int messageCountToWaitFor) {
 		return getMessages(receivedMessages, messageByteOffset, messageCountToWaitFor);
 	}
-
 
 	private static byte[] getNextMessage(BlockingQueue<byte[]> messages, int messageOffset, int messageByteOffset) {
 
@@ -124,7 +119,6 @@ public final class ConnectionDataLogger {
 				return m;
 			}
 			m.add(BluetoothTestUtils.getSubArray(message, messageByteOffset));
-
 		} while (m.size() < messageCountToWaitFor && stopWatch.elapsed(TimeUnit.SECONDS) < TIMEOUT_SECONDS);
 
 		return m;
@@ -151,10 +145,9 @@ public final class ConnectionDataLogger {
 		}
 	}
 
-
 	private BluetoothConnection connectionProxy;
 
-	private Logger logger = new Logger() {
+	private BluetoothLogger logger = new BluetoothLogger() {
 
 		@Override
 		public void logSentData(byte[] b) {
@@ -225,7 +218,7 @@ public final class ConnectionDataLogger {
 		return connectionProxy;
 	}
 
-	Logger getLogger() {
+	BluetoothLogger getLogger() {
 		return logger;
 	}
 }

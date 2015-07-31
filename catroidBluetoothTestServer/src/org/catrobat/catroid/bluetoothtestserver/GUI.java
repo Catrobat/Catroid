@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class GUI extends javax.swing.JFrame{
+public class GUI extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static GUI instance = null;
@@ -49,16 +49,14 @@ public class GUI extends javax.swing.JFrame{
 
 		textArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		
-		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-		    public void adjustmentValueChanged(AdjustmentEvent e) {  
-		        e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-		    }
+
+		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+			}
 		});
 
 		content.add(scrollPane, BorderLayout.CENTER);
-
-
 
 		JPanel panel = new JPanel();
 		content.add(panel, BorderLayout.SOUTH);
@@ -83,10 +81,9 @@ public class GUI extends javax.swing.JFrame{
 
 		frame.setSize(700, 400);
 		frame.setVisible(true);
-
 	}
 
-	public static void writeMessage(String message){
+	public static void writeMessage(String message) {
 		textArea.append(message);
 	}
 
@@ -95,12 +92,9 @@ public class GUI extends javax.swing.JFrame{
 	 */
 	public GUI() {
 		super();
-
 	}
 
-	public static GUI getGui(){
+	public static GUI getGui() {
 		return instance;
 	}
-
-
 }

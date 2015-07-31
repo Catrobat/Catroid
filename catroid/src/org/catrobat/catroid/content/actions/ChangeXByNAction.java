@@ -52,5 +52,4 @@ public class ChangeXByNAction extends TemporalAction {
 	public void setxMovement(Formula xMovement) {
 		this.xMovement = xMovement;
 	}
-
 }

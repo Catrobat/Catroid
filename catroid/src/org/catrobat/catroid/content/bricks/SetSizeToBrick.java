@@ -123,7 +123,6 @@ public class SetSizeToBrick extends FormulaBrick {
 			editSize.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
