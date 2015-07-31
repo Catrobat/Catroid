@@ -62,7 +62,7 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		solo.clearEditText(0);
 		solo.enterText(0, kat);
 		solo.sendKey(Solo.ENTER);
-
+		solo.sleep(200);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spritesList.getItemAtPosition(1)).getName();
 		assertEquals("The first sprite is NOT rename!", first, kat);

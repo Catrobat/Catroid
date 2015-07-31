@@ -71,6 +71,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 
 public final class SoundController {
+	public static final int REQUEST_SELECT_OR_RECORD_SOUND = 0;
 	public static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;

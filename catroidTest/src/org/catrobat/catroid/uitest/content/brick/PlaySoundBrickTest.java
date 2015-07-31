@@ -82,6 +82,16 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
+	public void testDismissNewSoundDialog() {
+		solo.clickOnText(soundName);
+		solo.clickOnText(solo.getString(R.string.new_broadcast_message));
+		solo.waitForDialogToOpen(10000);
+		solo.goBack();
+		solo.waitForDialogToClose(10000);
+		solo.sleep(500);
+		assertEquals("Not in ScriptActivity", "ui.ScriptActivity", solo.getCurrentActivity().getLocalClassName());
+	}
+
 	public void testSelectAndPlaySoundFile() {
 		solo.clickOnText(soundName);
 		solo.sleep(1000);
@@ -167,7 +177,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
 		//		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
-		String soundRecorderText = "Pocket Code Recorder";
+		String soundRecorderText = solo.getString(R.string.add_sound_from_recorder);
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
 		solo.clickOnText(soundRecorderText);
@@ -179,8 +189,8 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.waitForText(recordedFilename);
 		solo.waitForFragmentByTag(SoundFragment.TAG);
-
-		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
+		solo.sleep(1000);
+		assertTrue("New sound file is not selected", solo.waitForText(recordedFilename));
 
 		solo.goBack();
 		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
