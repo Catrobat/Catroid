@@ -23,55 +23,18 @@
 
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneConfigManager;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 
 public class DroneSetConfigAction extends TemporalAction {
 
     private int ressourceID;
-    private static final int MIN_VALUE = 0;
-    private static final int MAX_VALUE = 255;
-
-    private Formula red;
-    private Formula green;
-    private Formula blue;
-    private Sprite sprite;
 
     @Override
     protected void update(float percent) {
-
-        int redValue = updateFormulaValue(red);
-        int greenValue = updateFormulaValue(green);
-        int blueValue = updateFormulaValue(blue);
-
-    }
-
-    private int updateFormulaValue(Formula rgbFormula) {
-
-        int rgbValue;
-
-        try {
-            rgbValue = rgbFormula.interpretInteger(sprite);
-        } catch (InterpretationException interpretationException) {
-            rgbValue = 0;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
-
-        if (rgbValue < MIN_VALUE) {
-            rgbValue = MIN_VALUE;
-        } else if (rgbValue > MAX_VALUE) {
-            rgbValue = MAX_VALUE;
-        }
-
-        return rgbValue;
     }
 
     @Override
@@ -92,21 +55,5 @@ public class DroneSetConfigAction extends TemporalAction {
 
     public void setRessourceID(int ressourceID) {
         this.ressourceID = ressourceID;
-    }
-
-    public void setRed(Formula red) {
-        this.red = red;
-    }
-
-    public void setGreen(Formula green) {
-        this.green = green;
-    }
-
-    public void setBlue(Formula blue) {
-        this.blue = blue;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
     }
 }
