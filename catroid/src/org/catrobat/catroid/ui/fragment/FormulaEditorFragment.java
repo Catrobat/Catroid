@@ -470,6 +470,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 						return;
 					}
 				}
+				MenuItem undo = currentMenu.findItem(R.id.menu_undo);
+				undo.setIcon(R.drawable.icon_undo_disabled);
+				undo.setEnabled(false);
+
+				MenuItem redo = currentMenu.findItem(R.id.menu_redo);
+				redo.setIcon(R.drawable.icon_redo_disabled);
+				redo.setEnabled(false);
 
 				formulaEditorEditText.endEdit();
 				currentBrickField = brickField;
@@ -485,14 +492,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public boolean saveFormulaIfPossible() {
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
-
-		MenuItem undo = currentMenu.findItem(R.id.menu_undo);
-		undo.setIcon(R.drawable.icon_undo_disabled);
-		undo.setEnabled(false);
-
-		MenuItem redo = currentMenu.findItem(R.id.menu_redo);
-		redo.setIcon(R.drawable.icon_redo_disabled);
-		redo.setEnabled(false);
 
 		switch (formulaToParse.getErrorTokenIndex()) {
 			case PARSER_OK:
