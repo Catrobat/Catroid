@@ -319,7 +319,7 @@
     <string name="stage_dialog_axes_on">Axes On</string>
     <string name="stage_dialog_axes_off">Axes Off</string>
     <string name="stage_dialog_maximize">Maximize/\nStretch</string>
-    <string name="stage_dialog_screenshot">Screenshot</string>
+    <string name="stage_dialog_screenshot">Preview</string>
     <!--  -->
 
 
@@ -483,7 +483,7 @@
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
-    <string name="notification_screenshot_ok">Screenshot saved</string>
+    <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Canceled downloading program</string>
     <string name="notification_copy_title_pending">"Copying "</string>
     <string name="notification_copy_pending">Copy in progress</string>
@@ -519,7 +519,7 @@
     <string name="error_new_project">An error occurred while creating a new program.</string>
     <string name="error_rename_project">An error occurred while renaming the program before upload.</string>
     <string name="error_load_project">An error occurred while loading the program.</string>
-    <string name="error_screenshot_failed">An error occurred while saving the screenshot.</string>
+    <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
     <string name="error_load_image">An error occurred while loading the image.</string>
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
