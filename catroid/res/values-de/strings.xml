@@ -256,7 +256,7 @@
   </plurals>
   <string name="brick_come_to_front">Gehe nach vorne</string>
   <string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
-  <string name="brick_move">Verschieben</string>
+  <string name="brick_move">Verschiebe um</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">Schritt</item>
     <item quantity="other">Schritte</item>
