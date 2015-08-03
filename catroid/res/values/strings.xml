@@ -51,6 +51,8 @@
     <string name="settings">Settings</string>
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
+    <string name="name_exists">Name already exists</string>
+    <string name="no_name">No name</string>
     <!--  -->
 
 
@@ -285,9 +287,10 @@
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Object</string>
     <string name="new_sprite_dialog_title">New Object</string>
-    <string name="spritename_already_exists">This object name already exists</string>
+    <string name="spritename_already_exists">Please choose another object name.</string>
     <string name="rename_sprite_dialog">Rename Object</string>
     <string name="spritename_invalid">This object name is invalid</string>
+    <string name="no_spritename_entered">Please enter a object name.</string>
     <string name="sprite_name">Object name:</string>
     <!--  -->
 
@@ -510,8 +513,8 @@
 
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
-    <string name="error_no_name_entered">Please enter a name.</string>
-    <string name="error_project_exists">A program with the same name already exists.\nPlease choose a different name.</string>
+    <string name="error_no_program_name_entered">Please enter a program name.</string>
+    <string name="error_project_exists">Please choose another program name.</string>
     <string name="error_delete_project">An error while deleting the program occurred</string>
     <string name="error_unknown_project">A program with that name does not exist.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
