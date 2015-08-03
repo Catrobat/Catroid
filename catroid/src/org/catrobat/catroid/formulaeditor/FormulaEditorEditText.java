@@ -193,12 +193,17 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		paint.setStrokeWidth(3);
 
 		Layout layout = getLayout();
+
 		if (layout != null) {
+
 			int line = layout.getLineForOffset(absoluteCursorPosition);
+
 			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + getPaddingLeft();
 			float startYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line);
 			float endYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line) + getTextSize();
-			endYCoordinate += line == 0 ? 5 : 0; // First line in FE is a little bit higher so we need a bigger cursor too.
+
+			startYCoordinate += (line == 0) ? 12.5f : 5.0f; // add top offset for cursor to make it vertically centered
+			endYCoordinate += line == 0 ? 12.5f : 2.5f; // First line in FE is a little bit higher so we need a bigger cursor too.
 
 			canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, paint);
 		}
