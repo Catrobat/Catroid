@@ -75,6 +75,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter.OnLookEditListener;
@@ -427,6 +428,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					LookController.getInstance().loadPictureFromCameraIntoCatroid(lookFromCameraUri, getActivity(),
 							lookDataList, this);
 					break;
+				case LookController.REQUEST_MEDIA_LIBRARY:
+					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
+					LookController.getInstance().loadPictureFromLibraryIntoCatroid(filePath, getActivity(),
+							lookDataList, this);
 			}
 			isResultHandled = true;
 		}
@@ -554,6 +559,19 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_gallery));
 		startActivityForResult(chooser, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
+	}
+
+	public void addLookMediaLibrary() {
+		Intent intent = new Intent(getActivity(), WebViewActivity.class);
+		String url = null;
+		if (ProjectManager.getInstance().getCurrentSprite().getName().compareTo(getString(R.string.background)) == 0) {
+			url = Constants.LIBRARY_BACKGROUNDS_URL;
+		} else {
+			url = Constants.LIBRARY_LOOKS_URL;
+		}
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
+		startActivityForResult(intent, LookController.REQUEST_MEDIA_LIBRARY);
 	}
 
 	@Override

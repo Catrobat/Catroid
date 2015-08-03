@@ -63,6 +63,7 @@ public class NewLookDialog extends DialogFragment {
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
+		setupMediaLibraryButton(dialogView);
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -128,6 +129,18 @@ public class NewLookDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				fragment.addLookFromCamera();
+				NewLookDialog.this.dismiss();
+			}
+		});
+	}
+
+	private void setupMediaLibraryButton(View parentView) {
+		View mediaLibraryButton = parentView.findViewById(R.id.dialog_new_look_media_library);
+
+		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				fragment.addLookMediaLibrary();
 				NewLookDialog.this.dismiss();
 			}
 		});

@@ -2122,4 +2122,17 @@ public final class UiTestUtils {
 
 		return wantedState;
 	}
+
+	public static boolean checkTempFileFromMediaLibrary(String lookOrSound, String fileName) {
+		File folder = new File(lookOrSound);
+		File[] filesInFolder = folder.listFiles();
+
+		for (File file : filesInFolder) {
+			if (file.isFile()) {
+				String filename = file.getName();
+				return filename.contains(fileName);
+			}
+		}
+		return false;
+	}
 }

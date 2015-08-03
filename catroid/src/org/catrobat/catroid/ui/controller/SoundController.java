@@ -76,6 +76,7 @@ public final class SoundController {
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final int REQUEST_SELECT_MUSIC = 0;
+	public static final int REQUEST_MEDIA_LIBRARY = 2;
 
 	private static final SoundController INSTANCE = new SoundController();
 	private static final String TAG = SoundController.class.getSimpleName();
@@ -541,6 +542,15 @@ public final class SoundController {
 		}
 	}
 
+	public void addSoundFromMediaLibrary(String filePath, Activity activity,
+			ArrayList<SoundInfo> soundData, SoundFragment fragment) {
+		File mediaImage = null;
+		mediaImage = new File(filePath);
+		copySoundToCatroid(mediaImage.toString(), activity, soundData, fragment);
+		File soundOnSdCard = new File(mediaImage.getPath());
+		soundOnSdCard.delete();
+	}
+
 	public void handleAddButtonFromNew(SoundFragment soundFragment) {
 		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
 		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
@@ -561,5 +571,48 @@ public final class SoundController {
 
 		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
 		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
+	}
+
+	private void copySoundToCatroid(String originalSoundPath, Activity activity, ArrayList<SoundInfo> soundList,
+			SoundFragment fragment) {
+		try {
+			File oldFile = new File(originalSoundPath);
+
+			if (originalSoundPath.equals("")) {
+				throw new IOException();
+			}
+
+			File soundFile = StorageHandler.getInstance().copySoundFile(originalSoundPath);
+
+			String soundName;
+			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
+			if (extensionDotIndex > 0) {
+				soundName = oldFile.getName().substring(0, extensionDotIndex);
+			} else {
+				soundName = oldFile.getName();
+			}
+
+			String soundFileName = soundFile.getName();
+
+			updateSoundAdapter(soundName, soundFileName, soundList, fragment);
+		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_sound);
+		} catch (NullPointerException e) {
+			Log.e("NullPointerException", "probably originalSoundPath null; message: " + e.getMessage());
+			Utils.showErrorDialog(activity, R.string.error_load_sound);
+		}
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+	}
+
+	private void updateSoundAdapter(String name, String fileName, ArrayList<SoundInfo> soundList, SoundFragment
+			fragment) {
+		name = Utils.getUniqueSoundName(name);
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(fileName);
+		soundInfo.setTitle(name);
+		soundList.add(soundInfo);
+
+		fragment.updateSoundAdapter(soundInfo);
 	}
 }
