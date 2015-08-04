@@ -774,7 +774,7 @@
     <string name="formula_editor_object_layer">layer</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
-    <string name="formula_editor_math">Math</string>
+    <string name="formula_editor_math">Functions</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
