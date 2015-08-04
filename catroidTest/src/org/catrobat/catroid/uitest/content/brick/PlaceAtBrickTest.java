@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.view.View;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -92,6 +93,26 @@ public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<Script
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.brick_place_at_edit_text_y, yPosition, Brick.BrickField.Y_POSITION, placeAtBrick);
+	}
+
+	public void testBehaviorOfUndoAndRedoButton(){
+		solo.clickOnText("105");
+		solo.clickOnButton("5");
+		solo.waitForView(solo.getView(R.id.menu_undo));
+		View undo = solo.getView(R.id.menu_undo);
+		assertEquals(undo.isEnabled(), true);
+		solo.clickOnText("206");
+		solo.waitForView(R.drawable.icon_undo_disabled);
+		assertEquals(undo.isEnabled(), false);
+
+		solo.clickOnButton("6");
+		solo.clickOnActionBarItem(R.id.menu_undo);
+		View redo = solo.getView(R.id.menu_redo);
+		solo.waitForView(solo.getView(R.id.menu_redo));
+		assertEquals(redo.isEnabled(), true);
+		solo.clickOnText("5");
+		solo.waitForView(R.drawable.icon_redo_disabled);
+		assertEquals(redo.isEnabled(), false);
 	}
 
 	private void createProject() {
