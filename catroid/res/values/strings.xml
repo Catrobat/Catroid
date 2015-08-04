@@ -691,7 +691,7 @@
     <string name="formula_editor_title">Formula Editor</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string name="formula_editor_parse_fail">Syntax Error!</string>
+    <string name="formula_editor_parse_fail">Formula is not valid!</string>
     <string name="formula_nothing_selected">Define input value</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
     <string name="formula_editor_choose_object_variable">Properties of this object</string>
