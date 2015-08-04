@@ -277,7 +277,7 @@
     <string name="new_project_dialog_title">New program</string>
     <string name="new_project_dialog_hint">My Program</string>
     <string name="new_project_description_dialog_hint">My Description</string>
-    <string name="new_project_name">Program name:</string>
+    <string name="new_project_name">Program name</string>
     <string name="new_project_empty">Create empty program</string>
     <!--  -->
 
