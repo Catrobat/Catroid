@@ -599,7 +599,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_change_variable, R.string.category_data);
 		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_data);
 
-		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
+//		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
 
 		brickCategoryMap.put(R.string.brick_drone_angle, R.string.category_drone);
 		brickCategoryMap.put(R.string.brick_drone_flip, R.string.category_drone);
