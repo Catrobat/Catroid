@@ -55,7 +55,12 @@ public class WaitBrick extends FormulaBrick {
 	}
 
 	public WaitBrick(int timeToWaitInMillisecondsValue) {
-		initializeBrickFields(new Formula(timeToWaitInMillisecondsValue / 1000.0));
+		if(timeToWaitInMillisecondsValue == BrickValues.WAIT)
+		{
+			initializeBrickFields(new Formula(timeToWaitInMillisecondsValue / 1000));
+		} else {
+			initializeBrickFields(new Formula(timeToWaitInMillisecondsValue / 1000.0));
+		}
 	}
 
 	public WaitBrick(Formula timeToWaitInSecondsFormula) {
