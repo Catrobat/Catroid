@@ -95,7 +95,7 @@ public final class UtilFile {
 		 * log(a) / log(b) == logarithm of a to the base of b
 		 */
 		int exponent = (int) (Math.log(bytes) / Math.log(unit));
-		char prefix = ("KMGTPE").charAt(exponent - 1);
+		char prefix = "KMGTPE".charAt(exponent - 1);
 
 		return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}

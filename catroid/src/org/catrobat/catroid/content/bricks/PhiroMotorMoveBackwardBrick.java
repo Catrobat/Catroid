@@ -239,7 +239,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
 			editSpeed.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

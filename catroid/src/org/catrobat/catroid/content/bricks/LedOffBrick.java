@@ -80,7 +80,7 @@ public class LedOffBrick extends BrickBaseType {
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

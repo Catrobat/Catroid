@@ -145,7 +145,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

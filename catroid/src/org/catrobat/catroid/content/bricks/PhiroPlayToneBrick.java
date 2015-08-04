@@ -219,7 +219,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
 			editDuration.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

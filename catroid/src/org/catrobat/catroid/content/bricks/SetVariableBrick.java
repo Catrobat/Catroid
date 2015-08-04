@@ -255,7 +255,7 @@ public class SetVariableBrick extends UserVariableBrick {
 			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
 			editVariable.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
