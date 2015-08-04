@@ -97,7 +97,7 @@
                  android:layout_marginTop="8dp"
                  android:baselineAligned="false"
                  android:weightSum="3"
-                 android:visibility="visible">
+                 android:visibility="gone">
 
                            <TextView
                                android:id="@+id/dialog_new_object_drone_video"
