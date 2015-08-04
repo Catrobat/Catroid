@@ -33,6 +33,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 
 	protected UserVariable userVariable;
 	public boolean inUserBrick = false;
+	protected UserVariable userVariableIfCancel;
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
@@ -51,7 +52,10 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		} else if (newUserVariable != null) {
 			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(newUserVariable), true);
 			userVariable = newUserVariable;
-		} else {
+		} else if (newUserVariable == null && userVariableIfCancel != null) {
+			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariableIfCancel), true);
+			userVariable = userVariableIfCancel;
+		} else	{
 			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
 			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
 		}

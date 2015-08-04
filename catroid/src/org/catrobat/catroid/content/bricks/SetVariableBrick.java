@@ -189,6 +189,7 @@ public class SetVariableBrick extends UserVariableBrick {
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
+				userVariableIfCancel = userVariable;
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
 				adapterView = parent;
 			}
