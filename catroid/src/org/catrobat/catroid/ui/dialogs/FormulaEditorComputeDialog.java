@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
@@ -56,8 +57,13 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dialog_formulaeditor_compute);
-		computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
+		if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+			setContentView(R.layout.dialog_formulaeditor_compute_landscape);
+			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview_landscape);
+		} else {
+			setContentView(R.layout.dialog_formulaeditor_compute);
+			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
+		}
 		showFormulaResult();
 	}
 

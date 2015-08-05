@@ -271,9 +271,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				setVolumeToPrototypeValue);
 
 		TextView changeVolumeByTextView = (TextView) solo.getView(R.id.brick_change_volume_by_prototype_text_view);
-		float changeVolumenToPrototypeValue = Float.parseFloat(changeVolumeByTextView.getText().toString());
+		float changeVolumeToPrototypeValue = Float.parseFloat(changeVolumeByTextView.getText().toString());
 		assertEquals("Value in Brick ChangeVolumeBy is not correct", (float) BrickValues.CHANGE_VOLUME_BY,
-				changeVolumenToPrototypeValue);
+				changeVolumeToPrototypeValue);
 
 		solo.searchText(solo.getString(R.string.brick_speak));
 		TextView speakTextView = (TextView) solo.getView(R.id.brick_speak_prototype_text_view);

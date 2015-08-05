@@ -52,8 +52,9 @@
             android:selectAllOnFocus="true" />
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/project_name_edittext"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp" >
@@ -66,6 +67,7 @@
                 android:checked="false"
                 android:text="@string/new_project_empty"
                 android:textColor="@color/spritelist_details_text_color" />
+
         </LinearLayout >
     </RelativeLayout >
 
