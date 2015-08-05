@@ -208,7 +208,7 @@ public class UploadProjectDialog extends DialogFragment {
 		String projectDescription = projectDescriptionField.getText().toString();
 
 		if (uploadName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
+			Utils.showErrorDialog(getActivity(), R.string.error_no_program_name_entered);
 			return;
 		}
 
