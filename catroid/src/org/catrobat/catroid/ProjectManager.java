@@ -71,20 +71,40 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
-	private boolean commingFromScriptFragment;
+	private boolean comingFromScriptFragmentToSoundFragment;
+	private boolean comingFromScriptFragmentToLooksFragment;
+	private boolean handleCorrectAddButton;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
-		this.commingFromScriptFragment = false;
+		this.comingFromScriptFragmentToSoundFragment = false;
+		this.comingFromScriptFragmentToLooksFragment = false;
+		this.handleCorrectAddButton = false;
 	}
 
-	public void setCommingFromScriptFragment(boolean value) {
-		this.commingFromScriptFragment = value;
+	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
+		this.comingFromScriptFragmentToSoundFragment = value;
 	}
 
-	public boolean getCommingFromScriptFragment() {
-		return this.commingFromScriptFragment;
+	public boolean getComingFromScriptFragmentToSoundFragment() {
+		return this.comingFromScriptFragmentToSoundFragment;
+	}
+
+	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
+		this.comingFromScriptFragmentToLooksFragment = value;
+	}
+
+	public boolean getComingFromScriptFragmentToLooksFragment() {
+		return this.comingFromScriptFragmentToLooksFragment;
+	}
+
+	public void setHandleCorrectAddButton(boolean value) {
+		this.handleCorrectAddButton = value;
+	}
+
+	public boolean getHandleCorrectAddButton() {
+		return this.handleCorrectAddButton;
 	}
 
 	public static ProjectManager getInstance() {

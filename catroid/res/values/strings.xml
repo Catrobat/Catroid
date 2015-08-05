@@ -272,6 +272,11 @@
     <string name="add_look_choose_image">Select image</string>
     <!--  -->
 
+    <!-- New Sound dialog -->
+    <string name="new_sound_dialog_title">Add Sound</string>
+    <string name="add_sound_from_recorder">Record Sound</string>
+    <string name="add_sound_choose_file">Select File</string>
+
 
     <!-- New project dialog -->
     <string name="new_project_dialog_title">New program</string>

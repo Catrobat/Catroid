@@ -623,8 +623,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
-				if (ProjectManager.getInstance().getCommingFromScriptFragment()) {
-					ProjectManager.getInstance().setCommingFromScriptFragment(false);
+				if (ProjectManager.getInstance().getComingFromScriptFragmentToLooksFragment()) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(false);
 					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 					isResultHandled = true;
 					LookController.getInstance().switchToScriptFragment(LookFragment.this);

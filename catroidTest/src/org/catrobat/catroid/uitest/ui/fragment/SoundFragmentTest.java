@@ -241,6 +241,19 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		checkPlayAndStopButton(R.string.sound_play);
 	}
 
+	public void testAddNewSoundDialog() {
+		String addSoundFromRecorderText = solo.getString(R.string.add_sound_from_recorder);
+		String addSoundFromGalleryText = solo.getString(R.string.add_sound_choose_file);
+
+		assertFalse("Entry to add sound from recorder should not be visible", solo.searchText(addSoundFromRecorderText));
+		assertFalse("Entry to add sound from gallery should not be visible", solo.searchText(addSoundFromGalleryText));
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertTrue("Entry to add sound from recorder not visible", solo.searchText(addSoundFromRecorderText));
+		assertTrue("Entry to add sound from gallery not visible", solo.searchText(addSoundFromGalleryText));
+	}
+
 	public void testCopySoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
