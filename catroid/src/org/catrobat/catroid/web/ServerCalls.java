@@ -203,6 +203,8 @@ public final class ServerCalls {
 		}
 	}
 
+	public int oldNotificationId = 0;
+
 	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
 			final int notificationId) throws IOException, WebconnectionException {
 
@@ -219,12 +221,18 @@ public final class ServerCalls {
 			@Override
 			public Response intercept(Chain chain) throws IOException {
 				Response originalResponse = chain.proceed(chain.request());
-				return originalResponse.newBuilder()
-						.body(new ProgressResponseBody(
-								originalResponse.body(),
-								receiver,
-								notificationId))
-						.build();
+
+				if (notificationId >= oldNotificationId) {
+					oldNotificationId = notificationId;
+					return originalResponse.newBuilder()
+							.body(new ProgressResponseBody(
+									originalResponse.body(),
+									receiver,
+									notificationId))
+							.build();
+				} else {
+					return originalResponse;
+				}
 			}
 		});
 
