@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.content.brick.physics;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -46,6 +47,9 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.util.ArrayList;
 
 public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+
+	private static final String TAG = SetPhysicsObjectTypeBrickTest.class.getSimpleName();
+
 	private Solo solo;
 	private Project project;
 	private SetPhysicsObjectTypeBrick setPhysicsObjectTypeBrick;
@@ -65,7 +69,7 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception during tearDown", e);
 		}
 
 		getActivity().finish();

@@ -199,7 +199,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 			lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 			sprite.look.setLookData(lookdata);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "IOException caught", e);
 		}
 		assertNotNull("File must not be null.", rectangle125x125File);
 		assertNotNull("Lookdata must not be null.", sprite.look.getLookData());
