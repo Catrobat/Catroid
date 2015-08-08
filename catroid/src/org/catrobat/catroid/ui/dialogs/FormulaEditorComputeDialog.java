@@ -110,14 +110,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		switch (event.sensor.getType()) {
-			case Sensor.TYPE_LINEAR_ACCELERATION:
-				showFormulaResult();
-				break;
-			case Sensor.TYPE_ROTATION_VECTOR:
-				showFormulaResult();
-				break;
-		}
+		showFormulaResult();
 	}
 
 	private void setDialogTextView(final String newString) {
