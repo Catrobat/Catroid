@@ -116,7 +116,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
 				.getClass());
 
-			String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
+			String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : Constants.BASE_URL_HTTPS;
 			final String url = baseUrl + SignInDialog.PASSWORD_FORGOTTEN_PATH;
 
 		final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);

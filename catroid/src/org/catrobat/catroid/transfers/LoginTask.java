@@ -38,9 +38,9 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
+public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
-	private static final String TAG = RegistrationTask.class.getSimpleName();
+	private static final String TAG = LoginTask.class.getSimpleName();
 
 	private Context context;
 	private ProgressDialog progressDialog;
@@ -48,18 +48,18 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private String password;
 
 	private String message;
-	private boolean userRegistered;
+	private boolean userLoggedIn;
 
-	private OnRegistrationCompleteListener onRegistrationCompleteListener;
+	private OnLoginCompleteListener onLoginCompleteListener;
 
-	public RegistrationTask(Context activity, String username, String password) {
+	public LoginTask(Context activity, String username, String password) {
 		this.context = activity;
 		this.username = username;
 		this.password = password;
 	}
 
-	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
-		onRegistrationCompleteListener = listener;
+	public void setOnLoginCompleteListener(OnLoginCompleteListener listener) {
+		onLoginCompleteListener = listener;
 	}
 
 	@Override
@@ -80,14 +80,10 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			String email = UtilDeviceInfo.getUserEmail(context);
-			String language = UtilDeviceInfo.getUserLanguageCode();
-			String country = UtilDeviceInfo.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-			userRegistered = ServerCalls.getInstance().register(username, password, email, language,
-					country, token, context);
+			userLoggedIn = ServerCalls.getInstance().login(username, password, token, context);
 
 			return true;
 		} catch (WebconnectionException webconnectionException) {
@@ -114,12 +110,12 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		if (userRegistered) {
-			ToastUtil.showSuccess(context, R.string.new_user_registered);
+		if (userLoggedIn) {
+			ToastUtil.showSuccess(context, R.string.user_logged_in);
 		}
 
-		if (onRegistrationCompleteListener != null) {
-			onRegistrationCompleteListener.onRegistrationComplete();
+		if (onLoginCompleteListener != null) {
+			onLoginCompleteListener.onLoginComplete();
 		}
 	}
 
@@ -136,8 +132,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 	}
 
-	public interface OnRegistrationCompleteListener {
+	public interface OnLoginCompleteListener {
 
-		void onRegistrationComplete();
+		void onLoginComplete();
 	}
 }

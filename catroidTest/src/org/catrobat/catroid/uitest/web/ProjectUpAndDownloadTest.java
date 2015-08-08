@@ -58,7 +58,7 @@ import java.util.List;
 public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TAG = ProjectUpAndDownloadTest.class.getSimpleName();
 
-	private static final String TEST_FILE_DOWNLOAD_URL = ServerCalls.BASE_URL_TEST_HTTP + "catroid/download/";
+	private static final String TEST_FILE_DOWNLOAD_URL = ServerCalls.BASE_URL_TEST_HTTPS + "catroid/download/";
 	private static final int LONG_TEST_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 	private final String testProject = UiTestUtils.PROJECTNAME1;
 	private final String newTestProject = UiTestUtils.PROJECTNAME2;

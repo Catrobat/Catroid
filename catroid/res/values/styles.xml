@@ -624,4 +624,17 @@
         <item name="android:layout_height" >wrap_content</item >
     </style >
 
+    <style name="OAuthButton">
+         <item name="android:layout_width">match_parent</item >
+         <item name="android:layout_height">match_parent</item >
+         <item name="android:layout_gravity">center_horizontal|bottom</item >
+         <item name="android:layout_marginTop">5dip</item >
+         <item name="android:layout_marginBottom">5dip</item >
+         <item name="android:layout_marginLeft">45dip</item >
+         <item name="android:layout_marginRight">45dip</item >
+         <item name="android:paddingBottom">5dip</item >
+         <item name="android:gravity">center</item >
+         <item name="android:layout_centerHorizontal">true</item >
+    </style>
+
 </resources>

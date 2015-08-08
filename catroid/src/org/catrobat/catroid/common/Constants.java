@@ -96,12 +96,33 @@ public final class Constants {
 
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 
-	//TODO: abklären, ob token mit oauth noch nötig
+	//TODO: abklaeren, ob token mit oauth noch noetig:
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
 	public static final String RESTRICTED_USER = "restricted_user";
+	public static final String FACEBOOK_ID = "FACEBOOK_ID";
+	public static final String NO_FACEBOOK_ID = "NO_FACEBOOK_ID";
+	public static final String FACEBOOK_USERNAME = "FACEBOOK_USERNAME";
+	public static final String NO_FACEBOOK_USERNAME = "NO_FACEBOOK_USERNAME";
+	public static final String FACEBOOK_LOCALE = "FACEBOOK_LOCALE";
+	public static final String NO_FACEBOOK_LOCALE = "NO_FACEBOOK_LOCALE";
+	public static final String FACEBOOK_EMAIL = "FACEBOOK_EMAIL";
+	public static final String NO_FACEBOOK_EMAIL = "NO_FACEBOOK_EMAIL";
+
+	public static final String GOOGLE_ID = "GOOGLE_ID";
+	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";
+	public static final String GOOGLE_USERNAME = "GOOGLE_USERNAME";
+	public static final String NO_GOOGLE_USERNAME = "NO_GOOGLE_USERNAME";
+	public static final String GOOGLE_LOCALE = "GOOGLE_LOCALE";
+	public static final String NO_GOOGLE_LOCALE = "NO_GOOGLE_LOCALE";
+	public static final String GOOGLE_EMAIL = "GOOGLE_EMAIL";
+	public static final String NO_GOOGLE_EMAIL = "NO_GOOGLE_EMAIL";
+	
+	public static final String CUR_OAUTH_PROVIDER = "PROVIDER";
+	public static final String FACEBOOK = "FACEBOOK";
+	public static final String GOOGLE_PLUS = "GPLUS";
 
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";

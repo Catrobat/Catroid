@@ -66,7 +66,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = testUser + "@gmail.com";
 			String token = Constants.NO_TOKEN;
 
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
 			assertTrue("Should be a new user, but server response indicates that this user already exists",
@@ -92,7 +92,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = testUser + "@gmail.com";
 
 			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
@@ -101,7 +101,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
+			userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de",
 					"at", token, getContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
@@ -121,7 +121,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = testUser + "@gmail.com";
 
 			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
@@ -131,7 +131,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String wrongPassword = "wrongpassword";
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, wrongPassword, testEmail, "de", "at", token,
+			ServerCalls.getInstance().register(testUser, wrongPassword, testEmail, "de", "at", token,
 					getContext());
 
 			assertFalse("should never be reached because the password is wrong", true);
@@ -151,7 +151,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = testUser + "@gmail.com";
 
 			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
@@ -160,7 +160,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String newUser = "testUser" + System.currentTimeMillis();
 			token = Constants.NO_TOKEN;
-			ServerCalls.getInstance().registerOrCheckToken(newUser, testPassword, testEmail, "de", "at", token,
+			ServerCalls.getInstance().register(newUser, testPassword, testEmail, "de", "at", token,
 					getContext());
 
 			assertFalse(
@@ -183,7 +183,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = testUser + "@gmail.com";
 
 			String token = Constants.NO_TOKEN;
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					getContext());
 
 			assertFalse("should never be reached because the password is too short", true);
@@ -204,7 +204,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = "invalidEmail";
 
 			String token = Constants.NO_TOKEN;
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					getContext());
 
 			assertFalse("should never be reached because the email is not valid", true);
@@ -242,7 +242,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = testUser + "@gmail.com";
 
 			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);

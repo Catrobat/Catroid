@@ -40,12 +40,13 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.web.ServerCalls;
 
-public class LogInDialog extends DialogFragment implements OnRegistrationCompleteListener {
+public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {
 
 	public static final String PASSWORD_FORGOTTEN_PATH = "resetting/request";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_login_register";
@@ -98,9 +99,8 @@ public class LogInDialog extends DialogFragment implements OnRegistrationComplet
 	}
 
 	@Override
-	public void onRegistrationComplete() {
+	public void onLoginComplete() {
 		dismiss();
-
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
@@ -109,13 +109,13 @@ public class LogInDialog extends DialogFragment implements OnRegistrationComplet
 		String username = usernameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 
-		RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password);
-		registrationTask.setOnRegistrationCompleteListener(this);
-		registrationTask.execute();
+		LoginTask loginTask = new LoginTask(getActivity(), username, password);
+		loginTask.setOnLoginCompleteListener(this);
+		loginTask.execute();
 	}
 
 	private void handlePasswordForgottenButtonClick() {
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : Constants.BASE_URL_HTTPS;
 		String url = baseUrl + PASSWORD_FORGOTTEN_PATH;
 
 		((MainMenuActivity) getActivity()).startWebViewActivity(url);

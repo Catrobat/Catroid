@@ -1651,7 +1651,7 @@ public final class UiTestUtils {
 			String testEmail = testUser + "@gmail.com";
 
 			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, context);
 
 			assert userRegistered;

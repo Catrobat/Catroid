@@ -82,18 +82,19 @@
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/dialog_sign_in_facebook_login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal|bottom"
+            style="@style/OAuthButton"
             android:layout_below="@+id/dialog_sign_in_or"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:layout_centerHorizontal="true" />
+        />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/dialog_sign_in_gplus_login_button"
+            style="@style/OAuthButton"
+            android:layout_below="@+id/dialog_sign_in_facebook_login_button"
+        />
 
         <LinearLayout
             style="@style/DefaultDialog.Item"
-            android:layout_below="@+id/dialog_sign_in_facebook_login_button"
+            android:layout_below="@+id/dialog_sign_in_gplus_login_button"
             android:orientation="vertical"
             android:paddingBottom="4dp"
             android:paddingTop="16dp" >
