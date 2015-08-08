@@ -26,10 +26,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 class ObservedInputStream extends InputStream {
-	private final Logger logger;
+	private final BluetoothLogger logger;
 	private final InputStream inputStream;
 
-	ObservedInputStream(InputStream inputStream, Logger logger) {
+	ObservedInputStream(InputStream inputStream, BluetoothLogger logger) {
 		this.inputStream = inputStream;
 		this.logger = logger;
 	}

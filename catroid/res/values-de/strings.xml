@@ -27,6 +27,10 @@
   <string name="cancel_button">Abbrechen</string>
   <string name="rename">Umbenennen</string>
   <string name="delete">Löschen</string>
+  <string name="menu_item_move_down">Move Down</string>
+  <string name="menu_item_move_up">Move Up</string>
+  <string name="menu_item_move_to_top">Move To Top</string>
+  <string name="menu_item_move_to_bottom">Move To Bottom</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
   <string name="copy">Kopieren</string>
@@ -46,6 +50,8 @@
   <string name="settings">Einstellungen</string>
   <string name="redo">Wiederholen</string>
   <string name="undo">Rückgängig</string>
+  <string name="name_exists">Name already exists</string>
+  <string name="no_name">No name</string>
   <string name="main_menu_new">Neu</string>
   <string name="main_menu_continue">Fortsetzen</string>
   <string name="main_menu_programs">Programme</string>
@@ -199,6 +205,9 @@
   <string name="add_look_from_camera">Foto schießen</string>
   <string name="add_look_draw_new_image">Neues Bild erstellen</string>
   <string name="add_look_choose_image">Bild auswählen</string>
+  <string name="new_sound_dialog_title">Add Sound</string>
+  <string name="add_sound_from_recorder">Record Sound</string>
+  <string name="add_sound_choose_file">Select File</string>
   <string name="new_project_dialog_title">Neues Programm</string>
   <string name="new_project_dialog_hint">Mein Programm</string>
   <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
@@ -209,6 +218,7 @@
   <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
   <string name="rename_sprite_dialog">Objekt umbenennen</string>
   <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
+  <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Objektname:</string>
   <string name="login_register_dialog_title">Einloggen</string>
   <string name="username">Benutzername:</string>
@@ -228,7 +238,7 @@
   <string name="stage_dialog_axes_on">Achsen Ein</string>
   <string name="stage_dialog_axes_off">Achsen Aus</string>
   <string name="stage_dialog_maximize">Maximieren/\nStrecken</string>
-  <string name="stage_dialog_screenshot">Bildschirmfoto</string>
+  <string name="stage_dialog_screenshot">Vorschau</string>
   <string name="new_broadcast_message">Neu&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
   <string name="dialog_new_broadcast_message_name">Nachricht:</string>
@@ -256,7 +266,7 @@
   </plurals>
   <string name="brick_come_to_front">Gehe nach vorne</string>
   <string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
-  <string name="brick_move">Verschieben</string>
+  <string name="brick_move">Verschiebe um</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">Schritt</item>
     <item quantity="other">Schritte</item>
@@ -359,6 +369,8 @@
   <string name="notification_upload_pending">Upload wird ausgeführt</string>
   <string name="notification_upload_finished">Upload erfolgreich</string>
   <string name="notification_upload_rejected">Upload verweigert</string>
+  <string name="notification_upload_retry">Retry</string>
+  <string name="notification_open_play_store">Open Play Store</string>
   <string name="notification_download_title_pending">"Herunterladen von "</string>
   <string name="notification_download_pending">Download wird ausgeführt</string>
   <string name="notification_download_finished">Download erfolgreich</string>
@@ -369,7 +381,7 @@
   <string name="upload_project_dialog_title">Programm hochladen</string>
   <string name="upload_description">Beschreibung:</string>
   <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
-  <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
+  <string name="error_no_program_name_entered">Please enter a program name.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
   <string name="error_unknown_project">A program with that name does not exist.</string>
@@ -539,6 +551,10 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_floor">floor</string>
+  <string name="formula_editor_function_floor_parameter">(0.7)</string>
+  <string name="formula_editor_function_ceil">ceil</string>
+  <string name="formula_editor_function_ceil_parameter">(0.3)</string>
   <string name="formula_editor_function_max">max</string>
   <string name="formula_editor_function_max_parameter">(0,1)</string>
   <string name="formula_editor_function_min">min</string>

@@ -41,6 +41,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -87,6 +88,17 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 		paintroidImageFile.delete();
 		super.tearDown();
+	}
+
+	public void testDismissNewLookDialog() {
+		solo.clickOnText(lookName);
+		solo.clickOnText(solo.getString(R.string.new_broadcast_message));
+		solo.waitForDialogToOpen();
+		solo.goBack();
+		solo.waitForDialogToClose();
+
+		assertEquals("Not in ScriptActivity", "ui.ScriptActivity", solo.getCurrentActivity().getLocalClassName());
+		assertTrue("Spinner not updated", solo.waitForText(lookName));
 	}
 
 	public void testSelectLookAndPlay() {
@@ -180,6 +192,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 	}
 
+	@Device
 	public void testAddNewLook() {
 		String newText = solo.getString(R.string.new_broadcast_message);
 
@@ -206,9 +219,11 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForFragmentByTag(LookFragment.TAG);
 
 		solo.sleep(3000);
+
 		assertTrue("Testfile not added from mockActivity", solo.searchText(testFile));
 
 		assertTrue(testFile + " is not selected in Spinner", solo.isSpinnerTextSelected(testFile));
+		solo.goBack();
 		solo.goBack();
 
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());

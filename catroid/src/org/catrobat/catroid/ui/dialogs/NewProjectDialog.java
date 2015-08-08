@@ -153,12 +153,12 @@ public class NewProjectDialog extends DialogFragment {
 		}
 
 		if (projectName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
+			Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.error_no_program_name_entered);
 			return;
 		}
 
 		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+			Utils.showErrorDialog(getActivity(), R.string.name_exists, R.string.error_project_exists);
 			return;
 		}
 

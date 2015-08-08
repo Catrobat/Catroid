@@ -84,6 +84,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = ProjectActivityTest.class.getSimpleName();
+
 	private static final String TEST_SPRITE_NAME = "cat";
 	private static final String FIRST_TEST_SPRITE_NAME = "test1";
 	private static final String SECOND_TEST_SPRITE_NAME = "test2";
@@ -272,7 +274,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		Sprite sprite = new Sprite(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));

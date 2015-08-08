@@ -46,7 +46,7 @@ class LocalConnectionProxy implements BluetoothConnection {
 	private State connectionState = State.NOT_CONNECTED;
 	private ModelRunner modelRunner;
 
-	LocalConnectionProxy(Logger logger) {
+	LocalConnectionProxy(BluetoothLogger logger) {
 
 		observedInputStream = new ObservedInputStream(new InputStream() {
 			@Override
@@ -64,7 +64,7 @@ class LocalConnectionProxy implements BluetoothConnection {
 		logger.loggerAttached(this);
 	}
 
-	LocalConnectionProxy(Logger logger, DeviceModel deviceModel) {
+	LocalConnectionProxy(BluetoothLogger logger, DeviceModel deviceModel) {
 
 		PipedInputStream serverInputStreamFromClientsOutputStream = new PipedInputStream();
 		PipedOutputStream serverOutputStreamToClientsInputStream = new PipedOutputStream();

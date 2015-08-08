@@ -551,12 +551,13 @@ public class ScriptActivity extends BaseActivity {
 		switch (fragmentPosition) {
 			case FRAGMENT_LOOKS:
 				isLookFragmentFromSetLookBrickNew = true;
-
 				fragmentTransaction.addToBackStack(LookFragment.TAG);
 				if (lookFragment == null) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					lookFragment = new LookFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					fragmentTransaction.show(lookFragment);
 				}
 				setCurrentFragment(FRAGMENT_LOOKS);
@@ -567,9 +568,11 @@ public class ScriptActivity extends BaseActivity {
 
 				fragmentTransaction.addToBackStack(SoundFragment.TAG);
 				if (soundFragment == null) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					soundFragment = new SoundFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, soundFragment, SoundFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					fragmentTransaction.show(soundFragment);
 				}
 				setCurrentFragment(FRAGMENT_SOUNDS);

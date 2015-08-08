@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.bluetooth.BluetoothStateException;
 import javax.bluetooth.LocalDevice;
@@ -40,6 +42,7 @@ import javax.microedition.io.StreamConnectionNotifier;
 
 public final class BTServer {
 	private static final String TAG = BTServer.class.getSimpleName();
+	private static final Logger LOGGER = Logger.getLogger(TAG);
 
 	static BTServer btServer;
 	private static boolean gui = false;
@@ -63,7 +66,8 @@ public final class BTServer {
 				out.write(arg);
 				out.flush();
 			} catch (Exception localException) {
-				System.out.println("BTTestServer: Unable to log messages. Do you have permission to log file?");
+				LOGGER.log(Level.SEVERE, "BTTestServer: Unable to log messages. Do you have permission to log file?",
+						localException);
 			}
 		} else {
 			GUI.writeMessage(arg);
@@ -76,8 +80,6 @@ public final class BTServer {
 
 	public static void logMessage(String tag, String message) {
 		writeMessage(getTime() + " L/" + tag + ": " + message);
-
-		//Log.d(tag, message);
 	}
 
 	public static void logMessage(String tag, String message, Exception e) {

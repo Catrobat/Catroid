@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.utiltests;
 
 import android.os.SystemClock;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -52,6 +53,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class UtilsTest extends AndroidTestCase {
+	private static final String TAG = UtilsTest.class.getSimpleName();
+
 	private final String testFileContent = "Hello, this is a Test-String";
 	private static final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
 	private static final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
@@ -74,7 +77,7 @@ public class UtilsTest extends AndroidTestCase {
 				outputStream.flush();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "File handling error", e);
 		} finally {
 			if (outputStream != null) {
 				outputStream.close();
@@ -118,7 +121,7 @@ public class UtilsTest extends AndroidTestCase {
 			printWriter = new PrintWriter(md5TestFile);
 			printWriter.print("catroid");
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "File handling error", e);
 		} finally {
 			if (printWriter != null) {
 				printWriter.close();
@@ -181,11 +184,8 @@ public class UtilsTest extends AndroidTestCase {
 
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(NEW_PROGRAM_NAME, getContext());
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			fail("error creating standard project");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | IllegalArgumentException e) {
+			Log.e(TAG, "error creating standard project", e);
 			fail("error creating standard project");
 		}
 		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(standardProject, getContext()));

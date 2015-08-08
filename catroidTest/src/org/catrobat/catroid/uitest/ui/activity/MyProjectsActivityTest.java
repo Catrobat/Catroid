@@ -76,6 +76,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+
 	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";
 	private static final int IMAGE_RESOURCE_1 = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
 	private static final int IMAGE_RESOURCE_2 = org.catrobat.catroid.test.R.drawable.background_white;
@@ -182,7 +183,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 
@@ -231,7 +232,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		UiTestUtils.createTestProject();
@@ -271,7 +272,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		UiTestUtils.createTestProject();
@@ -885,7 +886,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		String delete = solo.getString(R.string.delete);
@@ -1903,7 +1904,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 			StandardProjectHandler.createAndSaveStandardProject("test", getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 
@@ -2162,7 +2163,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			try {
 				StandardProjectHandler.createAndSaveStandardProject(getActivity());
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, "Standard Project not created", e);
 				fail("Standard Project could not be not created");
 			}
 		}

@@ -24,57 +24,54 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 
-public class NewLookDialog extends DialogFragment {
+public class NewSoundDialog extends DialogFragment {
 
-	public static final String TAG = "dialog_new_look";
+	public static final String TAG = "dialog_new_sound";
 
-	private LookFragment fragment = null;
+	private SoundFragment fragment = null;
 	private DialogInterface.OnDismissListener onDismissListener;
 
-	public static NewLookDialog newInstance() {
-		return new NewLookDialog();
+	public static NewSoundDialog newInstance() {
+		return new NewSoundDialog();
 	}
 
 	public void showDialog(Fragment fragment) {
-		if (!(fragment instanceof LookFragment)) {
-			throw new RuntimeException("This dialog (NewLookDialog) can only be called by the LookFragment.");
+		if (!(fragment instanceof SoundFragment)) {
+			throw new RuntimeException("This dialog (NewSoundDialog) can only be called by the SoundFragment.");
 		}
-		this.fragment = (LookFragment) fragment;
+		this.fragment = (SoundFragment) fragment;
 		show(fragment.getActivity().getSupportFragmentManager(), TAG);
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_look, null);
-		setupPaintroidButton(dialogView);
+		View dialogView = LayoutInflater.from(getActivity())
+				.inflate(R.layout.dialog_new_sound, (ViewGroup) getView(), false);
+		setupRecordButton(dialogView);
 		setupGalleryButton(dialogView);
-		setupCameraButton(dialogView);
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
-				R.string.new_look_dialog_title);
+				R.string.new_sound_dialog_title);
 
 		dialog = createDialog(dialogBuilder);
 		dialog.setCanceledOnTouchOutside(true);
 		return dialog;
 	}
 
-	public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
-		this.onDismissListener = onDismissListener;
+	public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
+		this.onDismissListener = listener;
 	}
 
 	@Override
@@ -89,46 +86,27 @@ public class NewLookDialog extends DialogFragment {
 		return dialogBuilder.create();
 	}
 
-	private void setupPaintroidButton(View parentView) {
-		View paintroidButton = parentView.findViewById(R.id.dialog_new_look_paintroid);
+	private void setupRecordButton(View parentView) {
+		View recordButton = parentView.findViewById(R.id.dialog_new_sound_recorder);
 
-		final Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
-		paintroidButton.setOnClickListener(new View.OnClickListener() {
+		recordButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
-					fragment.addLookDrawNewImage();
-					NewLookDialog.this.dismiss();
+					fragment.addSoundRecord();
+					NewSoundDialog.this.dismiss();
 				}
-			}
 		});
 	}
 
 	private void setupGalleryButton(View parentView) {
-		View galleryButton = parentView.findViewById(R.id.dialog_new_look_gallery);
+		View galleryButton = parentView.findViewById(R.id.dialog_new_sound_galery);
 
 		galleryButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
-				fragment.addLookChooseImage();
-				NewLookDialog.this.dismiss();
-			}
-		});
-	}
-
-	private void setupCameraButton(View parentView) {
-		View cameraButton = parentView.findViewById(R.id.dialog_new_look_camera);
-
-		cameraButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				fragment.addLookFromCamera();
-				NewLookDialog.this.dismiss();
+				fragment.addSoundChooseFile();
+				NewSoundDialog.this.dismiss();
 			}
 		});
 	}
