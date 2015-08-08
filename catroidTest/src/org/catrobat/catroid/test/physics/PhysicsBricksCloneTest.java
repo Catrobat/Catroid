@@ -92,8 +92,8 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		try {
 			clonedBrick = brick.clone();
 		} catch (CloneNotSupportedException e) {
-			fail("clone of CollisionReceiverBrick should be supported");
-			e.printStackTrace();
+			Log.e(TAG, "Cloning CollisionReceiverBrick not supported", e);
+			fail("clone of CollisionReceiverBrick not supported");
 		}
 
 		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "receiveScript");
@@ -119,7 +119,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 			clonedFixedBrick = fixedBrick.clone();
 			clonedNoneBrick = noneBrick.clone();
 		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Cloning SetPhysicsObjectTypeBrick not supported", e);
 		}
 
 		PhysicsObject.Type dynamicBrickType = (PhysicsObject.Type) Reflection.getPrivateField(dynamicBrick, "type");
