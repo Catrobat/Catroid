@@ -177,7 +177,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
 
-	public void testViewInFormulaEditorAfterClone(){
+	public void testViewInFormulaEditorAfterClone() {
 
 		String userVariableName = "testVariable1";
 		String userVariableNameTwo = "testVariable2";
@@ -203,11 +203,9 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.clickOnText(solo.getString(R.string.brick_change_variable));
 
-
 		solo.clickOnText(userVariableName);
 
 		solo.clickOnText(solo.getString(R.string.brick_variable_spinner_create_new_variable));
-
 
 		EditText editTextTwo = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 
