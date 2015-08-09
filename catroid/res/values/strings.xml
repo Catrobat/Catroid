@@ -830,6 +830,10 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+    <string name="formula_editor_sensor_lego_ev3_1">EV3_sensor_1</string>
+    <string name="formula_editor_sensor_lego_ev3_2">EV3_sensor_2</string>
+    <string name="formula_editor_sensor_lego_ev3_3">EV3_sensor_3</string>
+    <string name="formula_editor_sensor_lego_ev3_4">EV3_sensor_4</string>
 
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
@@ -837,11 +841,6 @@
     <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
-
-    <!--<string name="formula_editor_sensor_lego_ev3_1">EV3_sensor_1</string>-->
-    <!--<string name="formula_editor_sensor_lego_ev3_2">EV3_sensor_2</string>-->
-    <!--<string name="formula_editor_sensor_lego_ev3_3">EV3_sensor_3</string>-->
-    <!--<string name="formula_editor_sensor_lego_ev3_4">EV3_sensor_4</string>-->
 
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>

@@ -84,6 +84,7 @@ public class ProjectActivity extends BaseActivity {
 				R.id.fragment_sprites_list);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
 	}
 
 	@Override

@@ -38,6 +38,7 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
@@ -54,6 +55,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
+
+	public static final String EV3_SENSOR_1 = "setting_mindstorms_ev3_sensor_1";
+	public static final String EV3_SENSOR_2 = "setting_mindstorms_ev3_sensor_2";
+	public static final String EV3_SENSOR_3 = "setting_mindstorms_ev3_sensor_3";
+	public static final String EV3_SENSOR_4 = "setting_mindstorms_ev3_sensor_4";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -86,6 +92,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		listPreference.setEntryValues(entryValues);
 
 		setNXTSensors();
+		setEV3Sensors();
 
 		ActionBar actionBar = getSupportActionBar();
 
@@ -101,9 +108,9 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_LEGO_EV3_ENABLED) {
-			CheckBoxPreference ev3Preference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
-			ev3Preference.setEnabled(false);
-			screen.removePreference(ev3Preference);
+			CheckBoxPreference legoEv3Preference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
+			legoEv3Preference.setEnabled(false);
+			screen.removePreference(legoEv3Preference);
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
@@ -128,6 +135,19 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
 			listPreference.setEntries(R.array.nxt_sensor_chooser);
+			listPreference.setEnabled(areChoosersEnabled);
+		}
+	}
+
+	private void setEV3Sensors() {
+
+		boolean areChoosersEnabled = getMindstormsEV3SensorChooserEnabled(this);
+
+		final String[] sensorPreferences = new String[] { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
+		for (int i = 0; i < sensorPreferences.length; i++) {
+			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
+			listPreference.setEntryValues(EV3Sensor.Sensor.getSensorCodes());
+			listPreference.setEntries(R.array.ev3_sensor_chooser);
 			listPreference.setEnabled(areChoosersEnabled);
 		}
 	}
@@ -206,6 +226,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		return NXTSensor.Sensor.getSensorFromSensorCode(sensor);
 	}
 
+	public static EV3Sensor.Sensor getLegoMindstormsEV3SensorMapping(Context context, String sensorSetting) {
+		String sensor = getSharedPreferences(context).getString(sensorSetting, null);
+		return EV3Sensor.Sensor.getSensorFromSensorCode(sensor);
+	}
+
 	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor[] sensorMapping) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 
@@ -213,6 +238,17 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.putString(NXT_SENSOR_2, sensorMapping[1].getSensorCode());
 		editor.putString(NXT_SENSOR_3, sensorMapping[2].getSensorCode());
 		editor.putString(NXT_SENSOR_4, sensorMapping[3].getSensorCode());
+
+		editor.commit();
+	}
+
+	public static void setLegoMindstormsEV3SensorMapping(Context context, EV3Sensor.Sensor[] sensorMapping) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+
+		editor.putString(EV3_SENSOR_1, sensorMapping[0].getSensorCode());
+		editor.putString(EV3_SENSOR_2, sensorMapping[1].getSensorCode());
+		editor.putString(EV3_SENSOR_3, sensorMapping[2].getSensorCode());
+		editor.putString(EV3_SENSOR_4, sensorMapping[3].getSensorCode());
 
 		editor.commit();
 	}
@@ -235,9 +271,20 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.commit();
 	}
 
+	public static void setLegoMindstormsEV3SensorChooserEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean("mindstorms_ev3_sensor_chooser_in_settings", enable);
+		editor.commit();
+	}
+
 	public static boolean getMindstormsNXTSensorChooserEnabled(Context context) {
 		SharedPreferences preferences = getSharedPreferences(context);
 		return preferences.getBoolean("mindstorms_nxt_sensor_chooser_in_settings", false);
+	}
+
+	public static boolean getMindstormsEV3SensorChooserEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean("mindstorms_ev3_sensor_chooser_in_settings", false);
 	}
 
 	public static void disableLegoMindstormsSensorInfoDialog(Context context) {

@@ -21,43 +21,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.mindstorms.ev3;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-import android.util.SparseArray;
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 
-public enum EV3CommandOpCode {
-	OP_UI_READ(0x81), OP_UI_WRITE(0x82),
+public class EV3InfraredSensor extends EV3Sensor {
 
-	OP_SOUND(0x94), OP_SOUND_TEST(0x95),
+	public static final String TAG = EV3InfraredSensor.class.getSimpleName();
+	private static final int DEFAULT_VALUE = 50;
 
-	OP_INPUT_DEVICE(0x99), OP_INPUT_READ(0x9A), OP_INPUT_READ_SI(0x9D),
-
-	OP_OUTPUT_STEP_SPEED(0xAE), OP_OUTPUT_STEP_POWER(0xAC), OP_OUTPUT_TIME_SPEED(0xAF), OP_OUTPUT_TIME_POWER(0xAD),
-
-	OP_OUTPUT_STOP(0xA3);
-
-	private int commandByteValue;
-	private static final SparseArray<EV3CommandOpCode> LOOKUP = new SparseArray<EV3CommandOpCode>();
-
-	static {
-		for (EV3CommandOpCode c : EV3CommandOpCode.values()) {
-			LOOKUP.put(c.commandByteValue, c);
-		}
+	public EV3InfraredSensor(int port, MindstormsConnection connection) {
+		// IR MODE0 is the proximity-mode
+		super(port, EV3SensorType.EV3_INFRARED, EV3SensorMode.MODE0, connection);
+		lastValidValue = DEFAULT_VALUE;
 	}
 
-	private EV3CommandOpCode(int commandByteValue) {
-		this.commandByteValue = commandByteValue;
-	}
-
-	public byte getByte() {
-		return (byte) commandByteValue;
-	}
-
-	public static boolean isMember(byte memberToTest) {
-		return LOOKUP.get(memberToTest & 0xFF) != null;
-	}
-
-	public static EV3CommandOpCode getTypeByValue(byte value) {
-		return LOOKUP.get(value & 0xFF);
+	@Override
+	public int getValue() {
+		return getPercentValue();
 	}
 }

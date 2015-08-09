@@ -21,43 +21,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.mindstorms.ev3;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-import android.util.SparseArray;
+public enum EV3SensorMode {
+	MODE0(0x00), MODE1(0x01), MODE2(0x02), MODE3(0x03),
+	MODE4(0x04), MODE5(0x05), MODE6(0x06), MODE7(0x07);
 
-public enum EV3CommandOpCode {
-	OP_UI_READ(0x81), OP_UI_WRITE(0x82),
+	private int sensorModeValue;
 
-	OP_SOUND(0x94), OP_SOUND_TEST(0x95),
-
-	OP_INPUT_DEVICE(0x99), OP_INPUT_READ(0x9A), OP_INPUT_READ_SI(0x9D),
-
-	OP_OUTPUT_STEP_SPEED(0xAE), OP_OUTPUT_STEP_POWER(0xAC), OP_OUTPUT_TIME_SPEED(0xAF), OP_OUTPUT_TIME_POWER(0xAD),
-
-	OP_OUTPUT_STOP(0xA3);
-
-	private int commandByteValue;
-	private static final SparseArray<EV3CommandOpCode> LOOKUP = new SparseArray<EV3CommandOpCode>();
-
-	static {
-		for (EV3CommandOpCode c : EV3CommandOpCode.values()) {
-			LOOKUP.put(c.commandByteValue, c);
-		}
-	}
-
-	private EV3CommandOpCode(int commandByteValue) {
-		this.commandByteValue = commandByteValue;
+	EV3SensorMode(int sensorModeValue) {
+		this.sensorModeValue = sensorModeValue;
 	}
 
 	public byte getByte() {
-		return (byte) commandByteValue;
-	}
-
-	public static boolean isMember(byte memberToTest) {
-		return LOOKUP.get(memberToTest & 0xFF) != null;
-	}
-
-	public static EV3CommandOpCode getTypeByValue(byte value) {
-		return LOOKUP.get(value & 0xFF);
+		return (byte) sensorModeValue;
 	}
 }

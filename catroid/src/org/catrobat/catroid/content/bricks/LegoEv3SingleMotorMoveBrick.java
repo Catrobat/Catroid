@@ -258,7 +258,7 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

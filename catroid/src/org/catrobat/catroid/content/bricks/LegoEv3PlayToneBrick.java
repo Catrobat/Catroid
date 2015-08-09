@@ -206,7 +206,7 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 //			editLegoVolume.setTextColor(editLegoVolume.getTextColors().withAlpha(alphaValue));
 //			editLegoVolume.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

@@ -31,4 +31,8 @@ public interface MindstormsConnection {
 	byte[] sendAndReceive(MindstormsCommand command);
 
 	void send(MindstormsCommand command);
+
+	short getCommandCounter();
+
+	void incCommandCounter();
 }

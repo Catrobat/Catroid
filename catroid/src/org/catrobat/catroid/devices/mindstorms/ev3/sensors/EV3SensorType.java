@@ -21,43 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.mindstorms.ev3;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-import android.util.SparseArray;
+public enum EV3SensorType {
+	NO_SENSOR(0x00), NXT_TOUCH(0x01), NXT_LIGHT(0x02),
+	NXT_SOUND(0x03), NXT_COLOR(0x04), NXT_ULTRASONIC(0x05),
+	NXT_TEMPERATURE(0x06),
 
-public enum EV3CommandOpCode {
-	OP_UI_READ(0x81), OP_UI_WRITE(0x82),
+	EV3_LARGE_MOTOR(0x07), EV3_MEDIUM_MOTOR(0x08),
+	EV3_TOUCH(0x10), EV3_COLOR(0x1D), EV3_ULTRASONIC(0x1E),
+	EV3_GYRO(0x20), EV3_INFRARED(0x21),
 
-	OP_SOUND(0x94), OP_SOUND_TEST(0x95),
+	ENERGY_METER(0x63), IIC(0x64);
 
-	OP_INPUT_DEVICE(0x99), OP_INPUT_READ(0x9A), OP_INPUT_READ_SI(0x9D),
+	private int sensorTypeValue;
 
-	OP_OUTPUT_STEP_SPEED(0xAE), OP_OUTPUT_STEP_POWER(0xAC), OP_OUTPUT_TIME_SPEED(0xAF), OP_OUTPUT_TIME_POWER(0xAD),
-
-	OP_OUTPUT_STOP(0xA3);
-
-	private int commandByteValue;
-	private static final SparseArray<EV3CommandOpCode> LOOKUP = new SparseArray<EV3CommandOpCode>();
-
-	static {
-		for (EV3CommandOpCode c : EV3CommandOpCode.values()) {
-			LOOKUP.put(c.commandByteValue, c);
-		}
-	}
-
-	private EV3CommandOpCode(int commandByteValue) {
-		this.commandByteValue = commandByteValue;
+	EV3SensorType(int sensorTypeValue) {
+		this.sensorTypeValue = sensorTypeValue;
 	}
 
 	public byte getByte() {
-		return (byte) commandByteValue;
-	}
-
-	public static boolean isMember(byte memberToTest) {
-		return LOOKUP.get(memberToTest & 0xFF) != null;
-	}
-
-	public static EV3CommandOpCode getTypeByValue(byte value) {
-		return LOOKUP.get(value & 0xFF);
+		return (byte) sensorTypeValue;
 	}
 }

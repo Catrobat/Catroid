@@ -113,7 +113,7 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		byte expectedOutputField = (byte) 0x01;
 
 		ev3.initialise();
-		ev3.moveMotorStepsSpeed(outputField, 0, inputSpeed, 0, step2Degrees, step3Degrees, true );
+		ev3.moveMotorStepsSpeed(outputField, 0, inputSpeed, 0, step2Degrees, step3Degrees, true);
 
 		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
 

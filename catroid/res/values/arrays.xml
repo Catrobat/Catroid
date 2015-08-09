@@ -45,14 +45,7 @@
         <item>@string/nxt_sensor_light_active</item>
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
-
     <string-array name="ev3_sensor_chooser">
-        <item>@string/ev3_no_sensor</item>
-        <item>@string/ev3_sensor_touch</item>
-        <item>@string/ev3_sensor_color</item>
-        <item>@string/ev3_sensor_infrared</item>
-    </string-array>
-    <string-array name="setting_mindstorms_ev3_sensor">
         <item>@string/ev3_no_sensor</item>
         <item>@string/ev3_sensor_touch</item>
         <item>@string/ev3_sensor_color</item>
