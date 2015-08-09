@@ -183,7 +183,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new BroadcastBrick(broadcastMessage));
 		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 
-		controlBrickList.add(new CollisionReceiverBrick("object"));
+		controlBrickList.add(new CollisionReceiverBrick(""));
 
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
