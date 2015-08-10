@@ -50,20 +50,22 @@ public class Project implements Serializable {
 
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
-
 	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
-
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<Setting>();
 
-	public Project(Context context, String name) {
+	public Project(Context context, String name, boolean landscape) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
-		ifLandscapeSwitchWidthAndHeight();
+		if (landscape) {
+			ifPortraitSwitchWidthAndHeight();
+		} else {
+			ifLandscapeSwitchWidthAndHeight();
+		}
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			Utils.updateScreenWidthAndHeight(context);
 		}
@@ -84,8 +86,20 @@ public class Project implements Serializable {
 		addSprite(background);
 	}
 
+	public Project(Context context, String name) {
+		this(context, name, false);
+	}
+
 	private void ifLandscapeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
+		}
+	}
+
+	private void ifPortraitSwitchWidthAndHeight() {
+		if (ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 			ScreenValues.SCREEN_WIDTH = tmp;

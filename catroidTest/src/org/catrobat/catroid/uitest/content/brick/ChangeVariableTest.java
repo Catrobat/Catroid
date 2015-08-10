@@ -177,6 +177,57 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
 
+	public void testViewInFormulaEditorAfterClone() {
+
+		String userVariableName = "testVariable1";
+		String userVariableNameTwo = "testVariable2";
+
+		solo.clickOnView(solo.getView(R.id.brick_change_variable_edit_text));
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_data));
+		assertTrue("Data Fragment not shown", solo.waitForFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG));
+
+		solo.clickOnView(solo.getView(R.id.button_add));
+		assertTrue("Add Data Dialog not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_data_dialog_title)));
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
+
+		solo.enterText(editText, userVariableName);
+		finishUserVariableCreationSafeButSlow(userVariableName, true);
+
+		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+
+		solo.clickOnText(solo.getString(R.string.brick_change_variable));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_copy_brick));
+
+		solo.clickOnText(solo.getString(R.string.brick_change_variable));
+
+		solo.clickOnText(userVariableName);
+
+		solo.clickOnText(solo.getString(R.string.brick_variable_spinner_create_new_variable));
+
+		EditText editTextTwo = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
+
+		solo.enterText(editTextTwo, userVariableNameTwo);
+		solo.clickOnButton(solo.getString(R.string.ok));
+
+		solo.clickOnText(solo.getString(R.string.brick_change_variable));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
+
+		ArrayList<Integer> yPosition = UiTestUtils.getListItemYPositions(solo, 0);
+		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
+		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 20);
+
+		solo.clickOnText(solo.getString(R.string.brick_change_variable));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+
+		assertTrue("Uservariable in view is not right displayed , maybe clone() is broken...",
+				solo.searchText(userVariableName, true));
+
+		solo.sleep(2000);
+	}
+
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");

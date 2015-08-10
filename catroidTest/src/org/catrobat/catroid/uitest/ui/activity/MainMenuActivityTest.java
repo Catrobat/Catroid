@@ -112,6 +112,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
@@ -166,6 +169,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -183,6 +189,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -200,6 +209,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -217,6 +229,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -234,6 +249,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -251,6 +269,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));

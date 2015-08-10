@@ -180,6 +180,19 @@ public final class Utils {
 		errorDialog.show();
 	}
 
+	public static void showErrorDialog(Context context, int errorTitleId, int errorMessageId) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(errorTitleId);
+		builder.setMessage(errorMessageId);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		Dialog errorDialog = builder.create();
+		errorDialog.show();
+	}
+
 	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
 		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
 		MenuItem item = menu.findItem(R.id.select_all);
