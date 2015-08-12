@@ -97,7 +97,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
+		return BLUETOOTH_PHIRO | getFormulaWithBrickField(BrickField.PHIRO_SPEED).getRequiredResources();
 	}
 
 	@Override

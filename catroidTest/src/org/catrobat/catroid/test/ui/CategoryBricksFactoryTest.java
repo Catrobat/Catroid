@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		context = getContext();
+
+		SettingsActivity.resetSharedPreferences(context);
 
 		Project project = new Project(context, "Project");
 		background = project.getSpriteList().get(0);
