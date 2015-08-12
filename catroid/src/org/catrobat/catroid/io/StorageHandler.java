@@ -428,7 +428,6 @@ public final class StorageHandler {
 			writer.write(projectXml);
 			writer.flush();
 
-//			writePermissionFile(project); //TODO why is this removed in develop branch?
 
 			File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
 			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
@@ -438,7 +437,6 @@ public final class StorageHandler {
 				writer.newLine();
 			}
 			writer.flush();
-
 
 			return true;
 		} catch (Exception exception) {

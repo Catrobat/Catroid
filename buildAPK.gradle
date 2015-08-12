@@ -31,7 +31,7 @@ buildscript {
         repositories {
             mavenCentral()
         }
-        classpath 'org.rauschig:jarchivelib:0.6.0'
+        classpath 'org.rauschig:jarchivelib:0.7.0'
     }
 }
 
@@ -50,7 +50,7 @@ android {
         catroid {
             applicationId 'org.catrobat.catroid'
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "START_PROJECT", "\"No Standalone Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
         }
 
         standalone {
@@ -150,49 +150,59 @@ def unzipProject(File tmp) {
     ArchiverFactory.createArchiver(ZIP).extract(tmp, new File("catroid/assets/standalone/"))
 }
 
-def managePermissions(String manifestText) {
+def managePermissions() {
+    println "managing Permissions"
     def permissionsFile = new File('catroid/assets/standalone/permissions.txt')
+    def manifestFile = new File("catroid/AndroidManifest.xml");
+    def manifestText = manifestFile.text;
     if(!permissionsFile.exists()) {
+        println "no permissionTXT"
         return
     }
     def permissionsText = permissionsFile.text
+    println permissionsText
 
     if(!permissionsText.contains("TEXT_TO_SPEECH")){
-        manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", "")
+        println "removing record"
+        manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", " ")
     }
     if(!permissionsText.contains("BLUETOOTH_LEGO_NXT")){
-        manifestText = manifestText.replaceAll("<uses-.+bluetooth.+?/>\\n", "")
+        println "removing bluetooth"
+        manifestText = manifestText.replaceAll("<uses-.+bluetooth.+?/>\\n", " ")
     }
     if(!permissionsText.contains("ARDRONE_SUPPORT")){
-        manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", "")
+        println "removing wifi"
+        manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", " ")
     }
     if(!permissionsText.contains("CAMERA_LED")){
-        manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", "")
+        println "removing camera"
+        manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", " ")
     }
     if(!permissionsText.contains("VIBRATOR")){
-        manifestText = manifestText.replaceAll("<uses-.+vibrate.+?/>\\n", "")
+        println "removing vibrator"
+        manifestText = manifestText.replaceAll("<uses-.+vibrate.+?/>\\n", " ")
     }
-    def manifestFile = new File("catroid/AndroidManifest.xml");
+    //println manifestText
+   // def manifestFile = new File("catroid/AndroidManifest.xml");
     manifestFile.write(manifestText)
 }
 
 
 task buildStandalone(dependsOn: ':downloadProject') << {
     println "buildStandalone task triggered"
-    def manifestFile = new File("catroid/AndroidManifest.xml");
-    def manifest = manifestFile.text;
+    def manifestFile = new File("catroid/AndroidManifest.xml")
+    def manifest = manifestFile.text
     manifest = manifest.replaceAll("@string/app_name", (String) getProjectName(new File('catroid/assets/standalone/code.xml').text));
     manifest = manifest.replaceAll("@drawable/ic_launcher", "@drawable/icon");
-    //TODO solve this via flavor specific res folder
     manifestFile.write(manifest)
-    managePermissions(manifest)
+    managePermissions()
     renameZipFile()
     copyAndRename()
     //delete 'catroid/assets/standalone'
 }
 
 task downloadProject() << {
-    def id = 965;//3143; //debugging purpose only
+    def id = 3665;//3143; //debugging purpose only
     def url = "";
     if (project.hasProperty("download")) {
         url = project["download"]

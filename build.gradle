@@ -19,13 +19,14 @@ apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply from: 'buildAPK.gradle'
 apply from: 'gradle/adb_tasks.gradle'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
+
+apply from: 'buildAPK.gradle'
 
 ext {
     projectVersion = "0.9"
@@ -35,8 +36,8 @@ ext {
             "led_brick"                         : false,
             "vibration_brick"                   : false,
             "backpack"                          : false,
-            "parrot_ar_drone"                   : true,
-            "apk_generator"                     : true,
+            "parrot_ar_drone"                   : false,
+            "apk_generator"                     : false,
             "computer_vision_enhancement"       : true,
             "formula_editor_lists"              : true,
             "physics_engine_collision_filtering": false,
@@ -53,10 +54,6 @@ configurations {
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.github.kevinsawicki:http-request:5.6'
-    compile('org.rauschig:jarchivelib:0.6.0') {
-        exclude group: 'org.apache.commons', module: 'commons-compress'
-    }
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3.1'
@@ -75,7 +72,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
-	checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
+    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
 task copyAndroidNatives() {
@@ -214,7 +211,6 @@ if (project.hasProperty('jenkins')) {
                 }
                 manifestOutputFile.write(generatedContent)
             }
-
 
         }
     }
