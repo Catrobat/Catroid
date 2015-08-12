@@ -245,6 +245,17 @@ public final class StandardProjectHandler {
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 200, 100, turnRightFile, 2000));
 
+		//Emergency Sprite
+		String EmergencyName = context.getString(R.string.default_drone_project_sprites_emergency);
+
+		File EmergencyFile = UtilFile.copyImageFromResourceIntoProject(projectName, EmergencyName
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_emergency, context,
+				true, backgroundImageScaleFactor);
+
+		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
+				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, 200, 500, EmergencyFile, 2000));
+
+
 		//Video Sprite (toggle Background Brick)
 		String showVideoSpriteName = "Toggle video";
 

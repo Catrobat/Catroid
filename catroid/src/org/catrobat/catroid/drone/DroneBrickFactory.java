@@ -25,6 +25,7 @@ package org.catrobat.catroid.drone;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneAdvancedConfigBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneGoEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -49,6 +50,7 @@ public final class DroneBrickFactory {
         DRONE_TAKE_OFF_LAND_BRICK,
         DRONE_PLAY_LED_ANIMATION_BRICK,
         DRONE_FLIP_BRICK,
+        DRONE_GO_EMERGENCY,
         DRONE_MOVE_DOWN_BRICK,
         DRONE_MOVE_UP_BRICK,
         DRONE_MOVE_LEFT_BRICK,
@@ -111,6 +113,9 @@ public final class DroneBrickFactory {
 
             case DRONE_ADVANCED_CONFIG_BRICK:
                 return new DroneAdvancedConfigBrick();
+
+            case DRONE_GO_EMERGENCY:
+                return new DroneGoEmergencyBrick();
 
 			default:
 				return null;

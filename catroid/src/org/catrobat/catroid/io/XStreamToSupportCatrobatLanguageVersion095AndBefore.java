@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneGoEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -386,6 +387,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 
 		brickInfo = new BrickInfo(DroneFlipBrick.class.getSimpleName());
 		brickInfoMap.put("droneFlipBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneGoEmergencyBrick.class.getSimpleName());
+		brickInfoMap.put("droneGoEmergencyBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DroneTakeOffLandBrick.class.getSimpleName());
 		brickInfoMap.put("droneTakeOffBrick", brickInfo);
