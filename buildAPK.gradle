@@ -1,0 +1,219 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2015 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+import org.rauschig.jarchivelib.ArchiverFactory
+
+import static org.rauschig.jarchivelib.ArchiveFormat.ZIP
+
+buildscript {
+    dependencies {
+        repositories {
+            mavenCentral()
+        }
+        classpath 'org.rauschig:jarchivelib:0.6.0'
+    }
+}
+
+ext {
+    projectName = "WHACK A MOLE"
+    id = "1"
+}
+
+apply plugin: 'com.android.application'
+android {
+    defaultConfig {
+        buildConfigField "String", "START_PROJECT", "\"WHACK A MOLE\""
+    }
+
+    productFlavors {
+        catroid {
+            applicationId 'org.catrobat.catroid'
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "START_PROJECT", "\"No Standalone Project\""
+        }
+
+        standalone {
+            applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
+            versionCode 1
+            versionName '1.0-standalone'
+            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectNameFromXML()}\"";
+            buildConfigField "String", "START_PROJECT", "\"${getZipFileNameWithoutEnding()}\""
+        }
+    }
+}
+
+def getProjectNameFromXML() {
+    def xml = new File('catroid/assets/standalone/code.xml')
+    if(xml.exists()) {
+        def program = new XmlSlurper().parseText(xml.text)
+        return program.header.programName.text()
+    } else {
+        return "Default Project"
+    }
+}
+
+def getZipFileNameWithoutEnding() {
+    //return project.ext.projectName
+    def file = new File('temp')
+    if (file.exists()) {
+        def program = file.text
+        println 'zip file name: ' + program;
+        println 'REMOVING unzipped project folder...'
+        delete 'catroid/assets/standalone'
+        println 'removing temp file'
+        delete file
+        return program
+    } else {
+        println 'should not happen!!!!!'
+        return "No Project Found"
+    }
+
+
+}
+
+def getPackageNameSuffix() {
+    println ':getPackageNameSuffix'
+    if (project.hasProperty("suffix")) {
+        return project["suffix"]
+    } else {
+        return "standalone"
+    }
+}
+
+def getProjectName(String xml) {
+    def program = new XmlSlurper().parseText(xml)
+    project.ext.projectName = program.header.programName.text()
+    println project.ext.projectName
+    return project.ext.projectName
+}
+
+def renameZipFile() {
+    def zipFile = new File('catroid/assets/project.zip')
+    zipFile.renameTo 'catroid/assets/' + project.ext.id + '.zip'
+    String id = project.ext.id
+    new File('temp').write(id)
+}
+
+def copyAndRename() {
+    def screenshot = new File('catroid/assets/standalone/manual_screenshot.png')
+    if(!screenshot.exists()){
+        screenshot = new File('catroid/assets/standalone/automatic_screenshot.png')
+    }
+    copy {
+        from screenshot.getPath()
+        into 'catroid/res/drawable'
+        rename { String fileName ->
+            fileName.replace(screenshot.getName(), 'icon.png')
+        }
+    }
+
+    copy {
+        from screenshot.getPath();
+        into 'catroid/res/drawable'
+        rename { String fileName ->
+            fileName.replace(screenshot.getName(), 'splash_screen.png')
+        }
+    }
+}
+
+def messUpIntentFilters() {
+    def manifestFile = new File("catroid/AndroidManifest.xml");
+    def manifestText = manifestFile.text
+
+    String regex = "<intent-filter>\\n.+?<action android:name=\"android.intent.action.(VIEW|GET_CONTENT)(.|\\n)+?</intent-filter>"
+    String noIntentManifest = manifestText.replaceAll(regex, "")
+    manifestFile.write(noIntentManifest)
+}
+
+def unzipProject(File tmp) {
+    ArchiverFactory.createArchiver(ZIP).extract(tmp, new File("catroid/assets/standalone/"))
+}
+
+def managePermissions(String manifestText) {
+    def permissionsFile = new File('catroid/assets/standalone/permissions.txt')
+    if(!permissionsFile.exists()) {
+        return
+    }
+    def permissionsText = permissionsFile.text
+
+    if(!permissionsText.contains("TEXT_TO_SPEECH")){
+        manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", "")
+    }
+    if(!permissionsText.contains("BLUETOOTH_LEGO_NXT")){
+        manifestText = manifestText.replaceAll("<uses-.+bluetooth.+?/>\\n", "")
+    }
+    if(!permissionsText.contains("ARDRONE_SUPPORT")){
+        manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", "")
+    }
+    if(!permissionsText.contains("CAMERA_LED")){
+        manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", "")
+    }
+    if(!permissionsText.contains("VIBRATOR")){
+        manifestText = manifestText.replaceAll("<uses-.+vibrate.+?/>\\n", "")
+    }
+    def manifestFile = new File("catroid/AndroidManifest.xml");
+    manifestFile.write(manifestText)
+}
+
+
+task buildStandalone(dependsOn: ':downloadProject') << {
+    println "buildStandalone task triggered"
+    def manifestFile = new File("catroid/AndroidManifest.xml");
+    def manifest = manifestFile.text;
+    manifest = manifest.replaceAll("@string/app_name", (String) getProjectName(new File('catroid/assets/standalone/code.xml').text));
+    manifest = manifest.replaceAll("@drawable/ic_launcher", "@drawable/icon");
+    //TODO solve this via flavor specific res folder
+    manifestFile.write(manifest)
+    managePermissions(manifest)
+    renameZipFile()
+    copyAndRename()
+    //delete 'catroid/assets/standalone'
+}
+
+task downloadProject() << {
+    def id = 965;//3143; //debugging purpose only
+    def url = "";
+    if (project.hasProperty("download")) {
+        url = project["download"]
+        project.ext.id = project["suffix"]
+    } else {
+        url = "https://pocketcode.org/download/" + id + ".catrobat"
+        project.ext.id = id;
+    }
+    println "downloading.... " + url
+    File temp = new File("catroid/assets/", 'project.zip')
+    temp.withOutputStream {
+        it << new URL(url).content
+    }
+
+    unzipProject(temp)
+}
+
+task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
+task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
+task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
+
+task testremoveIntentFilters() << {
+    messUpIntentFilters()
+}

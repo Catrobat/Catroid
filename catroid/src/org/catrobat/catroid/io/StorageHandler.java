@@ -428,6 +428,8 @@ public final class StorageHandler {
 			writer.write(projectXml);
 			writer.flush();
 
+//			writePermissionFile(project); //TODO why is this removed in develop branch?
+
 			File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
 			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
 
@@ -436,6 +438,7 @@ public final class StorageHandler {
 				writer.newLine();
 			}
 			writer.flush();
+
 
 			return true;
 		} catch (Exception exception) {
@@ -459,6 +462,37 @@ public final class StorageHandler {
 			}
 
 			loadSaveLock.unlock();
+		}
+	}
+
+	private void writePermissionFile(Project project) throws IOException {
+
+		int ressources = project.getRequiredResources();
+		BufferedWriter writer = null;
+		String permissionFileContent = "";
+		File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
+
+
+		if ((ressources & Brick.TEXT_TO_SPEECH) > 0) {
+			permissionFileContent += "TEXT_TO_SPEECH\n";
+		}
+		if ((ressources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			permissionFileContent += "BLUETOOTH_LEGO_NXT\n";
+		}
+		if ((ressources & Brick.ARDRONE_SUPPORT) > 0) {
+			permissionFileContent += "ARDRONE_SUPPORT\n";
+		}
+		if ((ressources & Brick.CAMERA_LED) > 0) {
+			permissionFileContent += "CAMERA_LED\n";
+		}
+		if ((ressources & Brick.VIBRATOR) > 0) {
+			permissionFileContent += "VIBRATOR\n";
+		}
+
+		if (permissionFileContent != null) {
+			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
+			writer.write(permissionFileContent);
+			writer.flush();
 		}
 	}
 

@@ -64,7 +64,6 @@ public class XmlHeader implements Serializable {
 	private String remixOf = "";
 	@SuppressWarnings("unused")
 	private String tags = "";
-	@SuppressWarnings("unused")
 	private String url = "";
 	@SuppressWarnings("unused")
 	private String userHandle = "";
@@ -182,6 +181,10 @@ public class XmlHeader implements Serializable {
 
 	public ScreenModes getScreenMode() {
 		return this.screenMode;
+	}
+
+	public String getUrl() {
+		return this.url;
 	}
 
 	public boolean isPhiroProProject() {

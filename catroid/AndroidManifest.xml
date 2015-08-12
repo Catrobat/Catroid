@@ -37,20 +37,16 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!---->
-    <!--&lt;!&ndash; drone &ndash;&gt;-->
-    <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
-
-    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+        <uses-permission android:name="android.permission.CAMERA" />
+        <!---->
+        <!--&lt;!&ndash; drone &ndash;&gt;-->
+        <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
+        <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
+        <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+        <!-- For testing purposes, this is automatically removed in live builds, but not in jenkins builds -->
 
-    <!-- For testing purposes, this is automatically removed in live builds, but not in jenkins builds -->
     <uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />
 
     <uses-feature
@@ -61,12 +57,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".CatroidApplication"
+        android:name=".CatroidApplication" 
         android:theme="@style/Theme.Catroid" >
         <activity
             android:name=".ui.MainMenuActivity"
             android:launchMode="standard"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -113,6 +110,8 @@
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.MarketingActivity"
+                  android:screenOrientation="portrait" />
         <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation"

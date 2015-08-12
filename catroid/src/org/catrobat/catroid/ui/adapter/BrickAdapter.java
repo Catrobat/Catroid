@@ -937,6 +937,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				Log.e(TAG, "getScriptIndexFromProject() tmpScript was null. Index was " + index + " scriptIndex was " + scriptIndex);
 				return -1;
 			}
+
 			i += temporaryScript.getBrickList().size() + 1;
 			if (i <= index) {
 				scriptIndex++;
