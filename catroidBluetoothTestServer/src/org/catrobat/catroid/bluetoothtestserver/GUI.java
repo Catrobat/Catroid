@@ -22,11 +22,8 @@
  */
 package org.catrobat.catroid.bluetoothtestserver;
 
-import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-
-import javax.swing.*;
 
 public class GUI extends javax.swing.JFrame {
 
