@@ -80,9 +80,6 @@
 
     </string>
   <string name="dialog_terms_of_use_link_text">Felhasználási feltételek</string>
-  <string name="dialog_terms_of_use_agree_permanent">Mindig elfogadom - ne kérdezze meg újra. Teljes felelősségget vállalok abban az esetben, ha más használja ezt az eszközt.</string>
-  <string name="dialog_terms_of_use_agree">Elfogadom</string>
-  <string name="dialog_terms_of_use_do_not_agree">Nem fogadom el</string>
   <string name="dialog_about_title">A Pocket Code-ról</string>
   <string name="dialog_about_license_info">A Pocket Code a Catrobat vizuális programozási nyelv programozási környezete és fordítója Android eszközökre.\n\n A Pocket Code forráskódja főként GNU AGPL 3.0 licencelésű. Részletes licenc-információkért lásd az alábbi hivatkozást.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Code forráskód-licenc</string>
@@ -328,8 +325,6 @@
   <string name="default_project_var_random_to">véletlen eddig</string>
   <string name="default_drone_project_name">Első Drone programom</string>
   <string name="default_drone_project_sprites_takeoff">Felszállás</string>
-  <string name="default_drone_project_srpites_land">Leszállás</string>
-  <string name="default_drone_project_srpites_rotate">Forgatás</string>
   <string name="default_drone_project_sprites_up">Fel</string>
   <string name="default_drone_project_sprites_down">Le</string>
   <string name="default_drone_project_sprites_left">Balra</string>
@@ -411,8 +406,6 @@
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Mind</string>
-  <string name="brick_drone_takeoff">Felszállás</string>
-  <string name="brick_drone_land">Leszállás</string>
   <string name="brick_drone_play_led_animation">LED animáció lejátszása</string>
   <string name="brick_drone_move_left">Mozgás balra</string>
   <string name="brick_drone_move_right">Mozgás jobbra</string>

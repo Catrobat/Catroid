@@ -78,9 +78,6 @@
   <string name="dialog_terms_of_use_title">Användarvillkor</string>
   <string name="dialog_terms_of_use_info">För att få använda Pocket Paint och andra körbara filer som erbjuds av Catrobat projektet, måste du godkänna våra användarvillkor och Service och strikt följa dem när du använder Pocket Code och våra andra körbara filer. Se länk nedan för deras exakta formulation.\n\n</string>
   <string name="dialog_terms_of_use_link_text">Användarvillkor</string>
-  <string name="dialog_terms_of_use_agree_permanent">Jag håller med permanent – fråga mig inte igen. Jag tar fullt ansvar när någon annan använder min enhet.</string>
-  <string name="dialog_terms_of_use_agree">Godkänner</string>
-  <string name="dialog_terms_of_use_do_not_agree">Jag godkänner inte</string>
   <string name="dialog_about_title">Om Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code är en programmeringsmiljö och tolk för Android enheter för programmeringsspråket visual Catrobat.\n\n källkoden för Pocket Code är främst licensierat under GNU AGPL v3 licens.          För de exakta detaljerna av licensen, se länken nedan. \n</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Code käll kod licens</string>
@@ -326,8 +323,6 @@
   <string name="default_project_var_random_to">slumpmässigt på</string>
   <string name="default_drone_project_name">Mitt första Drone-program</string>
   <string name="default_drone_project_sprites_takeoff">Ge sig av</string>
-  <string name="default_drone_project_srpites_land">Landa</string>
-  <string name="default_drone_project_srpites_rotate">Rotera</string>
   <string name="default_drone_project_sprites_up">Upp</string>
   <string name="default_drone_project_sprites_down">Ned</string>
   <string name="default_drone_project_sprites_left">Vänster</string>
@@ -409,8 +404,6 @@
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B + C</string>
   <string name="nxt_motor_all">Alla</string>
-  <string name="brick_drone_takeoff">Ge sig av</string>
-  <string name="brick_drone_land">Landa</string>
   <string name="brick_drone_play_led_animation">Spela LED animation</string>
   <string name="brick_drone_move_left">Flytta vänster</string>
   <string name="brick_drone_move_right">Flytta höger</string>

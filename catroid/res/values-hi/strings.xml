@@ -79,9 +79,6 @@
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
   <string name="dialog_terms_of_use_link_text">उपयोग की शर्ते</string>
-  <string name="dialog_terms_of_use_agree_permanent">I agree permanently – do not ask me again. I assume full responsibility when someone else uses my device.</string>
-  <string name="dialog_terms_of_use_agree">मुझे स्वीकार है</string>
-  <string name="dialog_terms_of_use_do_not_agree">मुझे स्वीकार नहीं हैं</string>
   <string name="dialog_about_title">पॉकेट कोड के बारे में</string>
   <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
@@ -335,8 +332,6 @@
   <string name="default_project_var_random_to">तक यादृच्छिक</string>
   <string name="default_drone_project_name">मेरा पहला ड्रोन प्रोग्राम</string>
   <string name="default_drone_project_sprites_takeoff">उड़ान भरे</string>
-  <string name="default_drone_project_srpites_land">उतरे</string>
-  <string name="default_drone_project_srpites_rotate">घुमाएँ</string>
   <string name="default_drone_project_sprites_up">ऊपर</string>
   <string name="default_drone_project_sprites_down">नीचे</string>
   <string name="default_drone_project_sprites_left">बाएँ</string>
@@ -417,8 +412,6 @@
   <string name="nxt_motor_b">बी</string>
   <string name="nxt_motor_c">सी</string>
   <string name="nxt_motor_all">सब</string>
-  <string name="brick_drone_takeoff">उड़ान भरे</string>
-  <string name="brick_drone_land">उतरे</string>
   <string name="brick_drone_play_led_animation">एल ई डी चित्र चलाये</string>
   <string name="brick_drone_move_left">बाएं ले जाएँ</string>
   <string name="brick_drone_move_right">दाएँ ले जाएँ</string>

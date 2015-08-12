@@ -78,9 +78,6 @@
   <string name="dialog_terms_of_use_title">Termos de Utilização</string>
   <string name="dialog_terms_of_use_info">Para ser autorizado a usar o Pocket Code e outras aplicações oferecidas pelo projeto Catrobat, você deve concordar com os nossos Termos de Utilização e segui-los estritamente quando usar o Pocket Code e as nossas aplicações. Por favor, consulte o link abaixo para sua formulação exata. \n</string>
   <string name="dialog_terms_of_use_link_text">Termos de Utilização</string>
-  <string name="dialog_terms_of_use_agree_permanent">Concordo permanentemente – não me pergunte novamente. Eu assumo a responsabilidade quando outra pessoa usar o meu equipamento.</string>
-  <string name="dialog_terms_of_use_agree">Concordo</string>
-  <string name="dialog_terms_of_use_do_not_agree">Não concordo</string>
   <string name="dialog_about_title">Sobre o Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code é um ambiente de programação para dispositivos Android para a linguagem de programação visual Catrobat.\n\n O código-fonte do Pocket Code é licenciado sob a Licença GNU AGPL v3.          Para os detalhes precisos sobre a Licença, consulte o link abaixo. \n</string>
   <string name="dialog_about_pocketcode_license_link_text">Licença de código de fonte do Pocket Code</string>
@@ -326,8 +323,6 @@
   <string name="default_project_var_random_to">random to</string>
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
-  <string name="default_drone_project_srpites_land">Land</string>
-  <string name="default_drone_project_srpites_rotate">Rotate</string>
   <string name="default_drone_project_sprites_up">Up</string>
   <string name="default_drone_project_sprites_down">Down</string>
   <string name="default_drone_project_sprites_left">Left</string>
@@ -409,8 +404,6 @@
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">All</string>
-  <string name="brick_drone_takeoff">Take off</string>
-  <string name="brick_drone_land">Land</string>
   <string name="brick_drone_play_led_animation">Play LED animation</string>
   <string name="brick_drone_move_left">Move left</string>
   <string name="brick_drone_move_right">Move right</string>

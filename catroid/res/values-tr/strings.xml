@@ -78,9 +78,6 @@
   <string name="dialog_terms_of_use_title">Kullanım Şartları</string>
   <string name="dialog_terms_of_use_info">Cep Kodu ve Catrobat projesi tarafından sunulan diğer yürütülebilir dosyaları kullanmak için, Catrobat\'ın kullanım koşullarını kabul ederek, bu koşulları harfi harfine takip etmeniz gerekmektedir. Lütfen aşagıdaki linkten kesin formülasyonu inceleyin. \n</string>
   <string name="dialog_terms_of_use_link_text">Kullanım Koşulları</string>
-  <string name="dialog_terms_of_use_agree_permanent">Kalıcı olarak katılıyorum – bana tekrar sorma. Başkalarının benim aygıtımı kullanması durumunda bile bütün sorumlulugun bana ait oldugunu kabul ediyorum.</string>
-  <string name="dialog_terms_of_use_agree">Kabul Ediyorum</string>
-  <string name="dialog_terms_of_use_do_not_agree">Kabul etmiyorum</string>
   <string name="dialog_about_title">Cep kodu hakkında</string>
   <string name="dialog_about_license_info">Cep kodu programı 
 görsel programlama dili Catrobat\'ın Android cihazları icin programlama ortamı ve çeviricisidir.\n\n 
@@ -329,8 +326,6 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="default_project_var_random_to">rastgele için</string>
   <string name="default_drone_project_name">İlk uçak programım</string>
   <string name="default_drone_project_sprites_takeoff">Havalan</string>
-  <string name="default_drone_project_srpites_land">Yere in</string>
-  <string name="default_drone_project_srpites_rotate">Döndür</string>
   <string name="default_drone_project_sprites_up">Yukarı</string>
   <string name="default_drone_project_sprites_down">Aşağı</string>
   <string name="default_drone_project_sprites_left">Sol</string>
@@ -412,8 +407,6 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">A + C</string>
   <string name="nxt_motor_all">Tüm</string>
-  <string name="brick_drone_takeoff">Havalan</string>
-  <string name="brick_drone_land">Yere in</string>
   <string name="brick_drone_play_led_animation">LED animasyonu oynat</string>
   <string name="brick_drone_move_left">Sola git</string>
   <string name="brick_drone_move_right">Sağa git</string>

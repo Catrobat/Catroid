@@ -38,8 +38,6 @@ import org.catrobat.catroid.utils.UtilFile;
 
 public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static String TEST_PROMT = "Iam a default name";
-
 	public DroneBrickLayoutTest() {
 		super(MainMenuActivity.class);
 	}

@@ -76,9 +76,6 @@
   <string name="dialog_terms_of_use_title">เงื่อนไขการใช้งาน</string>
   <string name="dialog_terms_of_use_info">เพื่อที่จะได้รับอนุญาตให้ใช้โปรแกรม Pocket Code และ ส่วนอื่น ๆ จากโครงการ Catrobat คุณต้องยอมรับเงื่อนไขการใช้งานของเรา และกระทำตามข้อกำหนดอย่างเคร่งครัดเมื่อคุณใช้โปรแกรม Pocket Code และส่วนอื่นๆ ของเรา ข้อกำหนดอย่างละเอียดสามารถอ่านได้จากลิงค์ด้านล่าง\n</string>
   <string name="dialog_terms_of_use_link_text">เงื่อนไขการใช้งาน</string>
-  <string name="dialog_terms_of_use_agree_permanent">ฉันยอมรับอย่างถาวรไม่ต้องถามฉันอีก ฉันถือว่าความรับผิดชอบเป็นของฉันหากใครนำอุปกรณ์ของฉันไปใช้</string>
-  <string name="dialog_terms_of_use_agree">ฉันยอมรับ</string>
-  <string name="dialog_terms_of_use_do_not_agree">ฉันไม่ยอมรับ</string>
   <string name="dialog_about_title">เกี่ยวกับ Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code เป็นสภาพแวดล้อมการเขียนโปรแกรม และตัวแปลสำหรับอุปกรณ์ Android โดยใช้งานกับภาษาการเขียนโปรแกรมที่ชื่อ Catrobat.\n\n รหัสต้นฉบับส่วนใหญ่ของ Pocket Code ใช้สัญญาอนุญาต GNU AGPL v3  รายละเอียดของสัญญาอนุญาติดูได้จากลิงค์ด้านล่าง \n</string>
   <string name="dialog_about_pocketcode_license_link_text">สัญญาอนุญาตของรหัสต้นฉบับโปรแกรม Pocket Code</string>
@@ -317,8 +314,6 @@
   <string name="default_project_var_random_to">สุ่มถึง</string>
   <string name="default_drone_project_name">โปรแกรมควบคุม Drone โปรแกรมแรกของฉัน</string>
   <string name="default_drone_project_sprites_takeoff">ออกบิน</string>
-  <string name="default_drone_project_srpites_land">ลงจอด</string>
-  <string name="default_drone_project_srpites_rotate">หมุน</string>
   <string name="default_drone_project_sprites_up">ขึ้น</string>
   <string name="default_drone_project_sprites_down">ลง</string>
   <string name="default_drone_project_sprites_left">ซ้าย</string>
@@ -400,8 +395,6 @@
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">ทั้งหมด</string>
-  <string name="brick_drone_takeoff">ออกบิน</string>
-  <string name="brick_drone_land">ลงจอด</string>
   <string name="brick_drone_play_led_animation">เล่นภาพเคลื่อนไหว LED</string>
   <string name="brick_drone_move_left">ขยับไปทางซ้าย</string>
   <string name="brick_drone_move_right">ขยับไปทางขวา</string>

@@ -81,9 +81,6 @@
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
   <string name="dialog_terms_of_use_link_text">Uvjeti korištenja</string>
-  <string name="dialog_terms_of_use_agree_permanent">Slažem se – ne pitaj me ponovo. Preuzimam punu odgovornost kada netko drugi koristi moj uređaj.</string>
-  <string name="dialog_terms_of_use_agree">Slažem se</string>
-  <string name="dialog_terms_of_use_do_not_agree">Ja se ne slažem</string>
   <string name="dialog_about_title">O Pocket Code-u</string>
   <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
@@ -346,8 +343,6 @@ su otpakovani!</item>
   <string name="default_project_var_random_to">slučajno do</string>
   <string name="default_drone_project_name">Moj prvi Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
-  <string name="default_drone_project_srpites_land">Land</string>
-  <string name="default_drone_project_srpites_rotate">Rotirati</string>
   <string name="default_drone_project_sprites_up">Gore</string>
   <string name="default_drone_project_sprites_down">Dolje</string>
   <string name="default_drone_project_sprites_left">Lijevo</string>
@@ -429,8 +424,6 @@ su otpakovani!</item>
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Sve</string>
-  <string name="brick_drone_takeoff">Take off</string>
-  <string name="brick_drone_land">Land</string>
   <string name="brick_drone_play_led_animation">Play LED animation</string>
   <string name="brick_drone_move_left">Pomicati lijevo</string>
   <string name="brick_drone_move_right">Pomicati desno</string>

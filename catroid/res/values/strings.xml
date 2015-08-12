@@ -672,7 +672,6 @@
     <string name="brick_drone_set_vertical_speed">Speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation limit</string>
     <string name="brick_drone_set_tilt_angle">Tilt angle</string>
-    <string name="brick_drone_meter">meter</string>
     <string name="brick_drone_set_advanced_config">Set advanced config</string>
     <!--  -->
 
