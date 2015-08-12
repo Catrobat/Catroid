@@ -89,14 +89,15 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	@Override
-	public void setUp() {
-		TestUtils.deleteTestProjects();
-		currentProject = ProjectManager.getInstance().getCurrentProject();
+	public void setUp() throws Exception {
+		StandardProjectHandler.createAndSaveStandardProject(getContext());
+		super.setUp();
+//		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setProject(currentProject);
+//		ProjectManager.getInstance().setProject(currentProject);
 		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
@@ -263,6 +264,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project.addSprite(secondSprite);
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
+
 
 		File tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 		File currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);

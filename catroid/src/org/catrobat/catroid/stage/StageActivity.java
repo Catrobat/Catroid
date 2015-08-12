@@ -50,7 +50,7 @@ public class StageActivity extends AndroidApplication {
 
 	private StageAudioFocus stageAudioFocus;
 	private StageDialog stageDialog;
-	private	boolean resizePossible;
+	private boolean resizePossible;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,6 @@ public class StageActivity extends AndroidApplication {
 		}
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
 
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);

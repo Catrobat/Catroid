@@ -83,7 +83,6 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DRONE_RECORDING.name(), R.string.formula_editor_sensor_drone_recording);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DRONE_NUM_FRAMES.name(), R.string.formula_editor_sensor_drone_num_frames);
 
-
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_ACCELERATION.name(),

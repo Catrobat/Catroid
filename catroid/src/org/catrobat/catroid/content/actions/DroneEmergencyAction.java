@@ -28,12 +28,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 
-public class DroneGoEmergencyAction extends TemporalAction {
+public class DroneEmergencyAction extends TemporalAction {
 
-	private static final String TAG = DroneGoEmergencyAction.class.getSimpleName();
+	private static final String TAG = DroneEmergencyAction.class.getSimpleName();
 	private DroneServiceWrapper service;
 
-	public DroneGoEmergencyAction() {
+	public DroneEmergencyAction() {
 		service = DroneServiceWrapper.getInstance();
 	}
 

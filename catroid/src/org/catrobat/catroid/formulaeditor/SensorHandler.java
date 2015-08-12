@@ -29,6 +29,7 @@ import android.hardware.SensorEventListener;
 import android.util.Log;
 
 import com.parrot.freeflight.service.DroneControlService;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;

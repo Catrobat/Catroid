@@ -78,14 +78,14 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		setFormulaWithBrickField(BrickField.Y_DESTINATION, yDestination);
 	}
 
-	public void setText(Formula text){
+	public void setText(Formula text) {
 		setFormulaWithBrickField(BrickField.STRING, text);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.X_DESTINATION).getRequiredResources() |
-				getFormulaWithBrickField(BrickField.Y_DESTINATION).getRequiredResources()
+		return getFormulaWithBrickField(BrickField.X_DESTINATION).getRequiredResources()
+				| getFormulaWithBrickField(BrickField.Y_DESTINATION).getRequiredResources()
 				| getFormulaWithBrickField(BrickField.STRING).getRequiredResources();
 	}
 
@@ -188,7 +188,6 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 			editY.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -212,7 +211,6 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 				FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
 				break;
 		}
-
 	}
 
 	@Override

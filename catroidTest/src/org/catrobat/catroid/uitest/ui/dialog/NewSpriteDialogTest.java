@@ -25,11 +25,13 @@ package org.catrobat.catroid.uitest.ui.dialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
@@ -86,12 +88,12 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		String spriteName = "spriteError";
-		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile, null);
 		assertTrue("Sprite not successfully added", ProjectManager.getInstance().spriteExists(spriteName));
 
 		//Add sprite which already exists
-		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, lookFile,
-				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null);
+		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(lookFile),
+				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null, LookData.LookDataType.IMAGE);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String errorMessageText = solo.getString(R.string.spritename_already_exists);

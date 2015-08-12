@@ -166,7 +166,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
-		return View.inflate(context,R.layout.brick_loop_end_no_puzzle, null);
+		return View.inflate(context, R.layout.brick_loop_end_no_puzzle, null);
 	}
 
 	@Override

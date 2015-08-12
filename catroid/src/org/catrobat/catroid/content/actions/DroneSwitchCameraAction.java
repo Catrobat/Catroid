@@ -31,19 +31,19 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 
 public class DroneSwitchCameraAction extends TemporalAction {
 
-    private static final String TAG = DroneSwitchCameraAction.class.getSimpleName();
+	private static final String TAG = DroneSwitchCameraAction.class.getSimpleName();
 
-    @Override
-    protected void begin() {
-        super.begin();
-        Log.d(TAG, "begin!");
-        DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-        if (dcs != null) {
-            dcs.switchCamera();
-        }
-    }
+	@Override
+	protected void begin() {
+		super.begin();
+		Log.d(TAG, "begin!");
+		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+		if (dcs != null) {
+			dcs.switchCamera();
+		}
+	}
 
-    @Override
-    protected void update(float percent) {
-    }
+	@Override
+	protected void update(float percent) {
+	}
 }

@@ -29,6 +29,7 @@ import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
@@ -55,12 +56,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
 
-    public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
-    public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
-    public static final String DRONE_VERTICAL_SPEED = "setting_drone_vertical_speed";
-    public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
-    public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
-
+	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
+	public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
+	public static final String DRONE_VERTICAL_SPEED = "setting_drone_vertical_speed";
+	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
+	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -93,7 +93,19 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		listPreference.setEntryValues(entryValues);
 
 		setNXTSensors();
-        setDronePreferences();
+		setDronePreferences();
+
+		CheckBoxPreference preference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+		preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				boolean checked = Boolean.valueOf(newValue.toString());
+
+				setARDroneBricks(getApplicationContext(), checked);
+				return true;
+			}
+		});
 
 		ActionBar actionBar = getSupportActionBar();
 
@@ -109,7 +121,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
-            CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+			PreferenceScreen dronePreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
 		}
@@ -121,44 +133,92 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 	}
 
-    private void setDronePreferences() {
+	private void setDronePreferences() {
 
-        boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
+		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-        final String[] dronePreferences = new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
-        for (String dronePreference : dronePreferences) {
-            ListPreference listPreference = (ListPreference) findPreference(dronePreference);
+		final String[] dronePreferences = new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
+		for (String dronePreference : dronePreferences) {
+			ListPreference listPreference = (ListPreference) findPreference(dronePreference);
 
-            switch (dronePreference) {
-                case DRONE_CONFIGS:
-                    listPreference.setEntries(R.array.drone_setting_default_config);
-                    break;
-                case DRONE_ALTITUDE_LIMIT:
-                    listPreference.setEntries(R.array.drone_altitude_spinner_items);
-                    break;
-                case DRONE_VERTICAL_SPEED:
-                    listPreference.setEntries(R.array.drone_max_vertical_speed_items);
-                    break;
-                case DRONE_ROTATION_SPEED:
-                    listPreference.setEntries(R.array.drone_max_rotation_speed_items);
-                    break;
-                case DRONE_TILT_ANGLE:
-                    listPreference.setEntries(R.array.drone_max_tilt_angle_items);
-                    break;
-            }
-            listPreference.setEntryValues(DroneConfigPreference.Preferences.getPreferenceCodes());
-            listPreference.setEnabled(areChoosersEnabled);
-        }
+			switch (dronePreference) {
+				case DRONE_CONFIGS:
+					listPreference.setEntries(R.array.drone_setting_default_config);
+					final ListPreference list = listPreference;
+					listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+						public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-    }
+							int index = list.findIndexOfValue(newValue.toString());
+							for (String dronePreference : dronePreferences) {
+								ListPreference listPreference = (ListPreference) findPreference(dronePreference);
+
+								switch (dronePreference) {
+
+									case DRONE_ALTITUDE_LIMIT:
+										listPreference.setValue("FIRST");
+										break;
+
+									case DRONE_VERTICAL_SPEED:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+
+									case DRONE_ROTATION_SPEED:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+
+									case DRONE_TILT_ANGLE:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+								}
+							}
+							return true;
+						}
+					});
+					break;
+
+				case DRONE_ALTITUDE_LIMIT:
+					listPreference.setEntries(R.array.drone_altitude_spinner_items);
+					break;
+
+				case DRONE_VERTICAL_SPEED:
+					listPreference.setEntries(R.array.drone_max_vertical_speed_items);
+					break;
+
+				case DRONE_ROTATION_SPEED:
+					listPreference.setEntries(R.array.drone_max_rotation_speed_items);
+					break;
+
+				case DRONE_TILT_ANGLE:
+					listPreference.setEntries(R.array.drone_max_tilt_angle_items);
+					break;
+			}
+			listPreference.setEntryValues(DroneConfigPreference.Preferences.getPreferenceCodes());
+			listPreference.setEnabled(areChoosersEnabled);
+		}
+	}
 
 	private void setNXTSensors() {
 
 		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
 		final String[] sensorPreferences = new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
-		for (int i = 0; i < sensorPreferences.length; ++i) {
-			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
+		for (String sensorPreference : sensorPreferences) {
+			ListPreference listPreference = (ListPreference) findPreference(sensorPreference);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
 			listPreference.setEntries(R.array.nxt_sensor_chooser);
 			listPreference.setEnabled(areChoosersEnabled);
@@ -253,54 +313,43 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.commit();
 	}
 
-    public static DroneConfigPreference.Preferences[] getDronePreferencMapping(Context context) {
+	public static DroneConfigPreference.Preferences[] getDronePreferencMapping(Context context) {
 
-        final String[] dronePreferences =
-                new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+		final String[] dronePreferences =
+				new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
 
-        DroneConfigPreference.Preferences[] preferenceMapping = new DroneConfigPreference.Preferences[5];
-        for (int i = 0; i < 5; i++) {
-            String preference = getSharedPreferences(context).getString(dronePreferences[i], null);
-            preferenceMapping[i] = DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
-        }
+		DroneConfigPreference.Preferences[] preferenceMapping = new DroneConfigPreference.Preferences[5];
+		for (int i = 0; i < 5; i++) {
+			String preference = getSharedPreferences(context).getString(dronePreferences[i], null);
+			preferenceMapping[i] = DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
+		}
 
-        return preferenceMapping;
-    }
+		return preferenceMapping;
+	}
 
-    public static DroneConfigPreference.Preferences getDronePreferencMapping(Context context, String
-            preferenceSetting) {
-        String preference = getSharedPreferences(context).getString(preferenceSetting, null);
-        return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
-    }
+	public static DroneConfigPreference.Preferences getDronePreferencMapping(Context context, String
+			preferenceSetting) {
+		String preference = getSharedPreferences(context).getString(preferenceSetting, null);
+		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
+	}
 
-    public static void setDronePreferenceMapping(Context context, DroneConfigPreference.Preferences[] preferenceMapping) {
-        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+	public static void setARDroneBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
+	}
 
-        editor.putString(DRONE_CONFIGS, preferenceMapping[0].getPreferenceCode());
-        editor.putString(DRONE_ALTITUDE_LIMIT, preferenceMapping[1].getPreferenceCode());
-        editor.putString(DRONE_VERTICAL_SPEED, preferenceMapping[2].getPreferenceCode());
-        editor.putString(DRONE_ROTATION_SPEED, preferenceMapping[3].getPreferenceCode());
-        editor.putString(DRONE_TILT_ANGLE, preferenceMapping[4].getPreferenceCode());
-
-        editor.commit();
-    }
-
-    public static void setDronePreferenceMapping(Context context, DroneConfigPreference.Preferences preference, String preferenceSetting) {
-        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putString(preferenceSetting, preference.getPreferenceCode());
-        editor.commit();
-    }
-
-
-	public static void enableLegoMindstormsNXTBricks(Context context) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
-		editor.commit();
+	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, newValue).commit();
 	}
 
 	public static void setLegoMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);
+		editor.commit();
+	}
+
+	public static void enableLegoMindstormsNXTBricks(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
 		editor.commit();
 	}
 

@@ -102,7 +102,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null || isPuzzleView) {
 			isPuzzleView = false;
-			view = View.inflate(context,R.layout.brick_loop_endless_no_puzzle, null);
+			view = View.inflate(context, R.layout.brick_loop_endless_no_puzzle, null);
 			view = getViewWithAlpha(alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
 

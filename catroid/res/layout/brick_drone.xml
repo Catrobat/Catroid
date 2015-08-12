@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_drone_basic_layout"
-        style="@style/BrickContainer.Drone.Small"
+        style="@style/BrickContainer.Motion.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

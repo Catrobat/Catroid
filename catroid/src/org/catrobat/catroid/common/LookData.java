@@ -58,7 +58,6 @@ public class LookData implements Serializable, Cloneable {
 	protected transient TextureRegion region = null;
 
 	public static enum LookDataType {
-
 		IMAGE,
 		DRONE_VIDEO
 	}
@@ -122,7 +121,6 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	public LookData() {
-
 	}
 
 	public String getAbsolutePath() {
@@ -180,7 +178,7 @@ public class LookData implements Serializable, Cloneable {
 		width = options.outWidth;
 		height = options.outHeight;
 
-		return new int[] { width, height };
+		return new int[]{width, height};
 	}
 
 	@Override
@@ -188,13 +186,11 @@ public class LookData implements Serializable, Cloneable {
 		return name;
 	}
 
-	public void onDraw()
-	{
+	public void onDraw() {
 		//Nothing to do here
 	}
 
-	public int getRequiredResources()
-	{
+	public int getRequiredResources() {
 		return Brick.NO_RESOURCES;
 	}
 }

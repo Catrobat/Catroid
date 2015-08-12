@@ -31,11 +31,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -52,8 +52,8 @@ import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -324,6 +324,41 @@ public class NewSpriteDialog extends DialogFragment {
 		});
 	}
 
+	private void setupDroneVideoButton(View parentView) {
+		View droneVideoButton = parentView.findViewById(R.id.dialog_new_object_drone_video);
+		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_object_drone_video_look_new_row);
+		if (!PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("setting_parrot_airdrone_bricks",
+				true)) {
+			linearLayout2ndRow.setVisibility(View.GONE);
+			return;
+		}
+
+		linearLayout2ndRow.setVisibility(View.VISIBLE);
+
+		droneVideoButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+
+				newObjectName = getString(R.string.add_look_drone_video);
+
+				try {
+					//load resource into project to get the lookUri of the image
+					newLookFile = StorageHandler.getInstance().copyImageFromResourceToCatroid(getActivity(), R.drawable.ic_video, getString(R.string.add_look_drone_video));
+				} catch (IOException e) {
+					Utils.showErrorDialog(getActivity(), R.string.error_load_image);
+					Log.e(TAG, Log.getStackTraceString(e));
+				}
+
+				lookUri = Uri.fromFile(newLookFile);
+				NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
+						requestedAction, spinnerAdapter, LookData.LookDataType.DRONE_VIDEO);
+				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				dismiss();
+			}
+		});
+	}
+
 	private boolean handleOkButton() {
 		EditText editText = (EditText) dialogView.findViewById(R.id.dialog_new_object_name_edit_text);
 		String newSpriteName;
@@ -363,22 +398,23 @@ public class NewSpriteDialog extends DialogFragment {
 					break;
 
 				default:
-					File newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
+					lookData = new LookData();
+					newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
 					lookUri.getPath(), null);
 			     if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
 				    File oldFile = new File(lookUri.getPath());
 			      	oldFile.delete();
 			     }
-			     break;
+					break;
 			}
-		
-			
+
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
 
 			lookData = new LookData();
 			lookData.setLookFilename(imageFileName);
 			lookData.setLookName(newSpriteName);
+			lookData.setLookFilename(imageFileName);
 		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
 			Log.e(TAG, Log.getStackTraceString(ioException));
@@ -422,37 +458,5 @@ public class NewSpriteDialog extends DialogFragment {
 	public enum DialogWizardStep {
 		STEP_1, STEP_2;
 		static final String KEY = "step";
-	}
-
-	private void setupDroneVideoButton(View parentView) {
-
-		View droneVideoButton = parentView.findViewById(R.id.dialog_new_object_drone_video);
-		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_object_step_1_row_2_layout);
-		linearLayout2ndRow.setVisibility(View.VISIBLE);
-
-		droneVideoButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-
-				newObjectName = getString(R.string.add_look_drone_video);
-
-				try {
-					//load resource into project to get the lookUri of the image
-					newLookFile = StorageHandler.getInstance().copyImageFromResourceToCatroid(getActivity(), R.drawable.ic_video, getString(R.string.add_look_drone_video));
-				} catch (IOException e) {
-					Utils.showErrorDialog(getActivity(), R.string.error_load_image);
-					Log.e(TAG, Log.getStackTraceString(e));
-				}
-
-				lookUri = Uri.fromFile(newLookFile);
-				NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
-						requestedAction, spinnerAdapter, LookData.LookDataType.DRONE_VIDEO);
-				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-				dismiss();
-
-			}
-		});
-
 	}
 }

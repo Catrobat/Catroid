@@ -84,32 +84,32 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.handleCorrectAddButton = false;
 	}
 
-	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
-		this.comingFromScriptFragmentToSoundFragment = value;
+	public static ProjectManager getInstance() {
+		return INSTANCE;
 	}
 
 	public boolean getComingFromScriptFragmentToSoundFragment() {
 		return this.comingFromScriptFragmentToSoundFragment;
 	}
 
-	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
-		this.comingFromScriptFragmentToLooksFragment = value;
+	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
+		this.comingFromScriptFragmentToSoundFragment = value;
 	}
 
 	public boolean getComingFromScriptFragmentToLooksFragment() {
 		return this.comingFromScriptFragmentToLooksFragment;
 	}
 
-	public void setHandleCorrectAddButton(boolean value) {
-		this.handleCorrectAddButton = value;
+	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
+		this.comingFromScriptFragmentToLooksFragment = value;
 	}
 
 	public boolean getHandleCorrectAddButton() {
 		return this.handleCorrectAddButton;
 	}
 
-	public static ProjectManager getInstance() {
-		return INSTANCE;
+	public void setHandleCorrectAddButton(boolean value) {
+		this.handleCorrectAddButton = value;
 	}
 
 	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
@@ -252,27 +252,26 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public boolean initializeDefaultProject(Context context) {
 
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(context, false)) {
 			return initializeDroneProject(context);
-		}
-		else {
+		} else {
 			return initializeStandardProject(context);
 		}
 	}
 
 	public boolean initializeStandardProject(Context context) {
-			try {
-				fileChecksumContainer = new FileChecksumContainer();
-				project = StandardProjectHandler.createAndSaveStandardProject(context);
+		try {
+			fileChecksumContainer = new FileChecksumContainer();
+			project = StandardProjectHandler.createAndSaveStandardProject(context);
 
-				currentSprite = null;
-				currentScript = null;
-				return true;
-			} catch (IOException ioException) {
-				Log.e(TAG, "Cannot initialize default project.", ioException);
-				Utils.showErrorDialog(context, R.string.error_load_project);
-				return false;
-			}
+			currentSprite = null;
+			currentScript = null;
+			return true;
+		} catch (IOException ioException) {
+			Log.e(TAG, "Cannot initialize default project.", ioException);
+			Utils.showErrorDialog(context, R.string.error_load_project);
+			return false;
+		}
 	}
 
 	public boolean initializeDroneProject(Context context) {

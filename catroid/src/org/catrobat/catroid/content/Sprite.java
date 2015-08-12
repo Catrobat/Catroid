@@ -401,8 +401,7 @@ public class Sprite implements Serializable, Cloneable {
 			resources |= script.getRequiredResources();
 		}
 
-		for (LookData lookData : getLookDataList())
-		{
+		for (LookData lookData : getLookDataList()) {
 			resources |= lookData.getRequiredResources();
 		}
 

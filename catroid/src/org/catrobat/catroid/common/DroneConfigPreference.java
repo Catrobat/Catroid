@@ -28,8 +28,7 @@ public abstract class DroneConfigPreference {
 		FIRST,
 		SECOND,
 		THIRD,
-		FOURTH,
-		FIFTH;
+		FOURTH;
 
 		public static String[] getPreferenceCodes() {
 			String[] valueStrings = new String[values().length];

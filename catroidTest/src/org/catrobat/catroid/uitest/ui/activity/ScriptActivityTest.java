@@ -122,7 +122,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class);
-		solo.clickOnText(solo.getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_look);
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 

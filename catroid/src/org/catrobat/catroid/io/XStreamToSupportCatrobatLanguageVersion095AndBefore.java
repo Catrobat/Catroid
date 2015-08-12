@@ -44,8 +44,8 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.content.bricks.DroneGoEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -53,7 +53,6 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
@@ -388,7 +387,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(DroneFlipBrick.class.getSimpleName());
 		brickInfoMap.put("droneFlipBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneGoEmergencyBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(DroneEmergencyBrick.class.getSimpleName());
 		brickInfoMap.put("droneGoEmergencyBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DroneTakeOffLandBrick.class.getSimpleName());
@@ -424,7 +423,6 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
 		brickInfoMap.put("droneMoveRightBrick", brickInfo);
 
-
 		brickInfo = new BrickInfo(DroneTurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
@@ -441,15 +439,11 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(DroneSwitchCameraBrick.class.getSimpleName());
 		brickInfoMap.put("droneSwitchCameraBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneSetConfigBrick.class.getSimpleName());
-		brickInfoMap.put("droneSetConfigBrick", brickInfo);
-
 		brickInfo = new BrickInfo(SetTextBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
 		brickInfo.addBrickFieldToMap("yDestination", BrickField.Y_DESTINATION);
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
 		brickInfoMap.put("glideToBrick", brickInfo);
-
 	}
 
 	private void initializeScriptInfoMap() {

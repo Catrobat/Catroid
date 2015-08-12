@@ -108,7 +108,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 
 		String spriteName = "sprite1";
 
-		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile, null);
 		solo.clickOnText(backgroundName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
@@ -134,7 +134,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		String spriteName = "sprite1";
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile, null);
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertTrue("Text on look button is not 'Looks'", solo.searchText(solo.getString(R.string.looks)));

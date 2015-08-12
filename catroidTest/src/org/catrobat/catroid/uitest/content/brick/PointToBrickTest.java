@@ -22,11 +22,13 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.net.Uri;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -190,8 +192,8 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		SpinnerAdapterWrapper spinner = (SpinnerAdapterWrapper) Reflection.getPrivateField(pointToBrick,
 				"spinnerAdapterWrapper");
 
-		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, objectName, lookFile,
-				ActionAfterFinished.ACTION_UPDATE_SPINNER, spinner);
+		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, objectName, Uri.fromFile(lookFile),
+				ActionAfterFinished.ACTION_UPDATE_SPINNER, spinner, LookData.LookDataType.IMAGE);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		UiTestUtils.hidePocketPaintDialog(solo);

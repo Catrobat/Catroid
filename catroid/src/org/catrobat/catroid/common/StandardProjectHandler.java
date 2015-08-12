@@ -33,8 +33,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -117,7 +115,7 @@ public final class StandardProjectHandler {
 				R.drawable.drone_project_background, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.drone_project_background, context, true,
 				backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData();
@@ -243,31 +241,30 @@ public final class StandardProjectHandler {
 		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
 
 		File turnRightFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnRightSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 200, 100, turnRightFile, 2000));
 
 		//Emergency Sprite
-		String EmergencySpriteName = context.getString(R.string.default_drone_project_sprites_emergency);
+		String emergencySpriteName = context.getString(R.string.default_drone_project_sprites_emergency);
 
-		File EmergencyFile = UtilFile.copyImageFromResourceIntoProject(projectName, EmergencySpriteName
+		File emergencyFile = UtilFile.copyImageFromResourceIntoProject(projectName, emergencySpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_emergency, context,
 				true, backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(EmergencySpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, 200, 500, EmergencyFile, 2000));
-
+		defaultDroneProject.addSprite(createDroneSprite(emergencySpriteName,
+				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, 200, 500, emergencyFile, 2000));
 
 		//Video Sprite (toggle Background Brick)
 		String showVideoSpriteName = "Toggle video";
 
 		File showVideoFile = UtilFile.copyImageFromResourceIntoProject(projectName, showVideoSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
-						true, backgroundImageScaleFactor);
+				true, backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(showVideoSpriteName, DroneBrickFactory.DroneBricks.DRONE_TOGGLE_VIDEO_BRICK,-260,500, showVideoFile));
+		defaultDroneProject.addSprite(createDroneSprite(showVideoSpriteName, DroneBrickFactory.DroneBricks.DRONE_TOGGLE_VIDEO_BRICK, -260, 500, showVideoFile));
 
 		//Video Sprite 2 (with Look) + switch camera on tapped
 		String videoSpriteName = "drone video";
@@ -275,9 +272,7 @@ public final class StandardProjectHandler {
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.ic_video, context,
 				true, backgroundImageScaleFactor);
 
-
 		defaultDroneProject.addSprite(createDroneVideoLookSprite(videoSpriteName, -200, 0, videoFile));
-
 
 		//Led Sprite
 		//TODO Drone: add when PlayLedAnimationBrick works
@@ -288,7 +283,6 @@ public final class StandardProjectHandler {
 		//defaultDroneProject.addSprite(createDroneSprite(blinkLedSpriteName,
 		//		DroneUtils.DroneBricks.DRONE_PLAY_LED_ANIMATION_BRICK, -100, -450, playLedFile));
 
-
 		StorageHandler.getInstance().saveProject(defaultDroneProject);
 		return defaultDroneProject;
 	}
@@ -296,17 +290,14 @@ public final class StandardProjectHandler {
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
 			int yPosition, File lookFile) {
 		return createDroneSprite(spriteName, droneBrick, xPosition, yPosition, lookFile, 0, 0);
-
 	}
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds) {
 		return createDroneSprite(spriteName, brickName, xPosition, yPosition, lookFile, timeInMilliseconds, 20);
-
 	}
 
-	private static Sprite createDroneVideoLookSprite(String spriteName, int xPosition, int yPosition, File lookFile)
-	{
+	private static Sprite createDroneVideoLookSprite(String spriteName, int xPosition, int yPosition, File lookFile) {
 		Sprite sprite = new Sprite(spriteName);
 
 		Script whenSpriteTappedScript = new WhenScript();
@@ -335,7 +326,6 @@ public final class StandardProjectHandler {
 		return sprite;
 	}
 
-
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds, int powerInPercent) {
 
@@ -344,14 +334,8 @@ public final class StandardProjectHandler {
 		Script whenSpriteTappedScript = new WhenScript();
 
 		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(droneBrick, timeInMilliseconds, powerInPercent);
-		if (brick instanceof DroneTakeOffLandBrick) {
-			DroneSetConfigBrick setConfigBrick = new DroneSetConfigBrick();
-			setConfigBrick.setSpinnerPosition(DroneSetConfigBrick.INDOOR);
-			whenSpriteTappedScript.addBrick(setConfigBrick);
-		}
 
 		whenSpriteTappedScript.addBrick(brick);
-
 
 		Script whenProjectStartsScript = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPosition),

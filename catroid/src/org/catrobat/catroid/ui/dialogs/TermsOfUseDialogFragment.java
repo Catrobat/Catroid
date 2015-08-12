@@ -80,7 +80,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 					}
 					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getDroneInitialiser();
 					if (droneInitializer != null && droneInitializer.checkRequirements()) {
-							droneInitializer.checkDroneConnectivity();
+						droneInitializer.checkDroneConnectivity();
 					}
 				}
 
@@ -104,7 +104,6 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 			termsOfUseDialogBuilder.setCancelable(false);
 			termsOfUseTextView.setText(R.string.dialog_terms_of_use_parrot_reminder_text);
 			termsOfUseUrlStringText = getString(R.string.dialog_terms_of_use_link_text_parrot_reminder);
-
 		} else {
 			termsOfUseTextView.setText(R.string.dialog_terms_of_use_info);
 			termsOfUseUrlStringText = getString(R.string.dialog_terms_of_use_link_text);

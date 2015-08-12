@@ -64,11 +64,9 @@ public class Look extends Image {
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
 		addListeners();
-
 	}
 
-	protected void addListeners()
-	{
+	protected void addListeners() {
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -158,7 +156,9 @@ public class Look extends Image {
 		}
 
 		//currently only used for dronevideo!
-		lookData.onDraw();
+		if (lookData != null) {
+			lookData.onDraw();
+		}
 
 		if (this.visible && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
@@ -377,7 +377,6 @@ public class Look extends Image {
 	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
 	}
-
 
 	private class BrightnessContrastShader extends ShaderProgram {
 
