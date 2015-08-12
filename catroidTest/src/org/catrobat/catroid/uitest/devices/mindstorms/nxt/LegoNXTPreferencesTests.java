@@ -75,8 +75,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.main_menu_new));
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, "testNXTAllBricksAvailable");
+
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnText(solo.getString(R.string.ok));
+
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.waitForText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForText(solo.getString(R.string.scripts));
@@ -253,8 +258,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.main_menu_new));
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, "testNXTSensorsAvailable");
+
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnText(solo.getString(R.string.ok));
+
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.waitForText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForText(solo.getString(R.string.scripts));
