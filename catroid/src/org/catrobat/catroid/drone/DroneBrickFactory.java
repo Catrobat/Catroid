@@ -88,8 +88,6 @@ public final class DroneBrickFactory {
 
 			default:
 				return null;
-
 		}
 	}
-
 }

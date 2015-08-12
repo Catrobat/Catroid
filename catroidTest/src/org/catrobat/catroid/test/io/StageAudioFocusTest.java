@@ -27,8 +27,7 @@ import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.io.StageAudioFocus;
 
-public class StageAudioFocusTest extends InstrumentationTestCase
-{
+public class StageAudioFocusTest extends InstrumentationTestCase {
 	private StageAudioFocus audioFocus = null;
 
 	@Override
@@ -43,8 +42,7 @@ public class StageAudioFocusTest extends InstrumentationTestCase
 		audioFocus = null;
 	}
 
-	public void testRequestAndReleaseAudioFocus()
-	{
+	public void testRequestAndReleaseAudioFocus() {
 		assertFalse("AudioFocus is held before requesting it", audioFocus.isAudioFocusGranted());
 		audioFocus.requestAudioFocus();
 		assertTrue("AudioFocus is not held, although it was requested", audioFocus.isAudioFocusGranted());

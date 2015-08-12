@@ -61,7 +61,6 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 		mapping3.setText(sensorMappingStrings[sensorMapping[2].ordinal()]);
 		mapping4.setText(sensorMappingStrings[sensorMapping[3].ordinal()]);
 
-
 		Dialog dialog = new AlertDialog.Builder(getActivity())
 				.setView(dialogView)
 				.setTitle(R.string.lego_nxt_sensor_config_info_title)
@@ -77,5 +76,4 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
 		return dialog;
 	}
-
 }

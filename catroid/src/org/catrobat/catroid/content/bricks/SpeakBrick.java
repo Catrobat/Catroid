@@ -45,7 +45,6 @@ public class SpeakBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 
-
 	public SpeakBrick() {
 		addAllowedBrickField(BrickField.SPEAK);
 	}
@@ -116,7 +115,6 @@ public class SpeakBrick extends FormulaBrick {
 			editDegrees.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

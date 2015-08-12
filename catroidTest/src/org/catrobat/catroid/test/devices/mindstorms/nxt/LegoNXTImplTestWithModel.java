@@ -45,7 +45,6 @@ public class LegoNXTImplTestWithModel extends AndroidTestCase {
 
 		nxtTestModel = new MindstormsNXTTestModel();
 
-
 		nxt = new LegoNXTImpl(applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(nxtTestModel);
 		nxt.setConnection(logger.getConnectionProxy());

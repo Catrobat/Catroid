@@ -71,9 +71,9 @@ public class BaseActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-			getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
-			return super.onCreateOptionsMenu(menu);
-		}
+		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

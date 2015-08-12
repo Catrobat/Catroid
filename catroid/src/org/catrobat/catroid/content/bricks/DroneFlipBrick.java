@@ -46,7 +46,6 @@ public class DroneFlipBrick extends BrickBaseType {
 	private transient AdapterView<?> adapterView;
 
 	public DroneFlipBrick() {
-
 	}
 
 	@Override

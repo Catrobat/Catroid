@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.bluetooth.BluetoothStateException;
 import javax.bluetooth.LocalDevice;
@@ -40,6 +42,7 @@ import javax.microedition.io.StreamConnectionNotifier;
 
 public final class BTServer {
 	private static final String TAG = BTServer.class.getSimpleName();
+	private static final Logger LOGGER = Logger.getLogger(TAG);
 
 	static BTServer btServer;
 	private static boolean gui = false;
@@ -49,7 +52,7 @@ public final class BTServer {
 	public static final String COMMON_BT_TEST_UUID = "fd2835bb9d8041e097215372b90342da";
 
 	private Collection<Client> supportedClients = new ArrayList<Client>();
-	
+
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 	// Suppress default constructor for noninstantiability
@@ -58,26 +61,25 @@ public final class BTServer {
 	}
 
 	public static void writeMessage(String arg) {
-		if (gui == false) {
+		if (!gui) {
 			try {
 				out.write(arg);
 				out.flush();
 			} catch (Exception localException) {
-				System.out.println("BTTestServer: Unable to log messages. Do you have permission to log file?");
+				LOGGER.log(Level.SEVERE, "BTTestServer: Unable to log messages. Do you have permission to log file?",
+						localException);
 			}
 		} else {
 			GUI.writeMessage(arg);
 		}
 	}
-	
+
 	private static String getTime() {
 		return DATE_FORMAT.format(new Date());
 	}
 
 	public static void logMessage(String tag, String message) {
 		writeMessage(getTime() + " L/" + tag + ": " + message);
-
-		//Log.d(tag, message);
 	}
 
 	public static void logMessage(String tag, String message, Exception e) {
@@ -99,11 +101,9 @@ public final class BTServer {
 
 			btServer = new BTServer();
 			btServer.startServer();
-
 		} catch (IOException ioException) {
 			logMessage(TAG, "IOexception!", ioException);
 		}
-
 	}
 
 	private static void printSystemConfiguration()
@@ -146,8 +146,7 @@ public final class BTServer {
 			}
 		}
 
-		private void tryHandleInputConnection() throws IOException
-		{
+		private void tryHandleInputConnection() throws IOException {
 			String connectionString = "btspp://localhost:" + client.uuid
 					+ ";name=BT Test Server";
 
@@ -169,6 +168,5 @@ public final class BTServer {
 
 			streamConnNotifier.close();
 		}
-
 	}
 }

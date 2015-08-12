@@ -39,5 +39,4 @@ public class ExternToken {
 	public int getEndIndex() {
 		return endIndex;
 	}
-
 }

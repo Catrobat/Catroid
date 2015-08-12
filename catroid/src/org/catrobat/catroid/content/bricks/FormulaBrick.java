@@ -90,5 +90,4 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public abstract void showFormulaEditorToEditFormula(View view);
-	
 }

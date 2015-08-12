@@ -104,6 +104,10 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_exp:
 				return buildSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_floor:
+				return buildSingleParameterFunction(Functions.FLOOR, InternTokenType.NUMBER, "0.7");
+			case R.string.formula_editor_function_ceil:
+				return buildSingleParameterFunction(Functions.CEIL, InternTokenType.NUMBER, "0.3");
 			case R.string.formula_editor_function_max:
 				return buildDoubleParameterFunction(Functions.MAX, InternTokenType.NUMBER, "0", InternTokenType.NUMBER,
 						"1");
@@ -236,7 +240,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_ROTATION);
 			case R.string.formula_editor_object_layer:
 				return buildObject(Sensors.OBJECT_LAYER);
-
 		}
 		return null;
 	}
@@ -328,5 +331,4 @@ public class InternFormulaKeyboardAdapter {
 		returnList.add(new InternToken(InternTokenType.STRING, myString));
 		return returnList;
 	}
-
 }

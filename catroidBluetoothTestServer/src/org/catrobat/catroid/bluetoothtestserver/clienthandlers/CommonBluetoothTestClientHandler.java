@@ -40,7 +40,6 @@ public class CommonBluetoothTestClientHandler extends BTClientHandler {
 			int expectedMessageLength = messageLengthBuffer[0];
 			handleClientMessage(expectedMessageLength, inStream, outStream);
 		}
-
 	}
 
 	private void handleClientMessage(int expectedMessageLength, DataInputStream inStream, OutputStream outStream) throws IOException {
@@ -55,7 +54,7 @@ public class CommonBluetoothTestClientHandler extends BTClientHandler {
 		byte[] testResult = payload;
 
 		BTServer.writeMessage("<-- Sending reply message \n");
-		outStream.write(new byte[] {(byte)(0xFF & testResult.length)});
+		outStream.write(new byte[] {(byte) (0xFF & testResult.length)});
 		outStream.write(testResult);
 		outStream.flush();
 	}

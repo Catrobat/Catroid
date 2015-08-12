@@ -69,5 +69,4 @@ public class XStreamScriptConverter extends ReflectionConverter {
 		}
 		return super.doUnmarshal(result, reader, context);
 	}
-
 }

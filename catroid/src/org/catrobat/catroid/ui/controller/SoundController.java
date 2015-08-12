@@ -71,6 +71,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 
 public final class SoundController {
+	public static final int REQUEST_SELECT_OR_RECORD_SOUND = 0;
 	public static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
@@ -95,8 +96,6 @@ public final class SoundController {
 	 * solution according to:
 	 * http://stackoverflow.com/questions/19834842/android-gallery-on-kitkat-returns-different-uri
 	 * -for-intent-action-get-content
-	 * 
-	 * @author paulburke
 	 */
 	@TargetApi(19)
 	private static String getPathForVersionAboveEqualsVersion19(final Context context, final Uri uri) {
@@ -116,18 +115,16 @@ public final class SoundController {
 				}
 
 				// TODO handle non-primary volumes
-			}
-			// DownloadsProvider
-			else if (isDownloadsDocument(uri)) {
+			} else if (isDownloadsDocument(uri)) {
+				// DownloadsProvider
 
 				final String id = DocumentsContract.getDocumentId(uri);
 				final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
 						Long.valueOf(id));
 
 				return getDataColumn(context, contentUri, null, null);
-			}
-			// MediaProvider
-			else if (isMediaDocument(uri)) {
+			} else if (isMediaDocument(uri)) {
+				// MediaProvider
 				final String docId = DocumentsContract.getDocumentId(uri);
 				final String[] split = docId.split(":");
 				final String type = split[0];
@@ -146,18 +143,16 @@ public final class SoundController {
 
 				return getDataColumn(context, contentUri, selection, selectionArgs);
 			}
-		}
-		// MediaStore (and general)
-		else if ("content".equalsIgnoreCase(uri.getScheme())) {
+		} else if ("content".equalsIgnoreCase(uri.getScheme())) {
+			// MediaStore (and general)
 
 			// Return the remote address
 			if (isGooglePhotosUri(uri)) {
 				return uri.getLastPathSegment();
 			}
 			return getDataColumn(context, uri, null, null);
-		}
-		// File
-		else if ("file".equalsIgnoreCase(uri.getScheme())) {
+		} else if ("file".equalsIgnoreCase(uri.getScheme())) {
+			// File
 			return uri.getPath();
 		}
 
@@ -544,7 +539,6 @@ public final class SoundController {
 		} else {
 			return audioPath;
 		}
-
 	}
 
 	public void handleAddButtonFromNew(SoundFragment soundFragment) {
@@ -568,5 +562,4 @@ public final class SoundController {
 		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
 		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
 	}
-
 }

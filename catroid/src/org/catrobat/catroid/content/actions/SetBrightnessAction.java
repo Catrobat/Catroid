@@ -52,5 +52,4 @@ public class SetBrightnessAction extends TemporalAction {
 	public void setBrightness(Formula brightness) {
 		this.brightness = brightness;
 	}
-
 }

@@ -41,7 +41,6 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public DronePlayLedAnimationBrick() {
-
 	}
 
 	@Override

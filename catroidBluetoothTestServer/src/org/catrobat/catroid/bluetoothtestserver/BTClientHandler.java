@@ -29,22 +29,19 @@ import java.io.OutputStream;
 import javax.bluetooth.RemoteDevice;
 import javax.microedition.io.StreamConnection;
 
-public abstract class BTClientHandler extends Thread
-{
+public abstract class BTClientHandler extends Thread {
 	private static final String TAG = BTClientHandler.class.getSimpleName();
 
 	private StreamConnection connection;
 
-	public void setConnection(StreamConnection connection)
-	{
+	public void setConnection(StreamConnection connection) {
 		this.connection = connection;
 	}
 
 	public void run() {
 		try {
 			tryHandleClient();
-		}
-		catch (IOException ioException) {
+		} catch (IOException ioException) {
 			BTServer.logMessage(TAG, "BT Connection closed\n");
 		}
 

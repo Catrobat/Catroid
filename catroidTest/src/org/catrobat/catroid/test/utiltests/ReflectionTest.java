@@ -36,8 +36,8 @@ public class ReflectionTest extends AndroidTestCase {
 		char secretChar = (Character) Reflection.getPrivateField(SubClass.class, "SECRET_STATIC_CHAR");
 		assertEquals("Getting private static field failed!", SubClass.SECRET_STATIC_CHAR, secretChar);
 
-		String secretString = (String) Reflection.getPrivateField(new SubClass(), "SECRET_STRING");
-		assertEquals("Getting private String failed!", new SubClass().SECRET_STRING, secretString);
+		String secretString = (String) Reflection.getPrivateField(new SubClass(), "secretString");
+		assertEquals("Getting private String failed!", new SubClass().secretString, secretString);
 
 		int secretInteger = (Integer) Reflection.getPrivateField(new SubClass(), "SECRET_INTEGER");
 		assertEquals("Getting private Integer failed!", new SubClass().SECRET_INTEGER, secretInteger);
@@ -45,8 +45,8 @@ public class ReflectionTest extends AndroidTestCase {
 		float secretFloat = (Float) Reflection.getPrivateField(SuperClass.class, new SubClass(), "SECRET_FLOAT");
 		assertEquals("Getting private Float from super class failed!", new SuperClass().SECRET_FLOAT, secretFloat);
 
-		byte secretByte = (Byte) Reflection.getPrivateField(new SuperClass(), "SECRET_BYTE");
-		assertEquals("Getting private Float from super class failed!", new SuperClass().SECRET_BYTE, secretByte);
+		byte secretByte = (Byte) Reflection.getPrivateField(new SuperClass(), "secretByte");
+		assertEquals("Getting private Float from super class failed!", new SuperClass().secretByte, secretByte);
 
 		char newSecretChar = 'n';
 		Reflection.setPrivateField(SubClass.class, "SECRET_STATIC_CHAR", newSecretChar);
@@ -55,8 +55,8 @@ public class ReflectionTest extends AndroidTestCase {
 
 		SubClass sub = new SubClass();
 		String newSecretString = "This is a new secret string!";
-		Reflection.setPrivateField(sub, "SECRET_STRING", newSecretString);
-		secretString = (String) Reflection.getPrivateField(sub, "SECRET_STRING");
+		Reflection.setPrivateField(sub, "secretString", newSecretString);
+		secretString = (String) Reflection.getPrivateField(sub, "secretString");
 		assertEquals("Setting private String failed!", newSecretString, secretString);
 
 		int newSecretInteger = 128;
@@ -75,8 +75,7 @@ public class ReflectionTest extends AndroidTestCase {
 		try {
 			Reflection.getPrivateField(nullObject, "nullObjectsDontHaveFields");
 			fail("Getting private field of null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
@@ -89,8 +88,7 @@ public class ReflectionTest extends AndroidTestCase {
 		try {
 			Reflection.setPrivateField(nullObject, "nullObjectsDontHaveFields", null);
 			fail("Setting private field of null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
@@ -103,7 +101,7 @@ public class ReflectionTest extends AndroidTestCase {
 
 	public void testPrivateFieldWithWrongParameters() {
 		try {
-			Reflection.getPrivateField(SuperClass.class, new SubClass(), "SECRET_STRING");
+			Reflection.getPrivateField(SuperClass.class, new SubClass(), "secretString");
 			fail("Secret string is only located in SubClass but also found in SuperClass");
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
@@ -111,7 +109,7 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 
 		try {
-			Reflection.getPrivateField(SubClass.class, new SuperClass(), "SECRET_STRING");
+			Reflection.getPrivateField(SubClass.class, new SuperClass(), "secretString");
 			fail("SuperClass object isn't a sub class of SubClass");
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
@@ -119,15 +117,15 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 
 		try {
-			Reflection.getPrivateField(SubClass.class, null, "SECRET_STRING");
-			fail("SubClass has a static member 'SECRET_STRING'");
+			Reflection.getPrivateField(SubClass.class, null, "secretString");
+			fail("SubClass has a static member 'secretString'");
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
 					NullPointerException.class);
 		}
 
 		try {
-			Reflection.setPrivateField(SuperClass.class, new SubClass(), "SECRET_STRING", "Secret string");
+			Reflection.setPrivateField(SuperClass.class, new SubClass(), "secretString", "Secret string");
 			fail("Secret string is only located in SubClass but also found in SuperClass");
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
@@ -135,7 +133,7 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 
 		try {
-			Reflection.setPrivateField(SubClass.class, new SuperClass(), "SECRET_STRING", "Secret string");
+			Reflection.setPrivateField(SubClass.class, new SuperClass(), "secretString", "Secret string");
 			fail("SuperClass object is a sub class of SubClass but shouldn't");
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
@@ -143,8 +141,8 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 
 		try {
-			Reflection.setPrivateField(SubClass.class, null, "SECRET_STRING", "Secret string");
-			fail("SubClass has a static member 'SECRET_STRING'");
+			Reflection.setPrivateField(SubClass.class, null, "secretString", "Secret string");
+			fail("SubClass has a static member 'secretString'");
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
 					NullPointerException.class);
@@ -221,8 +219,8 @@ public class ReflectionTest extends AndroidTestCase {
 				Short.valueOf((short) 1));
 
 		Class<?>[] primitiveObjectsClass = (Class<?>[]) Reflection.getPrivateField(parameterList, "types");
-		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[]{boolean.class, byte.class, char.class,
-				double.class, float.class, int.class, long.class, short.class};
+		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[] { boolean.class, byte.class, char.class,
+				double.class, float.class, int.class, long.class, short.class };
 		assertTrue("Not all object classes are converted into primitve classes",
 				Arrays.deepEquals(expectedPrimitiveObjectsClasses, primitiveObjectsClass));
 	}
@@ -232,15 +230,13 @@ public class ReflectionTest extends AndroidTestCase {
 		try {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods");
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods", new ParameterList("text"));
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
@@ -269,8 +265,7 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.invokeMethod(invokeMethodObject, "methodWithParameters", new ParameterList(parameter1,
 					parameter2));
 			fail("Found not existing method signature");
-		} catch (RuntimeException runtimeException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (RuntimeException expected) {
 		}
 	}
 
@@ -282,8 +277,6 @@ public class ReflectionTest extends AndroidTestCase {
 			return "Called staticMethodWithoutParameters!";
 		}
 
-		;
-
 		@SuppressWarnings("unused")
 		private static String staticMethodWithParameters(String param1, String param2) {
 			return param1 + param2;
@@ -293,8 +286,6 @@ public class ReflectionTest extends AndroidTestCase {
 		private static void staticVoidMethod() {
 			calledVoidMethod = true;
 		}
-
-		;
 
 		@SuppressWarnings("unused")
 		private String methodWithoutParameters() {
@@ -325,13 +316,13 @@ public class ReflectionTest extends AndroidTestCase {
 	private class SuperClass {
 		// CHECKSTYLE DISABLE MemberNameCheck FOR 2 LINES
 		private final float SECRET_FLOAT = 3.1415f;
-		protected byte SECRET_BYTE = 32;
+		protected byte secretByte = 32;
 	}
 
 	private class SubClass extends SuperClass {
 		// CHECKSTYLE DISABLE MemberNameCheck FOR 3 LINES
 		private static final char SECRET_STATIC_CHAR = 'c';
 		private final int SECRET_INTEGER = 42;
-		private String SECRET_STRING = "This is a secret string!";
+		private String secretString = "This is a secret string!";
 	}
 }

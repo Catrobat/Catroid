@@ -31,16 +31,16 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetTransparencyActionTest extends InstrumentationTestCase {
 
-    private static final float TRANSPARENCY = 91f;
+	private static final float TRANSPARENCY = 91f;
 	private Formula effect = new Formula(TRANSPARENCY);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testTransparency() {
 		assertEquals("Unexpected initial sprite ghost effect value", 0f,
@@ -65,7 +65,6 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 			action.act(1.0f);
 			fail("Execution of SetTransparencyBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown as expected", true);
 		}
 	}
 
@@ -82,12 +81,11 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 	public void testNullFormula() {
 		ExtendedActions.setTransparency(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetTransparencyBrick executed", 0f,
-                sprite.look.getTransparencyInUserInterfaceDimensionUnit());
-
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-        ExtendedActions.setTransparency(sprite, new Formula(Double.NaN)).act(1.0f);
+		ExtendedActions.setTransparency(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetTransparencyBrick executed", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}

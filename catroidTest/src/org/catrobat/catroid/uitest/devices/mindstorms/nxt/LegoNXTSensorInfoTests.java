@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uitest.devices.mindstorms.nxt;
 
-
 import android.content.Context;
 
 import org.catrobat.catroid.R;
@@ -67,7 +66,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 	private void setSensors(NXTSensor.Sensor sensor) {
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
-				new NXTSensor.Sensor[] {sensor, sensor, sensor, sensor});
+				new NXTSensor.Sensor[] { sensor, sensor, sensor, sensor });
 	}
 
 	public void testNXTSensorInfoDialog() throws InterruptedException {
@@ -206,7 +205,6 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("NXT Sensor Dialog not shown for Project with NXT Sensor but no NXT Brick",
 				solo.waitForText(solo.getString(R.string.lego_nxt_sensor_config_info_title)));
-
 	}
 
 	private void createBrickTestproject(String projectName) {
@@ -250,6 +248,4 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		StorageHandler.getInstance().saveProject(project);
 	}
-
-
 }

@@ -33,9 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
-
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -78,7 +76,6 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-
 	}
 
 	public void testGoNStepsBackBrick() {
@@ -103,14 +100,14 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE);
 
-        try{
-            assertEquals("Wrong text in field.", STEPS_TO_MOVE,
+		try {
+			assertEquals("Wrong text in field.", STEPS_TO_MOVE,
 					(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble(null));
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
-        assertEquals(
+		assertEquals(
 				"Value in Brick is not updated.",
 				STEPS_TO_MOVE,
 				Double.valueOf(((TextView) solo.getView(R.id.brick_move_n_steps_edit_text)).getText().toString()

@@ -68,23 +68,22 @@ public class SoundRecorder {
 		} catch (RuntimeException e) {
 			throw e;
 		}
-
 	}
 
 	public void stop() throws IOException {
 		try {
 			recorder.stop();
 		} catch (RuntimeException e) {
-			Log.d(TAG, "Note that a RuntimeException is intentionally " +
-					"thrown to the application, if no valid audio/video data " +
-					"has been received when stop() is called. This happens if stop() " +
-					"is called immediately after start(). The failure lets the application " +
-					"take action accordingly to clean up the output file " +
-					"(delete the output file, for instance), since the output file " +
-					"is not properly constructed when this happens.");
+			Log.d(TAG, "Note that a RuntimeException is intentionally "
+					+ "thrown to the application, if no valid audio/video data "
+					+ "has been received when stop() is called. This happens if stop() "
+					+ "is called immediately after start(). The failure lets the application "
+					+ "take action accordingly to clean up the output file "
+					+ "(delete the output file, for instance), since the output file "
+					+ "is not properly constructed when this happens.");
 		}
-        recorder.reset();
-        recorder.release();
+		recorder.reset();
+		recorder.release();
 		isRecording = false;
 	}
 
@@ -99,5 +98,4 @@ public class SoundRecorder {
 	public boolean isRecording() {
 		return isRecording;
 	}
-
 }

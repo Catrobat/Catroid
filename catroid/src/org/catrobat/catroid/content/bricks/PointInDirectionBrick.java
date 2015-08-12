@@ -145,7 +145,6 @@ public class PointInDirectionBrick extends FormulaBrick {
 			setAngleTextView.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

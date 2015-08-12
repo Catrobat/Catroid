@@ -31,16 +31,16 @@ import org.catrobat.catroid.io.SoundManager;
 
 public class SetVolumeToActionTest extends InstrumentationTestCase {
 
-    private static final float VOLUME = 91f;
+	private static final float VOLUME = 91f;
 	private final Formula volume = new Formula(VOLUME);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testVolume() {
 		ExtendedActions.setVolumeTo(sprite, volume).act(1.0f);

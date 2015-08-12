@@ -108,7 +108,6 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 				});
 				Dialog errorDialog = builder.create();
 				errorDialog.show();
-
 			} else {
 				onLoadProjectCompleteListener.onLoadProjectSuccess(startProjectActivity);
 			}
@@ -120,7 +119,5 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 		void onLoadProjectSuccess(boolean startProjectActivity);
 
 		void onLoadProjectFailure();
-
 	}
-
 }

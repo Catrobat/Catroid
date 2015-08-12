@@ -124,14 +124,11 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 
 			try {
 				connection.send(command);
-			}
-			catch (MindstormsException e) {
+			} catch (MindstormsException e) {
 				Log.e(TAG, e.getMessage());
 			}
-
 		}
 	}
-
 
 	List<OnSensorChangedListener> sensorChangedListeners = new LinkedList<OnSensorChangedListener>();
 
@@ -140,10 +137,10 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	private boolean isChangedPreferenceASensorPreference(String preference) {
-		return (preference.equals(SettingsActivity.NXT_SENSOR_1) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_2) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_3) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_4));
+		return (preference.equals(SettingsActivity.NXT_SENSOR_1)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_2)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_3)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_4));
 	}
 
 	@Override
@@ -212,7 +209,6 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			SensorTuple tuple = registeredSensors.get(port);
 			if (tuple != null) {
 				tuple.scheduledFuture.cancel(false);
-
 			}
 			registeredSensors.remove(port);
 		}

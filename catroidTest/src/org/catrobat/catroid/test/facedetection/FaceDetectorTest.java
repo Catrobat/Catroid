@@ -66,5 +66,4 @@ public class FaceDetectorTest extends TestCase {
 		assertEquals("Status Listener did not receive exactly one call for a change", 2, numberOfCalls);
 		assertFalse("Status Listener received the wrong status", statusFaceDetected);
 	}
-
 }
