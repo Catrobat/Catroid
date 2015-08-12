@@ -162,7 +162,7 @@ def managePermissions() {
     def permissionsText = permissionsFile.text
     println permissionsText
 
-    if(!permissionsText.contains("TEXT_TO_SPEECH")){
+    if(!permissionsText.contains(FTEXT_TO_SPEECH")){
         println "removing record"
         manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", " ")
     }
