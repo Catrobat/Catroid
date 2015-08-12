@@ -7,10 +7,16 @@ apply plugin: 'java'
 dependencies {
     testCompile files( project(":").buildDir.getPath() + '/intermediates/classes/debug' )
     testCompile 'junit:junit:4.12'
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
 sourceSets {
     main {
+        checkstyle {
+            java.srcDir 'checkstyle/src'
+        }
         test {
             java.srcDir 'src'
         }
