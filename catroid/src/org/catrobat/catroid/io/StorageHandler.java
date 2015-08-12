@@ -327,7 +327,6 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneToggleVideoBrick.class);
 		xstream.alias("brick", DroneAdvancedConfigBrick.class);
 
-
 		xstream.alias("brick", PhiroMotorMoveBackwardBrick.class);
 		xstream.alias("brick", PhiroMotorMoveForwardBrick.class);
 		xstream.alias("brick", PhiroMotorStopBrick.class);
@@ -360,7 +359,7 @@ public final class StorageHandler {
 
 	public Project loadProject(String projectName) {
 		File file = new File(DEFAULT_ROOT);
-		if(!file.exists()){
+		if (!file.exists()) {
 			Log.d(TAG, "Directory does not exist!");
 			return null;
 		}
@@ -742,7 +741,6 @@ public final class StorageHandler {
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
 				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight,
 				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
-
 
 		saveBitmapToImageFile(outputFile, bitmap);
 

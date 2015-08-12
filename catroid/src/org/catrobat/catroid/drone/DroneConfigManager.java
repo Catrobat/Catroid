@@ -63,7 +63,7 @@ public final class DroneConfigManager {
 	}
 
 	private void setBasicConfig(String preference) {
-		switch (preference){
+		switch (preference) {
 			case FIRST:
 				setDefaultConfig();
 				break;
@@ -113,10 +113,10 @@ public final class DroneConfigManager {
 		//TODO: set other config params for indoor flight
 	}
 
-	private void setAltitude(String preference){
+	private void setAltitude(String preference) {
 		int altitudeValue = BrickValues.DRONE_ALTITUDE_DEFAULT;
 
-		switch (preference){
+		switch (preference) {
 			case FIRST:
 				altitudeValue = BrickValues.DRONE_ALTITUDE_MIN;
 				break;
@@ -149,10 +149,10 @@ public final class DroneConfigManager {
 		}
 	}
 
-	private void setVerticalSpeed(String preference){
+	private void setVerticalSpeed(String preference) {
 		int verticalValue = BrickValues.DRONE_VERTICAL_DEFAULT;
 
-		switch (preference){
+		switch (preference) {
 			case FIRST:
 				verticalValue = BrickValues.DRONE_VERTICAL_MIN;
 				break;
@@ -185,10 +185,10 @@ public final class DroneConfigManager {
 		}
 	}
 
-	private void setRotationSpeed(String preference){
+	private void setRotationSpeed(String preference) {
 		int rotationValue = BrickValues.DRONE_ROTATION_DEFAULT;
 
-		switch (preference){
+		switch (preference) {
 			case FIRST:
 				rotationValue = BrickValues.DRONE_ROTATION_MIN;
 				break;
@@ -221,10 +221,10 @@ public final class DroneConfigManager {
 		}
 	}
 
-	private void setTiltAngle(String preference){
+	private void setTiltAngle(String preference) {
 		int tiltValue = BrickValues.DRONE_TILT_DEFAULT;
 
-		switch (preference){
+		switch (preference) {
 			case FIRST:
 				tiltValue = BrickValues.DRONE_TILT_MIN;
 				break;

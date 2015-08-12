@@ -86,7 +86,6 @@ public final class BrickValues {
 	public static final int DRONE_TILT_OUTDOOR = 20;
 	public static final int DRONE_TILT_MAX = 30;
 
-
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
 	public static final double CHANGE_VARIABLE = 1d;

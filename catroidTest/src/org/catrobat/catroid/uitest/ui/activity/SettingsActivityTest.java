@@ -63,8 +63,8 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		Script currentScript = ProjectManager.getInstance().getCurrentScript();
 		assertNotNull("CurrentScript is NULL", currentScript);
-		if ( currentScript.getBrickList().size() < 1) {
-			currentScript.addBrick(new DroneMoveUpBrick(2000,50));
+		if (currentScript.getBrickList().size() < 1) {
+			currentScript.addBrick(new DroneMoveUpBrick(2000, 50));
 		}
 
 		String dronePreferenceString = solo.getString(R.string.preference_description_quadcopter_bricks);
@@ -107,7 +107,6 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
 		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
 		assertTrue("Drone sensors are not showing!", solo.searchText(forumularEditorDroneSensors));
-
 	}
 
 	public void testToggleDroneBricks() {

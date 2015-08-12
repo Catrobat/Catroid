@@ -37,13 +37,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 
 import java.io.FileNotFoundException;
 
-public class DroneVideoLookData extends LookData{
+public class DroneVideoLookData extends LookData {
 
 	private static final String TAG = LookData.class.getSimpleName();
 
 	private transient boolean firstStart = true;
 	private transient GLBGVideoSprite videoTexture;
-	private transient int[] videoSize = {0, 0};
+	private transient int[] videoSize = { 0, 0 };
 	private transient int[] defaultVideoTextureSize;
 
 	@Override
@@ -73,7 +73,7 @@ public class DroneVideoLookData extends LookData{
 		double virtualScreenWidth = Gdx.graphics.getHeight();
 		double videoRatio = 64f / 36f;
 		double videoHeight = virtualScreenWidth / videoRatio;
-		defaultVideoTextureSize = new int[] {(int) virtualScreenWidth, (int) videoHeight };
+		defaultVideoTextureSize = new int[] { (int) virtualScreenWidth, (int) videoHeight };
 
 		if (pixmap == null) {
 			pixmap = new Pixmap(defaultVideoTextureSize[0], defaultVideoTextureSize[1], Pixmap.Format.RGB888);
@@ -86,21 +86,17 @@ public class DroneVideoLookData extends LookData{
 	@Override
 	public void setTextureRegion() {
 		this.region = new TextureRegion(new Texture(getPixmap()));
-
 	}
 
 	@Override
-	public void onDraw()
-	{
-		if (firstStart)
-		{
+	public void onDraw() {
+		if (firstStart) {
 			videoTexture = new GLBGVideoSprite();
 			onSurfaceChanged();
 			firstStart = false;
 		}
 
-		if (videoSize[0] != videoTexture.imageWidth || videoSize[1] != videoTexture.imageHeight)
-		{
+		if (videoSize[0] != videoTexture.imageWidth || videoSize[1] != videoTexture.imageHeight) {
 			onSurfaceChanged();
 		}
 
@@ -108,18 +104,15 @@ public class DroneVideoLookData extends LookData{
 		videoTexture.onUpdateVideoTexture();
 	}
 
-	private void onSurfaceChanged()
-	{
+	private void onSurfaceChanged() {
 
 		videoSize[0] = videoTexture.imageWidth;
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
-
 	}
 
 	@Override
-	public int getRequiredResources()
-	{
+	public int getRequiredResources() {
 		return Brick.ARDRONE_SUPPORT;
 	}
 }

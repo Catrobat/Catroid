@@ -79,7 +79,6 @@ public final class LookController {
 	private static final String TAG = LookController.class.getSimpleName();
 	private static final LookController INSTANCE = new LookController();
 
-
 	private LookController() {
 	}
 
@@ -218,13 +217,11 @@ public final class LookController {
 		copyImageToCatroid(originalImagePath, activity, lookDataList, fragment);
 	}
 
-	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment, LookData.LookDataType lookDataType)
-	{
+	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment, LookData.LookDataType lookDataType) {
 		name = Utils.getUniqueLookName(name);
 		LookData lookData;
 
-		switch(lookDataType)
-		{
+		switch (lookDataType) {
 			case DRONE_VIDEO:
 				lookData = new DroneVideoLookData();
 				break;
@@ -239,28 +236,23 @@ public final class LookController {
 		fragment.updateLookAdapter(lookData);
 	}
 
-
 	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment) {
 
 		updateLookAdapter(name, fileName, lookDataList, fragment, LookData.LookDataType.IMAGE);
 	}
 
-	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, ArrayList<LookData> lookDataList, LookFragment fragment)
-	{
+	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, ArrayList<LookData> lookDataList, LookFragment fragment) {
 		try {
 
 			File imageFile = StorageHandler.getInstance().copyImageFromResourceToCatroid(activity, imageId, defaultImageName);
 			updateLookAdapter(defaultImageName, imageFile.getName(), lookDataList, fragment, LookData.LookDataType.DRONE_VIDEO);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
 
 		fragment.destroyLoader();
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
-
 
 	private void copyImageToCatroid(String originalImagePath, Activity activity, ArrayList<LookData> lookDataList,
 			LookFragment fragment) {

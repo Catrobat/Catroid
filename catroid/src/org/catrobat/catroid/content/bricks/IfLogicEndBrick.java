@@ -85,7 +85,7 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		if (view == null) {
 			alphaValue = 255;
 		}
-		
+
 		view = View.inflate(context, R.layout.brick_if_end_if, null);
 		view = getViewWithAlpha(alphaValue);
 

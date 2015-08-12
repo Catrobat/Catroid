@@ -423,11 +423,10 @@ public class StageListener implements ApplicationListener {
 			int width = Gdx.graphics.getWidth();
 			int height = Gdx.graphics.getHeight();
 			drawText("Surface: " + width + " : " + height, -width / 2, height / 2);
-			drawText("   ARDRONE", width / 6, height / 2-20);
-			drawText("SUPPORTED", width / 6, height / 2-50);
+			drawText("   ARDRONE", width / 6, height / 2 - 20);
+			drawText("SUPPORTED", width / 6, height / 2 - 50);
 		}
 	}
-	
 
 	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
 		List<String> broadcastWaitNotifyActions = new ArrayList<String>();
@@ -658,8 +657,7 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
-	public void addActor (Actor actor)
-	{
+	public void addActor(Actor actor) {
 		stage.addActor(actor);
 	}
 
@@ -667,12 +665,11 @@ public class StageListener implements ApplicationListener {
 		return stage;
 	}
 
-	public void removeActor (Look look)
-	{
+	public void removeActor(Look look) {
 		look.remove();
 	}
 
-	private void drawText(String text, int posX, int posY){
+	private void drawText(String text, int posX, int posY) {
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		Batch batch = stage.getBatch();

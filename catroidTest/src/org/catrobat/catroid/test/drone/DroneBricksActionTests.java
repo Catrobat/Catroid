@@ -205,7 +205,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(true);
 	}
 
-	public void testSwitch(){
+	public void testSwitch() {
 		DroneSwitchCameraBrick switchBrick = new DroneSwitchCameraBrick();
 		addActionToSequenceAndAct(switchBrick);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).switchCamera();

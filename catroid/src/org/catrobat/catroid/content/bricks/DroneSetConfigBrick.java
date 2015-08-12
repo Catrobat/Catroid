@@ -36,47 +36,47 @@ import java.util.List;
 
 public class DroneSetConfigBrick extends DroneSpinnerBrick {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public static final int DEFAULT = 0;
-    public static final int INDOOR = 1;
-    public static final int OUTDOOR = 2;
-    private final ArrayList<String> list;
+	public static final int DEFAULT = 0;
+	public static final int INDOOR = 1;
+	public static final int OUTDOOR = 2;
+	private final ArrayList<String> list;
 
-    public DroneSetConfigBrick() {
-        list = new ArrayList<>();
-    }
+	public DroneSetConfigBrick() {
+		list = new ArrayList<>();
+	}
 
-    @Override
-    protected String getBrickLabel(View view) {
-        return view.getResources().getString(R.string.brick_drone_set_config);
-    }
+	@Override
+	protected String getBrickLabel(View view) {
+		return view.getResources().getString(R.string.brick_drone_set_config);
+	}
 
-    @Override
-    protected ArrayList<String> getSpinnerItems(View view) {
-        list.clear();
-        list.add(view.getResources().getString(R.string.drone_config_default));
-        list.add(view.getResources().getString(R.string.drone_config_indoor));
-        list.add(view.getResources().getString(R.string.drone_config_outdoor));
-        return (ArrayList<String>) list.clone();
-    }
+	@Override
+	protected ArrayList<String> getSpinnerItems(View view) {
+		list.clear();
+		list.add(view.getResources().getString(R.string.drone_config_default));
+		list.add(view.getResources().getString(R.string.drone_config_indoor));
+		list.add(view.getResources().getString(R.string.drone_config_outdoor));
+		return (ArrayList<String>) list.clone();
+	}
 
-    @Override
-    public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-        switch (spinnerPosition) {
-            case DroneSetConfigBrick.DEFAULT:
-                sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default));
-                Log.d(getClass().getSimpleName(), "DEFAULT config is being set ...");
-                break;
-            case DroneSetConfigBrick.INDOOR:
-                sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor));
-                Log.d(getClass().getSimpleName(), "INDOOR config is being set ...");
-                break;
-            case DroneSetConfigBrick.OUTDOOR:
-                sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor));
-                Log.d(getClass().getSimpleName(), "OUTDOOR config is being set ...");
-                break;
-        }
-        return null;
-    }
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		switch (spinnerPosition) {
+			case DroneSetConfigBrick.DEFAULT:
+				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default));
+				Log.d(getClass().getSimpleName(), "DEFAULT config is being set ...");
+				break;
+			case DroneSetConfigBrick.INDOOR:
+				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor));
+				Log.d(getClass().getSimpleName(), "INDOOR config is being set ...");
+				break;
+			case DroneSetConfigBrick.OUTDOOR:
+				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor));
+				Log.d(getClass().getSimpleName(), "OUTDOOR config is being set ...");
+				break;
+		}
+		return null;
+	}
 }

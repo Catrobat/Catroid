@@ -33,57 +33,56 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class DroneSetAltitudeAction extends TemporalAction {
 
-    private Formula altitude;
-    private Formula verticalSpeed;
-    private Formula rotationSpeed;
-    private Formula tiltAngle;
-    private Sprite sprite;
+	private Formula altitude;
+	private Formula verticalSpeed;
+	private Formula rotationSpeed;
+	private Formula tiltAngle;
+	private Sprite sprite;
 
+	@Override
+	protected void update(float percent) {
 
-    @Override
-    protected void update(float percent) {
+		int altitudeValue = updateFormulaValue(altitude);
+		int verticalSpeedValue = updateFormulaValue(verticalSpeed);
+		int rotationSpeedValue = updateFormulaValue(rotationSpeed);
+		int tiltAngleValue = updateFormulaValue(tiltAngle);
 
-        int altitudeValue = updateFormulaValue(altitude);
-        int verticalSpeedValue = updateFormulaValue(verticalSpeed);
-        int rotationSpeedValue = updateFormulaValue(rotationSpeed);
-        int tiltAngleValue = updateFormulaValue(tiltAngle);
+		DroneConfigManager.getInstance().setAltitude(altitudeValue);
+		DroneConfigManager.getInstance().setVerticalSpeed(verticalSpeedValue);
+		DroneConfigManager.getInstance().setRotationSpeed(rotationSpeedValue);
+		DroneConfigManager.getInstance().setTiltAngle(tiltAngleValue);
+	}
 
-        DroneConfigManager.getInstance().setAltitude(altitudeValue);
-        DroneConfigManager.getInstance().setVerticalSpeed(verticalSpeedValue);
-        DroneConfigManager.getInstance().setRotationSpeed(rotationSpeedValue);
-        DroneConfigManager.getInstance().setTiltAngle(tiltAngleValue);
-    }
+	private int updateFormulaValue(Formula rgbFormula) {
+		int value;
 
-    private int updateFormulaValue(Formula rgbFormula) {
-        int value;
+		try {
+			value = rgbFormula.interpretInteger(sprite);
+		} catch (InterpretationException interpretationException) {
+			value = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 
-        try {
-            value = rgbFormula.interpretInteger(sprite);
-        } catch (InterpretationException interpretationException) {
-            value = 0;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		return value;
+	}
 
-        return value;
-    }
+	public void setAltitude(Formula altitude) {
+		this.altitude = altitude;
+	}
 
-    public void setAltitude(Formula altitude) {
-        this.altitude = altitude;
-    }
+	public void setVerticalSpeed(Formula verticalSpeed) {
+		this.verticalSpeed = verticalSpeed;
+	}
 
-    public void setVerticalSpeed(Formula verticalSpeed) {
-        this.verticalSpeed = verticalSpeed;
-    }
+	public void setRotationSpeed(Formula rotationSpeed) {
+		this.rotationSpeed = rotationSpeed;
+	}
 
-    public void setRotationSpeed(Formula rotationSpeed) {
-        this.rotationSpeed = rotationSpeed;
-    }
+	public void setTiltAngle(Formula tiltAngle) {
+		this.tiltAngle = tiltAngle;
+	}
 
-    public void setTiltAngle(Formula tiltAngle) {
-        this.tiltAngle = tiltAngle;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
 }

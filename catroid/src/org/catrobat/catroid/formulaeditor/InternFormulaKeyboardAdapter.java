@@ -202,8 +202,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_drone_num_frames:
 				return buildSensor(Sensors.DRONE_NUM_FRAMES);
 
-
-
 			//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:
 				return buildPeriod();

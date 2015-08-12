@@ -188,13 +188,11 @@ public class LookData implements Serializable, Cloneable {
 		return name;
 	}
 
-	public void onDraw()
-	{
+	public void onDraw() {
 		//Nothing to do here
 	}
 
-	public int getRequiredResources()
-	{
+	public int getRequiredResources() {
 		return Brick.NO_RESOURCES;
 	}
 }
