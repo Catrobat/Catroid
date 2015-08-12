@@ -20,29 +20,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.actions;
 
-import android.view.View;
+import android.util.Log;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 
-import java.util.List;
+public class DroneGoEmergencyAction extends TemporalAction {
 
-public class DroneFlipBrick extends DroneBasicBrick {
-	private static final long serialVersionUID = 1L;
+	private static final String TAG = DroneGoEmergencyAction.class.getSimpleName();
+	private DroneServiceWrapper service;
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneFlip());
-		return null;
+	public DroneGoEmergencyAction() {
+		service = DroneServiceWrapper.getInstance();
 	}
 
 	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_flip);
+	protected void begin() {
+		super.begin();
+
+		if (service.getDroneService() != null) {
+			service.getDroneService().triggerEmergency();
+		}
+	}
+
+	@Override
+	protected void update(float percent) {
+		Log.d(TAG, "update!");
+	}
+
+	// TODO: complete the method
+	@Override
+	public boolean act(float delta) {
+		Boolean superReturn = super.act(delta);
+		return superReturn;
 	}
 }

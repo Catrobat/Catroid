@@ -480,6 +480,7 @@
     <string name="default_drone_project_sprites_back">Back</string>
     <string name="default_drone_project_sprites_turn_left">Turn left</string>
     <string name="default_drone_project_sprites_turn_right">Turn right</string>
+    <string name="default_drone_project_sprites_emergency">Emergency</string>
     <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -630,6 +631,7 @@
     <string name="brick_drone_move_up">Move up</string>
     <string name="brick_drone_move_down">Move down</string>
     <string name="brick_drone_flip">Flip</string>
+    <string name="brick_drone_go_emergency">Emergency</string>
     <string name="brick_drone_power">Power</string>
     <string name="brick_drone_turn_right">Turn right</string>
     <string name="brick_drone_turn_left">Turn left</string>

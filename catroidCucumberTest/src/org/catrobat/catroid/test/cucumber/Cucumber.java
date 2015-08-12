@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.test.cucumber;
 
+import cucumber.api.CucumberOptions;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import cucumber.api.CucumberOptions;
 
 // Here you can configure which feature or feature-subfolder to test.
 @CucumberOptions(features = "features/bricks",
