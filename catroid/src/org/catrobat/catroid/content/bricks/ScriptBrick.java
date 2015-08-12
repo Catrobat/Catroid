@@ -41,5 +41,4 @@ public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterD
 
 	@Override
 	public abstract Brick clone();
-
 }

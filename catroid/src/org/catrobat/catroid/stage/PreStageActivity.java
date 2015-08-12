@@ -117,7 +117,7 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
+		if ((requiredResources & Brick.CAMERA_LED) > 0) {
 			if (!CameraManager.getInstance().isFacingBack()) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
@@ -196,8 +196,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
-				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+		if (supportedFlashModes == null || supportedFlashModes.isEmpty()
+				|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
 			return false;
 		}
 
@@ -339,13 +339,14 @@ public class PreStageActivity extends BaseActivity {
 									startActivity(installIntent);
 									resourceFailed();
 								}
-							}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							resourceFailed();
-						}
-					});
+							})
+							.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+									resourceFailed();
+								}
+							});
 					AlertDialog alert = builder.create();
 					alert.show();
 				}
@@ -372,7 +373,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void ledInitialize() {
-		if ( hasFlash() ) {
+		if (hasFlash()) {
 			resourceInitialized();
 			LedUtil.activateLedThread();
 		} else {
@@ -380,5 +381,4 @@ public class PreStageActivity extends BaseActivity {
 			resourceFailed();
 		}
 	}
-
 }

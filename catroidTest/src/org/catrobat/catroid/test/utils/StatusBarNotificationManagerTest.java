@@ -23,13 +23,17 @@
 
 package org.catrobat.catroid.test.utils;
 
+import android.os.Bundle;
 import android.test.AndroidTestCase;
+import android.util.Log;
 import android.util.SparseArray;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
 public class StatusBarNotificationManagerTest extends AndroidTestCase {
+	private static final String TAG = StatusBarNotificationManagerTest.class.getSimpleName();
 
 	private final StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 
@@ -76,9 +80,21 @@ public class StatusBarNotificationManagerTest extends AndroidTestCase {
 		try {
 			notificationManager.showOrUpdateNotification(-1, 0);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.e(TAG, "showOrUpdateNotification() failed", ex);
 			fail("there shouldn't be any exception thrown");
 		}
+	}
+
+	public void testUploadRejectedNotification() {
+		int id = notificationManager.createUploadNotification(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		checkNotificationData(id);
+		notificationManager.showUploadRejectedNotification(id, 507, getContext().getResources().getString(R.string.error_project_upload), new Bundle());
+		@SuppressWarnings("unchecked")
+		SparseArray<NotificationData> notificationDataMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, notificationManager, "notificationDataMap");
+
+		NotificationData data = notificationDataMap.get(id);
+		assertEquals("error message should match", data.getNotificationTextDone(), getContext().getResources().getString(R.string.error_project_upload));
 	}
 
 	private void checkNotificationData(int id) {

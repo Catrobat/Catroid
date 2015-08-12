@@ -54,5 +54,4 @@ public class SimulatedSoundRecorder extends SoundRecorder {
 	public int getMaxAmplitude() {
 		return (int) (Math.random() * 32000 + 767);
 	}
-
 }

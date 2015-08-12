@@ -51,6 +51,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 	private static final String TAG = "BaseActivityInstrumentationTestCase";
 	private Class clazz;
 	private SystemAnimations systemAnimations;
+	private static final String ZIPFILE_NAME = "testzip";
 
 	private boolean createSoloInSetUp;
 
@@ -96,7 +97,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		}
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 
-		if (solo != null){
+		if (solo != null) {
 			solo.unlockScreen();
 		}
 
@@ -144,7 +145,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 		rootDirectory.mkdirs();
 
-		/*String[] paths = rootDirectory.list(new FilenameFilter() {
+		String[] paths = rootDirectory.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File file, String s) {
 				return !s.equals(ZIPFILE_NAME);
@@ -153,8 +154,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 		if (paths == null) {
 			fail("could not determine catroid directory");
-		}
-		else if (paths.length > 0) {
+		} else if (paths.length > 0) {
 			for (int i = 0; i < paths.length; i++) {
 				paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
 			}
@@ -186,7 +186,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 				Log.d(TAG, "Zipping failed!", e);
 				fail("IOException while zipping projects");
 			}
-		}*/
+		}
 	}
 
 	public void unzipProjects() {
@@ -205,10 +205,10 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 				paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
 			}
 
-			/*String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
+			String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
 
 			for (int i = 0; i < paths.length; i++) {
-				if (paths[i].equals(zipFileString) == false) {
+				if (!paths[i].equals(zipFileString)) {
 					Log.d(TAG, "Path to delete: " + paths[i]);
 					StorageHandler.getInstance().deleteAllFile(paths[i]);
 				}
@@ -219,8 +219,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 				File zipFile = new File(zipFileString);
 				UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 				zipFile.delete();
-			}*/
-
+			}
 		} catch (IOException e) {
 			Log.d(TAG, "Something wet wrong while unzip files in tear down", e);
 		}

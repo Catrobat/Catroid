@@ -40,7 +40,6 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 	//private VibrationBrick vibrationBrick15Seconds;
 	//private Project project;
 
-
 	public VibrationBrickTest() {
 		super(ScriptActivity.class);
 	}

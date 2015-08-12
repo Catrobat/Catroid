@@ -42,9 +42,9 @@ public class ChangeBrightnessByNAction extends TemporalAction {
 					.interpretFloat(sprite);
 			sprite.look.changeBrightnessInUserInterfaceDimensionUnit(newChangeBrightness);
 		} catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(),"Formula interpretation for this specific Brick failed." , interpretationException);
-        }
-    }
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
+	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
@@ -53,5 +53,4 @@ public class ChangeBrightnessByNAction extends TemporalAction {
 	public void setBrightness(Formula changeBrightness) {
 		this.changeBrightness = changeBrightness;
 	}
-
 }

@@ -81,7 +81,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	private void disableSensors() {
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
-				new NXTSensor.Sensor[] {NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR});
+				new NXTSensor.Sensor[] { NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR });
 	}
 
 	@Device
@@ -101,8 +101,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		// use this only, if ConnectionDataLogger is in local mode (localProxy)
 		BluetoothTestUtils.addPairedDevice(LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME,
-				(ConnectBluetoothDeviceActivity)solo.getCurrentActivity(), getInstrumentation());
-
+				(ConnectBluetoothDeviceActivity) solo.getCurrentActivity(), getInstrumentation());
 
 		ListView deviceList = solo.getCurrentViews(ListView.class).get(0);
 		String connectedDeviceName = null;
@@ -185,7 +184,6 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Devicelist not shown!", ConnectBluetoothDeviceActivity.class);
-
 	}
 
 	private ArrayList<int[]> createTestproject(String projectName) {

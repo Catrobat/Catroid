@@ -366,7 +366,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 				touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
 			}
 			newView = false;
-
 		} else {
 			itemPosition = pointToPosition(view.getLeft(), view.getTop());
 			int visiblePosition = itemPosition - getFirstVisiblePosition();
@@ -451,5 +450,4 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public void setIsScrolling() {
 		isScrolling = true;
 	}
-
 }

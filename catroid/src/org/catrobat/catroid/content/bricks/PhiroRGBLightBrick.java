@@ -104,8 +104,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() { return BLUETOOTH_PHIRO;	}
-
+	public int getRequiredResources() {
+		return BLUETOOTH_PHIRO;
+	}
 
 	@Override
 	public View getPrototypeView(Context context) {
@@ -123,6 +124,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
 		eyeSpinner.setFocusableInTouchMode(false);
 		eyeSpinner.setFocusable(false);
+		eyeSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
@@ -144,7 +146,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 	@Override
 	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
-			return colorSeekbar.getView(context);
+		return colorSeekbar.getView(context);
 	}
 
 	@Override
@@ -223,7 +225,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) { }
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
 		});
 
 		eyeSpinner.setSelection(eyeEnum.ordinal());
@@ -247,9 +250,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	private boolean areAllBrickFieldsNumbers() {
-		return (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRoot().getElementType() == FormulaElement.ElementType.NUMBER) &&
-				(getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRoot().getElementType() == FormulaElement.ElementType.NUMBER) &&
-				(getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRoot().getElementType() == FormulaElement.ElementType.NUMBER);
+		return (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
+				&& (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
+				&& (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRoot().getElementType() == FormulaElement.ElementType.NUMBER);
 	}
 
 	private BrickField getClickedBrickField(View view) {

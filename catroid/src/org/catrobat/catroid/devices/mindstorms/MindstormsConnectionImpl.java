@@ -59,7 +59,6 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 		return isConnected;
 	}
 
-
 	@Override
 	public void disconnect() {
 
@@ -69,7 +68,6 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 
 		nxtInputStream = null;
 		nxtOutputStream = null;
-
 	}
 
 	@Override
@@ -84,8 +82,8 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 			int messageLength = command.getLength();
 			byte[] message = command.getRawCommand();
 			byte[] data = new byte[command.getLength() + 2];
-			data[0] = (byte)(messageLength & 0x00FF);
-			data[1] = (byte)((messageLength & 0xFF00) >> 8) ;
+			data[0] = (byte) (messageLength & 0x00FF);
+			data[1] = (byte) ((messageLength & 0xFF00) >> 8);
 
 			System.arraycopy(message, 0, data, 2, messageLength);
 
@@ -93,7 +91,6 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 				nxtOutputStream.write(data, 0, messageLength + 2);
 				nxtOutputStream.flush();
 			}
-
 		} catch (IOException e) {
 			throw new MindstormsException(e, "Error on message send.");
 		}
@@ -109,8 +106,7 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 			payload = new byte[expectedLength];
 
 			nxtInputStream.readFully(payload, 0, expectedLength);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new MindstormsException(e, "Read Error");
 		}
 

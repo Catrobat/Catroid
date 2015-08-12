@@ -135,6 +135,5 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 	public interface OnUpdateProjectDescriptionListener {
 
 		void onUpdateProjectDescription();
-
 	}
 }

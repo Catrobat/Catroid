@@ -91,13 +91,13 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
-		Formula sensorFormula =  new Formula(parseTree);
-        try {
-            return sensorFormula.interpretDouble(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for Sensor failed.", interpretationException);
-        }
-        return Double.NaN;
+		Formula sensorFormula = new Formula(parseTree);
+		try {
+			return sensorFormula.interpretDouble(sprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for Sensor failed.", interpretationException);
+		}
+		return Double.NaN;
 	}
 
 	public void testLookSensorValueInStage() {
@@ -125,19 +125,19 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 	public void testLookSensorValueBeforeAndAfterStage() {
 
 		assertEquals("Variable shows false x position before stage", SPRITE_X_POSITION_INITIAL,
-                interpretSensor(Sensors.OBJECT_X), DELTA);
+				interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Variable shows false y position before stage", SPRITE_Y_POSITION_INITIAL,
-                interpretSensor(Sensors.OBJECT_Y), DELTA);
+				interpretSensor(Sensors.OBJECT_Y), DELTA);
 		assertEquals("Variable shows false transparency before stage", SPRITE_TRANSPARENCY_INITIAL,
-                interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
+				interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals("Variable shows false brightness before stage", SPRITE_BRIGHTNESS_INITIAL,
-                interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
+				interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Variable shows false size before stage", SPRITE_SIZE_INITIAL,
-                interpretSensor(Sensors.OBJECT_SIZE), DELTA);
+				interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals("Variable shows false direction before stage", SPRITE_DIRECTION_INITIAL,
-                interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
+				interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
 		assertEquals("Variable shows false z index before stage", NUMBER_OF_SPRITES_INITIAL,
-                interpretSensor(Sensors.OBJECT_LAYER), DELTA);
+				interpretSensor(Sensors.OBJECT_LAYER), DELTA);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		String continueString = solo.getString(R.string.main_menu_continue);
@@ -156,19 +156,19 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForView(ListView.class);
 
 		assertEquals("Variable shows false x position after Stage", SPRITE_X_POSITION,
-                interpretSensor(Sensors.OBJECT_X), DELTA);
+				interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Variable shows false y position after Stage", SPRITE_Y_POSITION,
-                interpretSensor(Sensors.OBJECT_Y), DELTA);
+				interpretSensor(Sensors.OBJECT_Y), DELTA);
 		assertEquals("Variable shows false transparency after Stage", SPRITE_TRANSPARENCY,
-                interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
+				interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals("Variable shows false brightness after Stage", SPRITE_BRIGHTNESS,
-                interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
+				interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Variable shows false size after Stage", SPRITE_SIZE,
-                interpretSensor(Sensors.OBJECT_SIZE),DELTA);
+				interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals("Variable shows false direction after Stage", SPRITE_DIRECTION,
-                interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
+				interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
 		assertEquals("Variable shows false z index after Stage", NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE,
-                interpretSensor(Sensors.OBJECT_LAYER), DELTA);
+				interpretSensor(Sensors.OBJECT_LAYER), DELTA);
 	}
 
 	private void createProject() {
@@ -215,6 +215,5 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 		UiTestUtils.createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, spriteList, null);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-
 	}
 }

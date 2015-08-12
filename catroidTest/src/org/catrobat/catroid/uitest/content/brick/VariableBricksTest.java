@@ -92,7 +92,6 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertEquals("Variable has the wrong value after stage", 42.0,
 				dataContainer.getUserVariable("p2", sprite).getValue());
-
 	}
 
 	private void createProject() {
@@ -117,5 +116,4 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		sprite.addScript(script);
 		project.addSprite(sprite);
 	}
-
 }

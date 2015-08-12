@@ -74,7 +74,6 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 		ScreenValues.SCREEN_HEIGHT = 800;
 		ScreenValues.SCREEN_WIDTH = 480;
-
 	}
 
 	@Override
@@ -149,7 +148,6 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals("Wrong direction", 10f, sprite.look.getRotation(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testTurnRight() {
@@ -162,7 +160,6 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals("Wrong direction", 100f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testTurnRightAndTurnLeft() {

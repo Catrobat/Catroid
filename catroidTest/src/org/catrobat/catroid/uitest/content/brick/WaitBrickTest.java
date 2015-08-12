@@ -80,11 +80,11 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, waitTime);
 
 		Formula actualWaitTime = waitBrick.getFormulaWithBrickField(Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
-        try{
-            assertEquals("Wrong text in field", waitTime, actualWaitTime.interpretDouble(null));
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		try {
+			assertEquals("Wrong text in field", waitTime, actualWaitTime.interpretDouble(null));
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
 		assertEquals(
 				"Text not updated",
@@ -106,7 +106,6 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.second_plural,
 								Utils.convertDoubleToPluralInteger(1.4))));
-
 	}
 
 	private void createProject() {

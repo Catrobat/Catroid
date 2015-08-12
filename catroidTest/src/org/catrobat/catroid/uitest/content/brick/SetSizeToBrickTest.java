@@ -133,7 +133,6 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
-
 	}
 
 	private void createProject() {
@@ -169,5 +168,4 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 				.addChecksum(lookData.getChecksum(), image.getAbsolutePath());
 		StorageHandler.getInstance().saveProject(project);
 	}
-
 }

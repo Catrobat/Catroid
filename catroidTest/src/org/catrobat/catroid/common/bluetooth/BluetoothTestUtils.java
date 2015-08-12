@@ -25,6 +25,7 @@ package org.catrobat.catroid.common.bluetooth;
 import android.app.Instrumentation;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.util.Log;
 
 import junit.framework.Assert;
 
@@ -39,8 +40,10 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public final class BluetoothTestUtils {
+	private static final String TAG = BluetoothTestUtils.class.getSimpleName();
 
-	private BluetoothTestUtils() {}
+	private BluetoothTestUtils() {
+	}
 
 	static byte[] intToByteArray(int i) {
 		return ByteBuffer.allocate(4).putInt(i).array();
@@ -68,14 +71,14 @@ public final class BluetoothTestUtils {
 	static void hookInConnection(final BluetoothConnection connectionProxy) {
 		ConnectBluetoothDeviceActivity.setConnectionFactory(new BluetoothConnectionFactory() {
 			@Override
-			public <T extends BluetoothDevice> BluetoothConnection
-			createBTConnectionForDevice(Class<T> bluetoothDeviceType, String address, UUID deviceUUID, Context applicationContext) {
+			public <T extends BluetoothDevice> BluetoothConnection createBTConnectionForDevice(
+					Class<T> bluetoothDeviceType, String address, UUID deviceUUID, Context applicationContext) {
 				return connectionProxy;
 			}
 		});
 	}
 
-	static void hookInConnectionFactoryWithBluetoothConnectionProxy(final Logger logger) {
+	static void hookInConnectionFactoryWithBluetoothConnectionProxy(final BluetoothLogger logger) {
 		ConnectBluetoothDeviceActivity.setConnectionFactory(new BluetoothConnectionFactory() {
 			@Override
 			public <T extends BluetoothDevice> BluetoothConnection createBTConnectionForDevice(Class<T> device, String address, UUID deviceUUID, Context applicationContext) {
@@ -107,7 +110,7 @@ public final class BluetoothTestUtils {
 			try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Log.w(TAG, "Sleep was interrupted", e);
 			}
 		}
 	}
@@ -122,7 +125,7 @@ public final class BluetoothTestUtils {
 			try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Log.w(TAG, "Sleep was interrupted", e);
 			}
 		}
 	}

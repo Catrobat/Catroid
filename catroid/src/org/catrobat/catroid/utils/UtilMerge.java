@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.utils;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -73,7 +72,7 @@ public final class UtilMerge {
 				if (!checkMergeConflicts(project, projectToMergeFrom, activity)) {
 
 					if (projectToMergeFrom.getSpriteList().get(0).getScriptList().size() != 0) {
-						showBackgroundNotEmptyDialog (projectToMergeFrom, activity);
+						showBackgroundNotEmptyDialog(projectToMergeFrom, activity);
 					} else {
 						Project mergedProject = appendProjects(project, projectToMergeFrom, activity);
 						ProjectManager.getInstance().setProject(mergedProject);
@@ -81,9 +80,8 @@ public final class UtilMerge {
 					}
 				}
 			}
-
 		} catch (LoadingProjectException e) {
-			Utils.showErrorDialog(activity, activity.getString(R.string.error_merge_with_self),  R.string.merge_conflict);
+			Utils.showErrorDialog(activity, activity.getString(R.string.error_merge_with_self), R.string.merge_conflict);
 			Log.e(TAG, "LoadingProjectException " + e.getMessage());
 		} catch (OutdatedVersionProjectException e) {
 			ToastUtil.showError(activity, R.string.error_merge);
@@ -97,9 +95,9 @@ public final class UtilMerge {
 		}
 	}
 
-	private static boolean checkHeader(XmlHeader headerInto, XmlHeader headerFrom){
-		if (headerInto.getVirtualScreenHeight() != headerFrom.getVirtualScreenHeight() ||
-				headerInto.getVirtualScreenWidth() != headerFrom.getVirtualScreenWidth()) {
+	private static boolean checkHeader(XmlHeader headerInto, XmlHeader headerFrom) {
+		if (headerInto.getVirtualScreenHeight() != headerFrom.getVirtualScreenHeight()
+				|| headerInto.getVirtualScreenWidth() != headerFrom.getVirtualScreenWidth()) {
 			return false;
 		}
 		return true;
@@ -215,11 +213,11 @@ public final class UtilMerge {
 	private static Project appendProjects(Project projectToMergeInto, Project projectToMergeFrom, Context context) throws IOException {
 		projectToMergeInto.setXmlHeader(setXMLHeaderFields(projectToMergeInto.getXmlHeader(), projectToMergeFrom.getXmlHeader()));
 
-		if (!(StorageHandler.getInstance().copyImageFiles(projectToMergeInto.getName(), projectToMergeFrom.getName())))  {
+		if (!(StorageHandler.getInstance().copyImageFiles(projectToMergeInto.getName(), projectToMergeFrom.getName()))) {
 			throw new IOException("Cannot copy images!");
 		}
 
-		if (!(StorageHandler.getInstance().copySoundFiles(projectToMergeInto.getName(), projectToMergeFrom.getName())))  {
+		if (!(StorageHandler.getInstance().copySoundFiles(projectToMergeInto.getName(), projectToMergeFrom.getName()))) {
 			throw new IOException("Cannot copy sounds!");
 		}
 
@@ -266,7 +264,7 @@ public final class UtilMerge {
 				}
 
 				for (Brick brick : script.getBrickList()) {
-					if (brick instanceof  BroadcastBrick) {
+					if (brick instanceof BroadcastBrick) {
 						BroadcastBrick broadcastBrick = (BroadcastBrick) brick;
 						MessageContainer.addMessage(broadcastBrick.getBroadcastMessage());
 					}
@@ -294,7 +292,7 @@ public final class UtilMerge {
 		for (Sprite sprite : projectToMergeInto.getSpriteList()) {
 			for (Script script : sprite.getScriptList()) {
 				for (Brick brick : script.getBrickList()) {
-					if (brick instanceof SetVariableBrick){
+					if (brick instanceof SetVariableBrick) {
 						SetVariableBrick setBrick = (SetVariableBrick) brick;
 
 						if (setBrick.getUserVariable() != null) {
@@ -415,12 +413,12 @@ public final class UtilMerge {
 				}
 			}
 		};
-		String question = activity.getString(R.string.error_different_resolutions1) + " " + currentProject.getProgramName() + " " +
-				activity.getString(R.string.error_different_resolutions2) + " " + currentProject.getVirtualScreenHeight() +
-				"x" + currentProject.getVirtualScreenWidth() + " " + activity.getString(R.string.and) + " " + headerFrom.getProgramName() + " " +
-				activity.getString(R.string.error_different_resolutions2) + " " + headerFrom.getVirtualScreenHeight() + "x" +
-				headerFrom.getVirtualScreenWidth() + ". "+ activity.getString(R.string.error_different_resolutions3) + " " +
-				currentProject.getProgramName() + ".";
+		String question = activity.getString(R.string.error_different_resolutions1) + " " + currentProject.getProgramName() + " "
+				+ activity.getString(R.string.error_different_resolutions2) + " " + currentProject.getVirtualScreenHeight()
+				+ "x" + currentProject.getVirtualScreenWidth() + " " + activity.getString(R.string.and) + " " + headerFrom.getProgramName() + " "
+				+ activity.getString(R.string.error_different_resolutions2) + " " + headerFrom.getVirtualScreenHeight() + "x"
+				+ headerFrom.getVirtualScreenWidth() + ". " + activity.getString(R.string.error_different_resolutions3) + " "
+				+ currentProject.getProgramName() + ".";
 
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
 		builder.setTitle(R.string.warning);

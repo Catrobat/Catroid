@@ -81,7 +81,6 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 		final int expectedBrickCount = 6;
 		checkBrickCountInCategory(R.string.category_data, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_data, sprite, expectedBrickCount);
-
 	}
 
 	public void testLegoNxtBricks() {

@@ -78,7 +78,6 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		assertEquals("Unexpected initial z position of topSprite", 3, nextSprite.look.getZIndex());
 
-
 		ComeToFrontAction action2 = ExtendedActions.comeToFront(bottomSprite);
 		bottomSprite.look.addAction(action);
 		action2.act(1.0f);
@@ -86,7 +85,6 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 				getZMaxValue(bottomSprite));
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
-
 	}
 
 	private void checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(Project project) {
@@ -103,15 +101,11 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 				if (actualZIndex == zIndex) {
 					zIndexFound = true;
 					break;
-
 				}
-
 			}
 			assertTrue("z-indexing not correct. z-index have to be from 0 to n-1 each value only once", zIndexFound);
 		}
-
 	}
-
 
 	public void testNullSprite() {
 		ComeToFrontAction action = ExtendedActions.comeToFront(null);
@@ -120,7 +114,6 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ComeToFrontBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown successful", true);
 		}
 	}
 

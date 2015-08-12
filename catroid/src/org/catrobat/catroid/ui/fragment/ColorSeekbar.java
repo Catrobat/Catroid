@@ -71,8 +71,7 @@ public class ColorSeekbar {
 		OnClickListener onClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				switch (view.getId())
-				{
+				switch (view.getId()) {
 					case R.id.rgb_red_value:
 						FormulaEditorFragment.showFragment(view, formulaBrick, redField);
 						break;
@@ -107,7 +106,6 @@ public class ColorSeekbar {
 
 		colorPreviewView = seekbarView.findViewById(R.id.color_rgb_preview);
 
-
 		int color = Color.rgb(getCurrentBrickFieldValue(redField), getCurrentBrickFieldValue(greenField), getCurrentBrickFieldValue(blueField));
 		redSeekBar.setProgress(Color.red(color));
 		greenSeekBar.setProgress(Color.green(color));
@@ -123,8 +121,7 @@ public class ColorSeekbar {
 		SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-				switch(seekBar.getId())
-				{
+				switch (seekBar.getId()) {
 					case R.id.color_rgb_seekbar_red:
 						formulaEditorEditTextRed.setText(String.valueOf(seekBar.getProgress()));
 						break;
@@ -151,8 +148,7 @@ public class ColorSeekbar {
 
 				Brick.BrickField changedBrickField = null;
 
-				switch(seekBar.getId())
-				{
+				switch (seekBar.getId()) {
 					case R.id.color_rgb_seekbar_red:
 						FormulaEditorFragment.changeInputField(seekbarView, redField);
 						changedBrickField = redField;
@@ -191,9 +187,9 @@ public class ColorSeekbar {
 	}
 
 	private int getCurrentBrickFieldValue(Brick.BrickField brickField) {
-		String stringValue = formulaBrick.getFormulaWithBrickField(brickField).
-				getDisplayString(seekbarView.getContext());
-		int value = Double.valueOf(stringValue.replace(",",".")).intValue();
+		String stringValue = formulaBrick.getFormulaWithBrickField(brickField)
+				.getDisplayString(seekbarView.getContext());
+		int value = Double.valueOf(stringValue.replace(",", ".")).intValue();
 		return value;
 	}
 }

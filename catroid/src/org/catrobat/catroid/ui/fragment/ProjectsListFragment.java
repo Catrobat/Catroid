@@ -400,7 +400,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			case R.string.merge_button:
 				UtilMerge.mergeProjectInCurrentProject(projectToEdit.projectName, this.getActivity());
 				break;
-
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -582,7 +581,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				adapter.notifyDataSetChanged();
 				onProjectChecked();
 			}
-
 		});
 	}
 
@@ -594,5 +592,4 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			}
 		}
 	}
-
 }

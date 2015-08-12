@@ -32,10 +32,9 @@ public class Command implements MindstormsCommand {
 
 	public Command(CommandType commandType, CommandByte commandByte, boolean reply) {
 
-		if (reply){
+		if (reply) {
 			commandData.write(commandType.getByte());
-		}
-		else{
+		} else {
 			commandData.write((byte) (commandType.getByte() | 0x80));
 		}
 		commandData.write(commandByte.getByte());
@@ -50,10 +49,10 @@ public class Command implements MindstormsCommand {
 	}
 
 	public void append(int data) {
-		append((byte)(0xFF & data));
-		append((byte)(0xFF & (data >> 8)));
-		append((byte)(0xFF & (data >> 16)));
-		append((byte)(0xFF & (data >> 24)));
+		append((byte) (0xFF & data));
+		append((byte) (0xFF & (data >> 8)));
+		append((byte) (0xFF & (data >> 16)));
+		append((byte) (0xFF & (data >> 24)));
 	}
 
 	@Override

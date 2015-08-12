@@ -52,7 +52,6 @@ public class FormulaEditorHistory {
 		if (undoStack.size() > MAXIMUM_HISTORY_LENGTH) {
 			undoStack.removeElementAt(0);
 		}
-
 	}
 
 	public InternFormulaState backward() {
@@ -107,5 +106,4 @@ public class FormulaEditorHistory {
 	public void changesSaved() {
 		hasUnsavedChanges = false;
 	}
-
 }

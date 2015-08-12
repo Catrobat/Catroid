@@ -102,7 +102,7 @@ public class TurnRightBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
-        textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
+		textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
 		return prototypeView;
 	}
 
@@ -127,7 +127,6 @@ public class TurnRightBrick extends FormulaBrick {
 			editDegrees.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

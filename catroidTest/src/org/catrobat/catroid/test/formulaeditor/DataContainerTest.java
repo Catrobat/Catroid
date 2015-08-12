@@ -43,13 +43,11 @@ public class DataContainerTest extends AndroidTestCase {
 	private Sprite firstSprite;
 
 	private static final List<Object> USER_LIST_VALUES_SINGLE_NUMBER_STRING = new ArrayList<Object>();
-
 	static {
 		USER_LIST_VALUES_SINGLE_NUMBER_STRING.add("123345456");
 	}
 
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBER_STRING = new ArrayList<Object>();
-
 	static {
 		USER_LIST_VALUES_MULTIPLE_NUMBER_STRING.add("1");
 		USER_LIST_VALUES_MULTIPLE_NUMBER_STRING.add("2");
@@ -57,7 +55,6 @@ public class DataContainerTest extends AndroidTestCase {
 	}
 
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS = new ArrayList<Object>();
-
 	static {
 		USER_LIST_VALUES_MULTIPLE_NUMBERS.add(1.0);
 		USER_LIST_VALUES_MULTIPLE_NUMBERS.add(2.0);
@@ -65,7 +62,6 @@ public class DataContainerTest extends AndroidTestCase {
 	}
 
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER = new ArrayList<Object>();
-
 	static {
 		USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER.add(1.0);
 		USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER.add("2");
@@ -75,13 +71,11 @@ public class DataContainerTest extends AndroidTestCase {
 
 	private static final List<Object> USER_LIST_VALUES_STRINGS_AND_NUMBERS = new ArrayList<Object>();
 	private DataContainer dataContainer;
-
 	static {
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("Hello");
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add(42.0);
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("WORLDS");
 	}
-
 	@Override
 	protected void setUp() {
 		Project project = new Project(null, "testProject");
@@ -116,7 +110,5 @@ public class DataContainerTest extends AndroidTestCase {
 
 		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserList();
 		assertEquals("getUserList returned wrong UserList values!", USER_LIST_VALUES_SINGLE_NUMBER_STRING, userList.getList());
-
 	}
-
 }

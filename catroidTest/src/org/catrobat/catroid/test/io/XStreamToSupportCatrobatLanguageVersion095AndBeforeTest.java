@@ -63,7 +63,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBeforeTest extends Ins
 	private static final String PROJECT_NAME_NOTE_AND_SPEAK_BRICK = "noteandspeakbrick";
 	private static final String PROJECT_NAME_GHOST_EFFECT_BRICKS = "ghosteffectbricks";
 	private static final String PROJECT_NAME_LEGO_NXT = "oldlegonxt";
-	
+
 	private void copyAssetProjectZipFile(String fileName, String destinationFolder) {
 		File dstFolder = new File(destinationFolder);
 		dstFolder.mkdirs();

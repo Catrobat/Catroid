@@ -46,9 +46,9 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 		Reflection.setPrivateField(connection, "nxtOutputStream", outStream);
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_OUTPUT_STATE, false);
-		command.append((byte)0x1);
-		command.append((byte)0x2);
-		command.append((byte)0x3);
+		command.append((byte) 0x1);
+		command.append((byte) 0x2);
+		command.append((byte) 0x3);
 
 		connection.send(command);
 
@@ -58,8 +58,8 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
 				expectedMessage.length + HEADER_SIZE, sentBytes.length);
-		assertEquals("Header should be the size of the message.", (byte)expectedMessage.length, sentBytes[0]);
-		assertEquals("Header should be the size of the message.", (byte)(expectedMessage.length >> 8), sentBytes[1]);
+		assertEquals("Header should be the size of the message.", (byte) expectedMessage.length, sentBytes[0]);
+		assertEquals("Header should be the size of the message.", (byte) (expectedMessage.length >> 8), sentBytes[1]);
 
 		for (int i = 0; i < expectedMessage.length; i++) {
 			assertEquals("Byte " + i + " is different", expectedMessage[i], sentBytes[i + HEADER_SIZE]);
@@ -68,7 +68,7 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 	public void testSendAndReceive() {
 
-		byte[] inputBuffer = new byte[] {4, 0, 3, 4, 5, 7};
+		byte[] inputBuffer = new byte[] { 4, 0, 3, 4, 5, 7 };
 		ByteArrayInputStream inStream = new ByteArrayInputStream(inputBuffer);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
@@ -77,9 +77,9 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 		Reflection.setPrivateField(connection, "nxtInputStream", new DataInputStream(inStream));
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_OUTPUT_STATE, false);
-		command.append((byte)0x1);
-		command.append((byte)0x2);
-		command.append((byte)0x3);
+		command.append((byte) 0x1);
+		command.append((byte) 0x2);
+		command.append((byte) 0x3);
 
 		byte[] receivedBytes = connection.sendAndReceive(command);
 
@@ -90,7 +90,7 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
 				expectedMessage.length + HEADER_SIZE, sentBytes.length);
 		assertEquals("Header should be the size of the message.", expectedMessage.length, sentBytes[0]);
-		assertEquals("Header should be the size of the message.", (byte)(expectedMessage.length >> 8), sentBytes[1]);
+		assertEquals("Header should be the size of the message.", (byte) (expectedMessage.length >> 8), sentBytes[1]);
 
 		for (int i = 0; i < expectedMessage.length; i++) {
 			assertEquals("Byte " + i + " is different", expectedMessage[i], sentBytes[i + HEADER_SIZE]);
@@ -102,6 +102,5 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 		for (int i = 0; i < receivedBytes.length; i++) {
 			assertEquals("Byte " + i + " is different", inputBuffer[i + HEADER_SIZE], receivedBytes[i]);
 		}
-
 	}
 }

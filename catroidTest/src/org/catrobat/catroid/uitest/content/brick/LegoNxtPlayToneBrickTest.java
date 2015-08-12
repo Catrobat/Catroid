@@ -82,7 +82,6 @@ public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCas
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.nxt_tone_freq_edit_text, SET_FREQUENCY, Brick.BrickField.LEGO_NXT_FREQUENCY, playToneBrick);
-
 	}
 
 	private void createProject() {

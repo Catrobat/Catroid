@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.common.firmata;
 
-
 import junit.framework.Assert;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
@@ -104,5 +103,4 @@ public final class FirmataUtils {
 	private int getCommandFromHeader(int header) {
 		return header & 240;
 	}
-
 }

@@ -43,7 +43,6 @@ public class HideBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public HideBrick() {
-
 	}
 
 	@Override

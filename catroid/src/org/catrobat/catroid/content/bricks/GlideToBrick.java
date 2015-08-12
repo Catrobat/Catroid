@@ -127,15 +127,14 @@ public class GlideToBrick extends FormulaBrick {
 		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
 
 		if (getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).isSingleNumberFormula()) {
-            try{
+			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.second_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
-            }catch(InterpretationException interpretationException){
-                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
-            }
-
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+			}
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -162,11 +161,11 @@ public class GlideToBrick extends FormulaBrick {
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
-        textX.setText(String.valueOf(BrickValues.X_POSITION));
-        textY.setText(String.valueOf(BrickValues.Y_POSITION));
-        textDuration.setText(String.valueOf(BrickValues.DURATION));
-        times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-                    Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
+		textX.setText(String.valueOf(BrickValues.X_POSITION));
+		textY.setText(String.valueOf(BrickValues.Y_POSITION));
+		textDuration.setText(String.valueOf(BrickValues.DURATION));
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
 		return prototypeView;
 	}
 
@@ -199,7 +198,6 @@ public class GlideToBrick extends FormulaBrick {
 			editY.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

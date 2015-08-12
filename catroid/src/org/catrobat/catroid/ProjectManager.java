@@ -71,10 +71,40 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
+	private boolean comingFromScriptFragmentToSoundFragment;
+	private boolean comingFromScriptFragmentToLooksFragment;
+	private boolean handleCorrectAddButton;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
+		this.comingFromScriptFragmentToSoundFragment = false;
+		this.comingFromScriptFragmentToLooksFragment = false;
+		this.handleCorrectAddButton = false;
+	}
+
+	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
+		this.comingFromScriptFragmentToSoundFragment = value;
+	}
+
+	public boolean getComingFromScriptFragmentToSoundFragment() {
+		return this.comingFromScriptFragmentToSoundFragment;
+	}
+
+	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
+		this.comingFromScriptFragmentToLooksFragment = value;
+	}
+
+	public boolean getComingFromScriptFragmentToLooksFragment() {
+		return this.comingFromScriptFragmentToLooksFragment;
+	}
+
+	public void setHandleCorrectAddButton(boolean value) {
+		this.handleCorrectAddButton = value;
+	}
+
+	public boolean getHandleCorrectAddButton() {
+		return this.handleCorrectAddButton;
 	}
 
 	public static ProjectManager getInstance() {
@@ -158,7 +188,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 //			insert further conversions here
 
-
 			checkNestingBrickReferences(true);
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 				//project seems to be converted now and can be loaded
@@ -173,7 +202,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (project != null) {
 			project.loadLegoNXTSettingsFromProject(context);
 		}
-
 	}
 
 	private void localizeBackgroundSprite(Context context) {
@@ -241,22 +269,37 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
 		}
 
 		currentSprite = null;
 		currentScript = null;
 	}
 
+	public void initializeNewProject(String projectName, Context context, boolean empty)
+			throws IllegalArgumentException, IOException {
+		initializeNewProject(projectName, context, empty, false);
+	}
+
 	public Project getCurrentProject() {
 		return project;
+	}
+
+	public boolean isCurrentProjectLandscape() {
+		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
+
+		if (virtualScreenWidth > virtualScreenHeight) {
+			return true;
+		}
+		return false;
 	}
 
 	public void setProject(Project project) {
@@ -270,7 +313,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void deleteCurrentProject(Context context) throws IllegalArgumentException, IOException {
 		deleteProject(project.getName(), context);
 	}
-
 
 	public void deleteProject(String projectName, Context context) throws IllegalArgumentException, IOException {
 		Log.d(TAG, "deleteProject " + projectName);
@@ -425,12 +467,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-
 	}
 
 	@Override
 	public void onLoadProjectFailure() {
-
 	}
 
 	public void checkNestingBrickReferences(boolean assumeWrong) {

@@ -74,7 +74,6 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	public PointToBrick() {
-
 	}
 
 	@Override
@@ -188,6 +187,8 @@ public class PointToBrick extends BrickBaseType {
 		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		pointToSpinner.setFocusableInTouchMode(false);
 		pointToSpinner.setFocusable(false);
+		pointToSpinner.setEnabled(false);
+
 		SpinnerAdapter pointToSpinnerAdapter = getArrayAdapterFromSpriteList(context);
 		pointToSpinner.setAdapter(pointToSpinnerAdapter);
 		setSpinnerSelection(pointToSpinner);

@@ -43,7 +43,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 	private static final String TAG = CatroidFieldKeySorter.class.getSimpleName();
 
 	@Override
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Map sort(final Class type, final Map keyedByFieldKey) {
 		if (type.equals(Project.class)) {
 			return sortProjectFields(keyedByFieldKey);
@@ -83,7 +83,6 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			} else {
 				return fieldName;
 			}
-
 		} catch (SecurityException securityException) {
 			Log.e(TAG, Log.getStackTraceString(securityException));
 		} catch (NoSuchFieldException noSuchFieldException) {
@@ -149,5 +148,4 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		}
 		return orderedMap;
 	}
-
 }

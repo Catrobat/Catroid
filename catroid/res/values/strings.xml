@@ -28,6 +28,10 @@
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
+    <string name="menu_item_move_down">Move Down</string>
+    <string name="menu_item_move_up">Move Up</string>
+    <string name="menu_item_move_to_top">Move To Top</string>
+    <string name="menu_item_move_to_bottom">Move To Bottom</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>
@@ -47,6 +51,8 @@
     <string name="settings">Settings</string>
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
+    <string name="name_exists">Name already exists</string>
+    <string name="no_name">No name</string>
     <!--  -->
 
 
@@ -274,22 +280,29 @@
     <string name="add_look_choose_image">Select image</string>
     <!--  -->
 
+    <!-- New Sound dialog -->
+    <string name="new_sound_dialog_title">Add Sound</string>
+    <string name="add_sound_from_recorder">Record Sound</string>
+    <string name="add_sound_choose_file">Select File</string>
+
 
     <!-- New project dialog -->
     <string name="new_project_dialog_title">New program</string>
     <string name="new_project_dialog_hint">My Program</string>
     <string name="new_project_description_dialog_hint">My Description</string>
-    <string name="new_project_name">Program name:</string>
+    <string name="new_project_name">Program name</string>
     <string name="new_project_empty">Create empty program</string>
+    <string name="project_orientation_title">Orientation:</string>
     <!--  -->
 
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Object</string>
     <string name="new_sprite_dialog_title">New Object</string>
-    <string name="spritename_already_exists">This object name already exists</string>
+    <string name="spritename_already_exists">Please choose another object name.</string>
     <string name="rename_sprite_dialog">Rename Object</string>
     <string name="spritename_invalid">This object name is invalid</string>
+    <string name="no_spritename_entered">Please enter a object name.</string>
     <string name="sprite_name">Object name:</string>
     <!--  -->
 
@@ -321,7 +334,7 @@
     <string name="stage_dialog_axes_on">Axes On</string>
     <string name="stage_dialog_axes_off">Axes Off</string>
     <string name="stage_dialog_maximize">Maximize/\nStretch</string>
-    <string name="stage_dialog_screenshot">Screenshot</string>
+    <string name="stage_dialog_screenshot">Preview</string>
     <!--  -->
 
 
@@ -485,7 +498,7 @@
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
-    <string name="notification_screenshot_ok">Screenshot saved</string>
+    <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Canceled downloading program</string>
     <string name="notification_copy_title_pending">"Copying "</string>
     <string name="notification_copy_pending">Copy in progress</string>
@@ -495,6 +508,8 @@
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
     <string name="notification_upload_rejected">Uploaded program rejected</string>
+    <string name="notification_upload_retry">Retry</string>
+    <string name="notification_open_play_store">Open Play Store</string>
     <string name="notification_download_title_pending">"Downloading "</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
@@ -504,13 +519,14 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
+
     <!--  -->
 
 
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
-    <string name="error_no_name_entered">Please enter a name.</string>
-    <string name="error_project_exists">A program with the same name already exists.\nPlease choose a different name.</string>
+    <string name="error_no_program_name_entered">Please enter a program name.</string>
+    <string name="error_project_exists">Please choose another program name.</string>
     <string name="error_delete_project">An error while deleting the program occurred</string>
     <string name="error_unknown_project">A program with that name does not exist.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
@@ -518,7 +534,7 @@
     <string name="error_new_project">An error occurred while creating a new program.</string>
     <string name="error_rename_project">An error occurred while renaming the program before upload.</string>
     <string name="error_load_project">An error occurred while loading the program.</string>
-    <string name="error_screenshot_failed">An error occurred while saving the screenshot.</string>
+    <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
     <string name="error_load_image">An error occurred while loading the image.</string>
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
@@ -690,7 +706,7 @@
     <string name="formula_editor_title">Formula Editor</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string name="formula_editor_parse_fail">Syntax Error!</string>
+    <string name="formula_editor_parse_fail">Formula is not valid!</string>
     <string name="formula_nothing_selected">Define input value</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
     <string name="formula_editor_choose_object_variable">Properties of this object</string>
@@ -727,6 +743,10 @@
     <string name="formula_editor_function_arctan_parameter">(0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_floor">floor</string>
+    <string name="formula_editor_function_floor_parameter">(0.7)</string>
+    <string name="formula_editor_function_ceil">ceil</string>
+    <string name="formula_editor_function_ceil_parameter">(0.3)</string>
     <string name="formula_editor_function_max">max</string>
     <string name="formula_editor_function_max_parameter">(0,1)</string>
     <string name="formula_editor_function_min">min</string>
@@ -769,7 +789,7 @@
     <string name="formula_editor_object_layer">layer</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
-    <string name="formula_editor_math">Math</string>
+    <string name="formula_editor_math">Functions</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
