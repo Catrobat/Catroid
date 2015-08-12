@@ -31,7 +31,6 @@ public class TextActor extends Actor{
 	private int posX;
 	private int posY;
 	private String text;
-	private float scale = 2f;
 	private BitmapFont font;
 
 	public TextActor(String text, int posX, int posY) {
@@ -49,7 +48,6 @@ public class TextActor extends Actor{
 	private void init(){
 		font = new BitmapFont();
 		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		//font.setScale(scale); // deprecated
 	}
 
 	public void setPosX(int posX) {

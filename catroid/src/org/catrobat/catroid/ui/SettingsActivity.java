@@ -156,15 +156,13 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
         boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-        final String[] sensorPreferences = new String[]{NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4}; //, DRONE_CONFIGS};
+        final String[] sensorPreferences = new String[]{NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
         for (int i = 0; i < sensorPreferences.length; ++i) {
             ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
             listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
             listPreference.setEntries(R.array.nxt_sensor_chooser);
             listPreference.setEnabled(areChoosersEnabled);
-            Log.d("test", String.format("test = %s", listPreference.getEntries()));
         }
-
     }
 
     public static void setTermsOfServiceAgreedPermanently(Context context, boolean agreed) {

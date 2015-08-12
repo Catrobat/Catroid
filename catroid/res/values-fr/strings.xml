@@ -80,9 +80,6 @@
 il faut
     accepter les conditions d\'utilisation et les reconnaître en utilisant Pocket Code et les     autres logiciels. Cliquer sur le lien ci-dessous pour afficher les conditions d\'utilisation.\n</string>
   <string name="dialog_terms_of_use_link_text">Conditions d\'utilisation</string>
-  <string name="dialog_terms_of_use_agree_permanent">Je suis d\'accord - Ne pas me redemander. J\'assume l\'entière responsabilité en cas d\'utilisation de mon appareil par une tierce personne.</string>
-  <string name="dialog_terms_of_use_agree">J\'accepte</string>
-  <string name="dialog_terms_of_use_do_not_agree">Je n’accepte pas</string>
   <string name="dialog_about_title">À propos de Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code est 
         un environnement de programmation et un interpréteur du langage de programmation visuel pour des appareils Android.\n\n
@@ -331,8 +328,6 @@ il faut
   <string name="default_project_var_random_to">aléatoire à</string>
   <string name="default_drone_project_name">Mon premier programme de Drone</string>
   <string name="default_drone_project_sprites_takeoff">Décoller</string>
-  <string name="default_drone_project_srpites_land">Atterir</string>
-  <string name="default_drone_project_srpites_rotate">Tourner</string>
   <string name="default_drone_project_sprites_up">Haut</string>
   <string name="default_drone_project_sprites_down">Bas</string>
   <string name="default_drone_project_sprites_left">À gauche</string>
@@ -414,8 +409,6 @@ il faut
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Tous</string>
-  <string name="brick_drone_takeoff">Décoller</string>
-  <string name="brick_drone_land">Atterrir</string>
   <string name="brick_drone_play_led_animation">Jouer l\'animation de la LED</string>
   <string name="brick_drone_move_left">Bouger à gauche</string>
   <string name="brick_drone_move_right">Bouger à droite</string>

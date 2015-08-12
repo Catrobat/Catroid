@@ -78,9 +78,6 @@
   <string name="dialog_terms_of_use_title">Termeni de utilizare</string>
   <string name="dialog_terms_of_use_info">Pentru a fi permis să folosiți Pocket Code şi alte executabile oferite de proiectul Catrobat, trebuie să fiți de acord cu termenii de utilizare şi să le urmaţi strict atunci când utilizaţi Pocket Code şi alte executabile ale noastre. Vă rugăm să consultaţi link-ul de mai jos pentru formularea lor precisă.\n</string>
   <string name="dialog_terms_of_use_link_text">Termeni de utilizare</string>
-  <string name="dialog_terms_of_use_agree_permanent">Sunt de acord permanent - nu mă întrebați din nou. Îmi asum responsabilitatea completă atunci când altcineva utilizează dispozitivul meu.</string>
-  <string name="dialog_terms_of_use_agree">Sunt de acord</string>
-  <string name="dialog_terms_of_use_do_not_agree">Nu sunt de acord</string>
   <string name="dialog_about_title">Despre Catroid</string>
   <string name="dialog_about_license_info">Pocket Code este un mediu de programare şi interpretator pentru dispozitive Android pentru limbajul de programare visual Catrobat.\n\nCodul sursă al Pocket Code este licenţiat sub licenţa GNU AGPL v3. Pentru detalii precise ale licenței vedeți linkul de mai jos.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">Licența codului sursă Pocket Code</string>
@@ -333,8 +330,6 @@
   <string name="default_project_var_random_to">aleator până la</string>
   <string name="default_drone_project_name">Primul meu program Drone</string>
   <string name="default_drone_project_sprites_takeoff">Decolare</string>
-  <string name="default_drone_project_srpites_land">Aterizare</string>
-  <string name="default_drone_project_srpites_rotate">Rotire</string>
   <string name="default_drone_project_sprites_up">Sus</string>
   <string name="default_drone_project_sprites_down">Jos</string>
   <string name="default_drone_project_sprites_left">Stânga</string>
@@ -416,8 +411,6 @@
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Toate</string>
-  <string name="brick_drone_takeoff">Decolare</string>
-  <string name="brick_drone_land">Aterizare</string>
   <string name="brick_drone_play_led_animation">Joacă animaţia LED</string>
   <string name="brick_drone_move_left">Deplasare spre stânga</string>
   <string name="brick_drone_move_right">Deplasare spre dreapta</string>

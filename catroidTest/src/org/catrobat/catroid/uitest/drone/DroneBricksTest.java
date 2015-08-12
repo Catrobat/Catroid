@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uitest.drone;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,7 +64,7 @@ public class DroneBricksTest extends BaseActivityInstrumentationTestCase<ScriptA
             try {
                 makeSingleBrickTest();
             } catch (NoSuchFieldException e) {
-                e.printStackTrace();
+                Log.e(getClass().getSimpleName(), e.toString());
             }
         }
     }

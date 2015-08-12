@@ -79,9 +79,6 @@
   <string name="dialog_terms_of_use_info">Para poder utilizar Pocket Code y otros ejecutables ofrecidos por el proyecto Catrobat, debes de estar de acuerdo con nuestros Términos de Uso y seguirlos estrictamente cuando utilizas Pocket Code y nuestros otros ejecutables. Por favor vea el siguiente enlace para tener una formulación más precisa. \n
 </string>
   <string name="dialog_terms_of_use_link_text">Términos de Uso</string>
-  <string name="dialog_terms_of_use_agree_permanent">Estoy de acuerdo en forma permanente – no preguntarme otra vez. Asumo toda la responsabilidad cuando otra persona utilice mi dispositivo.</string>
-  <string name="dialog_terms_of_use_agree">Estoy de acuerdo</string>
-  <string name="dialog_terms_of_use_do_not_agree">No estoy de acuerdo</string>
   <string name="dialog_about_title">Acerca de Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code es un entorno de programación y de interpretación para dispositivos Android, que utiliza el lenguaje de programación visual Catrobat.\n\n 
 El código fuente de Pocket Code generalmente utiliza la licencia Pública General de GNU AGPL v3.  Ver el enlace de abajo para obtener más detalles de la licencia \n</string>
@@ -329,8 +326,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="default_project_var_random_to">aleatoriamente hacia</string>
   <string name="default_drone_project_name">Mi primer programa robot</string>
   <string name="default_drone_project_sprites_takeoff">Despegar</string>
-  <string name="default_drone_project_srpites_land">Aterrizar</string>
-  <string name="default_drone_project_srpites_rotate">Rotar</string>
   <string name="default_drone_project_sprites_up">Arriba</string>
   <string name="default_drone_project_sprites_down">Abajo</string>
   <string name="default_drone_project_sprites_left">Izquierda</string>
@@ -412,8 +407,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">A + C</string>
   <string name="nxt_motor_all">Todos</string>
-  <string name="brick_drone_takeoff">Despegar</string>
-  <string name="brick_drone_land">Aterrizar</string>
   <string name="brick_drone_play_led_animation">Reproducir la animación LED</string>
   <string name="brick_drone_move_left">Mover a izquierda</string>
   <string name="brick_drone_move_right">Mover hacia la derecha</string>
