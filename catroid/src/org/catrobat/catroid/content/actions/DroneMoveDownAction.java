@@ -24,18 +24,17 @@ package org.catrobat.catroid.content.actions;
 
 public class DroneMoveDownAction extends DroneMoveAction {
 
-    @Override
-    protected void move() {
-        if (getDroneService() != null) {
-            getDroneService().moveDown(super.getPowerNormalized());
-        }
-    }
+	@Override
+	protected void move() {
+		if (getDroneService() != null) {
+			getDroneService().moveDown(super.getPowerNormalized());
+		}
+	}
 
-    @Override
-    protected void moveEnd() {
-        if (getDroneService() != null) {
-            getDroneService().moveDown(DRONE_MOVE_SPEED_STOP);
-        }
-    }
-
+	@Override
+	protected void moveEnd() {
+		if (getDroneService() != null) {
+			getDroneService().moveDown(DRONE_MOVE_SPEED_STOP);
+		}
+	}
 }

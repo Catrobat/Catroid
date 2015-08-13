@@ -26,7 +26,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class TextActor extends Actor{
+public class TextActor extends Actor {
 
 	private int posX;
 	private int posY;
@@ -45,7 +45,7 @@ public class TextActor extends Actor{
 		font.draw(batch, text, posX, posY);
 	}
 
-	private void init(){
+	private void init() {
 		font = new BitmapFont();
 		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 	}

@@ -26,20 +26,19 @@ import com.parrot.freeflight.service.DroneControlService;
 
 public class DroneMoveUpAction extends DroneMoveAction {
 
-    @Override
-    protected void move() {
-        DroneControlService dcs = super.getDroneService();
-        if (dcs != null) {
-            dcs.moveUp(super.getPowerNormalized());
-        }
-    }
+	@Override
+	protected void move() {
+		DroneControlService dcs = super.getDroneService();
+		if (dcs != null) {
+			dcs.moveUp(super.getPowerNormalized());
+		}
+	}
 
-    @Override
-    protected void moveEnd() {
-        DroneControlService dcs = super.getDroneService();
-        if (dcs != null) {
-            dcs.moveUp(DRONE_MOVE_SPEED_STOP);
-        }
-    }
-
+	@Override
+	protected void moveEnd() {
+		DroneControlService dcs = super.getDroneService();
+		if (dcs != null) {
+			dcs.moveUp(DRONE_MOVE_SPEED_STOP);
+		}
+	}
 }

@@ -538,7 +538,7 @@ public class ExtendedActions extends Actions {
 		return action(DroneStartVideoAction.class);
 	}
 
-	public static TemporalAction droneSwitchCamera () {
+	public static TemporalAction droneSwitchCamera() {
 		return action(DroneSwitchCameraAction.class);
 	}
 
@@ -551,26 +551,26 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static TemporalAction droneGoEmergency() {
-		return action(DroneGoEmergencyAction.class);
+		return action(DroneEmergencyAction.class);
 	}
 
-	public static TemporalAction droneSetConfigAction(int ressourceID){
+	public static TemporalAction droneSetConfigAction(int ressourceID) {
 		DroneSetConfigAction action = action(DroneSetConfigAction.class);
 		action.setRessourceID(ressourceID);
 		return action;
 	}
 
-	public static TemporalAction droneSetAltitudeAction(Sprite sprite, Formula altitude, Formula vertical, Formula rotation, Formula tilt){
+	public static TemporalAction droneSetAltitudeAction(Sprite sprite, Formula altitude, Formula vertical, Formula rotation, Formula tilt) {
 		DroneSetAltitudeAction action = action(DroneSetAltitudeAction.class);
-        action.setSprite(sprite);
-        action.setAltitude(altitude);
-        action.setVerticalSpeed(vertical);
-        action.setRotationSpeed(rotation);
+		action.setSprite(sprite);
+		action.setAltitude(altitude);
+		action.setVerticalSpeed(vertical);
+		action.setRotationSpeed(rotation);
 		action.setTiltAngle(tilt);
 		return action;
 	}
 
-	public static TemporalAction  setText(Sprite sprite, Formula x, Formula y, Formula text) {
+	public static TemporalAction setText(Sprite sprite, Formula x, Formula y, Formula text) {
 		SetTextAction action = action(SetTextAction.class);
 
 		action.setPosition(x, y);

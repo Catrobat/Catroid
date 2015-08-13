@@ -38,57 +38,56 @@ import org.catrobat.catroid.content.Sprite;
 
 public class DroneVideoLook extends Look {
 
-    private boolean firstStart = true;
-    private GLBGVideoSprite videoTexture;
-    private TextureRegion textureRegion;
-    private Texture texture;
-    private int[] videoSize = {640, 480};
+	private boolean firstStart = true;
+	private GLBGVideoSprite videoTexture;
+	private TextureRegion textureRegion;
+	private Texture texture;
+	private int[] videoSize = { 640, 480 };
 
-    public DroneVideoLook(Sprite sprite) {
-        super(sprite);
-    }
+	public DroneVideoLook(Sprite sprite) {
+		super(sprite);
+	}
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        if (firstStart) {
-            initializeTexture();
-        }
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		if (firstStart) {
+			initializeTexture();
+		}
 
-        if (videoSize[0] != videoTexture.imageWidth || videoSize[1] != videoTexture.imageHeight) {
-            onSurfaceChanged();
-        }
+		if (videoSize[0] != videoTexture.imageWidth || videoSize[1] != videoTexture.imageHeight) {
+			onSurfaceChanged();
+		}
 
-        Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, texture.getTextureObjectHandle());
-        videoTexture.onUpdateVideoTexture();
-        batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-    }
+		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, texture.getTextureObjectHandle());
+		videoTexture.onUpdateVideoTexture();
+		batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+	}
 
-    private void onSurfaceChanged() {
-        videoSize[0] = videoTexture.imageWidth;
-        videoSize[1] = videoTexture.imageHeight;
-        videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
+	private void onSurfaceChanged() {
+		videoSize[0] = videoTexture.imageWidth;
+		videoSize[1] = videoTexture.imageHeight;
+		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
 
-        setVideoTextureToFullScreen();
-    }
+		setVideoTextureToFullScreen();
+	}
 
-    private void setVideoTextureToFullScreen() {
-        //inverted because of rotation
-        float newX = getY() - (Gdx.graphics.getHeight() - getHeight()) / 2f;
-        float newY = getX() - (Gdx.graphics.getWidth() - getWidth()) / 2f;
-        setPosition(newX, newY);
-        setSize(Gdx.graphics.getHeight(), Gdx.graphics.getWidth());
-        setOrigin(getWidth() / 2f, getHeight() / 2f);
-        setScale(1f, 1f);
-        setRotation(90f);
+	private void setVideoTextureToFullScreen() {
+		//inverted because of rotation
+		float newX = getY() - (Gdx.graphics.getHeight() - getHeight()) / 2f;
+		float newY = getX() - (Gdx.graphics.getWidth() - getWidth()) / 2f;
+		setPosition(newX, newY);
+		setSize(Gdx.graphics.getHeight(), Gdx.graphics.getWidth());
+		setOrigin(getWidth() / 2f, getHeight() / 2f);
+		setScale(1f, 1f);
+		setRotation(90f);
+	}
 
-    }
-
-    private void initializeTexture() {
-        videoTexture = new GLBGVideoSprite();
-        Bitmap video = Bitmap.createBitmap(videoSize[0], videoSize[1], Bitmap.Config.RGB_565);
-        onSurfaceChanged();
-        texture = new Texture(video.getWidth(), video.getHeight(), Pixmap.Format.RGB888);
-        textureRegion = new TextureRegion(texture);
-        firstStart = false;
-    }
+	private void initializeTexture() {
+		videoTexture = new GLBGVideoSprite();
+		Bitmap video = Bitmap.createBitmap(videoSize[0], videoSize[1], Bitmap.Config.RGB_565);
+		onSurfaceChanged();
+		texture = new Texture(video.getWidth(), video.getHeight(), Pixmap.Format.RGB888);
+		textureRegion = new TextureRegion(texture);
+		firstStart = false;
+	}
 }

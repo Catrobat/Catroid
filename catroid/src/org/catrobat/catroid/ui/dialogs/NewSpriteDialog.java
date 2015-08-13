@@ -326,10 +326,8 @@ public class NewSpriteDialog extends DialogFragment {
 						requestedAction, spinnerAdapter, LookData.LookDataType.DRONE_VIDEO);
 				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 				dismiss();
-
 			}
 		});
-
 	}
 
 	private boolean handleOkButton() {
@@ -382,7 +380,6 @@ public class NewSpriteDialog extends DialogFragment {
 
 			lookData.setLookName(newSpriteName);
 			lookData.setLookFilename(imageFileName);
-
 		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
 			Log.e(TAG, Log.getStackTraceString(ioException));
