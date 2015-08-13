@@ -272,7 +272,7 @@ public class SetVariableBrick extends UserVariableBrick {
 	@Override
 	public SetVariableBrick clone() {
 		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
-				.clone(), null);
+				.clone(), userVariable);
 		return clonedBrick;
 	}
 

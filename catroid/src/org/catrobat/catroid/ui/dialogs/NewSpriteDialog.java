@@ -348,12 +348,12 @@ public class NewSpriteDialog extends DialogFragment {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (newSpriteName.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), R.string.spritename_invalid);
+			Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.no_spritename_entered);
 			return false;
 		}
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.showErrorDialog(getActivity(), R.string.spritename_already_exists);
+			Utils.showErrorDialog(getActivity(), R.string.name_exists, R.string.spritename_already_exists);
 			return false;
 		}
 
