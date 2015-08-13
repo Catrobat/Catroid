@@ -354,8 +354,6 @@
   <string name="default_project_var_random_to">zufällig bis</string>
   <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
   <string name="default_drone_project_sprites_takeoff">Abheben</string>
-  <string name="default_drone_project_srpites_land">Landen</string>
-  <string name="default_drone_project_srpites_rotate">Rotieren</string>
   <string name="default_drone_project_sprites_up">Fliege hoch</string>
   <string name="default_drone_project_sprites_down">Fliege runter</string>
   <string name="default_drone_project_sprites_left">Fliege links</string>
@@ -453,8 +451,6 @@
   <string name="nxt_sensor_ultrasonic">NXT Ultraschallsensor</string>
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
-  <string name="brick_drone_takeoff">Hebe ab</string>
-  <string name="brick_drone_land">Lande</string>
   <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
   <string name="brick_drone_move_left">Fliege nach links</string>
   <string name="brick_drone_move_right">Fliege nach rechts</string>

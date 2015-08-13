@@ -449,8 +449,6 @@ il faut
   <string name="nxt_port_3">Port d\'entrée 3</string>
   <string name="nxt_port_4">Port d\'entrée 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
-  <string name="brick_drone_takeoff">Décoller</string>
-  <string name="brick_drone_land">Atterrir</string>
   <string name="brick_drone_play_led_animation">Jouer l\'animation de la LED</string>
   <string name="brick_drone_move_left">Bouger à gauche</string>
   <string name="brick_drone_move_right">Bouger à droite</string>

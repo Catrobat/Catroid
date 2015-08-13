@@ -447,8 +447,6 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
-  <string name="brick_drone_takeoff">Havalan</string>
-  <string name="brick_drone_land">Yere in</string>
   <string name="brick_drone_play_led_animation">LED animasyonu oynat</string>
   <string name="brick_drone_move_left">Sola git</string>
   <string name="brick_drone_move_right">Sağa git</string>
