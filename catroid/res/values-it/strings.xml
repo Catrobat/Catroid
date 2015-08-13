@@ -447,8 +447,6 @@
   <string name="nxt_port_3">Porta 3</string>
   <string name="nxt_port_4">Porta 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Non mostrare più questo messaggio.</string>
-  <string name="brick_drone_takeoff">decolla</string>
-  <string name="brick_drone_land">atterra</string>
   <string name="brick_drone_play_led_animation">Illumina i LED</string>
   <string name="brick_drone_move_left">Muovi a sinistra</string>
   <string name="brick_drone_move_right">Muovi a destra</string>

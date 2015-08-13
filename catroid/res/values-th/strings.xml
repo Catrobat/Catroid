@@ -437,8 +437,6 @@
   <string name="nxt_port_3">พอร์ต 3</string>
   <string name="nxt_port_4">พอร์ต 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">ไม่ต้องแสดงข้อความนี้อีก</string>
-  <string name="brick_drone_takeoff">ออกบิน</string>
-  <string name="brick_drone_land">ลงจอด</string>
   <string name="brick_drone_play_led_animation">เล่นภาพเคลื่อนไหว LED</string>
   <string name="brick_drone_move_left">ขยับไปทางซ้าย</string>
   <string name="brick_drone_move_right">ขยับไปทางขวา</string>

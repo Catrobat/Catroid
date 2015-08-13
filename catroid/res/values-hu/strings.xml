@@ -446,8 +446,6 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
-  <string name="brick_drone_takeoff">Felszállás</string>
-  <string name="brick_drone_land">Leszállás</string>
   <string name="brick_drone_play_led_animation">LED animáció lejátszása</string>
   <string name="brick_drone_move_left">Mozgás balra</string>
   <string name="brick_drone_move_right">Mozgás jobbra</string>
