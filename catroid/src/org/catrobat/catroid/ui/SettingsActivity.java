@@ -319,4 +319,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         SharedPreferences preferences = getSharedPreferences(context);
         return preferences.getBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
     }
+    
+    public static void resetSharedPreferences(Context context) {
+        getSharedPreferences(context).edit().clear().commit();
+    }
 }
