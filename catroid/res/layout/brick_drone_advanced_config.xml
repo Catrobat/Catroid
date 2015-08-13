@@ -70,7 +70,7 @@
                     style="@style/BrickPrototypeTextView" />
 
                 <TextView
-                    android:id="@+id/brick_drone_advanced_config_altitude_edit_text"
+                    android:id="@+id/brick_drone_advanced_config_altitude_editText"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true">
@@ -89,7 +89,7 @@
                     style="@style/BrickPrototypeTextView" />
 
                 <TextView
-                    android:id="@+id/brick_drone_advanced_config_vertical_speed_edit_text"
+                    android:id="@+id/brick_drone_advanced_config_vertical_speed_editText"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true">
@@ -108,7 +108,7 @@
                     style="@style/BrickPrototypeTextView" />
 
                 <TextView
-                    android:id="@+id/brick_drone_advanced_config_rotation_edit_text"
+                    android:id="@+id/brick_drone_advanced_config_rotation_editText"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true">
@@ -127,7 +127,7 @@
                     style="@style/BrickPrototypeTextView" />
 
                 <TextView
-                    android:id="@+id/brick_drone_advanced_config_tilt_edit_text"
+                    android:id="@+id/brick_drone_advanced_config_tilt_editText"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true">

@@ -130,9 +130,9 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 		});
 
 		TextView textAltitude = (TextView) view.findViewById(R.id.brick_drone_advanced_config_altitude_prototype_text_view);
-		TextView editAltitudeValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_altitude_edit_text);
+		TextView editAltitudeValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_altitude_editText);
 //        editAltitudeValue.setText(String.valueOf(BrickValues.DRONE_ALTITUDE_DEFAULT));
-		getFormulaWithBrickField(BrickField.DRONE_ALTITUDE_LIMIT).setTextFieldId(R.id.brick_drone_advanced_config_altitude_edit_text);
+		getFormulaWithBrickField(BrickField.DRONE_ALTITUDE_LIMIT).setTextFieldId(R.id.brick_drone_advanced_config_altitude_editText);
 		getFormulaWithBrickField(BrickField.DRONE_ALTITUDE_LIMIT).refreshTextField(view);
 
 		textAltitude.setVisibility(View.GONE);
@@ -141,9 +141,9 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 		editAltitudeValue.setOnClickListener(this);
 
 		TextView textVertical = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_prototype_text_view);
-		TextView editVerticalValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_edit_text);
+		TextView editVerticalValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_editText);
 //        editVerticalValue.setText(String.valueOf(BrickValues.DRONE_VERTICAL_DEFAULT));
-		getFormulaWithBrickField(BrickField.DRONE_VERTICAL_SPEED_MAX).setTextFieldId(R.id.brick_drone_advanced_config_vertical_speed_edit_text);
+		getFormulaWithBrickField(BrickField.DRONE_VERTICAL_SPEED_MAX).setTextFieldId(R.id.brick_drone_advanced_config_vertical_speed_editText);
 		getFormulaWithBrickField(BrickField.DRONE_VERTICAL_SPEED_MAX).refreshTextField(view);
 
 		textVertical.setVisibility(View.GONE);
@@ -152,9 +152,9 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 		editVerticalValue.setOnClickListener(this);
 
 		TextView textRotation = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_prototype_text_view);
-		TextView editRotationValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_edit_text);
+		TextView editRotationValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_editText);
 //        editRotationValue.setText(String.valueOf(BrickValues.DRONE_ROTATION_DEFAULT));
-		getFormulaWithBrickField(BrickField.DRONE_ROTATION_MAX).setTextFieldId(R.id.brick_drone_advanced_config_rotation_edit_text);
+		getFormulaWithBrickField(BrickField.DRONE_ROTATION_MAX).setTextFieldId(R.id.brick_drone_advanced_config_rotation_editText);
 		getFormulaWithBrickField(BrickField.DRONE_ROTATION_MAX).refreshTextField(view);
 
 		textRotation.setVisibility(View.GONE);
@@ -163,9 +163,9 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 		editRotationValue.setOnClickListener(this);
 
 		TextView textTilt = (TextView) view.findViewById(R.id.brick_drone_advanced_config_tilt_prototype_text_view);
-		TextView editTiltValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_tilt_edit_text);
+		TextView editTiltValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_tilt_editText);
 //        editTiltValue.setText(String.valueOf(BrickValues.DRONE_TILT_DEFAULT));
-		getFormulaWithBrickField(BrickField.DRONE_TILT_ANGLE).setTextFieldId(R.id.brick_drone_advanced_config_tilt_edit_text);
+		getFormulaWithBrickField(BrickField.DRONE_TILT_ANGLE).setTextFieldId(R.id.brick_drone_advanced_config_tilt_editText);
 		getFormulaWithBrickField(BrickField.DRONE_TILT_ANGLE).refreshTextField(view);
 
 		textTilt.setVisibility(View.GONE);
@@ -189,13 +189,13 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 
 	private BrickField getClickedBrickField(View view) {
 		switch (view.getId()) {
-			case R.id.brick_drone_advanced_config_altitude_edit_text:
+			case R.id.brick_drone_advanced_config_altitude_editText:
 				return BrickField.DRONE_ALTITUDE_LIMIT;
-			case R.id.brick_drone_advanced_config_vertical_speed_edit_text:
+			case R.id.brick_drone_advanced_config_vertical_speed_editText:
 				return BrickField.DRONE_VERTICAL_SPEED_MAX;
-			case R.id.brick_drone_advanced_config_rotation_edit_text:
+			case R.id.brick_drone_advanced_config_rotation_editText:
 				return BrickField.DRONE_ROTATION_MAX;
-			case R.id.brick_drone_advanced_config_tilt_edit_text:
+			case R.id.brick_drone_advanced_config_tilt_editText:
 				return BrickField.DRONE_TILT_ANGLE;
 		}
 
@@ -213,7 +213,7 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 
 			TextView textPhiroProLabel = (TextView) view.findViewById(R.id.brick_drone_advanced_config_label);
 			TextView textPhiroProEyeRed = (TextView) view.findViewById(R.id.brick_drone_advanced_config_altitude_text_view);
-			TextView editRed = (TextView) view.findViewById(R.id.brick_drone_advanced_config_altitude_edit_text);
+			TextView editRed = (TextView) view.findViewById(R.id.brick_drone_advanced_config_altitude_editText);
 
 			//altitude
 			textPhiroProLabel.setTextColor(textPhiroProLabel.getTextColors().withAlpha(alphaValue));
@@ -223,14 +223,14 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 
 			//vertical
 			TextView textPhiroProEyeGreen = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_text_view);
-			TextView editGreen = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_edit_text);
+			TextView editGreen = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_editText);
 			editGreen.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
 			editGreen.getBackground().setAlpha(alphaValue);
 			textPhiroProEyeGreen.setTextColor(textPhiroProEyeGreen.getTextColors().withAlpha(alphaValue));
 
 			//rotation
 			TextView textPhiroProEyeBlue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_text_view);
-			TextView editBlue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_edit_text);
+			TextView editBlue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_editText);
 			editBlue.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
 			editBlue.getBackground().setAlpha(alphaValue);
 			textPhiroProEyeBlue.setTextColor(textPhiroProEyeBlue.getTextColors().withAlpha(alphaValue));
