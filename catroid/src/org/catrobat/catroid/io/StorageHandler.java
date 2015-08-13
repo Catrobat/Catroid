@@ -35,6 +35,7 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -64,6 +65,7 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DroneAdvancedConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
@@ -115,7 +117,6 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
@@ -238,6 +239,7 @@ public final class StorageHandler {
 
 	private void setXstreamAliases() {
 		xstream.alias("look", LookData.class);
+		xstream.alias("look", DroneVideoLookData.class);
 		xstream.alias("sound", SoundInfo.class);
 		xstream.alias("userVariable", UserVariable.class);
 		xstream.alias("userList", UserList.class);
@@ -320,12 +322,12 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneMoveLeftBrick.class);
 		xstream.alias("brick", DroneMoveRightBrick.class);
 		xstream.alias("brick", DroneSetConfigBrick.class);
-		xstream.alias("brick", SetTextBrick.class);
 		xstream.alias("brick", DroneTurnLeftBrick.class);
 		xstream.alias("brick", DroneTurnRightBrick.class);
 		xstream.alias("brick", DroneSwitchCameraBrick.class);
 		xstream.alias("brick", DroneToggleVideoBrick.class);
 		xstream.alias("brick", DroneAdvancedConfigBrick.class);
+		xstream.alias("brick", DroneEmergencyBrick.class);
 
 		xstream.alias("brick", PhiroMotorMoveBackwardBrick.class);
 		xstream.alias("brick", PhiroMotorMoveForwardBrick.class);

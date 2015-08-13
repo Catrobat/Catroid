@@ -57,7 +57,7 @@ ext {
             "led_brick"                         : false,
             "vibration_brick"                   : false,
             "backpack"                          : false,
-            "parrot_ar_drone"                   : true,
+            "parrot_ar_drone"                   : false,
             "apk_generator"                     : false,
             "computer_vision_enhancement"       : true,
             "formula_editor_lists"              : true,
