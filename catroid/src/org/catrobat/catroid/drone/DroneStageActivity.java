@@ -48,7 +48,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	private DroneEmergencyChangeReceiver droneEmergencyReceiver;
 	private boolean droneBatteryMessageShown = false;
 
-	private enum emergencyMethod {
+	private enum EmergencyMethod {
 		NOTHING,
 		TOAST,
 		ALERT
@@ -61,16 +61,14 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 		if (droneConnection == null && DroneServiceWrapper.checkARDroneAvailability()) {
 			droneConnection = new DroneConnection(this);
 
-			if (droneConnection != null) {
-				try {
-					droneConnection.initialise();
-					droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
-					droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
-				} catch (RuntimeException runtimeException) {
-					Log.e(TAG, "Failure during drone service startup", runtimeException);
-					ToastUtil.showError(this, R.string.error_no_drone_connected);
-					this.finish();
-				}
+			try {
+				droneConnection.initialise();
+				droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
+				droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
+			} catch (RuntimeException runtimeException) {
+				Log.e(TAG, "Failure during drone service startup", runtimeException);
+				ToastUtil.showError(this, R.string.error_no_drone_connected);
+				this.finish();
 			}
 		}
 	}
@@ -133,7 +131,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 
 	@Override
 	public void onDroneEmergencyChanged(int code) {
-		emergencyMethod method = emergencyMethod.NOTHING;
+		EmergencyMethod method = EmergencyMethod.NOTHING;
 
 		Log.d(getClass().getSimpleName(), "message code integer value: " + Integer.toString(code));
 		if (code == NavData.ERROR_STATE_NONE || code == NavData.ERROR_STATE_START_NOT_RECEIVED) {
@@ -145,43 +143,43 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 		switch (code) {
 			case NavData.ERROR_STATE_EMERGENCY_VBAT_LOW:
 				messageID = R.string.drone_emergency_battery_low;
-				method = emergencyMethod.ALERT;
+				method = EmergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_emergency_battery_low));
 				break;
 			case NavData.ERROR_STATE_ALERT_VBAT_LOW:
 				messageID = R.string.drone_alert_battery_low;
-				method = emergencyMethod.TOAST;
+				method = EmergencyMethod.TOAST;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_alert_battery_low));
 				break;
 			case NavData.ERROR_STATE_ALERT_CAMERA:
 			case NavData.ERROR_STATE_EMERGENCY_CAMERA:
 				messageID = R.string.drone_emergency_camera;
-				method = emergencyMethod.TOAST;
+				method = EmergencyMethod.TOAST;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_emergency_camera));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_ULTRASOUND:
 				messageID = R.string.drone_emergency_ultrasound;
-				method = emergencyMethod.ALERT;
+				method = EmergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_emergency_ultrasound));
 				break;
 			case NavData.ERROR_STATE_ALERT_ULTRASOUND:
 				messageID = R.string.drone_alert_ultrasound;
-				method = emergencyMethod.NOTHING;
+				method = EmergencyMethod.NOTHING;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_alert_ultrasound));
 				break;
 			case NavData.ERROR_STATE_ALERT_VISION:
 				messageID = R.string.drone_alert_vision;
-				method = emergencyMethod.TOAST;
+				method = EmergencyMethod.TOAST;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_alert_vision));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_ANGLE_OUT_OF_RANGE:
 				messageID = R.string.drone_emergency_angle;
-				method = emergencyMethod.ALERT;
+				method = EmergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_emergency_angle));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_CUTOUT:
 				messageID = R.string.drone_emergency_cutout;
-				method = emergencyMethod.ALERT;
+				method = EmergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_emergency_cutout));
 				break;
 			default:

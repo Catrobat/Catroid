@@ -218,12 +218,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
-				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
-			return false;
-		}
-
-		return true;
+		return !(supportedFlashModes == null || supportedFlashModes.isEmpty()
+				|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF));
 	}
 
 	@Override
@@ -365,12 +361,12 @@ public class PreStageActivity extends BaseActivity {
 									resourceFailed();
 								}
 							}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							resourceFailed();
-						}
-					});
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+									resourceFailed();
+								}
+							});
 					AlertDialog alert = builder.create();
 					alert.show();
 				}

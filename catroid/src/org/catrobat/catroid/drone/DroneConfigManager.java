@@ -34,11 +34,11 @@ public final class DroneConfigManager {
 
 	private static DroneConfigManager instance;
 	private static DroneControlService droneControlService;
-	private final String FIRST = "FIRST";
-	private final String SECOND = "SECOND";
-	private final String THIRD = "THIRD";
-	private final String FOURTH = "FOURTH";
-	private final String FIFTH = "FIFTH";
+	private final String first = "first";
+	private final String second = "second";
+	private final String third = "third";
+	private final String fourth = "fourth";
+	private final String fifth = "fifth";
 
 	private DroneConfigManager() {
 	}
@@ -50,7 +50,7 @@ public final class DroneConfigManager {
 		return DroneConfigManager.instance;
 	}
 
-	public void setDroneConfig(DroneConfigPreference.Preferences preferences[]) {
+	public void setDroneConfig(DroneConfigPreference.Preferences[] preferences) {
 		for (DroneConfigPreference.Preferences preference : preferences) {
 			Log.d("onDroneReady config", "Drone = " + preference);
 		}
@@ -64,13 +64,13 @@ public final class DroneConfigManager {
 
 	private void setBasicConfig(String preference) {
 		switch (preference) {
-			case FIRST:
+			case first:
 				setDefaultConfig();
 				break;
-			case SECOND:
+			case second:
 				setOutdoorConfig();
 				break;
-			case THIRD:
+			case third:
 				setIndoorConfig();
 				break;
 		}
@@ -117,19 +117,19 @@ public final class DroneConfigManager {
 		int altitudeValue = BrickValues.DRONE_ALTITUDE_DEFAULT;
 
 		switch (preference) {
-			case FIRST:
+			case first:
 				altitudeValue = BrickValues.DRONE_ALTITUDE_MIN;
 				break;
-			case SECOND:
+			case second:
 				altitudeValue = 5;
 				break;
-			case THIRD:
+			case third:
 				altitudeValue = 10;
 				break;
-			case FOURTH:
+			case fourth:
 				altitudeValue = 50;
 				break;
-			case FIFTH:
+			case fifth:
 				altitudeValue = BrickValues.DRONE_ALTITUDE_MAX;
 				break;
 		}
@@ -153,19 +153,19 @@ public final class DroneConfigManager {
 		int verticalValue = BrickValues.DRONE_VERTICAL_DEFAULT;
 
 		switch (preference) {
-			case FIRST:
+			case first:
 				verticalValue = BrickValues.DRONE_VERTICAL_MIN;
 				break;
-			case SECOND:
+			case second:
 				verticalValue = 660;
 				break;
-			case THIRD:
+			case third:
 				verticalValue = 1100;
 				break;
-			case FOURTH:
+			case fourth:
 				verticalValue = 1540;
 				break;
-			case FIFTH:
+			case fifth:
 				verticalValue = BrickValues.DRONE_VERTICAL_MAX;
 				break;
 		}
@@ -189,19 +189,19 @@ public final class DroneConfigManager {
 		int rotationValue = BrickValues.DRONE_ROTATION_DEFAULT;
 
 		switch (preference) {
-			case FIRST:
+			case first:
 				rotationValue = BrickValues.DRONE_ROTATION_MIN;
 				break;
-			case SECOND:
+			case second:
 				rotationValue = 117;
 				break;
-			case THIRD:
+			case third:
 				rotationValue = 195;
 				break;
-			case FOURTH:
+			case fourth:
 				rotationValue = 273;
 				break;
-			case FIFTH:
+			case fifth:
 				rotationValue = BrickValues.DRONE_ROTATION_MAX;
 				break;
 		}
@@ -225,19 +225,19 @@ public final class DroneConfigManager {
 		int tiltValue = BrickValues.DRONE_TILT_DEFAULT;
 
 		switch (preference) {
-			case FIRST:
+			case first:
 				tiltValue = BrickValues.DRONE_TILT_MIN;
 				break;
-			case SECOND:
+			case second:
 				tiltValue = 10;
 				break;
-			case THIRD:
+			case third:
 				tiltValue = 17;
 				break;
-			case FOURTH:
+			case fourth:
 				tiltValue = 24;
 				break;
-			case FIFTH:
+			case fifth:
 				tiltValue = BrickValues.DRONE_TILT_MAX;
 				break;
 		}

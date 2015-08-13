@@ -378,8 +378,8 @@ public final class StorageHandler {
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "Could not load project!");
 			deleteDirectory(file);
-			Log.d(TAG, "loadProject: directory is deleted and " +
-					"default project will be restored!");
+			Log.d(TAG, "loadProject: directory is deleted and "
+					+ "default project will be restored!");
 			return null;
 		} finally {
 			if (fileInputStream != null) {
@@ -639,7 +639,7 @@ public final class StorageHandler {
 
 		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
 
-		if (outputFileDirectory.exists() == false) {
+		if (!outputFileDirectory.exists()) {
 			outputFileDirectory.mkdirs();
 		}
 

@@ -22,21 +22,12 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 public class DroneTurnLeftWithMagnetometerAction extends DroneMoveAction {
-
-	private boolean isCalled = false;
 
 	@Override
 	protected void begin() {
 		super.begin();
 		super.setCommandAndYawEnabled(true);
-		if (isCalled == false) {
-			//			super.getDroneService().setMagnetoEnabled(true);
-			//			super.getDroneService().calibrateMagneto();
-			Log.d(getClass().getSimpleName(), "isCalled");
-		}
 	}
 
 	@Override
@@ -48,6 +39,5 @@ public class DroneTurnLeftWithMagnetometerAction extends DroneMoveAction {
 	@Override
 	protected void moveEnd() {
 		super.setCommandAndYawEnabled(false);
-		isCalled = true;
 	}
 }

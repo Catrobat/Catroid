@@ -53,7 +53,7 @@ public class CatroidApplication extends Application {
 	}
 
 	public static synchronized boolean loadNativeLibs() {
-		if (parrotLibrariesLoaded == true) {
+		if (parrotLibrariesLoaded) {
 			return true;
 		}
 

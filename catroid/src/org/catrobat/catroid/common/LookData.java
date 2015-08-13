@@ -122,7 +122,6 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	public LookData() {
-
 	}
 
 	public String getAbsolutePath() {

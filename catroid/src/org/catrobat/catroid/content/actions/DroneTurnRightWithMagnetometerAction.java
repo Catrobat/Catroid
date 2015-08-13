@@ -31,7 +31,7 @@ public class DroneTurnRightWithMagnetometerAction extends DroneMoveAction {
 	@Override
 	protected void begin() {
 		super.begin();
-		if (isCalled == false) {
+		if (!isCalled) {
 			super.getDroneService().setMagnetoEnabled(true);
 			super.getDroneService().calibrateMagneto();
 			try {

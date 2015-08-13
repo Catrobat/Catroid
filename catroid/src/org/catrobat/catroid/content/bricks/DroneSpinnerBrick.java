@@ -91,8 +91,8 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 				selectedMessage = parent.getItemAtPosition(position).toString();
 				spinnerPosition = position;
 				adapterView = parent;
-				Log.d("DroneSpinnerBrick: ", "selected message = " +
-						selectedMessage + " on position: " + spinnerPosition);
+				Log.d("DroneSpinnerBrick: ", "selected message = "
+						+ selectedMessage + " on position: " + spinnerPosition);
 			}
 
 			@Override
