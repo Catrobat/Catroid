@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
@@ -301,9 +302,14 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private void setupDroneVideoButton(View parentView) {
-
 		View droneVideoButton = parentView.findViewById(R.id.dialog_new_object_drone_video);
 		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_object_step_1_row_2_layout);
+		if (!PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("setting_parrot_airdrone_bricks",
+				true)) {
+			linearLayout2ndRow.setVisibility(View.GONE);
+			return;
+		}
+
 		linearLayout2ndRow.setVisibility(View.VISIBLE);
 
 		droneVideoButton.setOnClickListener(new View.OnClickListener() {

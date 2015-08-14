@@ -64,7 +64,7 @@ public class NewLookDialog extends DialogFragment {
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true)) {
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
 			setupDroneVideoButton(dialogView);
 		}
 

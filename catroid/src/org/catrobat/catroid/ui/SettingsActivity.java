@@ -29,6 +29,7 @@ import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
@@ -45,7 +46,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
-	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_airdrone_bricks";
+	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
@@ -93,6 +94,18 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 		setNXTSensors();
 		setDronePreferences();
+
+		CheckBoxPreference pref = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+		pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				boolean checked = Boolean.valueOf(newValue.toString());
+
+				setARDroneBricks(getApplicationContext(), checked);
+				return true;
+			}
+		});
 
 		ActionBar actionBar = getSupportActionBar();
 
@@ -288,15 +301,19 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.commit();
 	}
 
-	public static void enableLegoMindstormsNXTBricks(Context context) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
-		editor.commit();
+	public static void setARDroneBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
 	}
 
 	public static void setLegoMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);
+		editor.commit();
+	}
+
+	public static void enableLegoMindstormsNXTBricks(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
 		editor.commit();
 	}
 
