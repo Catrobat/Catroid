@@ -215,8 +215,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
 			}
 
-			if ((resources & Brick.FACE_DETECTION) > 0) {
-				SettingsActivity.setFaceDetectionSharedPreferenceEnabled(context, true);
+			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
 			}
 		}
 	}

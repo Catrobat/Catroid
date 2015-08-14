@@ -24,14 +24,11 @@ package org.catrobat.catroid.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -61,29 +58,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.preferences);
-
-		ListPreference listPreference = (ListPreference) findPreference(getResources().getString(
-				R.string.preference_key_select_camera));
-		int cameraCount = Camera.getNumberOfCameras();
-		String[] entryValues = new String[cameraCount];
-		CharSequence[] entries = new CharSequence[cameraCount];
-		for (int id = 0; id < cameraCount; id++) {
-			entryValues[id] = Integer.toString(id);
-			Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-			Camera.getCameraInfo(id, cameraInfo);
-			switch (cameraInfo.facing) {
-				case CameraInfo.CAMERA_FACING_FRONT:
-					entries[id] = getResources().getText(R.string.camera_facing_front);
-					break;
-				case CameraInfo.CAMERA_FACING_BACK:
-					entries[id] = getResources().getText(R.string.camera_facing_back);
-					break;
-				default:
-					Log.d("CAMERA", "No Camera detected");
-			}
-		}
-		listPreference.setEntries(entries);
-		listPreference.setEntryValues(entryValues);
 
 		setNXTSensors();
 
@@ -139,17 +113,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static boolean isDroneSharedPreferenceEnabled(Context context, boolean defaultValue) {
 		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
-	}
-
-	public static boolean isFaceDetectionPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false,
-				context.getString(R.string.preference_key_use_face_detection), context);
-	}
-
-	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(context.getString(R.string.preference_key_use_face_detection), value);
-		editor.commit();
 	}
 
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {

@@ -80,10 +80,6 @@
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
-    <string name="preference_title_use_face_detection">Face Detection</string>
-    <string name="preference_description_use_face_detection">Allow to detect faces</string>
-    <string name="preference_title_select_camera">Choose Camera</string>
-    <string name="preference_description_select_camera">Select camera which is used for face detection</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
@@ -253,7 +249,6 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
     <string name="no_flash_led_available">No flash LED available</string>
     <string name="no_vibrator_available">Vibrator not available</string>
-    <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
     <!--  -->
 
 
@@ -855,11 +850,6 @@
     </plurals>
     <!--  -->
 
-    <!-- Camera Strings -->
-    <string name="camera_facing_front">Front Camera</string>
-    <string name="camera_facing_back">Back Camera</string>
-    <!--  -->
-
     <!-- Brick Data Editor Strings -->
     <string name="brick_data_editor_title">Brick Editor</string>
  	<string name="separator">|</string>
@@ -901,6 +891,15 @@
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
     <string name="variable">Variable</string>
+
+    <string name="brick_video">Camera:</string>
+    <string name="video_brick_camera_on">On</string>
+    <string name="video_brick_camera_off">Off</string>
+
+    <string name="brick_choose_camera">Choose Camera:</string>
+    <string name="choose_camera_front">Front</string>
+    <string name="choose_camera_back">Back</string><string name="error_flash_front_camera">"You can use the flash only with the back camera (this is an Android restriction). Please use the \"Set camera\" brick from the Looks category and select the back camera before executing a flash brick. "</string>
+
     <!-- -->
 
 </resources>

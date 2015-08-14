@@ -20,36 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.utils.LedUtil;
 
-public class LedAction extends TemporalAction {
+public class ChooseCameraAction extends TemporalAction {
 
-	private boolean ledValue;
+	private int cameraId = CameraManager.getInstance().getCameraID();
 
 	@Override
 	protected void update(float percent) {
 
-		if (!CameraManager.getInstance().isFacingBack() && !LedUtil.isOn() && ledValue) {
-			Log.w("FlashError", "destry Stage because frontCamera is chosen and ledValue = " + ledValue);
-			CameraManager.getInstance().destroyStage();
-			return;
-		}
-
-		if (LedUtil.isOn() && !ledValue) {
-			LedUtil.ledOff();
-		} else if (!LedUtil.isOn() && ledValue) {
-			LedUtil.ledOn();
-		}
+		CameraManager.getInstance().updateCamera(cameraId);
 	}
 
-	public void setLedValue(boolean ledValue) {
-		this.ledValue = ledValue;
+	public void setCameraId(int cameraId) {
+		this.cameraId = cameraId;
 	}
 }

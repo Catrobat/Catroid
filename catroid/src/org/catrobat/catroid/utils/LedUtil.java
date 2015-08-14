@@ -27,174 +27,95 @@ import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 
-import java.util.concurrent.Semaphore;
-
 public final class LedUtil {
 
 	private static final String TAG = LedUtil.class.getSimpleName();
 	private static Camera.Parameters paramsOn = null;
 	private static Camera.Parameters paramsOff = null;
 
-	private static Semaphore lightThreadSemaphore = new Semaphore(1);
-
 	private static boolean paused = false;
-	private static boolean keepAlive = false;
+	private static boolean available = false;
 
 	private static boolean currentLedValue = false;
-	private static boolean nextLedValue = false;
+
+	private static boolean startAgain = false;
 
 	private LedUtil() {
 	}
 
-	private static Thread lightThread = new Thread(new Runnable() {
-		@Override
-		public void run() {
-			while (keepAlive) {
-				try {
-					lightThreadSemaphore.acquire();
-					setLed();
-				} catch (InterruptedException interruptedException) {
-					Log.e(TAG, "lightThreadSemaphore " + interruptedException.getMessage());
-				}
-			}
-			lightThreadSemaphore.release();
-		}
-	});
-
-	public static boolean isActive() {
-		return keepAlive;
+	public static boolean isAvailable() {
+		return available;
 	}
 
-	public static void setNextLedValue(boolean val) {
-		nextLedValue = val;
-		lightThreadSemaphore.release();
+	public static boolean isOn() {
+		return currentLedValue;
 	}
 
 	public static void pauseLed() {
 		Log.d(TAG, "pauseLed");
-		if (!paused) {
-			nextLedValue = currentLedValue;
+		if (!paused && isAvailable()) {
 			paused = true;
-			killLedThread();
+			if (isOn()) {
+				startAgain = true;
+				ledOff();
+			}
 		}
 	}
 
 	public static void resumeLed() {
 		Log.d(TAG, "resumeLed()");
 		if (paused) {
-			activateLedThread();
+			initializeLed();
+			if (startAgain) {
+				ledOn();
+				startAgain = false;
+			}
 		}
-		setNextLedValue(nextLedValue);
 		paused = false;
 	}
 
 	public static void destroy() {
 		Log.d(TAG, "reset all variables - called by StageActivity::onDestroy");
 		currentLedValue = false;
-		nextLedValue = false;
 		paused = false;
-		keepAlive = false;
-		if (lightThreadSemaphore.hasQueuedThreads()) {
-			lightThreadSemaphore.release();
-		}
-		lightThread = null;
-		if (CameraManager.getInstance().getCamera() != null) {
-			CameraManager.getInstance().releaseCamera();
+		available = false;
+
+		if (CameraManager.getInstance().isReady()) {
 			paramsOff = null;
 			paramsOn = null;
 		}
 	}
 
 	public static void reset() {
-		setNextLedValue(false);
+		currentLedValue = false;
 	}
 
-	public static void activateLedThread() {
-		Log.d(TAG, "activateLedThread()");
+	public static void initializeLed() {
+		Log.d(TAG, "initializeLed()");
 
-		if (lightThread == null) {
-			lightThread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					while (keepAlive) {
-						try {
-							lightThreadSemaphore.acquire();
-							setLed();
-						} catch (InterruptedException interruptedException) {
-							Log.e(TAG, "lightThreadSemaphore " + interruptedException.getMessage());
-						}
-					}
-					lightThreadSemaphore.release();
-				}
-			});
+		available = true;
+
+		if (!CameraManager.getInstance().isReady()) {
+			CameraManager.getInstance().startCamera();
 		}
 
-		if (CameraManager.getInstance().getCamera() != null) {
-
-			paramsOn = CameraManager.getInstance().getCamera().getParameters();
-			if (paramsOn != null) {
-				paramsOn.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-			}
-			paramsOff = CameraManager.getInstance().getCamera().getParameters();
-			if (paramsOff != null) {
-				paramsOff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-			}
-
-			if (!lightThread.isAlive()) {
-				try {
-					lightThreadSemaphore.acquire();
-				} catch (InterruptedException interruptedException) {
-					Log.e(TAG, "lightThreadSemaphore " + interruptedException.getMessage());
-				}
-				keepAlive = true;
-				lightThread.setName("lightThread");
-				lightThread.start();
-			}
-		} else {
-			Log.e(TAG, "cam.open() failed!");
+		paramsOn = CameraManager.getInstance().getCamera().getParameters();
+		if (paramsOn != null) {
+			paramsOn.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+		}
+		paramsOff = CameraManager.getInstance().getCamera().getParameters();
+		if (paramsOff != null) {
+			paramsOff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 		}
 	}
 
-	public static void killLedThread() {
-		Log.d(TAG, "killLedThread()");
-
-		keepAlive = false;
-
-		if (lightThreadSemaphore.hasQueuedThreads()) {
-			lightThreadSemaphore.release();
-		}
-
-		lightThread = null;
-
-		if (CameraManager.getInstance().getCamera() != null) {
-			CameraManager.getInstance().releaseCamera();
-			paramsOn = null;
-			paramsOff = null;
-			currentLedValue = false;
-			Log.d(TAG, "killLedThread() : camera released! nextLedValue=" + nextLedValue);
-		}
-	}
-
-	private static synchronized void setLed() {
-		Log.d(TAG, "setLed()");
-		if (nextLedValue != currentLedValue) {
-			if (nextLedValue) {
-				ledOn();
-			} else {
-				ledOff();
-			}
-		} else {
-			Log.d(TAG, "nothing to do setLed()");
-		}
-	}
-
-	private static synchronized void ledOn() {
+	public static void ledOn() {
 		Log.d(TAG, "ledOn()");
 		CameraManager.getInstance().setLedParams(paramsOn);
 		currentLedValue = true;
 	}
 
-	private static synchronized void ledOff() {
+	public static void ledOff() {
 		Log.d(TAG, "ledOff()");
 		CameraManager.getInstance().setLedParams(paramsOff);
 		currentLedValue = false;
