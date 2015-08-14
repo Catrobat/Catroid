@@ -38,7 +38,6 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -54,21 +53,12 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
-				this.getInstrumentation().getTargetContext(), true);
 		createProjectFaceDetection();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(SLEEP_TIME);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
-				this.getInstrumentation().getTargetContext(), false);
-		super.tearDown();
 	}
 
 	public void testGoingBack() {

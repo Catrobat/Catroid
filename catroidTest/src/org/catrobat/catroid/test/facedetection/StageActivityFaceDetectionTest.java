@@ -60,7 +60,7 @@ public class StageActivityFaceDetectionTest extends BaseActivityUnitTestCase<Sta
 	}
 
 	public void testFaceDetectionInStageActivityLifecycle() throws InterruptedException {
-		assertTrue("Face detection did not start!", FaceDetectionHandler.startFaceDetection(getActivity()));
+		assertTrue("Face detection did not start!", FaceDetectionHandler.startFaceDetection());
 
 		Activity dial = startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:42"))
 				.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), null, null);

@@ -65,6 +65,8 @@ public interface Brick extends Serializable, Cloneable {
 	int CAMERA_LED = 0x100;
 	int VIBRATOR = 0x200;
 	int BLUETOOTH_PHIRO = 0x400;
+	int CAMERA_BACK = 0x800;
+	int CAMERA_FRONT = 0x1000;
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 	int FACE_DETECTION = 0x10;

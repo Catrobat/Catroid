@@ -209,7 +209,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("not the right number of bricks in the second script", 4, projectManager.getCurrentProject()
 				.getSpriteList().get(1).getScript(1).getBrickList().size());
 
-		ArrayList<LookData> catroidLookList = currentProject.getSpriteList().get(1).getLookDataList();
+		ArrayList<LookData> catroidLookList = (ArrayList<LookData>) currentProject.getSpriteList().get(1).getLookDataList();
 		assertEquals("wrong number of pictures in catroid sprite", 2, catroidLookList.size());
 
 		imagePath = catroidLookList.get(0).getAbsolutePath();
