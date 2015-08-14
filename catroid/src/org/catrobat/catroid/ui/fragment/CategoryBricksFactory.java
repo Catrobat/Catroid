@@ -123,35 +123,35 @@ import java.util.List;
 
 public class CategoryBricksFactory {
 
-	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
-		UserBrickScriptActivity activity;
-		try {
-			activity = (UserBrickScriptActivity) context;
-		} catch (ClassCastException e) {
-			activity = null;
-		}
-		boolean isUserScriptMode = activity != null;
-		List<Brick> tempList = new LinkedList<Brick>();
-		List<Brick> toReturn = new ArrayList<Brick>();
-		if (category.equals(context.getString(R.string.category_control))) {
-			tempList = setupControlCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_motion))) {
-			tempList = setupMotionCategoryList(sprite, context);
-		} else if (category.equals(context.getString(R.string.category_sound))) {
-			tempList = setupSoundCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_looks))) {
-			tempList = setupLooksCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
-			tempList = setupUserBricksCategoryList();
-		} else if (category.equals(context.getString(R.string.category_data))) {
-			tempList = setupDataCategoryList();
-		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
-			tempList = setupLegoNxtCategoryList();
-		} else if (category.equals(context.getString(R.string.category_drone))) {
-			tempList = setupDroneCategoryList();
-		} else if (category.equals(context.getString(R.string.category_phiro))) {
-			tempList = setupPhiroProCategoryList();
-		}
+    public List<Brick> getBricks(String category, Sprite sprite, Context context) {
+        UserBrickScriptActivity activity;
+        try {
+            activity = (UserBrickScriptActivity) context;
+        } catch (ClassCastException e) {
+            activity = null;
+        }
+        boolean isUserScriptMode = activity != null;
+        List<Brick> tempList = new LinkedList<Brick>();
+        List<Brick> toReturn = new ArrayList<Brick>();
+        if (category.equals(context.getString(R.string.category_control))) {
+            tempList = setupControlCategoryList(context);
+        } else if (category.equals(context.getString(R.string.category_motion))) {
+            tempList = setupMotionCategoryList(sprite, context);
+        } else if (category.equals(context.getString(R.string.category_sound))) {
+            tempList = setupSoundCategoryList(context);
+        } else if (category.equals(context.getString(R.string.category_looks))) {
+            tempList = setupLooksCategoryList(context);
+        } else if (category.equals(context.getString(R.string.category_user_bricks))) {
+            tempList = setupUserBricksCategoryList();
+        } else if (category.equals(context.getString(R.string.category_data))) {
+            tempList = setupDataCategoryList();
+        } else if (category.equals(context.getString(R.string.category_lego_nxt))) {
+            tempList = setupLegoNxtCategoryList();
+        } else if (category.equals(context.getString(R.string.category_drone))) {
+            tempList = setupDroneCategoryList();
+        } else if (category.equals(context.getString(R.string.category_phiro))) {
+            tempList = setupPhiroProCategoryList();
+        }
 
 		for (Brick brick : tempList) {
 			ScriptBrick brickAsScriptBrick;
@@ -357,13 +357,13 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneSwitchCameraBrick());
 
 		/*
-			 Deprecated
+             Deprecated
 		     droneBrickList.add(new DroneAdvancedConfigBrick());
 		*/
 
-		// Only for demo purpose
+        // Only for demo purpose
 /*		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
-				BrickValues.STRING_VALUE));*/
+                BrickValues.STRING_VALUE));*/
 
 		return droneBrickList;
 	}
