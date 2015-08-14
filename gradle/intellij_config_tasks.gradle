@@ -37,6 +37,7 @@ task gitNoSkipWorktreeForIntellijConfigFiles << {
         'git update-index --no-skip-worktree .idea/misc.xml'.execute().text.trim()
         'git update-index --no-skip-worktree Catroid.iml'.execute().text.trim()
         'git update-index --no-skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
+        'git update-index --no-skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
     } catch (IOException exception) {
         throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
     }
@@ -47,6 +48,7 @@ task gitSaveStashSwitchingToOldBranch << {
         'git update-index --no-skip-worktree .idea/misc.xml'.execute().text.trim()
         'git update-index --no-skip-worktree Catroid.iml'.execute().text.trim()
         'git update-index --no-skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
+        'git update-index --no-skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
         'git stash save "IntelliJConfig"'.execute().text.trim()
     } catch (IOException exception) {
         throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
@@ -59,6 +61,7 @@ task gitApplyStashSwitchingToOldBranch << {
         'git update-index --skip-worktree .idea/misc.xml'.execute().text.trim()
         'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
         'git update-index --skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
+        'git update-index --skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()
     } catch (IOException exception) {
         throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
     }
