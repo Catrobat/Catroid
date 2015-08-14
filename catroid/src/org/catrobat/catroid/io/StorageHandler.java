@@ -178,13 +178,6 @@ public final class StorageHandler {
     private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
     private static final int JPG_COMPRESSION_SETTING = 95;
 
-    private XStreamToSupportCatrobatLanguageVersion095AndBefore xstream;
-
-    private File backPackSoundDirectory;
-    private FileInputStream fileInputStream;
-
-    private Lock loadSaveLock = new ReentrantLock();
-
     // TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
     // directly and therefore we need this static block. Should be refactored and removed in the future.
     static {
@@ -194,6 +187,11 @@ public final class StorageHandler {
             throw new RuntimeException("Initialize StorageHandler failed");
         }
     }
+
+    private XStreamToSupportCatrobatLanguageVersion095AndBefore xstream;
+    private File backPackSoundDirectory;
+    private FileInputStream fileInputStream;
+    private Lock loadSaveLock = new ReentrantLock();
 
     private StorageHandler() throws IOException {
         xstream = new XStreamToSupportCatrobatLanguageVersion095AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
