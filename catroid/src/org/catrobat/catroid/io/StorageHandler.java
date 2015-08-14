@@ -433,6 +433,7 @@ public final class StorageHandler {
 			if (currentCodeFile.exists()) {
 				try {
 					String oldProjectXml = Files.toString(currentCodeFile, Charsets.UTF_8);
+
 					if (oldProjectXml.equals(projectXml)) {
 						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
 						return false;
