@@ -158,6 +158,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -366,7 +367,8 @@ public final class StorageHandler {
 			return null;
 		}
 
-		codeFileSanityCheck(projectName);
+		boolean result = codeFileSanityCheck(projectName);
+		assertTrue(result);
 
 		Log.d(TAG, "loadProject " + projectName);
 
@@ -417,7 +419,8 @@ public final class StorageHandler {
 
 		Log.d(TAG, "saveProject " + project.getName());
 
-		codeFileSanityCheck(project.getName());
+		boolean result = codeFileSanityCheck(project.getName());
+		assertTrue(result);
 
 		loadSaveLock.lock();
 
@@ -430,6 +433,10 @@ public final class StorageHandler {
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 
+			if(tmpCodeFile == null || currentCodeFile == null){
+				Log.d(TAG, "tmpCodeFile or currentCodeFile is null!");
+				return false;
+			}
 			if (currentCodeFile.exists()) {
 				try {
 					String oldProjectXml = Files.toString(currentCodeFile, Charsets.UTF_8);
@@ -487,7 +494,7 @@ public final class StorageHandler {
 		}
 	}
 
-	public void codeFileSanityCheck(String projectName) {
+	public boolean codeFileSanityCheck(String projectName) {
 		loadSaveLock.lock();
 
 		try {
@@ -501,8 +508,7 @@ public final class StorageHandler {
 					if (!tmpCodeFile.delete()) {
 						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
 					}
-
-					return;
+					return false;
 				}
 
 				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP
@@ -510,6 +516,7 @@ public final class StorageHandler {
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
+					return false;
 				}
 			}
 		} catch (Exception exception) {
@@ -517,6 +524,7 @@ public final class StorageHandler {
 		} finally {
 			loadSaveLock.unlock();
 		}
+		return true;
 	}
 
 	private void createProjectDataStructure(File projectDirectory) throws IOException {
