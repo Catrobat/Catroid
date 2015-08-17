@@ -160,8 +160,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-
 import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -440,14 +440,12 @@ public final class StorageHandler {
 					String oldProjectXml = Files.toString(currentCodeFile, Charsets.UTF_8);
 
 					if (oldProjectXml.equals(projectXml)) {
-						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
-						return false;
+						fail("Project version is the same. Do not update " + currentCodeFile.getName());
 					}
 					Log.d(TAG, "Project version differ <" + oldProjectXml.length() + "> <"
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
 				} catch (Exception exception) {
-					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
-					return false;
+					fail("Opening old project " + currentCodeFile.getName() + " failed.");
 				}
 			}
 
@@ -504,7 +502,7 @@ public final class StorageHandler {
 					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
 
 					if (!tmpCodeFile.delete()) {
-						fail( "Could not delete " + tmpCodeFile.getName());
+						fail("Could not delete " + tmpCodeFile.getName());
 					}
 				}
 
