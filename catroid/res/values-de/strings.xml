@@ -459,7 +459,6 @@
   <string name="brick_drone_move_up">Fliege nach oben</string>
   <string name="brick_drone_move_down">Fliege nach unten</string>
   <string name="brick_drone_flip">Flip</string>
-  <string name="brick_drone_power">Power</string>
   <string name="brick_drone_turn_right">Drehe nach rechts</string>
   <string name="brick_drone_turn_left">Drehe nach links</string>
   <string name="brick_drone_turn_left_magneto">Drehe nach links</string>

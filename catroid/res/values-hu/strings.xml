@@ -454,7 +454,6 @@
   <string name="brick_drone_move_up">Mozgás felfelé</string>
   <string name="brick_drone_move_down">Mozgás lefelé</string>
   <string name="brick_drone_flip">Fordulás</string>
-  <string name="brick_drone_power">Teljesítmény</string>
   <string name="brick_drone_turn_right">Fordulj jobbra</string>
   <string name="brick_drone_turn_left">Fordulj balra</string>
   <string name="brick_drone_turn_left_magneto">Fordulj balra: [angle]</string>

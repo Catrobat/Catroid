@@ -455,7 +455,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_drone_move_up">Mover hacia arriba</string>
   <string name="brick_drone_move_down">Mover hacia abajo</string>
   <string name="brick_drone_flip">Voltear</string>
-  <string name="brick_drone_power">Potencia</string>
   <string name="brick_drone_turn_right">Girar a la derecha</string>
   <string name="brick_drone_turn_left">Girar a la izquierda</string>
   <string name="brick_drone_turn_left_magneto">Gire a la izquierda [ángulo]</string>

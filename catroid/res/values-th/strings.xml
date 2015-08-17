@@ -445,7 +445,6 @@
   <string name="brick_drone_move_up">ขยับขึ้นบน</string>
   <string name="brick_drone_move_down">ขยับลงล่าง</string>
   <string name="brick_drone_flip">พลิก</string>
-  <string name="brick_drone_power">พลังงาน</string>
   <string name="brick_drone_turn_right">เลี้ยวขวา</string>
   <string name="brick_drone_turn_left">เลี้ยวซ้าย</string>
   <string name="brick_drone_turn_left_magneto">เลี้ยวซ้าย [angle]</string>

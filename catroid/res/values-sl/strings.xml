@@ -472,7 +472,6 @@
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Premakni dol</string>
   <string name="brick_drone_flip">Obrni</string>
-  <string name="brick_drone_power">Napajanje</string>
   <string name="brick_drone_turn_right">Zavij desno</string>
   <string name="brick_drone_turn_left">Zavij levo</string>
   <string name="brick_drone_turn_left_magneto">Zavij levo [angle]</string>

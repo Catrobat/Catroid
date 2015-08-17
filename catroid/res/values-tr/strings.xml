@@ -455,7 +455,6 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_drone_move_up">Yukarı git</string>
   <string name="brick_drone_move_down">Aşağıya git</string>
   <string name="brick_drone_flip">Ters çevir</string>
-  <string name="brick_drone_power">Güç</string>
   <string name="brick_drone_turn_right">Sağa dön</string>
   <string name="brick_drone_turn_left">Sola dön</string>
   <string name="brick_drone_turn_left_magneto">Sola dön [açı]</string>

@@ -455,7 +455,6 @@
   <string name="brick_drone_move_up">Muovi in alto</string>
   <string name="brick_drone_move_down">muovi giù</string>
   <string name="brick_drone_flip">flip</string>
-  <string name="brick_drone_power">potenza</string>
   <string name="brick_drone_turn_right">gira a destra</string>
   <string name="brick_drone_turn_left">gira a sinistra</string>
   <string name="brick_drone_turn_left_magneto">gira a sinistra con un angolo di [angle]</string>

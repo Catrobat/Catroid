@@ -452,7 +452,6 @@
   <string name="brick_drone_move_up">Flyt op</string>
   <string name="brick_drone_move_down">Flyt ned</string>
   <string name="brick_drone_flip">Vend rundt</string>
-  <string name="brick_drone_power">Strøm</string>
   <string name="brick_drone_turn_right">Drej til højre</string>
   <string name="brick_drone_turn_left">Drej til venstre</string>
   <string name="brick_drone_turn_left_magneto">Drej til venstre [vinkel]</string>

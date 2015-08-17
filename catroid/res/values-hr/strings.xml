@@ -472,7 +472,6 @@ su otpakovani!</item>
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Move down</string>
   <string name="brick_drone_flip">Flip</string>
-  <string name="brick_drone_power">Snaga</string>
   <string name="brick_drone_turn_right">Skreni desno</string>
   <string name="brick_drone_turn_left">Skreni lijevo</string>
   <string name="brick_drone_turn_left_magneto">Skreni lijevo [angle]</string>

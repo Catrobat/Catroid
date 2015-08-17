@@ -457,7 +457,6 @@ il faut
   <string name="brick_drone_move_up">Monter</string>
   <string name="brick_drone_move_down">Descendre</string>
   <string name="brick_drone_flip">Inverser</string>
-  <string name="brick_drone_power">Puissance</string>
   <string name="brick_drone_turn_right">Tourner à droite</string>
   <string name="brick_drone_turn_left">Tourner à gauche</string>
   <string name="brick_drone_turn_left_magneto">Tourner à gauche [angle]</string>

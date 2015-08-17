@@ -482,7 +482,6 @@
   <string name="brick_drone_move_up">تحريك لأعلى</string>
   <string name="brick_drone_move_down">تحريك لأسفل</string>
   <string name="brick_drone_flip">لف</string>
-  <string name="brick_drone_power">الطاقة</string>
   <string name="brick_drone_turn_right">إتجه إلى اليمين</string>
   <string name="brick_drone_turn_left">إتجه إلى اليسار</string>
   <string name="brick_drone_turn_left_magneto">اتجه إلى اليسار [زاوية]</string>
