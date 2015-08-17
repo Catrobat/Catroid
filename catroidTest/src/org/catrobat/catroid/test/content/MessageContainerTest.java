@@ -44,116 +44,116 @@ import java.util.Set;
 
 public class MessageContainerTest extends AndroidTestCase {
 
-    private final String projectName1 = "TestProject1";
-    private final String projectName2 = "TestProject2";
-    private final String projectName3 = "TestProject3";
-    private final String broadcastMessage1 = "testBroadcast1";
-    private final String broadcastMessage2 = "testBroadcast2";
+	private final String projectName1 = "TestProject1";
+	private final String projectName2 = "TestProject2";
+	private final String projectName3 = "TestProject3";
+	private final String broadcastMessage1 = "testBroadcast1";
+	private final String broadcastMessage2 = "testBroadcast2";
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        createTestProjects();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		createTestProjects();
+	}
 
-    @Override
-    protected void tearDown() {
-        TestUtils.deleteTestProjects(projectName1, projectName2, projectName3);
-    }
+	@Override
+	protected void tearDown() {
+		TestUtils.deleteTestProjects(projectName1, projectName2, projectName3);
+	}
 
-    public void testLoadProject() {
-        try {
-            ProjectManager.getInstance().loadProject(projectName1, getContext());
+	public void testLoadProject() {
+		try {
+			ProjectManager.getInstance().loadProject(projectName1, getContext());
 
-            Set<String> keySet = getMessages();
-            assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
-        } catch (ProjectException projectException) {
-            fail("Project is not loaded successfully");
-        }
-    }
+			Set<String> keySet = getMessages();
+			assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+		} catch (ProjectException projectException) {
+			fail("Project is not loaded successfully");
+		}
+	}
 
-    public void testLoadTwoProjects() {
-        try {
-            ProjectManager.getInstance().loadProject(projectName1, getContext());
-            assertTrue("Project1 is loaded successfully", true);
-        } catch (ProjectException projectException) {
-            fail("Project1 is not loaded successfully");
-        }
+	public void testLoadTwoProjects() {
+		try {
+			ProjectManager.getInstance().loadProject(projectName1, getContext());
+			assertTrue("Project1 is loaded successfully", true);
+		} catch (ProjectException projectException) {
+			fail("Project1 is not loaded successfully");
+		}
 
-        Set<String> keySet = getMessages();
-        assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+		Set<String> keySet = getMessages();
+		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
 
-        try {
-            ProjectManager.getInstance().loadProject(projectName2, getContext());
-            assertTrue("Project2 is loaded successfully", true);
-        } catch (ProjectException projectException) {
-            fail("Project2 is not loaded successfully");
-        }
+		try {
+			ProjectManager.getInstance().loadProject(projectName2, getContext());
+			assertTrue("Project2 is loaded successfully", true);
+		} catch (ProjectException projectException) {
+			fail("Project2 is not loaded successfully");
+		}
 
-        keySet = getMessages();
-        assertEquals("Broadcast message is in the message container", false, keySet.contains(broadcastMessage1));
-        assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage2));
-    }
+		keySet = getMessages();
+		assertEquals("Broadcast message is in the message container", false, keySet.contains(broadcastMessage1));
+		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage2));
+	}
 
-    public void testLoadCorruptedProjectAndCheckForBackup() {
-        try {
-            ProjectManager.getInstance().loadProject(projectName1, getContext());
-            assertTrue("Project1 is loaded successfully", true);
-        } catch (ProjectException projectException) {
-            fail("Project1 is not loaded successfully");
-        }
+	public void testLoadCorruptedProjectAndCheckForBackup() {
+		try {
+			ProjectManager.getInstance().loadProject(projectName1, getContext());
+			assertTrue("Project1 is loaded successfully", true);
+		} catch (ProjectException projectException) {
+			fail("Project1 is not loaded successfully");
+		}
 
-        Set<String> keySet = getMessages();
-        assertEquals("Broadcast message has the false position", true, keySet.contains(broadcastMessage1));
+		Set<String> keySet = getMessages();
+		assertEquals("Broadcast message has the false position", true, keySet.contains(broadcastMessage1));
 
-        try {
-            ProjectManager.getInstance().loadProject(projectName3, getContext());
-            fail("Project3 should be corrupted");
-        } catch (LoadingProjectException expected) {
-        } catch (ProjectException projectExceptions) {
-            fail("Project corruption test is failed");
-        }
+		try {
+			ProjectManager.getInstance().loadProject(projectName3, getContext());
+			fail("Project3 should be corrupted");
+		} catch (LoadingProjectException expected) {
+		} catch (ProjectException projectExceptions) {
+			fail("Project corruption test is failed");
+		}
 
-        keySet = getMessages();
-        assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
-    }
+		keySet = getMessages();
+		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+	}
 
-    private void createTestProjects() {
-        Project project1 = new Project(getContext(), projectName1);
+	private void createTestProjects() {
+		Project project1 = new Project(getContext(), projectName1);
 
-        Sprite sprite1 = new Sprite("cat");
-        Script script1 = new StartScript();
-        BroadcastBrick brick1 = new BroadcastBrick(broadcastMessage1);
-        script1.addBrick(brick1);
-        sprite1.addScript(script1);
+		Sprite sprite1 = new Sprite("cat");
+		Script script1 = new StartScript();
+		BroadcastBrick brick1 = new BroadcastBrick(broadcastMessage1);
+		script1.addBrick(brick1);
+		sprite1.addScript(script1);
 
-        BroadcastScript broadcastScript1 = new BroadcastScript(broadcastMessage1);
-        sprite1.addScript(broadcastScript1);
+		BroadcastScript broadcastScript1 = new BroadcastScript(broadcastMessage1);
+		sprite1.addScript(broadcastScript1);
 
-        project1.addSprite(sprite1);
+		project1.addSprite(sprite1);
 
-        StorageHandler.getInstance().saveProject(project1);
+		StorageHandler.getInstance().saveProject(project1);
 
-        Project project2 = new Project(getContext(), projectName2);
+		Project project2 = new Project(getContext(), projectName2);
 
-        Sprite sprite2 = new Sprite("cat");
-        Script script2 = new StartScript();
-        BroadcastBrick brick2 = new BroadcastBrick(broadcastMessage2);
-        script2.addBrick(brick2);
-        sprite2.addScript(script2);
+		Sprite sprite2 = new Sprite("cat");
+		Script script2 = new StartScript();
+		BroadcastBrick brick2 = new BroadcastBrick(broadcastMessage2);
+		script2.addBrick(brick2);
+		sprite2.addScript(script2);
 
-        BroadcastScript broadcastScript2 = new BroadcastScript(broadcastMessage2);
-        sprite2.addScript(broadcastScript2);
+		BroadcastScript broadcastScript2 = new BroadcastScript(broadcastMessage2);
+		sprite2.addScript(broadcastScript2);
 
-        project2.addSprite(sprite2);
+		project2.addSprite(sprite2);
 
-        boolean result = StorageHandler.getInstance().saveProject(project2);
-        assertTrue("Project saving error", result);
-    }
+		boolean result = StorageHandler.getInstance().saveProject(project2);
+		assertTrue("Project saving error", result);
+	}
 
-    @SuppressWarnings("unchecked")
-    private Set<String> getMessages() {
-        return ((Map<String, List<BroadcastScript>>) Reflection.getPrivateField(MessageContainer.class, "receiverMap"))
-                .keySet();
-    }
+	@SuppressWarnings("unchecked")
+	private Set<String> getMessages() {
+		return ((Map<String, List<BroadcastScript>>) Reflection.getPrivateField(MessageContainer.class, "receiverMap"))
+				.keySet();
+	}
 }
