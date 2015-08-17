@@ -161,6 +161,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import static junit.framework.Assert.fail;
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -414,7 +415,7 @@ public final class StorageHandler {
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
-		assertNotNull("project is null!",project);
+		assertNotNull("project is null!", project);
 
 		boolean result = codeFileSanityCheck(project.getName());
 		assertTrue(result);
@@ -503,17 +504,15 @@ public final class StorageHandler {
 					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
 
 					if (!tmpCodeFile.delete()) {
-						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
+						fail( "Could not delete " + tmpCodeFile.getName());
 					}
-					return false;
 				}
 
 				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP
 						+ " to " + PROJECTCODE_NAME);
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
-					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
-					return false;
+					fail("Could not rename " + tmpCodeFile.getName());
 				}
 			}
 		} catch (Exception exception) {
