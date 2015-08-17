@@ -158,6 +158,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
@@ -413,12 +414,7 @@ public final class StorageHandler {
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
-		if (project == null) {
-			Log.d(TAG, "project is null!");
-			return false;
-		}
-
-		Log.d(TAG, "saveProject " + project.getName());
+		assertNotNull("project is null!",project);
 
 		boolean result = codeFileSanityCheck(project.getName());
 		assertTrue(result);
