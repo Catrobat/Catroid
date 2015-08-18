@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_drone_spinner_layout"
-        style="@style/BrickContainer.Drone.Medium"
+        style="@style/BrickContainer.Control.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

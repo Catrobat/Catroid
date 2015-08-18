@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class DroneFlipBrick extends DroneBasicBrick {
+public class DroneFlipBrick extends DroneBasicControlBrick {
 	private static final long serialVersionUID = 1L;
 
 	@Override
