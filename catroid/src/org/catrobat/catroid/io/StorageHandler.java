@@ -503,13 +503,13 @@ public final class StorageHandler {
 			if (tmpCodeFile.exists()) {
 				File currentCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 				if (currentCodeFile.exists()) {
-					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard" + tmpCodeFile.getName());
+					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
 
 					if (!tmpCodeFile.delete()) {
 						//Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
 						fail("Could not delete " + tmpCodeFile.getName());
 					}
-					fail("TMP File probably corrupted. Both files exist. Discard");
+					fail("TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
 					return false;
 				}
 
