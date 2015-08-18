@@ -452,7 +452,6 @@
   <string name="brick_drone_move_up">Beweeg omhoog</string>
   <string name="brick_drone_move_down">Beweeg omlaag</string>
   <string name="brick_drone_flip">Spiegelen</string>
-  <string name="brick_drone_power">Voeding</string>
   <string name="brick_drone_turn_right">Draai rechtsom</string>
   <string name="brick_drone_turn_left">Draai linksom</string>
   <string name="brick_drone_turn_left_magneto">Draai [angle] graden naar links</string>

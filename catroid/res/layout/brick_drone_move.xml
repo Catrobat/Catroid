@@ -48,26 +48,26 @@
         <TextView
             android:id="@+id/brick_drone_move_label"
             style="@style/BrickText.Multiple" />
-        
-        <TextView
-            android:id="@+id/brick_drone_move_text_view_second"
-            style="@style/BrickText.SingleLine"
-            app:layout_newLine="true" />
-
-        <TextView
-            android:id="@+id/brick_drone_move_prototype_text_view_second"
-            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/brick_drone_move_edit_text_second"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" />
+
+        <TextView
+            android:id="@+id/brick_drone_move_prototype_text_view_second"
+            style="@style/BrickPrototypeTextView" />
+
+        <TextView
+            android:id="@+id/brick_drone_move_text_view_second"
+            style="@style/BrickText.SingleLine"
+            app:layout_newLine="true" />
         
         <TextView
             android:id="@+id/brick_drone_move_text_view_power"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_drone_power" />
+            android:text="@string/brick_drone_with" />
 
         <TextView
             android:id="@+id/brick_drone_move_prototype_text_view_power"
@@ -82,7 +82,7 @@
         <TextView
             android:id="@+id/brick_set_power_to_percent"
             style="@style/BrickText.SingleLine"
-            android:text="@string/percent_symbol" />
+            android:text="@string/brick_drone_percent_power" />
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

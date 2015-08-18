@@ -463,7 +463,6 @@
   <string name="brick_drone_move_up">ऊपर ले जायें</string>
   <string name="brick_drone_move_down">नीचे ले जायें</string>
   <string name="brick_drone_flip">पलटे</string>
-  <string name="brick_drone_power">शक्ति</string>
   <string name="brick_drone_turn_right">दाएँ मुड़ें</string>
   <string name="brick_drone_turn_left">बाएँ मुड़ें</string>
   <string name="brick_drone_turn_left_magneto">बाएँ मुड़े [angle]</string>

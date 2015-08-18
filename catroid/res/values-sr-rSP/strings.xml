@@ -473,7 +473,6 @@
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Move down</string>
   <string name="brick_drone_flip">Flip</string>
-  <string name="brick_drone_power">Power</string>
   <string name="brick_drone_turn_right">Turn right</string>
   <string name="brick_drone_turn_left">Turn left</string>
   <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>

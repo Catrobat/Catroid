@@ -452,7 +452,6 @@
   <string name="brick_drone_move_up">Flytta upp</string>
   <string name="brick_drone_move_down">Flytta ner</string>
   <string name="brick_drone_flip">Vänd</string>
-  <string name="brick_drone_power">Ström</string>
   <string name="brick_drone_turn_right">Sväng höger</string>
   <string name="brick_drone_turn_left">Sväng vänster</string>
   <string name="brick_drone_turn_left_magneto">Sväng vänster [angle]</string>
