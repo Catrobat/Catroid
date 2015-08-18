@@ -160,6 +160,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
