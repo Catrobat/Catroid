@@ -158,6 +158,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
@@ -416,12 +417,7 @@ public final class StorageHandler {
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
-		if (project == null) {
-			Log.d(TAG, "project is null!");
-			return false;
-		}
-
-		Log.d(TAG, "saveProject " + project.getName());
+		assertNotNull(project);
 
 		boolean result = codeFileSanityCheck(project.getName());
 		assertTrue(result);
@@ -507,11 +503,13 @@ public final class StorageHandler {
 			if (tmpCodeFile.exists()) {
 				File currentCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 				if (currentCodeFile.exists()) {
-					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
+					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard" + tmpCodeFile.getName());
 
 					if (!tmpCodeFile.delete()) {
-						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
+						//Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
+						fail("Could not delete " + tmpCodeFile.getName());
 					}
+					fail("TMP File probably corrupted. Both files exist. Discard");
 					return false;
 				}
 
@@ -520,6 +518,7 @@ public final class StorageHandler {
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
+					fail("Could not rename " + tmpCodeFile.getName());
 					return false;
 				}
 			}

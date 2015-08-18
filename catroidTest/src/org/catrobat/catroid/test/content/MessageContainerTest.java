@@ -148,7 +148,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		project2.addSprite(sprite2);
 
 		boolean result = StorageHandler.getInstance().saveProject(project2);
-		assertTrue("Project saving error", result);
+		assertTrue("error on saving project", result);
 	}
 
 	@SuppressWarnings("unchecked")
