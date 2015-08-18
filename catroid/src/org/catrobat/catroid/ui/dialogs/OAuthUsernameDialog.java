@@ -54,6 +54,7 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 
     private EditText usernameEditText;
     private String oAuthProvider;
+    private SignInDialog signInDialog;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 
         Bundle bundle = getArguments();
         if(bundle != null) {
-            oAuthProvider = bundle.getString(Constants.CUR_OAUTH_PROVIDER);
+            oAuthProvider = bundle.getString(Constants.CURRENT_OAUTH_PROVIDER);
         }
 
         final AlertDialog chooseUsernameDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
@@ -101,13 +102,14 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
     }
 
     @Override
-    public void onCheckUserNameAvailableComplete(Boolean userNameAvailable) {
+    public void onCheckUserNameAvailableComplete(Boolean userNameAvailable, String username) {
         if (userNameAvailable) {
             new CustomAlertDialogBuilder(getActivity()).setTitle(R.string.error).setMessage(R.string.oauth_username_taken)
                     .setPositiveButton(R.string.ok, null).show();
         } else {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             if (oAuthProvider.equals(Constants.FACEBOOK)) {
+                sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, username).commit();
                 FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(getActivity(),
                         AccessToken.getCurrentAccessToken().getToken(),
                         sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
@@ -118,15 +120,12 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
                 facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
                 facebookExchangeTokenTask.execute();
             } else if (oAuthProvider.equals(Constants.GOOGLE_PLUS)) {
-                GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(getActivity(),
-                        "", //GPLUS TOKEN
-                        sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
-                        sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
-                        sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
-                        sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
-                );
-                googleExchangeCodeTask.setOnGoogleExchangeCodeCompleteListener(this);
-                googleExchangeCodeTask.execute();
+                sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, username).commit();
+                SignInDialog signInDialog = new SignInDialog();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(Constants.REQUEST_GOOGLE_CODE, true);
+                signInDialog.setArguments(bundle);
+                signInDialog.show(getActivity().getSupportFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
             }
         }
     }
@@ -169,5 +168,9 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
         dismiss();
         UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
         uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+    }
+
+    public void setSignInDialog(SignInDialog signInDialog) {
+        this.signInDialog = signInDialog;
     }
 }

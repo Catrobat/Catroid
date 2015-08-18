@@ -52,6 +52,7 @@
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <!-- For testing purposes, this is automatically removed in live builds, but not in jenkins builds -->
     <uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />

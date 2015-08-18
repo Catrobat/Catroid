@@ -67,7 +67,28 @@
             android:layout_below="@+id/dialog_login_password_text_id"
             android:inputType="textPassword"
             android:maxLines="1" >
-        </EditText >
+        </EditText>
+
+        <CheckBox
+            android:id="@+id/dialog_login_checkbox_showpassword"
+            style="@style/DefaultDialog.Item"
+            android:layout_below="@+id/dialog_login_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom" />
+
+        <TextView
+            android:id="@+id/dialog_login_showpassword_text"
+            style="@style/DefaultDialog.TextView"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/dialog_login_password"
+            android:layout_toRightOf="@+id/dialog_login_checkbox_showpassword"
+            android:gravity="center_horizontal"
+            android:text="@string/show_password" />
 
     </RelativeLayout >
 

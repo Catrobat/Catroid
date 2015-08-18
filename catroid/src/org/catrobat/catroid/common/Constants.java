@@ -101,6 +101,8 @@ public final class Constants {
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
+	public static final String EMAIL = "email";
+	public static final String NO_EMAIL = "no_email";
 	public static final String RESTRICTED_USER = "restricted_user";
 	public static final String FACEBOOK_ID = "FACEBOOK_ID";
 	public static final String NO_FACEBOOK_ID = "NO_FACEBOOK_ID";
@@ -120,9 +122,13 @@ public final class Constants {
 	public static final String GOOGLE_EMAIL = "GOOGLE_EMAIL";
 	public static final String NO_GOOGLE_EMAIL = "NO_GOOGLE_EMAIL";
 	
-	public static final String CUR_OAUTH_PROVIDER = "PROVIDER";
+	public static final String CURRENT_OAUTH_PROVIDER = "PROVIDER";
 	public static final String FACEBOOK = "FACEBOOK";
 	public static final String GOOGLE_PLUS = "GPLUS";
+	public static final String NO_OAUTH_PROVIDER = "NATIVE";
+
+	public static final String REQUEST_GOOGLE_CODE = "requestGoogleCode";
+	public static final String REQUEST_MOBILE = "mobile";
 
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";

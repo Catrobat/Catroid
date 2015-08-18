@@ -70,7 +70,7 @@ public class FacebookExchangeTokenTask extends AsyncTask<Void, Void, Boolean> {
             return;
         }
         String title = context.getString(R.string.please_wait);
-        String message = context.getString(R.string.loading);
+        String message = context.getString(R.string.loading_facebook_exchange_token);
         progressDialog = ProgressDialog.show(context, title, message);
 
     }

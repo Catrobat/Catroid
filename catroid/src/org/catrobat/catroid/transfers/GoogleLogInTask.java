@@ -46,7 +46,6 @@ public class GoogleLogInTask extends AsyncTask<Void, Void, Boolean> {
     private String id;
     private String locale;
     private String message;
-    private boolean userSignedIn;
     private OnGoogleLogInCompleteListener onGoogleLogInCompleteListener;
 
     public GoogleLogInTask(FragmentActivity activity, String mail, String username, String id, String locale) {
@@ -68,7 +67,7 @@ public class GoogleLogInTask extends AsyncTask<Void, Void, Boolean> {
             return;
         }
         String title = context.getString(R.string.please_wait);
-        String message = context.getString(R.string.loading);
+        String message = context.getString(R.string.loading_google_login);
         progressDialog = ProgressDialog.show(context, title, message);
 
     }
@@ -80,25 +79,23 @@ public class GoogleLogInTask extends AsyncTask<Void, Void, Boolean> {
                 return false;
             }
 
-            userSignedIn = ServerCalls.getInstance().googleLogin(mail, username, id, locale);
-            return true;
+            return ServerCalls.getInstance().googleLogin(mail, username, id, locale, context);
         } catch (WebconnectionException webconnectionException) {
             Log.e(TAG, Log.getStackTraceString(webconnectionException));
             message = webconnectionException.getMessage();
         }
         return false;
-
     }
 
     @Override
-    protected void onPostExecute(Boolean result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(Boolean userSignedIn) {
+        super.onPostExecute(userSignedIn);
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
 
-        if (!result) {
+        if (!userSignedIn) {
             showDialog(R.string.error_internet_connection);
             return;
         }

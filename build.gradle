@@ -86,6 +86,41 @@ android {
     defaultConfig {
         multiDexEnabled = true
     }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_LED_BRICK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_BACKPACK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
+            buildConfigField "boolean",
+                    "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED",
+                    "false"
+            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
+        }
+        release {
+            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_LED_BRICK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_BACKPACK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
+            buildConfigField "boolean",
+                    "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED",
+                    "false"
+            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
+        }
+    }
 }
 
 ext {
@@ -120,8 +155,8 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.4.0'
     compile 'com.android.support:support-v4:19.1.0'
     //compile 'com.google.apis:google-api-services-plus:v1-rev240-1.20.0'
-    //compile 'com.google.android.gms:play-services:4.4.52'
-    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.google.android.gms:play-services:4.4.52'
+    //compile 'com.google.android.gms:play-services:6.5.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -270,4 +305,9 @@ if (project.hasProperty('jenkins')) {
             }
         }
     }
+}
+
+def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
+if (signing_config_file.exists()) {
+    apply from: signing_config_file.absolutePath
 }

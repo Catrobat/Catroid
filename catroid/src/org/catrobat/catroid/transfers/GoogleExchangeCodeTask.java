@@ -48,7 +48,6 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
     private String locale;
     private String message;
     private OnFacebookExchangeCodeCompleteListener onGoogleExchangeCodeCompleteListener;
-    private boolean userSignedIn;
 
     public GoogleExchangeCodeTask(FragmentActivity activity, String code, String mail, String username, String id, String locale) {
         this.code = code;
@@ -70,7 +69,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
             return;
         }
         String title = context.getString(R.string.please_wait);
-        String message = context.getString(R.string.loading);
+        String message = context.getString(R.string.loading_google_exchange_code);
         progressDialog = ProgressDialog.show(context, title, message);
 
     }
@@ -82,9 +81,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
                 return false;
             }
 
-            userSignedIn = ServerCalls.getInstance().facebookExchangeToken(code, id, username, mail, locale);
-            return true;
-
+            return ServerCalls.getInstance().googleExchangeCode(code, id, username, mail, locale);
         } catch (WebconnectionException webconnectionException) {
             Log.e(TAG, Log.getStackTraceString(webconnectionException));
             message = webconnectionException.getMessage();
@@ -94,14 +91,14 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected void onPostExecute(Boolean result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(Boolean userSignedIn) {
+        super.onPostExecute(userSignedIn);
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
 
-        if (!result) {
+        if (!userSignedIn) {
             showDialog(R.string.error_internet_connection);
             return;
         }

@@ -82,6 +82,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+			Log.d(TAG, token);
 
 			userLoggedIn = ServerCalls.getInstance().login(username, password, token, context);
 

@@ -58,6 +58,8 @@ import java.io.File;
 
 public class UploadProjectDialog extends DialogFragment {
 
+	private String oAuthProvider = Constants.NO_OAUTH_PROVIDER;
+
 	private class UploadReceiver extends ResultReceiver {
 
 		public UploadReceiver(Handler handler) {
@@ -105,6 +107,11 @@ public class UploadProjectDialog extends DialogFragment {
 		projectDescriptionField = (EditText) dialogView.findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) dialogView.findViewById(R.id.project_upload_name);
 		sizeOfProject = (TextView) dialogView.findViewById(R.id.dialog_upload_size_of_project);
+
+		Bundle bundle = getArguments();
+		if(bundle != null) {
+			oAuthProvider = bundle.getString(Constants.CURRENT_OAUTH_PROVIDER);
+		}
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.upload_project_dialog_title)
@@ -256,6 +263,7 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("projectPath", projectPath);
 		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
+		uploadIntent.putExtra("provider", oAuthProvider);
 
 		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
 				uploadName);

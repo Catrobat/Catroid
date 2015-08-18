@@ -1644,6 +1644,20 @@ public final class UiTestUtils {
 		return testImage;
 	}
 
+	public static void createValidUserWithCredentials(Context context, String testUser, String testPassword, String
+			testEmail) {
+		try {
+			String token = Constants.NO_TOKEN;
+			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
+					"de", "at", token, context);
+
+			assert (userRegistered);
+		} catch (WebconnectionException e) {
+			Log.e(TAG, "Error creating test user.", e);
+			fail("Error creating test user.");
+		}
+	}
+
 	public static void createValidUser(Context context) {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();

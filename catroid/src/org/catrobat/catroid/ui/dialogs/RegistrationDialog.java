@@ -39,8 +39,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class RegistrationDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -65,6 +67,7 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 		usernameEditText.setText("");
 		passwordEditText.setText("");
 		passwordConfirmEditText.setText("");
+		emailEditText.setText(UtilDeviceInfo.getUserEmail(getActivity()));
 		showPasswordCheckBox.setChecked(false);
 
 		showPasswordCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +114,10 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 	@Override
 	public void onRegistrationComplete() {
 		dismiss();
-
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
+		uploadProjectDialog.setArguments(bundle);
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -120,13 +125,14 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 		String username = usernameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 		String passwordConfirmation = passwordConfirmEditText.getText().toString();
+		String email = emailEditText.getText().toString();
 
 		if (!password.equals(passwordConfirmation)) {
 			new AlertDialog.Builder(getActivity()).setTitle(R.string.register_error)
 					.setMessage(R.string.register_password_mismatch).setPositiveButton(R.string.ok, null).show();
 		} else {
-			dismiss();
-			RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password);
+			//dismiss();
+			RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, email);
 			registrationTask.setOnRegistrationCompleteListener(this);
 			registrationTask.execute();
 		}

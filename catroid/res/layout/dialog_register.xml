@@ -35,7 +35,7 @@
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_username_text"
             style="@style/DefaultDialog.TextView"
-            android:text="@string/accountName" />
+            android:text="@string/username" />
 
         <View
             android:id="@+id/dialog_register_username_text_line"
@@ -53,7 +53,7 @@
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_email_text"
             style="@style/DefaultDialog.TextView"
-            android:text="@string/username"
+            android:text="@string/accountName"
             android:layout_below="@+id/dialog_register_username" />
 
         <View
@@ -116,7 +116,7 @@
             android:gravity="bottom" />
 
         <TextView
-              android:id="@+id/dialog_register_username_password_textview_registerterms"
+              android:id="@+id/dialog_register_showpassword_text"
             style="@style/DefaultDialog.TextView"
               android:layout_height="wrap_content"
              android:layout_width="wrap_content"

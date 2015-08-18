@@ -59,6 +59,8 @@ public class ServerCallsTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
+	//TODO: tests fb + g+
+
 	public void testRegistrationOk() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();

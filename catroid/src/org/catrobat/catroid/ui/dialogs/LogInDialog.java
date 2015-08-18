@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -36,13 +37,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.LoginTask;
-import org.catrobat.catroid.transfers.RegistrationTask;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -53,6 +53,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
+	private CheckBox showPasswordCheckBox;
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -60,9 +61,23 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 
 		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_login_username);
 		passwordEditText = (EditText) rootView.findViewById(R.id.dialog_login_password);
+		showPasswordCheckBox = (CheckBox) rootView.findViewById(R.id.dialog_login_checkbox_showpassword);
 
 		usernameEditText.setText("");
 		passwordEditText.setText("");
+
+		showPasswordCheckBox.setChecked(false);
+
+		showPasswordCheckBox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (showPasswordCheckBox.isChecked()) {
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+				} else {
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+				}
+			}
+		});
 
 		final AlertDialog loginDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
 				.setTitle(R.string.login).setPositiveButton(R.string.login, null)
@@ -102,6 +117,9 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 	public void onLoginComplete() {
 		dismiss();
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
+		uploadProjectDialog.setArguments(bundle);
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 

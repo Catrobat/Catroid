@@ -135,7 +135,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
 		if ((token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) && AccessToken.getCurrentAccessToken() == null) {
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) /* && AccessToken.getCurrentAccessToken() == null*/) {
 			showSignInDialog(fragmentActivity);
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);

@@ -28,6 +28,7 @@ import android.util.Log;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginBehavior;
 
 import org.json.JSONObject;
 
@@ -36,6 +37,8 @@ public final class FacebookCalls {
 	private static final String TAG = FacebookCalls.class.getSimpleName();
 
 	private static final FacebookCalls INSTANCE = new FacebookCalls();
+
+	private static LoginBehavior loginBehavior = LoginBehavior.NATIVE_WITH_FALLBACK;
 
 	private FacebookCalls() {
 
@@ -75,5 +78,12 @@ public final class FacebookCalls {
 		request.executeAsync();
 	}
 
+	public LoginBehavior getLoginBehavior() {
+		return loginBehavior;
+	}
+
+	public void setLoginBehavior(LoginBehavior loginBehavior) {
+		FacebookCalls.loginBehavior = loginBehavior;
+	}
 
 }

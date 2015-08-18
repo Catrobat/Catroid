@@ -33,7 +33,7 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-public class CheckUserNameAvailableTask extends AsyncTask<String, Void, Boolean> {
+public class CheckUserNameAvailableTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = CheckUserNameAvailableTask.class.getSimpleName();
 
 	private FragmentActivity fragmentActivity;
@@ -60,12 +60,12 @@ public class CheckUserNameAvailableTask extends AsyncTask<String, Void, Boolean>
 			return;
 		}
 		String title = fragmentActivity.getString(R.string.please_wait);
-		String message = fragmentActivity.getString(R.string.loading);
+		String message = fragmentActivity.getString(R.string.loading_check_oauth_username);
 		progressDialog = ProgressDialog.show(fragmentActivity, title, message);
 	}
 
 	@Override
-	protected Boolean doInBackground(String... params) {
+	protected Boolean doInBackground(Void... params) {
 		try {
 			if (!Utils.isNetworkAvailable(fragmentActivity)) {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
@@ -94,7 +94,7 @@ public class CheckUserNameAvailableTask extends AsyncTask<String, Void, Boolean>
 		}
 
 		if (onCheckUserNameAvailableCompleteListener != null) {
-			onCheckUserNameAvailableCompleteListener.onCheckUserNameAvailableComplete(userNameAvailable);
+			onCheckUserNameAvailableCompleteListener.onCheckUserNameAvailableComplete(userNameAvailable, username);
 		}
 	}
 
@@ -112,6 +112,6 @@ public class CheckUserNameAvailableTask extends AsyncTask<String, Void, Boolean>
 	}
 
 	public interface OnCheckUserNameAvailableCompleteListener {
-		void onCheckUserNameAvailableComplete(Boolean userNameAvailable);
+		void onCheckUserNameAvailableComplete(Boolean userNameAvailable, String username);
 	}
 }

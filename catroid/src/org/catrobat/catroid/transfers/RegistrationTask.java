@@ -46,16 +46,18 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private ProgressDialog progressDialog;
 	private String username;
 	private String password;
+	private String email;
 
 	private String message;
 	private boolean userRegistered;
 
 	private OnRegistrationCompleteListener onRegistrationCompleteListener;
 
-	public RegistrationTask(Context activity, String username, String password) {
+	public RegistrationTask(Context activity, String username, String password, String email) {
 		this.context = activity;
 		this.username = username;
 		this.password = password;
+		this.email = email;
 	}
 
 	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
@@ -80,7 +82,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			String email = UtilDeviceInfo.getUserEmail(context);
+			//String email = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode();
 			String country = UtilDeviceInfo.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

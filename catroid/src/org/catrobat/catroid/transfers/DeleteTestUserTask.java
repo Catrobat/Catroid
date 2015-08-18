@@ -33,26 +33,22 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
-	private static final String TAG = CheckEmailAvailableTask.class.getSimpleName();
+public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
+	private static final String TAG = DeleteTestUserTask.class.getSimpleName();
 
 	private FragmentActivity fragmentActivity;
 	private ProgressDialog progressDialog;
-	private String email;
-	private String provider;
 
 	private WebconnectionException exception;
 
-	private OnCheckEmailAvailableCompleteListener onCheckEmailAvailableCompleteListener;
+	private OnDeleteTestUserCompleteListener onDeleteTestUserCompleteListener;
 
-	public CheckEmailAvailableTask(FragmentActivity fragmentActivity, String email, String provider) {
+	public DeleteTestUserTask(FragmentActivity fragmentActivity) {
 		this.fragmentActivity = fragmentActivity;
-		this.email = email;
-		this.provider = provider;
 	}
 
-	public void setOnCheckEmailAvailableCompleteListener(OnCheckEmailAvailableCompleteListener listener) {
-		onCheckEmailAvailableCompleteListener = listener;
+	public void setOnDeleteTestUserCompleteListener(OnDeleteTestUserCompleteListener listener) {
+		onDeleteTestUserCompleteListener = listener;
 	}
 
 	@Override
@@ -62,19 +58,19 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 			return;
 		}
 		String title = fragmentActivity.getString(R.string.please_wait);
-		String message = fragmentActivity.getString(R.string.loading_check_email);
+		String message = fragmentActivity.getString(R.string.loading);
 		progressDialog = ProgressDialog.show(fragmentActivity, title, message);
 	}
 
 	@Override
-	protected Boolean doInBackground(String... params) {
+	protected Boolean doInBackground(Void... params) {
 		try {
 			if (!Utils.isNetworkAvailable(fragmentActivity)) {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
-			return ServerCalls.getInstance().checkEMailAvailable(email);
+			return ServerCalls.getInstance().deleteTestUserAccountsOnServer();
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			exception = webconnectionException;
@@ -83,8 +79,8 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	}
 
 	@Override
-	protected void onPostExecute(Boolean emailAvailable) {
-		super.onPostExecute(emailAvailable);
+	protected void onPostExecute(Boolean deleted) {
+		super.onPostExecute(deleted);
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
@@ -95,8 +91,8 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 			return;
 		}
 
-		if (onCheckEmailAvailableCompleteListener != null) {
-			onCheckEmailAvailableCompleteListener.onCheckEmailAvailableComplete(emailAvailable, provider);
+		if (onDeleteTestUserCompleteListener != null) {
+			onDeleteTestUserCompleteListener.onDeleteTestUserComplete(deleted);
 		}
 	}
 
@@ -113,7 +109,7 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 		}
 	}
 
-	public interface OnCheckEmailAvailableCompleteListener {
-		void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider);
+	public interface OnDeleteTestUserCompleteListener {
+		void onDeleteTestUserComplete(Boolean deleted);
 	}
 }

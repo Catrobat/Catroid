@@ -48,39 +48,41 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.GooglePlayServicesAvailabilityException;
-import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.*;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.PlusClient;
+import com.google.android.gms.plus.model.people.Person;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
-import org.catrobat.catroid.transfers.CheckFacebookTokenTask;
+import org.catrobat.catroid.transfers.CheckOAuthTokenTask;
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.transfers.FacebookLogInTask;
+import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
+import org.catrobat.catroid.transfers.GoogleFetchCodeTask;
+import org.catrobat.catroid.transfers.GoogleLogInTask;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.web.FacebookCalls;
 import org.catrobat.catroid.web.GoogleCalls;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SignInDialog extends DialogFragment implements
-		ConnectionCallbacks, OnConnectionFailedListener, FacebookLogInTask.OnFacebookLogInCompleteListener,
-		FacebookCalls.OnGetFacebookUserInfoCompleteListener, CheckFacebookTokenTask.OnCheckFacebookTokenCompleteListener, CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
+		GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, FacebookLogInTask
+		.OnFacebookLogInCompleteListener, FacebookCalls.OnGetFacebookUserInfoCompleteListener, CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener, CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
+		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener, GoogleLogInTask.OnGoogleLogInCompleteListener, GoogleFetchCodeTask.OnGoogleFetchCodeCompleteListener, GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_sign_in";
-	private static final int GPLUS_REQUEST_CODE_RESOLVE_ERR = 9000;
-	static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1001;
+	private static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
+	private static final Integer RESULT_CODE_AUTH_CODE = 1;
+	private static final String SCOPE_EMAIL = "email";
 
 	private Button loginButton;
 	private Button registerButton;
@@ -89,52 +91,22 @@ public class SignInDialog extends DialogFragment implements
 	private TextView termsOfUseLinkTextView;
 	private CallbackManager callbackManager;
 
-	private ProgressDialog mConnectionProgressDialog;
-	private PlusClient mPlusClient;
+	private ProgressDialog connectionProgressDialog;
+	private GoogleApiClient googleApiClient;
 	private ConnectionResult mConnectionResult;
+	/* Should we automatically resolve ConnectionResults when possible? */
+	private boolean shouldResolve = false;
+	/* Is there a ConnectionResult resolution in progress? */
+	private boolean isResolving = false;
+	private boolean triggerGPlusLogin = false;
+
+	//https://developers.google.com/identity/sign-in/android/start-integrating
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 
-		FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
-		callbackManager = CallbackManager.Factory.create();
-		FacebookCalls.getInstance().setOnGetFacebookUserInfoCompleteListener(SignInDialog.this);
-
-		LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Toast.makeText(getActivity(), loginResult.toString(), Toast.LENGTH_LONG);
-                        Log.d("Facebook", loginResult.toString());
-                        FacebookCalls.getInstance().getFacebookUserInfo(loginResult.getAccessToken());
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-                        Log.d("Facebook", "cancel");
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                        Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_LONG);
-                        Log.d("Facebook", exception.getMessage());
-                    }
-                });
-
-		mPlusClient = new PlusClient.Builder(getActivity(), this, this)
-				.setScopes(Scopes.PLUS_LOGIN)
-				.build();
-        //mPlusClient = new GoogleApiClient.Builder(getActivity())
-        //        .addConnectionCallbacks(this)
-        //        .addOnConnectionFailedListener(this)
-        //        .addApi(Plus.API)
-        //        .addScope(new Scope(Scopes.PLUS_LOGIN))
-        //        .build();
-		// Anzuzeigende Statusmeldung, wenn der Verbindungsfehler nicht behoben ist
-		mConnectionProgressDialog = new ProgressDialog(getActivity());
-		mConnectionProgressDialog.setMessage("Signing in to G+...");
+		initializeFacebookSdk();
+		initializeGoogleSdk();
 
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in, null);
 
@@ -168,39 +140,114 @@ public class SignInDialog extends DialogFragment implements
 			}
 		});
 		facebookLoginButton.setFragment(this);
+		facebookLoginButton.setReadPermissions("email");
+		facebookLoginButton.setLoginBehavior(FacebookCalls.getInstance().getLoginBehavior());
 
 		gplusLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (view.getId() == R.id.dialog_sign_in_gplus_login_button && !mPlusClient.isConnected()) {
-					if (mConnectionResult == null) {
-						mConnectionProgressDialog.show();
-					} else {
-						try {
-							mConnectionResult.startResolutionForResult(getActivity(), GPLUS_REQUEST_CODE_RESOLVE_ERR);
-						} catch (IntentSender.SendIntentException e) {
-							// Versuchen Sie erneut, die Verbindung herzustellen.
-							mConnectionResult = null;
-							mPlusClient.connect();
-						}
-					}
-				}
+				handleGooglePlusLoginButtonClick(view);
 			}
 		});
 
+		Bundle arguments = getArguments();
+		if(arguments != null) {
+			if(arguments.getBoolean(Constants.REQUEST_GOOGLE_CODE)){
+				requestGoogleAuthorizationCode();
+			}
+		}
+
 		return signInDialog;
+	}
+
+	private void initializeFacebookSdk() {
+		FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+		callbackManager = CallbackManager.Factory.create();
+		FacebookCalls.getInstance().setOnGetFacebookUserInfoCompleteListener(SignInDialog.this);
+
+		LoginManager.getInstance().registerCallback(callbackManager,
+				new FacebookCallback<LoginResult>() {
+					@Override
+					public void onSuccess(LoginResult loginResult) {
+						Toast.makeText(getActivity(), loginResult.toString(), Toast.LENGTH_LONG);
+						Log.d("Facebook", loginResult.toString());
+						FacebookCalls.getInstance().getFacebookUserInfo(loginResult.getAccessToken());
+					}
+
+					@Override
+					public void onCancel() {
+						// App code
+						Log.d("Facebook", "cancel");
+					}
+
+					@Override
+					public void onError(FacebookException exception) {
+						// App code
+						Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_LONG);
+						Log.d("Facebook", exception.getMessage());
+					}
+				});
+	}
+
+	private void initializeGoogleSdk() {
+
+		googleApiClient = new GoogleApiClient.Builder(getActivity())
+				.addConnectionCallbacks(this)
+				.addOnConnectionFailedListener(this)
+				.addApi(Plus.API)
+				.addScope(new Scope(Scopes.PROFILE)) //nötig?
+				.addScope(new Scope(SCOPE_EMAIL))
+				.build();
+
+		// Anzuzeigende Statusmeldung, wenn der Verbindungsfehler nicht behoben ist
+		connectionProgressDialog = new ProgressDialog(getActivity());
+		connectionProgressDialog.setMessage("Signing in to G+...");
+	}
+
+	private void handleGooglePlusLoginButtonClick(View view) {
+		if (view.getId() == R.id.dialog_sign_in_gplus_login_button) {
+			if (!googleApiClient.isConnected()) {
+				// User clicked the sign-in button, so begin the sign-in process and automatically
+				// attempt to resolve any errors that occur.
+				shouldResolve = true;
+				googleApiClient.connect();
+				triggerGPlusLogin = true;
+			} else {
+				triggerGPlusLogin();
+			}
+		}
+	}
+
+	private void triggerGPlusLogin() {
+		if (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null && Plus.AccountApi.getAccountName(googleApiClient) != null) {
+			Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
+			String id = currentPerson.getId();
+			String personName = currentPerson.getDisplayName();
+			String email = Plus.AccountApi.getAccountName(googleApiClient);
+			String locale = currentPerson.getLanguage();
+
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			sharedPreferences.edit().putString(Constants.GOOGLE_ID, id).commit();
+			sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, personName).commit();
+			sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, email).commit();
+			sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, locale).commit();
+
+			CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), id, Constants.GOOGLE_PLUS);
+			checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
+			checkOAuthTokenTask.execute();
+		}
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		mPlusClient.connect();
+		googleApiClient.connect();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		mPlusClient.disconnect();
+		googleApiClient.disconnect();
 	}
 
 	private void handleLoginButtonClick() {
@@ -215,12 +262,25 @@ public class SignInDialog extends DialogFragment implements
 		dismiss();
 	}
 
+	public void requestGoogleAuthorizationCode() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
+		GoogleCalls.getInstance().getGoogleAuthorizationCode(getActivity(), email, this);
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == GPLUS_REQUEST_CODE_RESOLVE_ERR && resultCode == Activity.RESULT_OK) {
-			mConnectionResult = null;
-			mPlusClient.connect();
+		if (requestCode == GPLUS_REQUEST_CODE_SIGN_IN) {
+			// If the error resolution was not successful we should not resolve further.
+			if (resultCode != Activity.RESULT_OK) {
+				shouldResolve = false;
+			}
+			isResolving = false;
+			googleApiClient.connect();
+		} else if (requestCode == RESULT_CODE_AUTH_CODE) {
+			Log.d(DIALOG_FRAGMENT_TAG, "offline access approved?");
+			requestGoogleAuthorizationCode();
 		}
 
 		callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -228,43 +288,55 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onConnected(Bundle bundle) {
-		// Wir haben alle Verbindungsfehler behoben.
-		mConnectionProgressDialog.dismiss();
-		String accountName = mPlusClient.getAccountName();
-		Toast.makeText(getActivity(), accountName + " is connected.", Toast.LENGTH_LONG).show();
-        String accessToken = "";
-        GoogleCalls.getInstance().getGoogleToken(getActivity(), accountName);
+		connectionProgressDialog.dismiss();
+		shouldResolve = false;
+		if(triggerGPlusLogin) {
+			triggerGPlusLogin = false;
+			triggerGPlusLogin();
+		}
 	}
 
 	@Override
-	public void onDisconnected() {
-		Log.d(DIALOG_FRAGMENT_TAG, "disconnected");
+	public void onConnectionSuspended(int i) {
+		Log.d(DIALOG_FRAGMENT_TAG, "onConnectionSuspended:" + i);
+		googleApiClient.connect();
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
-		if (mConnectionProgressDialog.isShowing() || true) {
-			// Der Nutzer hat bereits auf die Anmeldeschaltfläche geklickt. Starten Sie mit der Behebung
-			// von Verbindungsfehlern. Warten Sie, bis onConnected() den
-			// Verbindungsdialog geschlossen hat.
+		//if (connectionProgressDialog.isShowing() || true) {
+		// Could not connect to Google Play Services.  The user needs to select an account,
+		// grant permissions or resolve an error in order to sign in. Refer to the javadoc for
+		// ConnectionResult to see possible error codes.
+		Log.d(DIALOG_FRAGMENT_TAG, "onConnectionFailed:" + connectionResult);
+
+		if (shouldResolve && !isResolving) {
 			if (connectionResult.hasResolution()) {
 				try {
-					connectionResult.startResolutionForResult(getActivity(), GPLUS_REQUEST_CODE_RESOLVE_ERR);
+					connectionResult.startResolutionForResult(getActivity(), GPLUS_REQUEST_CODE_SIGN_IN);
+					isResolving = true;
 				} catch (IntentSender.SendIntentException e) {
-					mPlusClient.connect();
+					Log.e(DIALOG_FRAGMENT_TAG, "Could not resolve ConnectionResult.", e);
+					isResolving = false;
+					googleApiClient.connect();
 				}
+			} else {
+				// Could not resolve the connection result, show the user an
+				// error dialog.
+				new AlertDialog.Builder(getActivity()).setTitle(R.string.error)
+						.setMessage(R.string.sign_in_error).setPositiveButton(R.string.ok, null).show();
 			}
-		}
-
-		// Speichern Sie die Absicht, damit wir eine Aktivität starten können, wenn der Nutzer auf
-		// die Anmeldeschaltfläche klickt.
-		mConnectionResult = connectionResult;
+		} /*else {
+			// Show the signed-out UI
+			showSignedOutUI();
+		}*/
 	}
 
 	/**
 	 * This method is a hook for background threads and async tasks that need to
 	 * provide the user a response UI when an exception occurs.
 	 */
+	/*
 	public void handleException(final Exception e) {
 		// Because this call comes from the AsyncTask, we must ensure that the following
 		// code instead executes on the UI thread.
@@ -292,7 +364,7 @@ public class SignInDialog extends DialogFragment implements
 			}
 		});
 	}
-
+	*/
 	@Override
 	public void onGetFacebookUserInfoComplete(GraphResponse response) {
 		Log.d("FB", "User Info complete");
@@ -302,78 +374,153 @@ public class SignInDialog extends DialogFragment implements
 			sharedPreferences.edit().putString(Constants.FACEBOOK_ID, responseObject.getString("id")).commit();
 			sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, responseObject.getString("name")).commit();
 			sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, responseObject.getString("locale")).commit();
-			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, responseObject.getString("email")).commit();
+			//if user has approved email permission, fb-email address is taken, else device email address
+			if(responseObject.has("email")) {
+				sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, responseObject.getString("email")).commit();
+			} else {
+				sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, UtilDeviceInfo.getUserEmail(getActivity()))
+						.commit();
+			}
 
-			CheckFacebookTokenTask checkFacebookTokenTask = new CheckFacebookTokenTask(getActivity(), responseObject.getString("id"));
-			checkFacebookTokenTask.setOnCheckFacebookTokenCompleteListener(this);
-			checkFacebookTokenTask.execute();
-
+			CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), responseObject.getString
+					("id"), Constants.FACEBOOK);
+			checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
+			checkOAuthTokenTask.execute();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void onCheckFacebookTokenComplete(Boolean tokenAvailable) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if(tokenAvailable) {
-            FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
-                    sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-                    sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-                    sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-                    sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-            );
-            facebookLogInTask.setOnFacebookLogInCompleteListener(this);
-            facebookLogInTask.execute();
-		} else {
-			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(getActivity(),
-					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL));
-			checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
-			checkEmailAvailableTask.execute();
+	public void onCheckOAuthTokenComplete(Boolean tokenAvailable, String provider) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (provider.equals(Constants.FACEBOOK)) {
+			if (tokenAvailable) {
+				FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
+						sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+						sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+						sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+						sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+				);
+				facebookLogInTask.setOnFacebookLogInCompleteListener(this);
+				facebookLogInTask.execute();
+			} else {
+				CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(getActivity(),
+						sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL), provider);
+				checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
+				checkEmailAvailableTask.execute();
+			}
+		} else if (provider.equals(Constants.GOOGLE_PLUS)) {
+			if (tokenAvailable) {
+				GoogleLogInTask googleLogInTask = new GoogleLogInTask(getActivity(),
+						sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
+						sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
+						sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
+						sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
+				googleLogInTask.setOnGoogleLogInCompleteListener(this);
+				googleLogInTask.execute();
+			} else {
+				String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
+				CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(getActivity(),
+						email, provider);
+				checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
+				checkEmailAvailableTask.execute();
+			}
 		}
 	}
 
 	@Override
-	public void onCheckEmailAvailableComplete(Boolean emailAvailable) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if(emailAvailable) {
-			FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(getActivity(),
-                    AccessToken.getCurrentAccessToken().getToken(),
-					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-                    sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-                    sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-                    sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-            );
-			facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
-			facebookExchangeTokenTask.execute();
-		} else {
-			OAuthUsernameDialog oAuthUsernameDialog = new OAuthUsernameDialog();
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.CUR_OAUTH_PROVIDER, Constants.FACEBOOK);
-            oAuthUsernameDialog.setArguments(bundle);
-			oAuthUsernameDialog.show(getActivity().getSupportFragmentManager(), OAuthUsernameDialog.DIALOG_FRAGMENT_TAG);
-			dismiss();
+	public void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider) {
+		if (provider.equals(Constants.FACEBOOK)) {
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			if (emailAvailable) {
+				FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(getActivity(),
+						AccessToken.getCurrentAccessToken().getToken(),
+						sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+						sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+						sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+						sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+				);
+				facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
+				facebookExchangeTokenTask.execute();
+			} else {
+				showOauthUserNameDialog(Constants.FACEBOOK);
+			}
+		} else if (provider.equals(Constants.GOOGLE_PLUS)) {
+			if (emailAvailable) {
+				requestGoogleAuthorizationCode();
+			} else {
+				showOauthUserNameDialog(Constants.GOOGLE_PLUS);
+			}
 		}
+	}
+
+	private void showOauthUserNameDialog(String provider) {
+		OAuthUsernameDialog oAuthUsernameDialog = new OAuthUsernameDialog();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
+		oAuthUsernameDialog.setArguments(bundle);
+		oAuthUsernameDialog.setSignInDialog(this);
+		oAuthUsernameDialog.show(getActivity().getSupportFragmentManager(), OAuthUsernameDialog.DIALOG_FRAGMENT_TAG);
+		dismiss();
 	}
 
 	@Override
 	public void onFacebookExchangeTokenComplete() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
-                sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-                sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-                sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-                sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-        );
-        facebookLogInTask.setOnFacebookLogInCompleteListener(this);
-        facebookLogInTask.execute();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
+				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+				sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+				sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+		);
+		facebookLogInTask.setOnFacebookLogInCompleteListener(this);
+		facebookLogInTask.execute();
 	}
 
 	@Override
 	public void onFacebookLogInComplete() {
-        dismiss();
-        UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-        uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		dismiss();
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.FACEBOOK);
+		uploadProjectDialog.setArguments(bundle);
+		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
+	@Override
+	public void onGoogleLogInComplete() {
+		dismiss();
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
+		uploadProjectDialog.setArguments(bundle);
+		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void onGoogleFetchCodeComplete(String code) {
+		Log.d(DIALOG_FRAGMENT_TAG, "code:" + code);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(getActivity(),
+				code,
+				sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
+				sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
+				sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
+				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
+		googleExchangeCodeTask.setOnGoogleExchangeCodeCompleteListener(this);
+		googleExchangeCodeTask.execute();
+	}
+
+	@Override
+	public void onGoogleExchangeCodeComplete() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		GoogleLogInTask googleLogInTask = new GoogleLogInTask(getActivity(),
+				sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
+				sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
+				sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
+				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
+		googleLogInTask.setOnGoogleLogInCompleteListener(this);
+		googleLogInTask.execute();
+	}
 }

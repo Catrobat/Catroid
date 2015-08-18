@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.ui.dialogs.LogInDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.web.ServerCalls;
@@ -107,6 +108,12 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		String uploadButtonText = solo.getString(R.string.main_menu_upload);
 		solo.clickOnButton(uploadButtonText);
 
+		solo.waitForDialogToOpen();
+		assertTrue("No Sign-In dialog appeared", solo.searchText(solo.getString(R.string.sign_in_dialog_title)));
+
+		solo.clickOnText(solo.getString(R.string.register));
+		solo.waitForDialogToOpen();
+
 		String passwordForgottenButtonText = solo.getString(R.string.password_forgotten);
 		solo.clickOnButton(passwordForgottenButtonText);
 
@@ -117,7 +124,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getClass());
 
 			String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : Constants.BASE_URL_HTTPS;
-			final String url = baseUrl + SignInDialog.PASSWORD_FORGOTTEN_PATH;
+			final String url = baseUrl + LogInDialog.PASSWORD_FORGOTTEN_PATH;
 
 		final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {

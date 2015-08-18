@@ -34,24 +34,26 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-public class CheckFacebookTokenTask extends AsyncTask<String, Void, Boolean> {
-	private static final String TAG = CheckFacebookTokenTask.class.getSimpleName();
+public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
+	private static final String TAG = CheckOAuthTokenTask.class.getSimpleName();
 
 	private FragmentActivity fragmentActivity;
 	private ProgressDialog progressDialog;
-	private String facebookId;
+	private String id;
+	private String provider;
 
 	private WebconnectionException exception;
 
-	private OnCheckFacebookTokenCompleteListener onCheckFacebookTokenCompleteListener;
+	private OnCheckOAuthTokenCompleteListener onCheckOAuthTokenCompleteListener;
 
-	public CheckFacebookTokenTask(FragmentActivity fragmentActivity, String facebookId) {
+	public CheckOAuthTokenTask(FragmentActivity fragmentActivity, String id, String provider) {
 		this.fragmentActivity = fragmentActivity;
-		this.facebookId = facebookId;
+		this.id = id;
+		this.provider = provider;
 	}
 
-	public void setOnCheckFacebookTokenCompleteListener(OnCheckFacebookTokenCompleteListener listener) {
-		onCheckFacebookTokenCompleteListener = listener;
+	public void setOnCheckOAuthTokenCompleteListener(OnCheckOAuthTokenCompleteListener listener) {
+		onCheckOAuthTokenCompleteListener = listener;
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class CheckFacebookTokenTask extends AsyncTask<String, Void, Boolean> {
 			return;
 		}
 		String title = fragmentActivity.getString(R.string.please_wait);
-		String message = fragmentActivity.getString(R.string.loading);
+		String message = fragmentActivity.getString(R.string.loading_check_oauth_token);
 		progressDialog = ProgressDialog.show(fragmentActivity, title, message);
 	}
 
@@ -73,7 +75,7 @@ public class CheckFacebookTokenTask extends AsyncTask<String, Void, Boolean> {
 				return false;
 			}
 
-			return ServerCalls.getInstance().checkOAuthToken(facebookId, Constants.FACEBOOK);
+			return ServerCalls.getInstance().checkOAuthToken(id, provider, fragmentActivity);
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			exception = webconnectionException;
@@ -94,8 +96,8 @@ public class CheckFacebookTokenTask extends AsyncTask<String, Void, Boolean> {
 			return;
 		}
 
-		if (onCheckFacebookTokenCompleteListener != null) {
-			onCheckFacebookTokenCompleteListener.onCheckFacebookTokenComplete(tokenAvailable);
+		if (onCheckOAuthTokenCompleteListener != null) {
+			onCheckOAuthTokenCompleteListener.onCheckOAuthTokenComplete(tokenAvailable, provider);
 		}
 	}
 
@@ -112,7 +114,7 @@ public class CheckFacebookTokenTask extends AsyncTask<String, Void, Boolean> {
 		}
 	}
 
-	public interface OnCheckFacebookTokenCompleteListener {
-		void onCheckFacebookTokenComplete(Boolean tokenAvailable);
+	public interface OnCheckOAuthTokenCompleteListener {
+		void onCheckOAuthTokenComplete(Boolean tokenAvailable, String provider);
 	}
 }

@@ -48,7 +48,6 @@ public class FacebookLogInTask extends AsyncTask<Void, Void, Boolean> {
     private String id;
     private String locale;
     private String message;
-    private boolean userSignedIn;
     private OnFacebookLogInCompleteListener onFacebookLogInCompleteListener;
 
     public FacebookLogInTask(FragmentActivity activity, String mail, String username, String id, String locale) {
@@ -70,7 +69,7 @@ public class FacebookLogInTask extends AsyncTask<Void, Void, Boolean> {
             return;
         }
         String title = context.getString(R.string.please_wait);
-        String message = context.getString(R.string.loading);
+        String message = context.getString(R.string.loading_facebook_login);
         progressDialog = ProgressDialog.show(context, title, message);
 
     }
@@ -82,8 +81,7 @@ public class FacebookLogInTask extends AsyncTask<Void, Void, Boolean> {
                 return false;
             }
 
-            userSignedIn = ServerCalls.getInstance().facebookLogin(mail, username, id, locale, context);
-            return true;
+            return ServerCalls.getInstance().facebookLogin(mail, username, id, locale, context);
 
         } catch (WebconnectionException webconnectionException) {
             Log.e(TAG, Log.getStackTraceString(webconnectionException));
@@ -93,14 +91,14 @@ public class FacebookLogInTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected void onPostExecute(Boolean result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(Boolean userSignedIn) {
+        super.onPostExecute(userSignedIn);
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
 
-        if (!result) {
+        if (!userSignedIn) {
             showDialog(R.string.error_internet_connection);
             return;
         }

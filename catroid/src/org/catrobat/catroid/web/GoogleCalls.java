@@ -31,10 +31,12 @@ import android.util.Log;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
 import org.catrobat.catroid.transfers.GoogleFetchCodeTask;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.json.JSONObject;
 
 public final class GoogleCalls {
@@ -69,9 +71,9 @@ public final class GoogleCalls {
 
 	}
 
-    public void getGoogleToken(Activity context, String accountName) {
-        GoogleFetchCodeTask googleFetchCodeTask = new GoogleFetchCodeTask(context, accountName);
-        //checkEmailAvailableTask.setOnGoogleLogInCompleteListener(context);
+    public void getGoogleAuthorizationCode(Activity context, String accountName, SignInDialog signInDialog) {
+        GoogleFetchCodeTask googleFetchCodeTask = new GoogleFetchCodeTask(context, accountName, signInDialog);
+		googleFetchCodeTask.setOnGoogleFetchCodeCompleteListener(signInDialog);
         googleFetchCodeTask.execute();
     }
 
