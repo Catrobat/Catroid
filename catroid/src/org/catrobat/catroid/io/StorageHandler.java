@@ -158,10 +158,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -181,6 +178,12 @@ public final class StorageHandler {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
+	private XStreamToSupportCatrobatLanguageVersion095AndBefore xstream;
+
+	private File backPackSoundDirectory;
+	private FileInputStream fileInputStream;
+
+	private Lock loadSaveLock = new ReentrantLock();
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
@@ -190,12 +193,6 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
-
-	private XStreamToSupportCatrobatLanguageVersion095AndBefore xstream;
-	private File backPackSoundDirectory;
-	private FileInputStream fileInputStream;
-	private Lock loadSaveLock = new ReentrantLock();
-
 	private StorageHandler() throws IOException {
 		xstream = new XStreamToSupportCatrobatLanguageVersion095AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
@@ -415,7 +412,12 @@ public final class StorageHandler {
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
-		assertNotNull("project is null!", project);
+		if (project == null) {
+			Log.d(TAG, "project is null!");
+			return false;
+		}
+
+		Log.d(TAG, "saveProject " + project.getName());
 
 		boolean result = codeFileSanityCheck(project.getName());
 		assertTrue(result);
@@ -431,7 +433,7 @@ public final class StorageHandler {
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 
-			if (tmpCodeFile == null || currentCodeFile == null) {
+			if(tmpCodeFile == null || currentCodeFile == null){
 				Log.d(TAG, "tmpCodeFile or currentCodeFile is null!");
 				return false;
 			}
@@ -440,12 +442,14 @@ public final class StorageHandler {
 					String oldProjectXml = Files.toString(currentCodeFile, Charsets.UTF_8);
 
 					if (oldProjectXml.equals(projectXml)) {
-						fail("Project version is the same. Do not update " + currentCodeFile.getName());
+						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
+						return false;
 					}
 					Log.d(TAG, "Project version differ <" + oldProjectXml.length() + "> <"
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
 				} catch (Exception exception) {
-					fail("Opening old project " + currentCodeFile.getName() + " failed.");
+					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
+					return false;
 				}
 			}
 
@@ -502,15 +506,17 @@ public final class StorageHandler {
 					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
 
 					if (!tmpCodeFile.delete()) {
-						fail("Could not delete " + tmpCodeFile.getName());
+						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
 					}
+					return false;
 				}
 
 				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP
 						+ " to " + PROJECTCODE_NAME);
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
-					fail("Could not rename " + tmpCodeFile.getName());
+					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
+					return false;
 				}
 			}
 		} catch (Exception exception) {
