@@ -417,10 +417,10 @@ public final class StorageHandler {
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
-		assertNotNull(project);
+		assertNotNull("project is null!", project);
 
 		boolean result = codeFileSanityCheck(project.getName());
-		assertTrue(result);
+		assertTrue("codeFileSanityCheck is false but should be true!", result);
 
 		loadSaveLock.lock();
 
