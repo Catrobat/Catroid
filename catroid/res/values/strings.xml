@@ -76,7 +76,7 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
-	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
+    <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
@@ -263,7 +263,7 @@
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <string name="brick_context_dialog_add_to_script">Add To Script</string>
-	<string name="brick_context_dialog_edit_brick">Edit Brick</string>
+    <string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <!--  -->
@@ -591,7 +591,7 @@
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
-	<string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
+    <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
     <!--  -->
 
@@ -666,7 +666,7 @@
     <string name="brick_drone_move_up">Move up</string>
     <string name="brick_drone_move_down">Move down</string>
     <string name="brick_drone_flip">Flip</string>
-    <string name="brick_drone_go_emergency">Emergency</string>
+    <string name="brick_drone_emergency">Emergency</string>
     <string name="brick_drone_turn_right">Turn right</string>
     <string name="brick_drone_turn_left">Turn left</string>
     <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
@@ -902,22 +902,22 @@
 
     <!-- Brick Data Editor Strings -->
     <string name="brick_data_editor_title">Brick Editor</string>
- 	<string name="separator">|</string>
- 	<string name="add_text">Add Text</string>
- 	<string name="edit_text">Edit Text</string>
- 	<string name="text_hint">Brick Text</string>
- 	<string name="add_variable">Add Variable</string>
- 	<string name="add_line_break">Add Line Break</string>
- 	<string name="edit_variable">Edit Variable</string>
- 	<string name="variable_hint">Variable Name</string>
+    <string name="separator">|</string>
+    <string name="add_text">Add Text</string>
+    <string name="edit_text">Edit Text</string>
+    <string name="text_hint">Brick Text</string>
+    <string name="add_variable">Add Variable</string>
+    <string name="add_line_break">Add Line Break</string>
+    <string name="edit_variable">Edit Variable</string>
+    <string name="variable_hint">Variable Name</string>
     <!-- -->
 
     <!-- User Bricks strings -->
     <string name="define">define</string>
- 	<string name="new_user_brick">New Brick</string>
- 	<string name="new_user_brick_variable">Variable 1</string>
+    <string name="new_user_brick">New Brick</string>
+    <string name="new_user_brick_variable">Variable 1</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
- 	<string name="brick_single">Brick</string>
+    <string name="brick_single">Brick</string>
     <string name="brick_multiple">Bricks</string>
 
     <!-- Merge strings -->

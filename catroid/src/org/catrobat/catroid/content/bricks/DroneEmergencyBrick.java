@@ -43,6 +43,6 @@ public class DroneEmergencyBrick extends DroneBasicBrick {
 
 	@Override
 	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_go_emergency);
+		return view.getResources().getString(R.string.brick_drone_emergency);
 	}
 }
