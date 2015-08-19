@@ -85,21 +85,21 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.getText(solo.getString(R.string.brick_drone_takeoff_land));
 		//solo.getText(solo.getString(R.string.brick_drone_play_led_animation)); //TODO Drone: add when brick works, correct solo scroll down
 		solo.getText(solo.getString(R.string.brick_drone_flip));
+		solo.getText(solo.getString(R.string.brick_drone_move_right));
 		solo.getText(solo.getString(R.string.brick_drone_emergency));
 		solo.getText(solo.getString(R.string.brick_drone_move_up));
 		solo.getText(solo.getString(R.string.brick_drone_move_down));
 		solo.getText(solo.getString(R.string.brick_drone_move_left));
-		solo.getText(solo.getString(R.string.brick_drone_move_right));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
+		solo.getText(solo.getString(R.string.brick_drone_move_right));
 		solo.getText(solo.getString(R.string.brick_drone_move_forward));
 		solo.getText(solo.getString(R.string.brick_drone_move_backward));
 		solo.getText(solo.getString(R.string.brick_drone_turn_left));
 		solo.getText(solo.getString(R.string.brick_drone_turn_right));
-		solo.getText(solo.getString(R.string.brick_drone_set_config));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
-
+		solo.getText(solo.getString(R.string.brick_drone_set_config));
 		solo.getText(solo.getString(R.string.brick_drone_toggle_video));
 		solo.getText(solo.getString(R.string.brick_drone_switch_camera));
 		//solo.getText(solo.getString(R.string.brick_drone_set_advanced_config));
