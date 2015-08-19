@@ -31,6 +31,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DroneBasicBrick;
+import org.catrobat.catroid.content.bricks.DroneBasicControlBrick;
+import org.catrobat.catroid.content.bricks.DroneBasicLookBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBrick;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -94,7 +96,16 @@ public class DroneBricksTest extends BaseActivityInstrumentationTestCase<ScriptA
 			solo.clickOnView(solo.getView(R.id.ValueTextView));
 			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 			solo.clickOnText(solo.getString(R.string.yes));
+		}else if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneBasicControlBrick) {
+			solo.clickOnView(solo.getView(R.id.ValueTextViewControl));
+			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+			solo.clickOnText(solo.getString(R.string.yes));
+		}else if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneBasicLookBrick) {
+			solo.clickOnView(solo.getView(R.id.ValueTextViewLook));
+			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+			solo.clickOnText(solo.getString(R.string.yes));
 		}
+
 		if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneSetConfigBrick) {
 			View view1 = solo.getView(Spinner.class, 0);
 			solo.scrollToTop();
