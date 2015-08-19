@@ -105,7 +105,6 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if (DroneServiceWrapper.checkARDroneAvailability()) {
-			
 			CatroidApplication.loadNativeLibs();
 			if (CatroidApplication.parrotLibrariesLoaded) {
 				droneInitializer = getDroneInitialiser();
