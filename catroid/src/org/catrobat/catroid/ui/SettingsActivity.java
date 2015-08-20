@@ -95,8 +95,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		setNXTSensors();
 		setDronePreferences();
 
-		CheckBoxPreference pref = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
-		pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+		CheckBoxPreference preference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+		preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {

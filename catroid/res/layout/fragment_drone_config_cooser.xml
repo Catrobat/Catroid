@@ -214,7 +214,7 @@
             android:layout_weight="3"
             android:layout_marginTop="10dp"
             android:paddingRight="5dp"
-            android:text="@string/brick_drone_set_tilt_angle"
+            android:text="@string/brick_drone_set_tilt_limit"
             android:textColor="@color/drone_tilt_color" />
 
         <TextView

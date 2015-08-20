@@ -80,11 +80,6 @@ public final class DroneConfigManager {
 		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
 		if (droneControlService != null) {
 			droneControlService.resetConfigToDefaults();
-			setAltitude(BrickValues.DRONE_ALTITUDE_DEFAULT);
-			setVerticalSpeed(BrickValues.DRONE_VERTICAL_DEFAULT);
-			setRotationSpeed(BrickValues.DRONE_ROTATION_DEFAULT);
-			setTiltAngle(BrickValues.DRONE_TILT_DEFAULT);
-			Log.d("DroneConfigManager", "Set Config = default");
 		}
 	}
 

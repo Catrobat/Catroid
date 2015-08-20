@@ -503,29 +503,25 @@
     <string name="drone_set_altitude_max_3m">3 meters</string>
     <string name="drone_set_altitude_max_5m">5 meters</string>
     <string name="drone_set_altitude_max_10m">10 meters</string>
-    <string name="drone_set_altitude_max_50m">50 meters</string>
     <string name="drone_set_altitude_max_100m">100 meters</string>
 
     <!-- Drone max vertical speed limit values  -->
-    <string name="drone_set_vertical_very_slow">Very slow</string>
-    <string name="drone_set_vertical_slow">Slow</string>
-    <string name="drone_set_vertical_medium">Medium</string>
-    <string name="drone_set_vertical_fast">Fast</string>
-    <string name="drone_set_vertical_very_fast">Very Fast</string>
+    <string name="drone_set_vertical_min">200 mm/s</string>
+    <string name="drone_set_vertical_indoor">700 mm/s</string>
+    <string name="drone_set_vertical_outdoor">1000 mm/s</string>
+    <string name="drone_set_vertical_max">2000 mm/s</string>
 
     <!-- Drone max rotation speed limit values  -->
-    <string name="drone_set_rotation_very_slow">Very slow</string>
-    <string name="drone_set_rotation_slow">Slow</string>
-    <string name="drone_set_rotation_medium">Medium</string>
-    <string name="drone_set_rotation_fast">Fast</string>
-    <string name="drone_set_rotation_very_fast">Very Fast</string>
+    <string name="drone_set_rotation_min">40 °/s</string>
+    <string name="drone_set_rotation_indoor">100 °/s</string>
+    <string name="drone_set_rotation_outdoor">200 °/s</string>
+    <string name="drone_set_rotation_max">350 °/s</string>
 
     <!-- Drone max tilt limit values  -->
-    <string name="drone_set_tilt_max_5_degree">5 degree</string>
-    <string name="drone_set_tilt_max_10_degree">10 degree</string>
-    <string name="drone_set_tilt_max_17_degree">17 degree</string>
-    <string name="drone_set_tilt_max_24_degree">24 degree</string>
-    <string name="drone_set_tilt_max_30_degree">30 degree</string>
+    <string name="drone_set_tilt_min">5 °</string>
+    <string name="drone_set_tilt_indoor">12 °</string>
+    <string name="drone_set_tilt_outdoor">20 ° </string>
+    <string name="drone_set_tilt_max">30 °</string>
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
@@ -676,9 +672,9 @@
     <string name="brick_drone_toggle_video">Toggle video</string>
     <string name="brick_drone_switch_camera">Switch camera</string>
     <string name="brick_drone_set_altitude">Altitude limit</string>
-    <string name="brick_drone_set_vertical_speed">Speed limit</string>
-    <string name="brick_drone_set_rotation_speed">Rotation limit</string>
-    <string name="brick_drone_set_tilt_angle">Tilt angle</string>
+    <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
+    <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
+    <string name="brick_drone_set_tilt_limit">Tilt limit</string>
     <string name="brick_drone_set_advanced_config">Set advanced config</string>
     <string name="brick_drone_with">with</string>
     <string name="brick_drone_percent_power">% power</string>

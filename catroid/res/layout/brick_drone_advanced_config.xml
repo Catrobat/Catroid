@@ -119,7 +119,7 @@
                 <TextView
                     android:id="@+id/brick_drone_advanced_config_tilt_text_view"
                     style="@style/BrickText"
-                    android:text="@string/brick_drone_set_tilt_angle">
+                    android:text="@string/brick_drone_set_tilt_limit">
                 </TextView>
 
                 <TextView

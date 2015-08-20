@@ -58,35 +58,31 @@
         <item >@string/drone_set_altitude_max_3m</item >
         <item >@string/drone_set_altitude_max_5m</item >
         <item >@string/drone_set_altitude_max_10m</item >
-        <item >@string/drone_set_altitude_max_50m</item >
         <item >@string/drone_set_altitude_max_100m</item >
     </string-array >
 
     <!-- Drone tilt preferences spinner-->
     <string-array name="drone_max_vertical_speed_items" >
-        <item >@string/drone_set_vertical_very_slow</item >
-        <item >@string/drone_set_vertical_slow</item >
-        <item >@string/drone_set_vertical_medium</item >
-        <item >@string/drone_set_vertical_fast</item >
-        <item >@string/drone_set_vertical_very_fast</item >
+        <item >@string/drone_set_vertical_min</item >
+        <item >@string/drone_set_vertical_indoor</item >
+        <item >@string/drone_set_vertical_outdoor</item >
+        <item >@string/drone_set_vertical_max</item >
     </string-array >
 
     <!-- Drone tilt preferences spinner-->
     <string-array name="drone_max_rotation_speed_items" >
-        <item >@string/drone_set_rotation_very_slow</item >
-        <item >@string/drone_set_rotation_slow</item >
-        <item >@string/drone_set_rotation_medium</item >
-        <item >@string/drone_set_rotation_fast</item >
-        <item >@string/drone_set_rotation_very_fast</item >
+        <item >@string/drone_set_rotation_min</item >
+        <item >@string/drone_set_rotation_indoor</item >
+        <item >@string/drone_set_rotation_outdoor</item >
+        <item >@string/drone_set_rotation_max</item >
     </string-array >
 
     <!-- Drone tilt preferences spinner-->
     <string-array name="drone_max_tilt_angle_items" >
-        <item >@string/drone_set_tilt_max_5_degree</item >
-        <item >@string/drone_set_tilt_max_10_degree</item >
-        <item >@string/drone_set_tilt_max_17_degree</item >
-        <item >@string/drone_set_tilt_max_24_degree</item >
-        <item >@string/drone_set_tilt_max_30_degree</item >
+        <item >@string/drone_set_tilt_min</item >
+        <item >@string/drone_set_tilt_indoor</item >
+        <item >@string/drone_set_tilt_outdoor</item >
+        <item >@string/drone_set_tilt_max</item >
     </string-array >
 
 
