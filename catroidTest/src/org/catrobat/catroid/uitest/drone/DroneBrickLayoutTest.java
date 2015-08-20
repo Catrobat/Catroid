@@ -164,6 +164,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
 		assertTrue("Wrong Project was created! Should be the Drone Project!", solo.searchText(solo.getString(R.string
 				.default_drone_project_name)));
@@ -173,6 +174,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
 		assertTrue("Wrong Project was created! Fix this please!", solo.searchText(solo.getString(R.string.default_project_name)));
 
