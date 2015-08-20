@@ -252,7 +252,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public boolean initializeDefaultProject(Context context) {
 
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(context, false)) {
 			return initializeDroneProject(context);
 		} else {
 			return initializeStandardProject(context);
