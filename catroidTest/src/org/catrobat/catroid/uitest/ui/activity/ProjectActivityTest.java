@@ -26,6 +26,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -388,7 +389,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Sprite is not in current Project", projectManager.spriteExists(spriteToCheckName));
 
 		final String addedSpriteName = "addedTestSprite";
-		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile, null);
 
 		spriteList = projectManager.getCurrentProject().getSpriteList();
 
@@ -417,7 +418,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.searchText("cat", 0, false));
 
 		String addedSpriteName = "addedTestSprite";
-		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile, null);
 
 		solo.waitForText(addedSpriteName, 1, 2000);
 
@@ -532,7 +533,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int expectedLineCount = 1;
 		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
 
-		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile, null);
 
 		TextView textView = solo.getText(4);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
@@ -543,7 +544,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		String addedTestSpriteName = "addedTestSprite";
 
-		UiTestUtils.addNewSprite(solo, addedTestSpriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, addedTestSpriteName, lookFile, null);
 
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(addedTestSpriteName));
 	}
@@ -553,12 +554,12 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		String spriteName = "spriteError";
 
-		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile, null);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
 
 		// Add sprite which already exists
-		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, lookFile,
-				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null);
+		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(lookFile),
+				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null, LookData.LookDataType.IMAGE);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String errorMessageText = solo.getString(R.string.spritename_already_exists);
@@ -1195,7 +1196,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	}
 
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
-			boolean secondCheckboxExpectedChecked) {
+													  boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
 		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(2);

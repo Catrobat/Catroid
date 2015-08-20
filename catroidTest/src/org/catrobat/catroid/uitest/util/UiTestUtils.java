@@ -70,6 +70,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -139,7 +140,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
-import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.DialogWizardStep;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.utils.NotificationData;
@@ -197,11 +197,13 @@ public final class UiTestUtils {
 	public static final int SOUNDS_INDEX = 2;
 
 	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
+
 	static {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
 	}
+
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("sprite1");
@@ -464,7 +466,7 @@ public final class UiTestUtils {
 	 * ensures its set correctly to the brick´s edit text field
 	 */
 	public static void testBrickWithFormulaEditor(Solo solo, Sprite sprite, int editTextId, double newValue,
-			Brick.BrickField brickField, FormulaBrick theBrick) {
+												  Brick.BrickField brickField, FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
 
@@ -490,7 +492,7 @@ public final class UiTestUtils {
 	}
 
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField,
-			FormulaBrick theBrick) {
+												  FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
 		solo.sleep(200);
@@ -1666,7 +1668,7 @@ public final class UiTestUtils {
 	}
 
 	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
-			final float yTo, final int steps) {
+										final float yTo, final int steps) {
 		final Activity activity = solo.getCurrentActivity();
 		Handler handler = new Handler(activity.getMainLooper());
 
@@ -1997,7 +1999,7 @@ public final class UiTestUtils {
 	}
 
 	public static boolean getContextMenuAndGoBackToCheckIfSelected(Solo solo, Activity activity, int buttonId,
-			String buttonText, String listElementName) {
+																   String buttonText, String listElementName) {
 		longClickOnTextInList(solo, listElementName);
 		solo.waitForText(buttonText);
 		solo.goBack();
@@ -2030,13 +2032,8 @@ public final class UiTestUtils {
 		return lookFile;
 	}
 
-	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, File file,
-			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
-		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(file), actionToPerform, spinner);
-	}
-
 	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
-			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
+																	  ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner, LookData.LookDataType lookDataType) {
 		if (!(solo.getCurrentActivity() instanceof FragmentActivity)) {
 			fail("Current activity is not a FragmentActivity");
 		}
@@ -2048,13 +2045,13 @@ public final class UiTestUtils {
 		// create dialog and skip step 1 (choosing an image)
 		try {
 			Constructor<NewSpriteDialog> constructor = NewSpriteDialog.class.getDeclaredConstructor(
-					DialogWizardStep.class, Uri.class, String.class, ActionAfterFinished.class,
-					SpinnerAdapterWrapper.class);
+					NewSpriteDialog.DialogWizardStep.class, Uri.class, String.class, ActionAfterFinished.class,
+					SpinnerAdapterWrapper.class, LookData.LookDataType.class);
 			constructor.setAccessible(true);
-			dialog = constructor.newInstance(DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner);
+			dialog = constructor.newInstance(NewSpriteDialog.DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner, lookDataType);
 		} catch (Exception e) {
+			fail("Reflection failure. For more information please use Log.e output");
 			Log.e(TAG, "Reflection failure.", e);
-			fail("Reflection failure");
 			return;
 		}
 
@@ -2070,15 +2067,12 @@ public final class UiTestUtils {
 	}
 
 	public static void addNewSprite(Solo solo, String spriteName, File file, ActionAfterFinished actionToPerform) {
-		addNewSprite(solo, spriteName, Uri.fromFile(file), actionToPerform);
-	}
+		if (actionToPerform == null) {
+			actionToPerform = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
+		}
 
-	public static void addNewSprite(Solo solo, String spriteName, File file) {
-		addNewSprite(solo, spriteName, Uri.fromFile(file), ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT);
-	}
-
-	public static void addNewSprite(Solo solo, String spriteName, Uri uri, ActionAfterFinished actionToPerform) {
-		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, null);
+		Uri uri = Uri.fromFile(file);
+		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, null, LookData.LookDataType.IMAGE);
 
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForDialogToClose();

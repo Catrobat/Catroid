@@ -58,7 +58,6 @@ public class LookData implements Serializable, Cloneable {
 	protected transient TextureRegion region = null;
 
 	public static enum LookDataType {
-
 		IMAGE,
 		DRONE_VIDEO
 	}
@@ -179,7 +178,7 @@ public class LookData implements Serializable, Cloneable {
 		width = options.outWidth;
 		height = options.outHeight;
 
-		return new int[] { width, height };
+		return new int[]{width, height};
 	}
 
 	@Override
