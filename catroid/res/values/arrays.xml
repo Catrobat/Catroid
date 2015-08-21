@@ -48,9 +48,10 @@
 
     <!-- Drone settings spinner-->
     <string-array name="drone_setting_default_config" >
-        <item >@string/drone_config_default</item >
-        <item >@string/drone_config_outdoor</item >
-        <item >@string/drone_config_indoor</item >
+        <item >@string/drone_config_indoor_with_hull</item >
+        <item >@string/drone_config_indoor_without_hull</item >
+        <item >@string/drone_config_outdoor_with_hull</item >
+        <item >@string/drone_config_outdoor_without_hull</item >
     </string-array >
 
     <!-- Drone altitude preferences spinner-->

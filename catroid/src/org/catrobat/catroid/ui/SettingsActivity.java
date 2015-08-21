@@ -144,6 +144,52 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			switch (dronePreference) {
 				case DRONE_CONFIGS:
 					listPreference.setEntries(R.array.drone_setting_default_config);
+					final ListPreference list = listPreference;
+					listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+						public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+							int index = list.findIndexOfValue(newValue.toString());
+							for (String dronePreference : dronePreferences) {
+								ListPreference listPreference = (ListPreference) findPreference(dronePreference);
+
+								switch (dronePreference) {
+
+									case DRONE_ALTITUDE_LIMIT:
+										listPreference.setValue("FIRST");
+										break;
+
+									case DRONE_VERTICAL_SPEED:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+
+									case DRONE_ROTATION_SPEED:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+
+									case DRONE_TILT_ANGLE:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+								}
+							}
+							return true;
+						}
+					});
+
 					break;
 				case DRONE_ALTITUDE_LIMIT:
 					listPreference.setEntries(R.array.drone_altitude_spinner_items);

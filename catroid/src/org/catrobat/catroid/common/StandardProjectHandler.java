@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -336,11 +335,6 @@ public final class StandardProjectHandler {
 		Script whenSpriteTappedScript = new WhenScript();
 
 		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(droneBrick, timeInMilliseconds, powerInPercent);
-		if (brick instanceof DroneTakeOffLandBrick) {
-			DroneSetConfigBrick setConfigBrick = new DroneSetConfigBrick();
-			setConfigBrick.setSpinnerPosition(DroneSetConfigBrick.INDOOR);
-			whenSpriteTappedScript.addBrick(setConfigBrick);
-		}
 
 		whenSpriteTappedScript.addBrick(brick);
 

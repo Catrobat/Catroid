@@ -495,9 +495,10 @@
     <!--  -->
 
     <!-- Drone config spinner values  -->
-    <string name="drone_config_default">basic setting</string>
-    <string name="drone_config_outdoor">outdoor setting</string>
-    <string name="drone_config_indoor">indoor setting</string>
+    <string name="drone_config_indoor_with_hull">indoor with hull</string>
+    <string name="drone_config_indoor_without_hull">indoor without hull</string>
+    <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
+    <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
 
     <!-- Drone altitude limit values  -->
     <string name="drone_set_altitude_max_3m">3 meters</string>

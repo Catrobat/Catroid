@@ -41,7 +41,6 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
@@ -184,26 +183,26 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0);
 	}
 
-	public void testConfigBrickSpinnerPosition0() {
-		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
-		configBrick.setSpinnerPosition(0);
-		addActionToSequenceAndAct(configBrick);
-		Mockito.verify(droneControlService, Mockito.atLeast(1)).resetConfigToDefaults();
-	}
-
-	public void testConfigBrickSpinnerPosition1() {
-		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
-		configBrick.setSpinnerPosition(1);
-		addActionToSequenceAndAct(configBrick);
-		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(false);
-	}
-
-	public void testConfigBrickSpinnerPosition2() {
-		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
-		configBrick.setSpinnerPosition(2);
-		addActionToSequenceAndAct(configBrick);
-		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(true);
-	}
+//	public void testConfigBrickSpinnerPosition0() {
+//		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
+//		configBrick.setSpinnerPosition(0);
+//		addActionToSequenceAndAct(configBrick);
+//		Mockito.verify(droneControlService, Mockito.atLeast(1)).resetConfigToDefaults();
+//	}
+//
+//	public void testConfigBrickSpinnerPosition1() {
+//		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
+//		configBrick.setSpinnerPosition(1);
+//		addActionToSequenceAndAct(configBrick);
+//		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(false);
+//	}
+//
+//	public void testConfigBrickSpinnerPosition2() {
+//		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
+//		configBrick.setSpinnerPosition(2);
+//		addActionToSequenceAndAct(configBrick);
+//		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(true);
+//	}
 
 	public void testSwitch() {
 		DroneSwitchCameraBrick switchBrick = new DroneSwitchCameraBrick();
