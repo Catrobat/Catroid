@@ -2038,6 +2038,10 @@ public final class UiTestUtils {
 			fail("Current activity is not a FragmentActivity");
 		}
 
+		if (actionToPerform == null) {
+			actionToPerform = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
+		}
+
 		FragmentManager fragmentManager = ((FragmentActivity) solo.getCurrentActivity()).getSupportFragmentManager();
 
 		NewSpriteDialog dialog;

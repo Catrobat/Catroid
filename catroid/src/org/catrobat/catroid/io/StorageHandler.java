@@ -158,10 +158,8 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
-
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -417,7 +415,10 @@ public final class StorageHandler {
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
-		assertNotNull("project is null!", project);
+		if (project == null) {
+			Log.d(TAG, "project is null!");
+			return false;
+		}
 
 		boolean result = codeFileSanityCheck(project.getName());
 		assertTrue("codeFileSanityCheck is false but should be true!", result);
