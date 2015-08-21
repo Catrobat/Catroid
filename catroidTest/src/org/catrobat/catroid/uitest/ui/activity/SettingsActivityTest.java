@@ -46,7 +46,6 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 	private String settings;
 	private SharedPreferences preferences;
-	//private SharedPreferences preferences;
 
 	public SettingsActivityTest() {
 		super(MainMenuActivity.class);
