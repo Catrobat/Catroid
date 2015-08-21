@@ -36,7 +36,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
-import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -46,15 +45,49 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String settings;
+	private SharedPreferences preferences;
+	//private SharedPreferences preferences;
 
 	public SettingsActivityTest() {
 		super(MainMenuActivity.class);
 	}
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.createEmptyProject();
 		settings = solo.getString(R.string.settings);
+		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		preferences.edit().putBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false).commit();
+		preferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		preferences.edit().putBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false).commit();
+		preferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
+		solo.finishOpenedActivities();
+		super.tearDown();
+	}
+
+	public void testDroneTermsOfUsePermanentAgree() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		preferences.edit().putBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false)
+				.commit();
+
+		assertFalse("Terms of servie should not be accepted",
+				SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
+
+		assertFalse("Terms of servie should not be accepted",
+				preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+
+		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
+		assertTrue("Terms of servie should be permanently accepted",
+				SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
+
+		assertTrue("Terms of servie should be permanently accepted",
+				preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
 
 	public void testToggleDroneSensors() {
@@ -63,22 +96,13 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		Script currentScript = ProjectManager.getInstance().getCurrentScript();
 		assertNotNull("CurrentScript is NULL", currentScript);
-		if (currentScript.getBrickList().size() < 1) {
+		if (currentScript.getBrickList().isEmpty()) {
 			currentScript.addBrick(new DroneMoveUpBrick(2000, 50));
 		}
 
 		String dronePreferenceString = solo.getString(R.string.preference_description_quadcopter_bricks);
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		//disable drone bricks if enabled
-		if (preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false)) {
-			solo.clickOnMenuItem(settings);
-			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
-			solo.clickOnText(dronePreferenceString);
-			solo.goBack();
-			solo.waitForActivity(MainMenuActivity.class);
-		}
-
+		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		solo.waitForActivity(ScriptActivity.class);
 		solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
@@ -95,7 +119,9 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
 
 		solo.clickOnText(dronePreferenceString);
-
+		solo.waitForText(dronePreferenceString);
+		solo.clickOnText(dronePreferenceString);
+		solo.goBack();
 		solo.goBack();
 
 		assertTrue("Drone preference should now be enabled",
@@ -114,15 +140,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String categoryDroneLabel = solo.getString(R.string.category_drone);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		//disable drone bricks if enabled
-		if (preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false)) {
-			solo.clickOnMenuItem(settings);
-			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
-			solo.clickOnText(dronePreferenceString);
-			solo.goBack();
-			solo.waitForActivity(MainMenuActivity.class);
-		}
-
+		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		solo.waitForActivity(ScriptActivity.class);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -144,7 +162,9 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
 
 		solo.clickOnText(dronePreferenceString);
-
+		solo.waitForText(dronePreferenceString);
+		solo.clickOnText(dronePreferenceString);
+		solo.goBack();
 		solo.goBack();
 
 		assertTrue("Drone preference should now be enabled",
@@ -163,21 +183,10 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	}
 
 	public void testToggleMindstormsNXTBricks() {
-		DroneTestUtils.disableARDroneBricks(getActivity());
 		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 
-		//disable mindstorms bricks, if enabled at start
-		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getInstrumentation().getTargetContext())) {
-			solo.clickOnMenuItem(settings);
-			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
-			solo.clickOnText(mindstormsPreferenceString); // submenu
-			solo.sleep(200);
-			solo.clickOnText(mindstormsPreferenceString); // checkbox
-			solo.goBack();
-			solo.goBack();
-		}
-
+		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
@@ -191,7 +200,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
 
 		solo.clickOnText(mindstormsPreferenceString); // submenu
-		solo.sleep(200);
+		solo.waitForText(mindstormsPreferenceString);
 		solo.clickOnText(mindstormsPreferenceString); // checkbox
 		solo.goBack();
 		solo.goBack();
@@ -208,6 +217,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	}
 
 	public void testOrientation() throws NameNotFoundException {
+		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnMenuItem(settings);
 		solo.waitForActivity(SettingsActivity.class.getSimpleName());
 
@@ -230,23 +240,5 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	public void testDroneTermsOfUsePermanentAgree() {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		preferences.edit().putBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false)
-				.commit();
-
-		assertFalse("Terms of servie should not be accepted",
-				SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
-
-		assertFalse("Terms of servie should not be accepted",
-				preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
-
-		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
-		assertTrue("Terms of servie should be permanently accepted",
-				SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
-
-		assertTrue("Terms of servie should be permanently accepted",
-				preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
-	}
 }

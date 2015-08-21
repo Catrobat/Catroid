@@ -28,7 +28,6 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
@@ -127,8 +126,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertTrue("No video selection available", solo.searchText(solo.getString(R.string.dialog_new_object_drone_video), true));
 		solo.goBack();
-
-		DroneTestUtils.disableARDroneBricks(getActivity());
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Video selection still available", solo.searchText(solo.getString(R.string
