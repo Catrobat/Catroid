@@ -238,4 +238,59 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				SettingsActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
+
+	public void testDroneSettingsActivity() {
+
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnMenuItem(settings);
+		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
+
+		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
+		solo.clickOnText(solo.getString(R.string.drone_config_indoor_without_hull));
+		assertTrue("Wrong Settings set, altitude limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_altitude_max_3m)));
+		assertTrue("Wrong Settings set, vertical speed limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_vertical_indoor)));
+		assertTrue("Wrong Settings set, rotation speed limit should be 3 meter", solo.searchText(solo.getString(R
+				.string.drone_set_rotation_indoor)));
+		assertTrue("Wrong Settings set, tilt limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_tilt_indoor)));
+
+		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
+		solo.clickOnText(solo.getString(R.string.drone_config_outdoor_without_hull));
+		assertTrue("Wrong Settings set, altitude limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_altitude_max_3m)));
+		assertTrue("Wrong Settings set, vertical speed limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_vertical_outdoor)));
+		assertTrue("Wrong Settings set, rotation speed limit should be 3 meter", solo.searchText(solo.getString(R
+				.string.drone_set_rotation_outdoor)));
+		assertTrue("Wrong Settings set, tilt limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_tilt_outdoor)));
+
+		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
+		solo.clickOnText(solo.getString(R.string.drone_config_indoor_with_hull));
+		assertTrue("Wrong Settings set, altitude limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_altitude_max_3m)));
+		assertTrue("Wrong Settings set, vertical speed limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_vertical_indoor)));
+		assertTrue("Wrong Settings set, rotation speed limit should be 3 meter", solo.searchText(solo.getString(R
+				.string.drone_set_rotation_indoor)));
+		assertTrue("Wrong Settings set, tilt limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_tilt_indoor)));
+
+		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
+		solo.clickOnText(solo.getString(R.string.drone_config_outdoor_with_hull));
+		assertTrue("Wrong Settings set, altitude limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_altitude_max_3m)));
+		assertTrue("Wrong Settings set, vertical speed limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_vertical_outdoor)));
+		assertTrue("Wrong Settings set, rotation speed limit should be 3 meter", solo.searchText(solo.getString(R
+				.string.drone_set_rotation_outdoor)));
+		assertTrue("Wrong Settings set, tilt limit should be 3 meter", solo.searchText(solo.getString(R.string
+				.drone_set_tilt_outdoor)));
+
+		solo.goBack();
+		solo.goBack();
+	}
 }
