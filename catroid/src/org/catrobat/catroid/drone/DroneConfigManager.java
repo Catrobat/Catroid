@@ -34,11 +34,10 @@ public final class DroneConfigManager {
 
 	private static DroneConfigManager instance;
 	private static DroneControlService droneControlService;
-	private final String first = "first";
-	private final String second = "second";
-	private final String third = "third";
-	private final String fourth = "fourth";
-	private final String fifth = "fifth";
+	private final String first = "FIRST";
+	private final String second = "SECOND";
+	private final String third = "THIRD";
+	private final String fourth = "FOURTH";
 
 	private DroneConfigManager() {
 	}
@@ -65,66 +64,72 @@ public final class DroneConfigManager {
 	private void setBasicConfig(String preference) {
 		switch (preference) {
 			case first:
-				setDefaultConfig();
+				setIndoorConfigWithHull();
 				break;
 			case second:
-				setOutdoorConfig();
+				setIndoorConfigWithoutHull();
 				break;
 			case third:
-				setIndoorConfig();
+				setOutdoorConfigWithHull();
+				break;
+			case fourth:
+				setOutdoorConfigWithoutHull();
 				break;
 		}
 	}
 
-	public void setDefaultConfig() {
+	public void setIndoorConfigWithHull() {
 		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
 		if (droneControlService != null) {
-			droneControlService.resetConfigToDefaults();
+			droneControlService.getDroneConfig().setOutdoorFlight(false);
+			droneControlService.getDroneConfig().setOutdoorHull(true);
+			Log.d("DroneConfigManager", "Set Config = indoor with hull");
 		}
 	}
 
-	//TODO: find the perfect settings for each profile
-	public void setOutdoorConfig() {
+	public void setIndoorConfigWithoutHull() {
+		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		if (droneControlService != null) {
+			droneControlService.getDroneConfig().setOutdoorFlight(false);
+			droneControlService.getDroneConfig().setOutdoorHull(false);
+			Log.d("DroneConfigManager", "Set Config = indoor without hull");
+		}
+	}
+
+	public void setOutdoorConfigWithHull() {
 		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
 		if (droneControlService != null) {
 			droneControlService.getDroneConfig().setOutdoorFlight(true);
-			setVerticalSpeed(BrickValues.DRONE_VERTICAL_OUTDOOR);
-			setRotationSpeed(BrickValues.DRONE_ROTATION_OUTDOOR);
-			setTiltAngle(BrickValues.DRONE_TILT_OUTDOOR);
-			Log.d("DroneConfigManager", "Set Config = outdoor");
+			droneControlService.getDroneConfig().setOutdoorHull(true);
+			Log.d("DroneConfigManager", "Set Config = outdoor with hull");
 		}
-
-		//TODO: set other config params for outdoor flight
 	}
 
-	public void setIndoorConfig() {
+	public void setOutdoorConfigWithoutHull() {
 		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
 		if (droneControlService != null) {
-			setDefaultConfig();
-			droneControlService.getDroneConfig().setOutdoorFlight(false);
-			Log.d("DroneConfigManager", "Set Config = indoor");
+			droneControlService.getDroneConfig().setOutdoorFlight(true);
+			droneControlService.getDroneConfig().setOutdoorHull(false);
+			Log.d("DroneConfigManager", "Set Config = outdoor without hull");
 		}
-
-		//TODO: set other config params for indoor flight
 	}
 
 	private void setAltitude(String preference) {
-		int altitudeValue = BrickValues.DRONE_ALTITUDE_DEFAULT;
+		int altitudeValue = BrickValues.DRONE_ALTITUDE_MIN;
+
+		Log.d("test", preference);
 
 		switch (preference) {
 			case first:
 				altitudeValue = BrickValues.DRONE_ALTITUDE_MIN;
 				break;
 			case second:
-				altitudeValue = 5;
+				altitudeValue = BrickValues.DRONE_ALTITUDE_INDOOR;
 				break;
 			case third:
-				altitudeValue = 10;
+				altitudeValue = BrickValues.DRONE_ALTITUDE_OUTDOOR;
 				break;
 			case fourth:
-				altitudeValue = 50;
-				break;
-			case fifth:
 				altitudeValue = BrickValues.DRONE_ALTITUDE_MAX;
 				break;
 		}
@@ -138,29 +143,26 @@ public final class DroneConfigManager {
 			if (BrickValues.DRONE_ALTITUDE_MIN <= value && value <= BrickValues.DRONE_ALTITUDE_MAX) {
 				droneControlService.getDroneConfig().setAltitudeLimit(value);
 			} else {
-				droneControlService.getDroneConfig().setAltitudeLimit(BrickValues.DRONE_ALTITUDE_DEFAULT);
+				droneControlService.getDroneConfig().setAltitudeLimit(BrickValues.DRONE_ALTITUDE_MIN);
 			}
 			Log.d("DroneConfigManager", String.format("new altitude = %d", droneControlService.getDroneConfig().getAltitudeLimit()));
 		}
 	}
 
 	private void setVerticalSpeed(String preference) {
-		int verticalValue = BrickValues.DRONE_VERTICAL_DEFAULT;
+		int verticalValue = BrickValues.DRONE_VERTICAL_INDOOR;
 
 		switch (preference) {
 			case first:
 				verticalValue = BrickValues.DRONE_VERTICAL_MIN;
 				break;
 			case second:
-				verticalValue = 660;
+				verticalValue = BrickValues.DRONE_VERTICAL_INDOOR;
 				break;
 			case third:
-				verticalValue = 1100;
+				verticalValue = BrickValues.DRONE_VERTICAL_OUTDOOR;
 				break;
 			case fourth:
-				verticalValue = 1540;
-				break;
-			case fifth:
 				verticalValue = BrickValues.DRONE_VERTICAL_MAX;
 				break;
 		}
@@ -174,29 +176,26 @@ public final class DroneConfigManager {
 			if (BrickValues.DRONE_VERTICAL_MIN <= value && value <= BrickValues.DRONE_VERTICAL_MAX) {
 				droneControlService.getDroneConfig().setVertSpeedMax(value);
 			} else {
-				droneControlService.getDroneConfig().setVertSpeedMax(BrickValues.DRONE_VERTICAL_DEFAULT);
+				droneControlService.getDroneConfig().setVertSpeedMax(BrickValues.DRONE_VERTICAL_INDOOR);
 			}
 			Log.d("DroneConfigManager", String.format("new vertical = %d", droneControlService.getDroneConfig().getVertSpeedMax()));
 		}
 	}
 
 	private void setRotationSpeed(String preference) {
-		int rotationValue = BrickValues.DRONE_ROTATION_DEFAULT;
+		int rotationValue = BrickValues.DRONE_ROTATION_INDOOR;
 
 		switch (preference) {
 			case first:
 				rotationValue = BrickValues.DRONE_ROTATION_MIN;
 				break;
 			case second:
-				rotationValue = 117;
+				rotationValue = BrickValues.DRONE_ROTATION_INDOOR;
 				break;
 			case third:
-				rotationValue = 195;
+				rotationValue = BrickValues.DRONE_ROTATION_OUTDOOR;
 				break;
 			case fourth:
-				rotationValue = 273;
-				break;
-			case fifth:
 				rotationValue = BrickValues.DRONE_ROTATION_MAX;
 				break;
 		}
@@ -210,29 +209,26 @@ public final class DroneConfigManager {
 			if (BrickValues.DRONE_ROTATION_MIN <= value && value <= BrickValues.DRONE_ROTATION_MAX) {
 				droneControlService.getDroneConfig().setYawSpeedMax(value);
 			} else {
-				droneControlService.getDroneConfig().setYawSpeedMax(BrickValues.DRONE_ALTITUDE_DEFAULT);
+				droneControlService.getDroneConfig().setYawSpeedMax(BrickValues.DRONE_ROTATION_INDOOR);
 			}
 			Log.d("DroneConfigManager", String.format("new rotation = %d", droneControlService.getDroneConfig().getYawSpeedMax()));
 		}
 	}
 
 	private void setTiltAngle(String preference) {
-		int tiltValue = BrickValues.DRONE_TILT_DEFAULT;
+		int tiltValue = BrickValues.DRONE_TILT_INDOOR;
 
 		switch (preference) {
 			case first:
 				tiltValue = BrickValues.DRONE_TILT_MIN;
 				break;
 			case second:
-				tiltValue = 10;
+				tiltValue = BrickValues.DRONE_TILT_INDOOR;
 				break;
 			case third:
-				tiltValue = 17;
+				tiltValue = BrickValues.DRONE_TILT_OUTDOOR;
 				break;
 			case fourth:
-				tiltValue = 24;
-				break;
-			case fifth:
 				tiltValue = BrickValues.DRONE_TILT_MAX;
 				break;
 		}
@@ -246,7 +242,7 @@ public final class DroneConfigManager {
 			if (BrickValues.DRONE_TILT_MIN <= value && value <= BrickValues.DRONE_TILT_MAX) {
 				droneControlService.getDroneConfig().setDeviceTiltMax(value);
 			} else {
-				droneControlService.getDroneConfig().setDeviceTiltMax(BrickValues.DRONE_TILT_DEFAULT);
+				droneControlService.getDroneConfig().setDeviceTiltMax(BrickValues.DRONE_TILT_INDOOR);
 			}
 			Log.d("DroneConfigManager", String.format("new tilt = %d", droneControlService.getDroneConfig().getDeviceTiltMax()));
 		}

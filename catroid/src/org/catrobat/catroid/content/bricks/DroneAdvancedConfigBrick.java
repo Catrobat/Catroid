@@ -80,16 +80,16 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 		View prototypeView = View.inflate(context, R.layout.brick_drone_advanced_config, null);
 
 		TextView textValueAltitude = (TextView) prototypeView.findViewById(R.id.brick_drone_advanced_config_altitude_prototype_text_view);
-		textValueAltitude.setText(String.valueOf(BrickValues.DRONE_ALTITUDE_DEFAULT));
+		textValueAltitude.setText(String.valueOf(BrickValues.DRONE_ALTITUDE_INDOOR));
 
 		TextView textValueVertical = (TextView) prototypeView.findViewById(R.id.brick_drone_advanced_config_vertical_speed_prototype_text_view);
-		textValueVertical.setText(String.valueOf(BrickValues.DRONE_VERTICAL_DEFAULT));
+		textValueVertical.setText(String.valueOf(BrickValues.DRONE_VERTICAL_INDOOR));
 
 		TextView textValueRotation = (TextView) prototypeView.findViewById(R.id.brick_drone_advanced_config_rotation_prototype_text_view);
-		textValueRotation.setText(String.valueOf(BrickValues.DRONE_ROTATION_DEFAULT));
+		textValueRotation.setText(String.valueOf(BrickValues.DRONE_ROTATION_INDOOR));
 
 		TextView textValueTilt = (TextView) prototypeView.findViewById(R.id.brick_drone_advanced_config_tilt_prototype_text_view);
-		textValueTilt.setText(String.valueOf(BrickValues.DRONE_TILT_DEFAULT));
+		textValueTilt.setText(String.valueOf(BrickValues.DRONE_TILT_INDOOR));
 
 		return prototypeView;
 	}
@@ -142,7 +142,7 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 
 		TextView textVertical = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_prototype_text_view);
 		TextView editVerticalValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_vertical_speed_editText);
-//        editVerticalValue.setText(String.valueOf(BrickValues.DRONE_VERTICAL_DEFAULT));
+//        editVerticalValue.setText(String.valueOf(BrickValues.DRONE_VERTICAL_INDOOR));
 		getFormulaWithBrickField(BrickField.DRONE_VERTICAL_SPEED_MAX).setTextFieldId(R.id.brick_drone_advanced_config_vertical_speed_editText);
 		getFormulaWithBrickField(BrickField.DRONE_VERTICAL_SPEED_MAX).refreshTextField(view);
 
@@ -153,7 +153,7 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 
 		TextView textRotation = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_prototype_text_view);
 		TextView editRotationValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_rotation_editText);
-//        editRotationValue.setText(String.valueOf(BrickValues.DRONE_ROTATION_DEFAULT));
+//        editRotationValue.setText(String.valueOf(BrickValues.DRONE_ROTATION_INDOOR));
 		getFormulaWithBrickField(BrickField.DRONE_ROTATION_MAX).setTextFieldId(R.id.brick_drone_advanced_config_rotation_editText);
 		getFormulaWithBrickField(BrickField.DRONE_ROTATION_MAX).refreshTextField(view);
 
@@ -164,7 +164,7 @@ public class DroneAdvancedConfigBrick extends FormulaBrick {
 
 		TextView textTilt = (TextView) view.findViewById(R.id.brick_drone_advanced_config_tilt_prototype_text_view);
 		TextView editTiltValue = (TextView) view.findViewById(R.id.brick_drone_advanced_config_tilt_editText);
-//        editTiltValue.setText(String.valueOf(BrickValues.DRONE_TILT_DEFAULT));
+//        editTiltValue.setText(String.valueOf(BrickValues.DRONE_TILT_INDOOR));
 		getFormulaWithBrickField(BrickField.DRONE_TILT_ANGLE).setTextFieldId(R.id.brick_drone_advanced_config_tilt_editText);
 		getFormulaWithBrickField(BrickField.DRONE_TILT_ANGLE).refreshTextField(view);
 

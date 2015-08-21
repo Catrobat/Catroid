@@ -185,7 +185,6 @@ public final class StorageHandler {
 	private FileInputStream fileInputStream;
 
 	private Lock loadSaveLock = new ReentrantLock();
-
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
@@ -195,7 +194,6 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
-
 	private StorageHandler() throws IOException {
 		xstream = new XStreamToSupportCatrobatLanguageVersion095AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);

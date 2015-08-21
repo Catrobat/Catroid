@@ -180,12 +180,8 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 //			Log.d("navdata", "recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
 //			Log.d("navdata", String.format("num frames = %d", droneControlService.getDroneNavData().numFrames));
 
-
-
-			DroneConfigManager.getInstance().setDefaultConfig();
-			droneControlService.flatTrim();
-
 			DroneConfigManager.getInstance().setDroneConfig(getDronePreferencMapping(getAppContext()));
+			droneControlService.flatTrim();
 
 			prestageStageActivity.resourceInitialized();
 		}
