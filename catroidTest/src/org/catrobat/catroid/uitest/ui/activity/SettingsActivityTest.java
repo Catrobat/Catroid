@@ -238,6 +238,4 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				SettingsActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
-
-
 }

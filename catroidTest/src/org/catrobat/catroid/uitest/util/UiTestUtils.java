@@ -465,9 +465,7 @@ public final class UiTestUtils {
 	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
 	 * ensures its set correctly to the brick´s edit text field
 	 */
-	public static void testBrickWithFormulaEditor(Solo solo, Sprite sprite, int editTextId, double newValue,
-												  Brick.BrickField brickField, FormulaBrick theBrick) {
-
+	public static void testBrickWithFormulaEditor(Solo solo, Sprite sprite, int editTextId, double newValue, Brick.BrickField brickField, FormulaBrick theBrick) {
 		solo.clickOnView(solo.getView(editTextId));
 
 		insertDoubleIntoEditText(solo, newValue);
@@ -491,9 +489,7 @@ public final class UiTestUtils {
 				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
 	}
 
-	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField,
-												  FormulaBrick theBrick) {
-
+	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField, FormulaBrick theBrick) {
 		solo.clickOnView(solo.getView(editTextId));
 		solo.sleep(200);
 		insertStringIntoEditText(solo, newValue);
@@ -1998,8 +1994,7 @@ public final class UiTestUtils {
 		notificationMap.clear();
 	}
 
-	public static boolean getContextMenuAndGoBackToCheckIfSelected(Solo solo, Activity activity, int buttonId,
-																   String buttonText, String listElementName) {
+	public static boolean getContextMenuAndGoBackToCheckIfSelected(Solo solo, Activity activity, int buttonId, String buttonText, String listElementName) {
 		longClickOnTextInList(solo, listElementName);
 		solo.waitForText(buttonText);
 		solo.goBack();
@@ -2032,8 +2027,7 @@ public final class UiTestUtils {
 		return lookFile;
 	}
 
-	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
-																	  ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner, LookData.LookDataType lookDataType) {
+	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri, ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner, LookData.LookDataType lookDataType) {
 		if (!(solo.getCurrentActivity() instanceof FragmentActivity)) {
 			fail("Current activity is not a FragmentActivity");
 		}

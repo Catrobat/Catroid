@@ -1195,8 +1195,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Details " + assertMessageAffix, detailsView.getVisibility() == visibility);
 	}
 
-	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
-													  boolean secondCheckboxExpectedChecked) {
+	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked, boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
 		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(2);

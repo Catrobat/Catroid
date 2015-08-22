@@ -96,11 +96,11 @@ public class DroneBricksTest extends BaseActivityInstrumentationTestCase<ScriptA
 			solo.clickOnView(solo.getView(R.id.ValueTextView));
 			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 			solo.clickOnText(solo.getString(R.string.yes));
-		}else if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneBasicControlBrick) {
+		} else if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneBasicControlBrick) {
 			solo.clickOnView(solo.getView(R.id.ValueTextViewControl));
 			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 			solo.clickOnText(solo.getString(R.string.yes));
-		}else if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneBasicLookBrick) {
+		} else if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneBasicLookBrick) {
 			solo.clickOnView(solo.getView(R.id.ValueTextViewLook));
 			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 			solo.clickOnText(solo.getString(R.string.yes));

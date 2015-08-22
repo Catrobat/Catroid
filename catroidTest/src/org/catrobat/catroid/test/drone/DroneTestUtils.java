@@ -36,7 +36,6 @@ public abstract class DroneTestUtils {
 
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
-	private static final String TAG = DroneTestUtils.class.getSimpleName();
 
 	public static void createStandardDroneProject() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
