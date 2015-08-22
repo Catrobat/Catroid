@@ -216,7 +216,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			}
 		}
 
-		this.alphaValue = (alphaValue);
+		this.alphaValue = alphaValue;
 		return view;
 	}
 

@@ -30,7 +30,7 @@ task pmd(type: Pmd) {
     // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
     ruleSets = ['java-android', 'java-braces', 'java-sunsecure', 'java-unusedcode', 'config/pmd_basic.xml',
                 'config/pmd_empty.xml', 'config/pmd_strings.xml', 'config/pmd_unnecessary.xml',
-                'config/pmd_logging.xml']
+                'config/pmd_logging.xml', 'config/pmd_controversial.xml']
 
     source '.'
     include '**/*.java'

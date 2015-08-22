@@ -321,7 +321,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			}
 			textPhiroProEyeBlue.setTextColor(textPhiroProEyeBlue.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

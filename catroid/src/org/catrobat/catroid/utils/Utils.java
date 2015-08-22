@@ -254,9 +254,10 @@ public final class Utils {
 		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
 		char[] hexBuffer = new char[messageDigest.length * 2];
-		for (int i = 0, j = 0; i < messageDigest.length; i++) {
-			hexBuffer[j++] = hexChars[(messageDigest[i] & 0xF0) >> 4];
-			hexBuffer[j++] = hexChars[messageDigest[i] & 0x0F];
+		int j = 0;
+		for (byte c : messageDigest) {
+			hexBuffer[j++] = hexChars[(c & 0xF0) >> 4];
+			hexBuffer[j++] = hexChars[c & 0x0F];
 		}
 
 		return String.valueOf(hexBuffer);

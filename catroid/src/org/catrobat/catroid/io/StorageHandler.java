@@ -558,7 +558,7 @@ public final class StorageHandler {
 	public boolean projectExists(String projectName) {
 		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
-			if ((projectNameIterator.equals(projectName))) {
+			if (projectNameIterator.equals(projectName)) {
 				return true;
 			}
 		}

@@ -160,7 +160,7 @@ public class WaitBrick extends FormulaBrick {
 			editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
 			editWait.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

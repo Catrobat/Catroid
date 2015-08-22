@@ -102,7 +102,7 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 
 		try {
 			assertEquals("Wrong text in field.", STEPS_TO_MOVE,
-					(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble(null));
+					moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS).interpretDouble(null));
 		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
 		}

@@ -154,7 +154,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 			moveNStepsEdit.setTextColor(moveNStepsEdit.getTextColors().withAlpha(alphaValue));
 			moveNStepsEdit.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
