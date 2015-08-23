@@ -446,6 +446,7 @@ public final class Utils {
 			if (pixmap == null) {
 				Utils.showErrorDialog(context, R.string.error_load_image);
 				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
+				Log.d("testitest", "path: " + lookFile.getAbsolutePath());
 				throw new IOException("Pixmap could not be fixed");
 			}
 		}
@@ -508,6 +509,24 @@ public final class Utils {
 
 		File projectDirectory = new File(Utils.buildProjectPath(programName));
 		return projectDirectory.exists();
+	}
+
+	public static boolean checkIfLookExists(String name) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
+			if (lookData.getLookName().compareTo(name) == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean checkIfSoundExists(String name) {
+		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
+			if (soundInfo.getTitle().compareTo(name) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void setSelectAllActionModeButtonVisibility(View selectAllActionModeButton, boolean setVisible) {

@@ -77,6 +77,7 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -369,17 +370,23 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		isAddNewSoundButtonClicked = false;
 		//when new sound title is selected and ready to be added to the catroid project
-		if (resultCode == Activity.RESULT_OK && requestCode == SoundController.REQUEST_SELECT_MUSIC && data != null) {
-			Bundle arguments = new Bundle();
-			arguments.putParcelable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
+		if (resultCode == Activity.RESULT_OK && data != null) {
+			switch (requestCode) {
+				case SoundController.REQUEST_SELECT_MUSIC:
+					Bundle arguments = new Bundle();
+					arguments.putParcelable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
 
-			if (getLoaderManager().getLoader(SoundController.ID_LOADER_MEDIA_IMAGE) == null) {
-				getLoaderManager().initLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
-			} else {
-				getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
+					if (getLoaderManager().getLoader(SoundController.ID_LOADER_MEDIA_IMAGE) == null) {
+						getLoaderManager().initLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
+					} else {
+						getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
+					}
+					break;
+				case SoundController.REQUEST_MEDIA_LIBRARY:
+					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
+					SoundController.getInstance().addSoundFromMediaLibrary(filePath, getActivity(), soundInfoList, this);
 			}
 		}
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
@@ -566,7 +573,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		return super.onContextItemSelected(item);
 	}
 
-	private void updateSoundAdapter(SoundInfo newSoundInfo) {
+	public void updateSoundAdapter(SoundInfo newSoundInfo) {
 
 		if (soundInfoListChangedAfterNewListener != null) {
 			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
@@ -649,6 +656,15 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
+	}
+
+	public void addSoundMediaLibrary() {
+		Intent intent = new Intent(getActivity(), WebViewActivity.class);
+		String url = null;
+		url = Constants.LIBRARY_SOUNDS_URL;
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
+		startActivityForResult(intent, SoundController.REQUEST_MEDIA_LIBRARY);
 	}
 
 	@TargetApi(19)

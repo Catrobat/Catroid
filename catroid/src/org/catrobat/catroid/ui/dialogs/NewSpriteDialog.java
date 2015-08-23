@@ -51,7 +51,9 @@ import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
@@ -67,6 +69,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private static final int REQUEST_SELECT_IMAGE = 0;
 	private static final int REQUEST_CREATE_POCKET_PAINT_IMAGE = 1;
 	private static final int REQUEST_TAKE_PICTURE = 2;
+	private static final int REQUEST_MEDIA_LIBRARY = 3;
 	private final ActionAfterFinished requestedAction;
 	private final DialogWizardStep wizardStep;
 	private Uri lookUri;
@@ -110,6 +113,7 @@ public class NewSpriteDialog extends DialogFragment {
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
+		setupMediaLibraryButton(dialogView);
 
 		AlertDialog dialog = null;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -152,6 +156,7 @@ public class NewSpriteDialog extends DialogFragment {
 				.setNegativeButton(R.string.cancel_button, null).create();
 
 		dialogView.findViewById(R.id.dialog_new_object_step_1_layout).setVisibility(View.GONE);
+		dialogView.findViewById(R.id.dialog_new_object_second_row).setVisibility(View.GONE);
 
 		ImageView imageView = (ImageView) dialogView.findViewById(R.id.dialog_new_object_look_preview);
 		if (newObjectName == null) {
@@ -179,7 +184,6 @@ public class NewSpriteDialog extends DialogFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		if (resultCode == Activity.RESULT_OK) {
 			if (lookUri == null) {
 				lookUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
@@ -197,6 +201,9 @@ public class NewSpriteDialog extends DialogFragment {
 					case REQUEST_TAKE_PICTURE:
 						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
 						break;
+					case REQUEST_MEDIA_LIBRARY:
+						lookUri = Uri.parse(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
+						break;
 					default:
 						return;
 				}
@@ -209,6 +216,8 @@ public class NewSpriteDialog extends DialogFragment {
 				Utils.showErrorDialog(getActivity(), R.string.error_load_image);
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
+		} else {
+			dismiss();
 		}
 	}
 
@@ -291,6 +300,21 @@ public class NewSpriteDialog extends DialogFragment {
 		});
 	}
 
+	private void setupMediaLibraryButton(View parentView) {
+		View mediaButton = parentView.findViewById(R.id.dialog_new_object_library);
+
+		mediaButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getActivity(), WebViewActivity.class);
+				String url = Constants.LIBRARY_LOOKS_URL;
+				intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+				intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
+				startActivityForResult(intent, REQUEST_MEDIA_LIBRARY);
+			}
+		});
+	}
+
 	private boolean handleOkButton() {
 		EditText editText = (EditText) dialogView.findViewById(R.id.dialog_new_object_name_edit_text);
 		String newSpriteName;
@@ -323,7 +347,10 @@ public class NewSpriteDialog extends DialogFragment {
 		try {
 			File newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
 					lookUri.getPath(), null);
-
+			if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
+				File oldFile = new File(lookUri.getPath());
+				oldFile.delete();
+			}
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
 

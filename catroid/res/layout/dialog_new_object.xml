@@ -38,7 +38,7 @@
                 style="@style/DefaultDialog.Item"
                 android:layout_marginTop="8dp"
                 android:baselineAligned="false"
-                android:weightSum="3" >
+                android:weightSum="2" >
 
                 <TextView
                     android:id="@+id/dialog_new_object_paintroid"
@@ -61,19 +61,36 @@
                     android:gravity="center"
                     android:text="@string/dialog_new_object_gallery"
                     android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/dialog_new_object_camera"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/new_object_dialog_selector"
-                    android:drawableTop="@drawable/ic_camera"
-                    android:gravity="center"
-                    android:text="@string/dialog_new_object_camera"
-                    android:textSize="12sp" />
             </LinearLayout >
+        <LinearLayout
+            style="@style/DefaultDialog.Item"
+            android:id="@+id/dialog_new_object_second_row"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="2" >
 
+            <TextView
+                android:id="@+id/dialog_new_object_camera"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_camera"
+                android:gravity="center"
+                android:text="@string/dialog_new_object_camera"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dialog_new_object_library"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_media_library"
+                android:gravity="center"
+                android:text="@string/add_look_media_library"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/dialog_new_object_step_2_layout"

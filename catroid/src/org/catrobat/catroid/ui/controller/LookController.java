@@ -69,6 +69,7 @@ public final class LookController {
 	public static final int REQUEST_SELECT_OR_DRAW_IMAGE = 0;
 	public static final int REQUEST_POCKET_PAINT_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
+	public static final int REQUEST_MEDIA_LIBRARY = 3;
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final String BUNDLE_ARGUMENTS_SELECTED_LOOK = "selected_look";
 	public static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
@@ -367,6 +368,15 @@ public final class LookController {
 			File pictureOnSdCard = new File(lookFromCameraUri.getPath());
 			pictureOnSdCard.delete();
 		}
+	}
+
+	public void loadPictureFromLibraryIntoCatroid(String filePath, Activity activity,
+			ArrayList<LookData> lookData, LookFragment fragment) {
+		File mediaImage = null;
+		mediaImage = new File(filePath);
+		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);
+		File pictureOnSdCard = new File(mediaImage.getPath());
+		pictureOnSdCard.delete();
 	}
 
 	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
