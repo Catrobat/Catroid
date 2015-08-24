@@ -53,8 +53,10 @@ import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.transfers.CheckFacebookServerTokenValidityTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
@@ -65,7 +67,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
+public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
@@ -135,8 +137,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
 		if ((token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) /* && AccessToken.getCurrentAccessToken() == null*/) {
-			showSignInDialog(fragmentActivity);
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID))) {
+			showSignInDialog(activity);
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
@@ -487,8 +489,36 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	@Override
 	public void onCheckTokenSuccess(Activity activity) {
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(activity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		if (AccessToken.getCurrentAccessToken() != null) {
+			CheckFacebookServerTokenValidityTask checkFacebookServerTokenValidityTask = new
+					CheckFacebookServerTokenValidityTask(activity, AccessToken.getCurrentAccessToken().getUserId());
+			checkFacebookServerTokenValidityTask.setOnCheckFacebookServerTokenValidityCompleteListener(this);
+			checkFacebookServerTokenValidityTask.execute();
+		} else {
+			UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+			uploadProjectDialog.show(activity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		}
+	}
+
+	@Override
+	public void onCheckFacebookServerTokenValidityComplete(Boolean requestNewToken, Activity activity) {
+		if (requestNewToken) {
+			//trigger facebook token refresh on server
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+			sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, true);
+			FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(activity,
+					AccessToken.getCurrentAccessToken().getToken(),
+					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+					sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+					sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+					sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+			);
+			facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
+			facebookExchangeTokenTask.execute();
+		} else {
+			UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+			uploadProjectDialog.show(activity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		}
 	}
 
 	private void showSignInDialog(Activity activity) {
@@ -598,6 +628,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifSensorBeginList.remove(phiroSensorBrick);
 			}
 		}
+	}
+
+	@Override
+	public void onFacebookExchangeTokenComplete(Activity fragmentActivity) {
+		Log.d(TAG, "Facebook token refreshed on server");
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		uploadProjectDialog.show(fragmentActivity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {

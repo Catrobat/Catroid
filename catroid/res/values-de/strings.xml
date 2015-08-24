@@ -266,7 +266,8 @@
   <string name="password_confirm">Bestätige Passwort</string>
   <string name="accountName">E-Mail</string>
   <string name="signin_thanks">Danke für deine Anmeldung bei Pocket Code!</string>
-  <string name="signin_choose_username">Bitte wählen einen Benutzernamen:</string>
+  <string name="signin_choose_username_empty">Bitte gib einen Benutzernamen ein</string>
+  <string name="signin_choose_username">Bitte wähle einen Benutzernamen:</string>
   <string name="signin_choose_username_hint">Der Benutzername sollte nicht dein echter Name sein.</string>
   <string name="oauth_username_taken">Der Benutzername ist bereits vergeben. Bitte wähle einen anderen.</string>
   <string name="overwrite_text">Programm mit diesem Namen existiert bereits!</string>

@@ -36,6 +36,7 @@
         <TextView
             android:id="@+id/dialog_signin_oauth_username_thanks"
             style="@style/DefaultDialog.TextView"
+            android:layout_marginTop="@dimen/dialog_item_margin"
             android:text="@string/signin_thanks" />
 
         <TextView

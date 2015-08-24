@@ -40,7 +40,7 @@
     </style >
 
     <style name="DefaultDialog" parent="android:Theme.Dialog" >
-        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_width" >wrap_content</item >
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:paddingBottom" >@dimen/dialog_item_margin</item >
         <item name="android:layout_marginLeft" >@dimen/dialog_margin</item >
@@ -625,8 +625,8 @@
     </style >
 
     <style name="OAuthButton">
-         <item name="android:layout_width">match_parent</item >
-         <item name="android:layout_height">match_parent</item >
+         <item name="android:layout_width">wrap_content</item>
+         <item name="android:layout_height">50dip</item>
          <item name="android:layout_gravity">center_horizontal|bottom</item >
          <item name="android:layout_marginTop">5dip</item >
          <item name="android:layout_marginBottom">5dip</item >

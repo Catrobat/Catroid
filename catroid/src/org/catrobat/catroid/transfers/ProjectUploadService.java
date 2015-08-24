@@ -124,20 +124,18 @@ public class ProjectUploadService extends IntentService {
 
 			Context context = getApplicationContext();
 
-			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-			String userEmail = "";
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+			String userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 
-			if(provider.equals(Constants.FACEBOOK)) {
-				userEmail =  sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL);
-			} else if(provider.equals(Constants.GOOGLE_PLUS)) {
-				userEmail =  sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
-			} else if(provider.equals(Constants.NO_OAUTH_PROVIDER)) {
-				userEmail =  sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+			if (provider.equals(Constants.FACEBOOK)) {
+				userEmail = sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL);
+			} else if (provider.equals(Constants.GOOGLE_PLUS)) {
+				userEmail = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
+			} else if (provider.equals(Constants.NO_OAUTH_PROVIDER)) {
+				userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
 			}
 
-			if(userEmail.equals(Constants.NO_EMAIL)){
+			if (userEmail.equals(Constants.NO_EMAIL)) {
 				userEmail = UtilDeviceInfo.getUserEmail(this);
 			}
 

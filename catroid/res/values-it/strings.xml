@@ -246,10 +246,8 @@
   <string name="spritename_invalid">Questo nome di oggetto non è valido</string>
   <string name="no_spritename_entered">Inserisci il nome di un oggetto.</string>
   <string name="sprite_name">Nome dell\'oggetto:</string>
-  <string name="sign_in_dialog_title">Login</string>
   <string name="username">Nome utente:</string>
   <string name="password">Password:</string>
-  <string name="login_or_register">Login o registrati</string>
   <string name="password_forgotten">Password dimenticata</string>
   <string name="new_user_registered">Nuovo account creato</string>
   <string name="register_error">Errore</string>

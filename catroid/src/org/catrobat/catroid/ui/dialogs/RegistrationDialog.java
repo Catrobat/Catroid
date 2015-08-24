@@ -24,11 +24,11 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +67,10 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 		usernameEditText.setText("");
 		passwordEditText.setText("");
 		passwordConfirmEditText.setText("");
-		emailEditText.setText(UtilDeviceInfo.getUserEmail(getActivity()));
+		String eMail = UtilDeviceInfo.getUserEmail(getActivity());
+		if (eMail != null) {
+			emailEditText.setText(eMail);
+		}
 		showPasswordCheckBox.setChecked(false);
 
 		showPasswordCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +107,6 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 						handleRegisterButtonClick();
 					}
 				});
-
 			}
 		});
 
@@ -131,7 +133,6 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 			new AlertDialog.Builder(getActivity()).setTitle(R.string.register_error)
 					.setMessage(R.string.register_password_mismatch).setPositiveButton(R.string.ok, null).show();
 		} else {
-			//dismiss();
 			RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, email);
 			registrationTask.setOnRegistrationCompleteListener(this);
 			registrationTask.execute();

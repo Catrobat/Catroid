@@ -96,13 +96,14 @@ public final class Constants {
 
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 
-	//TODO: abklaeren, ob token mit oauth noch noetig:
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
+	public static final String FACEBOOK_TOKEN_REFRESH_NEEDED = "FACEBOOK_TOKEN_REFRESH_NEEDED";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
 	public static final String EMAIL = "email";
 	public static final String NO_EMAIL = "no_email";
+	public static final String LOCALE = "locale";
 	public static final String RESTRICTED_USER = "restricted_user";
 	public static final String FACEBOOK_ID = "FACEBOOK_ID";
 	public static final String NO_FACEBOOK_ID = "NO_FACEBOOK_ID";
@@ -121,13 +122,15 @@ public final class Constants {
 	public static final String NO_GOOGLE_LOCALE = "NO_GOOGLE_LOCALE";
 	public static final String GOOGLE_EMAIL = "GOOGLE_EMAIL";
 	public static final String NO_GOOGLE_EMAIL = "NO_GOOGLE_EMAIL";
-	
+	public static final String GOOGLE_ID_TOKEN = "GOOGLE_ID_TOKEN";
+	public static final String NO_GOOGLE_ID_TOKEN = "NO_GOOGLE_ID_TOKEN";
+	public static final String GOOGLE_EXCHANGE_CODE = "GOOGLE_EXCHANGE_CODE";
+	public static final String NO_GOOGLE_EXCHANGE_CODE = "NO_GOOGLE_EXCHANGE_CODE";
 	public static final String CURRENT_OAUTH_PROVIDER = "PROVIDER";
 	public static final String FACEBOOK = "FACEBOOK";
 	public static final String GOOGLE_PLUS = "GPLUS";
 	public static final String NO_OAUTH_PROVIDER = "NATIVE";
 
-	public static final String REQUEST_GOOGLE_CODE = "requestGoogleCode";
 	public static final String REQUEST_MOBILE = "mobile";
 
 	public static final String FLAVOR_DEFAULT = "PocketCode";
@@ -152,9 +155,6 @@ public final class Constants {
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
-	public static final int UPLOAD_NOTIFICATION = 102;
-	public static final int DOWNLOAD_NOTIFICATION = 103;
-	public static final int COPY_NOTIFICATION = 104;
 	public static final int UPDATE_DOWNLOAD_ERROR = 105;
 
 	//Up-/Download Status Codes

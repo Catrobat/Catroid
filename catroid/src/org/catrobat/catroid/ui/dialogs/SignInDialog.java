@@ -25,39 +25,31 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-
-import com.google.android.gms.common.*;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -65,56 +57,72 @@ import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
 import org.catrobat.catroid.transfers.CheckOAuthTokenTask;
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.transfers.FacebookLogInTask;
+import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
-import org.catrobat.catroid.transfers.GoogleFetchCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.web.FacebookCalls;
-import org.catrobat.catroid.web.GoogleCalls;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.catrobat.catroid.web.ServerCalls;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 public class SignInDialog extends DialogFragment implements
-		GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, FacebookLogInTask
-		.OnFacebookLogInCompleteListener, FacebookCalls.OnGetFacebookUserInfoCompleteListener, CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener, CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
-		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener, GoogleLogInTask.OnGoogleLogInCompleteListener, GoogleFetchCodeTask.OnGoogleFetchCodeCompleteListener, GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener {
+		GoogleApiClient.ConnectionCallbacks,
+		GoogleApiClient.OnConnectionFailedListener,
+		GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener,
+		GoogleLogInTask.OnGoogleServerLogInCompleteListener,
+		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener,
+		FacebookLogInTask.OnFacebookLogInCompleteListener,
+		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
+		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener, GetFacebookUserInfoTask.OnGetFacebookUserInfoTaskCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_sign_in";
 	private static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
 	private static final Integer RESULT_CODE_AUTH_CODE = 1;
-	private static final String SCOPE_EMAIL = "email";
-
-	private Button loginButton;
-	private Button registerButton;
-	private LoginButton facebookLoginButton;
-	private SignInButton gplusLoginButton;
-	private TextView termsOfUseLinkTextView;
-	private CallbackManager callbackManager;
+	private static final String FACEBOOK_PROFILE_PERMISSION = "public_profile";
+	private static final String FACEBOOK_EMAIL_PERMISSION = "email";
+	private static final java.lang.String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "427226922034-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
 
 	private ProgressDialog connectionProgressDialog;
 	private GoogleApiClient googleApiClient;
-	private ConnectionResult mConnectionResult;
-	/* Should we automatically resolve ConnectionResults when possible? */
-	private boolean shouldResolve = false;
-	/* Is there a ConnectionResult resolution in progress? */
+	private boolean shouldResolveErrors = false;
 	private boolean isResolving = false;
 	private boolean triggerGPlusLogin = false;
 
-	//https://developers.google.com/identity/sign-in/android/start-integrating
-
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
+		if (getActivity() instanceof MainMenuActivity) {
+			((MainMenuActivity) getActivity()).setSignInDialog(this);
+		} else if (getActivity() instanceof ProjectActivity) {
+			((ProjectActivity) getActivity()).setSignInDialog(this);
+		}
 
-		initializeFacebookSdk();
-		initializeGoogleSdk();
+		initializeGooglePlus();
 
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in, null);
 
-		loginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_login);
-		registerButton = (Button) rootView.findViewById(R.id.dialog_sign_in_register);
-		facebookLoginButton = (LoginButton) rootView.findViewById(R.id.dialog_sign_in_facebook_login_button);
-		gplusLoginButton = (SignInButton) rootView.findViewById(R.id.dialog_sign_in_gplus_login_button);
-		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
+		final Button loginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_login);
+		final Button registerButton = (Button) rootView.findViewById(R.id.dialog_sign_in_register);
+		final Button facebookLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_facebook_login_button);
+		Button gplusLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_gplus_login_button);
+		TextView termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
+
+		facebookLoginButton.getViewTreeObserver().addOnGlobalLayoutListener(
+				new ViewTreeObserver.OnGlobalLayoutListener() {
+
+					@Override
+					public void onGlobalLayout() {
+						int width = facebookLoginButton.getWidth();
+						if (width > 0) {
+							loginButton.getLayoutParams().width = width;
+							registerButton.getLayoutParams().width = width;
+							facebookLoginButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+						}
+					}
+				});
 
 		String termsOfUseUrl = getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
 				getString(R.string.register_pocketcode_terms_of_use_text));
@@ -139,9 +147,16 @@ public class SignInDialog extends DialogFragment implements
 				handleRegisterButtonClick();
 			}
 		});
-		facebookLoginButton.setFragment(this);
-		facebookLoginButton.setReadPermissions("email");
-		facebookLoginButton.setLoginBehavior(FacebookCalls.getInstance().getLoginBehavior());
+
+		LoginManager.getInstance().setLoginBehavior(ServerCalls.getInstance().getLoginBehavior());
+
+		facebookLoginButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
+				LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+			}
+		});
 
 		gplusLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -150,92 +165,58 @@ public class SignInDialog extends DialogFragment implements
 			}
 		});
 
-		Bundle arguments = getArguments();
-		if(arguments != null) {
-			if(arguments.getBoolean(Constants.REQUEST_GOOGLE_CODE)){
-				requestGoogleAuthorizationCode();
-			}
-		}
-
 		return signInDialog;
 	}
 
-	private void initializeFacebookSdk() {
-		FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
-		callbackManager = CallbackManager.Factory.create();
-		FacebookCalls.getInstance().setOnGetFacebookUserInfoCompleteListener(SignInDialog.this);
-
-		LoginManager.getInstance().registerCallback(callbackManager,
-				new FacebookCallback<LoginResult>() {
-					@Override
-					public void onSuccess(LoginResult loginResult) {
-						Toast.makeText(getActivity(), loginResult.toString(), Toast.LENGTH_LONG);
-						Log.d("Facebook", loginResult.toString());
-						FacebookCalls.getInstance().getFacebookUserInfo(loginResult.getAccessToken());
-					}
-
-					@Override
-					public void onCancel() {
-						// App code
-						Log.d("Facebook", "cancel");
-					}
-
-					@Override
-					public void onError(FacebookException exception) {
-						// App code
-						Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_LONG);
-						Log.d("Facebook", exception.getMessage());
-					}
-				});
-	}
-
-	private void initializeGoogleSdk() {
+	private void initializeGooglePlus() {
+		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+				.requestEmail()
+				.requestServerAuthCode(GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID, false)
+				.requestIdToken(GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID)
+				.build();
 
 		googleApiClient = new GoogleApiClient.Builder(getActivity())
 				.addConnectionCallbacks(this)
 				.addOnConnectionFailedListener(this)
-				.addApi(Plus.API)
-				.addScope(new Scope(Scopes.PROFILE)) //nötig?
-				.addScope(new Scope(SCOPE_EMAIL))
+				.addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
 				.build();
 
-		// Anzuzeigende Statusmeldung, wenn der Verbindungsfehler nicht behoben ist
 		connectionProgressDialog = new ProgressDialog(getActivity());
-		connectionProgressDialog.setMessage("Signing in to G+...");
+		connectionProgressDialog.setMessage("Trying to sign in to Google+");
 	}
 
 	private void handleGooglePlusLoginButtonClick(View view) {
 		if (view.getId() == R.id.dialog_sign_in_gplus_login_button) {
 			if (!googleApiClient.isConnected()) {
-				// User clicked the sign-in button, so begin the sign-in process and automatically
-				// attempt to resolve any errors that occur.
-				shouldResolve = true;
+				shouldResolveErrors = true;
 				googleApiClient.connect();
 				triggerGPlusLogin = true;
 			} else {
-				triggerGPlusLogin();
+				Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+				startActivityForResult(signInIntent, MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
 			}
 		}
 	}
 
-	private void triggerGPlusLogin() {
-		if (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null && Plus.AccountApi.getAccountName(googleApiClient) != null) {
-			Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
-			String id = currentPerson.getId();
-			String personName = currentPerson.getDisplayName();
-			String email = Plus.AccountApi.getAccountName(googleApiClient);
-			String locale = currentPerson.getLanguage();
+	public void onGoogleLogInComplete(GoogleSignInAccount account) {
+		String id = account.getId();
+		String personName = account.getDisplayName();
+		String email = account.getEmail();
+		String locale = UtilDeviceInfo.getUserCountryCode();
+		String idToken = account.getIdToken();
+		String code = account.getServerAuthCode();
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			sharedPreferences.edit().putString(Constants.GOOGLE_ID, id).commit();
-			sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, personName).commit();
-			sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, email).commit();
-			sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, locale).commit();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		sharedPreferences.edit().putString(Constants.GOOGLE_ID, id).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, personName).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, email).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, locale).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, idToken).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_EXCHANGE_CODE, code).commit();
 
-			CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), id, Constants.GOOGLE_PLUS);
-			checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
-			checkOAuthTokenTask.execute();
-		}
+		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), id, Constants.GOOGLE_PLUS);
+		checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
+		checkOAuthTokenTask.execute();
 	}
 
 	@Override
@@ -252,20 +233,14 @@ public class SignInDialog extends DialogFragment implements
 
 	private void handleLoginButtonClick() {
 		LogInDialog logInDialog = new LogInDialog();
-		logInDialog.show(getActivity().getSupportFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
+		logInDialog.show(getActivity().getFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
 	}
 
 	private void handleRegisterButtonClick() {
 		RegistrationDialog registrationDialog = new RegistrationDialog();
-		registrationDialog.show(getActivity().getSupportFragmentManager(), RegistrationDialog.DIALOG_FRAGMENT_TAG);
+		registrationDialog.show(getActivity().getFragmentManager(), RegistrationDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
-	}
-
-	public void requestGoogleAuthorizationCode() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
-		GoogleCalls.getInstance().getGoogleAuthorizationCode(getActivity(), email, this);
 	}
 
 	@Override
@@ -274,25 +249,36 @@ public class SignInDialog extends DialogFragment implements
 		if (requestCode == GPLUS_REQUEST_CODE_SIGN_IN) {
 			// If the error resolution was not successful we should not resolve further.
 			if (resultCode != Activity.RESULT_OK) {
-				shouldResolve = false;
+				shouldResolveErrors = false;
 			}
 			isResolving = false;
 			googleApiClient.connect();
 		} else if (requestCode == RESULT_CODE_AUTH_CODE) {
 			Log.d(DIALOG_FRAGMENT_TAG, "offline access approved?");
-			requestGoogleAuthorizationCode();
+		} else if (requestCode == MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN) {
+			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+			triggerGPlusLogin(result);
 		}
+	}
 
-		callbackManager.onActivityResult(requestCode, resultCode, data);
+	private void triggerGPlusLogin(GoogleSignInResult result) {
+		if (result.isSuccess()) {
+			GoogleSignInAccount account = result.getSignInAccount();
+			onGoogleLogInComplete(account);
+		} else {
+			ToastUtil.showError(getActivity(), "There was a problem during Google+ Signin");
+		}
 	}
 
 	@Override
 	public void onConnected(Bundle bundle) {
 		connectionProgressDialog.dismiss();
-		shouldResolve = false;
-		if(triggerGPlusLogin) {
+		shouldResolveErrors = false;
+
+		if (triggerGPlusLogin) {
 			triggerGPlusLogin = false;
-			triggerGPlusLogin();
+			Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+			startActivityForResult(signInIntent, MainMenuActivity.REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
 		}
 	}
 
@@ -304,13 +290,11 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
-		//if (connectionProgressDialog.isShowing() || true) {
 		// Could not connect to Google Play Services.  The user needs to select an account,
-		// grant permissions or resolve an error in order to sign in. Refer to the javadoc for
-		// ConnectionResult to see possible error codes.
+		// grant permissions or resolve an error in order to sign in.
 		Log.d(DIALOG_FRAGMENT_TAG, "onConnectionFailed:" + connectionResult);
 
-		if (shouldResolve && !isResolving) {
+		if (shouldResolveErrors && !isResolving) {
 			if (connectionResult.hasResolution()) {
 				try {
 					connectionResult.startResolutionForResult(getActivity(), GPLUS_REQUEST_CODE_SIGN_IN);
@@ -321,73 +305,10 @@ public class SignInDialog extends DialogFragment implements
 					googleApiClient.connect();
 				}
 			} else {
-				// Could not resolve the connection result, show the user an
-				// error dialog.
+				//Could not resolve the connection result
 				new AlertDialog.Builder(getActivity()).setTitle(R.string.error)
 						.setMessage(R.string.sign_in_error).setPositiveButton(R.string.ok, null).show();
 			}
-		} /*else {
-			// Show the signed-out UI
-			showSignedOutUI();
-		}*/
-	}
-
-	/**
-	 * This method is a hook for background threads and async tasks that need to
-	 * provide the user a response UI when an exception occurs.
-	 */
-	/*
-	public void handleException(final Exception e) {
-		// Because this call comes from the AsyncTask, we must ensure that the following
-		// code instead executes on the UI thread.
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (e instanceof GooglePlayServicesAvailabilityException) {
-					// The Google Play services APK is old, disabled, or not present.
-					// Show a dialog created by Google Play services that allows
-					// the user to update the APK
-					int statusCode = ((GooglePlayServicesAvailabilityException) e)
-							.getConnectionStatusCode();
-					Dialog dialog = GooglePlayServicesUtil.getErrorDialog(statusCode,
-							SignInDialog.this.getActivity(),
-							REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR);
-					dialog.show();
-				} else if (e instanceof UserRecoverableAuthException) {
-					// Unable to authenticate, such as when the user has not yet granted
-					// the app access to the account, but the user can fix this.
-					// Forward the user to an activity in Google Play services.
-					Intent intent = ((UserRecoverableAuthException) e).getIntent();
-					startActivityForResult(intent,
-							REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR);
-				}
-			}
-		});
-	}
-	*/
-	@Override
-	public void onGetFacebookUserInfoComplete(GraphResponse response) {
-		Log.d("FB", "User Info complete");
-		JSONObject responseObject = response.getJSONObject();
-		try {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			sharedPreferences.edit().putString(Constants.FACEBOOK_ID, responseObject.getString("id")).commit();
-			sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, responseObject.getString("name")).commit();
-			sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, responseObject.getString("locale")).commit();
-			//if user has approved email permission, fb-email address is taken, else device email address
-			if(responseObject.has("email")) {
-				sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, responseObject.getString("email")).commit();
-			} else {
-				sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, UtilDeviceInfo.getUserEmail(getActivity()))
-						.commit();
-			}
-
-			CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), responseObject.getString
-					("id"), Constants.FACEBOOK);
-			checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
-			checkOAuthTokenTask.execute();
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -417,7 +338,7 @@ public class SignInDialog extends DialogFragment implements
 						sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
 						sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
 						sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
-				googleLogInTask.setOnGoogleLogInCompleteListener(this);
+				googleLogInTask.setOnGoogleServerLogInCompleteListener(this);
 				googleLogInTask.execute();
 			} else {
 				String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
@@ -448,11 +369,24 @@ public class SignInDialog extends DialogFragment implements
 			}
 		} else if (provider.equals(Constants.GOOGLE_PLUS)) {
 			if (emailAvailable) {
-				requestGoogleAuthorizationCode();
+				exchangeGoogleAuthorizationCode();
 			} else {
 				showOauthUserNameDialog(Constants.GOOGLE_PLUS);
 			}
 		}
+	}
+
+	public void exchangeGoogleAuthorizationCode() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(getActivity(),
+				sharedPreferences.getString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE),
+				sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
+				sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
+				sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
+				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE),
+				sharedPreferences.getString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN));
+		googleExchangeCodeTask.setOnGoogleExchangeCodeCompleteListener(this);
+		googleExchangeCodeTask.execute();
 	}
 
 	private void showOauthUserNameDialog(String provider) {
@@ -460,14 +394,14 @@ public class SignInDialog extends DialogFragment implements
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
 		oAuthUsernameDialog.setArguments(bundle);
-		oAuthUsernameDialog.setSignInDialog(this);
-		oAuthUsernameDialog.show(getActivity().getSupportFragmentManager(), OAuthUsernameDialog.DIALOG_FRAGMENT_TAG);
+		oAuthUsernameDialog.show(getActivity().getFragmentManager(), OAuthUsernameDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
 	}
 
 	@Override
-	public void onFacebookExchangeTokenComplete() {
+	public void onFacebookExchangeTokenComplete(Activity activity) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
 		FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
 				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
 				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
@@ -489,27 +423,13 @@ public class SignInDialog extends DialogFragment implements
 	}
 
 	@Override
-	public void onGoogleLogInComplete() {
+	public void onGoogleServerLogInComplete() {
 		dismiss();
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
 		uploadProjectDialog.setArguments(bundle);
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	@Override
-	public void onGoogleFetchCodeComplete(String code) {
-		Log.d(DIALOG_FRAGMENT_TAG, "code:" + code);
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(getActivity(),
-				code,
-				sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
-				sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
-				sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
-				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
-		googleExchangeCodeTask.setOnGoogleExchangeCodeCompleteListener(this);
-		googleExchangeCodeTask.execute();
 	}
 
 	@Override
@@ -520,7 +440,27 @@ public class SignInDialog extends DialogFragment implements
 				sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
 				sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
 				sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
-		googleLogInTask.setOnGoogleLogInCompleteListener(this);
+		googleLogInTask.setOnGoogleServerLogInCompleteListener(this);
 		googleLogInTask.execute();
+	}
+
+	@Override
+	public void onGetFacebookUserInfoTaskComplete(String id, String name, String locale, String email) {
+		Log.d("FB", "User Info complete");
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, id).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, name).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, locale).commit();
+		//if user has approved email permission, fb-email address is taken, else device email address
+		if (email != null) {
+			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, email).commit();
+		} else {
+			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, UtilDeviceInfo.getUserEmail(getActivity()))
+					.commit();
+		}
+
+		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), id, Constants.FACEBOOK);
+		checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
+		checkOAuthTokenTask.execute();
 	}
 }

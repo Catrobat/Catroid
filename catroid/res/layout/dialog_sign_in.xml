@@ -34,20 +34,22 @@
 
         <Button
             android:id="@+id/dialog_sign_in_login"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             style="@style/DefaultDialog.Item"
+            android:text="@string/login"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom|center_horizontal"
             android:layout_marginTop="15dp"
-            android:text="@string/login"/>
+            android:paddingTop="10dp" />
 
         <Button
             android:id="@+id/dialog_sign_in_register"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             style="@style/DefaultDialog.Item"
             android:text="@string/register"
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/dialog_sign_in_login"/>
+            android:layout_below="@+id/dialog_sign_in_login"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom|center_horizontal"
+            android:paddingTop="10dp" />
 
         <View
             android:layout_width="match_parent"
@@ -65,6 +67,7 @@
             android:layout_height="wrap_content"
             style="@style/DefaultDialog.TextView"
             android:text="@string/or"
+            android:paddingLeft="0dp"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_below="@+id/dialog_sign_in_register"
             android:gravity="center"
@@ -80,17 +83,17 @@
             android:gravity="center"
             android:background="@android:color/darker_gray"/>
 
-        <com.facebook.login.widget.LoginButton
+        <Button
             android:id="@+id/dialog_sign_in_facebook_login_button"
+            android:background="@drawable/sign_in_with_facebook"
             style="@style/OAuthButton"
-            android:layout_below="@+id/dialog_sign_in_or"
-        />
+            android:layout_below="@+id/dialog_sign_in_or" />
 
-        <com.google.android.gms.common.SignInButton
+        <Button
             android:id="@+id/dialog_sign_in_gplus_login_button"
+            android:background="@drawable/sign_in_with_google"
             style="@style/OAuthButton"
-            android:layout_below="@+id/dialog_sign_in_facebook_login_button"
-        />
+            android:layout_below="@+id/dialog_sign_in_facebook_login_button" />
 
         <LinearLayout
             style="@style/DefaultDialog.Item"
@@ -106,17 +109,15 @@
                 android:gravity="center_horizontal|bottom"
                 android:text="@string/register_terms"
                 android:textColor="@color/spritelist_details_text_color"
-                android:textSize="@dimen/dialog_item_text_size" >
-            </TextView >
+                android:textSize="@dimen/dialog_item_text_size" />
 
             <TextView
                 android:id="@+id/register_terms_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal|bottom"
-                android:textColorLink="#E68B00"
-                android:textSize="20sp" >
-            </TextView >
+                android:textColorLink="#17a5b8"
+                android:textSize="14sp" />
         </LinearLayout >
     </RelativeLayout >
 

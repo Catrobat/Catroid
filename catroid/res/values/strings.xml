@@ -46,12 +46,14 @@
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
     <string name="loading">Loading…</string>
-    <string name="loading_check_email">E-Mail Address availability is checked on our server…</string>
+    <string name="loading_check_token">Token is checked on our server…</string>
+    <string name="loading_check_facebook_data">Facebook data is retrieved…</string>
+    <string name="loading_check_email">E-Mail availability is checked on our server…</string>
     <string name="loading_check_oauth_token">OAuth token is checked on our server…</string>
+    <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server…</string>
     <string name="loading_check_oauth_username">Username availability is checked on our server…</string>
     <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server…</string>
     <string name="loading_facebook_login">Facebook login is completed on our server…</string>
-    <string name="loading_google_fetch_code">Google+ code retrieved from Google…</string>
     <string name="loading_google_exchange_code">Google+ code is exchanged on our server…</string>
     <string name="loading_google_login">Google+ login is completed on our server…</string>
     <string name="background">Background</string>
@@ -360,6 +362,7 @@
     <string name="accountName">E-Mail</string>
     <string name="signin_thanks">Thank you for signing up to Pocket Code!</string>
     <string name="signin_choose_username">Please choose your username:</string>
+    <string name="signin_choose_username_empty">Please enter a username</string>
     <string name="signin_choose_username_hint">The username should not be your real name.</string>
     <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
     <string name="show_password">Show password</string>

@@ -93,10 +93,10 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	protected void onPostExecute(Boolean success) {
 		super.onPostExecute(success);
 
+		linearLayoutProgressCircle.setVisibility(View.GONE);
+
 		if (onLoadProjectCompleteListener != null) {
 			if (!success && showErrorMessage) {
-				linearLayoutProgressCircle.setVisibility(View.GONE);
-
 				Builder builder = new CustomAlertDialogBuilder(activity);
 				builder.setTitle(R.string.error);
 				builder.setMessage(errorMessage);

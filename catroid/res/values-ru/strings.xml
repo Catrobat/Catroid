@@ -250,10 +250,8 @@
   <string name="spritename_invalid">Это название объекта недопустимо</string>
   <string name="no_spritename_entered">Пожалуйста введите имя объекта.</string>
   <string name="sprite_name">Имя:</string>
-  <string name="sign_in_dialog_title">Вход</string>
   <string name="username">Имя:</string>
   <string name="password">Пароль:</string>
-  <string name="login_or_register">Вход/Регистрация</string>
   <string name="password_forgotten">Пароль забыт</string>
   <string name="new_user_registered">новый аккаунт создан</string>
   <string name="register_error">Произошла ошибка</string>

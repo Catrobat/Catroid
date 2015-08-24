@@ -249,10 +249,8 @@ il faut
   <string name="spritename_invalid">Le nom d\'objet n\'est pas valide</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Nom de l\'objet :</string>
-  <string name="sign_in_dialog_title">Se connecter</string>
   <string name="username">Nom d\'utilisateur :</string>
   <string name="password">Mot de passe :</string>
-  <string name="login_or_register">Se connecter ou créer compte</string>
   <string name="password_forgotten">Mot de passe oublié</string>
   <string name="new_user_registered">Nouveau compte créé</string>
   <string name="register_error">\"Une erreur s\'est produite\"</string>

@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.transfers;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -32,40 +33,48 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
-	private static final String TAG = DeleteTestUserTask.class.getSimpleName();
+public class CheckFacebookServerTokenValidityTask extends AsyncTask<Void, Void, Boolean> {
+	private static final String TAG = CheckFacebookServerTokenValidityTask.class.getSimpleName();
 
-	private Context context;
+	private Activity activity;
+	private ProgressDialog progressDialog;
+	private String id;
+
+	private Boolean requestNewToken;
 
 	private WebconnectionException exception;
 
-	private OnDeleteTestUserCompleteListener onDeleteTestUserCompleteListener;
+	private OnCheckFacebookServerTokenValidityCompleteListener onCheckFacebookServerTokenValidityCompleteListener;
 
-	public DeleteTestUserTask(Context context) {
-		this.context = context;
+	public CheckFacebookServerTokenValidityTask(Activity activity, String id) {
+		this.activity = activity;
+		this.id = id;
 	}
 
-	public void setOnDeleteTestUserCompleteListener(OnDeleteTestUserCompleteListener listener) {
-		onDeleteTestUserCompleteListener = listener;
+	public void setOnCheckFacebookServerTokenValidityCompleteListener(OnCheckFacebookServerTokenValidityCompleteListener listener) {
+		onCheckFacebookServerTokenValidityCompleteListener = listener;
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (context == null) {
+		if (activity == null) {
 			return;
 		}
+		String title = activity.getString(R.string.please_wait);
+		String message = activity.getString(R.string.loading_check_facebook_token_validity);
+		progressDialog = ProgressDialog.show(activity, title, message);
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		try {
-			if (!Utils.isNetworkAvailable(context)) {
+			if (!Utils.isNetworkAvailable(activity)) {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
-
-			return ServerCalls.getInstance().deleteTestUserAccountsOnServer();
+			requestNewToken = ServerCalls.getInstance().checkFacebookServerTokenValidity(id);
+			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			exception = webconnectionException;
@@ -74,33 +83,42 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected void onPostExecute(Boolean deleted) {
-		super.onPostExecute(deleted);
+	protected void onPostExecute(Boolean success) {
+		super.onPostExecute(success);
+
+		if (progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.dismiss();
+		}
 
 		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}
 
-		if (onDeleteTestUserCompleteListener != null) {
-			onDeleteTestUserCompleteListener.onDeleteTestUserComplete(deleted);
+		if (!success && exception != null) {
+			showDialog(R.string.sign_in_error);
+			return;
+		}
+
+		if (onCheckFacebookServerTokenValidityCompleteListener != null) {
+			onCheckFacebookServerTokenValidityCompleteListener.onCheckFacebookServerTokenValidityComplete(requestNewToken, activity);
 		}
 	}
 
 	private void showDialog(int messageId) {
-		if (context == null) {
+		if (activity == null) {
 			return;
 		}
 		if (exception.getMessage() == null) {
-			new CustomAlertDialogBuilder(context).setMessage(messageId).setPositiveButton(R.string.ok, null)
+			new CustomAlertDialogBuilder(activity).setMessage(messageId).setPositiveButton(R.string.ok, null)
 					.show();
 		} else {
-			new CustomAlertDialogBuilder(context).setMessage(exception.getMessage())
+			new CustomAlertDialogBuilder(activity).setMessage(exception.getMessage())
 					.setPositiveButton(R.string.ok, null).show();
 		}
 	}
 
-	public interface OnDeleteTestUserCompleteListener {
-		void onDeleteTestUserComplete(Boolean deleted);
+	public interface OnCheckFacebookServerTokenValidityCompleteListener {
+		void onCheckFacebookServerTokenValidityComplete(Boolean requestNewToken, Activity activity);
 	}
 }

@@ -30,6 +30,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,6 +38,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -48,22 +57,32 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
 public class ProjectActivity extends BaseActivity {
 
+	private static final String TAG = ProjectActivity.class.getSimpleName();
+
 	private SpritesListFragment spritesListFragment;
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private CallbackManager callbackManager;
+	private SignInDialog signInDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		initializeFacebookSdk();
+
 		setContentView(R.layout.activity_project);
 
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
@@ -195,9 +214,9 @@ public class ProjectActivity extends BaseActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		callbackManager.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-
-			Intent intent = null;
+			Intent intent;
 			if (data != null) {
 				if (DroneServiceWrapper.checkARDroneAvailability()) {
 					intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
@@ -312,5 +331,38 @@ public class ProjectActivity extends BaseActivity {
 
 	public SpritesListFragment getSpritesListFragment() {
 		return spritesListFragment;
+	}
+
+	public void initializeFacebookSdk() {
+		FacebookSdk.sdkInitialize(getApplicationContext());
+		callbackManager = CallbackManager.Factory.create();
+
+		LoginManager.getInstance().registerCallback(callbackManager,
+				new FacebookCallback<LoginResult>() {
+					@Override
+					public void onSuccess(LoginResult loginResult) {
+						Log.d(TAG, loginResult.toString());
+						AccessToken accessToken = loginResult.getAccessToken();
+						GetFacebookUserInfoTask getFacebookUserInfoTask = new GetFacebookUserInfoTask(ProjectActivity.this,
+								accessToken.getToken(), accessToken.getUserId());
+						getFacebookUserInfoTask.setOnGetFacebookUserInfoTaskCompleteListener(signInDialog);
+						getFacebookUserInfoTask.execute();
+					}
+
+					@Override
+					public void onCancel() {
+						Log.d(TAG, "cancel");
+					}
+
+					@Override
+					public void onError(FacebookException exception) {
+						ToastUtil.showError(ProjectActivity.this, exception.getMessage());
+						Log.d(TAG, exception.getMessage());
+					}
+				});
+	}
+
+	public void setSignInDialog(SignInDialog signInDialog) {
+		this.signInDialog = signInDialog;
 	}
 }

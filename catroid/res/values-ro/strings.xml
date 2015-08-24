@@ -250,10 +250,8 @@
   <string name="spritename_invalid">Această denumire de obiect este nevalabilă</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Numele obiectului:</string>
-  <string name="sign_in_dialog_title">Intrare</string>
   <string name="username">Numele:</string>
   <string name="password">Parola:</string>
-  <string name="login_or_register">Intrare sau Registrare</string>
   <string name="password_forgotten">Parola este uitată</string>
   <string name="new_user_registered">contul nou a fost creat</string>
   <string name="register_error">A avut loc o eroare</string>

@@ -238,10 +238,8 @@
   <string name="spritename_invalid">ชื่อวัตถุไม่ถูกต้อง</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">ชื่อวัตถุ:</string>
-  <string name="sign_in_dialog_title">เข้าสู่ระบบ</string>
   <string name="username">ชื่อผู้ใช้:</string>
   <string name="password">รหัสผ่าน:</string>
-  <string name="login_or_register">เข้าสู่ระบบหรือลงทะเบียน</string>
   <string name="password_forgotten">ลืมรหัสผ่าน</string>
   <string name="new_user_registered">บัญชีใหม่ถูกสร้างแล้ว</string>
   <string name="register_error">เกิดข้อผิดพลาด</string>

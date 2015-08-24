@@ -52,6 +52,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private boolean userRegistered;
 
 	private OnRegistrationCompleteListener onRegistrationCompleteListener;
+	private WebconnectionException exception;
 
 	public RegistrationTask(Context activity, String username, String password, String email) {
 		this.context = activity;
@@ -79,10 +80,10 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			if (!Utils.isNetworkAvailable(context)) {
+				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
-			//String email = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode();
 			String country = UtilDeviceInfo.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -100,19 +101,25 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected void onPostExecute(Boolean result) {
-		super.onPostExecute(result);
+	protected void onPostExecute(Boolean success) {
+		super.onPostExecute(success);
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
 
-		if (!result) {
+		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}
 
-		if (context == null) {
+		if ((!success && exception != null) || context == null) {
+			showDialog(R.string.sign_in_error);
+			return;
+		}
+
+		if (!userRegistered) {
+			showDialog(R.string.sign_in_error);
 			return;
 		}
 

@@ -54,6 +54,7 @@
             android:id="@+id/dialog_register_email_text"
             style="@style/DefaultDialog.TextView"
             android:text="@string/accountName"
+            android:inputType="text"
             android:layout_below="@+id/dialog_register_username" />
 
         <View
@@ -65,7 +66,7 @@
             android:id="@+id/dialog_register_email"
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/dialog_register_email_text_line"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:maxLines="1"
             android:selectAllOnFocus="true" />
 

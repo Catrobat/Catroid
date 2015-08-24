@@ -157,8 +157,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -194,14 +196,32 @@ public final class UiTestUtils {
 		INITIALIZED_LIST_VALUES.add(2.0);
 	}
 
-	public static final int DRAG_FRAMES = 35;
+	public static final String CONFIG_FACEBOOK_NAME = "facebook_testuser_name";
+	public static final String CONFIG_FACEBOOK_MAIL = "facebook_testuser_mail";
+	public static final String CONFIG_FACEBOOK_PASSWORD = "facebook_testuser_password";
+	public static final String CONFIG_FACEBOOK_ID = "facebook_testuser_id";
+	public static final String CONFIG_FACEBOOK_APP_TOKEN = "facebook_app_token";
+	public static final String CONFIG_GPLUS_NAME = "gplus_testuser_name";
+	public static final String CONFIG_GPLUS_MAIL = "gplus_testuser_mail";
+	public static final String CONFIG_GPLUS_PASSWORD = "gplus_testuser_password";
+	public static final String CONFIG_GPLUS_ID = "gplus_testuser_id";
 
+	public static final int DRAG_FRAMES = 35;
 	public static final int SCRIPTS_INDEX = 0;
 	public static final int LOOKS_INDEX = 1;
 	public static final int SOUNDS_INDEX = 2;
 
-	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
+	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<>();
 
+	public static String facebookTestUserName;
+	public static String gplusTestUserName;
+	public static String facebookTestuserMail;
+	public static String facebookTestuserId;
+	public static String gplusTestuserMail;
+	public static String facebookTestuserPassword;
+	public static String facebookAppToken;
+	public static String gplusTestuserPassword;
+	public static String gplusTestuserId;
 	static {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
@@ -1651,7 +1671,7 @@ public final class UiTestUtils {
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, context);
 
-			assert (userRegistered);
+			assertTrue("User has not been registered", userRegistered);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Error creating test user.", e);
 			fail("Error creating test user.");
@@ -1668,7 +1688,7 @@ public final class UiTestUtils {
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, context);
 
-			assert userRegistered;
+			assertTrue("User has not been registered", userRegistered);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Error creating test user.", e);
 			fail("Error creating test user.");
@@ -2202,7 +2222,6 @@ public final class UiTestUtils {
 		if (!result) {
 			fail("Condition is not satisfied before timeout. wantedState: " + Boolean.valueOf(wantedState));
 		}
-
 		return wantedState;
 	}
 
@@ -2217,6 +2236,51 @@ public final class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static Map<String, String> readConfigFile(Context context) {
+		try {
+
+			InputStream stream = context.getAssets().open("oauth_config.xml");
+			int size = stream.available();
+			byte[] buffer = new byte[size];
+			stream.read(buffer);
+			stream.close();
+			String text = new String(buffer);
+			facebookTestUserName = text.substring(text.indexOf(CONFIG_FACEBOOK_NAME) + CONFIG_FACEBOOK_NAME.length() + 1,
+					text.indexOf("/" + CONFIG_FACEBOOK_NAME) - 1);
+			facebookTestuserMail = text.substring(text.indexOf(CONFIG_FACEBOOK_MAIL) + CONFIG_FACEBOOK_MAIL.length() + 1,
+					text.indexOf("/" + CONFIG_FACEBOOK_MAIL) - 1);
+			facebookTestuserPassword = text.substring(text.indexOf(CONFIG_FACEBOOK_PASSWORD) + CONFIG_FACEBOOK_PASSWORD.length() + 1,
+					text.indexOf("/" + CONFIG_FACEBOOK_PASSWORD) - 1);
+			facebookTestuserId = text.substring(text.indexOf(CONFIG_FACEBOOK_ID) + CONFIG_FACEBOOK_ID.length() + 1,
+					text.indexOf("/" + CONFIG_FACEBOOK_ID) - 1);
+			facebookAppToken = text.substring(text.indexOf(CONFIG_FACEBOOK_APP_TOKEN) + CONFIG_FACEBOOK_APP_TOKEN.length() + 1,
+					text.indexOf("/" + CONFIG_FACEBOOK_APP_TOKEN) - 1);
+			gplusTestUserName = text.substring(text.indexOf(CONFIG_GPLUS_NAME) + CONFIG_GPLUS_NAME.length() + 1,
+					text.indexOf("/" + CONFIG_GPLUS_NAME) - 1);
+			gplusTestuserMail = text.substring(text.indexOf(CONFIG_GPLUS_MAIL) + CONFIG_GPLUS_MAIL.length() + 1,
+					text.indexOf("/" + CONFIG_GPLUS_MAIL) - 1);
+			gplusTestuserPassword = text.substring(text.indexOf(CONFIG_GPLUS_PASSWORD) + CONFIG_GPLUS_PASSWORD.length() + 1,
+					text.indexOf("/" + CONFIG_GPLUS_PASSWORD) - 1);
+			gplusTestuserId = text.substring(text.indexOf(CONFIG_GPLUS_ID) + CONFIG_GPLUS_ID.length() + 1,
+					text.indexOf("/" + CONFIG_GPLUS_ID) - 1);
+
+			Map<String, String> configMap = new HashMap<>();
+			configMap.put(CONFIG_FACEBOOK_NAME, facebookTestUserName);
+			configMap.put(CONFIG_FACEBOOK_MAIL, facebookTestuserMail);
+			configMap.put(CONFIG_FACEBOOK_PASSWORD, facebookTestuserPassword);
+			configMap.put(CONFIG_FACEBOOK_ID, facebookTestuserId);
+			configMap.put(CONFIG_FACEBOOK_APP_TOKEN, facebookAppToken);
+			configMap.put(CONFIG_GPLUS_NAME, gplusTestUserName);
+			configMap.put(CONFIG_GPLUS_MAIL, gplusTestuserMail);
+			configMap.put(CONFIG_GPLUS_PASSWORD, gplusTestuserPassword);
+			configMap.put(CONFIG_GPLUS_ID, gplusTestuserId);
+			return configMap;
+		} catch (IOException e) {
+			Log.e(TAG, "IOException occurred", e);
+		}
+		return null;
 	}
 
 	public static void switchToProgrammBackground(Solo solo, String programName, String spriteName) {

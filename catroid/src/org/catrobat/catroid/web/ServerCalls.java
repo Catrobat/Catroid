@@ -28,6 +28,7 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.facebook.login.LoginBehavior;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -61,7 +62,7 @@ import okio.Okio;
 
 public final class ServerCalls {
 
-	public static final String BASE_URL_TEST_HTTPS = "https://web-test.catrob.at/pocketcode/";
+	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
@@ -77,6 +78,8 @@ public final class ServerCalls {
 	private static final String SIGNIN_FACEBOOK_CLIENT_TOKEN_KEY = "client_token";
 	private static final String SIGNIN_GOOGLE_CODE_KEY = "code";
 	private static final String SIGNIN_STATE = "state"; //not supported yet, but necessary argument for server call
+	private static final String SIGNIN_ID_TOKEN = "id_token";
+	private static final String SIGNIN_TOKEN = "token";
 	private static final String OAUTH_TOKEN_AVAILABLE = "token_available";
 	private static final String EMAIL_AVAILABLE = "email_available";
 	private static final String USERNAME_AVAILABLE = "username_available";
@@ -93,50 +96,61 @@ public final class ServerCalls {
 	private static final String CHECK_TOKEN_URL = Constants.BASE_URL_HTTPS + "api/checkToken/check.json";
 	private static final String LOGIN_URL = Constants.BASE_URL_HTTPS + "api/login/Login.json";
 	private static final String REGISTRATION_URL = Constants.BASE_URL_HTTPS + "api/register/Register.json";
-	private static final String CHECK_GOOGLE_TOKEN_URL = Constants.BASE_URL_HTTPS +
-			"api/GoogleServerTokenAvailable/GoogleServerTokenAvailable.json";
-	private static final String CHECK_FACEBOOK_TOKEN_URL = Constants.BASE_URL_HTTPS +
-			"api/FacebookServerTokenAvailable/FacebookServerTokenAvailable.json";
-	private static final String CHECK_EMAIL_AVAILABLE_URL = Constants.BASE_URL_HTTPS +
-			"api/EMailAvailable/EMailnAvailable.json";
-	private static final String CHECK_USERNAME_AVAILABLE_URL = Constants.BASE_URL_HTTPS +
-			"api/UsernameAvailable/UsernameAvailable.json";
-	private static final String EXCHANGE_GOOGLE_CODE_URL = Constants.BASE_URL_HTTPS +
-			"api/exchangeGoogleCode/exchangeGoogleCode.json";
-	private static final String EXCHANGE_FACEBOOK_TOKEN_URL = Constants.BASE_URL_HTTPS +
-			"api/exchangeFacebookToken/exchangeFacebookToken.json";
-	private static final String GOOGLE_LOGIN_URL = Constants.BASE_URL_HTTPS +
-			"api/loginWithGoogle/loginWithGoogle.json";
-	private static final String FACEBOOK_LOGIN_URL = Constants.BASE_URL_HTTPS +
-			"api/loginWithFacebook/loginWithFacebook.json";
+	private static final String CHECK_GOOGLE_TOKEN_URL = Constants.BASE_URL_HTTPS
+			+ "api/GoogleServerTokenAvailable/GoogleServerTokenAvailable.json";
+	private static final String CHECK_FACEBOOK_TOKEN_URL = Constants.BASE_URL_HTTPS
+			+ "api/FacebookServerTokenAvailable/FacebookServerTokenAvailable.json";
+	private static final String GET_FACEBOOK_USER_INFO_URL = Constants.BASE_URL_HTTPS
+			+ "api/getFacebookUserInfo/getFacebookUserInfo.json";
+	private static final String CHECK_EMAIL_AVAILABLE_URL = Constants.BASE_URL_HTTPS
+			+ "api/EMailAvailable/EMailAvailable.json";
+	private static final String CHECK_USERNAME_AVAILABLE_URL = Constants.BASE_URL_HTTPS
+			+ "api/UsernameAvailable/UsernameAvailable.json";
+	private static final String EXCHANGE_GOOGLE_CODE_URL = Constants.BASE_URL_HTTPS
+			+ "api/exchangeGoogleCode/exchangeGoogleCode.json";
+	private static final String EXCHANGE_FACEBOOK_TOKEN_URL = Constants.BASE_URL_HTTPS
+			+ "api/exchangeFacebookToken/exchangeFacebookToken.json";
+	private static final String GOOGLE_LOGIN_URL = Constants.BASE_URL_HTTPS
+			+ "api/loginWithGoogle/loginWithGoogle.json";
+	private static final String FACEBOOK_LOGIN_URL = Constants.BASE_URL_HTTPS
+			+ "api/loginWithFacebook/loginWithFacebook.json";
+	private static final String FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = Constants.BASE_URL_HTTPS
+			+ "api/checkFacebookServerTokenValidity/checkFacebookServerTokenValidity.json";
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTPS + "api/checkToken/check.json";
 	private static final String TEST_LOGIN_URL = BASE_URL_TEST_HTTPS + "api/login/Login.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTPS + "api/register/Register.json";
-	private static final String TEST_CHECK_GOOGLE_TOKEN_URL = BASE_URL_TEST_HTTPS +
-			"api/GoogleServerTokenAvailable/GoogleServerTokenAvailable.json";
-	private static final String TEST_CHECK_FACEBOOK_TOKEN_URL = BASE_URL_TEST_HTTPS +
-			"api/FacebookServerTokenAvailable/FacebookServerTokenAvailable.json";
-	private static final String TEST_CHECK_EMAIL_AVAILABLE_URL = BASE_URL_TEST_HTTPS +
-			"api/EMailAvailable/EMailnAvailable.json";
-	private static final String TEST_CHECK_USERNAME_AVAILABLE_URL = BASE_URL_TEST_HTTPS +
-			"api/UsernameAvailable/UsernameAvailable.json";
-	private static final String TEST_EXCHANGE_GOOGLE_CODE_URL = BASE_URL_TEST_HTTPS +
-			"api/exchangeGoogleCode/exchangeGoogleCode.json";
-	private static final String TEST_EXCHANGE_FACEBOOK_TOKEN_URL = BASE_URL_TEST_HTTPS +
-			"api/exchangeFacebookToken/exchangeFacebookToken.json";
-	private static final String TEST_GOOGLE_LOGIN_URL = BASE_URL_TEST_HTTPS +
-			"api/loginWithGoogle/loginWithGoogle.json";
-	private static final String TEST_FACEBOOK_LOGIN_URL = BASE_URL_TEST_HTTPS +
-			"api/loginWithFacebook/loginWithFacebook.json";
-	private static final String TEST_DELETE_TEST_USERS = BASE_URL_TEST_HTTPS +
-			"api/deleteOAuthUserAccounts/deleteOAuthUserAccounts.json";
+	private static final String TEST_CHECK_GOOGLE_TOKEN_URL = BASE_URL_TEST_HTTPS
+			+ "api/GoogleServerTokenAvailable/GoogleServerTokenAvailable.json";
+	private static final String TEST_CHECK_FACEBOOK_TOKEN_URL = BASE_URL_TEST_HTTPS
+			+ "api/FacebookServerTokenAvailable/FacebookServerTokenAvailable.json";
+	private static final String TEST_GET_FACEBOOK_USER_INFO_URL = BASE_URL_TEST_HTTPS
+			+ "api/getFacebookUserInfo/getFacebookUserInfo.json";
+	private static final String TEST_CHECK_EMAIL_AVAILABLE_URL = BASE_URL_TEST_HTTPS
+			+ "api/EMailAvailable/EMailAvailable.json";
+	private static final String TEST_CHECK_USERNAME_AVAILABLE_URL = BASE_URL_TEST_HTTPS
+			+ "api/UsernameAvailable/UsernameAvailable.json";
+	private static final String TEST_EXCHANGE_GOOGLE_CODE_URL = BASE_URL_TEST_HTTPS
+			+ "api/exchangeGoogleCode/exchangeGoogleCode.json";
+	private static final String TEST_EXCHANGE_FACEBOOK_TOKEN_URL = BASE_URL_TEST_HTTPS
+			+ "api/exchangeFacebookToken/exchangeFacebookToken.json";
+	private static final String TEST_GOOGLE_LOGIN_URL = BASE_URL_TEST_HTTPS
+			+ "api/loginWithGoogle/loginWithGoogle.json";
+	private static final String TEST_FACEBOOK_LOGIN_URL = BASE_URL_TEST_HTTPS
+			+ "api/loginWithFacebook/loginWithFacebook.json";
+	private static final String TEST_DELETE_TEST_USERS = BASE_URL_TEST_HTTPS
+			+ "api/deleteOAuthUserAccounts/deleteOAuthUserAccounts.json";
+	private static final String TEST_FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = BASE_URL_TEST_HTTPS
+			+ "api/checkFacebookServerTokenValidity/checkFacebookServerTokenValidity.json";
 	private static final String JSON_STATUS_CODE = "statusCode";
 	private static final String JSON_ANSWER = "answer";
 	private static final String JSON_TOKEN = "token";
+	private static final String FACEBOOK_SERVER_TOKEN_INVALID = "token_invalid";
+
+	private static LoginBehavior loginBehavior = LoginBehavior.NATIVE_WITH_FALLBACK;
 
 	private static final ServerCalls INSTANCE = new ServerCalls();
 
-	public static boolean useTestUrl = true;
+	public static boolean useTestUrl = false;
 	private final OkHttpClient okHttpClient;
 	private final Gson gson;
 	public int oldNotificationId = 0;
@@ -318,34 +332,34 @@ public final class ServerCalls {
 		}
 	}
 
-    public boolean checkToken(String token, String username) throws WebconnectionException {
-        try {
-            HashMap<String, String> postValues = new HashMap<>();
-            postValues.put(Constants.TOKEN, token);
-            postValues.put(SIGNIN_USERNAME_KEY, username);
+	public boolean checkToken(String token, String username) throws WebconnectionException {
+		try {
+			HashMap<String, String> postValues = new HashMap<>();
+			postValues.put(Constants.TOKEN, token);
+			postValues.put(SIGNIN_USERNAME_KEY, username);
 
-            String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
+			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
-            Log.v(TAG, "post values - token:" + token + "user: " + username);
-            Log.v(TAG, "url to upload: " + serverUrl);
-            resultString = httpFormUpload(serverUrl, postValues);
+			Log.v(TAG, "post values - token:" + token + "user: " + username);
+			Log.v(TAG, "url to upload: " + serverUrl);
+			resultString = httpFormUpload(serverUrl, postValues);
 
-            Log.v(TAG, "result string: " + resultString);
+			Log.v(TAG, "result string: " + resultString);
 
-            JSONObject jsonObject = new JSONObject(resultString);
-            int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
-            String serverAnswer = jsonObject.optString(JSON_ANSWER);
+			JSONObject jsonObject = new JSONObject(resultString);
+			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 
-            if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-                return true;
-            } else {
-                throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
-            }
-        } catch (JSONException jsonException) {
-            Log.e(TAG, Log.getStackTraceString(jsonException));
-            throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
-        }
-    }
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
+				return true;
+			} else {
+				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
+			}
+		} catch (JSONException jsonException) {
+			Log.e(TAG, Log.getStackTraceString(jsonException));
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
+		}
+	}
 
 	public String httpFormUpload(String url, Map<String, String> postValues) throws WebconnectionException {
 		FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
@@ -361,15 +375,15 @@ public final class ServerCalls {
 				.post(formEncodingBuilder.build())
 				.build();
 
-        try {
-            Response response = okHttpClient.newCall(request).execute();
-            return response.body().string();
-        } catch (IOException ioException) {
-            Log.e(TAG, Log.getStackTraceString(ioException));
-            throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-                    "Connection could not be established!");
-        }
-    }
+		try {
+			Response response = okHttpClient.newCall(request).execute();
+			return response.body().string();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
+	}
 
 	public String getRequest(String url) throws WebconnectionException {
 		Request request = new Request.Builder()
@@ -395,11 +409,11 @@ public final class ServerCalls {
 			userEmail = emailForUiTests;
 		}
 
-        if (userEmail == null) {
-            userEmail = Constants.RESTRICTED_USER;
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            sharedPreferences.edit().putBoolean(Constants.RESTRICTED_USER, true).commit();
-        }
+		if (userEmail == null) {
+			userEmail = Constants.RESTRICTED_USER;
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			sharedPreferences.edit().putBoolean(Constants.RESTRICTED_USER, true).commit();
+		}
 
 		try {
 			HashMap<String, String> postValues = new HashMap<>();
@@ -407,7 +421,7 @@ public final class ServerCalls {
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
 			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
 			if (!token.equals(Constants.NO_TOKEN)) {
-			    postValues.put(Constants.TOKEN, token);
+				postValues.put(Constants.TOKEN, token);
 			}
 
 			if (country != null) {
@@ -450,7 +464,7 @@ public final class ServerCalls {
 			return registered;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -462,9 +476,9 @@ public final class ServerCalls {
 			HashMap<String, String> postValues = new HashMap<>();
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
-            if (!token.equals(Constants.NO_TOKEN)) {
-                postValues.put(Constants.TOKEN, token);
-            }
+			if (!token.equals(Constants.NO_TOKEN)) {
+				postValues.put(Constants.TOKEN, token);
+			}
 			Log.d(TAG, "token:" + token);
 
 			String serverUrl = useTestUrl ? TEST_LOGIN_URL : LOGIN_URL;
@@ -494,18 +508,13 @@ public final class ServerCalls {
 				sharedPreferences.edit().putString(Constants.EMAIL, eMail).commit();
 			}
 
-			boolean loggedIn;
-			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-				loggedIn = false;
-			} else if (statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				loggedIn = true;
-			} else {
+			if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
-			return loggedIn;
+			return true;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -517,13 +526,16 @@ public final class ServerCalls {
 			HashMap<String, String> postValues = new HashMap<>();
 			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
 
-			String serverUrl = "";
-			if (oauthProvider.equals(Constants.FACEBOOK)) {
-				serverUrl = useTestUrl ? TEST_CHECK_FACEBOOK_TOKEN_URL : CHECK_FACEBOOK_TOKEN_URL;
-			} else if (oauthProvider.equals(Constants.GOOGLE_PLUS)) {
-				serverUrl = useTestUrl ? TEST_CHECK_GOOGLE_TOKEN_URL : CHECK_GOOGLE_TOKEN_URL;
-			} else {
-				throw new WebconnectionException(-1, "OAuth provider not supported!");
+			String serverUrl;
+			switch (oauthProvider) {
+				case Constants.FACEBOOK:
+					serverUrl = useTestUrl ? TEST_CHECK_FACEBOOK_TOKEN_URL : CHECK_FACEBOOK_TOKEN_URL;
+					break;
+				case Constants.GOOGLE_PLUS:
+					serverUrl = useTestUrl ? TEST_CHECK_GOOGLE_TOKEN_URL : CHECK_GOOGLE_TOKEN_URL;
+					break;
+				default:
+					throw new WebconnectionException(-1, "OAuth provider not supported!");
 			}
 
 			Log.v(TAG, "URL to use: " + serverUrl);
@@ -552,7 +564,7 @@ public final class ServerCalls {
 			return tokenAvailable;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -574,7 +586,7 @@ public final class ServerCalls {
 			return jsonObject.getBoolean(EMAIL_AVAILABLE);
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -596,7 +608,32 @@ public final class ServerCalls {
 			return jsonObject.getBoolean(USERNAME_AVAILABLE);
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		}
+	}
+
+	public JSONObject getFacebookUserInfo(String facebookId, String token) throws WebconnectionException {
+		try {
+			HashMap<String, String> postValues = new HashMap<>();
+			postValues.put(SIGNIN_OAUTH_ID_KEY, facebookId);
+			if (token != null) {
+				postValues.put(SIGNIN_TOKEN, token);
+			}
+
+			String serverUrl = useTestUrl ? TEST_GET_FACEBOOK_USER_INFO_URL : GET_FACEBOOK_USER_INFO_URL;
+
+			Log.v(TAG, "URL to use: " + serverUrl);
+			resultString = httpFormUpload(serverUrl, postValues);
+
+			Log.v(TAG, "Result string: " + resultString);
+
+			JSONObject jsonObject = new JSONObject(resultString);
+			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
+
+			return jsonObject;
+		} catch (JSONException jsonException) {
+			Log.e(TAG, Log.getStackTraceString(jsonException));
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -611,11 +648,6 @@ public final class ServerCalls {
 			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
 			postValues.put(SIGNIN_EMAIL_KEY, mail);
 			postValues.put(SIGNIN_LOCALE_KEY, locale);
-			/*
-			if (mail.equals(Constants.NO_TOKEN)) {
-                postValues.put(Constants.TOKEN, mail);
-            }
-            */
 
 			String serverUrl = useTestUrl ? TEST_FACEBOOK_LOGIN_URL : FACEBOOK_LOGIN_URL;
 
@@ -640,7 +672,7 @@ public final class ServerCalls {
 			return true;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -673,7 +705,7 @@ public final class ServerCalls {
 			return true;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -703,12 +735,12 @@ public final class ServerCalls {
 			return true;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
 	public boolean googleExchangeCode(String code, String id, String username,
-			String mail, String locale) throws WebconnectionException {
+			String mail, String locale, String idToken) throws WebconnectionException {
 
 		try {
 			HashMap<String, String> postValues = new HashMap<>();
@@ -717,8 +749,9 @@ public final class ServerCalls {
 			postValues.put(SIGNIN_USERNAME_KEY, username);
 			postValues.put(SIGNIN_EMAIL_KEY, mail);
 			postValues.put(SIGNIN_LOCALE_KEY, locale);
-			postValues.put(SIGNIN_STATE, "");
+			postValues.put(SIGNIN_ID_TOKEN, idToken);
 			postValues.put(Constants.REQUEST_MOBILE, "Android");
+			Log.d(TAG, "ID token: " + idToken);
 
 			String serverUrl = useTestUrl ? TEST_EXCHANGE_GOOGLE_CODE_URL : EXCHANGE_GOOGLE_CODE_URL;
 
@@ -736,7 +769,7 @@ public final class ServerCalls {
 			return true;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
@@ -767,8 +800,38 @@ public final class ServerCalls {
 			return true;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
+	}
+
+	public Boolean checkFacebookServerTokenValidity(String id) throws WebconnectionException {
+		try {
+			HashMap<String, String> postValues = new HashMap<>();
+			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
+
+			String serverUrl = useTestUrl ? TEST_FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY : FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY;
+			Log.v(TAG, "URL to use: " + serverUrl);
+
+			resultString = httpFormUpload(serverUrl, postValues);
+
+			Log.v(TAG, "Result string: " + resultString);
+
+			JSONObject jsonObject = new JSONObject(resultString);
+			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
+
+			return jsonObject.getBoolean(FACEBOOK_SERVER_TOKEN_INVALID);
+		} catch (JSONException jsonException) {
+			Log.e(TAG, Log.getStackTraceString(jsonException));
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		}
+	}
+
+	public LoginBehavior getLoginBehavior() {
+		return loginBehavior;
+	}
+
+	public void setLoginBehavior(LoginBehavior loginBehavior) {
+		ServerCalls.loginBehavior = loginBehavior;
 	}
 
 	static class UploadResponse {

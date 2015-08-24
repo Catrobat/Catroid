@@ -240,10 +240,8 @@
   <string name="spritename_invalid">نام این شیء غیرمعتبر می باشد.</string>
   <string name="no_spritename_entered">لطفا نام شیء را وارد کن.</string>
   <string name="sprite_name">نام شی:</string>
-  <string name="login_register_dialog_title">ورود به سیستم</string>
   <string name="username">نام کاربری:</string>
   <string name="password">رمز عبور:</string>
-  <string name="login_or_register">ورود به سیستم یا ثبت نام</string>
   <string name="password_forgotten">کلمه عبور را فراموش کردی</string>
   <string name="new_user_registered">حساب جدید ایجاد شد</string>
   <string name="register_error">خطا رخ داده است</string>

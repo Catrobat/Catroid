@@ -28,33 +28,37 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
-	private static final String TAG = CheckEmailAvailableTask.class.getSimpleName();
+public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
+	private static final String TAG = GetFacebookUserInfoTask.class.getSimpleName();
 
 	private Activity activity;
 	private ProgressDialog progressDialog;
-	private String email;
-	private String provider;
-
-	private Boolean emailAvailable;
+	private String token;
+	private final String facebookId;
 
 	private WebconnectionException exception;
 
-	private OnCheckEmailAvailableCompleteListener onCheckEmailAvailableCompleteListener;
+	private OnGetFacebookUserInfoTaskCompleteListener onGetFacebookUserInfoTaskCompleteListener;
+	private String name;
+	private String locale;
+	private String email;
 
-	public CheckEmailAvailableTask(Activity activity, String email, String provider) {
+	public GetFacebookUserInfoTask(Activity activity, String token, String facebookId) {
 		this.activity = activity;
-		this.email = email;
-		this.provider = provider;
+		this.token = token;
+		this.facebookId = facebookId;
 	}
 
-	public void setOnCheckEmailAvailableCompleteListener(OnCheckEmailAvailableCompleteListener listener) {
-		onCheckEmailAvailableCompleteListener = listener;
+	public void setOnGetFacebookUserInfoTaskCompleteListener(OnGetFacebookUserInfoTaskCompleteListener listener) {
+		onGetFacebookUserInfoTaskCompleteListener = listener;
 	}
 
 	@Override
@@ -64,7 +68,7 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 			return;
 		}
 		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading_check_email);
+		String message = activity.getString(R.string.loading_check_facebook_data);
 		progressDialog = ProgressDialog.show(activity, title, message);
 	}
 
@@ -75,8 +79,24 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
+			JSONObject serverReponse = ServerCalls.getInstance().getFacebookUserInfo(facebookId, token);
+			if (serverReponse == null) {
+				return false;
+			}
+			try {
+				if (serverReponse.has(Constants.USERNAME)) {
+					name = serverReponse.getString(Constants.USERNAME);
+				}
+				if (serverReponse.has(Constants.EMAIL)) {
+					email = serverReponse.getString(Constants.EMAIL);
+				}
+				if (serverReponse.has(Constants.LOCALE)) {
+					locale = serverReponse.getString(Constants.LOCALE);
+				}
+			} catch (JSONException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 
-			emailAvailable = ServerCalls.getInstance().checkEMailAvailable(email);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
@@ -103,8 +123,8 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 			return;
 		}
 
-		if (onCheckEmailAvailableCompleteListener != null) {
-			onCheckEmailAvailableCompleteListener.onCheckEmailAvailableComplete(emailAvailable, provider);
+		if (onGetFacebookUserInfoTaskCompleteListener != null) {
+			onGetFacebookUserInfoTaskCompleteListener.onGetFacebookUserInfoTaskComplete(facebookId, name, locale, email);
 		}
 	}
 
@@ -121,7 +141,7 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 		}
 	}
 
-	public interface OnCheckEmailAvailableCompleteListener {
-		void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider);
+	public interface OnGetFacebookUserInfoTaskCompleteListener {
+		void onGetFacebookUserInfoTaskComplete(String id, String name, String locale, String email);
 	}
 }

@@ -33,7 +33,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -51,6 +50,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	private boolean userLoggedIn;
 
 	private OnLoginCompleteListener onLoginCompleteListener;
+	private WebconnectionException exception;
 
 	public LoginTask(Context activity, String username, String password) {
 		this.context = activity;
@@ -77,6 +77,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			if (!Utils.isNetworkAvailable(context)) {
+				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
@@ -95,19 +96,20 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected void onPostExecute(Boolean result) {
-		super.onPostExecute(result);
+	protected void onPostExecute(Boolean success) {
+		super.onPostExecute(success);
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
 
-		if (!result) {
+		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}
 
-		if (context == null) {
+		if ((!success && exception != null) || context == null || !userLoggedIn) {
+			showDialog(R.string.sign_in_error);
 			return;
 		}
 

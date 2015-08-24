@@ -247,10 +247,8 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="spritename_invalid">Este nombre de objeto no es válido</string>
   <string name="no_spritename_entered">Por favor, introduzca un nombre de objeto.</string>
   <string name="sprite_name">Nombre del objeto:</string>
-  <string name="sign_in_dialog_title">Login</string>
   <string name="username">Nombre de usuario:</string>
   <string name="password">Contraseña:</string>
-  <string name="login_or_register">Login o regístrarse</string>
   <string name="password_forgotten">Contraseña olvidada</string>
   <string name="new_user_registered">Nueva cuenta creada</string>
   <string name="register_error">Se produjo un error</string>
