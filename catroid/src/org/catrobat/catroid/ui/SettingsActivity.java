@@ -336,6 +336,10 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
 	}
 
+	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, newValue).commit();
+	}
+
 	public static void setLegoMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);

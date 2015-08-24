@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uitest.drone;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -33,7 +31,6 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -45,22 +42,23 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
+		ProjectManager.getInstance().initializeDroneProject(getActivity());
+		SettingsActivity.setARDroneBricks(getActivity(), true);
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		SettingsActivity.setARDroneBricks(getActivity(), false);
+		solo.finishOpenedActivities();
+		super.tearDown();
 	}
 
 	@Device
 	public void testDroneBricksPrototypeView() {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		if (!preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, true)) {
-			SettingsActivity.setARDroneBricks(getActivity(), true);
-		}
-		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, true);
-		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.", droneEnabled);
-
-		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());
-		assertEquals("Cannot create standard drone project",
-				getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance()
-						.getCurrentProject().getName());
+		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
+				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
+		assertEquals("Cannot create standard drone project", getActivity().getString(R.string
+				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
 		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -95,7 +93,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.getText(solo.getString(R.string.brick_drone_turn_right));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
-		solo.getText(solo.getString(R.string.brick_drone_set_config));
 		solo.getText(solo.getString(R.string.brick_drone_toggle_video));
 		solo.getText(solo.getString(R.string.brick_drone_switch_camera));
 		//solo.getText(solo.getString(R.string.brick_drone_set_advanced_config));
@@ -106,18 +103,10 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Device
 	public void testDroneVideoLookVisibility() {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
+				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
 
-		if (!preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, true)) {
-			SettingsActivity.setARDroneBricks(getActivity(), true);
-		}
-		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, true);
-		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.", droneEnabled);
-
-		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());
-		assertEquals("Cannot create standard drone project",
-				getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance()
-						.getCurrentProject().getName());
+		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
 		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -126,6 +115,8 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertTrue("No video selection available", solo.searchText(solo.getString(R.string.dialog_new_object_drone_video), true));
 		solo.goBack();
+
+		SettingsActivity.setARDroneBricks(getActivity(), false);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Video selection still available", solo.searchText(solo.getString(R.string
@@ -136,18 +127,9 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Device
 	public void testProjectCreationAfterDeletion() {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		if (!preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, true)) {
-			SettingsActivity.setARDroneBricks(getActivity(), true);
-		}
-		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, true);
-		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.", droneEnabled);
-
-		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());
-		assertEquals("Cannot create standard drone project",
-				getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance()
-						.getCurrentProject().getName());
+		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
+				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
+		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
 		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
