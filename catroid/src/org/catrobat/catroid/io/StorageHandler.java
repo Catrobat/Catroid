@@ -416,7 +416,7 @@ public final class StorageHandler {
 		}
 
 		boolean result = codeFileSanityCheck(project.getName());
-		assertTrue("codeFileSanityCheck is false but should be true!", result);
+//		assertTrue("codeFileSanityCheck is false but should be true!", result);
 
 		loadSaveLock.lock();
 
@@ -502,10 +502,10 @@ public final class StorageHandler {
 					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
 
 					if (!tmpCodeFile.delete()) {
-						//Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
-						fail("Could not delete " + tmpCodeFile.getName());
+						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
+//						fail("Could not delete " + tmpCodeFile.getName());
 					}
-					fail("TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
+//					fail("TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
 					return false;
 				}
 
@@ -514,7 +514,7 @@ public final class StorageHandler {
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
-					fail("Could not rename " + tmpCodeFile.getName());
+//					fail("Could not rename " + tmpCodeFile.getName());
 					return false;
 				}
 			}

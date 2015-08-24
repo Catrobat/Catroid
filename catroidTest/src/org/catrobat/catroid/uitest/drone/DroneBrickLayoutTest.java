@@ -55,12 +55,14 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Device
 	public void testDroneBricksPrototypeView() {
+		solo.waitForActivity(MainMenuActivity.class);
+
 		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
 				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string
 				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
-		solo.waitForActivity(MainMenuActivity.class);
+
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 		solo.clickOnText(solo.getString(R.string.default_drone_project_sprites_takeoff));
@@ -103,12 +105,14 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Device
 	public void testDroneVideoLookVisibility() {
+		solo.waitForActivity(MainMenuActivity.class);
+
 		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
 				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
 
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
-		solo.waitForActivity(MainMenuActivity.class);
+
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 
@@ -127,11 +131,13 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Device
 	public void testProjectCreationAfterDeletion() {
+		solo.waitForActivity(MainMenuActivity.class);
+
 		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
 				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
-		solo.waitForActivity(MainMenuActivity.class);
+
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 
 		if (solo.searchText(solo.getString(R.string.default_project_name))) {
