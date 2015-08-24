@@ -56,10 +56,8 @@ public final class DroneBrickFactory {
 		DRONE_MOVE_FORWARD_BRICK,
 		DRONE_TURN_RIGHT_BRICK,
 		DRONE_TURN_LEFT_BRICK,
-		DRONE_SET_CONFIG_BRICK,
 		DRONE_TOGGLE_VIDEO_BRICK,
 		DRONE_SWITCH_CAMERA_BRICK,
-		DRONE_ADVANCED_CONFIG_BRICK
 	}
 
 	public static BrickBaseType getInstanceOfDroneBrick(DroneBricks brick, int timeInMilliseconds,
