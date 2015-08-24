@@ -861,6 +861,9 @@
  	<string name="add_line_break">Add Line Break</string>
  	<string name="edit_variable">Edit Variable</string>
  	<string name="variable_hint">Variable Name</string>
+    <string name="brick_show_text_var">Show variable</string>
+    <string name="brick_show_text_pos">"at  "</string>
+    <string name="brick_hide_text_var">Hide variable</string>
     <!-- -->
 
     <!-- User Bricks strings -->
