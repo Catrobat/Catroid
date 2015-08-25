@@ -633,13 +633,15 @@
     <!--<string name="ev3_tone_volume">Volume</string>-->
     <!--<string name="ev3_tone_percent">%</string>-->
 
-
     <string name="ev3_motor_stop">Stop EV3 motor</string>
 
     <string name="ev3_motor_move">Set EV3 motor</string>
     <string name="ev3_motor_power_to">to</string>
     <string name="ev3_motor_power">Power</string>
     <string name="ev3_motor_move_for_period">for</string>
+
+    <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
+    <string name="ev3_motor_move_by">by</string>
 
 
     <!--<string name="ev3_motor_power_ramp_up_period">Power ramp up period</string>-->
