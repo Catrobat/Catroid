@@ -58,6 +58,7 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
@@ -103,6 +104,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
+	private boolean selectAll = true;
 
 	private boolean actionModeActive = false;
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -411,8 +413,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedProjects() != adapter.getCount());
 	}
 
 	private void updateActionModeTitle() {
@@ -573,13 +573,25 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
+			CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+
 			@Override
 			public void onClick(View view) {
-				for (int position = 0; position < projectList.size(); position++) {
-					adapter.addCheckedProject(position);
+				if (selectAll) {
+					for (int position = 0; position < projectList.size(); position++) {
+						adapter.addCheckedProject(position);
+					}
+					adapter.notifyDataSetChanged();
+					onProjectChecked();
+					selectAll = false;
+					selectAllView.setText(R.string.deselect_all);
+				} else {
+					adapter.clearCheckedProjects();
+					adapter.notifyDataSetChanged();
+					onProjectChecked();
+					selectAll = true;
+					selectAllView.setText(R.string.select_all);
 				}
-				adapter.notifyDataSetChanged();
-				onProjectChecked();
 			}
 		});
 	}
