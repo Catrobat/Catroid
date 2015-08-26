@@ -173,6 +173,7 @@ android {
         }
 
         androidTest {
+            manifest.srcFile 'catroidTest/AndroidManifest.xml'
             java.srcDirs = ['catroidTest/src']
             resources.srcDirs = ['catroidTest/src']
             aidl.srcDirs = ['catroidTest/src']

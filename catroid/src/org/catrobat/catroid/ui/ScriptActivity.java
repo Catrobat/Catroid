@@ -47,6 +47,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -98,6 +99,7 @@ public class ScriptActivity extends BaseActivity {
 	private boolean isLookFragmentHandleAddButtonHandled = false;
 
 	private ImageButton buttonAdd;
+	private boolean switchToScriptFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,10 @@ public class ScriptActivity extends BaseActivity {
 
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
+		if (switchToScriptFragment) {
+			LookController.getInstance().switchToScriptFragment(lookFragment, this);
+			switchToScriptFragment = false;
+		}
 	}
 
 	private void setupBottomBar() {
@@ -581,5 +587,9 @@ public class ScriptActivity extends BaseActivity {
 
 		updateHandleAddButtonClickListener();
 		fragmentTransaction.commit();
+	}
+
+	public void setSwitchToScriptFragment(boolean switchToScriptFragment) {
+		this.switchToScriptFragment = switchToScriptFragment;
 	}
 }
