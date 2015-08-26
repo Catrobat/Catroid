@@ -343,7 +343,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
 
-		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[]{
 				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
 		};

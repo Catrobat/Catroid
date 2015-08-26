@@ -74,7 +74,7 @@
 
             <TextView
                 android:id="@+id/dialog_new_object_drone_video"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"

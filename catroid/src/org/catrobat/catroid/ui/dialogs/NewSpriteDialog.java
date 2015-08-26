@@ -93,7 +93,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private NewSpriteDialog(DialogWizardStep wizardStep, Uri lookUri, String newObjectName,
-			ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter, LookData.LookDataType lookDataType) {
+							ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter, LookData.LookDataType lookDataType) {
 		this.requestedAction = requestedAction;
 		this.wizardStep = wizardStep;
 		this.lookUri = lookUri;
@@ -239,7 +239,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private Uri decodeUri(Uri uri) throws NullPointerException {
-		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		String[] filePathColumn = {MediaStore.Images.Media.DATA};
 		Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
@@ -400,11 +400,11 @@ public class NewSpriteDialog extends DialogFragment {
 				default:
 					lookData = new LookData();
 					newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
-					lookUri.getPath(), null);
-			     if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
-				    File oldFile = new File(lookUri.getPath());
-			      	oldFile.delete();
-			     }
+							lookUri.getPath(), null);
+					if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
+						File oldFile = new File(lookUri.getPath());
+						oldFile.delete();
+					}
 					break;
 			}
 

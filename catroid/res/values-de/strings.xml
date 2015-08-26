@@ -454,7 +454,6 @@
     <string name="nxt_sensor_ultrasonic">NXT Ultraschallsensor</string>
     <string name="nxt_port_3">Port 3</string>
     <string name="nxt_port_4">Port 4</string>
-    <string name="brick_drone_takeoff">Hebe ab</string>
     <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
     <string name="brick_drone_takeoff_land">Hebe ab / Lande</string>
     <string name="brick_drone_move_left">Fliege nach links</string>
