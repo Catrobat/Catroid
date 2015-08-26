@@ -341,7 +341,6 @@
     <string name="default_project_var_random_to">casuale fino a</string>
     <string name="default_drone_project_name">Il mio primo programma per Drone</string>
     <string name="default_drone_project_sprites_takeoff">Decolla</string>
-    <string name="default_drone_project_srpites_land">Atterra</string>
     <string name="default_drone_project_srpites_rotate">Ruota</string>
     <string name="default_drone_project_sprites_up">Su</string>
     <string name="default_drone_project_sprites_down">Giù</string>

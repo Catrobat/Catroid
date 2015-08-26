@@ -222,7 +222,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
 			listPreference.setEntries(R.array.nxt_sensor_chooser);
 			listPreference.setEnabled(areChoosersEnabled);
-			Log.d("test", String.format("test = %s", listPreference.getEntries()));
 		}
 	}
 
