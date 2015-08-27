@@ -439,6 +439,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(DroneSwitchCameraBrick.class.getSimpleName());
 		brickInfoMap.put("droneSwitchCameraBrick", brickInfo);
 
+		brickInfo = new BrickInfo(DroneEmergencyBrick.class.getSimpleName());
+		brickInfoMap.put("DroneEmergencyBrick", brickInfo);
+
 		brickInfo = new BrickInfo(SetTextBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
 		brickInfo.addBrickFieldToMap("yDestination", BrickField.Y_DESTINATION);

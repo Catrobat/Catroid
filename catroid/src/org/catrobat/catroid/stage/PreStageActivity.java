@@ -285,13 +285,11 @@ public class PreStageActivity extends BaseActivity {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
 			Log.d(TAG, "Start Stage");
-
 			startStage();
 		}
 	}
 
 	public void startStage() {
-
 		setResult(RESULT_OK, returnToActivityIntent);
 		finish();
 	}

@@ -55,6 +55,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate()");
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -89,6 +90,7 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
+		Log.d(TAG, "onPause()");
 		SensorHandler.stopSensorListeners();
 		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
@@ -101,17 +103,19 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onResume() {
+		super.onResume();
+		Log.d(TAG, "onResume()");
 		SensorHandler.startSensorListener(this);
 		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
-		super.onResume();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
 
 	public void pause() {
+		Log.d(TAG, "pause()");
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		LedUtil.pauseLed();
@@ -122,6 +126,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void resume() {
+		Log.d(TAG, "resume()");
 		stageListener.menuResume();
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
@@ -191,9 +196,8 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
+		Log.d(TAG, "onDestroy()");
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
-
-		Log.d(TAG, "Destroy");
 		LedUtil.destroy();
 		VibratorUtil.destroy();
 		super.onDestroy();
