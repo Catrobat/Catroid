@@ -221,6 +221,7 @@ public class WebViewActivity extends BaseActivity {
 		progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
 		progressDialog.setProgress(0);
 		progressDialog.setMax(100);
+		progressDialog.setProgressNumberFormat(null);
 		progressDialog.show();
 	}
 

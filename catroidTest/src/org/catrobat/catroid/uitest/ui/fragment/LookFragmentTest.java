@@ -28,6 +28,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -431,8 +432,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForDialogToOpen();
 		solo.clickOnView(solo.getView(R.id.dialog_overwrite_media_radio_rename));
 		UiTestUtils.enterText(solo, 0, "testMedia");
-		solo.waitForText(solo.getString(R.string.ok));
-		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(TIME_TO_WAIT);
+		solo.clickOnView(solo.getView(Button.class, 3));
 		solo.waitForFragmentByTag(LookFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 		numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();

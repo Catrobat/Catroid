@@ -122,7 +122,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 				header = R.string.look_rename_overwrite;
 				replaceText = R.string.overwrite_replace_look;
 				renameText = R.string.overwrite_rename_look;
-				renameHeaderText = R.string.new_sound_name;
+				renameHeaderText = R.string.new_look_name;
 				break;
 			case Constants.MEDIA_TYPE_SOUND:
 				header = R.string.rename_sound_overwrite;
@@ -214,19 +214,27 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 		if (replaceButton.isChecked()) {
 			switch (mediaType) {
 				case Constants.MEDIA_TYPE_LOOK:
+					LookData lookToRemove = null;
 					for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 						if (lookData.getLookName().compareTo(mediaName) == 0) {
-							ProjectManager.getInstance().getCurrentSprite().getLookDataList().remove(lookData);
-							StorageHandler.getInstance().deleteFile(lookData.getAbsolutePath());
+							lookToRemove = lookData;
 						}
+					}
+					if (lookToRemove != null) {
+						ProjectManager.getInstance().getCurrentSprite().getLookDataList().remove(lookToRemove);
+						StorageHandler.getInstance().deleteFile(lookToRemove.getAbsolutePath());
 					}
 					break;
 				case Constants.MEDIA_TYPE_SOUND:
+					SoundInfo soundToRemove = null;
 					for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
 						if (soundInfo.getTitle().compareTo(mediaName) == 0) {
-							ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
-							StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
+							soundToRemove = soundInfo;
 						}
+					}
+					if (soundToRemove != null) {
+						ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundToRemove);
+						StorageHandler.getInstance().deleteFile(soundToRemove.getAbsolutePath());
 					}
 					break;
 			}
