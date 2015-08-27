@@ -36,6 +36,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -94,11 +95,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		String forumularEditorDroneSensors = "drone_";
 
-		Script currentScript = ProjectManager.getInstance().getCurrentScript();
-		assertNotNull("CurrentScript is NULL", currentScript);
-		if (currentScript.getBrickList().isEmpty()) {
-			currentScript.addBrick(new DroneMoveUpBrick(2000, 50));
-		}
+		DroneTestUtils.createStandardDroneProject();
 
 		String dronePreferenceString = solo.getString(R.string.preference_description_quadcopter_bricks);
 

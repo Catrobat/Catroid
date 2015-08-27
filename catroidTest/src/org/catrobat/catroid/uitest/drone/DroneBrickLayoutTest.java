@@ -62,7 +62,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string
 				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
-
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 		solo.clickOnText(solo.getString(R.string.default_drone_project_sprites_takeoff));
@@ -113,7 +112,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
-
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 
@@ -137,7 +135,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
 				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
-
 
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 

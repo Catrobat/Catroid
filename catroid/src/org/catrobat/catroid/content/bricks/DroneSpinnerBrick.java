@@ -135,7 +135,7 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 			View layout = view.findViewById(R.id.brick_drone_spinner_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView label = (TextView) view.findViewById(R.id.brick_drone_spinner_label);
 			label.setText(getBrickLabel(view));

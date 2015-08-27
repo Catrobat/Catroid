@@ -158,6 +158,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -413,9 +414,6 @@ public final class StorageHandler {
 			Log.d(TAG, "project is null!");
 			return false;
 		}
-
-		boolean result = codeFileSanityCheck(project.getName());
-//		assertTrue("codeFileSanityCheck is false but should be true!", result);
 
 		loadSaveLock.lock();
 
@@ -918,6 +916,6 @@ public final class StorageHandler {
 				}
 			}
 		}
-		return (path.delete());
+		return path.delete();
 	}
 }
