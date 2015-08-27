@@ -657,7 +657,7 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
-	public void addActor(ShowTextActor actor) {
+	public void addActor(Actor actor) {
 		stage.addActor(actor);
 	}
 
