@@ -36,6 +36,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.test.drone.DroneTestUtils;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -54,7 +56,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.createEmptyProject();
+		TestUtils.createEmptyProject();
 		settings = solo.getString(R.string.settings);
 		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		preferences.edit().putBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false).commit();
@@ -93,11 +95,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		String forumularEditorDroneSensors = "drone_";
 
-		Script currentScript = ProjectManager.getInstance().getCurrentScript();
-		assertNotNull("CurrentScript is NULL", currentScript);
-		if (currentScript.getBrickList().isEmpty()) {
-			currentScript.addBrick(new DroneMoveUpBrick(2000, 50));
-		}
+		DroneTestUtils.createStandardDroneProject();
 
 		String dronePreferenceString = solo.getString(R.string.preference_description_quadcopter_bricks);
 
@@ -292,5 +290,34 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.goBack();
 		solo.goBack();
+	}
+
+	public void testDroneBrickTest() {
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnMenuItem(settings);
+		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
+		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
+		solo.goBack();
+		solo.goBack();
+
+		solo.clickOnText(solo.getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.scripts));
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_drone_takeoff_land);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrick(solo, -1.25f);
+
+		UiTestUtils.clickOnPlayButton(solo);
+		assertTrue("DroneBrick present but no drone connection dialog", solo.searchText(solo.getString(R.string.error_no_drone_connected_title)));
+		solo.clickOnText(solo.getString(R.string.close));
+
+		solo.clickOnText(solo.getString(R.string.brick_drone_takeoff_land));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.yes));
+
+		UiTestUtils.clickOnPlayButton(solo);
+
+		assertTrue("DroneBrick present but no drone connection dialog", !solo.searchText(solo.getString(R.string.error_no_drone_connected_title)));
 	}
 }

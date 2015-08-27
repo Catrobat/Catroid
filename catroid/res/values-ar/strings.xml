@@ -89,9 +89,6 @@
   <string name="dialog_terms_of_use_title">شروط الاستخدام</string>
   <string name="dialog_terms_of_use_info">من أجل السماح باستخدام \"النص البرمجي لجهاز الجيب\" والملفات التنفيذية الأخرى التي يتيحها مشروع الكاتروبات، يجب أن توافق على \"شروط الاستخدام\" واتباعها عند الاستخدام . يرجى الاطلاع الرابط أدناه للحصول على الصياغة دقيقة. n\</string>
   <string name="dialog_terms_of_use_link_text">شروط الاستخدام</string>
-  <string name="dialog_terms_of_use_agree_permanent">وأنا اتفق بشكل دائم – لا تسألني مرة أخرى. وافترض المسؤولية الكاملة عندما يستخدم  شخص آخر جهازي.</string>
-  <string name="dialog_terms_of_use_agree">أوافق</string>
-  <string name="dialog_terms_of_use_do_not_agree">لا أوافق</string>
   <string name="dialog_about_title">حول النص البرمجي لجهاز الجيب</string>
   <string name="dialog_about_license_info">النص البرمجي لجهاز الجيب هو بيئة برمجية ومفسر لأجهزة الاندرويد للغات البرمجة المرئية لكاتروبات n\n\
 مصدر النص البرمجي لجهاز الجيب هو مرخص من قبل (GNU AGPL v3 License) .للحصول على تفاصيل أكثر للرخصة يمكنك الاطلاع على الرابط في الاسفل. n\

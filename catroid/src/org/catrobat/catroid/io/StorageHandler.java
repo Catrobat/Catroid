@@ -23,7 +23,6 @@
 package org.catrobat.catroid.io;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -34,7 +33,6 @@ import com.google.common.io.Files;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
@@ -416,9 +414,6 @@ public final class StorageHandler {
 			Log.d(TAG, "project is null!");
 			return false;
 		}
-
-		boolean result = codeFileSanityCheck(project.getName());
-//		assertTrue("codeFileSanityCheck is false but should be true!", result);
 
 		loadSaveLock.lock();
 
@@ -921,6 +916,6 @@ public final class StorageHandler {
 				}
 			}
 		}
-		return (path.delete());
+		return path.delete();
 	}
 }

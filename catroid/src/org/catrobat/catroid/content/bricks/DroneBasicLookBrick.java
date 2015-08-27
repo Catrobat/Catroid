@@ -76,7 +76,7 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 			View layout = view.findViewById(R.id.brick_drone_basic_look_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView label = (TextView) view.findViewById(R.id.ValueTextViewLook);
 			label.setText(getBrickLabel(view));

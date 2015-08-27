@@ -62,7 +62,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string
 				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
-
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 		solo.clickOnText(solo.getString(R.string.default_drone_project_sprites_takeoff));
@@ -96,6 +95,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
 		solo.getText(solo.getString(R.string.brick_drone_toggle_video));
+		solo.clickOnButton(R.id.button_play);
 		solo.getText(solo.getString(R.string.brick_drone_switch_camera));
 		//solo.getText(solo.getString(R.string.brick_drone_set_advanced_config));
 
@@ -111,7 +111,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
 
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
-
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
@@ -136,7 +135,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
 				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
 		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
-
 
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 

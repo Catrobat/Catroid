@@ -91,9 +91,6 @@
 il faut
     accepter les conditions d\'utilisation et les reconnaître en utilisant Pocket Code et les     autres logiciels. Cliquer sur le lien ci-dessous pour afficher les conditions d\'utilisation.\n</string>
   <string name="dialog_terms_of_use_link_text">Conditions d\'utilisation</string>
-  <string name="dialog_terms_of_use_agree_permanent">Je suis d\'accord - Ne pas me redemander. J\'assume l\'entière responsabilité en cas d\'utilisation de mon appareil par une tierce personne.</string>
-  <string name="dialog_terms_of_use_agree">J\'accepte</string>
-  <string name="dialog_terms_of_use_do_not_agree">Je n’accepte pas</string>
   <string name="dialog_about_title">À propos de Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code est 
         un environnement de programmation et un interpréteur du langage de programmation visuel pour des appareils Android.\n\n

@@ -187,7 +187,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
 			editY.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

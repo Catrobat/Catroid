@@ -88,9 +88,6 @@
     <string name="dialog_terms_of_use_title">Brugsvilkår</string>
     <string name="dialog_terms_of_use_info">For at få lov til at bruge Pocket Code og andre eksekverbare filer tilbudt af Catrobat projektet, skal du acceptere vores Brugsvilkår og nøje følge dem, når du bruger Pocket Code og vores andre eksekverbare filer. Se venligst nedenstående link for deres præcise formulering.</string>
     <string name="dialog_terms_of_use_link_text">Brugsvilkår</string>
-    <string name="dialog_terms_of_use_agree_permanent">Jeg er enig permanent - spørg mig ikke igen. Jeg påtager det fulde ansvar, når en anden bruger min enhed.</string>
-    <string name="dialog_terms_of_use_agree">Jeg er enig</string>
-    <string name="dialog_terms_of_use_do_not_agree">Jeg er ikke enig</string>
     <string name="dialog_about_title">Om Pocket Code</string>
     <string name="dialog_about_license_info">Pocket Code er et programmerings miljø og tolk til Android-enheder for det visuelle programmeringssprog Catrobat.\n\nKildekoden til Pocket Code er hovedsagelig udgivet under GNU AGPL v3 License. For præcise oplysninger om licensen se nedenstående link.</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Kode Kilde Kode Licens</string>

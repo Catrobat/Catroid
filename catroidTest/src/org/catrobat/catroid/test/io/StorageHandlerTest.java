@@ -78,7 +78,6 @@ import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private final StorageHandler storageHandler;
-	private Project currentProject;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
@@ -264,7 +263,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project.addSprite(secondSprite);
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
-
 
 		File tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 		File currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
