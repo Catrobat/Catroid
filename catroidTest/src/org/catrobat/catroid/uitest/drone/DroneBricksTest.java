@@ -102,26 +102,6 @@ public class DroneBricksTest extends BaseActivityInstrumentationTestCase<ScriptA
 			solo.clickOnText(solo.getString(R.string.yes));
 		}
 
-//		if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneSetConfigBrick) {
-//			View view1 = solo.getView(Spinner.class, 0);
-//			solo.scrollToTop();
-//
-//			solo.clickOnView(view1);
-//			solo.clickOnView(solo.getView(TextView.class, 0));
-//
-//			solo.clickOnView(view1);
-//			solo.clickOnView(solo.getView(TextView.class, 1));
-//
-//			solo.clickOnView(view1);
-//			solo.clickOnView(solo.getView(TextView.class, 2));
-//
-//			solo.clickOnView(solo.getView(R.id.brick_drone_spinner_label));
-//			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
-//			solo.clickOnText(solo.getString(R.string.yes));
-//		}
-
-		// if (ProjectManager.getInstance().getCurrentScript().getBrick(0) instanceof DroneSpinnerBrick) ... make some more tests
-
 		solo.sleep(350);
 	}
 }

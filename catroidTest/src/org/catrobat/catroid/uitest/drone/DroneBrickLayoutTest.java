@@ -96,6 +96,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
 		solo.getText(solo.getString(R.string.brick_drone_toggle_video));
+		solo.clickOnButton(R.id.button_play);
 		solo.getText(solo.getString(R.string.brick_drone_switch_camera));
 		//solo.getText(solo.getString(R.string.brick_drone_set_advanced_config));
 
