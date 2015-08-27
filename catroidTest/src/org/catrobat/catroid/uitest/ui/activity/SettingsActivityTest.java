@@ -32,10 +32,7 @@ import android.widget.ListView;
 
 import com.robotium.solo.Solo;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
