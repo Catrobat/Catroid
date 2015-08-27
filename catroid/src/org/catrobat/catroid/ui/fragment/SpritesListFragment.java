@@ -365,9 +365,14 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	@Override
 	public void onSpriteEdit(int position) {
-		ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-		Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-		startActivity(intent);
+		if (isRenameActionMode) {
+			spriteToEdit = spriteAdapter.getItem(position);
+			showRenameDialog();
+		} else {
+			ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+			Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	public void startRenameActionMode() {
@@ -638,11 +643,9 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(R.string.rename);
-
 			actionModeActive = true;
-
+			isRenameActionMode = true;
 			return true;
 		}
 
@@ -653,6 +656,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+			isRenameActionMode = false;
 			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
 			Iterator<Integer> iterator = checkedSprites.iterator();
 			if (iterator.hasNext()) {
