@@ -34,10 +34,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.List;
+import java.util.Map;
 
 public class ShowTextActor extends Actor {
 	private int posX;
@@ -59,15 +61,28 @@ public class ShowTextActor extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-		List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
+		List<UserVariable> projectVariableList = projectVariableContainer.getProjectVariables();
+
+		Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 
 		if (variableName.equals("No variable set")) {
 			font.draw(batch, variableName, posX, posY);
 		} else {
-			for (UserVariable variable : variableList) {
+			for (UserVariable variable : projectVariableList) {
 				if (variable.getName().equals(variableName)) {
 					variableValue = variable.getValue().toString();
-					if (variable.getVisibility()) {
+					if (variable.getVisible()) {
+						font.draw(batch, variableValue, posX, posY);
+					}
+					break;
+				}
+			}
+			for (UserVariable variable : spriteVariableList) {
+				if (variable.getName().equals(variableName)) {
+					variableValue = variable.getValue().toString();
+					if (variable.getVisible()) {
 						font.draw(batch, variableValue, posX, posY);
 					}
 					break;

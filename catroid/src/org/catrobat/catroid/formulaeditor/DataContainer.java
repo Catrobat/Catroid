@@ -74,6 +74,10 @@ public class DataContainer implements Serializable {
 		return projectVariables;
 	}
 
+	public Map<Sprite, List<UserVariable>> getSpriteVariableMap() {
+		return spriteVariables;
+	}
+
 	public List<UserList> getSpriteListOfLists(Sprite sprite) {
 		return spriteListOfLists.get(sprite);
 	}
