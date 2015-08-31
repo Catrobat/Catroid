@@ -161,6 +161,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Doriți să ștergeți aceste sunete?</string>
   <string name="dialog_confirm_delete_sound_message">Aceasta nu va fi reversibil!</string>
   <string name="sound_name">numele sunetului:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">a fost despachetat!</item>
     <item quantity="few">au fost despachetate!</item>
@@ -200,6 +202,9 @@
   <string name="add_look_from_camera">Fă o fotografie</string>
   <string name="add_look_draw_new_image">Deseană imagine</string>
   <string name="add_look_choose_image">Selecteaza imagine</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -208,6 +213,7 @@
   <string name="new_project_description_dialog_hint">Descrierea mea</string>
   <string name="new_project_name">Numele programului:</string>
   <string name="new_project_empty">Creare program gol</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">denumireaObiectului</string>
   <string name="new_sprite_dialog_title">Denumirea obiectului nou</string>
   <string name="spritename_already_exists">Această denumire de obiect deja există</string>
@@ -227,6 +233,12 @@
   <string name="overwrite_text">Program cu acelaşi nume există deja!</string>
   <string name="overwrite_replace">Înlocuiţi programul existent</string>
   <string name="overwrite_rename">Redenumiți programul descărcat</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Înapoi</string>
   <string name="stage_dialog_resume">Reia</string>
   <string name="stage_dialog_restart">Repornește</string>
@@ -408,6 +420,7 @@
   <string name="error_drone_wrong_platform">Nu putem rula un proiect de ARDrone pe aparatul dvs.</string>
   <string name="error_rename_incompatible_project">Redenumirea unui proiect incompatibile nu este posibilă.</string>
   <string name="error_changing_description_of_incompatible_project">Modificarea descrierii unui proiect incompatibil nu este posibilă.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth nu poate fi activat, închiderea scenei</string>
   <string name="title_paired_devices">Dispozitive îmeprecheate</string>
   <string name="title_other_devices">Dispozitive noi</string>
@@ -653,6 +666,9 @@
   <string name="add_line_break">Adauga linia de întrerupere</string>
   <string name="edit_variable">Editează variabila</string>
   <string name="variable_hint">Denumirea variabilei</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">definiște</string>
   <string name="new_user_brick">Caramida noua</string>
   <string name="new_user_brick_variable">Variabila 1</string>
