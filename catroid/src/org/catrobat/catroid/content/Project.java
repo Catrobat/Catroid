@@ -282,11 +282,11 @@ public class Project implements Serializable {
 		}
 	}
 
-	public boolean checkIfPhiroProject() {
-		return xmlHeader.isPhiroProject();
+	public boolean checkIfPhiroProProject() {
+		return xmlHeader.isPhiroProProject();
 	}
 
-	public void setIsPhiroProject(boolean isPhiroProject) {
-		xmlHeader.setPhiroProject(isPhiroProject);
+	public void setIsPhiroProProject(boolean isPhiroProProject) {
+		xmlHeader.setPhiroProProject(isPhiroProProject);
 	}
 }
