@@ -44,7 +44,7 @@ public class XmlHeader implements Serializable {
 
 	private float catrobatLanguageVersion;
 
-	private boolean isPhiroProject = false;
+	private boolean isPhiroProProject = false;
 
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
@@ -184,11 +184,11 @@ public class XmlHeader implements Serializable {
 		return this.screenMode;
 	}
 
-	public boolean isPhiroProject() {
-		return isPhiroProject;
+	public boolean isPhiroProProject() {
+		return isPhiroProProject;
 	}
 
-	public void setPhiroProject(boolean isPhiroProProject) {
-		this.isPhiroProject = isPhiroProProject;
+	public void setPhiroProProject(boolean isPhiroProProject) {
+		this.isPhiroProProject = isPhiroProProject;
 	}
 }

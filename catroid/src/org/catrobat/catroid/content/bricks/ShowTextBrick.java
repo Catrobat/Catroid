@@ -21,10 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Created by Robert Riedl on 29.07.2015.
- */
-
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
