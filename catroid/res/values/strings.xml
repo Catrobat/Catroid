@@ -215,7 +215,7 @@
     <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
     <string name="new_sound_name">Sound name:</string>
-    <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+    <string name="rename_sound_overwrite">Sound with same name already exists!</string>
     <!--  -->
 
     <plurals name="unpacking_items_plural">
@@ -276,7 +276,7 @@
     <string name="add_look_choose_image">Select image</string>
     <string name="add_look_media_library">Media Library</string>
     <string name="new_look_name">Look Name:</string>
-    <string name="look_rename_overwrite">Look Name already exists !</string>
+    <string name="look_rename_overwrite">Look Name already exists!</string>
     <!--  -->
 
     <!-- New Sound dialog -->

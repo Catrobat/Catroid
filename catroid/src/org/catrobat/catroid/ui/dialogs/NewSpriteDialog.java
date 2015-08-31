@@ -42,6 +42,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.common.io.Files;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -203,6 +205,7 @@ public class NewSpriteDialog extends DialogFragment {
 						break;
 					case REQUEST_MEDIA_LIBRARY:
 						lookUri = Uri.parse(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
+						newObjectName = Files.getNameWithoutExtension(lookUri.toString());
 						break;
 					default:
 						return;
