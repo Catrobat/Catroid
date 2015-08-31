@@ -24,8 +24,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/DefaultDialog"
     android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:theme="@android:style/Theme.Light" >
+    android:paddingBottom="0dp" >
 
 
     <RadioGroup
