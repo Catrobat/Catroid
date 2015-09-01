@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,8 +81,10 @@ public final class MessageContainer {
 			return;
 		}
 
-		addMessage(message);
-		receiverMap.get(message).add(script);
+		if (!message.contains(CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR)) {
+			addMessage(message);
+			receiverMap.get(message).add(script);
+		}
 	}
 
 	private static void addMessageToAdapter(String message) {
@@ -128,7 +131,9 @@ public final class MessageContainer {
 		receiverMap = new HashMap<String, List<BroadcastScript>>();
 
 		for (String message : usedMessages) {
-			addMessage(message);
+			if (!message.contains(CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR)) {
+				addMessage(message);
+			}
 		}
 
 		if (messageAdapter != null) {

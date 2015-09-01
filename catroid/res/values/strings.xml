@@ -383,7 +383,7 @@
     <string name="brick_glide_to_x">to X:</string>
     <!--  -->
 
-	<!-- Physics -->
+    <!-- Physics -->
     <string name="default_project_name_physics">My first physics program</string>
     <string name="brick_set_physics_object_type">physical object</string>
     <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
@@ -465,6 +465,7 @@
     <string name="brick_variable_spinner_create_new_variable" >New…</string >
     <string name="brick_note_default_value" >"add comment here…"</string >
     <string name="brick_broadcast_default_value" >"message 1"</string >
+    <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
     <string name="brick_add_item_to_userlist_add" >Add</string >
     <string name="brick_add_item_to_userlist" >to list</string >
     <string name="brick_delete_item_from_userlist_delete" >Delete item from list</string >
