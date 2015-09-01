@@ -42,7 +42,7 @@ public class PhysicsObject {
 	private static final String TAG = PhysicsObject.class.getSimpleName();
 
 	public enum Type {
-		DYNAMIC, FIXED, NONE;
+		DYNAMIC, FIXED, NONE
 	}
 
 	public static final float DEFAULT_DENSITY = 1.0f;
@@ -84,7 +84,7 @@ public class PhysicsObject {
 		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
 		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
 		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-		setType(Type.NONE);
+		setType(Type.FIXED);
 		// --
 		tmpVertice = new Vector2();
 	}
