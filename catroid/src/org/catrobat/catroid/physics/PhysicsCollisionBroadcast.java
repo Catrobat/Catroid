@@ -26,6 +26,7 @@ package org.catrobat.catroid.physics;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 
 import java.util.List;
 
@@ -57,10 +58,10 @@ public class PhysicsCollisionBroadcast {
 	public boolean sendBroadcast() {
 		if (objectName1 != null && objectName2 != null && !objectName1.isEmpty() && !objectName2.isEmpty()) {
 			//Log.d(TAG, "# COLLISION # :" + objectName1 + "<->" + objectName2);
-			fireEvent(objectName1 + "<->" + objectName2);
-			fireEvent(objectName2 + "<->" + objectName1);
-			fireEvent(objectName1 + "<->anybody");
-			fireEvent(objectName2 + "<->anybody");
+			fireEvent(objectName1 + CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR + objectName2);
+			fireEvent(objectName2 + CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR + objectName1);
+			fireEvent(objectName1 + CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR + "anybody");
+			fireEvent(objectName2 + CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR + "anybody");
 			return true;
 		}
 		return false;
