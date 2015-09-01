@@ -33,7 +33,6 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -206,13 +205,16 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
     public void testToggleDroneSensors() {
         UiTestUtils.clearAllUtilTestProjects();
 
+        UiTestUtils.createEmptyProject();
 
         solo.waitForActivity(MainMenuActivity.class);
         UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
         solo.waitForActivity(ScriptActivity.class);
+        UiTestUtils.addNewBrick(solo, R.string.brick_drone_move_up);
+        UiTestUtils.dragFloatingBrick(solo, -1.25f);
         solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
         solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
-        assertFalse("Drone sensors are showing!", solo.searchText("drone_"));
+        assertTrue("Drone sensors are not showing!", solo.searchText("drone_"));
         solo.goBack();
         solo.waitForActivity(ScriptActivity.class);
         solo.clickOnActionBarHomeButton();
@@ -229,13 +231,13 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
         solo.goBack();
         solo.goBack();
 
-        assertTrue("Drone preference should now be enabled", SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false));
+        assertFalse("Drone preference should now be disable", SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false));
 
         solo.waitForActivity(MainMenuActivity.class);
         UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
         solo.waitForActivity(ScriptActivity.class);
         solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
         solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
-        assertTrue("Drone sensors are not showing!", solo.searchText("drone_"));
+        assertFalse("Drone sensors are showing!", solo.searchText("drone_"));
     }
 }
