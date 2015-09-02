@@ -61,7 +61,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/fragment_look_item_arrow_image_view"
             android:layout_toRightOf="@+id/fragment_look_item_image_view"
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -121,15 +120,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/fragment_look_item_arrow_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/look"
-            android:paddingRight="14dp"
-            android:src="@drawable/ic_arrow_right" />
     </RelativeLayout>
 
 </LinearLayout>

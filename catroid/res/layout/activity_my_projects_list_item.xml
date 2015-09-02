@@ -55,14 +55,6 @@
 
         <include layout="@layout/activity_my_projects_title_details_view" />
 
-        <ImageView
-            android:id="@+id/arrow_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="14dp"
-            android:src="@drawable/ic_arrow_right" />
     </RelativeLayout >
 
 </LinearLayout >
