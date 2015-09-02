@@ -893,7 +893,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					.findViewById(R.id.fragment_look_item_size_text_view);
 			holder.lookMeasureTextView = (TextView) holder.lookDetailsLinearLayout
 					.findViewById(R.id.fragment_look_item_measure_text_view);
-			holder.lookArrowView = (ImageView) convertView.findViewById(R.id.fragment_look_item_arrow_image_view);
 			holder.lookElement = (RelativeLayout) convertView.findViewById(R.id.fragment_look_item_relative_layout);
 			convertView.setTag(holder);
 		} else {
