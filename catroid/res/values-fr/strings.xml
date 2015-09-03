@@ -350,13 +350,7 @@ il faut
   <string name="brick_replace_item_in_userlist_item_at_index">à la position</string>
   <string name="brick_replace_item_in_userlist_with_value">avec</string>
   <string name="default_project_name">Mon premier programme</string>
-  <string name="default_project_sprites_mole_name">Taupe</string>
-  <string name="default_project_sprites_mole_moving">Taupe mobile</string>
-  <string name="default_project_sprites_mole_whacked">Taupe touchée</string>
-  <string name="default_project_sprites_mole_sound">Frapper</string>
   <string name="default_project_backgroundname">Arrière-plan</string>
-  <string name="default_project_var_random_from">au hasard de</string>
-  <string name="default_project_var_random_to">aléatoire à</string>
   <string name="default_drone_project_name">Mon premier programme de Drone</string>
   <string name="default_drone_project_sprites_takeoff">Décoller</string>
   <string name="default_drone_project_srpites_land">Atterir</string>

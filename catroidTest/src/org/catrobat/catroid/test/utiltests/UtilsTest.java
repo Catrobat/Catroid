@@ -296,7 +296,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void removeScriptAndCompareToStandardProject() {
-		Script catroidScript = standardProject.getSpriteList().get(1).getScript(1);
+		Script catroidScript = standardProject.getSpriteList().get(1).getScript(2);
 		Sprite sprite = standardProject.getSpriteList().get(1);
 		sprite.removeScript(catroidScript);
 		assertFalse("Failed to recognize that the project is not standard after removing a script",
@@ -307,7 +307,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void removeSpriteAndCompareToStandardProject() {
-		Sprite catroidSprite = standardProject.getSpriteList().get(4);
+		Sprite catroidSprite = standardProject.getSpriteList().get(1);
 		int lastIndex = standardProject.getSpriteList().size() - 1;
 		List<Sprite> spriteList = standardProject.getSpriteList();
 		spriteList.remove(lastIndex);

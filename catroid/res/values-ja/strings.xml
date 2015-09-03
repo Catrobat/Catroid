@@ -340,13 +340,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">位置</string>
   <string name="brick_replace_item_in_userlist_with_value">で</string>
   <string name="default_project_name">私の最初のプログラム</string>
-  <string name="default_project_sprites_mole_name">ほくろ</string>
-  <string name="default_project_sprites_mole_moving">ほくろを移動</string>
-  <string name="default_project_sprites_mole_whacked">フラフラほくろ</string>
-  <string name="default_project_sprites_mole_sound">ヒット</string>
   <string name="default_project_backgroundname">背景</string>
-  <string name="default_project_var_random_from">ランダムから</string>
-  <string name="default_project_var_random_to">ランダムに</string>
   <string name="default_drone_project_name">私の最初のドローン プログラム</string>
   <string name="default_drone_project_sprites_takeoff">離陸</string>
   <string name="default_drone_project_srpites_land">着陸</string>

@@ -190,7 +190,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		Project activeProject = ProjectManager.getInstance().getCurrentProject();
 		List<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
 
-		String defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
+		String defaultSpriteName = solo.getString(R.string.default_project_sprites_bird_name);
 		String delete = solo.getString(R.string.delete);
 		String yes = solo.getString(R.string.yes);
 

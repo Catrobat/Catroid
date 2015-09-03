@@ -352,13 +352,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">na pozycji</string>
   <string name="brick_replace_item_in_userlist_with_value">z</string>
   <string name="default_project_name">Mój pierwszy program</string>
-  <string name="default_project_sprites_mole_name">Kret</string>
-  <string name="default_project_sprites_mole_moving">Poruszający się kret</string>
-  <string name="default_project_sprites_mole_whacked">Wyczerpany kret</string>
-  <string name="default_project_sprites_mole_sound">Uderz</string>
   <string name="default_project_backgroundname">Tło</string>
-  <string name="default_project_var_random_from">losowa od</string>
-  <string name="default_project_var_random_to">losowa do</string>
   <string name="default_drone_project_name">Mój pierwszy program dla drona</string>
   <string name="default_drone_project_sprites_takeoff">Startuj</string>
   <string name="default_drone_project_srpites_land">Ląduj</string>

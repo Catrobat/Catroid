@@ -348,13 +348,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_replace_item_in_userlist_item_at_index">en la posición</string>
   <string name="brick_replace_item_in_userlist_with_value">con</string>
   <string name="default_project_name">Mi primer programa</string>
-  <string name="default_project_sprites_mole_name">Topo</string>
-  <string name="default_project_sprites_mole_moving">Topo que se mueve</string>
-  <string name="default_project_sprites_mole_whacked">Topo golpeado</string>
-  <string name="default_project_sprites_mole_sound">Golpear</string>
   <string name="default_project_backgroundname">Fondo</string>
-  <string name="default_project_var_random_from">aleatoriamente desde</string>
-  <string name="default_project_var_random_to">aleatoriamente hacia</string>
   <string name="default_drone_project_name">Mi primer programa robot</string>
   <string name="default_drone_project_sprites_takeoff">Despegar</string>
   <string name="default_drone_project_srpites_land">Aterrizar</string>

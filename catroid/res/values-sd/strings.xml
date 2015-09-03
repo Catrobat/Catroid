@@ -352,13 +352,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <string name="default_project_name">My first program</string>
-  <string name="default_project_sprites_mole_name">Mole</string>
-  <string name="default_project_sprites_mole_moving">Moving Mole</string>
-  <string name="default_project_sprites_mole_whacked">Whacked Mole</string>
-  <string name="default_project_sprites_mole_sound">Hit</string>
   <string name="default_project_backgroundname">پس منظر</string>
-  <string name="default_project_var_random_from">random from</string>
-  <string name="default_project_var_random_to">random to</string>
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <string name="default_drone_project_srpites_land">Land</string>

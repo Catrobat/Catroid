@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.common;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
@@ -33,6 +34,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +42,8 @@ import java.io.IOException;
 public class StandardProjectHandlerTest extends AndroidTestCase {
 
 	private static final String TEST_PROJECT_NAME = "testStandardProjectBuilding";
-	private static final int BACKGROUNDIMAGE_WIDTH = 720;
-	private static final int BACKGROUNDIMAGE_HEIGHT = 1134;
+	private static final int BACKGROUNDIMAGE_WIDTH = 1776;
+	private static final int BACKGROUNDIMAGE_HEIGHT = 1943;
 
 	public StandardProjectHandlerTest() throws IOException {
 	}
@@ -64,58 +66,38 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
 
 		assertEquals("The Project has the wrong name.", TEST_PROJECT_NAME, testProject.getName());
-		assertEquals("wrong number of sprites.", 5, testProject.getSpriteList().size());
+		assertEquals("wrong number of sprites.", 2, testProject.getSpriteList().size());
 
-		int backgroundSpriteIndex = 0;
-		int backgroundLookDataIndex = 0;
 		int catroidSpriteIndex = 1;
-		LookData backgroundLookData = testProject.getSpriteList().get(backgroundSpriteIndex).getLookDataList()
-				.get(backgroundLookDataIndex);
-		assertEquals("wrong size of background image", ScreenValues.SCREEN_WIDTH, backgroundLookData.getMeasure()[0]);
-		assertEquals("wrong size of background image", ScreenValues.SCREEN_HEIGHT, backgroundLookData.getMeasure()[1]);
-		assertEquals("wrong number of scripts in the Catroid sprite", 2,
+		assertEquals("wrong number of scripts in the Catroid sprite", 3,
 				testProject.getSpriteList().get(catroidSpriteIndex).getNumberOfScripts());
 
-		int catroidOnTouchScriptIndex = 1;
+		int catroidOnTouchScriptIndex = 2;
 		Script whenScript = testProject.getSpriteList().get(catroidSpriteIndex).getScript(catroidOnTouchScriptIndex);
 		assertTrue("not a when script", whenScript instanceof WhenScript);
-		assertEquals("wrong number of bricks in the touch script", 4, whenScript.getBrickList().size());
+		assertEquals("wrong number of bricks in the touch script", 1, whenScript.getBrickList().size());
 
-		for (catroidSpriteIndex = 1; catroidSpriteIndex <= 4; catroidSpriteIndex++) {
-			for (int moleNumber = 0; moleNumber < 3; ++moleNumber) {
-				LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
-						.get(moleNumber);
-				assertEquals("wrong size of mole image", 720, catLookData.getMeasure()[0]);
-				assertEquals("wrong size of mole image", 542, catLookData.getMeasure()[1]);
-			}
+		for (int birdNumber = 0; birdNumber < 2; birdNumber++) {
+			LookData catLookData = testProject.getSpriteList().get(1).getLookDataList()
+					.get(birdNumber);
+			assertEquals("wrong width of bird image " + birdNumber, 328, catLookData.getMeasure()[0]);
+			assertEquals("wrong height of bird image " + birdNumber, 328, catLookData.getMeasure()[1]);
 		}
 	}
 
 	public void testCreateScaledStandardProject() throws IOException {
 		ScreenValues.SCREEN_WIDTH = 800;
 		ScreenValues.SCREEN_HEIGHT = 1280;
-		//double scale = ((double) ScreenValues.SCREEN_WIDTH) / (double) BACKGROUNDIMAGE_WIDTH;
-		double scale = (ScreenValues.SCREEN_HEIGHT) / (double) BACKGROUNDIMAGE_HEIGHT;
+		double scale = ImageEditing.calculateScaleFactorToScreenSize(
+				R.drawable.default_project_background, getContext());
 
 		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
 
-		int backgroundSpriteIndex = 0;
-		int backgroundLookDataIndex = 0;
-		int catroidSpriteIndex = 1;
-		LookData backgroundLookData = testProject.getSpriteList().get(backgroundSpriteIndex).getLookDataList()
-				.get(backgroundLookDataIndex);
-		assertEquals("wrong height of background image", ScreenValues.SCREEN_HEIGHT, backgroundLookData.getMeasure()[1]);
-		//note: the expected value is not ScreenValues.SCREEN_HEIGHT
-		assertEquals("wrong width of background image", (int) (BACKGROUNDIMAGE_WIDTH * scale),
-				backgroundLookData.getMeasure()[0]);
-
-		for (catroidSpriteIndex = 1; catroidSpriteIndex <= 4; catroidSpriteIndex++) {
-			for (int moleNumber = 0; moleNumber < 3; ++moleNumber) {
-				LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
-						.get(moleNumber);
-				assertEquals("wrong size of mole image", (int) (720d * scale), catLookData.getMeasure()[0]);
-				assertEquals("wrong size of mole image", (int) (542d * scale), catLookData.getMeasure()[1]);
-			}
+		for (int birdNumber = 0; birdNumber < 2; birdNumber++) {
+			LookData catLookData = testProject.getSpriteList().get(1).getLookDataList()
+					.get(birdNumber);
+			assertEquals("wrong size of mole image", (int) (300d * scale), catLookData.getMeasure()[0]);
+			assertEquals("wrong size of mole image", (int) (300d * scale), catLookData.getMeasure()[1]);
 		}
 	}
 
