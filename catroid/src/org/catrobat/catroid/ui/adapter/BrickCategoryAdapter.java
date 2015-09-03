@@ -58,5 +58,4 @@ public class BrickCategoryAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		return categories.get(position);
 	}
-
 }

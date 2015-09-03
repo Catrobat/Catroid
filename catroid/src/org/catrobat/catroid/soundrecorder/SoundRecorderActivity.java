@@ -133,5 +133,4 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		recordButton.setState(RecordButton.RecordState.STOP);
 		recordButton.setImageResource(R.drawable.ic_microphone);
 	}
-
 }

@@ -33,5 +33,4 @@ public class OutdatedVersionProjectException extends ProjectException {
 	public OutdatedVersionProjectException(String message) {
 		super(message);
 	}
-
 }

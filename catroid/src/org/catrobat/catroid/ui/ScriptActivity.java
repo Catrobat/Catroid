@@ -131,7 +131,6 @@ public class ScriptActivity extends BaseActivity {
 		BottomBar.showAddButton(this);
 		BottomBar.showPlayButton(this);
 		updateHandleAddButtonClickListener();
-
 	}
 
 	public void setupActionBar() {
@@ -309,13 +308,12 @@ public class ScriptActivity extends BaseActivity {
 			if (fragment != null && fragment.isVisible()) {
 				return fragment.onKey(null, keyCode, event);
 			}
-
 		}
 
 		String tag1 = UserBrickDataEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG;
 		UserBrickDataEditorFragment fragment = (UserBrickDataEditorFragment) fragmentManager.findFragmentByTag(tag1);
 		if (fragment != null && fragment.isVisible()) {
-				return fragment.onKey(null, keyCode, event);
+			return fragment.onKey(null, keyCode, event);
 		}
 
 		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
@@ -371,13 +369,11 @@ public class ScriptActivity extends BaseActivity {
 		if (hasFocus) {
 			if (soundFragment != null && soundFragment.isVisible()) {
 				sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
-
 			}
 
 			if (lookFragment != null && lookFragment.isVisible()) {
 				sendBroadcast(new Intent(ScriptActivity.ACTION_LOOKS_LIST_INIT));
 			}
-
 		}
 	}
 
@@ -555,12 +551,13 @@ public class ScriptActivity extends BaseActivity {
 		switch (fragmentPosition) {
 			case FRAGMENT_LOOKS:
 				isLookFragmentFromSetLookBrickNew = true;
-
 				fragmentTransaction.addToBackStack(LookFragment.TAG);
 				if (lookFragment == null) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					lookFragment = new LookFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					fragmentTransaction.show(lookFragment);
 				}
 				setCurrentFragment(FRAGMENT_LOOKS);
@@ -571,9 +568,11 @@ public class ScriptActivity extends BaseActivity {
 
 				fragmentTransaction.addToBackStack(SoundFragment.TAG);
 				if (soundFragment == null) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					soundFragment = new SoundFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, soundFragment, SoundFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					fragmentTransaction.show(soundFragment);
 				}
 				setCurrentFragment(FRAGMENT_SOUNDS);

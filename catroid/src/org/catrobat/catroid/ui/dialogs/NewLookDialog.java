@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -42,6 +43,7 @@ public class NewLookDialog extends DialogFragment {
 	public static final String TAG = "dialog_new_look";
 
 	private LookFragment fragment = null;
+	private DialogInterface.OnDismissListener onDismissListener;
 
 	public static NewLookDialog newInstance() {
 		return new NewLookDialog();
@@ -61,6 +63,7 @@ public class NewLookDialog extends DialogFragment {
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
+		setupMediaLibraryButton(dialogView);
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -69,6 +72,18 @@ public class NewLookDialog extends DialogFragment {
 		dialog = createDialog(dialogBuilder);
 		dialog.setCanceledOnTouchOutside(true);
 		return dialog;
+	}
+
+	public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+		this.onDismissListener = onDismissListener;
+	}
+
+	@Override
+	public void onDismiss(final DialogInterface dialog) {
+		super.onDismiss(dialog);
+		if (onDismissListener != null) {
+			onDismissListener.onDismiss(dialog);
+		}
 	}
 
 	private AlertDialog createDialog(AlertDialog.Builder dialogBuilder) {
@@ -114,6 +129,18 @@ public class NewLookDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				fragment.addLookFromCamera();
+				NewLookDialog.this.dismiss();
+			}
+		});
+	}
+
+	private void setupMediaLibraryButton(View parentView) {
+		View mediaLibraryButton = parentView.findViewById(R.id.dialog_new_look_media_library);
+
+		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				fragment.addLookMediaLibrary();
 				NewLookDialog.this.dismiss();
 			}
 		});

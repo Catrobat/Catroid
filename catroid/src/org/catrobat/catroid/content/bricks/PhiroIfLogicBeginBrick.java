@@ -161,7 +161,7 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
 			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -182,6 +182,7 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
 		phiroProSensorSpinner.setFocusableInTouchMode(false);
 		phiroProSensorSpinner.setFocusable(false);
+		phiroProSensorSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
@@ -248,5 +249,4 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		this.copy = copyBrick;
 		return copyBrick;
 	}
-	
 }

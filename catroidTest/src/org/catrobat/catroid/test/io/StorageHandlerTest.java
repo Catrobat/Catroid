@@ -170,8 +170,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("XPosition was not deserialized right", xPosition,
 				interpretFormula(actualXPosition, null).intValue());
 		assertEquals("YPosition was not deserialized right", yPosition,
-                interpretFormula(actualYPosition, null).intValue());
-
+				interpretFormula(actualYPosition, null).intValue());
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
@@ -265,7 +264,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-
 		File tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 		File currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 		assertFalse(tmpCodeFile.getName() + " exists!", tmpCodeFile.exists());
@@ -302,14 +300,14 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	// TODO: add XML header validation based on xsd
 
-    private Float interpretFormula(Formula formula, Sprite sprite) {
-        try {
-            return formula.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
-        }
-        return Float.NaN;
-    }
+	private Float interpretFormula(Formula formula, Sprite sprite) {
+		try {
+			return formula.interpretFloat(sprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
+		}
+		return Float.NaN;
+	}
 
 	public void testGetRequiredResources() {
 		int resources = generateMultiplePermissionsProject().getRequiredResources();
@@ -361,7 +359,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
 
-		LegoNXTSetting nxtSetting = (LegoNXTSetting)setting;
+		LegoNXTSetting nxtSetting = (LegoNXTSetting) setting;
 		NXTSensor.Sensor[] actualSensorMapping = nxtSetting.getSensorMapping();
 
 		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
@@ -370,7 +368,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
 		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
 		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
-
 
 		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
 		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
@@ -393,7 +390,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project = ProjectManager.getInstance().getCurrentProject();
 
 		setting = project.getSettings().get(0);
-		nxtSetting = (LegoNXTSetting)setting;
+		nxtSetting = (LegoNXTSetting) setting;
 
 		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
 

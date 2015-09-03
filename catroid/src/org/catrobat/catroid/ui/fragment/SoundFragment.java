@@ -72,22 +72,26 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
+import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -119,6 +123,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
+	private boolean isAddNewSoundButtonClicked = false;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
@@ -135,7 +140,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				handleAddButton();
 			}
 		});
-
 	}
 
 	@Override
@@ -180,7 +184,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		// set adapter and soundInfoList for ev. unpacking
 		BackPackListManager.getInstance().setCurrentSoundInfoList(soundInfoList);
 		BackPackListManager.getInstance().setCurrentSoundAdapter(adapter);
-
 	}
 
 	@Override
@@ -222,7 +225,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onResume() {
 		super.onResume();
 
-		setHandleAddbutton();
+		if (!ProjectManager.getInstance().getHandleCorrectAddButton()) {
+			setHandleAddbutton();
+		} else {
+			ProjectManager.getInstance().setHandleCorrectAddButton(false);
+		}
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
@@ -305,7 +312,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		editor.putBoolean(SoundController.SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
-
 	}
 
 	@Override
@@ -325,7 +331,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
-
 	}
 
 	@Override
@@ -338,7 +343,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
-
 	}
 
 	@Override
@@ -366,24 +370,48 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		isAddNewSoundButtonClicked = false;
 		//when new sound title is selected and ready to be added to the catroid project
-		if (resultCode == Activity.RESULT_OK && requestCode == SoundController.REQUEST_SELECT_MUSIC && data != null) {
-			Bundle arguments = new Bundle();
-			arguments.putParcelable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
+		if (resultCode == Activity.RESULT_OK && data != null) {
+			switch (requestCode) {
+				case SoundController.REQUEST_SELECT_MUSIC:
+					Bundle arguments = new Bundle();
+					arguments.putParcelable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
 
-			if (getLoaderManager().getLoader(SoundController.ID_LOADER_MEDIA_IMAGE) == null) {
-				getLoaderManager().initLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
-			} else {
-				getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
+					if (getLoaderManager().getLoader(SoundController.ID_LOADER_MEDIA_IMAGE) == null) {
+						getLoaderManager().initLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
+					} else {
+						getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
+					}
+					break;
+				case SoundController.REQUEST_MEDIA_LIBRARY:
+					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
+					SoundController.getInstance().addSoundFromMediaLibrary(filePath, getActivity(), soundInfoList, this);
 			}
 		}
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
 			Log.d("SoundFragment", "onActivityResult RequestMusic");
 			setHandleAddbutton();
-
 		}
 
+		if (resultCode == Activity.RESULT_CANCELED && ProjectManager.getInstance()
+				.getComingFromScriptFragmentToSoundFragment()) {
+
+			getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+			ProjectManager.getInstance().setHandleCorrectAddButton(true);
+
+			ImageButton addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
+			addButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+					scriptActivity.getScriptFragment().handleAddButton();
+				}
+			});
+			SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+		}
+		ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
 	}
 
 	@Override
@@ -418,7 +446,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			if (numberOfSelectedItems == 1) {
 				appendix = singleItemAppendixDeleteActionMode;
 			}
-
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
 			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
@@ -482,6 +509,16 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
+
+		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedSoundPosition != soundInfoList.size() - 1);
+		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedSoundPosition != soundInfoList.size() - 1);
+
+		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedSoundPosition != 0);
+		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedSoundPosition != 0);
 	}
 
 	@Override
@@ -520,11 +557,23 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
+			case  R.id.context_menu_move_down:
+				moveSoundDown();
+				break;
+			case R.id.context_menu_move_to_bottom:
+				moveSoundToBottom();
+				break;
+			case R.id.context_menu_move_up:
+				moveSoundUp();
+				break;
+			case R.id.context_menu_move_to_top:
+				moveSoundToTop();
+				break;
 		}
 		return super.onContextItemSelected(item);
 	}
 
-	private void updateSoundAdapter(SoundInfo newSoundInfo) {
+	public void updateSoundAdapter(SoundInfo newSoundInfo) {
 
 		if (soundInfoListChangedAfterNewListener != null) {
 			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
@@ -578,18 +627,49 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleAddButton() {
+		NewSoundDialog dialog = NewSoundDialog.newInstance();
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				if (ProjectManager.getInstance().getComingFromScriptFragmentToSoundFragment() && !isAddNewSoundButtonClicked) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
+					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+					SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+				}
+			}
+		});
+		dialog.showDialog(this);
+	}
+
+	public void addSoundRecord() {
+		isAddNewSoundButtonClicked = true;
+		Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
+		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);
+	}
+
+	public void addSoundChooseFile() {
+		isAddNewSoundButtonClicked = true;
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)	{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			disableGoogleDrive(intent);
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
 	}
 
+	public void addSoundMediaLibrary() {
+		Intent intent = new Intent(getActivity(), WebViewActivity.class);
+		String url = null;
+		url = Constants.LIBRARY_SOUNDS_URL;
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
+		startActivityForResult(intent, SoundController.REQUEST_MEDIA_LIBRARY);
+	}
+
 	@TargetApi(19)
 	private void disableGoogleDrive(Intent intent) {
-		intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 	}
 
 	@Override
@@ -651,7 +731,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				adapter.notifyDataSetChanged();
 				onSoundChecked();
 			}
-
 		});
 	}
 
@@ -715,9 +794,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		public void onDestroyActionMode(ActionMode mode) {
 
 			((SoundAdapter) adapter).onDestroyActionModeCopy(mode);
-
 		}
-
 	};
 
 	private ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
@@ -752,9 +829,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		public void onDestroyActionMode(ActionMode mode) {
 
 			((SoundAdapter) adapter).onDestroyActionModeBackPack(mode);
-
 		}
-
 	};
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -826,7 +901,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
-
 			}
 		});
 
@@ -906,7 +980,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public interface OnSoundInfoListChangedAfterNewListener {
 
 		void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
-
 	}
 
 	public class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
@@ -966,7 +1039,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				Utils.showErrorDialog(getActivity(), R.string.error_load_sound);
 			}
 		}
-
 	}
 
 	public void setSelectedSoundInfo(SoundInfo selectedSoundInfo) {
@@ -984,5 +1056,33 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				adapter.notifyDataSetChanged();
 			}
 		}
+	}
+
+	private void moveSoundDown() {
+		if (selectedSoundPosition != soundInfoList.size() - 1) {
+			Collections.swap(soundInfoList, selectedSoundPosition + 1, selectedSoundPosition);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	private void moveSoundToBottom() {
+		for (int i = selectedSoundPosition; i < soundInfoList.size() - 1; i++) {
+			Collections.swap(soundInfoList, i, i + 1);
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveSoundUp() {
+		if (selectedSoundPosition != 0) {
+			Collections.swap(soundInfoList, selectedSoundPosition - 1, selectedSoundPosition);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	private void moveSoundToTop() {
+		for (int i = selectedSoundPosition; i > 0; i--) {
+			Collections.swap(soundInfoList, i, i - 1);
+		}
+		adapter.notifyDataSetChanged();
 	}
 }

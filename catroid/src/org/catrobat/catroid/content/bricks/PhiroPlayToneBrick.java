@@ -90,7 +90,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
+		return BLUETOOTH_PHIRO | getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).getRequiredResources();
 	}
 
 	@Override
@@ -102,6 +102,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		Spinner phiroProToneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_select_tone_spinner);
 		phiroProToneSpinner.setFocusableInTouchMode(false);
 		phiroProToneSpinner.setFocusable(false);
+		phiroProToneSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_tone_spinner,
 				android.R.layout.simple_spinner_item);
@@ -174,8 +175,8 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) { }
-
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
 		});
 
 		toneSpinner.setSelection(toneEnum.ordinal());
@@ -218,8 +219,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
 			editDuration.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -231,5 +231,4 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS)));
 		return null;
 	}
-
 }

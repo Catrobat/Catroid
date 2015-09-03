@@ -61,5 +61,4 @@ public class PhiroMotorStopAction extends TemporalAction {
 	public void setMotorEnum(Motor motorEnum) {
 		this.motorEnum = motorEnum;
 	}
-
 }

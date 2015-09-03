@@ -327,15 +327,14 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
 		project.addSprite(firstSprite);
-
 	}
 
-    private Double interpretFormula(Formula formula){
-        try{
-            return formula.interpretDouble(firstSprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
-        }
-        return Double.NaN;
-    }
+	private Double interpretFormula(Formula formula) {
+		try {
+			return formula.interpretDouble(firstSprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
+		}
+		return Double.NaN;
+	}
 }

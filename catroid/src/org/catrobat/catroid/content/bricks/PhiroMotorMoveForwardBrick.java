@@ -97,7 +97,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
+		return BLUETOOTH_PHIRO | getFormulaWithBrickField(BrickField.PHIRO_SPEED).getRequiredResources();
 	}
 
 	@Override
@@ -109,6 +109,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 		Spinner phiroProMotorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_motor_forward_action_spinner);
 		phiroProMotorSpinner.setFocusableInTouchMode(false);
 		phiroProMotorSpinner.setFocusable(false);
+		phiroProMotorSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_motor_spinner,
 				android.R.layout.simple_spinner_item);
@@ -196,8 +197,8 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) { }
-
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
@@ -240,8 +241,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
 			editSpeed.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -253,5 +253,4 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
 		return null;
 	}
-
 }

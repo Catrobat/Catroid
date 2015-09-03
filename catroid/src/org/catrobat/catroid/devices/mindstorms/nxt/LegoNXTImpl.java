@@ -114,21 +114,19 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 		if (frequencyInHz > 14000) {
 			frequencyInHz = 14000;
-		}
-		else if (frequencyInHz < 200) {
+		} else if (frequencyInHz < 200) {
 			frequencyInHz = 200;
 		}
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.PLAY_TONE, false);
-		command.append((byte)(frequencyInHz & 0x00FF));
-		command.append((byte)((frequencyInHz & 0xFF00) >> 8));
+		command.append((byte) (frequencyInHz & 0x00FF));
+		command.append((byte) ((frequencyInHz & 0xFF00) >> 8));
 		command.append((byte) (durationInMs & 0x00FF));
 		command.append((byte) ((durationInMs & 0xFF00) >> 8));
 
 		try {
 			mindstormsConnection.send(command);
-		}
-		catch (MindstormsException e) {
+		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
 	}
@@ -186,10 +184,8 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 		int millivolt = java.nio.ByteBuffer.wrap(batValues).order(java.nio.ByteOrder.LITTLE_ENDIAN).getShort();
 
-
 		return millivolt;
 	}
-
 
 	@Override
 	public NXTMotor getMotorA() {

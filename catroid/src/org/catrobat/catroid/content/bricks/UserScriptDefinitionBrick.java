@@ -88,7 +88,9 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		return resources;
 	}
 
-	public void appendBrickToScript(Brick brick) { this.getScriptSafe().addBrick(brick);}
+	public void appendBrickToScript(Brick brick) {
+		this.getScriptSafe().addBrick(brick);
+	}
 
 	@Override
 	public CheckBox getCheckBox() {
@@ -238,7 +240,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
+		this.alphaValue = alphaValue;
 		return view;
 	}
 
@@ -347,8 +349,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 			if (ProjectManager.getInstance().getCurrentUserBrick() != null) {
 				dataContainer.addUserBrickUserVariableToUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId(), data.name, Double.valueOf(0));
-			}
-			else {
+			} else {
 				dataContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name, Double.valueOf(0));
 			}
 		}

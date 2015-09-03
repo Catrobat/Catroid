@@ -54,8 +54,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
 
-
-
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +116,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+		final String[] sensorPreferences = new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
@@ -141,6 +139,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 				context.getString(R.string.preference_key_use_face_detection), context);
 	}
 
+	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(context.getString(R.string.preference_key_use_face_detection), value);
+		editor.commit();
+	}
+
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
 	}
@@ -154,15 +158,14 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
 	}
 
-	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
+	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(context.getString(R.string.preference_key_use_face_detection), value);
+		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
 		editor.commit();
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
 		getSharedPreferences(context).edit().putBoolean(settingsString, value).commit();
-
 	}
 
 	private static boolean getBooleanSharedPreference(boolean defaultValue, String settingsString, Context context) {
@@ -176,7 +179,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static NXTSensor.Sensor[] getLegoMindstormsNXTSensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+				new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -188,8 +191,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	}
 
 	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {
-			String sensor = getSharedPreferences(context).getString(sensorSetting, null);
-			return NXTSensor.Sensor.getSensorFromSensorCode(sensor);
+		String sensor = getSharedPreferences(context).getString(sensorSetting, null);
+		return NXTSensor.Sensor.getSensorFromSensorCode(sensor);
 	}
 
 	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor[] sensorMapping) {
@@ -235,5 +238,9 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static boolean getShowLegoMindstormsSensorInfoDialog(Context context) {
 		SharedPreferences preferences = getSharedPreferences(context);
 		return preferences.getBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
+	}
+
+	public static void resetSharedPreferences(Context context) {
+		getSharedPreferences(context).edit().clear().commit();
 	}
 }

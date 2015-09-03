@@ -128,6 +128,5 @@ public class RenameProjectDialog extends TextDialog {
 	public interface OnProjectRenameListener {
 
 		void onProjectRename(boolean isCurrentProject);
-
 	}
 }

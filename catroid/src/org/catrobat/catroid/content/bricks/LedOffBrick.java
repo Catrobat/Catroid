@@ -43,7 +43,6 @@ public class LedOffBrick extends BrickBaseType {
 	private transient View prototypeView;
 
 	public LedOffBrick() {
-
 	}
 
 	@Override
@@ -81,7 +80,7 @@ public class LedOffBrick extends BrickBaseType {
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

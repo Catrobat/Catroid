@@ -124,7 +124,6 @@ public class BackPackActivity extends BaseActivity {
 			menu.findItem(R.id.backpack).setVisible(false);
 			menu.findItem(R.id.cut).setVisible(false);
 			menu.findItem(R.id.rename).setVisible(false);
-
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}

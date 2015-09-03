@@ -122,7 +122,6 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 			Log.d(TAG, "Drone Disconnected");
 			droneControlService = null;
 		}
-
 	};
 
 	private void helpUnbindDroneService() {
@@ -136,7 +135,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 	private void helpBindDroneService() throws RuntimeException {
 		if (droneControlService == null
 				&& !stageActivityContext.bindService(new Intent(stageActivityContext, DroneControlService.class),
-						this.droneServiceConnection, Context.BIND_AUTO_CREATE)) {
+				this.droneServiceConnection, Context.BIND_AUTO_CREATE)) {
 			throw new RuntimeException("Connection to the drone not successful");
 		}
 	}

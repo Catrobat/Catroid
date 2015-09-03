@@ -337,7 +337,6 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-
 	public static SpeakAction speak(Sprite sprite, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		action.setSprite(sprite);
@@ -557,6 +556,20 @@ public class ExtendedActions extends Actions {
 		VibrateAction action = action(VibrateAction.class);
 		action.setSprite(sprite);
 		action.setDuration(duration);
+		return action;
+	}
+
+	public static ShowTextAction showText(Sprite sprite, Formula x, Formula y,  String variableName) {
+		ShowTextAction action = action(ShowTextAction.class);
+		action.setPosition(x, y);
+		action.setText(variableName);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public static HideTextAction hideText(Sprite sprite, String variableName) {
+		HideTextAction action = action(HideTextAction.class);
+		action.setText(variableName);
 		return action;
 	}
 }

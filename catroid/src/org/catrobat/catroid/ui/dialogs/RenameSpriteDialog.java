@@ -57,7 +57,7 @@ public class RenameSpriteDialog extends TextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String newSpriteName = (input.getText().toString()).trim();
+		String newSpriteName = input.getText().toString().trim();
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {

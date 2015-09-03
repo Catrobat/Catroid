@@ -207,7 +207,6 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.button_background);
 			}
-
 		} else {
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
@@ -254,5 +253,4 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 		void onSpriteEdit(int position);
 	}
-
 }

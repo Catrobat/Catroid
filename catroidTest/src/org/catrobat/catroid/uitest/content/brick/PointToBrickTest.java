@@ -200,5 +200,4 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(solo.getString(stringToClickOnAtTheEnd));
 		UiTestUtils.hidePocketPaintDialog(solo);
 	}
-
 }

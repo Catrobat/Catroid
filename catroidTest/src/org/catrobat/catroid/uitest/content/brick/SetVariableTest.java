@@ -180,7 +180,7 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(userVariableName));
 	}
 
-	public void testViewInFormulaEditorAfterClone(){
+	public void testViewInFormulaEditorAfterClone() {
 		String userVariableName = "testVariable1";
 		String userVariableNameTwo = "testVariable2";
 
@@ -207,11 +207,9 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnText(solo.getString(R.string.brick_set_variable));
 
-
 		solo.clickOnText(userVariableName);
 
 		solo.clickOnText(solo.getString(R.string.brick_variable_spinner_create_new_variable));
-
 
 		EditText editTextTwo = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 
@@ -229,7 +227,7 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 
 		assertTrue("Uservariable in view is not right displayed , maybe clone() is broken...",
-				solo.searchText(userVariableName,true));
+				solo.searchText(userVariableName, true));
 
 		solo.sleep(5000);
 	}
@@ -284,5 +282,4 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 			solo.waitForText(solo.getString(R.string.formula_editor_data), 0, 1000);
 		}
 	}
-
 }

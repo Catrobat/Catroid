@@ -84,6 +84,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = ProjectActivityTest.class.getSimpleName();
+
 	private static final String TEST_SPRITE_NAME = "cat";
 	private static final String FIRST_TEST_SPRITE_NAME = "test1";
 	private static final String SECOND_TEST_SPRITE_NAME = "test2";
@@ -167,7 +169,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 		solo.clickLongOnText(defaultSpriteName);
 		solo.sleep(200);
+
 		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.clickLongOnText(defaultSpriteName);
 		Sprite copiedSprite = project.getSpriteList().get(2);
@@ -272,7 +276,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		Sprite sprite = new Sprite(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));
@@ -360,6 +364,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		enterTextAndCloseDialog(sometext);
 
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
@@ -412,6 +420,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
 
 		solo.waitForText(addedSpriteName, 1, 2000);
+
 		assertTrue("Sprite '" + addedSpriteName + "' was not found - List did not move to last added sprite",
 				solo.searchText(addedSpriteName, 0, false));
 	}
@@ -1058,7 +1067,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("First sprite should be " + TEST_SPRITE_NAME, spriteList.get(0).getName(), TEST_SPRITE_NAME);
 		assertEquals("Second sprite should be " + FIRST_TEST_SPRITE_NAME, spriteList.get(1).getName(),
 				FIRST_TEST_SPRITE_NAME);
-
 	}
 
 	public void testLongClickCancelDeleteAndCopy() {

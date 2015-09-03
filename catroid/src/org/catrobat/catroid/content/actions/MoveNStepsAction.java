@@ -54,5 +54,4 @@ public class MoveNStepsAction extends TemporalAction {
 	public void setSteps(Formula steps) {
 		this.steps = steps;
 	}
-
 }

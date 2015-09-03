@@ -29,13 +29,11 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.ConnectBluetoothDeviceActivity;
-
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-
 import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils;
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.uitest.annotation.Device;
@@ -90,7 +88,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 		solo.waitForActivity(ConnectBluetoothDeviceActivity.class);
 
 		ListView deviceList = solo.getCurrentViews(ListView.class).get(0);
-		String connectedDeviceName = (String)deviceList.getItemAtPosition(0);
+		String connectedDeviceName = (String) deviceList.getItemAtPosition(0);
 
 		assertFalse("No bluetooth device is paired, connection failed.",
 				connectedDeviceName == null || connectedDeviceName.equals(solo.getString(R.string.none_paired)));
@@ -105,7 +103,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 		assertNotNull("Device should be registered now. Bluetooth connection might failed. Is Bluetooth-Server running?", btDevice);
 		btDevice.connect();
 
-		byte[] expectedMessage = new byte[] {1,2,3};
+		byte[] expectedMessage = new byte[] { 1, 2, 3 };
 
 		btDevice.sendTestMessage(expectedMessage);
 		solo.sleep(2000); // wait some time till return message arrives
@@ -180,7 +178,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 			this.connection = connection;
 		}
 
-		public void connect() throws IOException{
+		public void connect() throws IOException {
 			inStream = new DataInputStream(connection.getInputStream());
 			outStream = connection.getOutputStream();
 
@@ -205,7 +203,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 
 		public void sendTestMessage(byte[] message) throws IOException {
 
-			outStream.write(new byte[] {(byte)(0xFF & message.length)});
+			outStream.write(new byte[] { (byte) (0xFF & message.length) });
 			outStream.write(message);
 			outStream.flush();
 		}
@@ -225,22 +223,18 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 
 		@Override
 		public void initialise() {
-
 		}
 
 		@Override
 		public void start() {
-
 		}
 
 		@Override
 		public void pause() {
-
 		}
 
 		@Override
 		public void destroy() {
-
 		}
 	}
 }

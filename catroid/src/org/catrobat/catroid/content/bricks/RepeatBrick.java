@@ -69,7 +69,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();
 	}
-	
+
 	public RepeatBrick(Formula timesToRepeat) {
 		initializeBrickFields(timesToRepeat);
 	}
@@ -80,7 +80,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public Brick clone()  {
+	public Brick clone() {
 		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
 	}
 
@@ -122,15 +122,15 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
 
 		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isSingleNumberFormula()) {
-            try{
+			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.time_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 				));
-            }catch(InterpretationException interpretationException){
-                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula", interpretationException);
-            }
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula", interpretationException);
+			}
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -151,9 +151,9 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
-        textRepeat.setText(String.valueOf(BrickValues.REPEAT));
-        times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
-                    Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
+		textRepeat.setText(String.valueOf(BrickValues.REPEAT));
+		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
 		return prototypeView;
 	}
 
@@ -174,8 +174,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 			editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
 			editRepeat.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

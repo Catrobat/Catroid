@@ -64,7 +64,5 @@ class ModelRunner extends Thread {
 		} catch (IOException e) {
 			Log.e(TAG, "An error occurred on stopping model.");
 		}
-
 	}
-
 }

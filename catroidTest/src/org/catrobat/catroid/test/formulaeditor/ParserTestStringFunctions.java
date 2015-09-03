@@ -81,7 +81,6 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, firstParameterList, 0d, testSprite);
-
 	}
 
 	public void testLetter() {

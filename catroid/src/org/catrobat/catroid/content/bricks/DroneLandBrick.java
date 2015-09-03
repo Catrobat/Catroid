@@ -46,7 +46,6 @@ public class DroneLandBrick extends BrickBaseType {
 	private transient AdapterView<?> adapterView;
 
 	public DroneLandBrick() {
-
 	}
 
 	@Override
@@ -104,7 +103,7 @@ public class DroneLandBrick extends BrickBaseType {
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}

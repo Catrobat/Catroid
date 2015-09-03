@@ -161,13 +161,14 @@ public class Look extends Image {
 		allActionsAreFinished = false;
 		int finishedCount = 0;
 
-		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext();) {
+		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
 			Action actionToRestart = iterator.next();
 			actionToRestart.restart();
 			iterator.remove();
 		}
 
-		for (int i = 0, n = actions.size; i < n; i++) {
+		int n = actions.size;
+		for (int i = 0; i < n; i++) {
 			Action action = actions.get(i);
 			if (action.act(delta)) {
 				finishedCount++;

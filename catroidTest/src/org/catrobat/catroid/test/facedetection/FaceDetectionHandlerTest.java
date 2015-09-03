@@ -52,7 +52,5 @@ public class FaceDetectionHandlerTest extends TestCase {
 
 		FaceDetectionHandler.resumeFaceDetection();
 		assertFalse("FaceDetector could be resumed although it was stopped", detector.started);
-
 	}
-
 }

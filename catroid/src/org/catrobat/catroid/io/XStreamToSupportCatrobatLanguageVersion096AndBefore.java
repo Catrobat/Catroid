@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -93,6 +94,7 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
@@ -123,14 +125,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion095AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion096AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion095AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion096AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -418,6 +420,11 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
 		brickInfoMap.put("droneMoveRightBrick", brickInfo);
 
+		brickInfo = new BrickInfo(ShowTextBrick.class.getSimpleName());
+		brickInfoMap.put("showTextBrick", brickInfo);
+
+		brickInfo = new BrickInfo(HideTextBrick.class.getSimpleName());
+		brickInfoMap.put("hideTextBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {
@@ -482,7 +489,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
 			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
 			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
-		}catch(Exception exception){
+		} catch (Exception exception) {
 			Log.e(TAG, "Failed to modify variables tag", exception);
 		}
 	}
@@ -562,8 +569,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 	}
 
 	private void copyAttributesIfNeeded(Node sourceNode, Element destinationNode) {
-		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick") ||
-				sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
+		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick")
+				|| sourceNode.getNodeName().equals("ifLogicElseBrick")
+				|| sourceNode.getNodeName().equals("ifLogicEndBrick")) {
 			return;
 		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
@@ -627,10 +635,10 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 					Node brickNode = brickListChildNodes.item(j);
 					Element newBrickNode = originalDocument.createElement("brick");
 
-					if (brickNode.getNodeName().equals("setGhostEffectBrick")){
+					if (brickNode.getNodeName().equals("setGhostEffectBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "setTransparencyBrick");
 					}
-					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")){
+					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "changeTransparencyByNBrick");
 					}
 
@@ -652,9 +660,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
 									handleUserVariableNode(newBrickNode, brickChild);
-								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
-										brickChild.getNodeName().equals("ifElseBrick") ||
-										brickChild.getNodeName().equals("ifEndBrick")) {
+								} else if (brickChild.getNodeName().equals("loopEndBrick")
+										|| brickChild.getNodeName().equals("ifElseBrick")
+										|| brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
 								} else {
 									newBrickNode.appendChild(brickChild);
@@ -815,5 +823,4 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			return brickClassName;
 		}
 	}
-
 }

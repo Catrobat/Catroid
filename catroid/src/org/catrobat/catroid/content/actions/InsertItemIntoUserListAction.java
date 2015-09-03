@@ -50,7 +50,6 @@ public class InsertItemIntoUserListAction extends TemporalAction {
 
 		try {
 			indexToInsert = formulaIndexToInsert == null ? 1 : formulaIndexToInsert.interpretInteger(sprite);
-
 		} catch (InterpretationException interpretationException) {
 			indexToInsert = 1;
 		}
@@ -79,5 +78,4 @@ public class InsertItemIntoUserListAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

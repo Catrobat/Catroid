@@ -31,8 +31,13 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
+import org.catrobat.catroid.ui.dialogs.OverwriteRenameMediaDialog;
+import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.UnsupportedEncodingException;
@@ -46,9 +51,11 @@ import java.util.Set;
 public final class DownloadUtil {
 	private static final DownloadUtil INSTANCE = new DownloadUtil();
 	private static final String TAG = DownloadUtil.class.getSimpleName();
-	private static final String PROJECTNAME_TAG = "fname=";
+	private static final String FILENAME_TAG = "fname=";
 
 	private Set<String> programDownloadQueue;
+
+	private WebViewActivity webViewActivity = null;
 
 	private DownloadUtil() {
 		programDownloadQueue = Collections.synchronizedSet(new HashSet<String>());
@@ -79,10 +86,62 @@ public final class DownloadUtil {
 		}
 	}
 
+	public void prepareMediaDownloadAndStartIfPossible(FragmentActivity activity, String url, String mediaType,
+			String mediaName, String filePath, String callingActivity) {
+		if (mediaName == null) {
+			return;
+		}
+
+		boolean mediaNameExists;
+		if (callingActivity.contains(LookFragment.TAG) || callingActivity.contains(SoundFragment.TAG)) {
+			switch (mediaType) {
+				case Constants.MEDIA_TYPE_LOOK:
+					mediaNameExists = Utils.checkIfLookExists(mediaName);
+					break;
+				case Constants.MEDIA_TYPE_SOUND:
+					mediaNameExists = Utils.checkIfSoundExists(mediaName);
+					break;
+				default:
+					mediaNameExists = false;
+			}
+		} else {
+			mediaNameExists = false;
+		}
+
+		webViewActivity = (WebViewActivity) activity;
+
+		if (mediaNameExists) {
+			OverwriteRenameMediaDialog renameMediaDialog = new OverwriteRenameMediaDialog();
+
+			renameMediaDialog.setContext(activity);
+			renameMediaDialog.setMediaName(mediaName);
+			renameMediaDialog.setMediaType(mediaType);
+			renameMediaDialog.setURL(url);
+			renameMediaDialog.setFilePath(filePath);
+			renameMediaDialog.setCallingActivity(callingActivity);
+			renameMediaDialog.setWebViewActivity(webViewActivity);
+
+			renameMediaDialog.show(activity.getSupportFragmentManager(), OverwriteRenameMediaDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			startMediaDownload(activity, url, mediaName, filePath);
+		}
+	}
+
+	public void startMediaDownload(Context context, String url, String mediaName, String filePath) {
+		Intent downloadIntent = new Intent(context, MediaDownloadService.class);
+		downloadIntent.putExtra(MediaDownloadService.RECEIVER_TAG, new DownloadMediaReceiver(new Handler()));
+		downloadIntent.putExtra(MediaDownloadService.URL_TAG, url);
+		downloadIntent.putExtra(MediaDownloadService.MEDIA_FILE_PATH, filePath);
+		webViewActivity.createProgressDialog(mediaName);
+		webViewActivity.setResultIntent(webViewActivity.getResultIntent().putExtra(WebViewActivity
+				.MEDIA_FILE_PATH, filePath));
+		context.startService(downloadIntent);
+	}
+
 	public void startDownload(Context context, String url, String programName) {
 		programDownloadQueue.add(programName.toLowerCase(Locale.getDefault()));
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
-		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadReceiver(new Handler()));
+		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadProjectReceiver(new Handler()));
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);
 		downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
@@ -100,8 +159,9 @@ public final class DownloadUtil {
 	}
 
 	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
-	private class DownloadReceiver extends ResultReceiver {
-		public DownloadReceiver(Handler handler) {
+
+	private class DownloadProjectReceiver extends ResultReceiver {
+		public DownloadProjectReceiver(Handler handler) {
 			super(handler);
 		}
 
@@ -126,8 +186,29 @@ public final class DownloadUtil {
 		}
 	}
 
+	private class DownloadMediaReceiver extends ResultReceiver {
+		public DownloadMediaReceiver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		protected void onReceiveResult(int resultCode, Bundle resultData) {
+			super.onReceiveResult(resultCode, resultData);
+			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
+				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
+				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
+				if (endOfFileReached) {
+					progress = 100;
+				}
+				webViewActivity.updateProgressDialog(progress);
+			} else if (resultCode == Constants.UPDATE_DOWNLOAD_ERROR) {
+				webViewActivity.dismissProgressDialog();
+			}
+		}
+	}
+
 	public String getProjectNameFromUrl(String url) {
-		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		int projectNameIndex = url.lastIndexOf(FILENAME_TAG) + FILENAME_TAG.length();
 		String programName = url.substring(projectNameIndex);
 		try {
 			programName = URLDecoder.decode(programName, "UTF-8");
@@ -136,7 +217,5 @@ public final class DownloadUtil {
 			return null;
 		}
 		return programName;
-
 	}
-
 }

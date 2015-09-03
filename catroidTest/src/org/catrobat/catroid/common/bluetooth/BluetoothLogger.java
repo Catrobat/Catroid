@@ -24,7 +24,7 @@ package org.catrobat.catroid.common.bluetooth;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 
-interface Logger {
+interface BluetoothLogger {
 	void logSentData(byte[] b);
 	void logReceivedData(byte[] b);
 	void loggerAttached(BluetoothConnection proxy);

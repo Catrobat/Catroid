@@ -51,10 +51,10 @@ public class LegoNxtMotorMoveAction extends TemporalAction {
 		int speedValue;
 		try {
 			speedValue = speed.interpretInteger(sprite);
-        } catch (InterpretationException interpretationException) {
-            speedValue = 0;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			speedValue = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 
 		if (speedValue < MIN_SPEED) {
 			speedValue = MIN_SPEED;
@@ -82,7 +82,6 @@ public class LegoNxtMotorMoveAction extends TemporalAction {
 				nxt.getMotorC().move(speedValue);
 				break;
 		}
-
 	}
 
 	public void setMotorEnum(Motor motorEnum) {
@@ -96,5 +95,4 @@ public class LegoNxtMotorMoveAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

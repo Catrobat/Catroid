@@ -82,6 +82,7 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
 		phiroProSpinner.setFocusableInTouchMode(false);
 		phiroProSpinner.setFocusable(false);
+		phiroProSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
@@ -167,8 +168,7 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -179,5 +179,4 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		sequence.addAction(ExtendedActions.phiroMotorStopAction(motorEnum));
 		return null;
 	}
-
 }

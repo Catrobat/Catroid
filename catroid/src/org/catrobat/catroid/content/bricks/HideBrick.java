@@ -43,7 +43,6 @@ public class HideBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public HideBrick() {
-
 	}
 
 	@Override
@@ -85,7 +84,7 @@ public class HideBrick extends BrickBaseType {
 			View layout = view.findViewById(R.id.brick_hide_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView hideLabel = (TextView) view.findViewById(R.id.brick_hide_label);
 			hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));

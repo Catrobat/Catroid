@@ -139,5 +139,4 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals("Error Token Index is not as expected", 1, errorTokenIndex);
 	}
-
 }

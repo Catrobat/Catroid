@@ -33,5 +33,4 @@ public class LoadingProjectException extends ProjectException {
 	public LoadingProjectException(String message) {
 		super(message);
 	}
-
 }

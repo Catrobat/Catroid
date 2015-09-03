@@ -90,7 +90,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT;
+		return BLUETOOTH_LEGO_NXT | getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).getRequiredResources();
 	}
 
 	@Override
@@ -102,6 +102,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
 		legoSpinner.setFocusable(false);
+		legoSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
@@ -181,9 +182,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-
 			}
-
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
@@ -226,8 +225,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
 			editSpeed.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -239,5 +237,4 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
 		return null;
 	}
-
 }

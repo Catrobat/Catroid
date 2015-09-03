@@ -65,5 +65,4 @@ public class StageTestSimple extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("Window flags do not contain FLAG_KEEP_SCREEN_ON!",
 				(windowFlags & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) != 0);
 	}
-
 }

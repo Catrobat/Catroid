@@ -52,5 +52,4 @@ public class SetSizeToAction extends TemporalAction {
 	public void setSize(Formula size) {
 		this.size = size;
 	}
-
 }

@@ -28,6 +28,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
@@ -152,13 +153,22 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			return 0d;
 		}
 		Double sensorValue;
+		float[] rotationMatrixOut = new float[16];
 		switch (sensor) {
 
 			case X_ACCELERATION:
-				return (double) instance.linearAccelerationX;
+				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					return (double) (-instance.linearAccelerationY);
+				} else {
+					return (double) instance.linearAccelerationX;
+				}
 
 			case Y_ACCELERATION:
-				return (double) instance.linearAccelerationY;
+				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					return (double) instance.linearAccelerationX;
+				} else {
+					return (double) instance.linearAccelerationY;
+				}
 
 			case Z_ACCELERATION:
 				return (double) instance.linearAccelerationZ;
@@ -169,13 +179,25 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
 				}
-				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+							.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+					android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+				} else {
+					android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+				}
 				sensorValue = (double) orientations[0];
 				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 
 			case X_INCLINATION:
 				if (instance.useRotationVectorFallback) {
-					float rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
+					float rawInclinationX;
+					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance
+								.accelerationXYZ[1]));
+					} else {
+						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
+					}
 					float correctedInclinationX = 0;
 
 					if (rawInclinationX >= 90 && rawInclinationX <= 180) {
@@ -191,18 +213,32 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 							correctedInclinationX = (90 + rawInclinationX);
 						}
 					}
+					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+						correctedInclinationX = -correctedInclinationX;
+					}
 					return (double) correctedInclinationX;
 				} else {
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+					} else {
+						android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+					}
 					sensorValue = (double) orientations[2];
 					return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 				}
 			case Y_INCLINATION:
 				if (instance.useRotationVectorFallback) {
-					float rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[1]));
+					float rawInclinationY;
+					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
+					} else {
+						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[1]));
+					}
 					float correctedInclinationY = 0;
 					if (rawInclinationY >= 90 && rawInclinationY <= 180) {
 						if (instance.signAccelerationZ > 0) {
@@ -222,7 +258,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+					} else {
+						android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+					}
 
 					float xInclinationUsedToExtendRangeOfRoll = orientations[2] * RADIAN_TO_DEGREE_CONST * -1f;
 
@@ -245,10 +287,17 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:
-				return (double) instance.facePositionX;
+				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					return (double) (-instance.facePositionY);
+				} else {
+					return (double) instance.facePositionX;
+				}
 			case FACE_Y_POSITION:
-				return (double) instance.facePositionY;
-
+				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					return (double) instance.facePositionX;
+				} else {
+					return (double) instance.facePositionY;
+				}
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
 

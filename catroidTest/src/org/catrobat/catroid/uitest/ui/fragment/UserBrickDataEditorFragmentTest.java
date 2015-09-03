@@ -84,7 +84,5 @@ public class UserBrickDataEditorFragmentTest extends BaseActivityInstrumentation
 		solo.enterText(0, newVariableName);
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.ok));
-
 	}
-
 }

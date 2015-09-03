@@ -102,6 +102,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
 		legoSpinner.setFocusable(false);
+		legoSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
@@ -182,7 +183,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
-
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
@@ -219,8 +219,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 			editLegoSpeed.setTextColor(editLegoSpeed.getTextColors().withAlpha(alphaValue));
 			editLegoSpeed.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -232,5 +231,4 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
 	}
-
 }

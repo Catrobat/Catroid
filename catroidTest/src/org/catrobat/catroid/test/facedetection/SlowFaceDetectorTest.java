@@ -145,7 +145,6 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 						break;
 					default:
 						fail("Unexpected Sensor on Face Detection event. Expected face size or position.");
-
 				}
 			}
 		};
@@ -172,7 +171,6 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
 		assertTrue("Face Detection Listener reveices too many calls", detectedFaces[COUNTER_INDEX] <= 6);
 		assertEquals("Face Detection Listener does not receive calls", 6, detectedFaces[COUNTER_INDEX]);
-
 	}
 
 	public void testFaceSizeBounds() {

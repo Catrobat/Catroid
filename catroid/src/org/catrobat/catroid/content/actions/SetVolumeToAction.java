@@ -53,6 +53,4 @@ public class SetVolumeToAction extends TemporalAction {
 	public void setVolume(Formula volume) {
 		this.volume = volume;
 	}
-
-
 }
