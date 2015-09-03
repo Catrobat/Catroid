@@ -386,6 +386,46 @@ public class Look extends Image {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
 	}
 
+	public int getColorInUserInterfaceDimensionUnit() {
+		float[] hsv = new float[3];
+		int[] rgb = new int[3];
+		rgb[0] = (int) (getColor().r * 255.0f);
+		rgb[1] = (int) (getColor().g * 255.0f);
+		rgb[2] = (int) (getColor().b * 255.0f);
+
+		android.graphics.Color.RGBToHSV(rgb[0], rgb[1], rgb[2], hsv);
+
+		int ret = (int) ((hsv[0] + 0.5f) / 360.0f * 200.0f);
+		return ret;
+	}
+
+	public void setColorInUserInterfaceDimensionUnit(int val) {
+		float[] hsv = new float[3];
+		hsv[1] = hsv[2] = 1.0f;
+
+		val = val % 200;
+		if (val < 0) {
+			val = 200 + val;
+		}
+		if (val == 0) {
+			hsv[1] = 0.0f;
+		}
+
+		hsv[0] = ((float) val) / 200.0f * 360.0f;
+
+		int rgb = android.graphics.Color.HSVToColor(hsv);
+		rgb = rgb << 8;
+		rgb |= 0xFF;
+
+		setColor(new com.badlogic.gdx.graphics.Color(rgb));
+	}
+
+	public void changeColorInUserInterfaceDimensionUnit(int val) {
+		int color = getColorInUserInterfaceDimensionUnit();
+		color = (color + val) % 256;
+		setColorInUserInterfaceDimensionUnit(color);
+	}
+
 	private boolean isAngleInCatroidInterval(float catroidAngle) {
 		return (catroidAngle > -180 && catroidAngle <= 180);
 	}

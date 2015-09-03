@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,23 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
+
+import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class ClearGraphicEffectAction extends TemporalAction {
+public class SetColorToAction  extends TemporalAction {
 
 	private Sprite sprite;
+	private Formula color;
 
-	@Override
-	protected void update(float percent) {
-		sprite.look.setBrightnessInUserInterfaceDimensionUnit(100.0f);
-		sprite.look.setTransparencyInUserInterfaceDimensionUnit(0.0f);
-		sprite.look.setColorInUserInterfaceDimensionUnit(0);
+	protected void update(float delta) {
+		try {
+			Integer eightBitColor = color == null ? 0 : color.interpretInteger(sprite);
+			sprite.look.setColorInUserInterfaceDimensionUnit(eightBitColor);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
+	public void setColor(Formula color) {
+		this.color = color;
+	}
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
