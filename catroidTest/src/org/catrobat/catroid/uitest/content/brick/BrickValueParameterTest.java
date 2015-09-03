@@ -243,15 +243,40 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Brick ChangeBrightness is not correct", (float) BrickValues.CHANGE_BRITHNESS_BY,
 				changeBrightnessPrototypeValue);
 
-		solo.clickOnText(solo.getString(R.string.brick_change_brightness));
-		solo.clickOnScreen(200, 200);
-
 		TextView changeBrightnessEditText = (TextView) solo.getView(R.id.brick_change_brightness_edit_text);
 		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString()
 				.replace(',', '.'));
 
 		assertEquals("Value in Selected Brick ChangeBrightness is not correct",
 				(float) BrickValues.CHANGE_BRITHNESS_BY, changeBrightnessEditTextValue);
+
+		if (!solo.searchText(solo.getString(R.string.brick_set_color))) {
+			solo.scrollDownList(fragmentListView);
+		}
+
+		TextView setColorTextView = (TextView) solo.getView(R.id.brick_set_color_prototype_text_view);
+		int setColorPrototypeValue = Integer.parseInt(setColorTextView.getText().toString());
+		assertEquals("Value in Brick SetColor is not correct", BrickValues.SET_COLOR_TO,
+					setColorPrototypeValue);
+
+		if (!solo.searchText(solo.getString(R.string.brick_change_color))) {
+			solo.scrollDownList(fragmentListView);
+		}
+
+		TextView changeColorTextView = (TextView) solo.getView(R.id.brick_change_color_by_prototype_text_view);
+		int changeColorPrototypeValue = Integer.parseInt(changeColorTextView.getText().toString());
+		assertEquals("Value in Brick ChangeColor is not correct", BrickValues.CHANGE_COLOR_BY,
+					changeColorPrototypeValue);
+
+		solo.clickOnText(solo.getString(R.string.brick_change_color));
+		solo.clickOnScreen(200, 200);
+
+		TextView changeColorEditText = (TextView) solo.getView(R.id.brick_change_color_by_edit_text);
+		float changeColorEditTextValue = Float.parseFloat(changeColorEditText.getText().toString()
+					.replace(',', '.'));
+
+		assertEquals("Value in Selected Brick ChangeBrightness is not correct",
+					(float) BrickValues.CHANGE_COLOR_BY, changeColorEditTextValue);
 	}
 
 	public void testSoundBricksDefaultValues() {
