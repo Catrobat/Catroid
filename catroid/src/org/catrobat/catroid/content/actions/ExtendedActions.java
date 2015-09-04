@@ -403,6 +403,13 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static SetRotationStyleAction setRotationStyle(Sprite sprite, Formula mode) {
+		SetRotationStyleAction action = action(SetRotationStyleAction.class);
+		action.setSprite(sprite);
+		action.setRotationStyle(mode);
+		return action;
+	}
+
 	public static Action changeVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
 		ChangeVariableAction action = action(ChangeVariableAction.class);
 		action.setSprite(sprite);

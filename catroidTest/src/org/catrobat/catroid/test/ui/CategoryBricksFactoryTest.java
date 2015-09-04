@@ -62,9 +62,9 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 	}
 
 	public void testMotionBricks() {
-		final int expectedBackgroundBrickCount = 12;
+		final int expectedBackgroundBrickCount = 13;
 		checkBrickCountInCategory(R.string.category_motion, background, expectedBackgroundBrickCount);
-		final int expectedSpriteBrickCount = 15;
+		final int expectedSpriteBrickCount = 16;
 		checkBrickCountInCategory(R.string.category_motion, sprite, expectedSpriteBrickCount);
 	}
 
@@ -75,7 +75,7 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 	}
 
 	public void testLooksBricks() {
-		final int expectedBrickCount = 13;
+		final int expectedBrickCount = 14;
 		checkBrickCountInCategory(R.string.category_looks, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_looks, sprite, expectedBrickCount);
 	}
@@ -99,6 +99,6 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 
 	private void checkBrickCountInCategory(int categoryId, Sprite sprite, int expectedBrickCount) {
 		List<Brick> bricks = factory.getBricks(context.getString(categoryId), sprite, context);
-		assertEquals("Wrong bricks count in motion category", expectedBrickCount, bricks.size());
+		assertEquals("Wrong bricks count in " + context.getString(categoryId) + " category", expectedBrickCount, bricks.size());
 	}
 }
