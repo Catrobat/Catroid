@@ -93,6 +93,7 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetRotationStyleAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
@@ -206,6 +207,13 @@ public class ActionFactory extends Actions {
 		ChangeYByNAction action = Actions.action(ChangeYByNAction.class);
 		action.setSprite(sprite);
 		action.setyMovement(yMovement);
+		return action;
+	}
+
+	public Action createSetRotationStyleAction(Sprite sprite, Formula mode) {
+		SetRotationStyleAction action = Actions.action(SetRotationStyleAction.class);
+		action.setRotationStyle(mode);
+		action.setSprite(sprite);
 		return action;
 	}
 
