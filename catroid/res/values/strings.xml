@@ -430,6 +430,10 @@
     <string name="brick_change_x_by">"Change X by "</string>
     <string name="brick_change_y_by">"Change Y by "</string>
     <string name="brick_go_back">Go back</string>
+    <string name="brick_set_rotation_style">"Set rotation style "</string>
+    <string name="brick_set_rotation_style_lr">left-right only</string>
+    <string name="brick_set_rotation_style_normal">all-around</string>
+    <string name="brick_set_rotation_style_no">don\'t rotate</string>
 
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">layer</item>

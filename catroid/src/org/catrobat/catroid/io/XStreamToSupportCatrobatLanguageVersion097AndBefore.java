@@ -92,6 +92,7 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -340,6 +341,9 @@ public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream
 
 		brickInfo = new BrickInfo(SetLookBrick.class.getSimpleName());
 		brickInfoMap.put("setLookBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetRotationStyleBrick.class.getSimpleName());
+		brickInfoMap.put("setRotationStyleBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetSizeToBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("size", BrickField.SIZE);
