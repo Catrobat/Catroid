@@ -66,6 +66,7 @@ import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick;
@@ -342,7 +343,8 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupLegoEv3CategoryList() {
 		List<Brick> legoEV3BrickList = new ArrayList<Brick>();
-
+		legoEV3BrickList.add(new LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A,
+				BrickValues.LEGO_ANGLE));
 		legoEV3BrickList.add(new LegoEv3SingleMotorMoveBrick(LegoEv3SingleMotorMoveBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_POWER, BrickValues.LEGO_DURATION));
 		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));

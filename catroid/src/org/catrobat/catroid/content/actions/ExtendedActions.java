@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -194,6 +195,15 @@ public class ExtendedActions extends Actions {
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
 //		action.setVolumeInPercent(volumeInPercent);
+		return action;
+	}
+
+	public static LegoEv3MotorTurnAngleAction legoEv3MotorTurnAngle(Sprite sprite,
+			LegoEv3MotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+		LegoEv3MotorTurnAngleAction action = action(LegoEv3MotorTurnAngleAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setDegrees(degrees);
 		return action;
 	}
 
