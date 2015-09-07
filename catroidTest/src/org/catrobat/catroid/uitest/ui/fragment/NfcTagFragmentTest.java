@@ -433,7 +433,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
-	public void testRenameActionModeEqualLookNames() {
+	public void testRenameActionModeEqualTagNames() {
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
@@ -545,8 +545,8 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testDeleteActionMode() {
-		int currentNumberOfLooks = tagDataList.size();
-		int expectedNumberOfTags = currentNumberOfLooks - 1;
+		int currentNumberOfTags = tagDataList.size();
+		int expectedNumberOfTags = currentNumberOfTags - 1;
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
@@ -832,6 +832,110 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 
+	public void testMoveTagUp() {
+		moveTagUp(SECOND_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag didn't move up (testMoveTagUp 1)", SECOND_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag didn't move up (testMoveTagUp 2)", FIRST_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag didn't move up (testMoveTagUp 3)", THIRD_TEST_TAG_NAME, getTagName(2));
+	}
+
+	public void testMoveTagDown() {
+		moveTagDown(FIRST_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag didn't move down (testMoveTagDown 1)", SECOND_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag didn't move down (testMoveTagDown 2)", FIRST_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag didn't move down (testMoveTagDown 3)", THIRD_TEST_TAG_NAME, getTagName(2));
+	}
+
+	public void testMoveTagToBottom() {
+		moveTagToBottom(FIRST_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag didn't move bottom (testMoveTagToBottom 1)", SECOND_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag didn't move bottom (testMoveTagToBottom 2)", THIRD_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag didn't move bottom (testMoveTagToBottom 3)", FIRST_TEST_TAG_NAME, getTagName(2));
+	}
+
+	public void testMoveTagToTop() {
+		moveTagToTop(SECOND_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag didn't move top (testMoveTagToTop 1)", SECOND_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag didn't move top (testMoveTagToTop 2)", FIRST_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag didn't move top (testMoveTagToTop 3)", THIRD_TEST_TAG_NAME, getTagName(2));
+	}
+
+	public void testMoveTagUpFirstEntry() {
+		moveTagUp(FIRST_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag moved (testMoveTagUpFirstEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag moved (testMoveTagUpFirstEntry 2)", SECOND_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag moved (testMoveTagUpFirstEntry 3)", THIRD_TEST_TAG_NAME, getTagName(2));
+	}
+
+	public void testMoveTagDownLastEntry() {
+		moveTagDown(SECOND_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag moved (testMoveTagDownLastEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag moved (testMoveTagDownLastEntry 2)", THIRD_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag moved (testMoveTagDownLastEntry 3)", SECOND_TEST_TAG_NAME, getTagName(2));
+	}
+
+	public void testMoveTagToTopFirstEntry() {
+		moveTagToTop(FIRST_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag moved (testMoveTagToTopFirstEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag moved (testMoveTagToTopFirstEntry 2)", SECOND_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag moved (testMoveTagToTopFirstEntry 3)", THIRD_TEST_TAG_NAME, getTagName(2));
+	}
+
+	public void testMoveTagToBottomLastEntry() {
+		moveTagToBottom(SECOND_TEST_TAG_NAME);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		assertEquals("Tag moved (testMoveTagToBottomLastEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
+		assertEquals("Tag moved (testMoveTagToBottomLastEntry 2)", THIRD_TEST_TAG_NAME, getTagName(1));
+		assertEquals("Tag moved (testMoveTagToBottomLastEntry 3)", SECOND_TEST_TAG_NAME, getTagName(2));
+	}
+
+	private void moveTagDown(String tagToMove) {
+		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_down));
+	}
+
+	private void moveTagUp(String tagToMove) {
+		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_up));
+	}
+
+	private void moveTagToBottom(String tagToMove) {
+		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_to_bottom));
+	}
+
+	private void moveTagToTop(String tagToMove) {
+		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_to_top));
+	}
+	
 	private void renameTag(String tagToRename, String newTagName) {
 		clickOnContextMenuItem(tagToRename, solo.getString(R.string.rename));
 		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));

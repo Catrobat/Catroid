@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -78,6 +77,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBaseAdapter.OnNfcTagEditListener, Dialog.OnKeyListener {
 
@@ -181,6 +181,14 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		menu.findItem(R.id.copy).setVisible(true);
 		menu.findItem(R.id.backpack).setVisible(false);
 		menu.findItem(R.id.cut).setVisible(false);
+		menu.findItem(R.id.show_details).setVisible(true);
+		/*
+		menu.findItem(R.id.settings).setVisible(true);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
+		*/
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -277,7 +285,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
 		adapter.notifyDataSetChanged();
@@ -339,8 +347,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
     @Override
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-            //TODO: adapt for nfc
-			//SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
@@ -352,8 +358,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-            //TODO: adapt for nfc
-			//SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
@@ -364,8 +368,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-            //TODO: adapt for nfc
-			//SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
@@ -381,7 +383,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-        //TODO: adapt for nfc - enable/disable dispatching
 	}
 
     @Override
@@ -437,8 +438,19 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
         getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
         menu.findItem(R.id.context_menu_copy).setVisible(true);
-        menu.findItem(R.id.context_menu_unpacking).setVisible(false);
-        menu.findItem(R.id.context_menu_backpack).setVisible(false);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_backpack).setVisible(false);
+
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
+
+		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedNfcTagPosition != nfcTagDataList.size() - 1);
+		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedNfcTagPosition != nfcTagDataList.size() - 1);
+
+		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedNfcTagPosition != 0);
+		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedNfcTagPosition != 0);
 	}
 
 	@Override
@@ -470,6 +482,18 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
+
+			case R.id.context_menu_move_down:
+				moveTagDataDown();
+				break;
+			case R.id.context_menu_move_up:
+				moveTagDataUp();
+				break;
+			case R.id.context_menu_move_to_bottom:
+				moveTagDataToBottom();
+				break;
+			case R.id.context_menu_move_to_top:
+				moveTagDataToTop();
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -483,11 +507,11 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
         //scroll down the list to the new item:
         final ListView listView = getListView();
         listView.post(new Runnable() {
-            @Override
-            public void run() {
-                listView.setSelection(listView.getCount() - 1);
-            }
-        });
+			@Override
+			public void run() {
+				listView.setSelection(listView.getCount() - 1);
+			}
+		});
 
         if (isResultHandled) {
             isResultHandled = false;
@@ -515,6 +539,30 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	protected void showDeleteDialog() {
         DeleteNfcTagDialog deleteNfcTagDialog = DeleteNfcTagDialog.newInstance(selectedNfcTagPosition);
         deleteNfcTagDialog.show(getFragmentManager(), DeleteNfcTagDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void moveTagDataDown() {
+		Collections.swap(nfcTagDataList, selectedNfcTagPosition + 1, selectedNfcTagPosition);
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveTagDataUp() {
+		Collections.swap(nfcTagDataList, selectedNfcTagPosition - 1, selectedNfcTagPosition);
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveTagDataToBottom() {
+		for (int i = selectedNfcTagPosition; i < nfcTagDataList.size() - 1; i++) {
+			Collections.swap(nfcTagDataList, i, i + 1);
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveTagDataToTop() {
+		for (int i = selectedNfcTagPosition; i > 0; i--) {
+			Collections.swap(nfcTagDataList, i, i - 1);
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	private class NfcTagRenamedReceiver extends BroadcastReceiver {
