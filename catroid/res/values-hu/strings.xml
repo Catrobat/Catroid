@@ -161,6 +161,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Törlöd ezeket a hangokat?</string>
   <string name="dialog_confirm_delete_sound_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="sound_name">hang neve:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">lett kicsomagolva!</item>
     <item quantity="other">lett kicsomagolva!</item>
@@ -199,6 +201,9 @@
   <string name="add_look_from_camera">Fotó készítése</string>
   <string name="add_look_draw_new_image">Képrajzolás</string>
   <string name="add_look_choose_image">Kép kiválasztása</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -207,6 +212,7 @@
   <string name="new_project_description_dialog_hint">Saját leírásom</string>
   <string name="new_project_name">Program neve:</string>
   <string name="new_project_empty">Üres program létrehozása</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Saját objektumom</string>
   <string name="new_sprite_dialog_title">Új objektum</string>
   <string name="spritename_already_exists">Az objektumnév már létezik</string>
@@ -226,6 +232,12 @@
   <string name="overwrite_text">Már létezik program ezzel a névvel!</string>
   <string name="overwrite_replace">Létező program lecserélése</string>
   <string name="overwrite_rename">Letöltött program átnevezése</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Vissza</string>
   <string name="stage_dialog_resume">Folytatás</string>
   <string name="stage_dialog_restart">Újraindítás</string>
@@ -403,6 +415,7 @@
   <string name="error_drone_wrong_platform">ARDrone projekt nem futtatható a készülékeden.</string>
   <string name="error_rename_incompatible_project">Egy nem kompatibilis projekt átnevezése nem lehetséges.</string>
   <string name="error_changing_description_of_incompatible_project">Egy nem kompatibilis projekt leírásának módosítása nem lehetséges.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth nem engedélyezett, lépés bezárása</string>
   <string name="title_paired_devices">Párosított eszközök</string>
   <string name="title_other_devices">Új eszközök</string>
@@ -647,6 +660,9 @@
   <string name="add_line_break">Sortörés hozzáadása</string>
   <string name="edit_variable">Változó szerkesztése</string>
   <string name="variable_hint">Változó neve</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">meghatározás</string>
   <string name="new_user_brick">Új tégla</string>
   <string name="new_user_brick_variable">Változó 1</string>

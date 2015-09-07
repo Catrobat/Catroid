@@ -30,7 +30,6 @@ import android.widget.Button;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class RenameSoundDialog extends TextDialog {
@@ -95,7 +94,6 @@ public class RenameSoundDialog extends TextDialog {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					ToastUtil.showError(getActivity(), R.string.notification_invalid_text_entered);
 					buttonPositive.setEnabled(false);
 				} else {
 					buttonPositive.setEnabled(true);
