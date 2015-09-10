@@ -23,10 +23,13 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
+import android.view.Surface;
+import android.view.WindowManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -62,6 +65,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
+	private static boolean defaultOrientationPortrait = false;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -83,10 +87,27 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		}
 
+		defaultOrientationPortrait = isDefaultOrientationPortrait(context);
+
 		Log.d(TAG, "*** LINEAR_ACCELERATION SENSOR: " + linearAccelerationSensor);
 		Log.d(TAG, "*** ACCELEROMETER SENSOR: " + accelerometerSensor);
 		Log.d(TAG, "*** ROTATION_VECTOR SENSOR: " + rotationVectorSensor);
 		Log.d(TAG, "*** MAGNETIC_FIELD SENSOR: " + magneticFieldSensor);
+	}
+
+	private boolean isDefaultOrientationPortrait(Context context) {
+		int rotation = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
+				.getRotation();
+
+		Configuration configuration = context.getResources().getConfiguration();
+
+		if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE && (rotation == Surface.ROTATION_0 ||
+				rotation == Surface.ROTATION_180) || configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+				&& (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public static void startSensorListener(Context context) {
@@ -179,7 +200,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
 				}
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (switchSensorOrientation()) {
 					android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 							.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 					android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -192,7 +213,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case X_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationX;
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (switchSensorOrientation()) {
 						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance
 								.accelerationXYZ[1]));
 					} else {
@@ -213,7 +234,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 							correctedInclinationX = (90 + rawInclinationX);
 						}
 					}
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (switchSensorOrientation()) {
 						correctedInclinationX = -correctedInclinationX;
 					}
 					return (double) correctedInclinationX;
@@ -221,7 +242,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (switchSensorOrientation()) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -234,7 +255,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case Y_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationY;
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (switchSensorOrientation()) {
 						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
 					} else {
 						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[1]));
@@ -258,7 +279,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (switchSensorOrientation()) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -287,13 +308,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (switchSensorOrientation()) {
 					return (double) (-instance.facePositionY);
 				} else {
 					return (double) instance.facePositionX;
 				}
 			case FACE_Y_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (switchSensorOrientation()) {
 					return (double) instance.facePositionX;
 				} else {
 					return (double) instance.facePositionY;
@@ -325,6 +346,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				break;
 		}
 		return 0d;
+	}
+
+	private static boolean switchSensorOrientation() {
+		if (defaultOrientationPortrait) {
+			return ProjectManager.getInstance().isCurrentProjectLandscape();
+		} else {
+			return !ProjectManager.getInstance().isCurrentProjectLandscape();
+		}
 	}
 
 	public static void clearFaceDetectionValues() {
