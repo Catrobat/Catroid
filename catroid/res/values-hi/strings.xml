@@ -165,6 +165,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">इन ध्वनियाँ को हटा दें?</string>
   <string name="dialog_confirm_delete_sound_message">इसे पूर्ववत् नहीं किया जा सकता!</string>
   <string name="sound_name">ध्वनि का नाम:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">को खोला!</item>
     <item quantity="other">को खोला गया!</item>
@@ -203,6 +205,9 @@
   <string name="add_look_from_camera">चित्र लें</string>
   <string name="add_look_draw_new_image">चित्र बनाए</string>
   <string name="add_look_choose_image">चित्र का चयन करें</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -211,6 +216,7 @@
   <string name="new_project_description_dialog_hint">मेरा विवरण</string>
   <string name="new_project_name">प्रोग्राम का नाम:</string>
   <string name="new_project_empty">एक खाली प्रोग्राम बनाए</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">मेरी वस्तु</string>
   <string name="new_sprite_dialog_title">नयी वस्तु</string>
   <string name="spritename_already_exists">वस्तु का नाम उपलब्ध नही हैं</string>
@@ -230,6 +236,12 @@
   <string name="overwrite_text">इस नाम का प्रोग्राम पेहले से ही उपलब्ध हैं</string>
   <string name="overwrite_replace">मौजूदा प्रोग्राम को प्रातिस्थापित करें</string>
   <string name="overwrite_rename">डाउनलोड की हुई प्रोग्राम का नाम बदले</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">पीछे जाए</string>
   <string name="stage_dialog_resume">फिर से शुरू करें</string>
   <string name="stage_dialog_restart">पुनः आरंभ करें</string>
@@ -409,6 +421,7 @@
   <string name="error_drone_wrong_platform">हम आपके उपकरण पर ARDrone परियोजना नहीं चला सकते हैं।</string>
   <string name="error_rename_incompatible_project">एक अनुपयुक्त परियोजना का नाम बदलना संभव नहीं है।</string>
   <string name="error_changing_description_of_incompatible_project">अनुपयुक्त परियोजना के विवरण को बदलना संभव नहीं हैं |</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">ब्लूटूथ सक्षम नहीं हो पा रहा हैं ,बंद कर रहें हैं</string>
   <string name="title_paired_devices">जुड़े हुए उपकरण</string>
   <string name="title_other_devices">नए उपकरण</string>
@@ -650,6 +663,9 @@
   <string name="add_line_break">पंक्ति विराम जोड़ें</string>
   <string name="edit_variable">चर संपादित करें</string>
   <string name="variable_hint">चर का नाम</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">परिभाषित करें</string>
   <string name="new_user_brick">नई ईंट</string>
   <string name="new_user_brick_variable">चर 1</string>

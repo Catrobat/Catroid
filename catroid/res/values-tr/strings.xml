@@ -161,6 +161,8 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="dialog_confirm_delete_multiple_sounds_title">Bu sesler silinsinmi?</string>
   <string name="dialog_confirm_delete_sound_message">Bu geriye alınamaz!</string>
   <string name="sound_name">ses adı:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">Bunlar açılmıştı!</item>
     <item quantity="other">Bunlar açılmıştı!</item>
@@ -199,6 +201,9 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="add_look_from_camera">Resim çek</string>
   <string name="add_look_draw_new_image">Resim Çiz</string>
   <string name="add_look_choose_image">Resim seç</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -207,6 +212,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="new_project_description_dialog_hint">Benim açıklamam</string>
   <string name="new_project_name">Program adı:</string>
   <string name="new_project_empty">Boş program oluştur</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Benim nesnem</string>
   <string name="new_sprite_dialog_title">Yeni nesne</string>
   <string name="spritename_already_exists">Bu nesne adı mevcut</string>
@@ -226,6 +232,12 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="overwrite_text">Aynı adlı program mevcut!</string>
   <string name="overwrite_replace">Varolan programı değiştir</string>
   <string name="overwrite_rename">Yüklenen programı yeniden adlandır</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Geri</string>
   <string name="stage_dialog_resume">Devam et</string>
   <string name="stage_dialog_restart">Yeniden başlat</string>
@@ -401,6 +413,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="error_drone_wrong_platform">Aygıtınızda ARDrone projesi calışmaz.</string>
   <string name="error_rename_incompatible_project">Uyumsuz bir projeyi yeniden adlandırmak olası değil.</string>
   <string name="error_changing_description_of_incompatible_project">Uyumsuz bir projenin bilgisini değiştirmek mümkün değildir.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth açılamadı ortam kapatılıyor</string>
   <string name="title_paired_devices">Eşleşmiş cihazlar</string>
   <string name="title_other_devices">Yeni aygıtlar</string>
@@ -642,6 +655,9 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="add_line_break">Satır arası  ekle</string>
   <string name="edit_variable">Değişkeni düzenle</string>
   <string name="variable_hint">Değişken adı</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">tanımla</string>
   <string name="new_user_brick">Yeni Tuğla</string>
   <string name="new_user_brick_variable">Değişken 1</string>

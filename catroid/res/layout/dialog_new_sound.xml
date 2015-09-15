@@ -47,17 +47,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/dialog_new_sound_galery"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/new_object_dialog_selector"
-            android:drawableTop="@drawable/ic_gallery"
-            android:gravity="center"
-            android:text="@string/add_sound_choose_file"
-            android:textSize="12sp" />
-
-        <TextView
             android:id="@+id/dialog_new_sound_media_library"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -66,6 +55,17 @@
             android:drawableTop="@drawable/ic_media_library"
             android:gravity="center"
             android:text="@string/add_look_media_library"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/dialog_new_sound_galery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/new_object_dialog_selector"
+            android:drawableTop="@drawable/ic_gallery"
+            android:gravity="center"
+            android:text="@string/add_sound_choose_file"
             android:textSize="12sp" />
     </LinearLayout >
 

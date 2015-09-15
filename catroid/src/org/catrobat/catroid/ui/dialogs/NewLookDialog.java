@@ -152,8 +152,6 @@ public class NewLookDialog extends DialogFragment {
 
 	private void setupDroneVideoButton(View parentView) {
 		View droneVideoButton = parentView.findViewById(R.id.dialog_new_look_drone_video);
-		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_look_row_2);
-		linearLayout2ndRow.setVisibility(View.VISIBLE);
 
 		droneVideoButton.setOnClickListener(new View.OnClickListener() {
 

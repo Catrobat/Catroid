@@ -160,6 +160,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Usunąć te dźwięki?</string>
   <string name="dialog_confirm_delete_sound_message">Tego nie można cofnąć!</string>
   <string name="sound_name">nazwa dźwięku:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">zostało rozpakowane!</item>
     <item quantity="few">zostało rozpakowane!</item>
@@ -199,6 +201,9 @@
   <string name="add_look_from_camera">Zrób zdjęcie</string>
   <string name="add_look_draw_new_image">Rysuj obraz</string>
   <string name="add_look_choose_image">Wybierz obraz</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -207,6 +212,7 @@
   <string name="new_project_description_dialog_hint">Mój opis</string>
   <string name="new_project_name">Nazwa programu:</string>
   <string name="new_project_empty">Utwórz pusty program</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mój obiekt</string>
   <string name="new_sprite_dialog_title">Nowy obiekt</string>
   <string name="spritename_already_exists">Ta nazwa obiektu już istnieje</string>
@@ -226,6 +232,12 @@
   <string name="overwrite_text">Program o tej samej nazwie już istnieje!</string>
   <string name="overwrite_replace">Zastąp istniejący program</string>
   <string name="overwrite_rename">Zmień nazwę załadowanego programu</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Wstecz</string>
   <string name="stage_dialog_resume">Wznów</string>
   <string name="stage_dialog_restart">Uruchom ponownie</string>
@@ -405,6 +417,7 @@
   <string name="error_drone_wrong_platform">Nie można uruchomić projektu ARDrone na tym urządzeniu.</string>
   <string name="error_rename_incompatible_project">Zmiana nazwy projektu niezgodnego z tą wersją nie jest możliwa.</string>
   <string name="error_changing_description_of_incompatible_project">Zmiana opisu projektu niezgodnego z tą wersją nie jest możliwa.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth nie może zostać włączony, zamykam scenę</string>
   <string name="title_paired_devices">Urządzenia sparowane</string>
   <string name="title_other_devices">Nowe urządzenia</string>
@@ -647,6 +660,9 @@
   <string name="add_line_break">Dodaj podział wiersza</string>
   <string name="edit_variable">Edytuj zmienną</string>
   <string name="variable_hint">Nazwa zmiennej</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">definiuj</string>
   <string name="new_user_brick">Nowy blok</string>
   <string name="new_user_brick_variable">Zmienna 1</string>

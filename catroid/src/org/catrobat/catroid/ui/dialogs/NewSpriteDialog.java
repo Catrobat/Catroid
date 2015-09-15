@@ -42,6 +42,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.common.io.Files;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -212,6 +214,7 @@ public class NewSpriteDialog extends DialogFragment {
 						break;
 					case REQUEST_MEDIA_LIBRARY:
 						lookUri = Uri.parse(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
+						newObjectName = Files.getNameWithoutExtension(lookUri.toString());
 						break;
 					default:
 						return;
@@ -326,7 +329,7 @@ public class NewSpriteDialog extends DialogFragment {
 
 	private void setupDroneVideoButton(View parentView) {
 		View droneVideoButton = parentView.findViewById(R.id.dialog_new_object_drone_video);
-		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_object_drone_video_look_new_row);
+		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_object_drone);
 		if (!PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("setting_parrot_airdrone_bricks",
 				true)) {
 			linearLayout2ndRow.setVisibility(View.GONE);
