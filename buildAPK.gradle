@@ -160,30 +160,24 @@ def managePermissions() {
         return
     }
     def permissionsText = permissionsFile.text
-    println permissionsText
 
     if(!permissionsText.contains("TEXT_TO_SPEECH")){
-        println "removing record"
         manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", " ")
     }
-    if(!permissionsText.contains("BLUETOOTH_LEGO_NXT")){
-        println "removing bluetooth"
+    if((!permissionsText.contains("BLUETOOTH_LEGO_NXT")) && (!permissionText.contains("BLUETOOTH_PHIRO"))){
         manifestText = manifestText.replaceAll("<uses-.+bluetooth.+?/>\\n", " ")
     }
     if(!permissionsText.contains("ARDRONE_SUPPORT")){
-        println "removing wifi"
         manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", " ")
     }
-    if(!permissionsText.contains("CAMERA_LED")){
-        println "removing camera"
+    if((!permissionsText.contains("CAMERA_LED")) && (!permissionText.contains("FACE_DETECTION"))){
         manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", " ")
     }
     if(!permissionsText.contains("VIBRATOR")){
-        println "removing vibrator"
         manifestText = manifestText.replaceAll("<uses-.+vibrate.+?/>\\n", " ")
     }
-    //println manifestText
-   // def manifestFile = new File("catroid/AndroidManifest.xml");
+
+
     manifestFile.write(manifestText)
 }
 
@@ -202,7 +196,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 3665;//3143; //debugging purpose only
+    def id = 3448;//3143; //debugging purpose only
     def url = "";
     if (project.hasProperty("download")) {
         url = project["download"]
