@@ -214,6 +214,8 @@
     <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
     <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
+    <string name="new_sound_name">Sound name:</string>
+    <string name="rename_sound_overwrite">Sound with same name already exists!</string>
     <!--  -->
 
     <plurals name="unpacking_items_plural">
@@ -272,6 +274,9 @@
     <string name="add_look_from_camera">Take Picture</string>
     <string name="add_look_draw_new_image">Draw image</string>
     <string name="add_look_choose_image">Select image</string>
+    <string name="add_look_media_library">Media Library</string>
+    <string name="new_look_name">Look Name:</string>
+    <string name="look_rename_overwrite">Look Name already exists!</string>
     <!--  -->
 
     <!-- New Sound dialog -->
@@ -319,6 +324,15 @@
     <string name="overwrite_replace">Replace existing program</string>
     <string name="overwrite_rename">Rename downloaded program</string>
     <!--  -->
+
+    <!-- OverwriteRenameMediaDialog -->
+    <string name="overwrite_replace_look">Replace existing look</string>
+    <string name="overwrite_rename_look">Rename downloaded look</string>
+    <string name="overwrite_replace_sound">Replace existing sound</string>
+    <string name="overwrite_rename_sound">Rename downloaded sound</string>
+    <string name="overwrite_replace_default">Replace existing media</string>
+    <string name="overwrite_rename_default">Rename existing media</string>
+    <!-- -->
 
 
     <!-- Stage menu dialog -->
@@ -547,6 +561,7 @@
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
 	<string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
+    <string name="error_unknown_error">An unknown error occurred.</string>
     <!--  -->
 
 
@@ -846,6 +861,9 @@
  	<string name="add_line_break">Add Line Break</string>
  	<string name="edit_variable">Edit Variable</string>
  	<string name="variable_hint">Variable Name</string>
+    <string name="brick_show_text_var">Show variable</string>
+    <string name="brick_show_text_pos">"at  "</string>
+    <string name="brick_hide_text_var">Hide variable</string>
     <!-- -->
 
     <!-- User Bricks strings -->

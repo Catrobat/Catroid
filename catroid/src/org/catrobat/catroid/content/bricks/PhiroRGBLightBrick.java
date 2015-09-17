@@ -105,7 +105,10 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
+		return BLUETOOTH_PHIRO
+				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRequiredResources()
+				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRequiredResources()
+				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRequiredResources();
 	}
 
 	@Override
@@ -318,7 +321,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			}
 			textPhiroProEyeBlue.setTextColor(textPhiroProEyeBlue.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

@@ -43,8 +43,8 @@
     <!---->
     <!--&lt;!&ndash; drone &ndash;&gt;-->
     <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -164,6 +164,7 @@
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
+        <service android:name=".transfers.MediaDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService"/>
         <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
 

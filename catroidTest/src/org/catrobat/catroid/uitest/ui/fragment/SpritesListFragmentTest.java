@@ -22,14 +22,22 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
+
+import com.robotium.solo.By;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -268,6 +276,54 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickLongOnText(spriteName);
 		solo.waitForText(menuItemName);
 		solo.clickOnText(menuItemName);
+	}
+
+	public void testGetSpriteFromMediaLibrary() {
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
+		int numberSpritesBefore = ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		solo.waitForWebElement(By.className("program"));
+		solo.clickOnWebElement(By.className("program"));
+		solo.waitForFragmentByTag(SpritesListFragment.TAG);
+		UiTestUtils.enterText(solo, 0, "testSpriteMediaLibrary");
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForDialogToClose();
+		solo.sleep(TIME_TO_WAIT);
+		int numberSpritesAfter = ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
+		assertEquals("No Sprite was added!", numberSpritesBefore + 1, numberSpritesAfter);
+	}
+
+	@Device
+	public void testAddSpriteFromMediaLibraryWithNoInternet() {
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
+		int retryCounter = 0;
+		WifiManager wifiManager = (WifiManager) this.getActivity().getSystemService(Context.WIFI_SERVICE);
+		wifiManager.setWifiEnabled(false);
+		while (Utils.isNetworkAvailable(getActivity())) {
+			solo.sleep(2000);
+			if (retryCounter > 30) {
+				break;
+			}
+			retryCounter++;
+		}
+		retryCounter = 0;
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		assertTrue("Should be in Sprites Fragment", solo.waitForText(SPRITE_NAME));
+		wifiManager.setWifiEnabled(true);
+		while (!Utils.isNetworkAvailable(getActivity())) {
+			solo.sleep(2000);
+			if (retryCounter > 30) {
+				break;
+			}
+			retryCounter++;
+		}
 	}
 
 	private String getSpriteName(int spriteIndex) {

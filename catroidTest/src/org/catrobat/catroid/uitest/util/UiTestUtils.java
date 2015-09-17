@@ -374,7 +374,7 @@ public final class UiTestUtils {
 
 	private static void insertValue(Solo solo, String value) {
 
-		for (char item : (value.toCharArray())) {
+		for (char item : value.toCharArray()) {
 			switch (item) {
 				case '-':
 					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -1574,7 +1574,7 @@ public final class UiTestUtils {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, context);
 
-			assert (userRegistered);
+			assert userRegistered;
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Error creating test user.", e);
 			fail("Error creating test user.");
@@ -2121,5 +2121,18 @@ public final class UiTestUtils {
 		}
 
 		return wantedState;
+	}
+
+	public static boolean checkTempFileFromMediaLibrary(String lookOrSound, String fileName) {
+		File folder = new File(lookOrSound);
+		File[] filesInFolder = folder.listFiles();
+
+		for (File file : filesInFolder) {
+			if (file.isFile()) {
+				String filename = file.getName();
+				return filename.contains(fileName);
+			}
+		}
+		return false;
 	}
 }

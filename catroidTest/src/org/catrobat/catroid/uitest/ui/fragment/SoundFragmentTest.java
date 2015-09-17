@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.robotium.solo.By;
 import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.BuildConfig;
@@ -49,6 +51,7 @@ import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -244,14 +247,17 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testAddNewSoundDialog() {
 		String addSoundFromRecorderText = solo.getString(R.string.add_sound_from_recorder);
 		String addSoundFromGalleryText = solo.getString(R.string.add_sound_choose_file);
+		String addSoundFromMediaLibrary = solo.getString(R.string.add_look_media_library);
 
 		assertFalse("Entry to add sound from recorder should not be visible", solo.searchText(addSoundFromRecorderText));
 		assertFalse("Entry to add sound from gallery should not be visible", solo.searchText(addSoundFromGalleryText));
+		assertFalse("Entry to add sound from library should not be visible", solo.searchText(addSoundFromMediaLibrary));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		assertTrue("Entry to add sound from recorder not visible", solo.searchText(addSoundFromRecorderText));
 		assertTrue("Entry to add sound from gallery not visible", solo.searchText(addSoundFromGalleryText));
+		assertTrue("Entry to add sound from library not visible", solo.searchText(addSoundFromMediaLibrary));
 	}
 
 	public void testCopySoundContextMenu() {
@@ -482,6 +488,91 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertEquals("No sound was added", expectedNumberOfSounds, getCurrentNumberOfSounds());
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
+	}
+
+	public void testGetSoundFromMediaLibrary() {
+		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
+		int numberSoundsBefore = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		solo.waitForWebElement(By.className("program"));
+		solo.clickOnWebElement(By.className("program"));
+		solo.waitForFragmentByTag(SoundFragment.TAG);
+		solo.sleep(TIME_TO_WAIT);
+		int numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		assertEquals("No Sound was added from Media Library!", numberSoundsBefore + 1, numberSoundsAfter);
+		String newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore).getTitle();
+		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
+				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
+		solo.sleep(TIME_TO_WAIT);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		solo.waitForWebElement(By.className("program"));
+		solo.clickOnWebElement(By.className("program"));
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForFragmentByTag(SoundFragment.TAG);
+		solo.sleep(TIME_TO_WAIT);
+		numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		assertEquals("Sound was added from Media Library!", numberSoundsBefore + 1, numberSoundsAfter);
+		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore)
+				.getTitle();
+		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
+				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
+		solo.sleep(TIME_TO_WAIT);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		solo.waitForWebElement(By.className("program"));
+		solo.clickOnWebElement(By.className("program"));
+		solo.waitForDialogToOpen();
+		solo.clickOnView(solo.getView(R.id.dialog_overwrite_media_radio_rename));
+		UiTestUtils.enterText(solo, 0, "testMedia");
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForFragmentByTag(SoundFragment.TAG);
+		solo.sleep(TIME_TO_WAIT);
+		numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		assertEquals("Second Sound was not added from Media Library!", numberSoundsBefore + 2, numberSoundsAfter);
+		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore).getTitle();
+		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
+				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
+		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore + 1)
+				.getTitle();
+		assertEquals("Temp File for  " + newSoundName + " was not deleted!(", false, UiTestUtils
+				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
+	}
+
+	@Device
+	public void testAddSoundFromMediaLibraryWithNoInternet() {
+		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
+		int retryCounter = 0;
+		WifiManager wifiManager = (WifiManager) this.getActivity().getSystemService(Context.WIFI_SERVICE);
+		wifiManager.setWifiEnabled(false);
+		while (Utils.isNetworkAvailable(getActivity())) {
+			solo.sleep(2000);
+			if (retryCounter > 30) {
+				break;
+			}
+			retryCounter++;
+		}
+		retryCounter = 0;
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		assertTrue("Should be in Sound Fragment", solo.waitForText(FIRST_TEST_SOUND_NAME));
+		wifiManager.setWifiEnabled(true);
+		while (!Utils.isNetworkAvailable(getActivity())) {
+			solo.sleep(2000);
+			if (retryCounter > 30) {
+				break;
+			}
+			retryCounter++;
+		}
 	}
 
 	public void testGetSoundFromExternalSource() {

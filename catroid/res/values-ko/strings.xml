@@ -164,6 +164,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
   <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
   <string name="sound_name">sound name:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="other">were unpacked!</item>
   </plurals>
@@ -201,6 +203,9 @@
   <string name="add_look_from_camera">카메라에서 가져오기</string>
   <string name="add_look_draw_new_image">카메라에서 가져오기</string>
   <string name="add_look_choose_image">갤러리에서 가져오기</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -209,6 +214,7 @@
   <string name="new_project_description_dialog_hint">내 설명</string>
   <string name="new_project_name">프로젝트 이름 :</string>
   <string name="new_project_empty">Create empty program</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">내 스프라이트</string>
   <string name="new_sprite_dialog_title">새 스프라이트 이름</string>
   <string name="spritename_already_exists">이 스프라이트 이름이 이미 존재합니다</string>
@@ -228,6 +234,12 @@
   <string name="overwrite_text">같은 이름의 프로젝트가 이미 존재합니다!</string>
   <string name="overwrite_replace">기존 프로젝트를 대체</string>
   <string name="overwrite_rename">다운로드 프로젝트의 이름 변경</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Back</string>
   <string name="stage_dialog_resume">Resume</string>
   <string name="stage_dialog_restart">Restart</string>
@@ -401,6 +413,7 @@
   <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
   <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">블루투스를 이용할 수 없습니다. 단계를 취소합니다.</string>
   <string name="title_paired_devices">페어링 된 장치</string>
   <string name="title_other_devices">새 장치</string>
@@ -644,6 +657,9 @@
   <string name="add_line_break">Add Line Break</string>
   <string name="edit_variable">Edit Variable</string>
   <string name="variable_hint">Variable Name</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">define</string>
   <string name="new_user_brick">New Brick</string>
   <string name="new_user_brick_variable">Variable 1</string>

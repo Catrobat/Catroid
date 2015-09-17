@@ -95,7 +95,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
+		return BLUETOOTH_PHIRO | getFormulaWithBrickField(BrickField.PHIRO_SPEED).getRequiredResources();
 	}
 
 	@Override
@@ -239,7 +239,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
 			editSpeed.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

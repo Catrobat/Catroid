@@ -136,7 +136,7 @@ public class WhenBrick extends ScriptBrick {
 			View layout = view.findViewById(R.id.brick_when_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

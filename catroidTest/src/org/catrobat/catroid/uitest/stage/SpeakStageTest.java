@@ -50,11 +50,11 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 	private final String testText = "Test test.";
 	private final File speechFileTestText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(testText)
-			+ Constants.TEXT_TO_SPEECH_EXTENSION);
+			+ Constants.SOUND_STANDARD_EXTENSION);
 
 	private final String anotherLongerText = "This text is slightly longer than the Test test.";
 	private final File speechFileAnotherLongerText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(anotherLongerText)
-			+ Constants.TEXT_TO_SPEECH_EXTENSION);
+			+ Constants.SOUND_STANDARD_EXTENSION);
 
 	public SpeakStageTest() {
 		super(MainMenuActivity.class);

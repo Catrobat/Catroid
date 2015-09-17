@@ -22,15 +22,19 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.robotium.solo.By;
 import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
@@ -47,6 +51,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -69,7 +74,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int ACTION_MODE_DELETE = 1;
 	private static final int ACTION_MODE_RENAME = 2;
 
-	private static final int TIME_TO_WAIT = 200;
+	private static final int TIME_TO_WAIT = 400;
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
@@ -204,14 +209,20 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testAddNewLookDialog() {
 		String addLookFromCameraText = solo.getString(R.string.add_look_draw_new_image);
 		String addLookFromGalleryText = solo.getString(R.string.add_look_choose_image);
+		String addLookFromPaintroidText = solo.getString(R.string.add_look_draw_new_image);
+		String addLookFromMediaLibraryText = solo.getString(R.string.add_look_media_library);
 
 		assertFalse("Entry to add look from camera should not be visible", solo.searchText(addLookFromCameraText));
 		assertFalse("Entry to add look from gallery should not be visible", solo.searchText(addLookFromGalleryText));
+		assertFalse("Entry to add look from paintroid should not be visible", solo.searchText(addLookFromPaintroidText));
+		assertFalse("Entry to add look from library should not be visible", solo.searchText(addLookFromMediaLibraryText));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		assertTrue("Entry to add look from camera not visible", solo.searchText(addLookFromCameraText));
 		assertTrue("Entry to add look from gallery not visible", solo.searchText(addLookFromGalleryText));
+		assertTrue("Entry to add look from paintroid not visible", solo.searchText(addLookFromPaintroidText));
+		assertTrue("Entry to add look from library not visible", solo.searchText(addLookFromMediaLibraryText));
 	}
 
 	public void testCopyLookContextMenu() {
@@ -376,6 +387,89 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
+	}
+
+	public void testGetImageFromMediaLibrary() {
+		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
+		int numberLooksBefore = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		solo.waitForWebElement(By.className("program"));
+		solo.clickOnWebElement(By.className("program"));
+		solo.waitForFragmentByTag(LookFragment.TAG);
+		solo.sleep(TIME_TO_WAIT);
+		int numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
+		assertEquals("No Look was added from Media Library!", numberLooksBefore + 1, numberLooksAfter);
+		String newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore).getLookName();
+		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants
+				.TMP_LOOKS_PATH, newLookName));
+		solo.sleep(TIME_TO_WAIT);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		solo.waitForWebElement(By.className("program"));
+		solo.clickOnWebElement(By.className("program"));
+		solo.sleep(TIME_TO_WAIT);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForFragmentByTag(LookFragment.TAG);
+		solo.sleep(TIME_TO_WAIT);
+		numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
+		assertEquals("Look was added from Media Library!", numberLooksBefore + 1, numberLooksAfter);
+		newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore)
+				.getLookName();
+		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants
+				.TMP_LOOKS_PATH, newLookName));
+		solo.sleep(TIME_TO_WAIT);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		solo.waitForWebElement(By.className("program"));
+		solo.clickOnWebElement(By.className("program"));
+		solo.waitForDialogToOpen();
+		solo.clickOnView(solo.getView(R.id.dialog_overwrite_media_radio_rename));
+		UiTestUtils.enterText(solo, 0, "testMedia");
+		solo.sleep(TIME_TO_WAIT);
+		solo.clickOnView(solo.getView(Button.class, 3));
+		solo.waitForFragmentByTag(LookFragment.TAG);
+		solo.sleep(TIME_TO_WAIT);
+		numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
+		assertEquals("Second Look was not added from Media Library!", numberLooksBefore + 2, numberLooksAfter);
+		newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore).getLookName();
+		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants.TMP_LOOKS_PATH, newLookName));
+		newLookName = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(numberLooksBefore + 1).getLookName();
+		assertEquals("Temp File was not deleted!", false, UiTestUtils.checkTempFileFromMediaLibrary(Constants.TMP_LOOKS_PATH, newLookName));
+	}
+
+	@Device
+	public void testAddLookFromMediaLibraryWithNoInternet() {
+		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
+		int retryCounter = 0;
+		WifiManager wifiManager = (WifiManager) this.getActivity().getSystemService(Context.WIFI_SERVICE);
+		wifiManager.setWifiEnabled(false);
+		while (Utils.isNetworkAvailable(getActivity())) {
+			solo.sleep(2000);
+			if (retryCounter > 30) {
+				break;
+			}
+			retryCounter++;
+		}
+		retryCounter = 0;
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(mediaLibraryText);
+		solo.clickOnText(mediaLibraryText);
+		assertTrue("Should be in Look Fragment", solo.waitForText(FIRST_TEST_LOOK_NAME));
+		wifiManager.setWifiEnabled(true);
+		while (!Utils.isNetworkAvailable(getActivity())) {
+			solo.sleep(2000);
+			if (retryCounter > 30) {
+				break;
+			}
+			retryCounter++;
+		}
 	}
 
 	public void testGetImageFromGallery() {
