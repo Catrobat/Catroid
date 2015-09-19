@@ -122,7 +122,7 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
 			editChangeSize.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

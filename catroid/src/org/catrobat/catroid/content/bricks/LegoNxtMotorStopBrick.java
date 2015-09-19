@@ -171,7 +171,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

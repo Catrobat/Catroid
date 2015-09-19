@@ -164,13 +164,13 @@ def managePermissions() {
     if(!permissionsText.contains("TEXT_TO_SPEECH")){
         manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", " ")
     }
-    if((!permissionsText.contains("BLUETOOTH_LEGO_NXT")) && (!permissionText.contains("BLUETOOTH_PHIRO"))){
+    if((!permissionsText.contains("BLUETOOTH_LEGO_NXT")) && (!permissionsText.contains("BLUETOOTH_PHIRO"))){
         manifestText = manifestText.replaceAll("<uses-.+bluetooth.+?/>\\n", " ")
     }
     if(!permissionsText.contains("ARDRONE_SUPPORT")){
         manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", " ")
     }
-    if((!permissionsText.contains("CAMERA_LED")) && (!permissionText.contains("FACE_DETECTION"))){
+    if((!permissionsText.contains("CAMERA_LED")) && (!permissionsText.contains("FACE_DETECTION"))){
         manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", " ")
     }
     if(!permissionsText.contains("VIBRATOR")){

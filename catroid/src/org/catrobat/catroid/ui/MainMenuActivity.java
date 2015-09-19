@@ -397,7 +397,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {
 		String scheme = loadExternalProjectUri.getScheme();
-		if (scheme.startsWith((TYPE_HTTP))) {
+		if (scheme.startsWith(TYPE_HTTP)) {
 			String url = loadExternalProjectUri.toString();
 			DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(this, url);
 		} else if (scheme.equals(TYPE_FILE)) {
