@@ -121,7 +121,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

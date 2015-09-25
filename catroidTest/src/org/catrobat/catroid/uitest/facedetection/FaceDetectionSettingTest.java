@@ -77,19 +77,6 @@ public class FaceDetectionSettingTest extends BaseActivityInstrumentationTestCas
 		super.tearDown();
 	}
 
-	public void testFaceDetectionDefaultPreference() {
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.waitForActivity(StageActivity.class.getSimpleName());
-
-		assertFalse("Default preference for using face detection should be <false>",
-				FaceDetectionHandler.isFaceDetectionRunning());
-
-		solo.sleep(500);
-
-		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-	}
-
 	public void testReadFaceDetectionPreference() {
 		setFaceDetectionPreference(false);
 
@@ -98,7 +85,7 @@ public class FaceDetectionSettingTest extends BaseActivityInstrumentationTestCas
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 
-		assertFalse("Face Detection was started although disabled in settings",
+		assertTrue("Face Detection should be started if needed, although it is disabled in settings",
 				FaceDetectionHandler.isFaceDetectionRunning());
 
 		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());

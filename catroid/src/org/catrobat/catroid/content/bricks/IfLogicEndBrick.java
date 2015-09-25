@@ -116,7 +116,7 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 			TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_if_end_if_label);
 			ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

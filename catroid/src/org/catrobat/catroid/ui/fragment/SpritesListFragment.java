@@ -83,6 +83,7 @@ import java.util.Set;
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener,
 		OnLoadProjectCompleteListener {
 
+	public static final String TAG = SpritesListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 

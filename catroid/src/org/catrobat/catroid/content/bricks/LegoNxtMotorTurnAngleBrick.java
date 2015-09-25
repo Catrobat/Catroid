@@ -219,7 +219,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 			editLegoSpeed.setTextColor(editLegoSpeed.getTextColors().withAlpha(alphaValue));
 			editLegoSpeed.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

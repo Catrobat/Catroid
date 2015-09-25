@@ -125,7 +125,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 			editBrightness.setTextColor(editBrightness.getTextColors().withAlpha(alphaValue));
 			editBrightness.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.view.View;
 import android.widget.ListView;
+
+import com.robotium.solo.Condition;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -92,6 +95,46 @@ public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<Script
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.brick_place_at_edit_text_y, yPosition, Brick.BrickField.Y_POSITION, placeAtBrick);
+	}
+
+	public void testBehaviorOfUndoAndRedoButton() {
+		solo.clickOnView(solo.getView(R.id.brick_place_at_edit_text_x));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
+		View undo = solo.getView(R.id.menu_undo);
+		solo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return solo.getView(R.id.menu_undo).isEnabled();
+			}
+		}, 100);
+		solo.clickOnText("206");
+		solo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return solo.getView(R.id.menu_undo).isClickable();
+			}
+		}, 100);
+		assertFalse("Undo button should be disabled", undo.isEnabled());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_6));
+		solo.clickOnActionBarItem(R.id.menu_undo);
+		View redo = solo.getView(R.id.menu_redo);
+		solo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return solo.getView(R.id.menu_redo).isEnabled();
+			}
+		}, 100);
+		assertTrue("Redo button should be enabled", redo.isEnabled());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_5));
+		solo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return solo.getView(R.id.menu_redo).isClickable();
+			}
+		}, 100);
+		assertFalse("Redo button should be disabled", redo.isEnabled());
 	}
 
 	private void createProject() {

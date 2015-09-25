@@ -109,7 +109,7 @@ public class NextLookBrick extends BrickBaseType {
 			TextView nextLookLabel = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			nextLookLabel.setTextColor(nextLookLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
