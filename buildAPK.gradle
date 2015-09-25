@@ -85,7 +85,6 @@ def getZipFileNameWithoutEnding() {
         delete file
         return program
     } else {
-        println 'should not happen!!!!!'
         return "No Project Found"
     }
 
