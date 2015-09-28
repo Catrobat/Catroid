@@ -177,7 +177,7 @@ public class CategoryBricksFactory {
 
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		controlBrickList.add(new IfLogicBeginBrick(0));
+		controlBrickList.add(new IfLogicBeginBrick(context.getString(R.string.brick_if_default_value)));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
