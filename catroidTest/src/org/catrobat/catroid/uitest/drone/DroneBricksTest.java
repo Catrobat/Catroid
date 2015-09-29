@@ -33,7 +33,9 @@ import org.catrobat.catroid.content.bricks.DroneBasicLookBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -49,9 +51,18 @@ public class DroneBricksTest extends BaseActivityInstrumentationTestCase<ScriptA
 
 	@Override
 	public void setUp() throws Exception {
+		TestUtils.deleteTestProjects();
 		DroneTestUtils.createStandardDroneProject();
+		SettingsActivity.setARDroneBricks(getActivity(), true);
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		super.setUp();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		SettingsActivity.setARDroneBricks(getActivity(), false);
+		solo.finishOpenedActivities();
+		super.tearDown();
 	}
 
 	@Device

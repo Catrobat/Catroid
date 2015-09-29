@@ -226,8 +226,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	}
 
 	public static void setTermsOfServiceAgreedPermanently(Context context, boolean agreed) {
-		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
-				context);
+		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
 	public static boolean isDroneSharedPreferenceEnabled(Context context, boolean defaultValue) {
@@ -250,8 +249,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	}
 
 	public static boolean areTermsOfServiceAgreedPermanently(Context context) {
-		return getBooleanSharedPreference(false,
-				SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
+		return getBooleanSharedPreference(false, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
