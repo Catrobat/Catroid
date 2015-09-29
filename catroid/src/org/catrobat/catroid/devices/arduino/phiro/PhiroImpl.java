@@ -63,9 +63,11 @@ public class PhiroImpl implements Phiro {
 	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
 
 	private static final int PIN_RIGHT_MOTOR_FORWARD = 12;
-	private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;
+	//private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;
+	private static final int PIN_RIGHT_MOTOR_BACKWARD = 2;
 
-	private static final int MIN_PWM_PIN = 3;
+	//private static final int MIN_PWM_PIN = 3;
+	private static final int MIN_PWM_PIN = 2;
 	private static final int MAX_PWM_PIN = 13;
 
 	public static final int PIN_SENSOR_SIDE_RIGHT = 0;
