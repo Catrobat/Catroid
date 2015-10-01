@@ -53,14 +53,14 @@ public class DroneBricksTest extends BaseActivityInstrumentationTestCase<ScriptA
 	public void setUp() throws Exception {
 		TestUtils.deleteTestProjects();
 		DroneTestUtils.createStandardDroneProject();
-		SettingsActivity.setARDroneBricks(getActivity(), true);
+		SettingsActivity.enableARDroneBricks(getActivity(), true);
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		super.setUp();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SettingsActivity.setARDroneBricks(getActivity(), false);
+		SettingsActivity.enableARDroneBricks(getActivity(), false);
 		solo.finishOpenedActivities();
 		super.tearDown();
 	}

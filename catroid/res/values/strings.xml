@@ -284,7 +284,7 @@
     <string name="add_look_media_library">Media Library</string>
     <string name="new_look_name">Look Name:</string>
     <string name="look_rename_overwrite">Look Name already exists!</string>
-    <string name="add_look_drone_video">Drone video</string>
+    <string name="add_look_drone_video">Drone Video</string>
     <!--  -->
 
     <!-- New Sound dialog -->
@@ -511,6 +511,7 @@
     <string name="default_drone_project_sprites_emergency">Emergency</string>
     <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
+    <string name="drone_show_video_sprite_name">Toggle video</string>
     <!--  -->
 
     <!-- Drone config spinner values  -->

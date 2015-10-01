@@ -258,7 +258,7 @@ public final class StandardProjectHandler {
 				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, 200, 500, emergencyFile, 2000));
 
 		//Video Sprite (toggle Background Brick)
-		String showVideoSpriteName = "Toggle video";
+		String showVideoSpriteName = context.getString(R.string.drone_show_video_sprite_name);
 
 		File showVideoFile = UtilFile.copyImageFromResourceIntoProject(projectName, showVideoSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
@@ -267,12 +267,13 @@ public final class StandardProjectHandler {
 		defaultDroneProject.addSprite(createDroneSprite(showVideoSpriteName, DroneBrickFactory.DroneBricks.DRONE_TOGGLE_VIDEO_BRICK, -260, 500, showVideoFile));
 
 		//Video Sprite 2 (with Look) + switch camera on tapped
-		String videoSpriteName = "drone video";
+		String videoSpriteName = context.getString(R.string.add_look_drone_video);
+
 		File videoFile = UtilFile.copyImageFromResourceIntoProject(projectName, videoSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.ic_video, context,
 				true, backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneVideoLookSprite(videoSpriteName, -200, 0, videoFile));
+		defaultDroneProject.addSprite(createDroneVideoLookSprite(videoSpriteName, -200, 0, videoFile, context));
 
 		//Led Sprite
 		//TODO Drone: add when PlayLedAnimationBrick works
@@ -288,16 +289,16 @@ public final class StandardProjectHandler {
 	}
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
-			int yPosition, File lookFile) {
+											int yPosition, File lookFile) {
 		return createDroneSprite(spriteName, droneBrick, xPosition, yPosition, lookFile, 0, 0);
 	}
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPosition,
-			int yPosition, File lookFile, int timeInMilliseconds) {
+											int yPosition, File lookFile, int timeInMilliseconds) {
 		return createDroneSprite(spriteName, brickName, xPosition, yPosition, lookFile, timeInMilliseconds, 20);
 	}
 
-	private static Sprite createDroneVideoLookSprite(String spriteName, int xPosition, int yPosition, File lookFile) {
+	private static Sprite createDroneVideoLookSprite(String spriteName, int xPosition, int yPosition, File lookFile, Context context) {
 		Sprite sprite = new Sprite(spriteName);
 
 		Script whenSpriteTappedScript = new WhenScript();
@@ -316,7 +317,7 @@ public final class StandardProjectHandler {
 		whenProjectStartsScript.addBrick(setSizeBrick);
 
 		LookData lookData = new DroneVideoLookData();
-		lookData.setLookName("drone video");
+		lookData.setLookName(context.getString(R.string.add_look_drone_video));
 		lookData.setLookFilename(lookFile.getName());
 		sprite.getLookDataList().add(lookData);
 
@@ -327,7 +328,7 @@ public final class StandardProjectHandler {
 	}
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
-			int yPosition, File lookFile, int timeInMilliseconds, int powerInPercent) {
+											int yPosition, File lookFile, int timeInMilliseconds, int powerInPercent) {
 
 		Sprite sprite = new Sprite(spriteName);
 

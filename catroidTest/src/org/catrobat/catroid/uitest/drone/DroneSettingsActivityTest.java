@@ -52,13 +52,13 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 	protected void setUp() throws Exception {
 		TestUtils.deleteTestProjects();
 		DroneTestUtils.createStandardDroneProject();
-		SettingsActivity.setARDroneBricks(getActivity(), true);
+		SettingsActivity.enableARDroneBricks(getActivity(), true);
 		super.setUp();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SettingsActivity.setARDroneBricks(getActivity(), false);
+		SettingsActivity.enableARDroneBricks(getActivity(), false);
 		solo.finishOpenedActivities();
 		super.tearDown();
 	}

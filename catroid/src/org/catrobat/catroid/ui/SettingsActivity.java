@@ -102,7 +102,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				boolean checked = Boolean.valueOf(newValue.toString());
 
-				setARDroneBricks(getApplicationContext(), checked);
+				enableARDroneBricks(getApplicationContext(), checked);
 				return true;
 			}
 		});
@@ -330,7 +330,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
 	}
 
-	public static void setARDroneBricks(Context context, Boolean newValue) {
+	public static void enableARDroneBricks(Context context, Boolean newValue) {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
 	}
 
