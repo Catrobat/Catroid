@@ -24,7 +24,7 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Pocket Code</string>
+    <string name="app_name">Pocket Drone</string>
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>

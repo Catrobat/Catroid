@@ -20,9 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-import java.util.regex.Pattern
-
 buildscript {
     repositories {
         mavenCentral()
@@ -174,8 +171,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
-        applicationId 'org.catrobat.catroid'
-        testApplicationId "org.catrobat.catroid.test"
+        applicationId 'org.catrobat.drone'
+        testApplicationId "org.catrobat.drone.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
         versionCode 25
         println "VersionCode is " + versionCode
