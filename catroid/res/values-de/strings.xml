@@ -364,12 +364,8 @@
     <string name="default_project_var_random_from">zufällig von</string>
     <string name="default_project_var_random_to">zufällig bis</string>
     <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
-    <string name="default_drone_project_sprites_takeoff">Abheben</string>
-    <string name="default_drone_project_srpites_land">Landen</string>
-    <string name="default_drone_project_srpites_rotate">Rotieren</string>
     <string name="default_drone_project_sprites_up">Fliege hoch</string>
     <string name="default_drone_project_sprites_down">Fliege runter</string>
-    <string name="default_drone_project_sprites_left">Fliege links</string>
     <string name="default_drone_project_sprites_right">Fliege rechts</string>
     <string name="default_drone_project_sprites_forward">Fliege nach vorne</string>
     <string name="default_drone_project_sprites_back">Fliege rückwärts</string>
@@ -473,8 +469,6 @@
     <string name="nxt_port_3">Port 3</string>
     <string name="nxt_port_4">Port 4</string>
     <string name="lego_nxt_sensor_config_dont_show_again">Diese Nachricht nicht mehr anzeigen.</string>
-    <string name="brick_drone_takeoff">Hebe ab</string>
-    <string name="brick_drone_land">Lande</string>
     <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
     <string name="brick_drone_takeoff_land">Hebe ab / Lande</string>
     <string name="brick_drone_move_left">Fliege nach links</string>
@@ -484,7 +478,6 @@
     <string name="brick_drone_move_up">Fliege nach oben</string>
     <string name="brick_drone_move_down">Fliege nach unten</string>
     <string name="brick_drone_flip">Flip</string>
-    <string name="brick_drone_power">Power</string>
     <string name="brick_drone_turn_right">Drehe nach rechts</string>
     <string name="brick_drone_turn_left">Drehe nach links</string>
     <string name="brick_drone_turn_left_magneto">Drehe nach links</string>

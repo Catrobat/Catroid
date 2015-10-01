@@ -354,8 +354,6 @@
   <string name="default_project_var_random_to">casuale fino a</string>
   <string name="default_drone_project_name">Il mio primo programma per Drone</string>
   <string name="default_drone_project_sprites_takeoff">Decolla</string>
-  <string name="default_drone_project_srpites_land">Atterra</string>
-  <string name="default_drone_project_srpites_rotate">Ruota</string>
   <string name="default_drone_project_sprites_up">Su</string>
   <string name="default_drone_project_sprites_down">Giù</string>
   <string name="default_drone_project_sprites_left">Sinistra</string>
@@ -462,8 +460,6 @@
   <string name="nxt_port_3">Porta 3</string>
   <string name="nxt_port_4">Porta 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Non mostrare più questo messaggio.</string>
-  <string name="brick_drone_takeoff">decolla</string>
-  <string name="brick_drone_land">atterra</string>
   <string name="brick_drone_play_led_animation">Illumina i LED</string>
   <string name="brick_drone_move_left">Muovi a sinistra</string>
   <string name="brick_drone_move_right">Muovi a destra</string>
@@ -472,7 +468,6 @@
   <string name="brick_drone_move_up">Muovi in alto</string>
   <string name="brick_drone_move_down">muovi giù</string>
   <string name="brick_drone_flip">flip</string>
-  <string name="brick_drone_power">potenza</string>
   <string name="brick_drone_turn_right">gira a destra</string>
   <string name="brick_drone_turn_left">gira a sinistra</string>
   <string name="brick_drone_turn_left_magneto">gira a sinistra con un angolo di [angle]</string>

@@ -1,3 +1,25 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2015 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.catrobat.catroid.uitest.drone;
 
 import org.catrobat.catroid.ProjectManager;
@@ -40,7 +62,8 @@ public class DroneLookTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnText(solo.getString(R.string.default_project_name));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.waitForText(solo.getString(R.string.add_look_drone_video));
+		boolean value = solo.waitForText(solo.getString(R.string.add_look_drone_video));
+		assertTrue(solo.getString(R.string.add_look_drone_video) + " not found!", value);
 		solo.clickOnText(solo.getString(R.string.add_look_drone_video));
 		solo.enterText(0, "Test 12345");
 		solo.clickOnText(solo.getString(R.string.ok));
