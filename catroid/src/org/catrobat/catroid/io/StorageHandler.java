@@ -46,6 +46,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -323,6 +325,9 @@ public final class StorageHandler {
 		xstream.alias("brick", PhiroPlayToneBrick.class);
 		xstream.alias("brick", PhiroRGBLightBrick.class);
 		xstream.alias("brick", PhiroIfLogicBeginBrick.class);
+
+		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
+		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);
 
 		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
@@ -783,6 +788,9 @@ public final class StorageHandler {
 		}
 		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			permissionsSet.add(Constants.BLUETOOTH_LEGO_NXT);
+		}
+		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			permissionsSet.add(Constants.BLUETOOTH_SENSORS_ARDUINO);
 		}
 		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
 			permissionsSet.add(Constants.ARDRONE_SUPPORT);
