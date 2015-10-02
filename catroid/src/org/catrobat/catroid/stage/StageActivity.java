@@ -131,18 +131,19 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
+		if (nfcAdapter != null) {
+			try {
+				nfcAdapter.disableForegroundDispatch(this);
+			} catch (IllegalStateException illegalStateException) {
+				Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
+			}
+		}
+		super.onPause();
 		SensorHandler.stopSensorListeners();
 		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
-
-		if (nfcAdapter != null) {
-			Log.d(TAG, "onPause()disableForegroundDispatch()");
-			nfcAdapter.disableForegroundDispatch(this);
-		}
-
-		super.onPause();
 
 		if (droneConnection != null) {
 			droneConnection.pause();
@@ -161,7 +162,6 @@ public class StageActivity extends AndroidApplication {
 		VibratorUtil.resumeVibrator();
 
 		if (nfcAdapter != null) {
-			Log.d(TAG, "onResume()enableForegroundDispatch()");
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		}
 
@@ -173,13 +173,12 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void pause() {
-		SensorHandler.stopSensorListeners();
-		stageListener.menuPause();
-
 		if (nfcAdapter != null) {
-			Log.d(TAG, "onPause()disableForegroundDispatch()");
 			nfcAdapter.disableForegroundDispatch(this);
 		}
+
+		SensorHandler.stopSensorListeners();
+		stageListener.menuPause();
 
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();

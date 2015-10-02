@@ -274,6 +274,8 @@
     <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
     <string name="no_nfc_available">NFC not available</string>
     <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+    <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
     <!--  -->
 
 

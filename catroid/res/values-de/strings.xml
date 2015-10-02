@@ -211,6 +211,8 @@
   <string name="led_and_front_camera_warning">Led UND Front Kamera werden nicht unterstützt</string>
   <string name="no_nfc_available">NFC nicht verfügbar</string>
   <string name="nfc_not_activated">Bitte aktiviere NFC und drücke den Zurück-Button, um zur App zurückzukehren!</string>
+  <string name="nfc_facedetection_support">NFC in Verbindung mit der Gesichtserkennung kann zu
+    Leistungseinbußen führen!</string>
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
   <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
   <string name="brick_context_dialog_delete_brick">Baustein löschen</string>

@@ -29,12 +29,14 @@ import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
 import android.os.Build;
+import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class IcsFaceDetector extends FaceDetector implements FaceDetectionListener {
 
+	private static final String TAG = IcsFaceDetector.class.getSimpleName();
 	private boolean running = false;
 
 	public IcsFaceDetector() {
@@ -51,7 +53,11 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		}
 		camera.setFaceDetectionListener(this);
 		running = CameraManager.getInstance().startCamera();
-		camera.startFaceDetection();
+		try {
+			camera.startFaceDetection();
+		} catch (RuntimeException error) {
+			Log.e(TAG, "Starting face detection has failed!", error);
+		}
 		return running;
 	}
 

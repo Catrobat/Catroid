@@ -156,22 +156,20 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
-			NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
-			if (adapter != null && !adapter.isEnabled())
-			{
-				ToastUtil.showError(PreStageActivity.this, R.string.nfc_not_activated);
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-					Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
-					startActivity(intent);
-				} else {
-					Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-					startActivity(intent);
-				}
-			} else if (adapter == null) {
-				ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
-				// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
+			if((requiredResources & Brick.FACE_DETECTION) > 0) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.nfc_facedetection_support)).setCancelable(false)
+						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								nfcInitialize();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+			} else {
+				nfcInitialize();
 			}
-			resourceInitialized();
 		}
 
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
@@ -407,5 +405,24 @@ public class PreStageActivity extends BaseActivity {
 			ToastUtil.showError(PreStageActivity.this, R.string.no_flash_led_available);
 			resourceFailed();
 		}
+	}
+
+	private void nfcInitialize() {
+		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
+		if (adapter != null && !adapter.isEnabled())
+		{
+			ToastUtil.showError(PreStageActivity.this, R.string.nfc_not_activated);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+				startActivity(intent);
+			}
+		} else if (adapter == null) {
+			ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
+			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
+		}
+		resourceInitialized();
 	}
 }
