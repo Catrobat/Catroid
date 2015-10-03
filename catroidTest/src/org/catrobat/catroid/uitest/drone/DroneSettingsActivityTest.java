@@ -125,49 +125,49 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		solo.waitForText(solo.getString(R.string.drone_config_indoor_without_hull));
 		solo.clickOnText(solo.getString(R.string.drone_config_indoor_without_hull));
 		assertTrue("Wrong Settings set, altitude limit should be " + solo.getString(R.string.drone_set_altitude_max_3m),
-				solo.searchText(solo.getString(R.string.drone_set_altitude_max_3m)));
+				solo.waitForText(solo.getString(R.string.drone_set_altitude_max_3m)));
 		assertTrue("Wrong Settings set, vertical speed limit should be " + solo.getString(R.string.drone_set_vertical_indoor),
-				solo.searchText(solo.getString(R.string.drone_set_vertical_indoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_vertical_indoor)));
 		assertTrue("Wrong Settings set, rotation speed limit should be " + solo.getString(R.string.drone_set_rotation_indoor),
-				solo.searchText(solo.getString(R.string.drone_set_rotation_indoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_rotation_indoor)));
 		assertTrue("Wrong Settings set, tilt limit should be " + solo.getString(R.string.drone_set_tilt_indoor),
-				solo.searchText(solo.getString(R.string.drone_set_tilt_indoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_tilt_indoor)));
 
 		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
 		solo.waitForText(solo.getString(R.string.brick_drone_set_config));
 		solo.clickOnText(solo.getString(R.string.drone_config_outdoor_without_hull));
 		assertTrue("Wrong Settings set, altitude limit should be " + solo.getString(R.string.drone_set_altitude_max_3m),
-				solo.searchText(solo.getString(R.string.drone_set_altitude_max_3m)));
+				solo.waitForText(solo.getString(R.string.drone_set_altitude_max_3m)));
 		assertTrue("Wrong Settings set, vertical speed limit should be " + solo.getString(R.string.drone_set_vertical_outdoor),
-				solo.searchText(solo.getString(R.string.drone_set_vertical_outdoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_vertical_outdoor)));
 		assertTrue("Wrong Settings set, rotation speed limit should be " + solo.getString(R.string.drone_set_rotation_outdoor),
-				solo.searchText(solo.getString(R.string.drone_set_rotation_outdoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_rotation_outdoor)));
 		assertTrue("Wrong Settings set, tilt limit should be " + solo.getString(R.string.drone_set_tilt_outdoor),
-				solo.searchText(solo.getString(R.string.drone_set_tilt_outdoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_tilt_outdoor)));
 
 		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
 		solo.waitForText(solo.getString(R.string.drone_config_indoor_with_hull));
 		solo.clickOnText(solo.getString(R.string.drone_config_indoor_with_hull));
 		assertTrue("Wrong Settings set, altitude limit should be " + solo.getString(R.string.drone_set_altitude_max_3m),
-				solo.searchText(solo.getString(R.string.drone_set_altitude_max_3m)));
+				solo.waitForText(solo.getString(R.string.drone_set_altitude_max_3m)));
 		assertTrue("Wrong Settings set, vertical speed limit should be " + solo.getString(R.string.drone_set_vertical_indoor),
-				solo.searchText(solo.getString(R.string.drone_set_vertical_indoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_vertical_indoor)));
 		assertTrue("Wrong Settings set, rotation speed limit should be " + solo.getString(R.string.drone_set_rotation_indoor),
-				solo.searchText(solo.getString(R.string.drone_set_rotation_indoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_rotation_indoor)));
 		assertTrue("Wrong Settings set, tilt limit should be " + solo.getString(R.string.drone_set_tilt_indoor),
-				solo.searchText(solo.getString(R.string.drone_set_tilt_indoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_tilt_indoor)));
 
 		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
 		solo.waitForText(solo.getString(R.string.drone_config_outdoor_with_hull));
 		solo.clickOnText(solo.getString(R.string.drone_config_outdoor_with_hull));
 		assertTrue("Wrong Settings set, altitude limit should be " + solo.getString(R.string.drone_set_altitude_max_3m),
-				solo.searchText(solo.getString(R.string.drone_set_altitude_max_3m)));
+				solo.waitForText(solo.getString(R.string.drone_set_altitude_max_3m)));
 		assertTrue("Wrong Settings set, vertical speed limit should be " + solo.getString(R.string.drone_set_vertical_outdoor),
-				solo.searchText(solo.getString(R.string.drone_set_vertical_outdoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_vertical_outdoor)));
 		assertTrue("Wrong Settings set, rotation speed limit should be " + solo.getString(R.string.drone_set_rotation_outdoor),
-				solo.searchText(solo.getString(R.string.drone_set_rotation_outdoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_rotation_outdoor)));
 		assertTrue("Wrong Settings set, tilt limit should be " + solo.getString(R.string.drone_set_tilt_outdoor),
-				solo.searchText(solo.getString(R.string.drone_set_tilt_outdoor)));
+				solo.waitForText(solo.getString(R.string.drone_set_tilt_outdoor)));
 
 		solo.goBack();
 		solo.goBack();
