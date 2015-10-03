@@ -1,7 +1,3 @@
 <component name="CopyrightManager">
-  <settings default="Catroid">
-    <module2copyright>
-      <element module="All" copyright="Catroid" />
-    </module2copyright>
-  </settings>
+  <settings default="" />
 </component>

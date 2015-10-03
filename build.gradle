@@ -111,7 +111,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
-	checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
+    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
 task copyAndroidNatives() {
@@ -120,10 +120,10 @@ task copyAndroidNatives() {
     file("catroid/jniLibs/x86/").mkdirs();
     configurations.natives.files.each { jar ->
         def outputDir = null
-        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
-        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
-        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
-        if(outputDir != null) {
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
+        if (outputDir != null) {
             copy {
                 from zipTree(jar)
                 into outputDir
@@ -172,7 +172,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         applicationId 'org.catrobat.drone'
-        testApplicationId "org.catrobat.drone.test"
+        testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
         versionCode 25
         println "VersionCode is " + versionCode
