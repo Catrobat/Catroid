@@ -60,9 +60,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testDroneBricksPrototypeView() {
 		solo.waitForActivity(MainMenuActivity.class);
 
-		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
-				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
-		assertEquals("Cannot create standard drone project", getActivity().getString(R.string
+		assertEquals("The program name is wrong!", solo.getString(R.string
 				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -109,10 +107,8 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testDroneVideoLookVisibility() {
 		solo.waitForActivity(MainMenuActivity.class);
 
-		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
-				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
-
-		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
+		assertEquals("The program name is wrong!", solo.getString(R.string
+				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
@@ -134,10 +130,10 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testProjectCreationAfterDeletion() {
 		solo.waitForActivity(MainMenuActivity.class);
 
-		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.",
-				SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true));
-		assertEquals("Cannot create standard drone project", getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
+		assertEquals("The program name is wrong!", solo.getString(R.string
+				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
+		solo.waitForText(solo.getString(R.string.main_menu_programs));
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 
 		if (solo.searchText(solo.getString(R.string.default_project_name))) {
@@ -146,6 +142,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 			solo.clickOnText(solo.getString(R.string.yes));
 		}
 
+		solo.waitForText(solo.getString(R.string.default_drone_project_name));
 		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.yes));
@@ -156,6 +153,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 		SettingsActivity.enableARDroneBricks(getActivity(), false);
 
+		solo.waitForText(solo.getString(R.string.default_drone_project_name));
 		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.yes));

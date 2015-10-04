@@ -109,7 +109,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(solo.getString(R.string.yes));
 
 		UiTestUtils.clickOnPlayButton(solo);
-
+		solo.waitForText(solo.getString(R.string.error_no_drone_connected_title));
 		assertTrue("DroneBrick present but no drone connection dialog", !solo.searchText(solo.getString(R.string.error_no_drone_connected_title)));
 	}
 
