@@ -59,6 +59,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 	@Override
 	protected void tearDown() throws Exception {
 		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		TestUtils.deleteTestProjects();
 		solo.finishOpenedActivities();
 		super.tearDown();
 	}

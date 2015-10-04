@@ -26,6 +26,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
@@ -41,6 +42,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		TestUtils.deleteTestProjects();
 		UiTestUtils.prepareStageForTest();
 		ProjectManager.getInstance().initializeDroneProject(getActivity());
 		SettingsActivity.enableARDroneBricks(getActivity(), true);
@@ -49,6 +51,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	@Override
 	public void tearDown() throws Exception {
 		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		TestUtils.deleteTestProjects();
 		solo.finishOpenedActivities();
 		super.tearDown();
 	}

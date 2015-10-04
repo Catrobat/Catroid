@@ -49,6 +49,7 @@ public class DroneLookTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	@Override
 	protected void tearDown() throws Exception {
 		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		TestUtils.deleteTestProjects();
 		solo.finishOpenedActivities();
 		super.tearDown();
 	}
