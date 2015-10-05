@@ -354,7 +354,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
 
-		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
 		brickInfoMap.put("whenBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
@@ -372,7 +372,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("timeToWaitInSeconds", BrickField.TIME_TO_WAIT_IN_SECONDS);
 		brickInfoMap.put("waitBrick", brickInfo);
 
-		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
 		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
