@@ -56,11 +56,22 @@ import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.Random;
+import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
+	public static StageActivity currentStage = null;
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
+	public static NavigableMap<Integer,IntentListener> listeners = new TreeMap<>();
+	public Random randomGenerator = new Random();
+	private Lock intentLocker = new ReentrantLock(true);
 
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
@@ -109,7 +120,7 @@ public class StageActivity extends AndroidApplication {
 		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
-
+		currentStage = this;
 		stageAudioFocus = new StageAudioFocus(this);
 
 		CameraManager.getInstance().setStageActivity(this);
@@ -349,4 +360,56 @@ public class StageActivity extends AndroidApplication {
 			}
 		});
 	}
+
+	public static synchronized void queueIntent(IntentListener asker)
+	{
+		assert currentStage != null;
+		currentStage.intentLocker.lock();
+
+		int newIdentId;
+		do{
+			newIdentId = currentStage.randomGenerator.nextInt();
+		}while(listeners.containsKey(newIdentId));
+
+		listeners.put(newIdentId,asker);
+		if(listeners.size() == 1) {
+			currentStage.startNextQueuedIntent();
+		}
+
+		currentStage.intentLocker.unlock();
+	}
+
+	private void startNextQueuedIntent()
+	{
+		Map.Entry<Integer,IntentListener> entry = listeners.firstEntry();
+		currentStage.startActivityForResult(entry.getValue().getTargetIntent(), entry.getKey());
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		//Register your intent with "queueIntent"
+
+		intentLocker.lock();
+
+		if(!listeners.containsKey(requestCode))
+		{
+			Log.e(TAG,"Unknown intent result recieved!");
+		}else{
+			IntentListener asker = listeners.get(requestCode);
+			asker.onIntentResult(resultCode,data);
+			listeners.remove(requestCode);
+		}
+		if(listeners.size() > 0) {
+			startNextQueuedIntent();
+		}
+
+		intentLocker.unlock();
+	}
+
+	public interface IntentListener{
+		Intent getTargetIntent();
+		void onIntentResult(int resultCode, Intent data); //don't do heavy processing here
+	}
 }
+

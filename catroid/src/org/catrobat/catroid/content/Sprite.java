@@ -544,6 +544,15 @@ public class Sprite implements Serializable, Cloneable {
 		nfcTagList = list;
 	}
 
+	public ArrayList<Brick> getBricksRequiringResource(int resource) {
+		ArrayList<Brick> resourceBrickList = new ArrayList<Brick>();
+
+		for (Script script : scriptList) {
+			resourceBrickList.addAll(script.getBricksRequiringResources(resource));
+		}
+		return resourceBrickList;
+	}
+
 	public int getNextNewUserBrickId() {
 		return newUserBrickNext++;
 	}

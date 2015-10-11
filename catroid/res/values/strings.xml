@@ -86,6 +86,7 @@
     <string name="main_menu_help">Help</string>
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
+    <string name="main_menu_settings">Settings</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
     <string name="main_menu_terms_of_use">Terms of use</string>
     <string name="main_menu_rate_app">Rate us!</string>
@@ -563,6 +564,7 @@
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">"Hello!"</string>
+    <string name="brick_ask_default_value">"What's your name?"</string>
     <!--  -->
 
 
@@ -748,6 +750,11 @@
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
         project is not possible.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
+    <string name="error_no_network">You need a network connection to use this Pocket Code program. Please turn on
+        mobile network or Wi-Fi in Settings.</string>
+    <string name="error_no_network_one_brick">Following brick will use the network:</string>
+    <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
+    <string name="error_no_network_title">No network</string>
     <!--  -->
 
 
@@ -1128,5 +1135,11 @@
     <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. "</string>
     <!-- -->
+
+    <!-- Speech to text brick -->
+    <string name="brick_ask_to_text_pre">Ask</string>
+    <string name="brick_ask_to_spinner_pre">and store answer in</string>
+    <!--  -->
+
 
 </resources>
