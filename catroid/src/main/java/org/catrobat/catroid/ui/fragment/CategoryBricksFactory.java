@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -387,6 +388,7 @@ public class CategoryBricksFactory {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 					BrickValues.PHIRO_DURATION));
 		}
+		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
 		return soundBrickList;
 	}
@@ -457,6 +459,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 		return dataBrickList;
 	}
 
@@ -651,6 +654,8 @@ public class CategoryBricksFactory {
 
 		if (brick instanceof AskBrick) {
 			category = res.getString(R.string.category_looks);
+		} else if (brick instanceof AskSpeechBrick) {
+			category = res.getString(R.string.category_sound);
 		} else if (brick instanceof WhenClonedBrick) {
 			category = res.getString(R.string.category_control);
 		} else if (brick instanceof WhenBackgroundChangesBrick) {

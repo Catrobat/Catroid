@@ -286,7 +286,7 @@ public class Project implements Serializable {
 		for (Scene scene : sceneList) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				int tempResources = sprite.getRequiredResources();
-				if ((tempResources & Brick.PHYSICS) > 0) {
+				if ((tempResources & Brick.PHYSICS) != 0) {
 					sprite.setActionFactory(physicsActionFactory);
 					tempResources &= ~Brick.PHYSICS;
 				} else {

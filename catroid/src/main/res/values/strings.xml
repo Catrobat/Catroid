@@ -738,6 +738,9 @@
     <string name="brick_ask_default_question">\'What\'s your name?\'</string>
     <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
     <string name="brick_ask_dialog_submit">Submit answer</string>
+    <string name="brick_ask_speech_label">Ask</string>
+    <string name="brick_ask_speech_store">and store spoken answer in</string>
+    <string name="brick_ask_speech_default_question">\'What\'s your name?\'</string>
     <!--  -->
 
     <!-- Pen bricks -->
@@ -973,6 +976,11 @@
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
     <string name="error_set_description">An error occurred while saving the new description.</string>
+    <string name="error_no_network">You need a network connection to use this Pocket Code program. Please turn on
+        mobile network or Wi-Fi in Settings.</string>
+    <string name="error_no_network_one_brick">Following brick will use the network:</string>
+    <string name="error_no_network_multiple_bricks">Following bricks will use the network:</string>
+    <string name="error_no_network_title">No network</string>
     <!--  -->
 
 

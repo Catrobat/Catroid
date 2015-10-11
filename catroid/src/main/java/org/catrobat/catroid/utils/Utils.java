@@ -95,6 +95,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class Utils {
 
@@ -1103,5 +1104,13 @@ public final class Utils {
 
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
+	}
+
+	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
+		Map<Class, T> uniqueMap = new HashMap<>();
+		for (T objectInstance : listToDistinct) {
+			uniqueMap.put(objectInstance.getClass(), objectInstance);
+		}
+		return new ArrayList<>(uniqueMap.values());
 	}
 }

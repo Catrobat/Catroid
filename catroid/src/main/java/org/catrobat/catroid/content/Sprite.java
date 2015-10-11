@@ -950,4 +950,13 @@ public class Sprite implements Serializable, Cloneable {
 	public void setIsMobile(boolean isMobile) {
 		this.isMobile = isMobile;
 	}
+
+	public List<Brick> getBricksRequiringResource(int resource) {
+		List<Brick> resourceBrickList = new ArrayList<Brick>();
+
+		for (Script script : scriptList) {
+			resourceBrickList.addAll(script.getBricksRequiringResources(resource));
+		}
+		return resourceBrickList;
+	}
 }

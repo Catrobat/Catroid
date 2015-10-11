@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
@@ -668,6 +669,14 @@ public class ActionFactory extends Actions {
 
 	public Action createAskAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
 		AskAction action = Actions.action(AskAction.class);
+		action.setSprite(sprite);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
+		return action;
+	}
+
+	public Action createAskSpeechAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
+		AskSpeechAction action = Actions.action(AskSpeechAction.class);
 		action.setSprite(sprite);
 		action.setQuestionFormula(questionFormula);
 		action.setAnswerVariable(answerVariable);
