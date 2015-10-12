@@ -127,7 +127,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 				paramList);
 		//Body body = (Body) Reflection.getPrivateField(physicsObject, "body");
 
-		assertEquals("Type is not the expected", Type.NONE, physicsObject.getType());
+		assertEquals("Type is not the expected", Type.FIXED, physicsObject.getType());
 		// TODO[Physics] extend test
 		//assertTrue("Created body isn't a bullet", body.isBullet());
 	}
