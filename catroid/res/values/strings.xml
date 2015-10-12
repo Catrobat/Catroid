@@ -86,9 +86,9 @@
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
-
-    <!--  -->
-
+    <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+    <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+    <!-- -->
 
 
     <!-- New Object Dialog -->
@@ -279,6 +279,7 @@
     <string name="look_rename_overwrite">Look Name already exists!</string>
     <!--  -->
 
+    
     <!-- New Sound dialog -->
     <string name="new_sound_dialog_title">Add Sound</string>
     <string name="add_sound_from_recorder">Record Sound</string>
@@ -325,6 +326,7 @@
     <string name="overwrite_rename">Rename downloaded program</string>
     <!--  -->
 
+    
     <!-- OverwriteRenameMediaDialog -->
     <string name="overwrite_replace_look">Replace existing look</string>
     <string name="overwrite_rename_look">Rename downloaded look</string>
@@ -333,8 +335,8 @@
     <string name="overwrite_replace_default">Replace existing media</string>
     <string name="overwrite_rename_default">Rename existing media</string>
     <!-- -->
-
-
+    
+    
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Back</string>
     <string name="stage_dialog_resume">Resume</string>
@@ -364,8 +366,10 @@
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <string name="category_phiro">Phiro</string>
+    <string name="category_arduino">Arduino</string>
     <!--  -->
 
+    
     <!-- Motion bricks -->
     <string name="brick_place_at">"Place at "</string>
     <string name="x_label">"X: "</string>
@@ -527,7 +531,6 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
-
     <!--  -->
 
 
@@ -577,6 +580,13 @@
     <string name="bt_connection_failed">Connection to device failed!</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>
+    <!--  -->
+
+
+    <!-- Arduino Bricks -->
+    <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+    <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+    <string name="brick_arduino_set_pin_value_to">to</string>
     <!--  -->
 
 
@@ -768,6 +778,8 @@
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
     <string name="formula_editor_function_list_item">element</string>
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>
