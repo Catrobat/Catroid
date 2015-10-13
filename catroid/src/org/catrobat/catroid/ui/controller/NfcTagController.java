@@ -103,7 +103,6 @@ public final class NfcTagController {
 	/*
 	private void handleNfcTagData(NfcTagViewHolder holder, NfcTagData nfcTagData, NfcTagBaseAdapter nfcTagAdapter,
 								 int position, Context context) {
-
 	}
 	*/
 	private void handleCheckboxes(final int position, NfcTagViewHolder holder, final NfcTagBaseAdapter nfcTagAdapter) {
@@ -206,5 +205,4 @@ public final class NfcTagController {
 		scriptActivity.setIsNfcTagFragmentFromWhenNfcBrickNewFalse();
 		scriptActivity.setIsNfcTagFragmentHandleAddButtonHandled(false);
 	}
-
 }

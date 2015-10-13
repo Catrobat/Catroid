@@ -91,7 +91,6 @@ public class ProgramMenuActivity extends BaseActivity {
 		} else {
 			((Button) findViewById(R.id.program_menu_button_nfctags)).setVisibility(View.INVISIBLE);
 		}
-
 	}
 
 	@Override

@@ -42,7 +42,6 @@ public class NfcTagData implements Serializable, Comparable<NfcTagData>, Cloneab
 	}
 
 	public void resetNfcTagData() {
-
 	}
 
 	public NfcTagData() {

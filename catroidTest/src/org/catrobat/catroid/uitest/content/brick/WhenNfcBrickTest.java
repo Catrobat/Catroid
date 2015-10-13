@@ -131,7 +131,6 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertFalse(SECOND_TEST_TAG_NAME + " is still in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
 		assertTrue(FIRST_TEST_TAG_NAME + " is not in Spinner", solo.searchText(FIRST_TEST_TAG_NAME));
-
 	}
 
 	public void testSpinnerUpdatesRename() {
@@ -160,7 +159,6 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(SECOND_TEST_TAG_NAME + " is not in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
-
 	}
 
 	public void testAdapterUpdateInScriptActivity() {

@@ -56,7 +56,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 	private static final long serialVersionUID = 1L;
 	private transient AdapterView<?> adapterView;
 
-
 	public WhenNfcBrick() {
 		this.oldSelectedNfcTag = null;
 		//TODO: nfcTag needs to be initialized (?)
@@ -244,7 +243,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 			this.alphaValue = alphaValue;
-
 		}
 		return view;
 	}
@@ -264,8 +262,7 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 		}
 		return arrayAdapter;
 	}
-
-
+	
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_when_nfc, null);

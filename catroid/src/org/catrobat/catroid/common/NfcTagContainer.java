@@ -57,7 +57,6 @@ public final class NfcTagContainer {
 		return tagNameAdapter;
 	}
 
-
 	public static void addTagName(String uid, String tagName) {
 		if (tagName == null || tagName.isEmpty()) {
 			return;

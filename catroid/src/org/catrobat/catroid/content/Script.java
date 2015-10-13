@@ -233,5 +233,4 @@ public abstract class Script implements Serializable {
 		copiedLoopBeginBrick.setLoopEndBrick(copiedBrick);
 		copiedBrick.setLoopBeginBrick(copiedLoopBeginBrick);
 	}
-
 }

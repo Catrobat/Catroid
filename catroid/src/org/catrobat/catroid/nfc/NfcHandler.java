@@ -35,7 +35,6 @@ public final class NfcHandler {
 	private static final String TAG = NfcHandler.class.getSimpleName();
 
 	private NfcHandler() {
-
 	}
 
 	public static void processIntent(Intent intent) {

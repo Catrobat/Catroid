@@ -350,7 +350,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
-
 	}
 
 	@Override
@@ -375,7 +374,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 	@Override
 	public void startBackPackActionMode() {
-
 	}
 
 	@Override
@@ -385,7 +383,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 	@Override
 	public void onNfcTagEdit(View view) {
-
 	}
 
 	public void onNfcTagChecked() {
@@ -410,7 +407,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 				appendix = singleItemAppendixDeleteActionMode;
 			}
 
-
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
 			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
 
@@ -424,7 +420,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			actionMode.setTitle(completeSpannedTitle);
 		}
 	}
-
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
@@ -610,7 +605,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 				adapter.notifyDataSetChanged();
 				onNfcTagChecked();
 			}
-
 		});
 	}
 
@@ -674,7 +668,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		public void onDestroyActionMode(ActionMode mode) {
 			((NfcTagAdapter) adapter).onDestroyActionModeCopy(mode);
 		}
-
 	};
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
