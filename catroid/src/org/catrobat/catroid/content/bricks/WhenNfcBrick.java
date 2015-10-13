@@ -262,7 +262,7 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 		}
 		return arrayAdapter;
 	}
-	
+
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_when_nfc, null);
