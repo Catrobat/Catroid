@@ -79,7 +79,7 @@ public final class NfcTagController {
     }
 
     private void setClickListener(final NfcTagBaseAdapter nfcTagAdapter, final NfcTagViewHolder holder) {
-        OnClickListener listItemOnClickListener = (new OnClickListener() {
+        OnClickListener listItemOnClickListener = new OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -87,7 +87,7 @@ public final class NfcTagController {
                     holder.checkbox.setChecked(!holder.checkbox.isChecked());
                 }
             }
-        });
+        };
 
         holder.nfcTagFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
     }

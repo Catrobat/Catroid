@@ -114,7 +114,7 @@ public final class SensorTestServerConnection {
 		} catch (IOException ioException) {
 			Log.e(TAG, "Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.w(TAG, "InterruptedException", e);
 		}
 	}
 
