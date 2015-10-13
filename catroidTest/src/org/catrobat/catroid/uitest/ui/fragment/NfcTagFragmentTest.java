@@ -59,13 +59,13 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private static final int TIME_TO_WAIT = 100;
 
 	private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
-    private static final String FIRST_TEST_TAG_ID = "111";
+	private static final String FIRST_TEST_TAG_ID = "111";
 
 	private static final String SECOND_TEST_TAG_NAME = "tagNameTest2";
-    private static final String SECOND_TEST_TAG_ID = "222";
+	private static final String SECOND_TEST_TAG_ID = "222";
 
 	private static final String THIRD_TEST_TAG_NAME = "tagNameTest3";
-    private static final String THIRD_TEST_TAG_ID = "333";
+	private static final String THIRD_TEST_TAG_ID = "333";
 
 	private String copy;
 	private String rename;
@@ -73,11 +73,11 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private String delete;
 	private String deleteDialogTitle;
 
-    private NfcTagData tagData;
-    private NfcTagData tagData2;
-    private NfcTagData tagData3;
+	private NfcTagData tagData;
+	private NfcTagData tagData2;
+	private NfcTagData tagData3;
 
-    private ArrayList<NfcTagData> tagDataList;
+	private ArrayList<NfcTagData> tagDataList;
 
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;
@@ -96,22 +96,22 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.prepareStageForTest();
 
 		projectManager = ProjectManager.getInstance();
-        tagDataList = projectManager.getCurrentSprite().getNfcTagList();
+		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 
-        tagData = new NfcTagData();
-        tagData.setNfcTagName(FIRST_TEST_TAG_NAME);
-        tagData.setNfcTagUid(FIRST_TEST_TAG_ID);
-        tagDataList.add(tagData);
+		tagData = new NfcTagData();
+		tagData.setNfcTagName(FIRST_TEST_TAG_NAME);
+		tagData.setNfcTagUid(FIRST_TEST_TAG_ID);
+		tagDataList.add(tagData);
 
-        tagData2 = new NfcTagData();
-        tagData2.setNfcTagName(SECOND_TEST_TAG_NAME);
-        tagData2.setNfcTagUid(SECOND_TEST_TAG_ID);
-        tagDataList.add(tagData2);
+		tagData2 = new NfcTagData();
+		tagData2.setNfcTagName(SECOND_TEST_TAG_NAME);
+		tagData2.setNfcTagUid(SECOND_TEST_TAG_ID);
+		tagDataList.add(tagData2);
 
-        tagData3 = new NfcTagData();
-        tagData3.setNfcTagName(THIRD_TEST_TAG_NAME);
-        tagData3.setNfcTagUid(THIRD_TEST_TAG_ID);
-        tagDataList.add(tagData3);
+		tagData3 = new NfcTagData();
+		tagData3.setNfcTagName(THIRD_TEST_TAG_NAME);
+		tagData3.setNfcTagUid(THIRD_TEST_TAG_ID);
+		tagDataList.add(tagData3);
 
 		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
@@ -131,21 +131,21 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		}
 	}
 
-    public void testScanTag() {
-        NfcTagAdapter adapter = getNfcTagAdapter();
-        assertNotNull("Could not get Adapter", adapter);
+	public void testScanTag() {
+		NfcTagAdapter adapter = getNfcTagAdapter();
+		assertNotNull("Could not get Adapter", adapter);
 
-        int oldCount = adapter.getCount();
+		int oldCount = adapter.getCount();
 
-        UiTestUtils.fakeNfcTag(solo, "123", null, null);
+		UiTestUtils.fakeNfcTag(solo, "123", null, null);
 
-        solo.sleep(500);
+		solo.sleep(500);
 
-        int newCount = adapter.getCount();
+		int newCount = adapter.getCount();
 
-        assertEquals("Tag not added!", oldCount + 1, newCount);
-        assertEquals("Tag added but not visible!", solo.searchText(solo.getString(R.string.default_tag_name), 1), true);
-    }
+		assertEquals("Tag not added!", oldCount + 1, newCount);
+		assertEquals("Tag added but not visible!", solo.searchText(solo.getString(R.string.default_tag_name), 1), true);
+	}
 
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getNfcTagAdapter().getShowDetails());
@@ -278,7 +278,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		renameTag(FIRST_TEST_TAG_NAME, defaultTagName);
 		renameTag(SECOND_TEST_TAG_NAME, defaultTagName);
 
-        solo.sleep(50);
+		solo.sleep(50);
 
 		String expectedTagName = defaultTagName + copyAdditionString;
 		assertEquals(assertMessageText, expectedTagName, getTagName(1));
@@ -286,7 +286,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String copiedTagName = FIRST_TEST_TAG_NAME + "1";
 		renameTag(copiedTagName, defaultTagName);
 
-        solo.sleep(50);
+		solo.sleep(50);
 
 		expectedTagName = defaultTagName + "2";
 		assertEquals(assertMessageText, expectedTagName, getTagName(3));
@@ -298,12 +298,12 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.scrollToTop();
 		clickOnContextMenuItem(newTagName, copy);
 
-        copiedTagName = newTagName + "1";
+		copiedTagName = newTagName + "1";
 		renameTag(copiedTagName, defaultTagName);
 
-        solo.sleep(50);
+		solo.sleep(50);
 
-        assertEquals(assertMessageText, expectedTagName, getTagName(4));
+		assertEquals(assertMessageText, expectedTagName, getTagName(4));
 
 		expectedTagName = THIRD_TEST_TAG_NAME;
 		assertEquals(assertMessageText, expectedTagName, getTagName(2));
@@ -935,7 +935,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private void moveTagToTop(String tagToMove) {
 		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_to_top));
 	}
-	
+
 	private void renameTag(String tagToRename, String newTagName) {
 		clickOnContextMenuItem(tagToRename, solo.getString(R.string.rename));
 		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));
@@ -950,9 +950,9 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		return (NfcTagFragment) activity.getFragment(ScriptActivity.FRAGMENT_NFCTAGS);
 	}
 
-    private NfcTagAdapter getNfcTagAdapter() {
-        return (NfcTagAdapter) getNfcTagFragment().getListAdapter();
-    }
+	private NfcTagAdapter getNfcTagAdapter() {
+		return (NfcTagAdapter) getNfcTagFragment().getListAdapter();
+	}
 
 	private void checkVisibilityOfViews(int imageVisibility, int tagNameVisibility, int tagDetailsVisibility,
 			int checkBoxVisibility) {

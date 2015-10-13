@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -202,14 +201,14 @@ public final class UiTestUtils {
 	public static final int SCRIPTS_INDEX = 0;
 	public static final int LOOKS_INDEX = 1;
 	public static final int SOUNDS_INDEX = 2;
-    public static final int NFCTAGS_INDEX = 3;
+	public static final int NFCTAGS_INDEX = 3;
 
 	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
 	static {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
-        FRAGMENT_INDEX_LIST.add(R.id.fragment_nfctags);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_nfctags);
 	}
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
@@ -609,7 +608,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_data);
 
 		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
-        brickCategoryMap.put(R.string.brick_when_nfc, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_when_nfc, R.string.category_control);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -1814,26 +1813,26 @@ public final class UiTestUtils {
 		solo.sleep(200);
 	}
 
-    public static void getIntoNfcTagsFromMainMenu(Solo solo) {
-        getIntoNfcTagsFromMainMenu(solo, 0, false);
-    }
+	public static void getIntoNfcTagsFromMainMenu(Solo solo) {
+		getIntoNfcTagsFromMainMenu(solo, 0, false);
+	}
 
-    public static void getIntoNfcTagsFromMainMenu(Solo solo, boolean isBackground) {
-        getIntoNfcTagsFromMainMenu(solo, 0, isBackground);
-    }
+	public static void getIntoNfcTagsFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoNfcTagsFromMainMenu(solo, 0, isBackground);
+	}
 
-    public static void getIntoNfcTagsFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
-        getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+	public static void getIntoNfcTagsFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
 
-        String textToClickOn = "";
+		String textToClickOn = "";
 
-        textToClickOn = solo.getString(R.string.nfctags);
+		textToClickOn = solo.getString(R.string.nfctags);
 
-        solo.clickOnText(textToClickOn);
-        solo.waitForActivity(ScriptActivity.class.getSimpleName());
-        solo.waitForView(ListView.class);
-        solo.sleep(200);
-    }
+		solo.clickOnText(textToClickOn);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+	}
 
 	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
 		getIntoScriptActivityFromMainMenu(solo, 0);
@@ -2127,49 +2126,47 @@ public final class UiTestUtils {
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
 	}
 
-	public static void fakeNfcTag(Solo solo, String uid, NdefMessage ndefMessage, Tag tag){
-        Class activityCls = solo.getCurrentActivity().getClass();
-        Context packageContext = solo.getCurrentActivity();
+	public static void fakeNfcTag(Solo solo, String uid, NdefMessage ndefMessage, Tag tag) {
+		Class activityCls = solo.getCurrentActivity().getClass();
+		Context packageContext = solo.getCurrentActivity();
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(packageContext, 0,
-                new Intent(packageContext, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(packageContext, 0,
+				new Intent(packageContext, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
-        String intentAction = NfcAdapter.ACTION_TAG_DISCOVERED;
-        byte[] tagId = uid.getBytes();
+		String intentAction = NfcAdapter.ACTION_TAG_DISCOVERED;
+		byte[] tagId = uid.getBytes();
 
-        Intent intent = new Intent();
-        intent.setAction(intentAction);
-        if (tag != null) {
+		Intent intent = new Intent();
+		intent.setAction(intentAction);
+		if (tag != null) {
 			intent.putExtra(NfcAdapter.EXTRA_TAG, tag);
 		}
-        intent.putExtra(NfcAdapter.EXTRA_ID, tagId);
-        if (ndefMessage != null) {
-            intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] { ndefMessage });
-            if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intentAction)) {
-                 Uri uri = ndefMessage.getRecords()[0].toUri();
-                String mime = ndefMessage.getRecords()[0].toMimeType();
-                if (uri != null) {
-                    intent.setData(uri);
-                } else {
-                    intent.setType(mime);
-                }
-            }
-        }
+		intent.putExtra(NfcAdapter.EXTRA_ID, tagId);
+		if (ndefMessage != null) {
+			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] { ndefMessage });
+			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intentAction)) {
+				Uri uri = ndefMessage.getRecords()[0].toUri();
+				String mime = ndefMessage.getRecords()[0].toMimeType();
+				if (uri != null) {
+					intent.setData(uri);
+				} else {
+					intent.setType(mime);
+				}
+			}
+		}
 
-        try {
-            pendingIntent.send(packageContext, Activity.RESULT_OK, intent);
-        }
-        catch(PendingIntent.CanceledException e)
-        {
-            Log.d("fakeNfcTag", e.getMessage());
-        }
-    }
+		try {
+			pendingIntent.send(packageContext, Activity.RESULT_OK, intent);
+		} catch (PendingIntent.CanceledException e) {
+			Log.d("fakeNfcTag", e.getMessage());
+		}
+	}
 
 	public static void enableNfcBricks(Context context) {
 		PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(SettingsActivity.SETTINGS_SHOW_NFC_BRICKS, true).commit();
 	}
 
-	public static void clickOnCheckBox(Solo solo, int checkBoxIndex){
+	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {
 		solo.clickOnCheckBox(checkBoxIndex);
 		solo.sleep(100);
 	}

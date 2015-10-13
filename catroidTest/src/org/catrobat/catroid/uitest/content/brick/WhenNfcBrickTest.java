@@ -52,15 +52,15 @@ import java.util.List;
 
 public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-    private ArrayList<NfcTagData> tagDataList;
+	private ArrayList<NfcTagData> tagDataList;
 
-    private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
-    private static final String FIRST_TEST_TAG_ID = "111111";
+	private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
+	private static final String FIRST_TEST_TAG_ID = "111111";
 
-    private static final String SECOND_TEST_TAG_NAME = "tagNameTest2";
-    private static final String SECOND_TEST_TAG_ID = "222222";
+	private static final String SECOND_TEST_TAG_NAME = "tagNameTest2";
+	private static final String SECOND_TEST_TAG_ID = "222222";
 
-    private String all;
+	private String all;
 
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 
@@ -68,126 +68,128 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	private File soundFile;
 	private ArrayList<SoundInfo> soundInfoList;
 
-    public WhenNfcBrickTest() {
-        super(MainMenuActivity.class);
-    }
+	public WhenNfcBrickTest() {
+		super(MainMenuActivity.class);
+	}
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
 		UiTestUtils.enableNfcBricks(getActivity().getApplicationContext());
-        createProject();
-        all = solo.getString(R.string.brick_when_nfc_default_all);
-        UiTestUtils.prepareStageForTest();
-        UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-    }
+		createProject();
+		all = solo.getString(R.string.brick_when_nfc_default_all);
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+	}
 
-    public void testSelectTagAndPlay() {
-        assertTrue(all + " is not selected in Spinner", solo.isSpinnerTextSelected(all));
-        solo.clickOnText(all);
-        solo.clickOnText(FIRST_TEST_TAG_NAME);
-        assertTrue(FIRST_TEST_TAG_NAME + " is not selected in Spinner", solo.isSpinnerTextSelected(FIRST_TEST_TAG_NAME));
+	public void testSelectTagAndPlay() {
+		assertTrue(all + " is not selected in Spinner", solo.isSpinnerTextSelected(all));
+		solo.clickOnText(all);
+		solo.clickOnText(FIRST_TEST_TAG_NAME);
+		assertTrue(FIRST_TEST_TAG_NAME + " is not selected in Spinner", solo.isSpinnerTextSelected(FIRST_TEST_TAG_NAME));
 
-        UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 
-        solo.waitForActivity(StageActivity.class.getSimpleName());
-        solo.sleep(1000);
-        Script script = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0);
-        assertEquals("tag not set", ((WhenNfcBrick)script.getScriptBrick()).getNfcTag().getNfcTagName(), tagDataList.get(0).getNfcTagName());
-        solo.goBack();
-        solo.goBack();
-        solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
+		Script script = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0);
+		assertEquals("tag not set", ((WhenNfcBrick) script.getScriptBrick()).getNfcTag().getNfcTagName(), tagDataList
+				.get(0).getNfcTagName());
+		solo.goBack();
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-        solo.clickOnText(FIRST_TEST_TAG_NAME);
-        solo.clickOnText(SECOND_TEST_TAG_NAME);
-        assertTrue(SECOND_TEST_TAG_NAME + " is not selected in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
+		solo.clickOnText(FIRST_TEST_TAG_NAME);
+		solo.clickOnText(SECOND_TEST_TAG_NAME);
+		assertTrue(SECOND_TEST_TAG_NAME + " is not selected in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
 
-        UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 
-        solo.waitForActivity(StageActivity.class.getSimpleName());
-        solo.sleep(1000);
-        script = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0);
-        assertEquals("tag not set", ((WhenNfcBrick)script.getScriptBrick()).getNfcTag().getNfcTagName(), tagDataList.get(1).getNfcTagName());
-    }
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
+		script = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0);
+		assertEquals("tag not set", ((WhenNfcBrick) script.getScriptBrick()).getNfcTag().getNfcTagName(), tagDataList
+				.get(1).getNfcTagName());
+	}
 
-    public void testSpinnerUpdatesDelete() {
-        solo.clickOnText(all);
+	public void testSpinnerUpdatesDelete() {
+		solo.clickOnText(all);
 
-        assertTrue(FIRST_TEST_TAG_NAME + " is not in Spinner", solo.searchText(FIRST_TEST_TAG_NAME));
-        assertTrue(SECOND_TEST_TAG_NAME + " is not in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
+		assertTrue(FIRST_TEST_TAG_NAME + " is not in Spinner", solo.searchText(FIRST_TEST_TAG_NAME));
+		assertTrue(SECOND_TEST_TAG_NAME + " is not in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
 
-        solo.goBack();
-        solo.goBack();
-        solo.clickOnText(solo.getString(R.string.nfctags));
+		solo.goBack();
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.nfctags));
 
-        clickOnContextMenuItem(SECOND_TEST_TAG_NAME, solo.getString(R.string.delete));
-        solo.clickOnButton(solo.getString(R.string.yes));
+		clickOnContextMenuItem(SECOND_TEST_TAG_NAME, solo.getString(R.string.delete));
+		solo.clickOnButton(solo.getString(R.string.yes));
 
-        UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
-        solo.clickOnText(all);
+		solo.clickOnText(all);
 
-        assertFalse(SECOND_TEST_TAG_NAME + " is still in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
-        assertTrue(FIRST_TEST_TAG_NAME + " is not in Spinner", solo.searchText(FIRST_TEST_TAG_NAME));
+		assertFalse(SECOND_TEST_TAG_NAME + " is still in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
+		assertTrue(FIRST_TEST_TAG_NAME + " is not in Spinner", solo.searchText(FIRST_TEST_TAG_NAME));
 
-    }
+	}
 
-    public void testSpinnerUpdatesRename() {
-        String newName = "nameRenamed";
+	public void testSpinnerUpdatesRename() {
+		String newName = "nameRenamed";
 
-        solo.clickOnText(all);
+		solo.clickOnText(all);
 
-        assertTrue(FIRST_TEST_TAG_NAME + " is not in Spinner", solo.searchText(FIRST_TEST_TAG_NAME));
-        assertTrue(SECOND_TEST_TAG_NAME + " is not in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
+		assertTrue(FIRST_TEST_TAG_NAME + " is not in Spinner", solo.searchText(FIRST_TEST_TAG_NAME));
+		assertTrue(SECOND_TEST_TAG_NAME + " is not in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
 
-        solo.clickOnText(FIRST_TEST_TAG_NAME);
+		solo.clickOnText(FIRST_TEST_TAG_NAME);
 
-        solo.goBack();
+		solo.goBack();
 
-        solo.clickOnText(solo.getString(R.string.nfctags));
+		solo.clickOnText(solo.getString(R.string.nfctags));
 
-        clickOnContextMenuItem(FIRST_TEST_TAG_NAME, solo.getString(R.string.rename));
+		clickOnContextMenuItem(FIRST_TEST_TAG_NAME, solo.getString(R.string.rename));
 
-        solo.clearEditText(0);
-        solo.enterText(0, newName);
-        solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-        UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
-        solo.clickOnText(newName);
+		solo.clickOnText(newName);
 
-        assertTrue(newName + " is not in Spinner", solo.searchText(newName));
-        assertTrue(SECOND_TEST_TAG_NAME + " is not in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
+		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
+		assertTrue(SECOND_TEST_TAG_NAME + " is not in Spinner", solo.searchText(SECOND_TEST_TAG_NAME));
 
-    }
+	}
 
-    public void testAdapterUpdateInScriptActivity() {
-        assertTrue(all + " is not selected in Spinner", solo.isSpinnerTextSelected(all));
-        solo.clickOnText(all);
-        solo.clickOnText(FIRST_TEST_TAG_NAME);
-        assertTrue(FIRST_TEST_TAG_NAME + " is not selected in Spinner", solo.isSpinnerTextSelected(FIRST_TEST_TAG_NAME));
+	public void testAdapterUpdateInScriptActivity() {
+		assertTrue(all + " is not selected in Spinner", solo.isSpinnerTextSelected(all));
+		solo.clickOnText(all);
+		solo.clickOnText(FIRST_TEST_TAG_NAME);
+		assertTrue(FIRST_TEST_TAG_NAME + " is not selected in Spinner", solo.isSpinnerTextSelected(FIRST_TEST_TAG_NAME));
 
-        UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-        solo.waitForActivity(StageActivity.class.getSimpleName());
-        String tagName = ProjectManager.getInstance().getCurrentSprite().getNfcTagList().get(0).getNfcTagName();
-        assertEquals("Wrong tag name set in stage", tagName, tagDataList.get(0).getNfcTagName());
-        solo.sleep(500);
-        solo.goBack();
-        solo.sleep(100);
-        solo.goBack();
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		String tagName = ProjectManager.getInstance().getCurrentSprite().getNfcTagList().get(0).getNfcTagName();
+		assertEquals("Wrong tag name set in stage", tagName, tagDataList.get(0).getNfcTagName());
+		solo.sleep(500);
+		solo.goBack();
+		solo.sleep(100);
+		solo.goBack();
 
-        for (int i = 0; i < 5; ++i) {
-            selectTag(SECOND_TEST_TAG_NAME, FIRST_TEST_TAG_NAME);
-            selectTag(FIRST_TEST_TAG_NAME, SECOND_TEST_TAG_NAME);
-        }
-    }
+		for (int i = 0; i < 5; ++i) {
+			selectTag(SECOND_TEST_TAG_NAME, FIRST_TEST_TAG_NAME);
+			selectTag(FIRST_TEST_TAG_NAME, SECOND_TEST_TAG_NAME);
+		}
+	}
 
 	public void testPlayTriggerAll() {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		WhenNfcScript script = (WhenNfcScript)ProjectManager.getInstance().getCurrentSprite().getScript(0);
+		WhenNfcScript script = (WhenNfcScript) ProjectManager.getInstance().getCurrentSprite().getScript(0);
 		assertEquals("Wrong tag used in stage --> Problem with Adapter update in Script", script.isMatchAll(), true);
 
 		UiTestUtils.fakeNfcTag(solo, "123456", null, null);
@@ -207,7 +209,7 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
-		WhenNfcScript script = (WhenNfcScript)ProjectManager.getInstance().getCurrentSprite().getScript(0);
+		WhenNfcScript script = (WhenNfcScript) ProjectManager.getInstance().getCurrentSprite().getScript(0);
 		assertEquals("Wrong tag used in stage --> Problem with Adapter update in Script", script.isMatchAll(), false);
 		String tagName = ProjectManager.getInstance().getCurrentSprite().getNfcTagList().get(0).getNfcTagName();
 		assertEquals("Wrong tag name set in stage", tagName, tagDataList.get(0).getNfcTagName());
@@ -229,72 +231,72 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
 	}
 
-    public void testAddNewTag() {
-        String newText = solo.getString(R.string.new_nfc_tag);
+	public void testAddNewTag() {
+		String newText = solo.getString(R.string.new_nfc_tag);
 
-        solo.clickOnText(all);
-        solo.clickOnText(newText);
+		solo.clickOnText(all);
+		solo.clickOnText(newText);
 
 		solo.waitForFragmentByTag(NfcTagFragment.TAG);
-        solo.sleep(500);
+		solo.sleep(500);
 
-        UiTestUtils.fakeNfcTag(solo, "123456", null, null);
+		UiTestUtils.fakeNfcTag(solo, "123456", null, null);
 
-        solo.sleep(500);
+		solo.sleep(500);
 
-        solo.goBack();
+		solo.goBack();
 		solo.waitForFragmentByTag(ScriptFragment.TAG);
-        solo.clickOnText(all);
+		solo.clickOnText(all);
 		assertTrue("Testtag not added", solo.searchText(solo.getString(R.string.default_tag_name)));
-        solo.clickOnText(solo.getString(R.string.default_tag_name));
+		solo.clickOnText(solo.getString(R.string.default_tag_name));
 
-        assertTrue(solo.getString(R.string.default_tag_name) + " is not selected in Spinner", solo.isSpinnerTextSelected(solo.getString(R.string.default_tag_name)));
+		assertTrue(solo.getString(R.string.default_tag_name) + " is not selected in Spinner", solo.isSpinnerTextSelected(solo.getString(R.string.default_tag_name)));
 
-        solo.goBack();
-        String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
-        assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
-                .equals(programMenuActivityClass));
-    }
+		solo.goBack();
+		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
+		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
+				.equals(programMenuActivityClass));
+	}
 
-    public void selectTag(String newTag, String oldName) {
-        solo.clickOnText(oldName);
-        solo.clickOnText(newTag);
-        UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-        solo.sleep(5000);
-        solo.waitForActivity(StageActivity.class.getSimpleName());
-        solo.sleep(2000);
-        String tagName = ((WhenNfcBrick)ProjectManager.getInstance().getCurrentSprite().getScript(0).getScriptBrick()).getNfcTag().getNfcTagName();
-        assertEquals("Wrong tag used in stage --> Problem with Adapter update in Script", newTag, tagName);
-        solo.goBack();
-        solo.goBack();
-    }
+	public void selectTag(String newTag, String oldName) {
+		solo.clickOnText(oldName);
+		solo.clickOnText(newTag);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.sleep(5000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
+		String tagName = ((WhenNfcBrick) ProjectManager.getInstance().getCurrentSprite().getScript(0).getScriptBrick()).getNfcTag().getNfcTagName();
+		assertEquals("Wrong tag used in stage --> Problem with Adapter update in Script", newTag, tagName);
+		solo.goBack();
+		solo.goBack();
+	}
 
-    private void createProject() {
-        ProjectManager projectManager = ProjectManager.getInstance();
-        Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-        Sprite firstSprite = new Sprite("cat");
-        Script testScript = new WhenNfcScript();
+	private void createProject() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new WhenNfcScript();
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
 		testScript.addBrick(playSoundBrick);
 
-        firstSprite.addScript(testScript);
-        project.addSprite(firstSprite);
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
 
-        projectManager.setProject(project);
-        projectManager.setCurrentSprite(firstSprite);
-        projectManager.setCurrentScript(testScript);
-        tagDataList = projectManager.getCurrentSprite().getNfcTagList();
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 
-        NfcTagData tagData = new NfcTagData();
-        tagData.setNfcTagName(FIRST_TEST_TAG_NAME);
-        tagData.setNfcTagUid(NfcHandler.byteArrayToHex(FIRST_TEST_TAG_ID.getBytes()));
-        tagDataList.add(tagData);
+		NfcTagData tagData = new NfcTagData();
+		tagData.setNfcTagName(FIRST_TEST_TAG_NAME);
+		tagData.setNfcTagUid(NfcHandler.byteArrayToHex(FIRST_TEST_TAG_ID.getBytes()));
+		tagDataList.add(tagData);
 
-        NfcTagData tagData2 = new NfcTagData();
-        tagData2.setNfcTagName(SECOND_TEST_TAG_NAME);
-        tagData2.setNfcTagUid(NfcHandler.byteArrayToHex(SECOND_TEST_TAG_ID.getBytes()));
-        tagDataList.add(tagData2);
+		NfcTagData tagData2 = new NfcTagData();
+		tagData2.setNfcTagName(SECOND_TEST_TAG_NAME);
+		tagData2.setNfcTagUid(NfcHandler.byteArrayToHex(SECOND_TEST_TAG_ID.getBytes()));
+		tagDataList.add(tagData2);
 
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
@@ -307,13 +309,13 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		soundInfoList.add(soundInfo);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-    }
+	}
 
-    private void clickOnContextMenuItem(String tagName, String menuItemName) {
-        solo.clickLongOnText(tagName);
-        solo.waitForText(menuItemName);
-        solo.clickOnText(menuItemName);
-    }
+	private void clickOnContextMenuItem(String tagName, String menuItemName) {
+		solo.clickLongOnText(tagName);
+		solo.waitForText(menuItemName);
+		solo.clickOnText(menuItemName);
+	}
 
 	@SuppressWarnings("unchecked")
 	private List<MediaPlayer> getMediaPlayers() {

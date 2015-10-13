@@ -93,10 +93,10 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 
 		checkMainMenuButton();
 
-        UiTestUtils.getIntoNfcTagsFromMainMenu(solo);
-        UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
+		UiTestUtils.getIntoNfcTagsFromMainMenu(solo);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
 
-        checkMainMenuButton();
+		checkMainMenuButton();
 	}
 
 	public void testPlayProgramButton() {
@@ -117,10 +117,10 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 
 		checkplayProgramButton();
 
-        UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.NFCTAGS_INDEX);
-        assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.NFCTAGS_INDEX);
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
-        checkplayProgramButton();
+		checkplayProgramButton();
 	}
 
 	public void testOverflowMenuItemSettings() {
@@ -147,13 +147,13 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 
 		checkSettingsAndGoBack();
 
-        solo.goBack();
-        solo.waitForActivity(ProgramMenuActivity.class);
-        solo.clickOnText(solo.getString(R.string.nfctags));
-        UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
-        assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnText(solo.getString(R.string.nfctags));
+		UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
-        checkSettingsAndGoBack();
+		checkSettingsAndGoBack();
 	}
 
 	//regression test for issue#626; Android version < 4.2
@@ -179,9 +179,9 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
 
-        solo.sleep(500); //StageActivity doesn't seem to handle fast use of goBack
+		solo.sleep(500); //StageActivity doesn't seem to handle fast use of goBack
 		solo.goBack();
-        solo.sleep(500);
+		solo.sleep(500);
 		solo.goBack();
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());

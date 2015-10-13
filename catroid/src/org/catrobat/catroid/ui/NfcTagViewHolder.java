@@ -28,11 +28,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NfcTagViewHolder {
-    public ImageButton scanNewTagButton;
-    public LinearLayout nfcTagFragmentButtonLayout;
-    public CheckBox checkbox;
-    public TextView titleTextView;
-    public LinearLayout nfcTagDetailsLinearLayout;
-    public TextView nfcTagUidPrefixTextView;
-    public TextView nfcTagUidTextView;
+	public ImageButton scanNewTagButton;
+	public LinearLayout nfcTagFragmentButtonLayout;
+	public CheckBox checkbox;
+	public TextView titleTextView;
+	public LinearLayout nfcTagDetailsLinearLayout;
+	public TextView nfcTagUidPrefixTextView;
+	public TextView nfcTagUidTextView;
 }

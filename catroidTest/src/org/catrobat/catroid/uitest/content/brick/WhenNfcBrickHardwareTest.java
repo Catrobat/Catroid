@@ -56,15 +56,15 @@ import java.util.List;
 */
 public class WhenNfcBrickHardwareTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	/*
-    private ArrayList<NfcTagData> tagDataList;
+	private ArrayList<NfcTagData> tagDataList;
 
-    private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
-    private static final String FIRST_TEST_TAG_ID = "08111111";
+	private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
+	private static final String FIRST_TEST_TAG_ID = "08111111";
 
-    private static final String SECOND_TEST_TAG_NAME = "tagNameTest2";
-    private static final String SECOND_TEST_TAG_ID = "08222222";
+	private static final String SECOND_TEST_TAG_NAME = "tagNameTest2";
+	private static final String SECOND_TEST_TAG_ID = "08222222";
 
-    private String all;
+	private String all;
 
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 
@@ -72,32 +72,32 @@ public class WhenNfcBrickHardwareTest extends BaseActivityInstrumentationTestCas
 	private File soundFile;
 	private ArrayList<SoundInfo> soundInfoList;
 	*/
-    public WhenNfcBrickHardwareTest() {
-        super(MainMenuActivity.class);
-    }
+	public WhenNfcBrickHardwareTest() {
+		super(MainMenuActivity.class);
+	}
 
-	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest(){
+	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest() {
 		assertSame("Remove me!!", "Remove me!!", "Remove me!!");
 	}
 	/*
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
 		SensorTestServerConnection.connectToArduinoServer();
 		UiTestUtils.enableNfcBricks(getActivity().getApplicationContext());
-        createProject();
-        all = solo.getString(R.string.brick_when_nfc_default_all);
-        UiTestUtils.prepareStageForTest();
-        UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-    }
+		createProject();
+		all = solo.getString(R.string.brick_when_nfc_default_all);
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+	}
 
-    @Override
-    public void tearDown() throws Exception {
+	@Override
+	public void tearDown() throws Exception {
 		if (soundFile.exists()) {
 			soundFile.delete();
 		}
-        super.tearDown();
-    }
+		super.tearDown();
+	}
 
 	@Device
 	public void testPlayTriggerAll() {
@@ -156,12 +156,12 @@ public class WhenNfcBrickHardwareTest extends BaseActivityInstrumentationTestCas
 		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
 	}
 
-    @Device
-    public void testAddNewTag() {
-        String newText = solo.getString(R.string.new_nfc_tag);
+	@Device
+	public void testAddNewTag() {
+		String newText = solo.getString(R.string.new_nfc_tag);
 
-        solo.clickOnText(all);
-        solo.clickOnText(newText);
+		solo.clickOnText(all);
+		solo.clickOnText(newText);
 
 		solo.waitForFragmentByTag(NfcTagFragment.TAG);
 		solo.sleep(1000);
@@ -176,40 +176,40 @@ public class WhenNfcBrickHardwareTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Testtag not added", solo.searchText(solo.getString(R.string.default_tag_name)));
 		solo.clickOnText(solo.getString(R.string.default_tag_name));
 
-        assertTrue(solo.getString(R.string.default_tag_name) + " is not selected in Spinner", solo.isSpinnerTextSelected(solo.getString(R.string.default_tag_name)));
+		assertTrue(solo.getString(R.string.default_tag_name) + " is not selected in Spinner", solo.isSpinnerTextSelected(solo.getString(R.string.default_tag_name)));
 
-        solo.goBack();
-        String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
-        assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
-                .equals(programMenuActivityClass));
-    }
+		solo.goBack();
+		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
+		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
+				.equals(programMenuActivityClass));
+	}
 
-    private void createProject() {
-        ProjectManager projectManager = ProjectManager.getInstance();
-        Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-        Sprite firstSprite = new Sprite("cat");
-        Script testScript = new WhenNfcScript();
+	private void createProject() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new WhenNfcScript();
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
 		testScript.addBrick(playSoundBrick);
 
-        firstSprite.addScript(testScript);
-        project.addSprite(firstSprite);
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
 
-        projectManager.setProject(project);
-        projectManager.setCurrentSprite(firstSprite);
-        projectManager.setCurrentScript(testScript);
-        tagDataList = projectManager.getCurrentSprite().getNfcTagList();
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 
-        NfcTagData tagData = new NfcTagData();
-        tagData.setNfcTagName(FIRST_TEST_TAG_NAME);
-        tagData.setNfcTagUid(FIRST_TEST_TAG_ID);
-        tagDataList.add(tagData);
+		NfcTagData tagData = new NfcTagData();
+		tagData.setNfcTagName(FIRST_TEST_TAG_NAME);
+		tagData.setNfcTagUid(FIRST_TEST_TAG_ID);
+		tagDataList.add(tagData);
 
-        NfcTagData tagData2 = new NfcTagData();
-        tagData2.setNfcTagName(SECOND_TEST_TAG_NAME);
-        tagData2.setNfcTagUid(SECOND_TEST_TAG_ID);
-        tagDataList.add(tagData2);
+		NfcTagData tagData2 = new NfcTagData();
+		tagData2.setNfcTagName(SECOND_TEST_TAG_NAME);
+		tagData2.setNfcTagUid(SECOND_TEST_TAG_ID);
+		tagDataList.add(tagData2);
 
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
@@ -222,7 +222,7 @@ public class WhenNfcBrickHardwareTest extends BaseActivityInstrumentationTestCas
 		soundInfoList.add(soundInfo);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-    }
+	}
 
 	@SuppressWarnings("unchecked")
 	private List<MediaPlayer> getMediaPlayers() {

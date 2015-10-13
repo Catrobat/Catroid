@@ -65,7 +65,7 @@ public class NfcTagFragmentHardwareTest extends BaseActivityInstrumentationTestC
 		super(MainMenuActivity.class);
 	}
 
-	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest(){
+	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest() {
 		assertSame("Remove me!!", "Remove me!!", "Remove me!!");
 	}
 /*

@@ -98,7 +98,7 @@ public final class SensorTestServerConnection {
 			command += Integer.toHexString(NFC_EMULATE);
 			command += writable ? '1' : '0';
 			command += tagId;
-			command += 2*ndefMsg.length();
+			command += 2 * ndefMsg.length();
 			command += ndefMsg;
 
 			Log.d(TAG, "emulateNfcTag() - command: " + command);

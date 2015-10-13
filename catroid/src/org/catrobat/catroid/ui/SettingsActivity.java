@@ -173,7 +173,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
 		editor.commit();
 	}
-	
+
 	public static void setArduinoSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_ARDUINO_BRICKS, value);

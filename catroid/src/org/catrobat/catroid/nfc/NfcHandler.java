@@ -34,66 +34,66 @@ import java.util.List;
 public final class NfcHandler {
 	private static final String TAG = NfcHandler.class.getSimpleName();
 
-    private NfcHandler(){
+	private NfcHandler() {
 
-    }
+	}
 
 	public static void processIntent(Intent intent) {
 		if (intent == null) {
 			return;
 		}
 
-        String uid = getUid(intent);
+		String uid = getUid(intent);
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 
-        //String nameForUid = spriteList.//NfcTagContainer.getNameForUid(uid);
-        //Log.d(TAG, "namefor uid:" + nameForUid);
+		//String nameForUid = spriteList.//NfcTagContainer.getNameForUid(uid);
+		//Log.d(TAG, "namefor uid:" + nameForUid);
 
 		for (Sprite sprite : spriteList) {
 			sprite.createWhenNfcScriptAction(uid);
 		}
 	}
 
-    public static String getUid(Intent intent){
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())
-                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())
-                || NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
-            byte[] tagId = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-            String uid = byteArrayToHex(tagId);
+	public static String getUid(Intent intent) {
+		if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())
+				|| NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())
+				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
+			byte[] tagId = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
+			String uid = byteArrayToHex(tagId);
 
-            //if whole tag is needed
-            //Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            //String uid = byteArrayToHex(tag.getId());
+			//if whole tag is needed
+			//Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+			//String uid = byteArrayToHex(tag.getId());
 
-            Log.d(TAG, "read successful. uid = hex:" + uid);
+			Log.d(TAG, "read successful. uid = hex:" + uid);
 
-            // uncomment for debugging ndef information
-            //			Ndef ndefTag;
-            //			if (null != (ndefTag = Ndef.get(tag))) {
-            //				try {
-            //					ndefTag.connect();
-            //					NdefMessage ndefMessage = ndefTag.getNdefMessage();
-            //					for (NdefRecord record : ndefMessage.getRecords()) {
-            //						Log.d(TAG, "record, tnf: " + record.getTnf() + " " + new String(record.getPayload()));
-            //					}
-            //					ndefTag.close();
-            //				} catch (IOException e) {
-            //					// ...
-            //				} catch (FormatException e) {
-            //					// ...
-            //				}
-            //
-            //			}
-            return uid;
-        }
-        return null;
-    }
+			// uncomment for debugging ndef information
+			//			Ndef ndefTag;
+			//			if (null != (ndefTag = Ndef.get(tag))) {
+			//				try {
+			//					ndefTag.connect();
+			//					NdefMessage ndefMessage = ndefTag.getNdefMessage();
+			//					for (NdefRecord record : ndefMessage.getRecords()) {
+			//						Log.d(TAG, "record, tnf: " + record.getTnf() + " " + new String(record.getPayload()));
+			//					}
+			//					ndefTag.close();
+			//				} catch (IOException e) {
+			//					// ...
+			//				} catch (FormatException e) {
+			//					// ...
+			//				}
+			//
+			//			}
+			return uid;
+		}
+		return null;
+	}
 
 	public static String byteArrayToHex(byte[] a) {
-        if (a == null){
-            return null;
-        }
+		if (a == null) {
+			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 		for (byte b : a) {
 			sb.append(String.format("%02x", b & 0xff));

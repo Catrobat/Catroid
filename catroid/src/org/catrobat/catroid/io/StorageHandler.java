@@ -238,7 +238,7 @@ public final class StorageHandler {
 	private void setXstreamAliases() {
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
-        xstream.alias("nfcTag", NfcTagData.class);
+		xstream.alias("nfcTag", NfcTagData.class);
 		xstream.alias("userVariable", UserVariable.class);
 		xstream.alias("userList", UserList.class);
 

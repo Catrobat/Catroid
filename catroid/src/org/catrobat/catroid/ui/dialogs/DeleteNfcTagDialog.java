@@ -76,7 +76,7 @@ public class DeleteNfcTagDialog extends DialogFragment {
 	private void handleDeleteNfcTag(int position) {
 		ArrayList<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		//StorageHandler.getInstance().deleteFile(nfcTagDataList.get(position).getAbsolutePath());
-        nfcTagDataList.remove(position);
+		nfcTagDataList.remove(position);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}

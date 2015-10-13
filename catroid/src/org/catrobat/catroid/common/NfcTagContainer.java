@@ -34,66 +34,66 @@ import java.util.List;
 import java.util.Map;
 
 public final class NfcTagContainer {
-    private static final String TAG = NfcTagContainer.class.getSimpleName();
+	private static final String TAG = NfcTagContainer.class.getSimpleName();
 
-    private static ArrayAdapter<String> tagNameAdapter = null;
-    private static List<String> tagNameList = new ArrayList<String>();
-    private static Map<String, String> mapUidToTagName = new HashMap<String, String>();
+	private static ArrayAdapter<String> tagNameAdapter = null;
+	private static List<String> tagNameList = new ArrayList<String>();
+	private static Map<String, String> mapUidToTagName = new HashMap<String, String>();
 
-    private NfcTagContainer() {
-        throw new AssertionError();
-    }
+	private NfcTagContainer() {
+		throw new AssertionError();
+	}
 
-    //TODO: rename to getNfcAdapter/getTagAdapter
-    public static ArrayAdapter<String> getMessageAdapter(Context context) {
-        if (tagNameAdapter == null) {
-            tagNameAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tagNameList);
-            //TODO: use .add() instead of .insert()
-            tagNameAdapter.insert(context.getString(R.string.new_nfc_tag),0);
-            tagNameAdapter.insert(context.getString(R.string.brick_when_nfc_default_all),1);
+	//TODO: rename to getNfcAdapter/getTagAdapter
+	public static ArrayAdapter<String> getMessageAdapter(Context context) {
+		if (tagNameAdapter == null) {
+			tagNameAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tagNameList);
+			//TODO: use .add() instead of .insert()
+			tagNameAdapter.insert(context.getString(R.string.new_nfc_tag), 0);
+			tagNameAdapter.insert(context.getString(R.string.brick_when_nfc_default_all), 1);
 
-            tagNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        }
-        return tagNameAdapter;
-    }
+			tagNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		}
+		return tagNameAdapter;
+	}
 
 
-    public static void addTagName(String uid, String tagName) {
-        if (tagName == null || tagName.isEmpty()) {
-            return;
-        }
+	public static void addTagName(String uid, String tagName) {
+		if (tagName == null || tagName.isEmpty()) {
+			return;
+		}
 
-        addTagName(tagName);
+		addTagName(tagName);
 
-        Log.d(TAG,"adding" +uid + " - " + tagName);
-        mapUidToTagName.put(uid, tagName);
-    }
+		Log.d(TAG, "adding" + uid + " - " + tagName);
+		mapUidToTagName.put(uid, tagName);
+	}
 
-    //TODO: Rename
-    public static int getPositionOfMessageInAdapter(Context context, String tagName) {
-        if (tagNameAdapter == null) {
-            getMessageAdapter(context);
-        }
-        return tagNameAdapter.getPosition(tagName);
-    }
+	//TODO: Rename
+	public static int getPositionOfMessageInAdapter(Context context, String tagName) {
+		if (tagNameAdapter == null) {
+			getMessageAdapter(context);
+		}
+		return tagNameAdapter.getPosition(tagName);
+	}
 
-    public static String getNameForUid(String uid) {
-        return mapUidToTagName.get(uid);
-    }
+	public static String getNameForUid(String uid) {
+		return mapUidToTagName.get(uid);
+	}
 
-    public static String getFirst(Context context) {
-        return getMessageAdapter(context).getItem(1);
-    }
+	public static String getFirst(Context context) {
+		return getMessageAdapter(context).getItem(1);
+	}
 
-    public static void addTagName(String tagName) {
-        if (tagName == null || tagName.isEmpty()) {
-            return;
-        }
+	public static void addTagName(String tagName) {
+		if (tagName == null || tagName.isEmpty()) {
+			return;
+		}
 
-        if (!tagNameList.contains(tagName)) {
-            tagNameList.add(tagName);
-        }
-    }
+		if (!tagNameList.contains(tagName)) {
+			tagNameList.add(tagName);
+		}
+	}
 
-    //TODO: add removeUnmappedTags - see MessageContainer.java - removeUnusedMessages()
+	//TODO: add removeUnmappedTags - see MessageContainer.java - removeUnusedMessages()
 }

@@ -49,7 +49,7 @@ public class NfcTagBaseAdapter extends ArrayAdapter<NfcTagData> implements Scrip
 	}
 
 	public NfcTagBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<NfcTagData> items,
-                             boolean showDetails) {
+			boolean showDetails) {
 		super(context, resource, textViewResourceId, items);
 		this.context = context;
 		this.showDetails = showDetails;

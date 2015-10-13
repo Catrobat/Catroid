@@ -23,8 +23,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -191,9 +189,9 @@ public class CategoryBricksFactory {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
-        if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-            controlBrickList.add(new WhenNfcBrick());
-        }
+		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new WhenNfcBrick());
+		}
 
 		return controlBrickList;
 	}
