@@ -77,6 +77,23 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	public void onPause() {
 		super.onPause();
 
+		DroneControlService droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		if (droneControlService != null) {
+			boolean flyingMode = droneControlService.getDroneNavData().flying;
+			if (flyingMode) {
+				droneControlService.triggerTakeOff();
+				Log.d(getClass().getSimpleName(), "Drone is in flying state!");
+			} else {
+				Log.d(getClass().getSimpleName(), "Drone is in landing state!");
+			}
+		}
+
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		if (droneConnection != null) {
 			droneConnection.pause();
 		}
