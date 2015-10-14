@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
@@ -32,28 +34,40 @@ import org.catrobat.catroid.stage.StageActivity;
 
 public class DroneStartVideoAction extends TemporalAction {
 
-	private Look videoBackgroundLook;
-	private boolean videoIsShown = false;
+	private boolean toggleVideoFormat = true;
+	private Look videoBackgroundLookFullscreen;
+	private Look videoBackgroundLookHorizental;
 
 	@Override
 	protected void begin() {
+		Log.d(getClass().getSimpleName(), "toggleVideoFormat = " + toggleVideoFormat);
+		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 
-		Sprite bgSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Log.d(getClass().getSimpleName(), "sprite name: " + backgroundSprite.getName());
 
-		if (videoBackgroundLook == null) {
-			videoBackgroundLook = new DroneVideoLook(bgSprite);
+		if (videoBackgroundLookFullscreen == null) {
+			videoBackgroundLookFullscreen = new DroneVideoLook(backgroundSprite, true);
+			StageActivity.stageListener.removeActor(backgroundSprite.look);
 		}
 
-		if (videoIsShown) {
-			StageActivity.stageListener.addActor(bgSprite.look);
-			StageActivity.stageListener.removeActor(videoBackgroundLook);
-			bgSprite.look.setZIndex(0);
-			videoIsShown = false;
+		if (videoBackgroundLookHorizental == null) {
+			videoBackgroundLookHorizental = new DroneVideoLook(backgroundSprite, false);
+		}
+		Log.d(getClass().getSimpleName(), "sprite look name: " + backgroundSprite.look.getName());
+
+		//StageActivity.stageListener.removeActor(videoBackgroundLookFullscreen);
+		if (toggleVideoFormat) {
+			//backgroundSprite.look = videoBackgroundLookHorizental;
+			StageActivity.stageListener.addActor(backgroundSprite.look);
+			StageActivity.stageListener.removeActor(videoBackgroundLookFullscreen);
+			videoBackgroundLookHorizental.setZIndex(0);
+			toggleVideoFormat = false;
 		} else {
-			StageActivity.stageListener.removeActor(bgSprite.look);
-			StageActivity.stageListener.addActor(videoBackgroundLook);
-			videoBackgroundLook.setZIndex(0);
-			videoIsShown = true;
+			StageActivity.stageListener.removeActor(videoBackgroundLookHorizental);
+			backgroundSprite.look = videoBackgroundLookFullscreen;
+			StageActivity.stageListener.addActor(videoBackgroundLookFullscreen);
+			videoBackgroundLookFullscreen.setZIndex(0);
+			toggleVideoFormat = true;
 		}
 
 		super.begin();

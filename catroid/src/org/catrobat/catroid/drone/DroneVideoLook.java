@@ -38,14 +38,16 @@ import org.catrobat.catroid.content.Sprite;
 
 public class DroneVideoLook extends Look {
 
+	private final boolean fullscreen;
 	private boolean firstStart = true;
 	private GLBGVideoSprite videoTexture;
 	private TextureRegion textureRegion;
 	private Texture texture;
-	private int[] videoSize = { 640, 480 };
+	private int[] videoSize = {640, 480};
 
-	public DroneVideoLook(Sprite sprite) {
+	public DroneVideoLook(Sprite sprite, boolean fullscreen) {
 		super(sprite);
+		this.fullscreen = fullscreen;
 	}
 
 	@Override
@@ -68,7 +70,9 @@ public class DroneVideoLook extends Look {
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
 
-		setVideoTextureToFullScreen();
+		if (fullscreen) {
+			setVideoTextureToFullScreen();
+		}
 	}
 
 	private void setVideoTextureToFullScreen() {

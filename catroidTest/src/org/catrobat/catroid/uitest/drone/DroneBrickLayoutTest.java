@@ -114,14 +114,14 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		assertTrue("No video selection available", solo.searchText(solo.getString(R.string.dialog_new_object_drone_video), true));
+		assertTrue("No video selection available", solo.searchText(solo.getString(R.string.add_look_drone_video), true));
 		solo.goBack();
 
 		SettingsActivity.enableARDroneBricks(getActivity(), false);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Video selection still available", solo.searchText(solo.getString(R.string
-				.dialog_new_object_drone_video), true));
+				.add_look_drone_video), true));
 
 		solo.goBack();
 	}

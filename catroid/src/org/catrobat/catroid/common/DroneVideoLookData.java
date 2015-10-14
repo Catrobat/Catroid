@@ -27,8 +27,10 @@ import android.util.Log;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
@@ -43,8 +45,9 @@ public class DroneVideoLookData extends LookData {
 
 	private transient boolean firstStart = true;
 	private transient GLBGVideoSprite videoTexture;
-	private transient int[] videoSize = { 0, 0 };
+	private transient int[] videoSize = {0, 0};
 	private transient int[] defaultVideoTextureSize;
+	private transient boolean isLandscapeMode = true;
 
 	@Override
 	public DroneVideoLookData clone() {
@@ -70,26 +73,50 @@ public class DroneVideoLookData extends LookData {
 	@Override
 	public Pixmap getPixmap() {
 
-		double virtualScreenWidth = Gdx.graphics.getHeight();
+		double virtualScreenWidth = Gdx.graphics.getWidth();
+		// BUG: getHeight() should be 1200, but it is 1100, so we need an scaling factor of 1.1
+		double virtualScreenHeight = Gdx.graphics.getHeight() * 1.1;
 		double videoRatio = 64f / 36f;
-		double videoHeight = virtualScreenWidth / videoRatio;
-		defaultVideoTextureSize = new int[] { (int) virtualScreenWidth, (int) videoHeight };
+		double videoHeight = virtualScreenWidth * videoRatio;
+		double videoWidth = virtualScreenHeight / videoRatio;
+		isLandscapeMode = ProjectManager.getInstance().getCurrentProject().isLandscapeMode();
+		// Da im landscape modus schon gedreht wurde, entfehlt somit eine weitere Drehung
+
+		if (isLandscapeMode) {
+			//defaultVideoTextureSize = new int[]{(int) 10, (int) 10}; // it is a hack, but you don't need it anymore
+			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) virtualScreenHeight};
+			Log.d(getClass().getSimpleName(), "virtualScreenWidth: " + virtualScreenWidth);
+			Log.d(getClass().getSimpleName(), "virtualScreenHeight: " + virtualScreenHeight);
+
+			OrthographicCamera camera = new OrthographicCamera();
+			camera.setToOrtho(false, (int) virtualScreenWidth, (int) virtualScreenHeight);
+			camera.viewportWidth = (float) virtualScreenHeight;
+			camera.viewportHeight = (float) virtualScreenWidth;
+			camera.update();
+
+		} else {
+			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) videoHeight};
+		}
 
 		if (pixmap == null) {
 			pixmap = new Pixmap(defaultVideoTextureSize[0], defaultVideoTextureSize[1], Pixmap.Format.RGB888);
 			pixmap.setColor(Color.BLUE);
 			pixmap.fill();
+			pixmap.setBlending(Pixmap.Blending.None);
+
+			//pixmap.setColor(0, 1, 0, 0.75f);
+			// make a nice picture here if you like
 		}
 		return pixmap;
 	}
 
 	@Override
 	public void setTextureRegion() {
-		this.region = new TextureRegion(new Texture(getPixmap()));
+		this.textureRegion = new TextureRegion(new Texture(getPixmap()));
 	}
 
 	@Override
-	public void onDraw() {
+	public void draw(Batch batch, float parentAlpha) {
 		if (firstStart) {
 			videoTexture = new GLBGVideoSprite();
 			onSurfaceChanged();
@@ -100,8 +127,12 @@ public class DroneVideoLookData extends LookData {
 			onSurfaceChanged();
 		}
 
-		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, region.getTexture().getTextureObjectHandle());
+		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, textureRegion.getTexture().getTextureObjectHandle());
 		videoTexture.onUpdateVideoTexture();
+
+		/*if (isLandscapeMode) {
+			batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+		}*/
 	}
 
 	private void onSurfaceChanged() {
@@ -109,7 +140,23 @@ public class DroneVideoLookData extends LookData {
 		videoSize[0] = videoTexture.imageWidth;
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
+
+		setSize(1f, 1f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
+		//setVideoTextureToFullScreen();
 	}
+
+	private void setVideoTextureToFullScreen() {
+		//inverted because of rotation
+		float newX = getY() - (Gdx.graphics.getHeight() - getHeight()) / 2f;
+		float newY = getX() - (Gdx.graphics.getWidth() - getWidth()) / 2f;
+		setPosition(newX, newY);
+		setSize(Gdx.graphics.getHeight(), Gdx.graphics.getWidth());
+		setOrigin(getWidth() / 2f, getHeight() / 2f);
+		setScale(1f, 1f);
+		setRotation(90f);
+
+	}
+
 
 	@Override
 	public int getRequiredResources() {

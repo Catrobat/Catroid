@@ -142,7 +142,7 @@
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_video"
                 android:gravity="center"
-                android:text="@string/dialog_new_object_drone_video"
+                android:text="@string/add_look_drone_video"
                 android:textSize="12sp"/>
 
         </LinearLayout>

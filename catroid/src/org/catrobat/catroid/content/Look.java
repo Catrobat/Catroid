@@ -158,6 +158,7 @@ public class Look extends Image {
 		//currently only used for dronevideo!
 		if (lookData != null) {
 			lookData.onDraw();
+			lookData.draw(batch, alpha);
 		}
 
 		if (this.visible && this.getDrawable() != null) {
