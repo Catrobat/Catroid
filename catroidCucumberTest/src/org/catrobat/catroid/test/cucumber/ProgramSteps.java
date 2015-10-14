@@ -80,7 +80,7 @@ public class ProgramSteps extends AndroidTestCase {
 	@Given("^I have a Program$")
 	public void I_have_a_program() throws IOException {
 		ProjectManager pm = ProjectManager.getInstance();
-		pm.initializeNewProject("Cucumber", getContext(), /*empty*/ true);
+		pm.initializeNewProject("Cucumber", getContext(), /*empty*/ true, /*drone*/ false);
 		Project project = pm.getCurrentProject();
 		Cucumber.put(Cucumber.KEY_PROJECT, project);
 	}

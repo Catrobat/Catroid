@@ -296,12 +296,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscapeMode)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean isDroneProject, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
 			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
+		} else if (isDroneProject) {
+			project = StandardProjectHandler.createAndSaveStandardDroneProject(projectName, context, landscapeMode);
 		} else {
 			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscapeMode);
 		}
@@ -310,9 +312,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentScript = null;
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean isDroneProject)
 			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, false);
+		initializeNewProject(projectName, context, empty, isDroneProject, false);
 	}
 
 	public Project getCurrentProject() {

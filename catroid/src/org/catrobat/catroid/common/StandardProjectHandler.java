@@ -95,10 +95,10 @@ public final class StandardProjectHandler {
 	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {
 		Log.d(TAG, "createAndSaveStandardDroneProject");
 		String projectName = context.getString(R.string.default_drone_project_name);
-		return createAndSaveStandardDroneProject(projectName, context);
+		return createAndSaveStandardDroneProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveStandardDroneProject(String projectName, Context context) throws IOException,
+	public static Project createAndSaveStandardDroneProject(String projectName, Context context, boolean landscapeMode) throws IOException,
 			IllegalArgumentException {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
@@ -106,7 +106,7 @@ public final class StandardProjectHandler {
 
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
-		Project defaultDroneProject = new Project(context, projectName);
+		Project defaultDroneProject = new Project(context, projectName, landscapeMode);
 		defaultDroneProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultDroneProject);
 		ProjectManager.getInstance().setProject(defaultDroneProject);
