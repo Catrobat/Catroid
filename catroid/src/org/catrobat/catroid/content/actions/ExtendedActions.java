@@ -248,6 +248,22 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static ArduinoSendDigitalValueAction sendDigitalArduinoValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+		ArduinoSendDigitalValueAction action = action(ArduinoSendDigitalValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public static ArduinoSendPWMValueAction sendPWMArduinoValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+		ArduinoSendPWMValueAction action = action(ArduinoSendPWMValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
 	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);

@@ -104,6 +104,10 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
+		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			connectBTDevice(BluetoothDevice.ARDUINO);
+		}
+
 		if (DroneServiceWrapper.checkARDroneAvailability()) {
 			CatroidApplication.loadNativeLibs();
 			if (CatroidApplication.parrotLibrariesLoaded) {

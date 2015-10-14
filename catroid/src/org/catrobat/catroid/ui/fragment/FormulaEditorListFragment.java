@@ -99,9 +99,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness };
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness};
 
-	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_1,
+	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
 			R.string.formula_editor_sensor_lego_nxt_4};
 
@@ -127,6 +127,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	private static final int[] FACE_DETECTION_SENSOR_ITEMS = { R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position };
+
+	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
+			R.string.formula_editor_function_arduino_read_pin_value_digital};
 
 	private String actionBarTitle;
 	private int[] itemsIds;
@@ -184,17 +187,16 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
 			}
 
-			//drone specified data: merge copy here
-			// TODO: check if correct behaviour is established
-			// TODO: What is SENSOR_TAG? Can we choose another word for drone condition?
-			if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
+			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) { changed signatur
 				int[] array1and2 = new int[SENSOR_ITEMS.length + SENSOR_ITEMS_DRONE.length];
 				System.arraycopy(SENSOR_ITEMS, 0, array1and2, 0, SENSOR_ITEMS.length);
 				System.arraycopy(SENSOR_ITEMS_DRONE, 0, array1and2, SENSOR_ITEMS.length, SENSOR_ITEMS_DRONE.length);
 				itemsIds = array1and2;
-			} else {
-				itemsIds = SENSOR_ITEMS;
-			}
+			} 
 		}
 
 		String[] items = new String[itemsIds.length];
