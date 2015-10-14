@@ -64,6 +64,6 @@ public final class DroneServiceWrapper {
 	}
 
 	public static boolean isDroneSharedPreferenceEnabled() {
-		return SettingsActivity.isDroneSharedPreferenceEnabled(CatroidApplication.getAppContext(), false);
+		return SettingsActivity.isDroneSharedPreferenceEnabled(CatroidApplication.getAppContext());
 	}
 }

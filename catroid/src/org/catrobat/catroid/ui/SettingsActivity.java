@@ -232,8 +232,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
-	public static boolean isDroneSharedPreferenceEnabled(Context context, boolean defaultValue) {
-		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
+	public static boolean isDroneSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
 
 	public static boolean isFaceDetectionPreferenceEnabled(Context context) {

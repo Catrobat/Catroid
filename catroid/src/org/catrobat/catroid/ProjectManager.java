@@ -259,7 +259,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public boolean initializeDefaultProject(Context context) {
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(context, false)) {
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
 			return initializeDroneProject(context);
 		} else {
 			return initializeStandardProject(context);
