@@ -24,41 +24,13 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.DroneVideoLook;
-import org.catrobat.catroid.stage.StageActivity;
 
 public class SetLookAction extends TemporalAction {
 
 	private LookData look;
 	private Sprite sprite;
-
-	private Look videoBackgroundLook;
-	private boolean isLandscapeMode = false;
-
-	@Override
-	protected void begin() {
-		super.begin();
-		if (look instanceof DroneVideoLookData) {
-			Sprite bgSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
-
-			if (videoBackgroundLook == null) {
-				videoBackgroundLook = new DroneVideoLook(bgSprite, true);
-			}
-
-			if (isLandscapeMode) {
-				//StageActivity.stageListener.removeActor(bgSprite.look);
-				StageActivity.stageListener.addActor(videoBackgroundLook);
-				videoBackgroundLook.setZIndex(0);
-				bgSprite.look = videoBackgroundLook;
-			}
-			super.begin();
-		}
-	}
 
 	@Override
 	protected void update(float percent) {

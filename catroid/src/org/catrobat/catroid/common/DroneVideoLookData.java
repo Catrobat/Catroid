@@ -88,11 +88,14 @@ public class DroneVideoLookData extends LookData {
 			Log.d(getClass().getSimpleName(), "virtualScreenWidth: " + virtualScreenWidth);
 			Log.d(getClass().getSimpleName(), "virtualScreenHeight: " + virtualScreenHeight);
 
+			// this block is not necessary maybe
+			//*************************************************
 			OrthographicCamera camera = new OrthographicCamera();
 			camera.setToOrtho(false, (int) virtualScreenWidth, (int) virtualScreenHeight);
 			camera.viewportWidth = (float) virtualScreenHeight;
 			camera.viewportHeight = (float) virtualScreenWidth;
 			camera.update();
+			//*************************************************
 
 		} else {
 			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) videoHeight};

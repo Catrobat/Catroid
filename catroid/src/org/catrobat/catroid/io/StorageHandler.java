@@ -160,7 +160,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
-
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -387,7 +386,7 @@ public final class StorageHandler {
 			Log.d(TAG, "Could not load project!");
 			deleteDirectory(file);
 			Log.d(TAG, "loadProject: directory is deleted and "
-					+ "default project will be restored!");
+					+ "default project should be restored!");
 			return null;
 		} finally {
 			if (fileInputStream != null) {
@@ -429,6 +428,7 @@ public final class StorageHandler {
 
 		try {
 			projectXml = XML_HEADER.concat(xstream.toXML(project));
+			Log.d(getClass().getSimpleName(), "projectXml: " + projectXml);
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 
@@ -908,7 +908,7 @@ public final class StorageHandler {
 		return true;
 	}
 
-	private boolean deleteDirectory(File path) {
+	public static boolean deleteDirectory(File path) {
 		if (path.exists()) {
 			File[] files = path.listFiles();
 			if (files == null) {
