@@ -75,7 +75,6 @@ import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
-import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
@@ -330,7 +329,6 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneTurnLeftBrick.class);
 		xstream.alias("brick", DroneTurnRightBrick.class);
 		xstream.alias("brick", DroneSwitchCameraBrick.class);
-		xstream.alias("brick", DroneToggleVideoBrick.class);
 		xstream.alias("brick", DroneEmergencyBrick.class);
 
 		xstream.alias("brick", PhiroMotorMoveBackwardBrick.class);
@@ -428,7 +426,6 @@ public final class StorageHandler {
 
 		try {
 			projectXml = XML_HEADER.concat(xstream.toXML(project));
-			Log.d(getClass().getSimpleName(), "projectXml: " + projectXml);
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 

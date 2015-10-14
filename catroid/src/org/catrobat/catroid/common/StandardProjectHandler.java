@@ -257,15 +257,6 @@ public final class StandardProjectHandler {
 		defaultDroneProject.addSprite(createDroneSprite(emergencySpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, 200, 500, emergencyFile, 2000));
 
-		//Video Sprite (toggle Background Brick)
-		String showVideoSpriteName = context.getString(R.string.drone_show_video_sprite_name);
-
-		File showVideoFile = UtilFile.copyImageFromResourceIntoProject(projectName, showVideoSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
-				true, backgroundImageScaleFactor);
-
-		defaultDroneProject.addSprite(createDroneSprite(showVideoSpriteName, DroneBrickFactory.DroneBricks.DRONE_TOGGLE_VIDEO_BRICK, -260, 500, showVideoFile));
-
 		//Video Sprite 2 (with Look) + switch camera on tapped
 		String videoSpriteName = context.getString(R.string.add_look_drone_video);
 

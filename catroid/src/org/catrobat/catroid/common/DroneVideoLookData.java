@@ -74,16 +74,17 @@ public class DroneVideoLookData extends LookData {
 	public Pixmap getPixmap() {
 
 		double virtualScreenWidth = Gdx.graphics.getWidth();
-		// BUG: getHeight() should be 1200, but it is 1100, so we need an scaling factor of 1.1
-		double virtualScreenHeight = Gdx.graphics.getHeight() * 1.1;
+		double virtualScreenHeight = Gdx.graphics.getHeight();
 		double videoRatio = 64f / 36f;
-		double videoHeight = virtualScreenWidth * videoRatio;
 		double videoWidth = virtualScreenHeight / videoRatio;
 		isLandscapeMode = ProjectManager.getInstance().getCurrentProject().isLandscapeMode();
 		// Da im landscape modus schon gedreht wurde, entfehlt somit eine weitere Drehung
 
 		if (isLandscapeMode) {
 			//defaultVideoTextureSize = new int[]{(int) 10, (int) 10}; // it is a hack, but you don't need it anymore
+			// BUG: getHeight() should be 1200, but it is 1100, so we need an scaling factor of 1.1
+			virtualScreenHeight = Gdx.graphics.getHeight() * 1.1;
+
 			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) virtualScreenHeight};
 			Log.d(getClass().getSimpleName(), "virtualScreenWidth: " + virtualScreenWidth);
 			Log.d(getClass().getSimpleName(), "virtualScreenHeight: " + virtualScreenHeight);
@@ -98,7 +99,7 @@ public class DroneVideoLookData extends LookData {
 			//*************************************************
 
 		} else {
-			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) videoHeight};
+			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) videoWidth};
 		}
 
 		if (pixmap == null) {
@@ -145,21 +146,7 @@ public class DroneVideoLookData extends LookData {
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
 
 		setSize(1f, 1f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
-		//setVideoTextureToFullScreen();
 	}
-
-	private void setVideoTextureToFullScreen() {
-		//inverted because of rotation
-		float newX = getY() - (Gdx.graphics.getHeight() - getHeight()) / 2f;
-		float newY = getX() - (Gdx.graphics.getWidth() - getWidth()) / 2f;
-		setPosition(newX, newY);
-		setSize(Gdx.graphics.getHeight(), Gdx.graphics.getWidth());
-		setOrigin(getWidth() / 2f, getHeight() / 2f);
-		setScale(1f, 1f);
-		setRotation(90f);
-
-	}
-
 
 	@Override
 	public int getRequiredResources() {
