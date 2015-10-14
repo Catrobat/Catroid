@@ -57,16 +57,16 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<Setting>();
 
-	public Project(Context context, String name, boolean landscape) {
+	public Project(Context context, String name, boolean landscapeMode) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
-		xmlHeader.setLandscape(landscape);
+		xmlHeader.setlandscapeMode(landscapeMode);
 
-		if (landscape) {
+		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
 		} else {
-			ifLandscapeSwitchWidthAndHeight();
+			iflandscapeModeSwitchWidthAndHeight();
 		}
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			Utils.updateScreenWidthAndHeight(context);
@@ -92,7 +92,7 @@ public class Project implements Serializable {
 		this(context, name, false);
 	}
 
-	private void ifLandscapeSwitchWidthAndHeight() {
+	private void iflandscapeModeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
@@ -292,7 +292,7 @@ public class Project implements Serializable {
 		xmlHeader.setIsPhiroProject(isPhiroProject);
 	}
 
-	public boolean isLandscapeMode() {
-		return xmlHeader.isLandscape();
+	public boolean islandscapeMode() {
+		return xmlHeader.islandscapeMode();
 	}
 }

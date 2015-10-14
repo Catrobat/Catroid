@@ -57,7 +57,7 @@ public class StageActivity extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate()");
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+		if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -144,7 +144,7 @@ public class StageActivity extends AndroidApplication {
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
-			ifLandscapeSwitchWidthAndHeight();
+			iflandscapeModeSwitchWidthAndHeight();
 		} else {
 			ifPortraitSwitchWidthAndHeight();
 		}
@@ -178,7 +178,7 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
-	private void ifLandscapeSwitchWidthAndHeight() {
+	private void iflandscapeModeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;

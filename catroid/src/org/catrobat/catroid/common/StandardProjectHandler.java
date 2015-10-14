@@ -71,7 +71,7 @@ public final class StandardProjectHandler {
 		throw new AssertionError();
 	}
 
-	public static Project createAndSaveStandardProject(Context context, boolean landscape) throws IOException {
+	public static Project createAndSaveStandardProject(Context context, boolean landscapeMode) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
 		Project standardProject = null;
 
@@ -80,7 +80,7 @@ public final class StandardProjectHandler {
 		}
 
 		try {
-			standardProject = createAndSaveStandardProject(projectName, context, landscape);
+			standardProject = createAndSaveStandardProject(projectName, context, landscapeMode);
 		} catch (IllegalArgumentException ilArgument) {
 			Log.e(TAG, "Could not create standard project!", ilArgument);
 		}
@@ -353,12 +353,12 @@ public final class StandardProjectHandler {
 		return sprite;
 	}
 
-	public static Project createAndSaveStandardProject(String projectName, Context context, boolean landscape) throws
+	public static Project createAndSaveStandardProject(String projectName, Context context, boolean landscapeMode) throws
 			IOException,
 			IllegalArgumentException {
-		// temporarily until standard landscape project exists.
-		if (landscape) {
-			return createAndSaveEmptyProject(projectName, context, landscape);
+		// temporarily until standard landscapeMode project exists.
+		if (landscapeMode) {
+			return createAndSaveEmptyProject(projectName, context, landscapeMode);
 		}
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
@@ -376,7 +376,7 @@ public final class StandardProjectHandler {
 		String varRandomFrom = context.getString(R.string.default_project_var_random_from);
 		String varRandomTo = context.getString(R.string.default_project_var_random_to);
 
-		Project defaultProject = new Project(context, projectName, landscape);
+		Project defaultProject = new Project(context, projectName, landscapeMode);
 		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -615,11 +615,11 @@ public final class StandardProjectHandler {
 		return createAndSaveStandardProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscape) {
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
-		Project emptyProject = new Project(context, projectName, landscape);
+		Project emptyProject = new Project(context, projectName, landscapeMode);
 		emptyProject.setDeviceData(context);
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);

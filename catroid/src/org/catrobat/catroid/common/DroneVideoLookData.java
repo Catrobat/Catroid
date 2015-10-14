@@ -47,7 +47,7 @@ public class DroneVideoLookData extends LookData {
 	private transient GLBGVideoSprite videoTexture;
 	private transient int[] videoSize = {0, 0};
 	private transient int[] defaultVideoTextureSize;
-	private transient boolean isLandscapeMode = true;
+	private transient boolean islandscapeMode = true;
 
 	@Override
 	public DroneVideoLookData clone() {
@@ -77,10 +77,10 @@ public class DroneVideoLookData extends LookData {
 		double virtualScreenHeight = Gdx.graphics.getHeight();
 		double videoRatio = 64f / 36f;
 		double videoWidth = virtualScreenHeight / videoRatio;
-		isLandscapeMode = ProjectManager.getInstance().getCurrentProject().isLandscapeMode();
-		// Da im landscape modus schon gedreht wurde, entfehlt somit eine weitere Drehung
+		islandscapeMode = ProjectManager.getInstance().getCurrentProject().islandscapeMode();
+		// Da im landscapeMode modus schon gedreht wurde, entfehlt somit eine weitere Drehung
 
-		if (isLandscapeMode) {
+		if (islandscapeMode) {
 			//defaultVideoTextureSize = new int[]{(int) 10, (int) 10}; // it is a hack, but you don't need it anymore
 			// BUG: getHeight() should be 1200, but it is 1100, so we need an scaling factor of 1.1
 			virtualScreenHeight = Gdx.graphics.getHeight() * 1.1;
@@ -134,7 +134,7 @@ public class DroneVideoLookData extends LookData {
 		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, textureRegion.getTexture().getTextureObjectHandle());
 		videoTexture.onUpdateVideoTexture();
 
-		/*if (isLandscapeMode) {
+		/*if (islandscapeMode) {
 			batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 		}*/
 	}

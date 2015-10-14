@@ -46,7 +46,7 @@ public class XmlHeader implements Serializable {
 
 	private boolean isPhiroProProject = false;
 
-	private boolean landscape;
+	private boolean landscapeMode;
 
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
@@ -194,11 +194,11 @@ public class XmlHeader implements Serializable {
 		this.isPhiroProProject = isPhiroProject;
 	}
 
-	public boolean isLandscape() {
-		return landscape;
+	public boolean islandscapeMode() {
+		return landscapeMode;
 	}
 
-	public void setLandscape(boolean landscape) {
-		this.landscape = landscape;
+	public void setlandscapeMode(boolean landscapeMode) {
+		this.landscapeMode = landscapeMode;
 	}
 }

@@ -296,14 +296,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape);
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
+			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscapeMode);
 		}
 
 		currentSprite = null;
@@ -319,7 +319,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return project;
 	}
 
-	public boolean isCurrentProjectLandscape() {
+	public boolean isCurrentProjectlandscapeMode() {
 		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
 

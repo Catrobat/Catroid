@@ -1635,9 +1635,9 @@ public class SearchView extends LinearLayout implements CollapsibleActionView {
         }
     }
 
-    static boolean isLandscapeMode(Context context) {
+    static boolean islandscapeMode(Context context) {
         return context.getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE;
+                == Configuration.ORIENTATION_landscapeMode;
     }
 
     /**
@@ -1727,9 +1727,9 @@ public class SearchView extends LinearLayout implements CollapsibleActionView {
                 InputMethodManager inputManager = (InputMethodManager) getContext()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.showSoftInput(this, 0);
-                // If in landscape mode, then make sure that
+                // If in landscapeMode mode, then make sure that
                 // the ime is in front of the dropdown.
-                if (isLandscapeMode(getContext())) {
+                if (islandscapeMode(getContext())) {
                     ensureImeVisible(this, true);
                 }
             }
