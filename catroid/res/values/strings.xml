@@ -512,7 +512,6 @@
     <string name="default_drone_project_sprites_emergency">Emergency</string>
     <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
-    <string name="drone_show_video_sprite_name">Toggle video</string>
     <!--  -->
 
     <!-- Drone config spinner values  -->
@@ -699,7 +698,6 @@
     <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
     <string name="brick_drone_angle">Angle</string>
     <string name="brick_drone_set_config">Set config</string>
-    <string name="brick_drone_toggle_video">Toggle video</string>
     <string name="brick_drone_switch_camera">Switch camera</string>
     <string name="brick_drone_set_altitude">Altitude limit</string>
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>

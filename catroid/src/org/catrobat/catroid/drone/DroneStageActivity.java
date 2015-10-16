@@ -91,7 +91,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					Log.e(getClass().getSimpleName(), "Error in Thread.sleep method!");
 				}
 
 				if (!droneControlService.getDroneNavData().flying) {
