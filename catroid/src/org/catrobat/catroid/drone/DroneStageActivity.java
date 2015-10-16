@@ -82,16 +82,22 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 			boolean flyingMode = droneControlService.getDroneNavData().flying;
 			if (flyingMode) {
 				droneControlService.triggerTakeOff();
-				Log.d(getClass().getSimpleName(), "Drone is in flying state!");
-			} else {
-				Log.d(getClass().getSimpleName(), "Drone is in landing state!");
 			}
 		}
 
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (droneControlService != null) {
+			//wait until drone is landed
+			for (int i = 0; i < 30; i++) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				if (!droneControlService.getDroneNavData().flying) {
+					break;
+				}
+			}
 		}
 
 		if (droneConnection != null) {
