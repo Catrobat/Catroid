@@ -442,7 +442,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
-		solo.setActivityOrientation(Solo.landscapeMode);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 
 		assertEquals(ProjectActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",

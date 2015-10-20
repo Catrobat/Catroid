@@ -613,7 +613,6 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_drone_set_config, R.string.category_drone);
 		brickCategoryMap.put(R.string.brick_drone_switch_camera, R.string.category_drone);
 		brickCategoryMap.put(R.string.brick_drone_takeoff_land, R.string.category_drone);
-		brickCategoryMap.put(R.string.brick_drone_toggle_video, R.string.category_drone);
 		brickCategoryMap.put(R.string.brick_drone_turn_left, R.string.category_drone);
 		brickCategoryMap.put(R.string.brick_drone_turn_left_magneto, R.string.category_drone);
 		brickCategoryMap.put(R.string.brick_drone_turn_right, R.string.category_drone);
