@@ -38,6 +38,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -50,6 +51,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XStreamAlias("program")
+// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+// CHECKSTYLE DISABLE IndentationCheck FOR 7 LINES
+@XStreamFieldKeyOrder({
+		"header",
+		"settings",
+		"scenes",
+		"programVariableList",
+		"programListOfLists"
+})
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;

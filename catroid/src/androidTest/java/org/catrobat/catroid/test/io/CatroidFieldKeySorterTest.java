@@ -33,6 +33,8 @@ import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.io.CatroidFieldKeySorter;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
+import org.catrobat.catroid.io.XStreamMissingSerializableFieldException;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -131,6 +133,68 @@ public class CatroidFieldKeySorterTest extends AndroidTestCase {
 		@XStreamAlias("x")
 		private int a;
 		private int y;
+		private int b;
+	}
+
+	public void testSortByAnnotation() {
+		xstream.toXML(new SortByAnnotation());
+
+		MoreAsserts.assertEquals("Sorted fields differ",
+				new String[] { "c", "a", "d", "b" }, fieldKeySorter.getFieldNames(SortByAnnotation.class));
+	}
+
+	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+	// CHECKSTYLE DISABLE IndentationCheck FOR 6 LINES
+	@XStreamFieldKeyOrder({
+			"c",
+			"a",
+			"d",
+			"b"
+	})
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private static class SortByAnnotation {
+		private int a;
+		private int b;
+		private int c;
+		private int d;
+	}
+
+	public void testSortByAnnotationWithAliases() {
+		xstream.toXML(new SortByAnnotationWithAliases());
+
+		MoreAsserts.assertEquals("Sorted fields differ",
+				new String[] { "x", "b" }, fieldKeySorter.getFieldNames(SortByAnnotationWithAliases.class));
+	}
+
+	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+	// CHECKSTYLE DISABLE IndentationCheck FOR 4 LINES
+	@XStreamFieldKeyOrder({
+			"x",
+			"b"
+	})
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private static class SortByAnnotationWithAliases {
+		private int b;
+		@XStreamAlias("x")
+		private int a;
+	}
+
+	public void testMissingFieldInAnnotationThrowsException() {
+		try {
+			xstream.toXML(new MissingFieldInAnnotation());
+			fail("XStream didn't throw an exception for missing field b in annotation");
+		} catch (XStreamMissingSerializableFieldException expected) {
+		}
+	}
+
+	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+	// CHECKSTYLE DISABLE IndentationCheck FOR 3 LINES
+	@XStreamFieldKeyOrder({
+			"a"
+	})
+	@SuppressWarnings("PMD.UnusedPrivateField")
+	private static class MissingFieldInAnnotation {
+		private int a;
 		private int b;
 	}
 }
