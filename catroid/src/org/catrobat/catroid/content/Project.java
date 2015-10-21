@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -44,6 +45,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XStreamAlias("program")
+// Remove checkstyle disable if https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+// CHECKSTYLE DISABLE IndentationCheck FOR 6 LINES
+@XStreamFieldKeyOrder({
+		"xmlHeader",
+		"spriteList",
+		"dataContainer",
+		"settings"
+})
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
