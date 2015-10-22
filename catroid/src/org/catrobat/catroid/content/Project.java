@@ -312,5 +312,4 @@ public class Project implements Serializable {
 	public void setIsPhiroProProject(boolean isPhiroProject) {
 		xmlHeader.setIsPhiroProject(isPhiroProject);
 	}
-
 }
