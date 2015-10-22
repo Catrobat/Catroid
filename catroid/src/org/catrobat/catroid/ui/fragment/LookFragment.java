@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -72,6 +71,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.LookDataHistory;
+import org.catrobat.catroid.content.commands.LookCommands;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.LookViewHolder;
@@ -82,7 +83,6 @@ import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter.OnLookEditListener;
 import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dialogs.NewLookDialog;
 import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
@@ -94,7 +94,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -152,8 +151,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+			ArrayList<LookData> lookDatas = new ArrayList<>();
 			for (int position : adapter.getCheckedItems()) {
-				LookController.getInstance().copyLook(position, lookDataList, activity, LookFragment.this);
+				int sizeBeforeCopy = lookDataList.size();
+				LookController.getInstance().copyLook(position, lookDataList, getActivity(), LookFragment.this);
+				if (lookDataList.size() > sizeBeforeCopy) {
+					lookDatas.add(lookDataList.get(lookDataList.size() - 1));
+				}
+			}
+			if (lookDatas.size() > 0) {
+				LookCommands.AddLookCommand command = new LookCommands.AddLookCommand(lookDatas);
+				getHistory().add(command);
+				getSherlockActivity().invalidateOptionsMenu();
 			}
 			clearCheckedLooksAndEnableButtons();
 		}
@@ -226,13 +235,19 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			if (adapter.getAmountOfCheckedItems() == 0) {
 				clearCheckedLooksAndEnableButtons();
 			} else {
-				showConfirmDeleteDialog();
+				deleteLooks();
 			}
 		}
 	};
 
 	public void setOnLookDataListChangedAfterNewListener(OnLookDataListChangedAfterNewListener listener) {
 		lookDataListChangedAfterNewListener = listener;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -313,15 +328,32 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		menu.findItem(R.id.rename).setVisible(true);
 		menu.findItem(R.id.show_details).setVisible(true);
 		menu.findItem(R.id.settings).setVisible(true);
-		menu.findItem(R.id.context_menu_move_up).setVisible(true);
-		menu.findItem(R.id.context_menu_move_down).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
 
 		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			menu.findItem(R.id.backpack).setVisible(false);
 			menu.findItem(R.id.unpacking).setVisible(false);
 		}
+
+		MenuItem undo = menu.findItem(R.id.menu_undo);
+		if (!getHistory().isUndoable()) {
+			undo.setIcon(R.drawable.icon_undo_disabled);
+			undo.setEnabled(false);
+		} else {
+			undo.setIcon(R.drawable.icon_undo);
+			undo.setEnabled(true);
+		}
+
+		MenuItem redo = menu.findItem(R.id.menu_redo);
+		if (!getHistory().isRedoable()) {
+			redo.setIcon(R.drawable.icon_redo_disabled);
+			redo.setEnabled(false);
+		} else {
+			redo.setIcon(R.drawable.icon_redo);
+			redo.setEnabled(true);
+		}
+
+		menu.findItem(R.id.menu_undo).setVisible(true);
+		menu.findItem(R.id.menu_redo).setVisible(true);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -385,6 +417,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				LookController.getInstance().switchToScriptFragment(LookFragment.this, (ScriptActivity) activity);
 			}
 		}
+
+		if (!LookDataHistory.getAllUndoRedoStatus()) {
+			LookDataHistory.applyChanges(ProjectManager.getInstance().getCurrentProject().getName());
+		}
 	}
 
 	@Override
@@ -431,6 +467,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		int sizeBeforeNewLook = lookDataList.size();
 
 		lastRecivedIntent = data;
 		if (resultCode == Activity.RESULT_OK) {
@@ -442,8 +479,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					break;
 				case LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE:
 					if (data != null) {
+						String fileNameOld = selectedLookData.getLookFileName();
 						LookController.getInstance().loadPocketPaintImageIntoCatroid(data, activity,
 								selectedLookData);
+						String fileNameNew = selectedLookData.getLookFileName();
+						LookCommands.EditLookCommand command = new LookCommands.EditLookCommand(selectedLookData,
+								fileNameOld, fileNameNew);
+						getHistory().add(command);
+						getSherlockActivity().invalidateOptionsMenu();
 					}
 					break;
 				case LookController.REQUEST_TAKE_PICTURE:
@@ -456,8 +499,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
 					LookController.getInstance().loadPictureFromLibraryIntoCatroid(filePath, activity,
 							lookDataList, this);
+					break;
 			}
 			isResultHandled = true;
+			if (lookDataList.size() > sizeBeforeNewLook) {
+				ArrayList<LookData> lookDatas = new ArrayList<>();
+				lookDatas.add(lookDataList.get(lookDataList.size() - 1));
+				LookCommands.AddLookCommand command = new LookCommands.AddLookCommand(lookDatas);
+				getHistory().add(command);
+				getSherlockActivity().invalidateOptionsMenu();
+			}
 		}
 
 		if (requestCode == LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE) {
@@ -493,8 +544,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy:
-				LookController.getInstance().copyLook(selectedLookPosition, lookDataList, activity,
-						LookFragment.this);
+				int looksBeforeCopy = lookDataList.size();
+				LookController.getInstance()
+						.copyLook(selectedLookPosition, lookDataList, activity, LookFragment.this);
+				if (lookDataList.size() > looksBeforeCopy) {
+					ArrayList<LookData> lookDatas = new ArrayList<>();
+					lookDatas.add(lookDataList.get(lookDataList.size() - 1));
+					LookCommands.AddLookCommand command = new LookCommands.AddLookCommand(lookDatas);
+					getHistory().add(command);
+					getSherlockActivity().invalidateOptionsMenu();
+				}
 				break;
 
 			case R.id.context_menu_cut:
@@ -511,7 +570,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				break;
 
 			case R.id.context_menu_delete:
-				showConfirmDeleteDialog();
+				deleteLooks();
 				break;
 			case R.id.context_menu_move_down:
 				moveLookDataDown();
@@ -677,6 +736,30 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
+	public void startUndoActionMode() {
+		try {
+			getHistory().undo();
+		} catch (Exception exception) {
+			ToastUtil.showError(getActivity(), getString(R.string.error_undo));
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		adapter.notifyDataSetChanged();
+		getSherlockActivity().invalidateOptionsMenu();
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		try {
+			getHistory().redo();
+		} catch (Exception exception) {
+			ToastUtil.showError(getActivity(), getString(R.string.error_redo));
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		adapter.notifyDataSetChanged();
+		getSherlockActivity().invalidateOptionsMenu();
+	}
+
+	@Override
 	public int getSelectMode() {
 		return adapter.getSelectMode();
 	}
@@ -796,41 +879,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		});
 	}
 
-	private void showConfirmDeleteDialog() {
-		int titleId;
-		if (adapter.getAmountOfCheckedItems() == 1) {
-			titleId = R.string.dialog_confirm_delete_look_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_looks_title;
+	private void deleteLooks() {
+		ArrayList<LookData> checkedLooks = new ArrayList<>();
+		for (Integer pos : adapter.getCheckedItems()) {
+			checkedLooks.add(lookDataList.get(pos));
 		}
 
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_look_message);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				LookController.getInstance().deleteCheckedLooks(adapter, lookDataList, activity);
-				clearCheckedLooksAndEnableButtons();
-			}
-		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				clearCheckedLooksAndEnableButtons();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
+		LookCommands.DeleteLookCommand command = new LookCommands.DeleteLookCommand(checkedLooks);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().invalidateOptionsMenu();
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+		clearCheckedLooksAndEnableButtons();
 	}
 
 	private void clearCheckedLooksAndEnableButtons() {
@@ -857,26 +917,34 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void moveLookDataDown() {
-		Collections.swap(lookDataList, selectedLookPosition + 1, selectedLookPosition);
+		LookCommands.MoveLookCommand command = new LookCommands.MoveLookCommand(selectedLookPosition + 1, selectedLookPosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().invalidateOptionsMenu();
 		adapter.notifyDataSetChanged();
 	}
 
 	private void moveLookDataUp() {
-		Collections.swap(lookDataList, selectedLookPosition - 1, selectedLookPosition);
+		LookCommands.MoveLookCommand command = new LookCommands.MoveLookCommand(selectedLookPosition - 1, selectedLookPosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().invalidateOptionsMenu();
 		adapter.notifyDataSetChanged();
 	}
 
 	private void moveLookDataToBottom() {
-		for (int i = selectedLookPosition; i < lookDataList.size() - 1; i++) {
-			Collections.swap(lookDataList, i, i + 1);
-		}
+		LookCommands.MoveLookToBottomCommand command = new LookCommands.MoveLookToBottomCommand(selectedLookPosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().invalidateOptionsMenu();
 		adapter.notifyDataSetChanged();
 	}
 
 	private void moveLookDataToTop() {
-		for (int i = selectedLookPosition; i > 0; i--) {
-			Collections.swap(lookDataList, i, i - 1);
-		}
+		LookCommands.MoveLookToTopCommand command = new LookCommands.MoveLookToTopCommand(selectedLookPosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().invalidateOptionsMenu();
 		adapter.notifyDataSetChanged();
 	}
 
@@ -982,8 +1050,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				String newLookName = intent.getExtras().getString(RenameLookDialog.EXTRA_NEW_LOOK_NAME);
 
 				if (newLookName != null && !newLookName.equalsIgnoreCase("")) {
-					selectedLookData.setLookName(newLookName);
-					adapter.notifyDataSetChanged();
+					LookCommands.RenameLookCommand command = new LookCommands.RenameLookCommand(selectedLookData, newLookName);
+					command.execute();
+					getHistory().add(command);
+					getSherlockActivity().invalidateOptionsMenu();
 				}
 			}
 		}
@@ -996,5 +1066,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				adapter.notifyDataSetChanged();
 			}
 		}
+	}
+
+	private LookDataHistory getHistory() {
+		return LookDataHistory.getInstance(ProjectManager.getInstance().getCurrentSprite().getId());
 	}
 }

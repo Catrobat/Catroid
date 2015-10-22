@@ -58,7 +58,19 @@
     <item
         android:id="@+id/upload"
         android:showAsAction="never"
-        android:title="@string/upload_button">
+        android:title="@string/upload_button"/>
+    <item
+        android:id="@+id/menu_undo"
+        android:showAsAction="always"
+        android:title="@string/undo"
+        android:visible="false"
+        android:icon="@drawable/icon_undo"/>
+    <item
+        android:id="@+id/menu_redo"
+        android:showAsAction="always"
+        android:title="@string/redo"
+        android:visible="false"
+        android:icon="@drawable/icon_redo">
     </item>
 
 </menu>

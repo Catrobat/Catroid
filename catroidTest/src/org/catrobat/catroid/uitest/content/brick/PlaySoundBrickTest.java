@@ -126,7 +126,6 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickLongOnText(soundName);
 		solo.waitForText(buttonDeleteText);
 		solo.clickOnText(buttonDeleteText);
-		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 

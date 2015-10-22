@@ -343,8 +343,6 @@ public final class LookController {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
 						newFileName);
 
-				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath()); //reduce usage in container or delete it
-
 				selectedLookData.setLookFilename(newLookFile.getName());
 				selectedLookData.resetThumbnailBitmap();
 			} catch (IOException ioException) {
@@ -408,23 +406,6 @@ public final class LookController {
 			return false;
 		}
 		return true;
-	}
-
-	private void deleteLook(int position, ArrayList<LookData> lookDataList, Activity activity) {
-		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
-
-		lookDataList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
-
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
-	}
-
-	public void deleteCheckedLooks(LookBaseAdapter adapter, ArrayList<LookData> lookDataList, Activity activity) {
-		int numberDeleted = 0;
-		for (int position : adapter.getCheckedItems()) {
-			deleteLook(position - numberDeleted, lookDataList, activity);
-			++numberDeleted;
-		}
 	}
 
 	public void copyLook(int position, ArrayList<LookData> lookDataList, final Activity activity, LookFragment fragment) {

@@ -106,9 +106,6 @@
   <string name="sprite">Object</string>
   <string name="sprites">Objecten</string>
   <string name="spritelist_background_headline">Achtergrond</string>
-  <string name="dialog_confirm_delete_object_title">Verwijder dit object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Verwijder deze objecten?</string>
-  <string name="dialog_confirm_delete_object_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="select_all">Selecteer alles</string>
   <string name="copy_sprite_name_suffix">_Kopiëren</string>
   <string name="scripts">Scripts</string>
@@ -141,9 +138,6 @@
   <string name="select_look_from_gallery">Selecteer afbeelding</string>
   <string name="select_look_from_camera">Selecteer foto</string>
   <string name="look_measure">Afmetingen:</string>
-  <string name="dialog_confirm_delete_look_title">Verwijder dit uiterlijk?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Deze uiterlijken verwijderen?</string>
-  <string name="dialog_confirm_delete_look_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="lookname">naam uiterlijk:</string>
   <string name="fragment_sound_text_description">Tik op \"+\" geluiden toe te voegen</string>
   <string name="rename_sound_dialog">Geluid hernoemen</string>
