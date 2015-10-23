@@ -27,7 +27,6 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -49,12 +48,7 @@ public class IfLogicAction extends Action {
 				return;
 			}
 			Double interpretation = ifCondition.interpretDouble(sprite);
-			String interpretationString = ifCondition.interpretString(sprite);
-			if (interpretationString.equals(R.string.brick_if_default_value)) {
-				ifConditionValue = true;
-			} else {
-				ifConditionValue = interpretation.intValue() != 0 ? true : false;
-			}
+			ifConditionValue = interpretation.intValue() != 0 ? true : false;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {
 			isInterpretedCorrectly = false;
