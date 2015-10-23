@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -54,9 +55,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	public IfLogicBeginBrick() {
 		addAllowedBrickField(BrickField.IF_CONDITION);
-	}
-	public IfLogicBeginBrick(String condition) {
-		initializeBrickFields(new Formula(condition));
 	}
 
 	public IfLogicBeginBrick(int condition) {
@@ -133,7 +131,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_if_begin_prototype_text_view);
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
 
-		ifBeginTextView.setText(R.string.brick_if_default_value);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
 
@@ -141,6 +138,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		ifBeginTextView.setVisibility(View.VISIBLE);
 
 		ifBeginTextView.setOnClickListener(this);
+
 		return view;
 	}
 
@@ -171,7 +169,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
 		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_prototype_text_view);
-		textIfBegin.setText(R.string.brick_if_default_value);
+		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
 		return prototypeView;
 	}
 
