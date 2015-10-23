@@ -453,6 +453,7 @@
 
     <string name="brick_loop_end" >End of loop</string >
     <string name="brick_if_begin" >If</string >
+    <string name="brick_if_default_value" >true</string >
     <string name="brick_if_begin_second_part" >is true then</string >
     <string name="brick_if_else" >Else</string >
     <string name="brick_if_end">End If</string>
