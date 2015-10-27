@@ -70,6 +70,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -124,6 +125,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -838,6 +840,11 @@ public final class UiTestUtils {
 		return location;
 	}
 
+	public static void addSpriteToProject(Project project, String name) {
+		Sprite sprite = new Sprite(name);
+		project.addSprite(sprite);
+	}
+
 	public static List<Brick> createTestProjectWithTwoSprites(String projectName) {
 		int xPosition = 457;
 		int yPosition = 598;
@@ -1390,6 +1397,27 @@ public final class UiTestUtils {
 
 	public static List<InternToken> getInternTokenList() {
 		return internTokenList;
+	}
+
+	public static Project deleteOldAndCreateAndSaveCleanStandardProject(Context context, Instrumentation instrumentation) {
+		String standardProjectName = context.getString(R.string.default_project_name);
+		Project standardProject;
+		try {
+			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
+				ProjectManager.getInstance().loadProject(standardProjectName, context);
+				ProjectManager.getInstance().deleteCurrentProject(null);
+			}
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+					instrumentation.getTargetContext());
+			ProjectManager.getInstance().setProject(standardProject);
+			return standardProject;
+		} catch (ProjectException projectException) {
+			Log.e(TAG, "Cannot load old standard project", projectException);
+			fail("Cannot load old standard project");
+		} catch (IOException exception) {
+			fail("Standard project not created");
+		}
+		return null;
 	}
 
 	public static void clearAllUtilTestProjects() {

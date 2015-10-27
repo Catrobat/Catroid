@@ -81,6 +81,14 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 		return checkedSounds;
 	}
 
+	public ArrayList<SoundInfo> getCheckedSoundInfos() {
+		ArrayList<SoundInfo> result = new ArrayList<>();
+		for (Integer pos : checkedSounds) {
+			result.add(soundInfoItems.get(pos));
+		}
+		return result;
+	}
+
 	public void addCheckedItem(int position) {
 		checkedSounds.add(position);
 	}

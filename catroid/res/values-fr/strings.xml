@@ -111,9 +111,6 @@ il faut
   <string name="sprite">Objet</string>
   <string name="sprites">Objets</string>
   <string name="spritelist_background_headline">Arrière-plan</string>
-  <string name="dialog_confirm_delete_object_title">Supprimer cet objet ?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Supprimer ces objets ?</string>
-  <string name="dialog_confirm_delete_object_message">Cette action ne peut pas être annulée!</string>
   <string name="select_all">Tout sélectionner</string>
   <string name="copy_sprite_name_suffix">_Copier</string>
   <string name="scripts">Scripts</string>
@@ -146,9 +143,6 @@ il faut
   <string name="select_look_from_gallery">Sélectionnez une image</string>
   <string name="select_look_from_camera">Sélectionner une photo</string>
   <string name="look_measure">Mesure:</string>
-  <string name="dialog_confirm_delete_look_title">Supprimer ce visuel?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Supprimer ces visuels ?</string>
-  <string name="dialog_confirm_delete_look_message">Cette action ne peut pas être annulée !</string>
   <string name="lookname">nom du visuel:</string>
   <string name="fragment_sound_text_description">Appuyer sur « + » pour ajouter des sons</string>
   <string name="rename_sound_dialog">Renommer son</string>

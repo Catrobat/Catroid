@@ -30,7 +30,10 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.SoundInfoHistory;
+import org.catrobat.catroid.content.commands.SoundCommands;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
@@ -69,11 +72,18 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 
 	public void onDestroyActionModeCopy(ActionMode mode) {
 		Iterator<Integer> iterator = checkedSounds.iterator();
+		ArrayList<SoundInfo> soundInfos = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			int position = iterator.next();
+			int sizeBeforeCopy = soundFragment.getSoundInfoList().size();
 			SoundController.getInstance().copySound(position, soundFragment.getSoundInfoList(), this);
+			if (soundFragment.getSoundInfoList().size() > sizeBeforeCopy) {
+				soundInfos.add(soundFragment.getSoundInfoList().get(soundFragment.getSoundInfoList().size() - 1));
+			}
 		}
+		SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(soundInfos, soundFragment.getPlayer(), soundFragment.getAdapter());
+		SoundInfoHistory.getInstance(ProjectManager.getInstance().getCurrentSprite().getId()).add(command);
 		soundFragment.clearCheckedSoundsAndEnableButtons();
 	}
 

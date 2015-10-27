@@ -31,12 +31,17 @@ import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.LookDataHistory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SoundInfoHistory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SpriteHistory;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
@@ -44,6 +49,9 @@ import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -75,7 +83,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleCorrectAddButton;
-
+	private ArrayList<Integer> idList = new ArrayList<>();
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
@@ -110,6 +118,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public static ProjectManager getInstance() {
 		return INSTANCE;
+	}
+
+	public int getNewId() {
+		int id = 0;
+		while (idList.contains(id)) {
+			id++;
+		}
+		idList.add(id);
+		return id;
 	}
 
 	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
@@ -204,6 +221,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 
 		if (project != null) {
+			for (Sprite sprite : project.getSpriteList()) {
+				setCurrentSprite(sprite);
+				LookDataHistory.getInstance(sprite.getId()).update();
+				SoundInfoHistory.getInstance(sprite.getId()).update();
+			}
+			SpriteHistory.getInstance(project.getName()).update();
+			setCurrentSprite(null);
+
 			project.loadLegoNXTSettingsFromProject(context);
 
 			int resources = project.getRequiredResources();
@@ -212,10 +237,81 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
 			}
 
+			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
+			}
+
 			if ((resources & Brick.FACE_DETECTION) > 0) {
 				SettingsActivity.setFaceDetectionSharedPreferenceEnabled(context, true);
 			}
 		}
+	}
+
+	public LookData getLookById(int id) {
+		for (Sprite sprite : getCurrentProject().getSpriteList()) {
+			for (LookData lookData : sprite.getLookDataList()) {
+				if (lookData.getId() == id) {
+					return lookData;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public SoundInfo getSoundById(int id) {
+		for (Sprite sprite : getCurrentProject().getSpriteList()) {
+			for (SoundInfo soundInfo : sprite.getSoundList()) {
+				if (soundInfo.getId() == id) {
+					return soundInfo;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public Sprite getSpriteById(int id) {
+		for (Sprite sprite : getCurrentProject().getSpriteList()) {
+			if (sprite.getId() == id) {
+				return sprite;
+			}
+		}
+
+		return null;
+	}
+
+	public SetLookBrick getSetLookBrickById(int id) {
+		for (Sprite sprite : getCurrentProject().getSpriteList()) {
+			for (SetLookBrick brick : sprite.getSetLookBricks()) {
+				if (brick.getId() == id) {
+					return brick;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public PlaySoundBrick getPlaySoundBrickById(int id) {
+		for (Sprite sprite : getCurrentProject().getSpriteList()) {
+			for (PlaySoundBrick brick : sprite.getPlaySoundBricks()) {
+				if (brick.getId() == id) {
+					return brick;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public PointToBrick getPointToBrickById(int id) {
+		for (PointToBrick brick : getCurrentProject().getPointToBricks()) {
+			if (brick.getId() == id) {
+				return brick;
+			}
+		}
+		return null;
 	}
 
 	private void localizeBackgroundSprite(Context context) {
@@ -375,6 +471,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 
 		if (directoryRenamed) {
+			SpriteHistory.updateMap(project.getName(), newProjectName);
 			project.setName(newProjectName);
 			saveProject(context);
 		}

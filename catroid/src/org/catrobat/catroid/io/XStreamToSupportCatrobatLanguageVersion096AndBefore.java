@@ -31,6 +31,8 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -280,6 +282,16 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
 		brickInfoMap.put("phiroSensorEndBrick", brickInfo);
 
+		brickInfo = new BrickInfo(ArduinoSendDigitalValueBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
+		brickInfo.addBrickFieldToMap("digitalPinValue", BrickField.ARDUINO_DIGITAL_PIN_VALUE);
+		brickInfoMap.put("arduinoSendDigitalValueBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ArduinoSendPWMValueBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("pwmPinNumber", BrickField.ARDUINO_ANALOG_PIN_NUMBER);
+		brickInfo.addBrickFieldToMap("pwmPinValue", BrickField.ARDUINO_ANALOG_PIN_VALUE);
+		brickInfoMap.put("arduinoSendPWMValueBrick", brickInfo);
+
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);
 
@@ -354,7 +366,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
 
-		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
 		brickInfoMap.put("whenBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
@@ -372,7 +384,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("timeToWaitInSeconds", BrickField.TIME_TO_WAIT_IN_SECONDS);
 		brickInfoMap.put("waitBrick", brickInfo);
 
-		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
 		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());

@@ -135,19 +135,13 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
 
-		assertTrue("Confirmation-dialog not shown",
-				solo.waitForText(solo.getString(R.string.dialog_confirm_delete_object_message), 0, 2000));
-		solo.clickOnText(solo.getString(R.string.yes));
-
 		solo.clickLongOnText(newSpriteName1);
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
-		solo.clickOnButton(solo.getString(R.string.yes));
 
 		solo.clickLongOnText(newSpriteName2);
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
-		solo.clickOnButton(solo.getString(R.string.yes));
 
 		solo.clickOnText(spriteName2);
 		solo.sleep(200);
