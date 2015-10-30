@@ -61,19 +61,27 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 
 	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
 	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
+
 	private static final int MIN_PWM_PIN = 3;
 	private static final int MAX_PWM_PIN = 13;
+
 	private static final int MIN_SENSOR_PIN = 0;
 	private static final int MAX_SENSOR_PIN = 5;
+
 	private static final int PWM_MODE = 3;
+
 	private static final int SET_PIN_MODE_COMMAND = 0xF4;
 	private static final int REPORT_ANALOG_PIN_COMMAND = 0xC0;
+
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
+
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private static final String LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME = "dummy_device";
 	private final String spriteName = "testSprite";
+
 	private static final int MOTOR_MOVE = 0;
 	private static final int MOTOR_STOP = 1;
+
 	private ConnectionDataLogger logger;
 	private FirmataUtils firmataUtils;
 

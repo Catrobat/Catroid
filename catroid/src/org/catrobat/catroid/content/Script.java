@@ -201,6 +201,17 @@ public abstract class Script implements Serializable {
 		return -1;
 	}
 
+	//
+	//	public boolean containsBluetoothBrick() {
+	//		for (Brick brick : brickList) {
+	//			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
+	//					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
+
 	public Brick getBrick(int index) {
 		if (index < 0 || index >= brickList.size()) {
 			return null;

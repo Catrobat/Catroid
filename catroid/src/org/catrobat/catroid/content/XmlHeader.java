@@ -184,11 +184,11 @@ public class XmlHeader implements Serializable {
 		return this.screenMode;
 	}
 
-	public boolean isPhiroProject() {
+	public boolean isPhiroProProject() {
 		return isPhiroProProject;
 	}
 
-	public void setIsPhiroProject(boolean isPhiroProject) {
-		this.isPhiroProProject = isPhiroProject;
+	public void setPhiroProProject(boolean isPhiroProProject) {
+		this.isPhiroProProject = isPhiroProProject;
 	}
 }

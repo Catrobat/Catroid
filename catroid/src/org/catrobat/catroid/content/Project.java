@@ -306,10 +306,10 @@ public class Project implements Serializable {
 	}
 
 	public boolean checkIfPhiroProProject() {
-		return xmlHeader.isPhiroProject();
+		return xmlHeader.isPhiroProProject();
 	}
 
-	public void setIsPhiroProProject(boolean isPhiroProject) {
-		xmlHeader.setIsPhiroProject(isPhiroProject);
+	public void setIsPhiroProProject(boolean isPhiroProProject) {
+		xmlHeader.setPhiroProProject(isPhiroProProject);
 	}
 }

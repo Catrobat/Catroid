@@ -26,6 +26,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 
 // CHECKSTYLE DISABLE InterfaceIsType FOR 1 LINES
 public interface CatroidService {
+
 	// Common services - gets created by ServiceProvider if needed
 	Class<BluetoothDeviceService> BLUETOOTH_DEVICE_SERVICE = BluetoothDeviceService.class;
 }
