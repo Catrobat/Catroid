@@ -102,10 +102,6 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-			connectBTDevice(BluetoothDevice.ARDUINO);
-		}
-
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			droneInitializer = getDroneInitializer();
 			droneInitializer.initialise();
