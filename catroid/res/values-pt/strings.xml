@@ -105,9 +105,6 @@
   <string name="sprite">Objeto</string>
   <string name="sprites">Objetos</string>
   <string name="spritelist_background_headline">Fundo</string>
-  <string name="dialog_confirm_delete_object_title">Excluir este objeto?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Excluir estes objetos?</string>
-  <string name="dialog_confirm_delete_object_message">Isto não pode ser desfeito!</string>
   <string name="select_all">Selecionar todos</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Scripts</string>
@@ -140,9 +137,6 @@
   <string name="select_look_from_gallery">Selecionar Imagem</string>
   <string name="select_look_from_camera">Selecione a foto</string>
   <string name="look_measure">Medida:</string>
-  <string name="dialog_confirm_delete_look_title">Excluir esta Aparência?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Excluir estas Aparências?</string>
-  <string name="dialog_confirm_delete_look_message">Isto não pode ser desfeito!</string>
   <string name="lookname">nome de aparência:</string>
   <string name="fragment_sound_text_description">Toque em \"+\" para adicionar sons</string>
   <string name="rename_sound_dialog">Renomear som</string>

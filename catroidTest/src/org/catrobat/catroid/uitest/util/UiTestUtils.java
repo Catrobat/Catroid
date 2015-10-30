@@ -71,6 +71,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -125,6 +126,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -466,6 +468,7 @@ public final class UiTestUtils {
 	 * ensures its set correctly to the brick´s edit text field
 	 */
 	public static void testBrickWithFormulaEditor(Solo solo, Sprite sprite, int editTextId, double newValue, Brick.BrickField brickField, FormulaBrick theBrick) {
+
 		solo.clickOnView(solo.getView(editTextId));
 
 		insertDoubleIntoEditText(solo, newValue);
@@ -490,6 +493,7 @@ public final class UiTestUtils {
 	}
 
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField, FormulaBrick theBrick) {
+
 		solo.clickOnView(solo.getView(editTextId));
 		solo.sleep(200);
 		insertStringIntoEditText(solo, newValue);
@@ -853,6 +857,11 @@ public final class UiTestUtils {
 		location[1] = destinationY;
 
 		return location;
+	}
+
+	public static void addSpriteToProject(Project project, String name) {
+		Sprite sprite = new Sprite(name);
+		project.addSprite(sprite);
 	}
 
 	public static List<Brick> createTestProjectWithTwoSprites(String projectName) {
@@ -1407,6 +1416,27 @@ public final class UiTestUtils {
 
 	public static List<InternToken> getInternTokenList() {
 		return internTokenList;
+	}
+
+	public static Project deleteOldAndCreateAndSaveCleanStandardProject(Context context, Instrumentation instrumentation) {
+		String standardProjectName = context.getString(R.string.default_project_name);
+		Project standardProject;
+		try {
+			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
+				ProjectManager.getInstance().loadProject(standardProjectName, context);
+				ProjectManager.getInstance().deleteCurrentProject(null);
+			}
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+					instrumentation.getTargetContext());
+			ProjectManager.getInstance().setProject(standardProject);
+			return standardProject;
+		} catch (ProjectException projectException) {
+			Log.e(TAG, "Cannot load old standard project", projectException);
+			fail("Cannot load old standard project");
+		} catch (IOException exception) {
+			fail("Standard project not created");
+		}
+		return null;
 	}
 
 	public static void clearAllUtilTestProjects() {

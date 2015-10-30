@@ -137,7 +137,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
 		clickOnContextMenuItem(lookName, solo.getString(R.string.delete));
-		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 

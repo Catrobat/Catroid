@@ -46,6 +46,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.LookDataHistory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -192,7 +193,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		String defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
 		String delete = solo.getString(R.string.delete);
-		String yes = solo.getString(R.string.yes);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -203,8 +203,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			solo.clickLongOnText(defaultSpriteName + " " + i);
 			solo.waitForText(delete);
 			solo.clickOnText(delete);
-			solo.waitForText(yes);
-			solo.clickOnText(yes);
 
 			if (i != 4) {
 				File imageFile;
@@ -217,6 +215,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 
 		solo.sleep(1000);
+
+		LookDataHistory.applyChanges(activeProject.getName());
 
 		File imageFile;
 

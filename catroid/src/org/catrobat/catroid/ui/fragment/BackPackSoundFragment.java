@@ -523,8 +523,9 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter,
-						BackPackListManager.getInstance().getSoundInfoArrayList(), mediaPlayer);
+				SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
+						BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
+				BackPackListManager.getInstance().getSoundInfoArrayList().removeAll(adapter.getCheckedSoundInfos());
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});

@@ -105,9 +105,6 @@
   <string name="sprite">объект</string>
   <string name="sprites">Объекты</string>
   <string name="spritelist_background_headline">Фон</string>
-  <string name="dialog_confirm_delete_object_title">Вы уверены, что хотите удалить этот объект?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Вы уверены, что хотите удалить эти объекты?</string>
-  <string name="dialog_confirm_delete_object_message">Это действие необротимо!</string>
   <string name="select_all">Выбрать все</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Скрипты</string>
@@ -142,9 +139,6 @@
   <string name="select_look_from_gallery">Выберите изображение</string>
   <string name="select_look_from_camera">Выберите фотографию</string>
   <string name="look_measure">Measure:</string>
-  <string name="dialog_confirm_delete_look_title">Вы уверены, что хотите удалить этот образ?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Вы уверены, что хотите удалить эти образы?</string>
-  <string name="dialog_confirm_delete_look_message">Это действие необротимо!</string>
   <string name="lookname">название обрза:</string>
   <string name="fragment_sound_text_description">Нажмите «+», чтобы добавить звуки</string>
   <string name="rename_sound_dialog">Переименовать звук</string>

@@ -20,45 +20,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+package org.catrobat.catroid.content;
 
-public abstract class ScriptActivityFragment extends SherlockListFragment {
+import java.util.HashMap;
+import java.util.Map;
 
-	protected boolean actionModeActive = false;
+public class SpriteHistory extends MediaHistory {
+	private static final Map<String, SpriteHistory> INSTANCE = new HashMap<>();
 
-	public boolean getActionModeActive() {
-		return actionModeActive;
+	public static SpriteHistory getInstance(String projectName) {
+		if (!INSTANCE.containsKey(projectName)) {
+			INSTANCE.put(projectName, new SpriteHistory());
+		}
+		return INSTANCE.get(projectName);
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	public static void clearInstance() {
+		INSTANCE.clear();
 	}
 
-	public abstract boolean getShowDetails();
+	public static void updateMap(String oldName, String newName) {
+		if (INSTANCE.containsKey(oldName)) {
+			SpriteHistory historyToUpdate = INSTANCE.remove(oldName);
+			INSTANCE.put(newName, historyToUpdate);
+		}
+	}
 
-	public abstract void setShowDetails(boolean showDetails);
+	public static boolean getAllUndoRedoStatus() {
+		boolean result = false;
 
-	public abstract void setSelectMode(int selectMode);
+		for (SpriteHistory history : INSTANCE.values()) {
+			result |= history.isRedoable();
+			result |= history.isUndoable();
+		}
 
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void handleAddButton();
-
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
+		return result;
+	}
 }

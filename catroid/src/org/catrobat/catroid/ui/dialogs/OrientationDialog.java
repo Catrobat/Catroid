@@ -139,8 +139,8 @@ public class OrientationDialog extends DialogFragment {
 	public void setShouldBeEmpty(boolean shouldBeEmpty) {
 		this.shouldBeEmpty = shouldBeEmpty;
 	}
-	
-	public void setIfStandardDroneProjectIsChecked(boolean isChecked){
+
+	public void setIfStandardDroneProjectIsChecked(boolean isChecked) {
 		isStandardDroneProjectChecked = isChecked;
 	}
 }

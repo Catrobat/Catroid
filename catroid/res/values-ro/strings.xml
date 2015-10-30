@@ -105,9 +105,6 @@
   <string name="sprite">obiect</string>
   <string name="sprites">Obiecte</string>
   <string name="spritelist_background_headline">Fundal</string>
-  <string name="dialog_confirm_delete_object_title">Doriți să ștergeți acest obiect?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Doriți să ștergeți aceste obiecte?</string>
-  <string name="dialog_confirm_delete_object_message">Aceasta nu va fi reversibil!</string>
   <string name="select_all">Selectează tot</string>
   <string name="copy_sprite_name_suffix">_Copie</string>
   <string name="scripts">Scripte</string>
@@ -142,9 +139,6 @@
   <string name="select_look_from_gallery">Selectează imaginea</string>
   <string name="select_look_from_camera">Selectează fotografia</string>
   <string name="look_measure">Măsură:</string>
-  <string name="dialog_confirm_delete_look_title">Doriți să ștergeți acest aspect?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Doriți să ștergeți aceste aspecte?</string>
-  <string name="dialog_confirm_delete_look_message">Aceasta nu va fi reversibil!</string>
   <string name="lookname">numele aspectului:</string>
   <string name="fragment_sound_text_description">Apasă ”+” pentru a adăuga Sunete</string>
   <string name="rename_sound_dialog">Redenumirea sunetului</string>

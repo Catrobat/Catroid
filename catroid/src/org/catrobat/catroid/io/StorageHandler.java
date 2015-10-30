@@ -161,6 +161,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -360,6 +361,17 @@ public final class StorageHandler {
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
+	}
+
+	public String[] getLookFileList(String projectName) {
+		File directoryLooks = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.IMAGE_DIRECTORY));
+
+		return directoryLooks.list();
+	}
+
+	public String[] getSoundFileList(String projectName) {
+		File directorySounds = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.SOUND_DIRECTORY));
+		return directorySounds.list();
 	}
 
 	public File getBackPackSoundDirectory() {

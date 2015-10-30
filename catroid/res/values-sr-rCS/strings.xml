@@ -112,9 +112,6 @@
   <string name="sprite">Object</string>
   <string name="sprites">Objects</string>
   <string name="spritelist_background_headline">Pozadina</string>
-  <string name="dialog_confirm_delete_object_title">Delete this object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
-  <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
   <string name="select_all">Select all</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Scripts</string>
@@ -151,9 +148,6 @@
   <string name="select_look_from_gallery">Izaberi sliku</string>
   <string name="select_look_from_camera">Izaberi fotografiju</string>
   <string name="look_measure">Mera:</string>
-  <string name="dialog_confirm_delete_look_title">Izbriši ovaj izgled?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Izbriši ove izglede?</string>
-  <string name="dialog_confirm_delete_look_message">Ovo se ne može opozvati!</string>
   <string name="lookname">Ime izgleda:</string>
   <string name="fragment_sound_text_description">Pritisni \"+\" da bi dodali zvuk</string>
   <string name="rename_sound_dialog">Preimenuj zvuk</string>

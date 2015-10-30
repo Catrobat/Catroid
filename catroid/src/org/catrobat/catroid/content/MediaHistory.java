@@ -20,45 +20,49 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+package org.catrobat.catroid.content;
 
-public abstract class ScriptActivityFragment extends SherlockListFragment {
+import org.catrobat.catroid.content.commands.MediaCommand;
 
-	protected boolean actionModeActive = false;
+import java.util.Stack;
 
-	public boolean getActionModeActive() {
-		return actionModeActive;
+public abstract class MediaHistory {
+	protected Stack<MediaCommand> redoStack = new Stack<>();
+	protected Stack<MediaCommand> undoStack = new Stack<>();
+
+	public void undo() {
+		MediaCommand command = undoStack.pop();
+		command.undo();
+		redoStack.push(command);
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	public void redo() {
+		MediaCommand command = redoStack.pop();
+		command.execute();
+		undoStack.push(command);
 	}
 
-	public abstract boolean getShowDetails();
+	public void add(MediaCommand command) {
+		undoStack.push(command);
+		redoStack.clear();
+	}
 
-	public abstract void setShowDetails(boolean showDetails);
+	public void update() {
+		for (MediaCommand command : undoStack) {
+			command.update();
+		}
 
-	public abstract void setSelectMode(int selectMode);
+		for (MediaCommand command : redoStack) {
+			command.update();
+		}
+	}
 
-	public abstract int getSelectMode();
+	public boolean isUndoable() {
+		return !undoStack.empty();
+	}
 
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void handleAddButton();
-
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
+	public boolean isRedoable() {
+		return !redoStack.empty();
+	}
 }

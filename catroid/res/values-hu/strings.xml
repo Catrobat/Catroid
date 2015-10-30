@@ -107,9 +107,6 @@
   <string name="sprite">Objektum</string>
   <string name="sprites">Objektumok</string>
   <string name="spritelist_background_headline">Háttér</string>
-  <string name="dialog_confirm_delete_object_title">Törlöd ezt az objektumot?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Törlöd ezeket az objektumokat?</string>
-  <string name="dialog_confirm_delete_object_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="select_all">Összes kijelölése</string>
   <string name="copy_sprite_name_suffix">_Másolás</string>
   <string name="scripts">Szkriptek</string>
@@ -142,9 +139,6 @@
   <string name="select_look_from_gallery">Kép kijelölése</string>
   <string name="select_look_from_camera">Fotó kijelölése</string>
   <string name="look_measure">Méret:</string>
-  <string name="dialog_confirm_delete_look_title">Törlöd ezt a kinézetet?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Törlöd ezeket a kinézeteket?</string>
-  <string name="dialog_confirm_delete_look_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="lookname">kinézet neve:</string>
   <string name="fragment_sound_text_description">Érintsd meg a \"+\" jelet hangok hozzáadásához</string>
   <string name="rename_sound_dialog">Hang átnevezése</string>

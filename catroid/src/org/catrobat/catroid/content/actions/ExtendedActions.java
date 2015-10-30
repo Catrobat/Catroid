@@ -195,8 +195,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroPlayToneAction phiroPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum,
-														  Formula duration) {
+	public static PhiroPlayToneAction phiroPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum, Formula duration) {
 		PhiroPlayToneAction action = action(PhiroPlayToneAction.class);
 		action.setSelectedTone(toneEnum);
 		action.setSprite(sprite);
@@ -204,8 +203,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroMotorMoveForwardAction phiroMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum,
-																		  Formula speed) {
+	public static PhiroMotorMoveForwardAction phiroMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum, Formula speed) {
 		PhiroMotorMoveForwardAction action = action(PhiroMotorMoveForwardAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -222,8 +220,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroRGBLightAction phiroRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye,
-														   Formula red, Formula green, Formula blue) {
+	public static PhiroRGBLightAction phiroRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye, Formula red, Formula green, Formula blue) {
 		PhiroRGBLightAction action = action(PhiroRGBLightAction.class);
 		action.setSprite(sprite);
 		action.setEyeEnum(eye);

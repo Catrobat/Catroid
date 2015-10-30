@@ -107,9 +107,6 @@
   <string name="sprite">كائن</string>
   <string name="sprites">كائنات</string>
   <string name="spritelist_background_headline">خلفية</string>
-  <string name="dialog_confirm_delete_object_title">حذف هذا الكائن؟</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">هل تريد حذف هذه الكائنات؟</string>
-  <string name="dialog_confirm_delete_object_message">لا يمكن التراجع عن هذا!</string>
   <string name="select_all">حدد كافة</string>
   <string name="copy_sprite_name_suffix">_نسخ</string>
   <string name="scripts">النصوص</string>
@@ -150,9 +147,6 @@
   <string name="select_look_from_gallery">قم بإختيارالصورة</string>
   <string name="select_look_from_camera">قم بتحديد الصورة</string>
   <string name="look_measure">القياس:</string>
-  <string name="dialog_confirm_delete_look_title">هل تريد حذف هذا المشهد؟</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">هل تريد حذف هذه المشاهد؟</string>
-  <string name="dialog_confirm_delete_look_message">لا يمكن التراجع عن هذا!</string>
   <string name="lookname">اسم المشهد:</string>
   <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
   <string name="rename_sound_dialog">إعادة تسمية الصوت</string>
