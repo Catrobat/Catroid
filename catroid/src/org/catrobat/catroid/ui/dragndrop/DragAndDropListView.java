@@ -360,7 +360,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		if (newView) {
 			itemPosition = this.position;
-			View tempView = (getChildAt(getChildCount() - 1));
+			View tempView = getChildAt(getChildCount() - 1);
 			if (tempView != null) {
 				tempView.getLocationOnScreen(location);
 				touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();

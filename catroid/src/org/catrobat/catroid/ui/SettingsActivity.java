@@ -110,6 +110,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
 		}
+
+		if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
+			PreferenceScreen arduinoPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
+			arduinoPreference.setEnabled(false);
+			screen.removePreference(arduinoPreference);
+		}
 	}
 
 	private void setNXTSensors() {

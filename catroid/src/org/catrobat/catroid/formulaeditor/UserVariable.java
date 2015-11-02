@@ -29,6 +29,7 @@ public class UserVariable implements Serializable {
 
 	private String name;
 	private transient Object value;
+	private boolean visibility = true;
 
 	public UserVariable(String name) {
 		this.name = name;
@@ -54,5 +55,13 @@ public class UserVariable implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(boolean visibility) {
+		this.visibility = visibility;
 	}
 }

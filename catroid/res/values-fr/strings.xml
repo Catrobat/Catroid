@@ -111,9 +111,6 @@ il faut
   <string name="sprite">Objet</string>
   <string name="sprites">Objets</string>
   <string name="spritelist_background_headline">Arrière-plan</string>
-  <string name="dialog_confirm_delete_object_title">Supprimer cet objet ?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Supprimer ces objets ?</string>
-  <string name="dialog_confirm_delete_object_message">Cette action ne peut pas être annulée!</string>
   <string name="select_all">Tout sélectionner</string>
   <string name="copy_sprite_name_suffix">_Copier</string>
   <string name="scripts">Scripts</string>
@@ -146,9 +143,6 @@ il faut
   <string name="select_look_from_gallery">Sélectionnez une image</string>
   <string name="select_look_from_camera">Sélectionner une photo</string>
   <string name="look_measure">Mesure:</string>
-  <string name="dialog_confirm_delete_look_title">Supprimer ce visuel?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Supprimer ces visuels ?</string>
-  <string name="dialog_confirm_delete_look_message">Cette action ne peut pas être annulée !</string>
   <string name="lookname">nom du visuel:</string>
   <string name="fragment_sound_text_description">Appuyer sur « + » pour ajouter des sons</string>
   <string name="rename_sound_dialog">Renommer son</string>
@@ -164,6 +158,8 @@ il faut
   <string name="dialog_confirm_delete_multiple_sounds_title">Supprimer les sons ?</string>
   <string name="dialog_confirm_delete_sound_message">Cette action ne peut pas être annulée !</string>
   <string name="sound_name">nom du son :</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">a été décompressé</item>
     <item quantity="other">ont été décompressés</item>
@@ -202,6 +198,9 @@ il faut
   <string name="add_look_from_camera">Prendre une photo</string>
   <string name="add_look_draw_new_image">Dessiner une image</string>
   <string name="add_look_choose_image">Sélectionner une image</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -210,6 +209,7 @@ il faut
   <string name="new_project_description_dialog_hint">Ma description</string>
   <string name="new_project_name">Nom de l\'appli :</string>
   <string name="new_project_empty">Créer appli</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mon objet</string>
   <string name="new_sprite_dialog_title">Nouvel objet</string>
   <string name="spritename_already_exists">Le nom d\'objet existe déjà</string>
@@ -229,6 +229,12 @@ il faut
   <string name="overwrite_text">Une appli avec ce nom existe déjà.</string>
   <string name="overwrite_replace">Remplacer l\'application</string>
   <string name="overwrite_rename">Renommer l\'appli téléchargée</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Retour</string>
   <string name="stage_dialog_resume">Continuer</string>
   <string name="stage_dialog_restart">Relancer</string>
@@ -406,6 +412,7 @@ il faut
   <string name="error_drone_wrong_platform">Nous ne pouvons pas lancer un projet ARDrone sur votre périphérique.</string>
   <string name="error_rename_incompatible_project">Renommer un projet incompatible n\'est pas possible.</string>
   <string name="error_changing_description_of_incompatible_project">Modifier la description d\'un projet incompatible n\'est pas possible.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Le Bluetooth n\'a pas pu être activé, fermeture de la scène</string>
   <string name="title_paired_devices">Périphériques liés</string>
   <string name="title_other_devices">Nouveau périphériques</string>
@@ -650,6 +657,9 @@ il faut
   <string name="add_line_break">Ajouter un saut de ligne</string>
   <string name="edit_variable">Modifier la variable</string>
   <string name="variable_hint">Nom de la Variable</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">définir</string>
   <string name="new_user_brick">Nouvelle brique</string>
   <string name="new_user_brick_variable">Variable 1</string>

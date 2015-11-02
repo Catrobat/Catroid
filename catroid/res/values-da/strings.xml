@@ -106,9 +106,6 @@
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekter</string>
   <string name="spritelist_background_headline">Baggrund</string>
-  <string name="dialog_confirm_delete_object_title">Slet dette objekt?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Slet disse objekter?</string>
-  <string name="dialog_confirm_delete_object_message">Dette kan ikke fortrydes!</string>
   <string name="select_all">Vælg alle</string>
   <string name="copy_sprite_name_suffix">_Kopier</string>
   <string name="scripts">Manuskripter</string>
@@ -141,9 +138,6 @@
   <string name="select_look_from_gallery">Vælg billede</string>
   <string name="select_look_from_camera">Vælg foto</string>
   <string name="look_measure">Mål:</string>
-  <string name="dialog_confirm_delete_look_title">Slet dette udseende?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Slet disse udseender?</string>
-  <string name="dialog_confirm_delete_look_message">Dette kan ikke fortrydes!</string>
   <string name="lookname">navn på udseende:</string>
   <string name="fragment_sound_text_description">Tryk på \"+\" for at tilføje Lyde</string>
   <string name="rename_sound_dialog">Omdøb Lyd</string>
@@ -159,6 +153,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Slet disse lyde?</string>
   <string name="dialog_confirm_delete_sound_message">Dette kan ikke fortrydes!</string>
   <string name="sound_name">navn på lyd:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">blev pakket ud!</item>
     <item quantity="other">blev pakket ud!</item>
@@ -197,6 +193,9 @@
   <string name="add_look_from_camera">Tag Billede</string>
   <string name="add_look_draw_new_image">Tegn billede</string>
   <string name="add_look_choose_image">Vælg billede</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -205,6 +204,7 @@
   <string name="new_project_description_dialog_hint">Min beskrivelse</string>
   <string name="new_project_name">Navn på program:</string>
   <string name="new_project_empty">Opret tomt program</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mit Objekt</string>
   <string name="new_sprite_dialog_title">Nyt Objekt</string>
   <string name="spritename_already_exists">Dette objekt navn findes allerede</string>
@@ -224,6 +224,12 @@
   <string name="overwrite_text">Program med samme navn findes allerede!</string>
   <string name="overwrite_replace">Erstat eksisterende program</string>
   <string name="overwrite_rename">Omdøb downloadet program</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Tilbage</string>
   <string name="stage_dialog_resume">Genoptag</string>
   <string name="stage_dialog_restart">Genstart</string>
@@ -401,6 +407,7 @@
   <string name="error_drone_wrong_platform">Vi kan ikke køre et ARDrone-projekt på enheden.</string>
   <string name="error_rename_incompatible_project">Omdøbning af et inkompatibelt projekt er ikke muligt.</string>
   <string name="error_changing_description_of_incompatible_project">Ændring af beskrivelsen af ​​et inkompatibelt projekt er ikke muligt.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth kan ikke aktiveres, lukker fase</string>
   <string name="title_paired_devices">Parrede enheder</string>
   <string name="title_other_devices">Nye enheder</string>
@@ -645,6 +652,9 @@
   <string name="add_line_break">Tilføj Linjeskift</string>
   <string name="edit_variable">Redigér Variabel</string>
   <string name="variable_hint">Variabel navn</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">definér</string>
   <string name="new_user_brick">New Klods</string>
   <string name="new_user_brick_variable">Variabel 1</string>

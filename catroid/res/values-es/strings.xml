@@ -108,9 +108,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="sprite">Objeto</string>
   <string name="sprites">Objetos</string>
   <string name="spritelist_background_headline">Fondo</string>
-  <string name="dialog_confirm_delete_object_title">¿Desea eliminar este objeto?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">¿Desea eliminar estos objetos?</string>
-  <string name="dialog_confirm_delete_object_message">Esto no se puede deshacer!</string>
   <string name="select_all">Seleccionar todos</string>
   <string name="copy_sprite_name_suffix">_Copiar</string>
   <string name="scripts">Líneas de comandos</string>
@@ -144,9 +141,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="select_look_from_gallery">Seleccione una imagen</string>
   <string name="select_look_from_camera">Seleccione una foto</string>
   <string name="look_measure">Medidas:</string>
-  <string name="dialog_confirm_delete_look_title">¿Eliminar esta imagen?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">¿Eliminar estas apariencias?</string>
-  <string name="dialog_confirm_delete_look_message">Esto no se puede deshacer!</string>
   <string name="lookname">Nombre de la apariencia:</string>
   <string name="fragment_sound_text_description">Pulse \"+\" para agregar sonidos</string>
   <string name="rename_sound_dialog">Renombre el sonido</string>
@@ -162,6 +156,8 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_multiple_sounds_title">¿Borrar estos sonidos?</string>
   <string name="dialog_confirm_delete_sound_message">Esto no se puede deshacer!</string>
   <string name="sound_name">nombre del sonido:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">ha sido descomprimido!</item>
     <item quantity="other">han sido descomprimidos!</item>
@@ -200,6 +196,9 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="add_look_from_camera">Tomar una foto</string>
   <string name="add_look_draw_new_image">Dibujar una imagen</string>
   <string name="add_look_choose_image">Seleccione una imagen</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -208,6 +207,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="new_project_description_dialog_hint">Mi descripción</string>
   <string name="new_project_name">Nombre del programa:</string>
   <string name="new_project_empty">Crear un programa vacío</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mi objeto</string>
   <string name="new_sprite_dialog_title">Objeto nuevo</string>
   <string name="spritename_already_exists">Este nombre de objeto ya existe</string>
@@ -227,6 +227,12 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="overwrite_text">Un programa con el mismo nombre ya existe!</string>
   <string name="overwrite_replace">Reemplazar el programa existente</string>
   <string name="overwrite_rename">Renombre de programa descargado</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Atrás</string>
   <string name="stage_dialog_resume">Restablecer</string>
   <string name="stage_dialog_restart">Reiniciar</string>
@@ -404,6 +410,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="error_drone_wrong_platform">No podemos correr un proyecto ARDrone en su dispositivo.</string>
   <string name="error_rename_incompatible_project">No es posible cambiar el nombre de un proyecto incompatible.</string>
   <string name="error_changing_description_of_incompatible_project">No es posible cambiar la descripción de un proyecto incompatible.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth no puede está disponible, fase de cierre</string>
   <string name="title_paired_devices">Dispositivos emparejados</string>
   <string name="title_other_devices">Nuevos dispositivos</string>
@@ -648,6 +655,9 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="add_line_break">Añadir un salto de línea</string>
   <string name="edit_variable">Editar variable</string>
   <string name="variable_hint">Nombre de Variable</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">definir</string>
   <string name="new_user_brick">Nuevo bloque</string>
   <string name="new_user_brick_variable">Variable 1</string>

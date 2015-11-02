@@ -70,6 +70,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -124,6 +125,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -374,7 +376,7 @@ public final class UiTestUtils {
 
 	private static void insertValue(Solo solo, String value) {
 
-		for (char item : (value.toCharArray())) {
+		for (char item : value.toCharArray()) {
 			switch (item) {
 				case '-':
 					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -836,6 +838,11 @@ public final class UiTestUtils {
 		location[1] = destinationY;
 
 		return location;
+	}
+
+	public static void addSpriteToProject(Project project, String name) {
+		Sprite sprite = new Sprite(name);
+		project.addSprite(sprite);
 	}
 
 	public static List<Brick> createTestProjectWithTwoSprites(String projectName) {
@@ -1392,6 +1399,27 @@ public final class UiTestUtils {
 		return internTokenList;
 	}
 
+	public static Project deleteOldAndCreateAndSaveCleanStandardProject(Context context, Instrumentation instrumentation) {
+		String standardProjectName = context.getString(R.string.default_project_name);
+		Project standardProject;
+		try {
+			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
+				ProjectManager.getInstance().loadProject(standardProjectName, context);
+				ProjectManager.getInstance().deleteCurrentProject(null);
+			}
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+					instrumentation.getTargetContext());
+			ProjectManager.getInstance().setProject(standardProject);
+			return standardProject;
+		} catch (ProjectException projectException) {
+			Log.e(TAG, "Cannot load old standard project", projectException);
+			fail("Cannot load old standard project");
+		} catch (IOException exception) {
+			fail("Standard project not created");
+		}
+		return null;
+	}
+
 	public static void clearAllUtilTestProjects() {
 		Log.v(TAG, "clearAllUtilTestProjects");
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
@@ -1574,7 +1602,7 @@ public final class UiTestUtils {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, context);
 
-			assert (userRegistered);
+			assert userRegistered;
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Error creating test user.", e);
 			fail("Error creating test user.");
@@ -2121,5 +2149,18 @@ public final class UiTestUtils {
 		}
 
 		return wantedState;
+	}
+
+	public static boolean checkTempFileFromMediaLibrary(String lookOrSound, String fileName) {
+		File folder = new File(lookOrSound);
+		File[] filesInFolder = folder.listFiles();
+
+		for (File file : filesInFolder) {
+			if (file.isFile()) {
+				String filename = file.getName();
+				return filename.contains(fileName);
+			}
+		}
+		return false;
 	}
 }

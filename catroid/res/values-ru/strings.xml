@@ -106,9 +106,6 @@
   <string name="sprite">объект</string>
   <string name="sprites">Объекты</string>
   <string name="spritelist_background_headline">Фон</string>
-  <string name="dialog_confirm_delete_object_title">Вы уверены, что хотите удалить этот объект?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Вы уверены, что хотите удалить эти объекты?</string>
-  <string name="dialog_confirm_delete_object_message">Это действие необротимо!</string>
   <string name="select_all">Выбрать все</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Скрипты</string>
@@ -143,9 +140,6 @@
   <string name="select_look_from_gallery">Выберите изображение</string>
   <string name="select_look_from_camera">Выберите фотографию</string>
   <string name="look_measure">Measure:</string>
-  <string name="dialog_confirm_delete_look_title">Вы уверены, что хотите удалить этот образ?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Вы уверены, что хотите удалить эти образы?</string>
-  <string name="dialog_confirm_delete_look_message">Это действие необротимо!</string>
   <string name="lookname">название обрза:</string>
   <string name="fragment_sound_text_description">Нажмите «+», чтобы добавить звуки</string>
   <string name="rename_sound_dialog">Переименовать звук</string>
@@ -161,6 +155,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Вы уверены, что хотите удалить эти звуки?</string>
   <string name="dialog_confirm_delete_sound_message">Это действие необротимо!</string>
   <string name="sound_name">имя звука:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">was unpacked!</item>
     <item quantity="few">were unpacked!</item>
@@ -200,6 +196,9 @@
   <string name="add_look_from_camera">Камера</string>
   <string name="add_look_draw_new_image">Камера</string>
   <string name="add_look_choose_image">Из галереи</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -208,6 +207,7 @@
   <string name="new_project_description_dialog_hint">Описание</string>
   <string name="new_project_name">Название:</string>
   <string name="new_project_empty">Создать пустой проект</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">названиеобъекта</string>
   <string name="new_sprite_dialog_title">Название нового объекта</string>
   <string name="spritename_already_exists">Это название объекта уже существует</string>
@@ -227,6 +227,12 @@
   <string name="overwrite_text">Проект с таким названием уже существует!</string>
   <string name="overwrite_replace">Заменить</string>
   <string name="overwrite_rename">Переименовать</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Назад</string>
   <string name="stage_dialog_resume">Продолжить</string>
   <string name="stage_dialog_restart">Перезапустить</string>
@@ -409,6 +415,7 @@
   <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
   <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth не мог быть подключен, закрывание сцены</string>
   <string name="title_paired_devices">Парные устройства</string>
   <string name="title_other_devices">Новые устройства</string>
@@ -654,6 +661,9 @@
   <string name="add_line_break">Add Line Break</string>
   <string name="edit_variable">Edit Variable</string>
   <string name="variable_hint">Variable Name</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">define</string>
   <string name="new_user_brick">New Brick</string>
   <string name="new_user_brick_variable">Variable 1</string>

@@ -645,4 +645,12 @@ public class StageListener implements ApplicationListener {
 		stage.unfocusAll();
 		batch.dispose();
 	}
+
+	public void addActor(ShowTextActor actor) {
+		stage.addActor(actor);
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
 }

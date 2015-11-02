@@ -189,7 +189,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
 			editPower.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}

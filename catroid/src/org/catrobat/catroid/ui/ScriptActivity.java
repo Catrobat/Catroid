@@ -47,6 +47,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -69,6 +70,7 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SPRITE_RENAMED = "org.catrobat.catroid.SPRITE_RENAMED";
 	public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
 	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
+	public static final String ACTION_NEW_SPRITE_CREATED = "org.catrobat.catroid.NEW_SPRITE_CREATED";
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
@@ -98,6 +100,7 @@ public class ScriptActivity extends BaseActivity {
 	private boolean isLookFragmentHandleAddButtonHandled = false;
 
 	private ImageButton buttonAdd;
+	private boolean switchToScriptFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,6 +127,10 @@ public class ScriptActivity extends BaseActivity {
 
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
+		if (switchToScriptFragment) {
+			LookController.getInstance().switchToScriptFragment(lookFragment, this);
+			switchToScriptFragment = false;
+		}
 	}
 
 	private void setupBottomBar() {
@@ -281,6 +288,14 @@ public class ScriptActivity extends BaseActivity {
 				} else {
 					currentFragment.startDeleteActionMode();
 				}
+				break;
+
+			case R.id.menu_undo:
+				currentFragment.startUndoActionMode();
+				break;
+
+			case R.id.menu_redo:
+				currentFragment.startRedoActionMode();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -581,5 +596,9 @@ public class ScriptActivity extends BaseActivity {
 
 		updateHandleAddButtonClickListener();
 		fragmentTransaction.commit();
+	}
+
+	public void setSwitchToScriptFragment(boolean switchToScriptFragment) {
+		this.switchToScriptFragment = switchToScriptFragment;
 	}
 }

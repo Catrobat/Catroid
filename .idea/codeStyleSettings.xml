@@ -41,6 +41,24 @@
             <emptyLine />
             <package name="" withSubpackages="true" static="false" />
             <emptyLine />
+            <package name="android" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="com" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="cucumber" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="edu" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="junit" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="net" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="org" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="java" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="javax" withSubpackages="true" static="true" />
+            <emptyLine />
             <package name="" withSubpackages="true" static="true" />
           </value>
         </option>

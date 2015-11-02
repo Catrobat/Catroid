@@ -113,9 +113,6 @@
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekti</string>
   <string name="spritelist_background_headline">Pozadina</string>
-  <string name="dialog_confirm_delete_object_title">Izbriši ovaj objekt?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Izbriši ove objekte?</string>
-  <string name="dialog_confirm_delete_object_message">Ovo se ne može povratiti!</string>
   <string name="select_all">Odaberi sve</string>
   <string name="copy_sprite_name_suffix">_Kopiraj</string>
   <string name="scripts">Skripte</string>
@@ -150,9 +147,6 @@
   <string name="select_look_from_gallery">Odaberi sliku</string>
   <string name="select_look_from_camera">Odaberi fotografiju</string>
   <string name="look_measure">Mjera:</string>
-  <string name="dialog_confirm_delete_look_title">Obrisati ovaj izgled?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Obrisati ove izglede?</string>
-  <string name="dialog_confirm_delete_look_message">Ovo se ne može poništiti!</string>
   <string name="lookname">Ime izgleda:</string>
   <string name="fragment_sound_text_description">Pritisni \"+\" za dodavanje zvukova</string>
   <string name="rename_sound_dialog">Preimenuj zvuk</string>
@@ -168,6 +162,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Obrisati ove zvukove?</string>
   <string name="dialog_confirm_delete_sound_message">Ovo se ne može poništiti!</string>
   <string name="sound_name">ime zvuka:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">je otpakovan!
 
@@ -213,6 +209,9 @@ su otpakovani!</item>
   <string name="add_look_from_camera">Napravi sliku</string>
   <string name="add_look_draw_new_image">Nacrtaj sliku</string>
   <string name="add_look_choose_image">Odaberi sliku</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -221,6 +220,7 @@ su otpakovani!</item>
   <string name="new_project_description_dialog_hint">Moj opis</string>
   <string name="new_project_name">Naziv programa:</string>
   <string name="new_project_empty">Započni novi projekt</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Moj objekt</string>
   <string name="new_sprite_dialog_title">Novi objekt</string>
   <string name="spritename_already_exists">Naziv objekta već postoji</string>
@@ -240,6 +240,12 @@ su otpakovani!</item>
   <string name="overwrite_text">Program s istim nazivom već postoji!</string>
   <string name="overwrite_replace">Zamjeni postojeći program</string>
   <string name="overwrite_rename">Preimenuj preuzeti program</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Natrag</string>
   <string name="stage_dialog_resume">Nastavi</string>
   <string name="stage_dialog_restart">Ponovno pokreni</string>
@@ -421,6 +427,7 @@ su otpakovani!</item>
   <string name="error_drone_wrong_platform">Nije moguće pokrenuti AR.Drone projekt na tvom uređaju.</string>
   <string name="error_rename_incompatible_project">Preimenovanje nekompatibilnog projekta nije moguće.</string>
   <string name="error_changing_description_of_incompatible_project">Promjena opisa nekompatibilnog projekta nije moguća.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
   <string name="title_paired_devices">Upareni uređaji</string>
   <string name="title_other_devices">Novi uređaji</string>
@@ -666,6 +673,9 @@ su otpakovani!</item>
   <string name="add_line_break">Add Line Break</string>
   <string name="edit_variable">Uredi varijablu</string>
   <string name="variable_hint">Ime varijable</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">definirati</string>
   <string name="new_user_brick">Novi blok</string>
   <string name="new_user_brick_variable">Varijabla 1</string>

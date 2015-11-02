@@ -174,7 +174,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 			editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
 			editRepeat.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

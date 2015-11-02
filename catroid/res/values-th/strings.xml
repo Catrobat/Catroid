@@ -106,9 +106,6 @@
   <string name="sprite">วัตถุ</string>
   <string name="sprites">วัตถุ</string>
   <string name="spritelist_background_headline">พื้นหลัง</string>
-  <string name="dialog_confirm_delete_object_title">ลบวัตถุนี้หรือไม่?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">ลบวัตถุเหล่านี้หรือไม่?</string>
-  <string name="dialog_confirm_delete_object_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="select_all">เลือก​ทั้ง​หมด</string>
   <string name="copy_sprite_name_suffix">_ทำซ้ำ</string>
   <string name="scripts">สคริปต์</string>
@@ -139,9 +136,6 @@
   <string name="select_look_from_gallery">เลือกรูปภาพ</string>
   <string name="select_look_from_camera">เลือก​ภาพถ่าย</string>
   <string name="look_measure">วัด:</string>
-  <string name="dialog_confirm_delete_look_title">ลบคำสั่งนี้?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">ลบรูปลักษณ์เหล่านี้?</string>
-  <string name="dialog_confirm_delete_look_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="lookname">ชื่อ รูปลักษณ์:</string>
   <string name="fragment_sound_text_description">เคาะ \"+\" เพื่อใส่เสียง</string>
   <string name="rename_sound_dialog">เปลี่ยนชื่อเสียง</string>
@@ -157,6 +151,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">ลบเสียงเหล่านี้หรือไม่?</string>
   <string name="dialog_confirm_delete_sound_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="sound_name">ชื่อของเสียง:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="other">ถูกแยกออกแล้ว!</item>
   </plurals>
@@ -194,6 +190,9 @@
   <string name="add_look_from_camera">ถ่ายภาพ</string>
   <string name="add_look_draw_new_image">วาดรูป</string>
   <string name="add_look_choose_image">เลือกรูปภาพ</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -202,6 +201,7 @@
   <string name="new_project_description_dialog_hint">คำอธิบายของฉัน</string>
   <string name="new_project_name">ชื่อโปรแกรม:</string>
   <string name="new_project_empty">สร้างโปรแกรมเปล่า</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">วัตถุของฉัน</string>
   <string name="new_sprite_dialog_title">วัตถุใหม่</string>
   <string name="spritename_already_exists">ชื่อวัตถุนี้มีอยู่แล้ว</string>
@@ -221,6 +221,12 @@
   <string name="overwrite_text">โปรแกรมชื่อนี้มีอยู่แล้ว!</string>
   <string name="overwrite_replace">แทนที่โปรแกรมที่มีอยู่</string>
   <string name="overwrite_rename">เปลี่ยนชื่อโปรแกรมที่ดาวน์โหลด</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">ย้อนกลับ</string>
   <string name="stage_dialog_resume">ทำต่อ</string>
   <string name="stage_dialog_restart">เริ่มต้นใหม่</string>
@@ -394,6 +400,7 @@
   <string name="error_drone_wrong_platform">เราไม่สามารถเรียกใช้ ARDrone บนอุปกรณ์ของคุณ</string>
   <string name="error_rename_incompatible_project">ไม่สามารถเปลี่ยนชื่อโครงงานที่เข้ากันไม่ได้</string>
   <string name="error_changing_description_of_incompatible_project">ไม่สามารถเปลี่ยนแปลงรายละเอียดของโครงงานที่เข้ากันไม่ได้</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">ไม่สามารถเปิดใช้งาน Bluetooth, กำลังปิด stage</string>
   <string name="title_paired_devices">อุปกรณ์ที่จับคู่ไว้</string>
   <string name="title_other_devices">อุปกรณ์ใหม่</string>
@@ -637,6 +644,9 @@
   <string name="add_line_break">เพิ่มตัวแบ่งบรรทัด</string>
   <string name="edit_variable">แก้ไขตัวแปร</string>
   <string name="variable_hint">ชื่อตัวแปร</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">กำหนด</string>
   <string name="new_user_brick">ก้อนคำสั่งใหม่</string>
   <string name="new_user_brick_variable">ตัวแปร 1</string>

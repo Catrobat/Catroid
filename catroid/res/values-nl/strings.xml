@@ -106,9 +106,6 @@
   <string name="sprite">Object</string>
   <string name="sprites">Objecten</string>
   <string name="spritelist_background_headline">Achtergrond</string>
-  <string name="dialog_confirm_delete_object_title">Verwijder dit object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Verwijder deze objecten?</string>
-  <string name="dialog_confirm_delete_object_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="select_all">Selecteer alles</string>
   <string name="copy_sprite_name_suffix">_Kopiëren</string>
   <string name="scripts">Scripts</string>
@@ -141,9 +138,6 @@
   <string name="select_look_from_gallery">Selecteer afbeelding</string>
   <string name="select_look_from_camera">Selecteer foto</string>
   <string name="look_measure">Afmetingen:</string>
-  <string name="dialog_confirm_delete_look_title">Verwijder dit uiterlijk?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Deze uiterlijken verwijderen?</string>
-  <string name="dialog_confirm_delete_look_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="lookname">naam uiterlijk:</string>
   <string name="fragment_sound_text_description">Tik op \"+\" geluiden toe te voegen</string>
   <string name="rename_sound_dialog">Geluid hernoemen</string>
@@ -159,6 +153,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Verwijder deze geluiden?</string>
   <string name="dialog_confirm_delete_sound_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="sound_name">naam van geluid:</string>
+  <string name="new_sound_name">Sound name:</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">werd uitgepakt!</item>
     <item quantity="other">werden uitgepakt!</item>
@@ -197,6 +193,9 @@
   <string name="add_look_from_camera">Van camera</string>
   <string name="add_look_draw_new_image">Teken een nieuwe afbeelding</string>
   <string name="add_look_choose_image">Kies afbeelding</string>
+  <string name="add_look_media_library">Media Library</string>
+  <string name="new_look_name">Look Name:</string>
+  <string name="look_rename_overwrite">Look Name already exists !</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -205,6 +204,7 @@
   <string name="new_project_description_dialog_hint">Mijn omschrijving</string>
   <string name="new_project_name">Programmanaam:</string>
   <string name="new_project_empty">Maak een leeg programma</string>
+  <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mijn object</string>
   <string name="new_sprite_dialog_title">Naam van nieuw object</string>
   <string name="spritename_already_exists">Deze objectnaam bestaat al</string>
@@ -224,6 +224,12 @@
   <string name="overwrite_text">Er bestaat al een programma met deze naam!</string>
   <string name="overwrite_replace">Bestaand programma overschrijven</string>
   <string name="overwrite_rename">Gedownload programma hernoemen</string>
+  <string name="overwrite_replace_look">Replace existing look</string>
+  <string name="overwrite_rename_look">Rename downloaded look</string>
+  <string name="overwrite_replace_sound">Replace existing sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_default">Replace existing media</string>
+  <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Terug</string>
   <string name="stage_dialog_resume">Verder gaan</string>
   <string name="stage_dialog_restart">Opnieuw starten</string>
@@ -401,6 +407,7 @@
   <string name="error_drone_wrong_platform">Het is niet mogelijk een ARDrone-project te starten op je apparaat.</string>
   <string name="error_rename_incompatible_project">Het is niet mogelijk een niet-compatible project te hernoemen.</string>
   <string name="error_changing_description_of_incompatible_project">Het is niet mogelijk de beschrijving van een niet-compatible project aan te passen.</string>
+  <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth kan niet worden ingeschakeld, het speelveld wordt afgesloten</string>
   <string name="title_paired_devices">Gekoppelde apparaten</string>
   <string name="title_other_devices">Nieuwe apparaten</string>
@@ -645,6 +652,9 @@
   <string name="add_line_break">Add Line Break</string>
   <string name="edit_variable">Variabele bewerken</string>
   <string name="variable_hint">Naam van de variabele</string>
+  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_hide_text_var">Hide variable</string>
   <string name="define">define</string>
   <string name="new_user_brick">Nieuwe steen</string>
   <string name="new_user_brick_variable">Variabele 1</string>

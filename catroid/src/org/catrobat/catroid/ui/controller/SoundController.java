@@ -50,7 +50,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
@@ -67,8 +66,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.SortedSet;
 
 public final class SoundController {
 	public static final int REQUEST_SELECT_OR_RECORD_SOUND = 0;
@@ -76,6 +73,7 @@ public final class SoundController {
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final int REQUEST_SELECT_MUSIC = 0;
+	public static final int REQUEST_MEDIA_LIBRARY = 2;
 
 	private static final SoundController INSTANCE = new SoundController();
 	private static final String TAG = SoundController.class.getSimpleName();
@@ -213,7 +211,7 @@ public final class SoundController {
 
 	private void setClickListener(final SoundBaseAdapter soundAdapter, final SoundViewHolder holder,
 			final SoundInfo soundInfo) {
-		OnClickListener listItemOnClickListener = (new OnClickListener() {
+		OnClickListener listItemOnClickListener = new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -221,7 +219,7 @@ public final class SoundController {
 					holder.checkbox.setChecked(!holder.checkbox.isChecked());
 				}
 			}
-		});
+		};
 
 		if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
 			holder.playAndStopButton.setOnClickListener(listItemOnClickListener);
@@ -402,26 +400,6 @@ public final class SoundController {
 				soundInfoList, adapter);
 	}
 
-	private void deleteSound(int position, ArrayList<SoundInfo> soundInfoList, Activity activity) {
-		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
-		soundInfoList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
-	}
-
-	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, ArrayList<SoundInfo> soundInfoList,
-			MediaPlayer mediaPlayer) {
-		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedSounds.iterator();
-		SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-		int numberDeleted = 0;
-		while (iterator.hasNext()) {
-			int position = iterator.next();
-			deleteSound(position - numberDeleted, soundInfoList, activity);
-			++numberDeleted;
-		}
-	}
-
 	public SoundInfo updateBackPackActivity(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
 			SoundBaseAdapter adapter) {
 		title = Utils.getUniqueSoundName(title);
@@ -541,6 +519,15 @@ public final class SoundController {
 		}
 	}
 
+	public void addSoundFromMediaLibrary(String filePath, Activity activity,
+			ArrayList<SoundInfo> soundData, SoundFragment fragment) {
+		File mediaImage = null;
+		mediaImage = new File(filePath);
+		copySoundToCatroid(mediaImage.toString(), activity, soundData, fragment);
+		File soundOnSdCard = new File(mediaImage.getPath());
+		soundOnSdCard.delete();
+	}
+
 	public void handleAddButtonFromNew(SoundFragment soundFragment) {
 		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
 		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
@@ -561,5 +548,48 @@ public final class SoundController {
 
 		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
 		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
+	}
+
+	private void copySoundToCatroid(String originalSoundPath, Activity activity, ArrayList<SoundInfo> soundList,
+			SoundFragment fragment) {
+		try {
+			File oldFile = new File(originalSoundPath);
+
+			if (originalSoundPath.equals("")) {
+				throw new IOException();
+			}
+
+			File soundFile = StorageHandler.getInstance().copySoundFile(originalSoundPath);
+
+			String soundName;
+			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
+			if (extensionDotIndex > 0) {
+				soundName = oldFile.getName().substring(0, extensionDotIndex);
+			} else {
+				soundName = oldFile.getName();
+			}
+
+			String soundFileName = soundFile.getName();
+
+			updateSoundAdapter(soundName, soundFileName, soundList, fragment);
+		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_sound);
+		} catch (NullPointerException e) {
+			Log.e("NullPointerException", "probably originalSoundPath null; message: " + e.getMessage());
+			Utils.showErrorDialog(activity, R.string.error_load_sound);
+		}
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+	}
+
+	private void updateSoundAdapter(String name, String fileName, ArrayList<SoundInfo> soundList, SoundFragment
+			fragment) {
+		name = Utils.getUniqueSoundName(name);
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(fileName);
+		soundInfo.setTitle(name);
+		soundList.add(soundInfo);
+
+		fragment.updateSoundAdapter(soundInfo);
 	}
 }

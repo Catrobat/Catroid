@@ -159,7 +159,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
 			editX.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

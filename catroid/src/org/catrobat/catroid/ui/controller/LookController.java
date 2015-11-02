@@ -69,6 +69,7 @@ public final class LookController {
 	public static final int REQUEST_SELECT_OR_DRAW_IMAGE = 0;
 	public static final int REQUEST_POCKET_PAINT_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
+	public static final int REQUEST_MEDIA_LIBRARY = 3;
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final String BUNDLE_ARGUMENTS_SELECTED_LOOK = "selected_look";
 	public static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
@@ -342,8 +343,6 @@ public final class LookController {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
 						newFileName);
 
-				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath()); //reduce usage in container or delete it
-
 				selectedLookData.setLookFilename(newLookFile.getName());
 				selectedLookData.resetThumbnailBitmap();
 			} catch (IOException ioException) {
@@ -367,6 +366,15 @@ public final class LookController {
 			File pictureOnSdCard = new File(lookFromCameraUri.getPath());
 			pictureOnSdCard.delete();
 		}
+	}
+
+	public void loadPictureFromLibraryIntoCatroid(String filePath, Activity activity,
+			ArrayList<LookData> lookData, LookFragment fragment) {
+		File mediaImage = null;
+		mediaImage = new File(filePath);
+		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);
+		File pictureOnSdCard = new File(mediaImage.getPath());
+		pictureOnSdCard.delete();
 	}
 
 	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
@@ -400,23 +408,6 @@ public final class LookController {
 		return true;
 	}
 
-	private void deleteLook(int position, ArrayList<LookData> lookDataList, Activity activity) {
-		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
-
-		lookDataList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
-
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
-	}
-
-	public void deleteCheckedLooks(LookBaseAdapter adapter, ArrayList<LookData> lookDataList, Activity activity) {
-		int numberDeleted = 0;
-		for (int position : adapter.getCheckedItems()) {
-			deleteLook(position - numberDeleted, lookDataList, activity);
-			++numberDeleted;
-		}
-	}
-
 	public void copyLook(int position, ArrayList<LookData> lookDataList, final Activity activity, LookFragment fragment) {
 		LookData lookData = lookDataList.get(position);
 
@@ -436,14 +427,13 @@ public final class LookController {
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
-	public void switchToScriptFragment(LookFragment fragment) {
-		ScriptActivity scriptActivity = (ScriptActivity) fragment.getActivity();
+	public void switchToScriptFragment(LookFragment fragment, ScriptActivity scriptActivity) {
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.hide(fragment);
 		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
-		fragmentTransaction.commit();
+		fragmentTransaction.commitAllowingStateLoss();
 
 		scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();
 		scriptActivity.setIsLookFragmentHandleAddButtonHandled(false);
