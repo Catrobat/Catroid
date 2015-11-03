@@ -20,27 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
+package org.catrobat.catroid.devices.arduino;
 
-import org.catrobat.catroid.devices.arduino.Arduino;
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 
-import java.util.UUID;
+public interface Arduino extends BluetoothDevice {
 
-public interface BluetoothDevice extends StageResourceInterface {
+	void setDigitalArduinoPin(int digitalPinNumber, int pinValue);
 
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<Arduino> ARDUINO = Arduino.class;
+	double getDigitalArduinoPin(int digitalPinNumber);
 
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
+	double getAnalogArduinoPin(int analogPinNumber);
 
-	boolean isAlive();
-
-	UUID getBluetoothDeviceUUID();
+	void setAnalogArduinoPin(int pin, int value);
 }

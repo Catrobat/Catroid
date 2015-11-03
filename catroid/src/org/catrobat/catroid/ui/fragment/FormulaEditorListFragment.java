@@ -110,6 +110,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
 			R.string.formula_editor_phiro_sensor_bottom_right };
 
+	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
+			R.string.formula_editor_function_arduino_read_pin_value_digital};
+
 	private static final int[] FACE_DETECTION_SENSOR_ITEMS = { R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position };
@@ -168,6 +171,10 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
 			}
 		}
 
