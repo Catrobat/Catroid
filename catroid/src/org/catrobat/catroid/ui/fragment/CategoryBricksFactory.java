@@ -385,6 +385,7 @@ public class CategoryBricksFactory {
 		List<Brick> arduinoBrickList = new ArrayList<Brick>();
 		arduinoBrickList.add(new ArduinoSendDigitalValueBrick(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
 		arduinoBrickList.add(new ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
+
 		return arduinoBrickList;
 	}
 

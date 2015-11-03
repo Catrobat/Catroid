@@ -905,6 +905,15 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			resources |= rightChild.getRequiredResources();
 		}
+		if (type == ElementType.FUNCTION) {
+			Functions functions = Functions.getFunctionByValue(value);
+			switch (functions) {
+				case ARDUINOANALOG:
+				case ARDUINODIGITAL:
+					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
+					break;
+			}
+		}
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);
 			switch (sensor) {
