@@ -20,33 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
-
-import android.content.Context;
+package org.catrobat.catroid.devices.arduino;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
-import org.catrobat.catroid.devices.arduino.ArduinoImpl;
-import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 
-public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
+public interface Arduino extends BluetoothDevice {
 
-	@Override
-	public <T extends BluetoothDevice> BluetoothDevice createDevice(Class<T> service, Context applicationContext) {
+	void setDigitalArduinoPin(int digitalPinNumber, int pinValue);
 
-		if (service == BluetoothDevice.LEGO_NXT) {
-			return new LegoNXTImpl(applicationContext);
-		}
+	double getDigitalArduinoPin(int digitalPinNumber);
 
-		if (service == BluetoothDevice.PHIRO) {
-			return new PhiroImpl();
-		}
+	double getAnalogArduinoPin(int analogPinNumber);
 
-		if (service == BluetoothDevice.ARDUINO) {
-			return new ArduinoImpl();
-		}
-
-		return null; // may throw exception
-	}
+	void setAnalogArduinoPin(int pin, int value);
 }
