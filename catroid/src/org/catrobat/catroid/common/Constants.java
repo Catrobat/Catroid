@@ -64,6 +64,7 @@ public final class Constants {
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
 	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
+	public static final String BLUETOOTH_SENSORS_ARDUINO = "BLUETOOTH_SENSORS_ARDUINO";
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
 	public static final String BLUETOOTH_PHIRO_PRO = "BLUETOOTH_PHIRO_PRO";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";

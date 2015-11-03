@@ -43,13 +43,13 @@ public class PhiroImplTest extends AndroidTestCase {
 
 	private static final int PIN_SPEAKER_OUT = 3;
 
-	private static final int PIN_RGB_RED_LEFT = 4;
-	private static final int PIN_RGB_GREEN_LEFT = 5;
-	private static final int PIN_RGB_BLUE_LEFT = 6;
+	private static final int PIN_RGB_RED_RIGHT = 4;
+	private static final int PIN_RGB_GREEN_RIGHT = 5;
+	private static final int PIN_RGB_BLUE_RIGHT = 6;
 
-	private static final int PIN_RGB_RED_RIGHT = 7;
-	private static final int PIN_RGB_GREEN_RIGHT = 8;
-	private static final int PIN_RGB_BLUE_RIGHT = 9;
+	private static final int PIN_RGB_RED_LEFT = 7;
+	private static final int PIN_RGB_GREEN_LEFT = 8;
+	private static final int PIN_RGB_BLUE_LEFT = 9;
 
 	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
 	private static final int PIN_LEFT_MOTOR_FORWARD = 11;

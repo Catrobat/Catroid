@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uitest.devices.phiro;
+package org.catrobat.catroid.uitest.devices.arduino;
 
 import android.widget.ListView;
 
@@ -38,8 +38,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
-import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
@@ -53,27 +52,37 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.io.File;
 import java.util.ArrayList;
 
-public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class ArduinoTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	public PhiroTest() {
+	public ArduinoTest() {
 		super(MainMenuActivity.class);
 	}
 
-	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
-	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
-	private static final int MIN_PWM_PIN = 3;
-	private static final int MAX_PWM_PIN = 13;
+	private static final int PWM_PIN = 3;
+
+	private static final int PWM_PIN_GROUP_1 = 3;
+	private static final int PWM_PIN_GROUP_2_MIN = 5;
+	private static final int PWM_PIN_GROUP_2_MAX = 6;
+	private static final int PWM_PIN_GROUP_3_MIN = 9;
+	private static final int PWM_PIN_GROUP_3_MAX = 11;
+
 	private static final int MIN_SENSOR_PIN = 0;
 	private static final int MAX_SENSOR_PIN = 5;
+
 	private static final int PWM_MODE = 3;
+
 	private static final int SET_PIN_MODE_COMMAND = 0xF4;
 	private static final int REPORT_ANALOG_PIN_COMMAND = 0xC0;
+
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
+
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private static final String LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME = "dummy_device";
 	private final String spriteName = "testSprite";
-	private static final int MOTOR_MOVE = 0;
-	private static final int MOTOR_STOP = 1;
+
+	private static final int PIN_LOW = 0;
+	private static final int PIN_HIGH = 255;
+
 	private ConnectionDataLogger logger;
 	private FirmataUtils firmataUtils;
 
@@ -93,7 +102,7 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 	}
 
 	@Device
-	public void testPhiroFunctionality() {
+	public void testArduinoFunctionality() {
 		ArrayList<int[]> commands = createTestproject(projectName);
 
 		BluetoothTestUtils.enableBluetooth();
@@ -131,21 +140,15 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 		for (int[] item : commands) {
 
 			switch (item[0]) {
-				case MOTOR_MOVE:
-
+				case PIN_HIGH:
 					m = firmataUtils.getAnalogMesageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
 					assertEquals("Wrong speed", percentToSpeed(item[2]), m.getData());
 					break;
-				case MOTOR_STOP:
+				case PIN_LOW:
 					m = firmataUtils.getAnalogMesageData();
 					assertEquals("Wrong pin", item[1], m.getPin());
-					assertEquals("Wrong speed", 0, m.getData());
-
-					m = firmataUtils.getAnalogMesageData();
-					assertEquals("Wrong pin", item[2], m.getPin());
-					assertEquals("Wrong speed", 0, m.getData());
-
+					assertEquals("Wrong speed", percentToSpeed(item[2]), m.getData());
 					break;
 			}
 		}
@@ -162,18 +165,18 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 		Script whenScript = new WhenScript();
 		SetLookBrick setLookBrick = new SetLookBrick();
 
-		PhiroMotorMoveForwardBrick phiro = new PhiroMotorMoveForwardBrick(
-				PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT, 100);
-		commands.add(new int[] { MOTOR_MOVE, PIN_LEFT_MOTOR_FORWARD, 100 });
+		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick1 = new ArduinoSendPWMValueBrick(
+				PWM_PIN, PIN_HIGH);
+		commands.add(new int[]{PIN_HIGH, PWM_PIN, PIN_HIGH});
 		WaitBrick firstWaitBrick = new WaitBrick(100);
 
-		PhiroMotorStopBrick phiroMotorStopBrick = new PhiroMotorStopBrick(
-				PhiroMotorStopBrick.Motor.MOTOR_LEFT);
-		commands.add(new int[] { MOTOR_STOP, PIN_LEFT_MOTOR_FORWARD, PIN_LEFT_MOTOR_BACKWARD });
+		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick2 = new ArduinoSendPWMValueBrick(
+				PWM_PIN, PIN_LOW);
+		commands.add(new int[]{PIN_LOW, PWM_PIN, PIN_LOW});
 
-		whenScript.addBrick(phiro);
+		whenScript.addBrick(arduinoArduinoSendPWMValueBrick1);
 		whenScript.addBrick(firstWaitBrick);
-		whenScript.addBrick(phiroMotorStopBrick);
+		whenScript.addBrick(arduinoArduinoSendPWMValueBrick2);
 
 		startScript.addBrick(setLookBrick);
 		firstSprite.addScript(startScript);
@@ -199,7 +202,7 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 	}
 
 	private void doTestFirmataInitialization() {
-		for (int i = MIN_PWM_PIN; i <= MAX_PWM_PIN; ++i) {
+		for (int i = PWM_PIN_GROUP_1; i <= PWM_PIN_GROUP_1; ++i) {
 			FirmataMessage m = firmataUtils.getSetPinModeMessage();
 
 			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
@@ -207,6 +210,22 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
 		}
 
+		for (int i = PWM_PIN_GROUP_2_MIN; i <= PWM_PIN_GROUP_2_MAX; ++i) {
+			FirmataMessage m = firmataUtils.getSetPinModeMessage();
+
+			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
+			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
+			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
+		}
+
+		for (int i = PWM_PIN_GROUP_3_MIN; i <= PWM_PIN_GROUP_3_MAX; ++i) {
+			FirmataMessage m = firmataUtils.getSetPinModeMessage();
+
+			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
+			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
+			assertEquals(
+					"Wrong pin mode is used", PWM_MODE, m.getData());
+		}
 		testReportAnalogPin(true);
 	}
 
