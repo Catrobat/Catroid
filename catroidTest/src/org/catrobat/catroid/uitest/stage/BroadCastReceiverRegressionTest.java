@@ -199,7 +199,6 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 		assertEquals("Third Broadcast Script does not restart itself!", (int) ((initialRotation + 3 * degreesToTurn) % 360),
 				(int) thirdSprite.look.getRotation());
-
 	}
 
 	public void testCorrectRestartingOfBroadcastsWithSameActionStringsWithinOneSprite() {
@@ -234,7 +233,6 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
 	}
-
 
 	private void createUserVariable(String variableName) {
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(

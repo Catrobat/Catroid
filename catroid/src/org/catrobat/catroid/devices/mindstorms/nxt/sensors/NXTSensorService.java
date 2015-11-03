@@ -25,10 +25,12 @@ package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
@@ -51,6 +53,7 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 
 	private PausableScheduledThreadPoolExecutor sensorScheduler;
 
+	private static final String TAG = NXTSensorService.class.getSimpleName();
 	private static final int SENSOR_UPDATER_THREAD_COUNT = 2;
 
 	public NXTSensorService(Context context, MindstormsConnection connection) {
@@ -119,10 +122,13 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			command.append(NXTSensorType.NO_SENSOR.getByte());
 			command.append(NXTSensorMode.RAW.getByte());
 
-			connection.send(command);
+			try {
+				connection.send(command);
+			} catch (MindstormsException e) {
+				Log.e(TAG, e.getMessage());
+			}
 		}
 	}
-
 
 	List<OnSensorChangedListener> sensorChangedListeners = new LinkedList<OnSensorChangedListener>();
 
@@ -131,10 +137,10 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	private boolean isChangedPreferenceASensorPreference(String preference) {
-		return (preference.equals(SettingsActivity.NXT_SENSOR_1) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_2) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_3) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_4));
+		return (preference.equals(SettingsActivity.NXT_SENSOR_1)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_2)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_3)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_4));
 	}
 
 	@Override
@@ -203,7 +209,6 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			SensorTuple tuple = registeredSensors.get(port);
 			if (tuple != null) {
 				tuple.scheduledFuture.cancel(false);
-
 			}
 			registeredSensors.remove(port);
 		}

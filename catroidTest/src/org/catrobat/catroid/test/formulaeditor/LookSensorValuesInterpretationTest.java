@@ -96,16 +96,13 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 			Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
 			assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
 					lookZPositionFormula.interpretInteger(testSprite).intValue());
-
-		}catch (InterpretationException interpretationException){
+		} catch (InterpretationException interpretationException) {
 			fail("Could not interprete Formula.");
 		}
-
 	}
 
 	public void testNotExistingLookSensorValues() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingLookSensor", 0);
 	}
-
 }

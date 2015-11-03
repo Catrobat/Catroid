@@ -100,15 +100,15 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
 
 		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
-            try{
+			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.brick_go_back_layer_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
 								ProjectManager.getInstance().getCurrentSprite()))
 				));
-            }catch(InterpretationException interpretationException){
-                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
-            }
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+			}
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -128,12 +128,11 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
-        textSteps.setText(String.valueOf(BrickValues.GO_BACK));
-        times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-                    Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
+		textSteps.setText(String.valueOf(BrickValues.GO_BACK));
+		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
 
 		return prototypeView;
-
 	}
 
 	@Override
@@ -144,7 +143,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 			View layout = view.findViewById(R.id.brick_go_back_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView hideLabel = (TextView) view.findViewById(R.id.brick_go_back_label);
 			TextView hideLayers = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
@@ -153,7 +152,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 			hideLayers.setTextColor(hideLayers.getTextColors().withAlpha(alphaValue));
 			editGoBack.setTextColor(editGoBack.getTextColors().withAlpha(alphaValue));
 			editGoBack.getBackground().setAlpha(alphaValue);
-
 		}
 
 		return view;

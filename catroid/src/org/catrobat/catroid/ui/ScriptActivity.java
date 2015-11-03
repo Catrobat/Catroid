@@ -47,6 +47,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -69,6 +70,7 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SPRITE_RENAMED = "org.catrobat.catroid.SPRITE_RENAMED";
 	public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
 	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
+	public static final String ACTION_NEW_SPRITE_CREATED = "org.catrobat.catroid.NEW_SPRITE_CREATED";
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
@@ -98,6 +100,7 @@ public class ScriptActivity extends BaseActivity {
 	private boolean isLookFragmentHandleAddButtonHandled = false;
 
 	private ImageButton buttonAdd;
+	private boolean switchToScriptFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,6 +127,10 @@ public class ScriptActivity extends BaseActivity {
 
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
+		if (switchToScriptFragment) {
+			LookController.getInstance().switchToScriptFragment(lookFragment, this);
+			switchToScriptFragment = false;
+		}
 	}
 
 	private void setupBottomBar() {
@@ -131,7 +138,6 @@ public class ScriptActivity extends BaseActivity {
 		BottomBar.showAddButton(this);
 		BottomBar.showPlayButton(this);
 		updateHandleAddButtonClickListener();
-
 	}
 
 	public void setupActionBar() {
@@ -283,6 +289,14 @@ public class ScriptActivity extends BaseActivity {
 					currentFragment.startDeleteActionMode();
 				}
 				break;
+
+			case R.id.menu_undo:
+				currentFragment.startUndoActionMode();
+				break;
+
+			case R.id.menu_redo:
+				currentFragment.startRedoActionMode();
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -309,13 +323,12 @@ public class ScriptActivity extends BaseActivity {
 			if (fragment != null && fragment.isVisible()) {
 				return fragment.onKey(null, keyCode, event);
 			}
-
 		}
 
 		String tag1 = UserBrickDataEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG;
 		UserBrickDataEditorFragment fragment = (UserBrickDataEditorFragment) fragmentManager.findFragmentByTag(tag1);
 		if (fragment != null && fragment.isVisible()) {
-				return fragment.onKey(null, keyCode, event);
+			return fragment.onKey(null, keyCode, event);
 		}
 
 		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
@@ -371,13 +384,11 @@ public class ScriptActivity extends BaseActivity {
 		if (hasFocus) {
 			if (soundFragment != null && soundFragment.isVisible()) {
 				sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
-
 			}
 
 			if (lookFragment != null && lookFragment.isVisible()) {
 				sendBroadcast(new Intent(ScriptActivity.ACTION_LOOKS_LIST_INIT));
 			}
-
 		}
 	}
 
@@ -555,12 +566,13 @@ public class ScriptActivity extends BaseActivity {
 		switch (fragmentPosition) {
 			case FRAGMENT_LOOKS:
 				isLookFragmentFromSetLookBrickNew = true;
-
 				fragmentTransaction.addToBackStack(LookFragment.TAG);
 				if (lookFragment == null) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					lookFragment = new LookFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					fragmentTransaction.show(lookFragment);
 				}
 				setCurrentFragment(FRAGMENT_LOOKS);
@@ -571,9 +583,11 @@ public class ScriptActivity extends BaseActivity {
 
 				fragmentTransaction.addToBackStack(SoundFragment.TAG);
 				if (soundFragment == null) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					soundFragment = new SoundFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, soundFragment, SoundFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					fragmentTransaction.show(soundFragment);
 				}
 				setCurrentFragment(FRAGMENT_SOUNDS);
@@ -582,5 +596,9 @@ public class ScriptActivity extends BaseActivity {
 
 		updateHandleAddButtonClickListener();
 		fragmentTransaction.commit();
+	}
+
+	public void setSwitchToScriptFragment(boolean switchToScriptFragment) {
+		this.switchToScriptFragment = switchToScriptFragment;
 	}
 }

@@ -20,12 +20,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
+package org.catrobat.catroid.content;
 
-interface Logger {
-	void logSentData(byte[] b);
-	void logReceivedData(byte[] b);
-	void loggerAttached(BluetoothConnection proxy);
+import java.util.HashMap;
+import java.util.Map;
+
+public class SpriteHistory extends MediaHistory {
+	private static final Map<String, SpriteHistory> INSTANCE = new HashMap<>();
+
+	public static SpriteHistory getInstance(String projectName) {
+		if (!INSTANCE.containsKey(projectName)) {
+			INSTANCE.put(projectName, new SpriteHistory());
+		}
+		return INSTANCE.get(projectName);
+	}
+
+	public static void clearInstance() {
+		INSTANCE.clear();
+	}
+
+	public static void updateMap(String oldName, String newName) {
+		if (INSTANCE.containsKey(oldName)) {
+			SpriteHistory historyToUpdate = INSTANCE.remove(oldName);
+			INSTANCE.put(newName, historyToUpdate);
+		}
+	}
+
+	public static boolean getAllUndoRedoStatus() {
+		boolean result = false;
+
+		for (SpriteHistory history : INSTANCE.values()) {
+			result |= history.isRedoable();
+			result |= history.isUndoable();
+		}
+
+		return result;
+	}
 }

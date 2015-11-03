@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -93,6 +94,7 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
@@ -123,14 +125,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion095AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion096AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion095AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion096AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -155,9 +157,6 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 
 		BrickInfo brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
-
-		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
-		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
@@ -252,34 +251,34 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 
 		brickInfo = new BrickInfo(PhiroMotorMoveForwardBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
-		brickInfoMap.put("phiroProMotorMoveForwardBrick", brickInfo);
+		brickInfoMap.put("phiroMotorMoveForwardBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroMotorMoveBackwardBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
-		brickInfoMap.put("phiroProMotorMoveBackwardBrick", brickInfo);
+		brickInfoMap.put("phiroMotorMoveBackwardBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroMotorStopBrick.class.getSimpleName());
-		brickInfoMap.put("phiroProMotorStopBrick", brickInfo);
+		brickInfoMap.put("phiroMotorStopBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroPlayToneBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.PHIRO_DURATION_IN_SECONDS);
-		brickInfoMap.put("phiroProPlayToneBrick", brickInfo);
+		brickInfoMap.put("phiroPlayToneBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroRGBLightBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_RED);
 		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_GREEN);
 		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_BLUE);
-		brickInfoMap.put("phiroProRGBLightBrick", brickInfo);
+		brickInfoMap.put("phiroRGBLightBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroIfLogicBeginBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("ifPhiroSensorCondition", BrickField.IF_PHIRO_SENSOR_CONDITION);
-		brickInfoMap.put("phiroProSensorBrick", brickInfo);
+		brickInfoMap.put("phiroSensorBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());
-		brickInfoMap.put("phiroProSensorElseBrick", brickInfo);
+		brickInfoMap.put("phiroSensorElseBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
-		brickInfoMap.put("phiroProSensorEndBrick", brickInfo);
+		brickInfoMap.put("phiroSensorEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);
@@ -355,8 +354,8 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
 
-		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
-		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
+		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
+		brickInfoMap.put("whenBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);
@@ -373,7 +372,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("timeToWaitInSeconds", BrickField.TIME_TO_WAIT_IN_SECONDS);
 		brickInfoMap.put("waitBrick", brickInfo);
 
-		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
 		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
@@ -421,6 +420,11 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
 		brickInfoMap.put("droneMoveRightBrick", brickInfo);
 
+		brickInfo = new BrickInfo(ShowTextBrick.class.getSimpleName());
+		brickInfoMap.put("showTextBrick", brickInfo);
+
+		brickInfo = new BrickInfo(HideTextBrick.class.getSimpleName());
+		brickInfoMap.put("hideTextBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {
@@ -485,7 +489,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
 			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
 			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
-		}catch(Exception exception){
+		} catch (Exception exception) {
 			Log.e(TAG, "Failed to modify variables tag", exception);
 		}
 	}
@@ -565,8 +569,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 	}
 
 	private void copyAttributesIfNeeded(Node sourceNode, Element destinationNode) {
-		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick") ||
-				sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
+		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick")
+				|| sourceNode.getNodeName().equals("ifLogicElseBrick")
+				|| sourceNode.getNodeName().equals("ifLogicEndBrick")) {
 			return;
 		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
@@ -630,10 +635,10 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 					Node brickNode = brickListChildNodes.item(j);
 					Element newBrickNode = originalDocument.createElement("brick");
 
-					if (brickNode.getNodeName().equals("setGhostEffectBrick")){
+					if (brickNode.getNodeName().equals("setGhostEffectBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "setTransparencyBrick");
 					}
-					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")){
+					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")) {
 						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "changeTransparencyByNBrick");
 					}
 
@@ -655,9 +660,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
 									handleUserVariableNode(newBrickNode, brickChild);
-								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
-										brickChild.getNodeName().equals("ifElseBrick") ||
-										brickChild.getNodeName().equals("ifEndBrick")) {
+								} else if (brickChild.getNodeName().equals("loopEndBrick")
+										|| brickChild.getNodeName().equals("ifElseBrick")
+										|| brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
 								} else {
 									newBrickNode.appendChild(brickChild);
@@ -818,5 +823,4 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			return brickClassName;
 		}
 	}
-
 }

@@ -43,7 +43,6 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-
 	@Override
 	protected void update(float percent) {
 		int hertzInterpretation;
@@ -51,17 +50,17 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 
 		try {
 			hertzInterpretation = hertz.interpretInteger(sprite);
-        } catch (InterpretationException interpretationException) {
-            hertzInterpretation = 0;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			hertzInterpretation = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 
 		try {
 			durationInterpretation = durationInSeconds.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            durationInterpretation = 0;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			durationInterpretation = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 
 		LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
 		if (nxt == null) {
@@ -84,5 +83,4 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

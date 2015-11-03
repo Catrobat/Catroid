@@ -105,7 +105,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_set_transparency, null);
 		TextView textSetTransparency = (TextView) prototypeView
 				.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
-        textSetTransparency.setText(String.valueOf(BrickValues.SET_TRANSPARENCY));
+		textSetTransparency.setText(String.valueOf(BrickValues.SET_TRANSPARENCY));
 		return prototypeView;
 	}
 
@@ -128,8 +128,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
 			editTransparency.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

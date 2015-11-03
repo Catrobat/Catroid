@@ -129,5 +129,4 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		file = new File(projectPath + "/" + StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 		assertTrue("Automatic screenshot should exist in default project", file.exists());
 	}
-
 }

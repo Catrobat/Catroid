@@ -126,7 +126,6 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickLongOnText(soundName);
 		solo.waitForText(buttonDeleteText);
 		solo.clickOnText(buttonDeleteText);
-		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
@@ -158,6 +157,19 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 
+	public void testDismissNewSoundDialog() {
+		String newText = solo.getString(R.string.new_broadcast_message);
+
+		solo.clickOnText(soundName);
+		solo.clickOnText(newText);
+		solo.waitForDialogToOpen(10000);
+		solo.goBack();
+		solo.waitForDialogToClose(10000);
+		solo.sleep(500);
+		assertEquals("Not in ScriptActivity", "ui.ScriptActivity", solo.getCurrentActivity().getLocalClassName());
+		assertTrue("Spinner not updated", solo.searchText(soundName));
+	}
+
 	public void testAddNewSound() {
 		String newText = solo.getString(R.string.new_broadcast_message);
 		String recordedFilename = solo.getString(R.string.soundrecorder_recorded_filename);
@@ -165,9 +177,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(soundName);
 		solo.clickOnText(newText);
 
-		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
-		//		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
-		String soundRecorderText = "Pocket Code Recorder";
+		String soundRecorderText = solo.getString(R.string.add_sound_from_recorder);
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
 		solo.clickOnText(soundRecorderText);
@@ -179,8 +189,8 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.waitForText(recordedFilename);
 		solo.waitForFragmentByTag(SoundFragment.TAG);
-
-		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
+		solo.sleep(1000);
+		assertTrue("New sound file is not selected", solo.waitForText(recordedFilename));
 
 		solo.goBack();
 		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();

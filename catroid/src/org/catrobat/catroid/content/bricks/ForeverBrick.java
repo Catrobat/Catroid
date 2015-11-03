@@ -50,7 +50,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	private transient LoopBeginBrick copy;
 
 	public ForeverBrick() {
-
 	}
 
 	@Override
@@ -102,8 +101,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 			TextView ifForeverLabel = (TextView) view.findViewById(R.id.brick_forever_label);
 			ifForeverLabel.setTextColor(ifForeverLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

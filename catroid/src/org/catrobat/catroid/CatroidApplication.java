@@ -29,10 +29,10 @@ import com.parrot.freeflight.settings.ApplicationSettings;
 
 public class CatroidApplication extends Application {
 
-	private static final String TAG = CatroidApplication.class.getSimpleName();;
+	private static final String TAG = CatroidApplication.class.getSimpleName();
 
 	private ApplicationSettings settings;
-	public static final String OS_ARCH = System.getProperty("os.arch");;
+	public static final String OS_ARCH = System.getProperty("os.arch");
 
 	private static boolean parrotLibrariesLoaded = false;
 
@@ -48,11 +48,11 @@ public class CatroidApplication extends Application {
 	}
 
 	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful() {
-		if (parrotLibrariesLoaded == true) {
+		if (parrotLibrariesLoaded) {
 			return parrotLibrariesLoaded;
 		}
 
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && parrotLibrariesLoaded == false) { //Drone is deactivated in release builds for now 04.2014
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && !parrotLibrariesLoaded) { //Drone is deactivated in release builds for now 04.2014
 			Log.d(TAG, "Current platform = \"" + OS_ARCH + "\"");
 			if (OS_ARCH.startsWith("arm")) {
 				Log.d(TAG, "We are on an arm platform load parrot native libs");

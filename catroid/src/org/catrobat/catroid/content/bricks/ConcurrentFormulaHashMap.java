@@ -41,5 +41,4 @@ public class ConcurrentFormulaHashMap extends ConcurrentHashMap<Brick.BrickField
 		}
 		return copiedMap;
 	}
-
 }

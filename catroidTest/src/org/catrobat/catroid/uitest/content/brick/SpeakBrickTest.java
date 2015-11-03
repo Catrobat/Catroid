@@ -60,7 +60,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 	}
 
 	public void testSpeakBrick() {
-		solo.sleep(200);	// mal schaun
+		solo.sleep(200);    // mal schaun
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -77,21 +77,21 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_speak)));
 
 		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, testString, Brick.BrickField.SPEAK, speakBrick);
-        try{
-            String brickText = ( speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK)).interpretString(sprite);
-            assertEquals("Wrong text in field.", testString, brickText);
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		try {
+			String brickText = speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK).interpretString(sprite);
+			assertEquals("Wrong text in field.", testString, brickText);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
 		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, "", Brick.BrickField.SPEAK, speakBrick);
 
-        try{
-            String brickText = ( speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK)).interpretString(sprite);
-            assertEquals("Wrong text in field.", "", brickText);
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		try {
+			String brickText = speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK).interpretString(sprite);
+			assertEquals("Wrong text in field.", "", brickText);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 	}
 
 	private void createProject() {

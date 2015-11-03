@@ -24,13 +24,13 @@ package org.catrobat.catroid.utils;
 
 public class Stopwatch {
 
-    private long start;
+	private long start;
 
-    public void start() {
-        start = System.currentTimeMillis();
-    }
+	public void start() {
+		start = System.currentTimeMillis();
+	}
 
-    public long getElapsedMilliseconds() {
-        return (System.currentTimeMillis() - start);
-    }
+	public long getElapsedMilliseconds() {
+		return (System.currentTimeMillis() - start);
+	}
 }

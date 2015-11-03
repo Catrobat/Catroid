@@ -70,5 +70,4 @@ public final class BottomBar {
 			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 		}
 	}
-
 }

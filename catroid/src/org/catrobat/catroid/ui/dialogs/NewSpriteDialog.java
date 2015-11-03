@@ -42,22 +42,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.common.io.Files;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SpriteHistory;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
+import org.catrobat.catroid.content.commands.SpriteCommands;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class NewSpriteDialog extends DialogFragment {
 
@@ -67,6 +74,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private static final int REQUEST_SELECT_IMAGE = 0;
 	private static final int REQUEST_CREATE_POCKET_PAINT_IMAGE = 1;
 	private static final int REQUEST_TAKE_PICTURE = 2;
+	private static final int REQUEST_MEDIA_LIBRARY = 3;
 	private final ActionAfterFinished requestedAction;
 	private final DialogWizardStep wizardStep;
 	private Uri lookUri;
@@ -110,6 +118,7 @@ public class NewSpriteDialog extends DialogFragment {
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
+		setupMediaLibraryButton(dialogView);
 
 		AlertDialog dialog = null;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -152,6 +161,7 @@ public class NewSpriteDialog extends DialogFragment {
 				.setNegativeButton(R.string.cancel_button, null).create();
 
 		dialogView.findViewById(R.id.dialog_new_object_step_1_layout).setVisibility(View.GONE);
+		dialogView.findViewById(R.id.dialog_new_object_second_row).setVisibility(View.GONE);
 
 		ImageView imageView = (ImageView) dialogView.findViewById(R.id.dialog_new_object_look_preview);
 		if (newObjectName == null) {
@@ -179,7 +189,6 @@ public class NewSpriteDialog extends DialogFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		if (resultCode == Activity.RESULT_OK) {
 			if (lookUri == null) {
 				lookUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
@@ -197,6 +206,10 @@ public class NewSpriteDialog extends DialogFragment {
 					case REQUEST_TAKE_PICTURE:
 						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
 						break;
+					case REQUEST_MEDIA_LIBRARY:
+						lookUri = Uri.parse(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
+						newObjectName = Files.getNameWithoutExtension(lookUri.toString());
+						break;
 					default:
 						return;
 				}
@@ -209,6 +222,8 @@ public class NewSpriteDialog extends DialogFragment {
 				Utils.showErrorDialog(getActivity(), R.string.error_load_image);
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
+		} else {
+			dismiss();
 		}
 	}
 
@@ -221,7 +236,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private Uri decodeUri(Uri uri) throws NullPointerException {
-		String[] filePathColumn = {MediaStore.Images.Media.DATA};
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
@@ -257,9 +272,7 @@ public class NewSpriteDialog extends DialogFragment {
 					startActivityForResult(intent, REQUEST_CREATE_POCKET_PAINT_IMAGE);
 				}
 			}
-
 		});
-
 	}
 
 	private void setupGalleryButton(View parentView) {
@@ -293,6 +306,21 @@ public class NewSpriteDialog extends DialogFragment {
 		});
 	}
 
+	private void setupMediaLibraryButton(View parentView) {
+		View mediaButton = parentView.findViewById(R.id.dialog_new_object_library);
+
+		mediaButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getActivity(), WebViewActivity.class);
+				String url = Constants.LIBRARY_LOOKS_URL;
+				intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+				intent.putExtra(WebViewActivity.CALLING_ACTIVITY, SpritesListFragment.TAG);
+				startActivityForResult(intent, REQUEST_MEDIA_LIBRARY);
+			}
+		});
+	}
+
 	private boolean handleOkButton() {
 		EditText editText = (EditText) dialogView.findViewById(R.id.dialog_new_object_name_edit_text);
 		String newSpriteName;
@@ -309,23 +337,31 @@ public class NewSpriteDialog extends DialogFragment {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (newSpriteName.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), R.string.spritename_invalid);
+			Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.no_spritename_entered);
 			return false;
 		}
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.showErrorDialog(getActivity(), R.string.spritename_already_exists);
+			Utils.showErrorDialog(getActivity(), R.string.name_exists, R.string.spritename_already_exists);
 			return false;
 		}
 
 		Sprite sprite = new Sprite(newSpriteName);
+		ArrayList<Sprite> sprites = new ArrayList<>();
+		sprites.add(sprite);
+		SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(sprites);
+		SpriteHistory.getInstance(projectManager.getCurrentProject().getName()).add(command);
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_NEW_SPRITE_CREATED));
 		projectManager.addSprite(sprite);
 
 		LookData lookData;
 		try {
 			File newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
 					lookUri.getPath(), null);
-
+			if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
+				File oldFile = new File(lookUri.getPath());
+				oldFile.delete();
+			}
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
 

@@ -98,7 +98,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	@Override
 	public boolean isAlive() {
 		try {
-			getKeepAliveTime();
+			tryGetKeepAliveTime();
 			return true;
 		} catch (MindstormsException e) {
 			return false;
@@ -114,28 +114,35 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 		if (frequencyInHz > 14000) {
 			frequencyInHz = 14000;
-		}
-		else if (frequencyInHz < 200) {
+		} else if (frequencyInHz < 200) {
 			frequencyInHz = 200;
 		}
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.PLAY_TONE, false);
-		command.append((byte)(frequencyInHz & 0x00FF));
-		command.append((byte)((frequencyInHz & 0xFF00) >> 8));
+		command.append((byte) (frequencyInHz & 0x00FF));
+		command.append((byte) ((frequencyInHz & 0xFF00) >> 8));
 		command.append((byte) (durationInMs & 0x00FF));
 		command.append((byte) ((durationInMs & 0xFF00) >> 8));
 
 		try {
 			mindstormsConnection.send(command);
-		}
-		catch (MindstormsException e) {
+		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
 	}
 
 	@Override
 	public int getKeepAliveTime() {
+		try {
+			return tryGetKeepAliveTime();
+		} catch (NXTException e) {
+			return -1;
+		} catch (MindstormsException e) {
+			return -1;
+		}
+	}
 
+	private int tryGetKeepAliveTime() {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.KEEP_ALIVE, true);
 
 		byte[] alive = mindstormsConnection.sendAndReceive(command);
@@ -155,7 +162,16 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 	@Override
 	public int getBatteryLevel() {
+		try {
+			return tryGetBatteryLevel();
+		} catch (NXTException e) {
+			return -1;
+		} catch (MindstormsException e) {
+			return -1;
+		}
+	}
 
+	private int tryGetBatteryLevel() {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.GET_BATTERY_LEVEL, true);
 
 		NXTReply reply = new NXTReply(mindstormsConnection.sendAndReceive(command));
@@ -168,10 +184,8 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 		int millivolt = java.nio.ByteBuffer.wrap(batValues).order(java.nio.ByteOrder.LITTLE_ENDIAN).getShort();
 
-
 		return millivolt;
 	}
-
 
 	@Override
 	public NXTMotor getMotorA() {

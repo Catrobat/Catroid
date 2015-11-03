@@ -62,7 +62,6 @@ public class ProjectActivity extends BaseActivity {
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
 		}
-
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+		if (spritesListFragment != null && !spritesListFragment.isLoading) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -97,7 +96,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+		if (spritesListFragment != null && !spritesListFragment.isLoading) {
 			getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -135,6 +134,11 @@ public class ProjectActivity extends BaseActivity {
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 				break;
 
+			case R.id.menu_undo:
+				spritesListFragment.startUndoActionMode();
+				break;
+			case R.id.menu_redo:
+				spritesListFragment.startRedoActionMode();
 		}
 		return super.onOptionsItemSelected(item);
 	}

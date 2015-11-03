@@ -84,6 +84,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = ProjectActivityTest.class.getSimpleName();
+
 	private static final String TEST_SPRITE_NAME = "cat";
 	private static final String FIRST_TEST_SPRITE_NAME = "test1";
 	private static final String SECOND_TEST_SPRITE_NAME = "test2";
@@ -167,7 +169,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 		solo.clickLongOnText(defaultSpriteName);
 		solo.sleep(200);
+
 		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.clickLongOnText(defaultSpriteName);
 		Sprite copiedSprite = project.getSpriteList().get(2);
@@ -272,7 +276,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 		Sprite sprite = new Sprite(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));
@@ -322,9 +326,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(500);
 		solo.clickLongOnText(defaultSpriteName + "$");
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		String yes = solo.getString(R.string.yes);
-		solo.waitForText(yes);
-		solo.clickOnText(yes);
 		solo.sleep(500);
 		solo.clickOnText(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));
 		solo.sleep(500);
@@ -360,6 +361,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		enterTextAndCloseDialog(sometext);
 
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
@@ -395,6 +400,38 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Sprite not shown in List", solo.searchText(spriteToCheckName));
 	}
 
+	public void testUndoRedoSequenceNew() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		int spriteToCheckIndex = 2;
+		String spriteToCheckName = spriteList.get(spriteToCheckIndex).getName();
+
+		assertEquals("Sprite at index " + spriteToCheckIndex + " is not '" + SECOND_TEST_SPRITE_NAME + "'",
+				SECOND_TEST_SPRITE_NAME, spriteToCheckName);
+		assertTrue("Sprite is not in current Project", projectManager.spriteExists(spriteToCheckName));
+
+		final String addedSpriteName = "addedTestSprite";
+		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
+
+		spriteList = projectManager.getCurrentProject().getSpriteList();
+
+		spriteToCheckIndex = 5;
+
+		Sprite spriteToCheck = spriteList.get(spriteToCheckIndex);
+		spriteToCheckName = spriteToCheck.getName();
+
+		assertEquals("Sprite at index " + spriteToCheckIndex + " is not '" + addedSpriteName + "'", addedSpriteName,
+				spriteToCheckName);
+		assertTrue("Sprite is not in current Project", spriteList.contains(spriteToCheck));
+		assertTrue("Sprite not shown in List", solo.searchText(spriteToCheckName));
+
+		undo();
+		assertEquals("New Sprite was not undone!", 5, getCurrentNumberOfSprites());
+
+		redo();
+		assertEquals("New Sprite was not redone!", 6, getCurrentNumberOfSprites());
+	}
+
 	public void testAddedSpriteVisibleOnLongList() {
 		addSprite("dog");
 		addSprite("mouse");
@@ -412,6 +449,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
 
 		solo.waitForText(addedSpriteName, 1, 2000);
+
 		assertTrue("Sprite '" + addedSpriteName + "' was not found - List did not move to last added sprite",
 				solo.searchText(addedSpriteName, 0, false));
 	}
@@ -469,10 +507,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int expectedNumberOfSpritesAfterDelete = spriteList.size() - 1;
 		clickOnContextMenuItem(spriteToDelete, delete);
 
-		String yes = solo.getString(R.string.yes);
-		solo.waitForText(yes);
-		solo.clickOnText(yes);
-
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
 		solo.sleep(300);
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -485,28 +519,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Sprite notDeletedSprite = spriteList.get(1);
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", SECOND_TEST_SPRITE_NAME,
 				notDeletedSprite.getName());
-	}
-
-	public void testChooseNoOnDeleteQuestion() {
-		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-
-		final String spriteToDelete = FIRST_TEST_SPRITE_NAME;
-
-		// Delete sprite
-		int expectedNumberOfSprites = spriteList.size();
-		clickOnContextMenuItem(spriteToDelete, delete);
-
-		String no = solo.getString(R.string.no);
-		solo.waitForText(no);
-		solo.clickOnText(no);
-
-		solo.sleep(300);
-		spriteList = projectManager.getCurrentProject().getSpriteList();
-
-		assertEquals("Size of sprite list has changed!", expectedNumberOfSprites, spriteList.size());
-
-		assertTrue("Sprite is not showing in sprite list!", solo.searchText(spriteToDelete));
-		assertTrue("Sprite is no in Project!", projectManager.spriteExists(spriteToDelete));
 	}
 
 	public void testMainMenuButton() {
@@ -900,11 +912,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		String yes = solo.getString(R.string.yes);
-		solo.waitForText(yes);
-		assertTrue("Title in delete dialog is not correct!",
-				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
-		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
@@ -942,9 +949,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		String yes = solo.getString(R.string.yes);
-		solo.waitForText(yes);
-		solo.clickOnText(yes);
 
 		assertFalse("Sprite was not Deleted!", solo.waitForText(FIRST_TEST_SPRITE_NAME, 1, 200));
 		assertFalse("Sprite was not Deleted!", solo.waitForText(SECOND_TEST_SPRITE_NAME, 1, 200));
@@ -963,8 +967,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
-		solo.clickOnButton(solo.getString(R.string.yes));
 
 		assertFalse("Sprite not deleted", solo.waitForText(FIRST_TEST_SPRITE_NAME, 0, 200));
 	}
@@ -984,10 +986,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		String no = solo.getString(R.string.no);
 		solo.waitForText(no);
 
-		assertTrue("Dialog title is wrong!",
-				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
-
-		solo.clickOnText(no);
 		solo.sleep(500);
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
@@ -997,42 +995,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		assertTrue("Dialog title is wrong!",
-				solo.searchText(solo.getString(R.string.dialog_confirm_delete_multiple_objects_title)));
-
-		solo.clickOnText(no);
-	}
-
-	public void testChooseNoOnDeleteQuestionInActionMode() {
-		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
-
-		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-
-		solo.clickOnCheckBox(1);
-
-		UiTestUtils.acceptAndCloseActionMode(solo);
-
-		String no = solo.getString(R.string.no);
-		solo.waitForText(no);
-		solo.clickOnText(no);
-		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
-
-		int numberOfVisibleCheckBoxes = solo.getCurrentViews(CheckBox.class).size();
-
-		for (CheckBox checkbox : solo.getCurrentViews(CheckBox.class)) {
-			if (checkbox.getVisibility() == View.GONE) {
-				numberOfVisibleCheckBoxes--;
-			}
-		}
-
-		assertEquals("Checkboxes are still showing!", 0, numberOfVisibleCheckBoxes);
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		assertTrue("Bottom bar buttons are not enabled!",
-				solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
 	}
 
 	public void testDeleteMultipleSprites() {
@@ -1048,9 +1010,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnCheckBox(3);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		String yes = solo.getString(R.string.yes);
-		solo.waitForText(yes);
-		solo.clickOnText(yes);
+
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -1058,7 +1018,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("First sprite should be " + TEST_SPRITE_NAME, spriteList.get(0).getName(), TEST_SPRITE_NAME);
 		assertEquals("Second sprite should be " + FIRST_TEST_SPRITE_NAME, spriteList.get(1).getName(),
 				FIRST_TEST_SPRITE_NAME);
-
 	}
 
 	public void testLongClickCancelDeleteAndCopy() {
@@ -1444,5 +1403,15 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.size());
 
 		return scriptCopied.getBrickList().size();
+	}
+
+	private void undo() {
+		solo.clickOnActionBarItem(R.id.menu_undo);
+		solo.sleep(300);
+	}
+
+	private void redo() {
+		solo.clickOnActionBarItem(R.id.menu_redo);
+		solo.sleep(300);
 	}
 }

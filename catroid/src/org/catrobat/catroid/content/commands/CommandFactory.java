@@ -30,7 +30,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public final class CommandFactory {
 
 	private CommandFactory() {
-
 	}
 
 	public static ChangeFormulaCommand makeChangeFormulaCommand(FormulaBrick formulaBrick, Brick.BrickField brickField,
@@ -44,5 +43,4 @@ public final class CommandFactory {
 			ConcurrentFormulaHashMap newFormulaMap) {
 		return new ChangeFormulaCommand(formulaBrick, newFormulaMap);
 	}
-
 }

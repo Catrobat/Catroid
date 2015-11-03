@@ -51,4 +51,24 @@
         android:id="@+id/context_menu_rename"
         android:title="@string/rename" />
 
+   <item
+       android:id="@+id/context_menu_move_up"
+       android:title="@string/menu_item_move_up"
+       android:visible="false"/>
+
+   <item
+        android:id="@+id/context_menu_move_down"
+        android:title="@string/menu_item_move_down"
+        android:visible="false"/>
+
+   <item
+        android:id="@+id/context_menu_move_to_top"
+        android:title="@string/menu_item_move_to_top"
+        android:visible="false"/>
+
+   <item
+        android:id="@+id/context_menu_move_to_bottom"
+        android:title="@string/menu_item_move_to_bottom"
+        android:visible="false"/>
+
 </menu>

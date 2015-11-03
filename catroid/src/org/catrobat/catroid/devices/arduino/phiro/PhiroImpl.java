@@ -51,21 +51,21 @@ public class PhiroImpl implements Phiro {
 
 	private static final int PIN_SPEAKER_OUT = 3;
 
-	private static final int PIN_RGB_RED_LEFT = 4;
-	private static final int PIN_RGB_GREEN_LEFT = 5;
-	private static final int PIN_RGB_BLUE_LEFT = 6;
+	private static final int PIN_RGB_RED_RIGHT = 4;
+	private static final int PIN_RGB_GREEN_RIGHT = 5;
+	private static final int PIN_RGB_BLUE_RIGHT = 6;
 
-	private static final int PIN_RGB_RED_RIGHT = 7;
-	private static final int PIN_RGB_GREEN_RIGHT = 8;
-	private static final int PIN_RGB_BLUE_RIGHT = 9;
+	private static final int PIN_RGB_RED_LEFT = 7;
+	private static final int PIN_RGB_GREEN_LEFT = 8;
+	private static final int PIN_RGB_BLUE_LEFT = 9;
 
 	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
 	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
 
 	private static final int PIN_RIGHT_MOTOR_FORWARD = 12;
-	private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;
+	private static final int PIN_RIGHT_MOTOR_BACKWARD = 2;
 
-	private static final int MIN_PWM_PIN = 3;
+	private static final int MIN_PWM_PIN = 2;
 	private static final int MAX_PWM_PIN = 13;
 
 	public static final int PIN_SENSOR_SIDE_RIGHT = 0;
@@ -85,7 +85,6 @@ public class PhiroImpl implements Phiro {
 
 	private PhiroListener phiroListener;
 
-
 	@Override
 	public synchronized void playTone(int selectedTone, int durationInSeconds) {
 		sendAnalogFirmataMessage(PIN_SPEAKER_OUT, selectedTone);
@@ -99,6 +98,7 @@ public class PhiroImpl implements Phiro {
 
 	Timer timer = new Timer();
 	TimerTask currentStopPlayToneTask = null;
+
 	private class StopPlayToneTask extends TimerTask {
 		@Override
 		public void run() {
@@ -174,7 +174,7 @@ public class PhiroImpl implements Phiro {
 			return 255;
 		}
 
-		return (int)(percent * 2.55);
+		return (int) (percent * 2.55);
 	}
 
 	private int checkRBGValue(int rgbValue) {
@@ -329,7 +329,7 @@ public class PhiroImpl implements Phiro {
 
 	@Override
 	public void start() {
-		if (isInitialized == false) {
+		if (!isInitialized) {
 			initialise();
 		}
 

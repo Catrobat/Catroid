@@ -43,14 +43,11 @@ public class ComeToFrontAction extends TemporalAction {
 			if (spriteList.get(i).look.getZIndex() > actualSpriteZIndex) {
 				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
 			}
-
 		}
 		sprite.look.setZIndex(spriteList.size() - 1);
-
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

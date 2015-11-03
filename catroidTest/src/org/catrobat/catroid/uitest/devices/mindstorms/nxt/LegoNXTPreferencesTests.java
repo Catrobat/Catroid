@@ -75,8 +75,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.main_menu_new));
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, "testNXTAllBricksAvailable");
+
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnText(solo.getString(R.string.ok));
+
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.waitForText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForText(solo.getString(R.string.scripts));
@@ -92,10 +97,10 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.sleep(300);
 
-		assertTrue("NXT turn motor brick not available!",solo.searchText(solo.getString(R.string.nxt_brick_motor_turn_angle)));
-		assertTrue("NXT stop motor brick not available!",solo.searchText(solo.getString(R.string.nxt_motor_stop)));
-		assertTrue("NXT move motor brick not available!",solo.searchText(solo.getString(R.string.nxt_brick_motor_move)));
-		assertTrue("NXT play tone brick not available!",solo.searchText(solo.getString(R.string.nxt_play_tone)));
+		assertTrue("NXT turn motor brick not available!", solo.searchText(solo.getString(R.string.nxt_brick_motor_turn_angle)));
+		assertTrue("NXT stop motor brick not available!", solo.searchText(solo.getString(R.string.nxt_motor_stop)));
+		assertTrue("NXT move motor brick not available!", solo.searchText(solo.getString(R.string.nxt_brick_motor_move)));
+		assertTrue("NXT play tone brick not available!", solo.searchText(solo.getString(R.string.nxt_play_tone)));
 	}
 
 	public void testNXTSensorsSetCorrectly() throws InterruptedException {
@@ -253,8 +258,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.main_menu_new));
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, "testNXTSensorsAvailable");
+
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnText(solo.getString(R.string.ok));
+
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.waitForText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForText(solo.getString(R.string.scripts));
@@ -278,9 +288,9 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.sleep(300);
 
-		assertTrue("NXT sensor 1 not available!",solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_1)));
-		assertTrue("NXT sensor 2 not available!",solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_2)));
-		assertTrue("NXT sensor 3 not available!",solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_3)));
-		assertTrue("NXT sensor 4 not available!",solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_4)));
+		assertTrue("NXT sensor 1 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_1)));
+		assertTrue("NXT sensor 2 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_2)));
+		assertTrue("NXT sensor 3 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_3)));
+		assertTrue("NXT sensor 4 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_4)));
 	}
 }

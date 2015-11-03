@@ -107,7 +107,6 @@ public class VibrationBrick extends FormulaBrick {
 			} catch (InterpretationException interpretationException) {
 				Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			}
-
 		} else {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
@@ -142,12 +141,12 @@ public class VibrationBrick extends FormulaBrick {
 			TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_seconds_text);
 
 			textVibrationLabel.setTextColor(textVibrationLabel.getTextColors().withAlpha(alphaValue));
-			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha((alphaValue)));
+			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha(alphaValue));
 
 			editSeconds.setTextColor(editSeconds.getTextColors().withAlpha(alphaValue));
 			editSeconds.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}

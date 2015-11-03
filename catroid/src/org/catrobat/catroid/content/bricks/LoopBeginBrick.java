@@ -33,5 +33,4 @@ public interface LoopBeginBrick extends NestingBrick {
 	void setLoopEndBrick(LoopEndBrick loopEndBrick);
 
 	LoopBeginBrick getCopy();
-
 }

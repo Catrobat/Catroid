@@ -43,7 +43,6 @@ public class LedOnBrick extends BrickBaseType {
 	private transient View prototypeView;
 
 	public LedOnBrick() {
-
 	}
 
 	@Override
@@ -74,14 +73,14 @@ public class LedOnBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getViewWithAlpha( int alphaValue ) {
+	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
 
 			View layout = view.findViewById(R.id.brick_led_on_layout);
 			Drawable background = layout.getBackground();
-			background.setAlpha( alphaValue );
+			background.setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

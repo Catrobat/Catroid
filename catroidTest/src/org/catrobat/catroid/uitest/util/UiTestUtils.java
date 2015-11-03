@@ -65,15 +65,12 @@ import com.robotium.solo.Solo;
 
 import junit.framework.AssertionFailedError;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -128,6 +125,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -165,6 +163,10 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
@@ -175,7 +177,7 @@ public final class UiTestUtils {
 	public static final String PROJECTNAME1 = "testingproject1";
 	public static final String PROJECTNAME2 = "testingproject2";
 	public static final String PROJECTNAME3 = "testingproject3";
-	public static final String PROJECTNAMEOFFENSIVELANGUAGE = "fuck i have to use fuck";
+	public static final String PROJECTNAMEOFFENSIVELANGUAGE = "fuck i have to use fuck penis";
 	public static final String PROJECTDESCRIPTION1 = "testdescription1";
 	public static final String PROJECTDESCRIPTION2 = "testdescription2";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
@@ -197,13 +199,11 @@ public final class UiTestUtils {
 	public static final int SOUNDS_INDEX = 2;
 
 	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
-
 	static {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
 	}
-
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("sprite1");
@@ -354,7 +354,7 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
 	 *
-	 * @param value      The value you want to put into the EditText
+	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertIntegerIntoEditText(Solo solo, int value) {
 		insertValue(solo, value + "");
@@ -363,7 +363,7 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 *
-	 * @param value      The value you want to put into the EditText
+	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
 		insertValue(solo, value + "");
@@ -376,7 +376,7 @@ public final class UiTestUtils {
 
 	private static void insertValue(Solo solo, String value) {
 
-		for (char item : (value.toCharArray())) {
+		for (char item : value.toCharArray()) {
 			switch (item) {
 				case '-':
 					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -481,15 +481,14 @@ public final class UiTestUtils {
 		solo.sleep(200);
 
 		Formula formula = theBrick.getFormulaWithBrickField(brickField);
-		try{
+		try {
 			assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
-		}catch (InterpretationException interpretationException) {
+		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
 		}
 
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
-
 	}
 
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField,
@@ -509,9 +508,9 @@ public final class UiTestUtils {
 
 		Formula formula = (Formula) theBrick.getFormulaWithBrickField(brickField);
 		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
-		try{
+		try {
 			assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
-		}catch (InterpretationException interpretationException) {
+		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
 		}
 		assertEquals("Text not updated in the brick list", "\'" + newValue + "\'",
@@ -664,8 +663,7 @@ public final class UiTestUtils {
 		solo.sleep(600);
 	}
 
-	public static void deleteFirstUserBrick(Solo solo, String brickName)
-	{
+	public static void deleteFirstUserBrick(Solo solo, String brickName) {
 		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 5000);
 		if (!fragmentAppeared) {
 			fail("add brick fragment should appear");
@@ -840,6 +838,11 @@ public final class UiTestUtils {
 		location[1] = destinationY;
 
 		return location;
+	}
+
+	public static void addSpriteToProject(Project project, String name) {
+		Sprite sprite = new Sprite(name);
+		project.addSprite(sprite);
 	}
 
 	public static List<Brick> createTestProjectWithTwoSprites(String projectName) {
@@ -1165,7 +1168,6 @@ public final class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(firstScript);
-
 	}
 
 	public static void createEmptyProject() {
@@ -1248,7 +1250,7 @@ public final class UiTestUtils {
 
 			return tempFile;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "File handling error", e);
 			return null;
 		}
 	}
@@ -1397,6 +1399,27 @@ public final class UiTestUtils {
 		return internTokenList;
 	}
 
+	public static Project deleteOldAndCreateAndSaveCleanStandardProject(Context context, Instrumentation instrumentation) {
+		String standardProjectName = context.getString(R.string.default_project_name);
+		Project standardProject;
+		try {
+			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
+				ProjectManager.getInstance().loadProject(standardProjectName, context);
+				ProjectManager.getInstance().deleteCurrentProject(null);
+			}
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+					instrumentation.getTargetContext());
+			ProjectManager.getInstance().setProject(standardProject);
+			return standardProject;
+		} catch (ProjectException projectException) {
+			Log.e(TAG, "Cannot load old standard project", projectException);
+			fail("Cannot load old standard project");
+		} catch (IOException exception) {
+			fail("Standard project not created");
+		}
+		return null;
+	}
+
 	public static void clearAllUtilTestProjects() {
 		Log.v(TAG, "clearAllUtilTestProjects");
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
@@ -1504,10 +1527,9 @@ public final class UiTestUtils {
 		} else if (overflowMenuItemName != null) {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 			solo.clickOnMenuItem(overflowMenuItemName, true);
-		}
-		else {
-			fail("Cannot click on element with menuItemid " + menuItemId +
-					" or overflowMenuItemName " + overflowMenuItemName);
+		} else {
+			fail("Cannot click on element with menuItemid " + menuItemId + " or overflowMenuItemName "
+					+ overflowMenuItemName);
 		}
 
 		solo.sleep(400);
@@ -1580,10 +1602,9 @@ public final class UiTestUtils {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, context);
 
-			assert (userRegistered);
-
+			assert userRegistered;
 		} catch (WebconnectionException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Error creating test user.", e);
 			fail("Error creating test user.");
 		}
 	}
@@ -1697,7 +1718,7 @@ public final class UiTestUtils {
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
 				upEvent.recycle();
-				Log.d("Robotium - waitForLogMessage", "longClickAndDrag finished: " + (int) yTo);
+				Log.d(TAG, "longClickAndDrag finished: " + (int) yTo);
 			}
 		});
 
@@ -1917,7 +1938,6 @@ public final class UiTestUtils {
 			if (view.getText().equals(text)) {
 				return view;
 			}
-
 		}
 		return null;
 	}
@@ -2040,8 +2060,8 @@ public final class UiTestUtils {
 					SpinnerAdapterWrapper.class);
 			constructor.setAccessible(true);
 			dialog = constructor.newInstance(DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner);
-		} catch (Exception exception) {
-			exception.printStackTrace();
+		} catch (Exception e) {
+			Log.e(TAG, "Reflection failure.", e);
 			fail("Reflection failure");
 			return;
 		}
@@ -2104,12 +2124,12 @@ public final class UiTestUtils {
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
 	}
 
-	public static void clickOnCheckBox(Solo solo, int checkBoxIndex){
+	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {
 		solo.clickOnCheckBox(checkBoxIndex);
 		solo.sleep(100);
 	}
 
-	public static void clickOnText(Solo solo, String text){
+	public static void clickOnText(Solo solo, String text) {
 		solo.waitForText(text);
 		solo.clickOnText(text);
 		solo.sleep(100);
@@ -2129,5 +2149,18 @@ public final class UiTestUtils {
 		}
 
 		return wantedState;
+	}
+
+	public static boolean checkTempFileFromMediaLibrary(String lookOrSound, String fileName) {
+		File folder = new File(lookOrSound);
+		File[] filesInFolder = folder.listFiles();
+
+		for (File file : filesInFolder) {
+			if (file.isFile()) {
+				String filename = file.getName();
+				return filename.contains(fileName);
+			}
+		}
+		return false;
 	}
 }

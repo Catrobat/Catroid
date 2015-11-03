@@ -180,7 +180,6 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 0, internFormula.getSelection().getEndIndex());
-
 	}
 
 	public void testReplaceFunctionButKeepParameters() {
@@ -347,7 +346,6 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		internFormula.setCursorAndSelection(doubleClickIndex, true);
 		assertEquals("Selection start index not as expected", 4, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 4, internFormula.getSelection().getEndIndex());
-
 	}
 
 	public void testReplaceSelection() {
@@ -623,7 +621,6 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
 		internFormula.setCursorAndSelection(1, false);
 		assertNull("Selection changed!", Reflection.getPrivateField(internFormula, "internFormulaTokenSelection"));
-
 	}
 
 	public void testreplaceCursorPositionInternTokenByTokenList() throws NoSuchMethodException,
@@ -700,6 +697,5 @@ public class InternFormulaTest extends InstrumentationTestCase {
 
 		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.RIGHT,
 				method.invoke(internFormula, arguments));
-
 	}
 }

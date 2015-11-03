@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2015 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -43,8 +43,8 @@
     <!---->
     <!--&lt;!&ndash; drone &ndash;&gt;-->
     <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -164,6 +164,9 @@
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
-        <service android:name="com.parrot.freeflight.service.DroneControlService"/>        
+        <service android:name=".transfers.MediaDownloadService" />
+        <service android:name="com.parrot.freeflight.service.DroneControlService"/>
+        <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
+
     </application>
 </manifest>

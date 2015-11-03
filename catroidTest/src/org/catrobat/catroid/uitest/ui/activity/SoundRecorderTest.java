@@ -90,7 +90,6 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testRecordMultipleSounds() throws InterruptedException {
 
-
 		prepareRecording();
 
 		recordButton = (RecordButton) solo.getView(R.id.soundrecorder_record_button);
@@ -155,7 +154,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
 		// String soundRecorderText = solo.getString(R.string.soundrecorder_name);
-		String soundRecorderText = "Pocket Code Recorder";
+		String soundRecorderText = solo.getString(R.string.add_sound_from_recorder);
 
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 			solo.waitForText(soundRecorderText);
@@ -165,7 +164,6 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 			//TODO: implement test for clicking into new Storage Access Framework
 			throw new UnsupportedOperationException("Missing support for API > 19. Click into Storage Access Framework not yet implemented!");
 		}
-
 	}
 
 	private void assertSoundRecording(int recordNumber) {
@@ -188,7 +186,6 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 
 		File lastAddedSoundFile = new File(lastAddedSoundInfo.getAbsolutePath());
 		assertTrue("recorded sound file not found in project", lastAddedSoundFile.exists());
-
 	}
 
 	public class WaitForRecord implements Condition {
@@ -210,5 +207,4 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 			return false;
 		}
 	}
-
 }

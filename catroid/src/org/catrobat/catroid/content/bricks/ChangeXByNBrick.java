@@ -102,7 +102,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
 		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
-        textXMovement.setText(String.valueOf(BrickValues.CHANGE_X_BY));
+		textXMovement.setText(String.valueOf(BrickValues.CHANGE_X_BY));
 		return prototypeView;
 	}
 
@@ -121,8 +121,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
 			editChangeSize.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

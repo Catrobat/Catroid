@@ -76,7 +76,7 @@ public class PlaceAtBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources()|getFormulaWithBrickField(BrickField.X_POSITION).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources() | getFormulaWithBrickField(BrickField.X_POSITION).getRequiredResources();
 	}
 
 	@Override
@@ -150,8 +150,7 @@ public class PlaceAtBrick extends FormulaBrick {
 			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
 			editY.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

@@ -40,7 +40,7 @@ public final class Utils {
 	public static final String[] SOURCE_AND_RESOURCE_DIRECTORIES = { "src", "res", "../catroid/src", "../catroid/res",
 			"../catroidTest/src", "../catroidTest/res", "../catroidCucumberTest/src", "../catroidBluetoothTestServer/src" };
 	public static final String[] TEST_FILE_DIRECTORIES = { "src", "../catroidTest/src", "../catroidCucumberTest/src" };
-	public static final String[] PRINT_STACK_TRACE_TEST_DIRECTORIES = { "src", "../catroid/src",
+	public static final String[] TOAST_STACK_TRACE_TEST_DIRECTORIES = { "src", "../catroid/src",
 			"../catroidCucumberTest/src", "../catroidBluetoothTestServer/src" };
 	public static final String[] VERSION_NAME_AND_CODE_TEST_DIRECTORIES = { "../catroid", "../catroidTest",
 			"../catroidCucumberTest" };

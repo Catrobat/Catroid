@@ -52,5 +52,4 @@ public class SetYAction extends TemporalAction {
 	public void setY(Formula y) {
 		this.yPosition = y;
 	}
-
 }

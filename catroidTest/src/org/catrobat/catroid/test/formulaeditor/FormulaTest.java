@@ -63,22 +63,21 @@ public class FormulaTest extends InstrumentationTestCase {
 
 		Formula formulaWithRessourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null), new FormulaElement(
-						ElementType.NUMBER, Double.toString(96d), null)));
+				ElementType.NUMBER, Double.toString(96d), null)));
 		assertEquals("Required ressources of left child are not calculated propperly",
 				formulaWithRessourceLeft.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula formulaWithRessourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(
-						ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null)));
+				ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null)));
 		assertEquals("Required ressources of right child are not calculated propperly",
 				formulaWithRessourceRight.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula formulaSameRessourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null), new FormulaElement(
-						ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
+				ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
 		assertEquals("Required ressources of formula with several ressources are not calculated propperly",
 				formulaSameRessourceTwice.getRequiredResources(), Brick.FACE_DETECTION);
-
 	}
 
 	public void testIsSingleNumberFormula() {

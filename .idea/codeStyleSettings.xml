@@ -41,12 +41,35 @@
             <emptyLine />
             <package name="" withSubpackages="true" static="false" />
             <emptyLine />
+            <package name="android" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="com" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="cucumber" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="edu" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="junit" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="net" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="org" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="java" withSubpackages="true" static="true" />
+            <emptyLine />
+            <package name="javax" withSubpackages="true" static="true" />
+            <emptyLine />
             <package name="" withSubpackages="true" static="true" />
           </value>
         </option>
+        <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
+        <option name="JD_P_AT_EMPTY_LINES" value="false" />
         <AndroidXmlCodeStyleSettings>
           <option name="USE_CUSTOM_SETTINGS" value="true" />
         </AndroidXmlCodeStyleSettings>
+        <JavaCodeStyleSettings>
+          <option name="BLANK_LINES_AROUND_INITIALIZER" value="0" />
+        </JavaCodeStyleSettings>
         <XML>
           <option name="XML_KEEP_WHITESPACES" value="true" />
           <option name="XML_ATTRIBUTE_WRAP" value="0" />
@@ -57,7 +80,23 @@
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
         <codeStyleSettings language="JAVA">
+          <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
+          <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
+          <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+          <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="0" />
+          <option name="BLANK_LINES_AROUND_METHOD_IN_INTERFACE" value="0" />
           <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+          <option name="ALIGN_MULTILINE_RESOURCES" value="false" />
+          <option name="ALIGN_MULTILINE_FOR" value="false" />
+          <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACES" value="true" />
+          <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
+          <option name="BINARY_OPERATION_SIGN_ON_NEXT_LINE" value="true" />
+          <option name="TERNARY_OPERATION_SIGNS_ON_NEXT_LINE" value="true" />
+          <option name="ASSERT_STATEMENT_COLON_ON_NEXT_LINE" value="true" />
+          <option name="IF_BRACE_FORCE" value="3" />
+          <option name="DOWHILE_BRACE_FORCE" value="3" />
+          <option name="WHILE_BRACE_FORCE" value="3" />
+          <option name="FOR_BRACE_FORCE" value="3" />
           <indentOptions>
             <option name="USE_TAB_CHARACTER" value="true" />
           </indentOptions>
@@ -69,125 +108,153 @@
           </indentOptions>
           <arrangement>
             <rules>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>xmlns:android</NAME>
-                    <XML_NAMESPACE>Namespace:</XML_NAMESPACE>
-                  </AND>
-                </match>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>xmlns:.*</NAME>
-                    <XML_NAMESPACE>Namespace:</XML_NAMESPACE>
-                  </AND>
-                </match>
-                <order>BY_NAME</order>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*:id</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*:name</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>name</NAME>
-                    <XML_NAMESPACE>^$</XML_NAMESPACE>
-                  </AND>
-                </match>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>style</NAME>
-                    <XML_NAMESPACE>^$</XML_NAMESPACE>
-                  </AND>
-                </match>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*</NAME>
-                    <XML_NAMESPACE>^$</XML_NAMESPACE>
-                  </AND>
-                </match>
-                <order>BY_NAME</order>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*:layout_width</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*:layout_height</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*:layout_.*</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-                <order>BY_NAME</order>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*:width</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-                <order>BY_NAME</order>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*:height</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-                <order>BY_NAME</order>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*</NAME>
-                    <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
-                  </AND>
-                </match>
-                <order>BY_NAME</order>
-              </rule>
-              <rule>
-                <match>
-                  <AND>
-                    <NAME>.*</NAME>
-                    <XML_NAMESPACE>.*</XML_NAMESPACE>
-                  </AND>
-                </match>
-                <order>BY_NAME</order>
-              </rule>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>xmlns:android</NAME>
+                      <XML_NAMESPACE>Namespace:</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>xmlns:.*</NAME>
+                      <XML_NAMESPACE>Namespace:</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                  <order>BY_NAME</order>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*:id</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*:name</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>name</NAME>
+                      <XML_NAMESPACE>^$</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>style</NAME>
+                      <XML_NAMESPACE>^$</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*</NAME>
+                      <XML_NAMESPACE>^$</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                  <order>BY_NAME</order>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*:layout_width</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*:layout_height</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*:layout_.*</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                  <order>BY_NAME</order>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*:width</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                  <order>BY_NAME</order>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*:height</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                  <order>BY_NAME</order>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*</NAME>
+                      <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                  <order>BY_NAME</order>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <NAME>.*</NAME>
+                      <XML_NAMESPACE>.*</XML_NAMESPACE>
+                    </AND>
+                  </match>
+                  <order>BY_NAME</order>
+                </rule>
+              </section>
             </rules>
           </arrangement>
         </codeStyleSettings>

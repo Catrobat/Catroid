@@ -69,6 +69,7 @@ public final class LookController {
 	public static final int REQUEST_SELECT_OR_DRAW_IMAGE = 0;
 	public static final int REQUEST_POCKET_PAINT_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
+	public static final int REQUEST_MEDIA_LIBRARY = 3;
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final String BUNDLE_ARGUMENTS_SELECTED_LOOK = "selected_look";
 	public static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
@@ -275,8 +276,7 @@ public final class LookController {
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException e) {
 			Utils.showErrorDialog(activity, R.string.error_load_image);
-		}
-		catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			Log.e("NullPointerException", "probably originalImagePath null; message: " + e.getMessage());
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
@@ -343,15 +343,12 @@ public final class LookController {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
 						newFileName);
 
-				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath()); //reduce usage in container or delete it
-
 				selectedLookData.setLookFilename(newLookFile.getName());
 				selectedLookData.resetThumbnailBitmap();
 			} catch (IOException ioException) {
 				Log.e(TAG, Log.getStackTraceString(ioException));
 			}
 		}
-
 	}
 
 	public void loadPictureFromCameraIntoCatroid(Uri lookFromCameraUri, Activity activity,
@@ -371,6 +368,15 @@ public final class LookController {
 		}
 	}
 
+	public void loadPictureFromLibraryIntoCatroid(String filePath, Activity activity,
+			ArrayList<LookData> lookData, LookFragment fragment) {
+		File mediaImage = null;
+		mediaImage = new File(filePath);
+		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);
+		File pictureOnSdCard = new File(mediaImage.getPath());
+		pictureOnSdCard.delete();
+	}
+
 	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
 		// Confirm if Pocket Paint is installed else start dialog --------------------------
 
@@ -388,7 +394,8 @@ public final class LookController {
 									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
 							activity.startActivity(downloadPocketPaintIntent);
 						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					})
+					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
@@ -399,23 +406,6 @@ public final class LookController {
 			return false;
 		}
 		return true;
-	}
-
-	private void deleteLook(int position, ArrayList<LookData> lookDataList, Activity activity) {
-		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
-
-		lookDataList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
-
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
-	}
-
-	public void deleteCheckedLooks(LookBaseAdapter adapter, ArrayList<LookData> lookDataList, Activity activity) {
-		int numberDeleted = 0;
-		for (int position : adapter.getCheckedItems()) {
-			deleteLook(position - numberDeleted, lookDataList, activity);
-			++numberDeleted;
-		}
 	}
 
 	public void copyLook(int position, ArrayList<LookData> lookDataList, final Activity activity, LookFragment fragment) {
@@ -437,14 +427,13 @@ public final class LookController {
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
-	public void switchToScriptFragment(LookFragment fragment) {
-		ScriptActivity scriptActivity = (ScriptActivity) fragment.getActivity();
+	public void switchToScriptFragment(LookFragment fragment, ScriptActivity scriptActivity) {
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.hide(fragment);
 		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
-		fragmentTransaction.commit();
+		fragmentTransaction.commitAllowingStateLoss();
 
 		scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();
 		scriptActivity.setIsLookFragmentHandleAddButtonHandled(false);

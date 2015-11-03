@@ -22,10 +22,8 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -55,12 +53,11 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SpriteHistory;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.content.commands.SpriteCommands;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
@@ -70,7 +67,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteEditListener;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -82,6 +78,7 @@ import java.util.Set;
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener,
 		OnLoadProjectCompleteListener {
 
+	public static final String TAG = SpritesListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 
@@ -92,10 +89,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
+	private int spritePosition;
 
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
 	private SpritesListInitReceiver spritesListInitReceiver;
+	private NewSpriteCreatedReceiver newSpriteCreatedReceiver;
 
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
@@ -113,6 +112,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		setHasOptionsMenu(true);
 
 		programName = getActivity().getIntent().getStringExtra(Constants.PROJECTNAME_TO_LOAD);
 	}
@@ -152,7 +152,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (programName != null
 				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
-						.equals(programName)) || projectManager.getCurrentProject() == null)) {
+				.equals(programName)) || projectManager.getCurrentProject() == null)) {
 
 			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progress_circle).bringToFront();
@@ -165,8 +165,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
-		}
-		else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
+		} else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
 				.equals(programName) && fragmentStartedFirstTime) {
 			showInfoFragmentIfNeeded();
 		}
@@ -177,6 +176,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	@Override
 	public void onResume() {
 		super.onResume();
+		getSherlockActivity().supportInvalidateOptionsMenu();
+
 		if (actionMode != null) {
 			actionMode.finish();
 			actionMode = null;
@@ -199,6 +200,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			spritesListInitReceiver = new SpritesListInitReceiver();
 		}
 
+		if (newSpriteCreatedReceiver == null) {
+			newSpriteCreatedReceiver = new NewSpriteCreatedReceiver();
+		}
+
 		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptActivity.ACTION_SPRITE_RENAMED);
 		getActivity().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
 
@@ -207,6 +212,9 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		IntentFilter intentFilterSpriteListInit = new IntentFilter(ScriptActivity.ACTION_SPRITES_LIST_INIT);
 		getActivity().registerReceiver(spritesListInitReceiver, intentFilterSpriteListInit);
+
+		IntentFilter intentFilterNewSpriteCreated = new IntentFilter(ScriptActivity.ACTION_NEW_SPRITE_CREATED);
+		getActivity().registerReceiver(newSpriteCreatedReceiver, intentFilterNewSpriteCreated);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -217,6 +225,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	@Override
 	public void onPause() {
 		super.onPause();
+		this.getSherlockActivity().supportInvalidateOptionsMenu();
 
 		getActivity().getIntent().removeExtra(Constants.PROJECTNAME_TO_LOAD);
 		if (loadProjectTask != null) {
@@ -241,6 +250,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			getActivity().unregisterReceiver(spritesListInitReceiver);
 		}
 
+		if (newSpriteCreatedReceiver != null) {
+			getActivity().unregisterReceiver(newSpriteCreatedReceiver);
+		}
+
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
@@ -256,6 +269,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 
 		spriteToEdit = spriteAdapter.getItem(info.position);
+		spritePosition = info.position;
 		spriteAdapter.addCheckedSprite(info.position);
 
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
@@ -270,14 +284,31 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
 			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		}
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
 
+		menu.findItem(R.id.context_menu_move_down).setEnabled(!(spritePosition == spriteList.size() - 1));
+		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(!(spritePosition == spriteList.size() - 1));
+
+		menu.findItem(R.id.context_menu_move_up).setEnabled(!(spritePosition == 1));
+		menu.findItem(R.id.context_menu_move_to_top).setEnabled(!(spritePosition == 1));
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy:
+				int sizeBeforeCopy = spriteList.size();
 				copySprite();
+				if (spriteList.size() > sizeBeforeCopy) {
+					ArrayList<Sprite> sprites = new ArrayList<>();
+					sprites.add(spriteList.get(spriteList.size() - 1));
+					SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(sprites);
+					getHistory().add(command);
+					getSherlockActivity().supportInvalidateOptionsMenu();
+				}
 				break;
 
 			case R.id.context_menu_cut:
@@ -294,11 +325,53 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				break;
 
 			case R.id.context_menu_delete:
-				showConfirmDeleteDialog();
+				deleteSprites();
 				break;
 
+			case R.id.context_menu_move_down:
+				moveSpriteDown();
+				break;
+
+			case R.id.context_menu_move_up:
+				moveSpriteUp();
+				break;
+			case R.id.context_menu_move_to_bottom:
+				moveSpriteToBottom();
+				break;
+			case R.id.context_menu_move_to_top:
+				moveSpriteToTop();
+				break;
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		com.actionbarsherlock.view.MenuItem undo = menu.findItem(R.id.menu_undo);
+		if (undo != null) {
+			if (!getHistory().isUndoable()) {
+				undo.setIcon(R.drawable.icon_undo_disabled);
+				undo.setEnabled(false);
+			} else {
+				undo.setIcon(R.drawable.icon_undo);
+				undo.setEnabled(true);
+			}
+			menu.findItem(R.id.menu_undo).setVisible(true);
+		}
+
+		com.actionbarsherlock.view.MenuItem redo = menu.findItem(R.id.menu_redo);
+		if (redo != null) {
+			if (!getHistory().isRedoable()) {
+				redo.setIcon(R.drawable.icon_redo_disabled);
+				redo.setEnabled(false);
+			} else {
+				redo.setIcon(R.drawable.icon_redo);
+				redo.setEnabled(true);
+			}
+			menu.findItem(R.id.menu_redo).setVisible(true);
+		}
+
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -361,6 +434,38 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 	}
 
+	private void moveSpriteDown() {
+		SpriteCommands.MoveSpriteCommand command = new SpriteCommands.MoveSpriteCommand(spritePosition + 1, spritePosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().supportInvalidateOptionsMenu();
+		spriteAdapter.notifyDataSetChanged();
+	}
+
+	private void moveSpriteUp() {
+		SpriteCommands.MoveSpriteCommand command = new SpriteCommands.MoveSpriteCommand(spritePosition - 1, spritePosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().supportInvalidateOptionsMenu();
+		spriteAdapter.notifyDataSetChanged();
+	}
+
+	private void moveSpriteToBottom() {
+		SpriteCommands.MoveSpriteToBottomCommand command = new SpriteCommands.MoveSpriteToBottomCommand(spritePosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().supportInvalidateOptionsMenu();
+		spriteAdapter.notifyDataSetChanged();
+	}
+
+	private void moveSpriteToTop() {
+		SpriteCommands.MoveSpriteToTopCommand command = new SpriteCommands.MoveSpriteToTopCommand(spritePosition);
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().supportInvalidateOptionsMenu();
+		spriteAdapter.notifyDataSetChanged();
+	}
+
 	public void startCopyActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
@@ -374,10 +479,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.sprite_checkbox)).isChecked());
 	}
 
-	public void copySprite() {
+	public Sprite copySprite() {
 		Sprite copiedSprite = spriteToEdit.clone();
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
+		copiedSprite.setId(ProjectManager.getInstance().getNewId());
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -386,6 +492,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 		Log.d("Sprite copied", copiedSprite.toString());
+		return copiedSprite;
 	}
 
 	private static String getSpriteName(String name, int nextNumber) {
@@ -408,58 +515,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void showConfirmDeleteDialog() {
-		int titleId;
-		if (spriteAdapter.getAmountOfCheckedSprites() == 1) {
-			titleId = R.string.dialog_confirm_delete_object_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_objects_title;
-		}
-
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_object_message);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				deleteCheckedSprites();
-				clearCheckedSpritesAndEnableButtons();
-			}
-		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-				clearCheckedSpritesAndEnableButtons();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
-	}
-
-	public void deleteSprite() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
-
-		deleteSpriteFiles();
-		dataContainer.cleanVariableListForSprite(spriteToEdit);
-		dataContainer.cleanUserListForSprite(spriteToEdit);
-
-
-		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-			projectManager.setCurrentSprite(null);
-		}
-		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-	}
-
-	private void deleteCheckedSprites() {
-		int numDeleted = 0;
-		for (int position : spriteAdapter.getCheckedSprites()) {
-			spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
-			deleteSprite();
-			numDeleted++;
-		}
+	private void deleteSprites() {
+		SpriteCommands.DeleteSpriteCommand command = new SpriteCommands.DeleteSpriteCommand(spriteAdapter.getCheckedSprites());
+		command.execute();
+		getHistory().add(command);
+		getSherlockActivity().supportInvalidateOptionsMenu();
+		clearCheckedSpritesAndEnableButtons();
 	}
 
 	private void clearCheckedSpritesAndEnableButtons() {
@@ -506,7 +567,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteAdapter.notifyDataSetChanged();
 				onSpriteChecked();
 			}
-
 		});
 	}
 
@@ -515,7 +575,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
-				spriteToEdit.setName(newSpriteName);
+				SpriteCommands.RenameSpriteCommand command = new SpriteCommands.RenameSpriteCommand(spriteToEdit, newSpriteName);
+				command.execute();
+				getHistory().add(command);
+				getSherlockActivity().supportInvalidateOptionsMenu();
 			}
 		}
 	}
@@ -541,6 +604,15 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_INIT)) {
 				spriteAdapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	private class NewSpriteCreatedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_NEW_SPRITE_CREATED)) {
+				getSherlockActivity().supportInvalidateOptionsMenu();
 			}
 		}
 	}
@@ -577,7 +649,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			if (spriteAdapter.getAmountOfCheckedSprites() == 0) {
 				clearCheckedSpritesAndEnableButtons();
 			} else {
-				showConfirmDeleteDialog();
+				deleteSprites();
 			}
 		}
 	};
@@ -606,7 +678,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
+			Set<Integer> checkedSprites = spriteAdapter.getCheckedItems();
 			Iterator<Integer> iterator = checkedSprites.iterator();
 			if (iterator.hasNext()) {
 				int position = iterator.next();
@@ -646,13 +718,29 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			for (int position : spriteAdapter.getCheckedSprites()) {
+			ArrayList<Sprite> sprites = new ArrayList<>();
+			for (int position : spriteAdapter.getCheckedItems()) {
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
-				copySprite();
+				sprites.add(copySprite());
 			}
+			SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(sprites);
+			getHistory().add(command);
+			getSherlockActivity().supportInvalidateOptionsMenu();
 			clearCheckedSpritesAndEnableButtons();
 		}
 	};
+
+	public void startUndoActionMode() {
+		getHistory().undo();
+		spriteAdapter.notifyDataSetChanged();
+		getSherlockActivity().supportInvalidateOptionsMenu();
+	}
+
+	public void startRedoActionMode() {
+		getHistory().redo();
+		spriteAdapter.notifyDataSetChanged();
+		getSherlockActivity().supportInvalidateOptionsMenu();
+	}
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -664,16 +752,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getListView().setTextFilterEnabled(true);
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);
-	}
-
-	private void deleteSpriteFiles() {
-		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
-			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath());
-		}
-
-		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
-			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
-		}
 	}
 
 	@Override
@@ -708,4 +786,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getActivity().onBackPressed();
 	}
 
+	private SpriteHistory getHistory() {
+		return SpriteHistory.getInstance(ProjectManager.getInstance().getCurrentProject().getName());
+	}
 }

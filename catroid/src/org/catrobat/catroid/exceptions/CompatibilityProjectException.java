@@ -33,5 +33,4 @@ public class CompatibilityProjectException extends ProjectException {
 	public CompatibilityProjectException(String message) {
 		super(message);
 	}
-
 }

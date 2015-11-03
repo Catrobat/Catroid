@@ -108,5 +108,4 @@ public class PhiroRGBLightAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

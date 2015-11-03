@@ -180,6 +180,8 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.replace_item_in_userlist_spinner);
 		userListSpinner.setFocusableInTouchMode(false);
 		userListSpinner.setFocusable(false);
+		userListSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
@@ -224,8 +226,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 			editTheValue.setTextColor(editTheValue.getTextColors().withAlpha(alphaValue));
 			editTheValue.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -250,12 +251,10 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_VALUE);
 				break;
 		}
-
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_INDEX);
 	}
-
 }

@@ -118,8 +118,8 @@ public final class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-							  String language, String token, String username, ResultReceiver receiver, Integer notificationId,
-							  Context context) throws WebconnectionException {
+			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
+			Context context) throws WebconnectionException {
 
 		Preconditions.checkNotNull(context, "Context cannot be null!");
 
@@ -134,7 +134,6 @@ public final class ServerCalls {
 			Log.v(TAG, "Url to upload: " + serverUrl);
 
 			File file = new File(zipFileString);
-
 			RequestBody requestBody = new MultipartBuilder()
 					.type(MultipartBuilder.FORM)
 					.addFormDataPart(
@@ -176,7 +175,6 @@ public final class ServerCalls {
 				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
 			} else {
 				Log.v(TAG, "Upload not successful");
-				StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
 				throw new WebconnectionException(response.code(), "Upload failed! HTTP Status code was " + response.code());
 			}
 
@@ -205,9 +203,53 @@ public final class ServerCalls {
 		}
 	}
 
-	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
-								final int notificationId) throws IOException, WebconnectionException {
+	public int oldNotificationId = 0;
 
+	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
+			final int notificationId) throws IOException, WebconnectionException {
+
+		File file = new File(filePath);
+		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
+			throw new IOException("Directory not created");
+		}
+
+		Request request = new Request.Builder()
+				.url(url)
+				.build();
+
+		okHttpClient.networkInterceptors().add(new Interceptor() {
+			@Override
+			public Response intercept(Chain chain) throws IOException {
+				Response originalResponse = chain.proceed(chain.request());
+
+				if (notificationId >= oldNotificationId) {
+					oldNotificationId = notificationId;
+					return originalResponse.newBuilder()
+							.body(new ProgressResponseBody(
+									originalResponse.body(),
+									receiver,
+									notificationId))
+							.build();
+				} else {
+					return originalResponse;
+				}
+			}
+		});
+
+		try {
+			Response response = okHttpClient.newCall(request).execute();
+			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+			bufferedSink.writeAll(response.body().source());
+			bufferedSink.close();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
+	}
+
+	public void downloadMedia(String url, String filePath, final ResultReceiver receiver)
+			throws IOException, WebconnectionException {
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
 			throw new IOException("Directory not created");
@@ -225,7 +267,7 @@ public final class ServerCalls {
 						.body(new ProgressResponseBody(
 								originalResponse.body(),
 								receiver,
-								notificationId))
+								0))
 						.build();
 			}
 		});
@@ -294,7 +336,7 @@ public final class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-										String country, String token, Context context) throws WebconnectionException {
+			String country, String token, Context context) throws WebconnectionException {
 
 		Preconditions.checkNotNull(context, "Context cannot be null!");
 

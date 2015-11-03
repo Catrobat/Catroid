@@ -37,8 +37,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 		DUMMY, CENTIMETER, INCH;
 	}
 
-	private enum SensorRegister
-	{
+	private enum SensorRegister {
 		Version(0x00), ProductId(0x08), SensorType(0x10), FactoryZeroValue(0x11), FactoryScaleFactor(0x12),
 		FactoryScaleDivisor(0x13), MeasurementUnits(0x14),
 		Interval(0x40), Command(0x41), Result1(0x42), Result2(0x43), Result3(0x44), Result4(0x45), Result5(0x46),
@@ -108,8 +107,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 		return readRegister(SensorRegister.Interval.getByte(), 1)[0];
 	}
 
-	public void setContinuousInterval(byte interval)
-	{
+	public void setContinuousInterval(byte interval) {
 		writeRegister(SensorRegister.Interval.getByte(), interval, false);
 		super.wait(60);
 	}

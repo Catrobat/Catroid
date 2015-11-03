@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.devices.arduino.phiro;
 
-
 import android.util.Log;
 
 import name.antonsmirnov.firmata.IFirmata;
@@ -33,7 +32,6 @@ import name.antonsmirnov.firmata.message.I2cReplyMessage;
 import name.antonsmirnov.firmata.message.ProtocolVersionMessage;
 import name.antonsmirnov.firmata.message.StringSysexMessage;
 import name.antonsmirnov.firmata.message.SysexMessage;
-
 
 class PhiroListener implements IFirmata.Listener {
 
@@ -73,7 +71,6 @@ class PhiroListener implements IFirmata.Listener {
 			case PhiroImpl.PIN_SENSOR_SIDE_LEFT:
 				sideLeftSensor = message.getValue();
 				break;
-
 		}
 	}
 

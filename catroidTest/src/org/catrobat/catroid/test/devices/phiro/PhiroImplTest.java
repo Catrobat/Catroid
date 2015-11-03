@@ -43,21 +43,23 @@ public class PhiroImplTest extends AndroidTestCase {
 
 	private static final int PIN_SPEAKER_OUT = 3;
 
-	private static final int PIN_RGB_RED_LEFT = 4;
-	private static final int PIN_RGB_GREEN_LEFT = 5;
-	private static final int PIN_RGB_BLUE_LEFT = 6;
+	private static final int PIN_RGB_RED_RIGHT = 4;
+	private static final int PIN_RGB_GREEN_RIGHT = 5;
+	private static final int PIN_RGB_BLUE_RIGHT = 6;
 
-	private static final int PIN_RGB_RED_RIGHT = 7;
-	private static final int PIN_RGB_GREEN_RIGHT = 8;
-	private static final int PIN_RGB_BLUE_RIGHT = 9;
+	private static final int PIN_RGB_RED_LEFT = 7;
+	private static final int PIN_RGB_GREEN_LEFT = 8;
+	private static final int PIN_RGB_BLUE_LEFT = 9;
 
 	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
 	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
 
 	private static final int PIN_RIGHT_MOTOR_FORWARD = 12;
-	private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;
+	//private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;
+	private static final int PIN_RIGHT_MOTOR_BACKWARD = 2;
 
-	private static final int MIN_PWM_PIN = 3;
+	//private static final int MIN_PWM_PIN = 3;
+	private static final int MIN_PWM_PIN = 2;
 	private static final int MAX_PWM_PIN = 13;
 
 	private static final int MIN_SENSOR_PIN = 0;
@@ -233,7 +235,6 @@ public class PhiroImplTest extends AndroidTestCase {
 		int speed = percentToSpeed(speedInPercent);
 
 		FirmataMessage m = firmataUtils.getAnalogMesageData();
-
 
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
 				ANALOG_MESSAGE_COMMAND, m.getCommand());

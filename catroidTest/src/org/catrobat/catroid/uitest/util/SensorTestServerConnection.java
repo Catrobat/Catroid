@@ -37,6 +37,7 @@ import static junit.framework.Assert.assertTrue;
 
 @SuppressWarnings("AvoidUsingHardCodedIP")
 public final class SensorTestServerConnection {
+
 	private static final String TAG = SensorTestServerConnection.class.getSimpleName();
 
 	// fields to provide ethernet connection to the arduino server
@@ -110,11 +111,10 @@ public final class SensorTestServerConnection {
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("LIGHT_END"));
 			assertTrue(assertString, response.charAt(0) == expectedChar);
-
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.w(TAG, "InterruptedException", e);
 		}
 	}
 
@@ -144,11 +144,10 @@ public final class SensorTestServerConnection {
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("VIBRATION_END"));
 			assertTrue(assertString, response.charAt(0) == expectedChar);
-
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.w(TAG, "InterruptedException", e);
 		}
 	}
 
@@ -164,11 +163,10 @@ public final class SensorTestServerConnection {
 			response = receiveFromServer.readLine();
 			Log.d(TAG, "response received! " + response);
 			clientSocket.close();
-
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.w(TAG, "InterruptedException", e);
 		}
 	}
 }

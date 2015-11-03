@@ -44,16 +44,15 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-
 	@Override
 	protected void update(float percent) {
 		int degreesValue;
 		try {
 			degreesValue = degrees.interpretInteger(sprite);
-        } catch (InterpretationException interpretationException) {
-            degreesValue = 0;
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			degreesValue = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 
 		int tmpAngle = degreesValue;
 		int direction = 1;
@@ -95,5 +94,4 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 }

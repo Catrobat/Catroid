@@ -181,6 +181,8 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.insert_item_into_userlist_spinner);
 		userListSpinner.setFocusableInTouchMode(false);
 		userListSpinner.setFocusable(false);
+		userListSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
@@ -225,8 +227,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 			editTheValue.setTextColor(editTheValue.getTextColors().withAlpha(alphaValue));
 			editTheValue.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -269,5 +270,4 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
 	}
-
 }

@@ -52,7 +52,6 @@ public class NotificationData {
 		this.notificationTitlePrefixDone = context.getString(notificationTitlePrefixDoneStringId);
 		this.notificationTextWorking = context.getString(notificationTextWorkingStringId);
 		this.notificationTextDone = context.getString(notificationTextDoneStringId);
-
 	}
 
 	public PendingIntent getPendingIntent() {

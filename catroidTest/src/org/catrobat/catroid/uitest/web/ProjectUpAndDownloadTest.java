@@ -34,7 +34,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -53,11 +52,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+
 	private static final String TEST_FILE_DOWNLOAD_URL = ServerCalls.BASE_URL_TEST_HTTP + "catroid/download/";
 	private static final int LONG_TEST_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 	private final String testProject = UiTestUtils.PROJECTNAME1;
@@ -69,7 +68,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	private String uploadDialogTitle;
 	private int serverProjectId;
 
-	private Project standardProject;
 	private float currentLanguageVersion;
 
 	public ProjectUpAndDownloadTest() {
@@ -341,7 +339,9 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	public void testUploadStandardProject() throws Throwable {
-		deleteOldAndCreateAndSaveCleanStandardProject();
+		if (UiTestUtils.deleteOldAndCreateAndSaveCleanStandardProject(getActivity(), getInstrumentation()) == null) {
+			fail("StandardProject Not created!");
+		}
 
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -372,12 +372,13 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		assertTrue("Upload of unmodified standard project should not be possible, but succeeded",
 				solo.searchText(solo.getString(R.string.error_upload_default_project)));
-
 	}
 
 	@Device
 	public void testUploadModifiedStandardProject() throws Throwable {
-		deleteOldAndCreateAndSaveCleanStandardProject();
+		if (UiTestUtils.deleteOldAndCreateAndSaveCleanStandardProject(getActivity(), getInstrumentation()) == null) {
+			fail("StandardProject Not created!");
+		}
 
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -395,7 +396,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_mole_whacked));
 		solo.waitForText(deleteLookText);
 		solo.clickOnText(deleteLookText);
-		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 
@@ -464,25 +464,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		List<Sprite> downloadedProjectSpriteList = downloadedProject.getSpriteList();
 
 		assertEquals("Program wasn't replaced", spriteList.size(), downloadedProjectSpriteList.size());
-	}
-
-	private void deleteOldAndCreateAndSaveCleanStandardProject() {
-		String standardProjectName = getActivity().getString(R.string.default_project_name);
-		try {
-			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
-				ProjectManager.getInstance().loadProject(standardProjectName, getActivity());
-				ProjectManager.getInstance().deleteCurrentProject(null);
-			}
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
-					getInstrumentation().getTargetContext());
-			ProjectManager.getInstance().setProject(standardProject);
-		} catch (ProjectException projectException) {
-
-			projectException.printStackTrace();
-			fail("Cannot load old standard project");
-		} catch (IOException exception) {
-			fail("Standard project not created");
-		}
 	}
 
 	private void uploadProjectFromMainMenu(String uploadProjectName, String uploadProjectDescription) {
@@ -572,7 +553,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
 			Log.v("serverID=", "" + serverProjectId);
-
 		} catch (JSONException e) {
 			fail("JSON exception occurred");
 		}
@@ -627,5 +607,4 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
 	}
-
 }
