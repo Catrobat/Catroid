@@ -373,7 +373,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Upload of unmodified standard project should not be possible, but succeeded",
 				solo.searchText(solo.getString(R.string.error_upload_default_project)));
 	}
-
+	
 	@Device
 	public void testUploadModifiedStandardProject() throws Throwable {
 		if (UiTestUtils.deleteOldAndCreateAndSaveCleanStandardProject(getActivity(), getInstrumentation()) == null) {
