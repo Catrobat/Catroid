@@ -262,7 +262,7 @@ public class ArduinoImpl implements Arduino {
 		sendFirmataMessage(new ReportDigitalPortMessage(port, true));
 
 		try {
-			Thread.sleep(500);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			Log.d(TAG, "Error Arduino sensor thread sleep()");
 		}
