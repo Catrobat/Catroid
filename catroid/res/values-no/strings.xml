@@ -113,6 +113,9 @@
   <string name="sprite">Object</string>
   <string name="sprites">Objects</string>
   <string name="spritelist_background_headline">Bakgrunn</string>
+  <string name="dialog_confirm_delete_object_title">Delete this object?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
+  <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
   <string name="select_all">Select all</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Scripts</string>
@@ -145,6 +148,9 @@
   <string name="select_look_from_gallery">Select image</string>
   <string name="select_look_from_camera">Select photo</string>
   <string name="look_measure">Measure:</string>
+  <string name="dialog_confirm_delete_look_title">Delete this look?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
+  <string name="dialog_confirm_delete_look_message">This can not be undone!</string>
   <string name="lookname">look name:</string>
   <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
   <string name="rename_sound_dialog">Rename Sound</string>

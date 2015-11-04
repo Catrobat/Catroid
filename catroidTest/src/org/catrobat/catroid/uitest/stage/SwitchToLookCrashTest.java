@@ -63,9 +63,6 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		prepareTest();
-
-		File dir = new File(Constants.TMP_PATH);
-		dir.mkdir();
 	}
 
 	public void testSwitchToLookCrashPNG() throws IOException {
@@ -78,7 +75,8 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			// if we use the image from res-folder instead of assets, test would
 			// pass even if the needed code in copyImageIntoCatroid() was deleted
 			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(nyanCatPng);
-			nyanCatPath = Utils.buildPath(Constants.TMP_PATH, nyanCatPng);
+			nyanCatPath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+					Constants.IMAGE_DIRECTORY, nyanCatPng);
 			writeBufferToFile(inputStream, nyanCatPath);
 		} catch (IOException e) {
 			Log.e(TAG, "Image not loaded from Assets", e);
@@ -117,7 +115,6 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
-		nyanCatPngFile.delete();
 	}
 
 	public void testSwitchToLookCrashJPG() throws IOException {
@@ -130,7 +127,8 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			// if we use the image from res-folder instead of assets, test would
 			// pass even if the needed code in copyImageIntoCatroid() was deleted
 			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(manImageJpg);
-			manImagePath = Utils.buildPath(Constants.TMP_PATH, manImageJpg);
+			manImagePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+					Constants.IMAGE_DIRECTORY, manImageJpg);
 			writeBufferToFile(inputStream, manImagePath);
 		} catch (IOException e) {
 			Log.e(TAG, "Image not loaded from Assets", e);
@@ -169,7 +167,6 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
-		nyanCatPngFile.delete();
 	}
 
 	private void writeBufferToFile(InputStream inputStream, String imageFilePath) throws IOException {

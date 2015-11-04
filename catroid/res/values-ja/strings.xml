@@ -108,6 +108,9 @@
   <string name="sprite">オブジェクト</string>
   <string name="sprites">オブジェクト</string>
   <string name="spritelist_background_headline">背景</string>
+  <string name="dialog_confirm_delete_object_title">このオブジェクトを削除しますか？</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">これらのオブジェクトを削除しますか？</string>
+  <string name="dialog_confirm_delete_object_message">元に戻すことができない ！</string>
   <string name="select_all">すべてを選択します。</string>
   <string name="copy_sprite_name_suffix">_コピー</string>
   <string name="scripts">スクリプト</string>
@@ -138,6 +141,9 @@
   <string name="select_look_from_gallery">画像を選択</string>
   <string name="select_look_from_camera">写真を選択</string>
   <string name="look_measure">測定:</string>
+  <string name="dialog_confirm_delete_look_title">この外見を削除しますか？</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">この外見を消すか？</string>
+  <string name="dialog_confirm_delete_look_message">元に戻すことができない ！</string>
   <string name="lookname">外見の名:</string>
   <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>
   <string name="rename_sound_dialog">音の名前を変更します</string>
