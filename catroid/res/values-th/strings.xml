@@ -106,6 +106,9 @@
   <string name="sprite">วัตถุ</string>
   <string name="sprites">วัตถุ</string>
   <string name="spritelist_background_headline">พื้นหลัง</string>
+  <string name="dialog_confirm_delete_object_title">ลบวัตถุนี้หรือไม่?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">ลบวัตถุเหล่านี้หรือไม่?</string>
+  <string name="dialog_confirm_delete_object_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="select_all">เลือก​ทั้ง​หมด</string>
   <string name="copy_sprite_name_suffix">_ทำซ้ำ</string>
   <string name="scripts">สคริปต์</string>
@@ -136,6 +139,9 @@
   <string name="select_look_from_gallery">เลือกรูปภาพ</string>
   <string name="select_look_from_camera">เลือก​ภาพถ่าย</string>
   <string name="look_measure">วัด:</string>
+  <string name="dialog_confirm_delete_look_title">ลบคำสั่งนี้?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">ลบรูปลักษณ์เหล่านี้?</string>
+  <string name="dialog_confirm_delete_look_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="lookname">ชื่อ รูปลักษณ์:</string>
   <string name="fragment_sound_text_description">เคาะ \"+\" เพื่อใส่เสียง</string>
   <string name="rename_sound_dialog">เปลี่ยนชื่อเสียง</string>

@@ -54,10 +54,6 @@ public abstract class ScriptActivityFragment extends SherlockListFragment {
 
 	public abstract void handleAddButton();
 
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
 	protected abstract void showRenameDialog();
 
 	protected abstract void showDeleteDialog();
