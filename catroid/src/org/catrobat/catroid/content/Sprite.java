@@ -38,6 +38,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
@@ -63,7 +64,6 @@ public class Sprite implements Serializable, Cloneable {
 	private ArrayList<SoundInfo> soundList;
 	private ArrayList<UserBrick> userBricks;
 	private transient int newUserBrickNext = 1;
-
 	private int id;
 
 	public Sprite(String name) {
@@ -147,6 +147,16 @@ public class Sprite implements Serializable, Cloneable {
 		for (Brick brick : getAllBricks()) {
 			if (brick instanceof PlaySoundBrick) {
 				result.add((PlaySoundBrick) brick);
+			}
+		}
+		return result;
+	}
+
+	public List<PointToBrick> getPointToBricks() {
+		List<PointToBrick> result = new ArrayList<>();
+		for (Brick brick : getAllBricks()) {
+			if (brick instanceof PointToBrick) {
+				result.add((PointToBrick) brick);
 			}
 		}
 		return result;
