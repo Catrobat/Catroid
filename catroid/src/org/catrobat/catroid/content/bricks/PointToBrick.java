@@ -64,7 +64,7 @@ public class PointToBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite pointedObject;
-	private int id = ProjectManager.getInstance().getNewId();
+	private int id;
 	private transient String oldSelectedObject;
 	private transient AdapterView<?> adapterView;
 	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
@@ -78,6 +78,9 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	public int getId() {
+		if (id == 0) {
+			id = ProjectManager.getInstance().getNewId();
+		}
 		return id;
 	}
 

@@ -64,7 +64,7 @@ public class Sprite implements Serializable, Cloneable {
 	private ArrayList<UserBrick> userBricks;
 	private transient int newUserBrickNext = 1;
 
-	private int id = ProjectManager.getInstance().getNewId();
+	private int id;
 
 	public Sprite(String name) {
 		this.name = name;
@@ -96,7 +96,10 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public int getId() {
-		return this.id;
+		if (id == 0) {
+			id = ProjectManager.getInstance().getNewId();
+		}
+		return id;
 	}
 	private void init() {
 		look = new Look(this);

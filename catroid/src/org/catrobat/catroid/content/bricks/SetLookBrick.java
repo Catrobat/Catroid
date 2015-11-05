@@ -56,7 +56,7 @@ import java.util.List;
 public class SetLookBrick extends BrickBaseType implements OnLookDataListChangedAfterNewListener {
 	private static final long serialVersionUID = 1L;
 	private LookData look;
-	private int id = ProjectManager.getInstance().getNewId();
+	private int id;
 	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
 	private transient AdapterView<?> adapterView;
@@ -65,6 +65,9 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	}
 
 	public int getId() {
+		if (id == 0) {
+			id = ProjectManager.getInstance().getNewId();
+		}
 		return id;
 	}
 

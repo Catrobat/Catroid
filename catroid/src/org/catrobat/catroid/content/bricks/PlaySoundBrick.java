@@ -58,7 +58,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	private static final long serialVersionUID = 1L;
 
 	private SoundInfo sound;
-	private int id = ProjectManager.getInstance().getNewId();
+	private int id;
 	private transient SoundInfo oldSelectedSound;
 	private transient AdapterView<?> adapterView;
 
@@ -66,6 +66,9 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	}
 
 	public int getId() {
+		if (id == 0) {
+			id = ProjectManager.getInstance().getNewId();
+		}
 		return id;
 	}
 
