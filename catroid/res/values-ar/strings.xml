@@ -23,14 +23,14 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">النص البرمجي لجهاز الجيب</string>
+  <string name="app_name">بوكت كوود</string>
   <string name="cancel_button">إلغاء</string>
   <string name="rename">إعادة تسمية</string>
   <string name="delete">حذف</string>
-  <string name="menu_item_move_down">Move Down</string>
-  <string name="menu_item_move_up">Move Up</string>
-  <string name="menu_item_move_to_top">Move To Top</string>
-  <string name="menu_item_move_to_bottom">Move To Bottom</string>
+  <string name="menu_item_move_down">تحريك للأسفل</string>
+  <string name="menu_item_move_up">تحريك للاعلى</string>
+  <string name="menu_item_move_to_top">تحريك للقمة</string>
+  <string name="menu_item_move_to_bottom">تحريك للقاع</string>
   <string name="yes">نعم</string>
   <string name="no">لا</string>
   <string name="copy">نسخ</string>
@@ -55,7 +55,7 @@
   <string name="main_menu_new">جديد</string>
   <string name="main_menu_continue">متابعة</string>
   <string name="main_menu_programs">البرامج</string>
-  <string name="main_menu_help">تعليمات</string>
+  <string name="main_menu_help">المساعدة</string>
   <string name="main_menu_web">إستعراض</string>
   <string name="main_menu_upload">تحميل</string>
   <string name="main_menu_about_pocketcode">حول قانون الجيب</string>
@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">قم باختيار الكاميرا التي تستخدم لتحديد الوجه </string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">أرسم صورة</string>
   <string name="dialog_new_object_gallery">حدد الصورة</string>
   <string name="dialog_new_object_camera">التقط الصورة</string>
@@ -100,7 +102,7 @@
   <string name="my_projects_activity_title">البرامج</string>
   <string name="number_of_scripts">النص:</string>
   <string name="number_of_bricks">الطوب:</string>
-  <string name="number_of_looks">تبدو:</string>
+  <string name="number_of_looks">المشاهد:</string>
   <string name="number_of_sounds">الأصوات:</string>
   <string name="show_details">إظهار التفاصيل</string>
   <string name="hide_details">إخفاء التفاصيل</string>
@@ -112,7 +114,7 @@
   <string name="copy_sprite_name_suffix">_نسخ</string>
   <string name="scripts">النصوص</string>
   <string name="look">مشهد</string>
-  <string name="looks">تبدو</string>
+  <string name="looks">المشاهد</string>
   <string name="sounds">الأصوات</string>
   <string name="backgrounds">الخلفيات</string>
   <string name="size">الحجم:</string>
@@ -164,7 +166,7 @@
   <string name="dialog_confirm_delete_sound_message">لا يمكن التراجع عن هذا!</string>
   <string name="sound_name">اسم الصوت:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="zero">أصبح فارغا !</item>
     <item quantity="one">was unpacked!</item>
@@ -209,7 +211,7 @@
   <string name="add_look_choose_image">اختر الصورة</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -256,7 +258,7 @@
   <string name="dialog_new_broadcast_message_name">رسالة:</string>
   <string name="categories">فئات</string>
   <string name="category_motion">الحركة</string>
-  <string name="category_looks">تبدو</string>
+  <string name="category_looks">المشاهد</string>
   <string name="category_sound">الصوت</string>
   <string name="category_control">التحكم</string>
   <string name="category_user_bricks">الطوبة الخاصة بي</string>
@@ -264,6 +266,7 @@
   <string name="category_lego_nxt">ليغو NXT</string>
   <string name="category_drone">أردروني</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"ضع في "</string>
   <string name="x_label">"س: "</string>
   <string name="y_label">"ص: "</string>
@@ -309,7 +312,7 @@
   <string name="brick_change_brightness">"تغيير السطوع "</string>
   <string name="by_label">باستخدام</string>
   <string name="to_label">إلى</string>
-  <string name="brick_clear_graphic_effect">مسح تأثيرات رسومية</string>
+  <string name="brick_clear_graphic_effect">مسح التأثيرات الرسومية</string>
   <string name="brick_next_look">المشهد التالي</string>
   <string name="brick_next_background">الخلفية التالية</string>
   <string name="brick_led_on">تشغيل الفلاش</string>
@@ -333,7 +336,7 @@
     <item quantity="other">"seconds "</item>
   </plurals>
   <string name="brick_broadcast_receive">عندما أستقبل</string>
-  <string name="brick_broadcast">نشر</string>
+  <string name="brick_broadcast">بث رسالة</string>
   <string name="brick_broadcast_wait">البث والانتظار</string>
   <string name="brick_note">ملاحظة</string>
   <string name="brick_forever">إلى الأبد</string>
@@ -437,17 +440,22 @@
   <string name="error_drone_wrong_platform">لا يمكن تشغيل مشروع أردروني على الجهاز الخاص بك.</string>
   <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
   <string name="error_changing_description_of_incompatible_project">تغيير وصف مشروع \"غيرمتوافق\" هو غير ممكناً.</string>
+  <string name="error_redo">Something went wrong when redoing.</string>
+  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">لا يمكن تفعيل تقنية bluetooth، إغلاق المرحلة</string>
   <string name="title_paired_devices">الأجهزة المقترنة</string>
   <string name="title_other_devices">أجهزة جديدة</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">البحث عن أجهزة Bluetooth</string>
-  <string name="select_device">حدد ليغو ميندستورمس الخاص بك </string>
+  <string name="select_device">قم بتحديد الجهاز:</string>
   <string name="connecting_please_wait">الاتصال بالجهاز الخاص بك الرجاء الانتظار...</string>
   <string name="bt_connection_failed">فشل الاتصال بالجهاز!</string>
   <string name="none_found">لم يتم العثور على أجهزة غير مقترن </string>
   <string name="none_paired">لم يتم العثور على أجهزة غير مقترن</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">إلى</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">إلى</string>
   <string name="nxt_motor_speed">speed</string>
@@ -458,7 +466,7 @@
   <string name="nxt_tone_duration">Duration</string>
   <string name="nxt_tone_frequency">التردد</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="nxt_seconds">seconds</string>
+  <string name="nxt_seconds">ثوان</string>
   <string name="nxt_motor_a">أ</string>
   <string name="nxt_motor_b">ب</string>
   <string name="nxt_motor_c">ج</string>
@@ -509,7 +517,7 @@
   <string name="phiro_play_tone">Play Phiro music\n</string>
   <string name="phiro_tone_duration">Duration</string>
   <string name="brick_phiro_select_tone">tone</string>
-  <string name="phiro_seconds">seconds</string>
+  <string name="phiro_seconds">ثوان</string>
   <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
   <string name="phiro_rgb_led_red">أحمر</string>
   <string name="phiro_rgb_led_green">أخضر</string>
@@ -596,6 +604,8 @@
   <string name="formula_editor_function_letter_parameter">(1، \'مرحبا بالعالم\')</string>
   <string name="formula_editor_function_join">الانضمام إلى</string>
   <string name="formula_editor_function_join_parameter">(\'مرحبا\'، \'العالم\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>
@@ -686,9 +696,9 @@
   <string name="add_line_break">إضافة فاصل أسطر</string>
   <string name="edit_variable">تحرير متغير</string>
   <string name="variable_hint">اسم المتغير</string>
-  <string name="brick_show_text_var">Show variable</string>
+  <string name="brick_show_text_var">إظهار المتغير</string>
   <string name="brick_show_text_pos">"at  "</string>
-  <string name="brick_hide_text_var">Hide variable</string>
+  <string name="brick_hide_text_var">إخفاء متغير</string>
   <string name="define">تعريف</string>
   <string name="new_user_brick">طوبة جديدة</string>
   <string name="new_user_brick_variable">متغير 1</string>
@@ -697,7 +707,7 @@
   <string name="brick_multiple">الطوب</string>
   <string name="merge_button">Merge project into</string>
   <string name="merge_conflict">Merging not possible</string>
-  <string name="broadcast">نشر</string>
+  <string name="broadcast">بث رسالة</string>
   <string name="project_list">List Item</string>
   <string name="error_merge_duplicate_names">To merge both projects, please be aware, that following elements can not use the same name:</string>
   <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
@@ -710,5 +720,5 @@
   <string name="and">and</string>
   <string name="warning">Warning</string>
   <string name="abort">Abort</string>
-  <string name="variable">Variable</string>
+  <string name="variable">متغير</string>
 </resources>

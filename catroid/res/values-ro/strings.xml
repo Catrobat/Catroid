@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">Selectaţi aparatul de fotografiat care va fi folosit pentru detectarea feţei</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Deseană imaginea</string>
   <string name="dialog_new_object_gallery">Selecteaza imaginea</string>
   <string name="dialog_new_object_camera">Fă poză</string>
@@ -156,7 +158,7 @@
   <string name="dialog_confirm_delete_sound_message">Aceasta nu va fi reversibil!</string>
   <string name="sound_name">numele sunetului:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">a fost despachetat!</item>
     <item quantity="few">au fost despachetate!</item>
@@ -198,7 +200,7 @@
   <string name="add_look_choose_image">Selecteaza imagine</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -253,6 +255,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Pune la "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y:"</string>
@@ -414,17 +417,22 @@
   <string name="error_drone_wrong_platform">Nu putem rula un proiect de ARDrone pe aparatul dvs.</string>
   <string name="error_rename_incompatible_project">Redenumirea unui proiect incompatibile nu este posibilă.</string>
   <string name="error_changing_description_of_incompatible_project">Modificarea descrierii unui proiect incompatibil nu este posibilă.</string>
+  <string name="error_redo">Something went wrong when redoing.</string>
+  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth nu poate fi activat, închiderea scenei</string>
   <string name="title_paired_devices">Dispozitive îmeprecheate</string>
   <string name="title_other_devices">Dispozitive noi</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">Căutarea dispozitivelor bluetooth</string>
-  <string name="select_device">Selectați Mindstorms NXT vostru</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Conecare la dispozitivul vostru.\nVă rugăm să așteptați&#8230;</string>
   <string name="bt_connection_failed">Conectarea la dispozitiv a eșuat!</string>
   <string name="none_found">Nu au fost găsite dispozitive neîmperecheate</string>
   <string name="none_paired">Nu au fost găsite dispozitive împerecheate</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">la</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">la</string>
   <string name="nxt_motor_speed">speed</string>
@@ -573,6 +581,8 @@
   <string name="formula_editor_function_letter_parameter">(1,\'salut lume\')</string>
   <string name="formula_editor_function_join">unește</string>
   <string name="formula_editor_function_join_parameter">(\'salut\',\'lume\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>
