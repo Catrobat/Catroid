@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">Yüz tanıma için kamera seçin</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Resim Çiz</string>
   <string name="dialog_new_object_gallery">Resim Seç</string>
   <string name="dialog_new_object_camera">Resim çek</string>
@@ -157,7 +159,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="dialog_confirm_delete_sound_message">Bu geriye alınamaz!</string>
   <string name="sound_name">ses adı:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">Bunlar açılmıştı!</item>
     <item quantity="other">Bunlar açılmıştı!</item>
@@ -198,7 +200,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="add_look_choose_image">Resim seç</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -253,6 +255,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Yerleştirin "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -410,17 +413,22 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="error_drone_wrong_platform">Aygıtınızda ARDrone projesi calışmaz.</string>
   <string name="error_rename_incompatible_project">Uyumsuz bir projeyi yeniden adlandırmak olası değil.</string>
   <string name="error_changing_description_of_incompatible_project">Uyumsuz bir projenin bilgisini değiştirmek mümkün değildir.</string>
+  <string name="error_redo">Something went wrong when redoing.</string>
+  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth açılamadı ortam kapatılıyor</string>
   <string name="title_paired_devices">Eşleşmiş cihazlar</string>
   <string name="title_other_devices">Yeni aygıtlar</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">Bluetooth aygıtlarını arayın</string>
-  <string name="select_device">Lego Mindstorms NXT seçin</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Cihazınıza bağlanıyor.\nLütfen bekleyin ...</string>
   <string name="bt_connection_failed">Aygıt bağlantısı başarısız oldu!</string>
   <string name="none_found">Eşleştirilmemiş aygıt bulunamadı</string>
   <string name="none_paired">Eşleştirilmemiş aygıt bulunamadı</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">kime</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">kime</string>
   <string name="nxt_motor_speed">speed</string>
@@ -569,6 +577,8 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="formula_editor_function_letter_parameter">(1, \'Merhaba Dünya\')</string>
   <string name="formula_editor_function_join">katıl</string>
   <string name="formula_editor_function_join_parameter">(\'merhaba\', \'Dünya\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>

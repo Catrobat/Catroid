@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">Wähle eine Kamera für die Gesichtserkennung</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
   <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino Bausteine</string>
+  <string name="preference_description_arduino_bricks">Erlaubt die Steuerung mit Arduino Bausteinen</string>
   <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
   <string name="dialog_new_object_gallery">Bild auswählen</string>
   <string name="dialog_new_object_camera">Bild aufnehmen</string>
@@ -196,7 +198,7 @@
   <string name="brick_context_dialog_add_to_script">Zum Skript hinzufügen</string>
   <string name="brick_context_dialog_edit_brick">Baustein Bearbeiten</string>
   <string name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
-  <string name="brick_context_dialog_delete_script">Skipt löschen</string>
+  <string name="brick_context_dialog_delete_script">Skript löschen</string>
   <string name="new_look_dialog_title">Aussehen hinzufügen</string>
   <string name="add_look_from_camera">Foto schießen</string>
   <string name="add_look_draw_new_image">Neues Bild erstellen</string>
@@ -258,6 +260,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Setze an Position "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -415,6 +418,8 @@
   <string name="error_drone_wrong_platform">Leider können wir kein ARDronen Projekt auf deinem Gerät ausführen.</string>
   <string name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
   <string name="error_changing_description_of_incompatible_project">Ändern der Beschreibung eines inkompatiblen Projektes ist nicht möglich.</string>
+  <string name="error_redo">Beim Wiederherstellen ist etwas schief gegangen.</string>
+  <string name="error_undo">Beim Rückgängigmachen ist etwas schief gegangen.</string>
   <string name="error_unknown_error">Ein unbekannter Fehler ist aufgetreten.</string>
   <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
   <string name="title_paired_devices">Verbundene Geräte</string>
@@ -426,6 +431,9 @@
   <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
   <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
   <string name="none_paired">Keine verbundenen Geräte gefunden</string>
+  <string name="brick_arduino_select_digital_value">Setze Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Setze Arduino PWM-Pin</string>
+  <string name="brick_arduino_set_pin_value_to">auf</string>
   <string name="nxt_brick_motor_move">Setze NXT Motor</string>
   <string name="nxt_motor_speed_to">auf</string>
   <string name="nxt_motor_speed">Geschwindigkeit</string>
@@ -479,8 +487,8 @@
   <string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
   <string name="brick_drone_angle">Winkel</string>
   <string name="phiro_motor_stop">Stop Phiro motor</string>
-  <string name="brick_phiro_motor_forward_action">Move Phiro motor forward</string>
-  <string name="brick_phiro_motor_backward_action">Move Phiro motor backward</string>
+  <string name="brick_phiro_motor_forward_action">Setze Phiro Motor geradeaus</string>
+  <string name="brick_phiro_motor_backward_action">Setze Phiro Motor rückwärts</string>
   <string name="phiro_motor_speed">Geschwindigkeit</string>
   <string name="brick_phiro_sensor_begin">Wenn Phiro</string>
   <string name="brick_phiro_sensor_second_part">aktiviert</string>
@@ -574,6 +582,8 @@
   <string name="formula_editor_function_letter_parameter">(1,\'Hallo Welt\')</string>
   <string name="formula_editor_function_join">verbinde</string>
   <string name="formula_editor_function_join_parameter">(\'Hallo\',\'Welt\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">Element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*Listenname*)</string>
   <string name="formula_editor_function_contains">enthält</string>

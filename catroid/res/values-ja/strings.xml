@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">顔検出で使用するカメラを選択します</string>
   <string name="preference_title_enable_phiro_bricks">Phiro ブロック</string>
   <string name="preference_description_phiro_bricks">Phiro ロボットを制御することができます</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">絵を描く</string>
   <string name="dialog_new_object_gallery">イメージを選ぶ</string>
   <string name="dialog_new_object_camera">カメラから</string>
@@ -249,6 +251,7 @@
   <string name="category_lego_nxt">レゴマインドストームNXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"配置："</string>
   <string name="x_label">"X:"</string>
   <string name="y_label">"Y:"</string>
@@ -402,17 +405,22 @@
   <string name="error_drone_wrong_platform">お使いのデバイスで ARDrone プロジェクトを実行できません。</string>
   <string name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更できません。</string>
   <string name="error_changing_description_of_incompatible_project">互換性のないプロジェクトの説明を変更できません。</string>
+  <string name="error_redo">やり直しのときに何か問題がありました。</string>
+  <string name="error_undo">元に戻すときに何か問題がありました</string>
   <string name="error_unknown_error">不明なエラーが発生しました。</string>
   <string name="notification_blueth_err">Bluetoothが有効にできませんでした、ステージをクロースします</string>
   <string name="title_paired_devices">デバイスの組み合わせ</string>
   <string name="title_other_devices">新しいデバイス</string>
   <string name="searching_devices">デバイスを検索しています &#8230;</string>
   <string name="button_scan">Bluetoothデバイスを検索</string>
-  <string name="select_device">あなたのレゴマインドストームNXTを選択してください</string>
+  <string name="select_device">デバイスを選択してください:</string>
   <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
   <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>
   <string name="none_found">見つかりませんでした。ペアになっていないデバイスがありません</string>
   <string name="none_paired">見つかったペアのデバイスがありません</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">先</string>
   <string name="nxt_brick_motor_move">NXT モーターを設定</string>
   <string name="nxt_motor_speed_to">先</string>
   <string name="nxt_motor_speed">スピード</string>
@@ -462,8 +470,8 @@
   <string name="brick_drone_power">電源</string>
   <string name="brick_drone_turn_right">右方向：</string>
   <string name="brick_drone_turn_left">左方向：</string>
-  <string name="brick_drone_turn_left_magneto">左に回転 [angle]</string>
-  <string name="brick_drone_turn_right_magneto">右に回転 [angle]</string>
+  <string name="brick_drone_turn_left_magneto">左方向 [angle]</string>
+  <string name="brick_drone_turn_right_magneto">右方向 [angle]</string>
   <string name="brick_drone_angle">角度</string>
   <string name="phiro_motor_stop">Phiro モーターを停止</string>
   <string name="brick_phiro_motor_forward_action">Phiro モーターを前に移動</string>
@@ -561,10 +569,12 @@
   <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
   <string name="formula_editor_function_join">join</string>
   <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
-  <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
+  <string name="formula_editor_function_list_item_parameter">(1,*リスト名*)</string>
   <string name="formula_editor_function_contains">contains</string>
-  <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+  <string name="formula_editor_function_contains_parameter">(*リスト名*,1)</string>
   <string name="formula_editor_sensor_x_acceleration">x_加速</string>
   <string name="formula_editor_sensor_y_acceleration">y_加速</string>
   <string name="formula_editor_sensor_z_acceleration">z_加速</string>
@@ -631,7 +641,7 @@
   <string name="formula_editor_sensor_face_x_position">face_x_position</string>
   <string name="formula_editor_sensor_face_y_position">face_y_position</string>
   <string name="formula_editor_function_number_of_items">number_of_items</string>
-  <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+  <string name="formula_editor_function_number_of_items_parameter">(*リスト名*)</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="other">アイテム選択済!</item>
   </plurals>
