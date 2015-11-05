@@ -95,10 +95,6 @@ public class Sprite implements Serializable, Cloneable {
 		return this;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public int getId() {
 		return this.id;
 	}
@@ -244,7 +240,6 @@ public class Sprite implements Serializable, Cloneable {
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
 		cloneSprite.setName(this.getName());
-		cloneSprite.setId(this.id);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {

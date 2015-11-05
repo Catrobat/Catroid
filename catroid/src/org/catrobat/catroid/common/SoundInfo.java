@@ -51,7 +51,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 		cloneSoundInfo.name = this.name;
 		cloneSoundInfo.fileName = this.fileName;
-		cloneSoundInfo.id = this.id;
 
 		return cloneSoundInfo;
 	}
@@ -77,10 +76,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 	public int getId() {
 		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getAbsolutePath() {

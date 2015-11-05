@@ -63,7 +63,6 @@ public class LookData implements Serializable, Cloneable {
 
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
-		cloneLookData.id = this.id;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
@@ -82,10 +81,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public int getId() {
 		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public TextureRegion getTextureRegion() {
