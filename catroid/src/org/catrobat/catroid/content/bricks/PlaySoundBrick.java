@@ -72,6 +72,10 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		return id;
 	}
 
+	public int getLoadedId() {
+		return id;
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

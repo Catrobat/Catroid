@@ -71,6 +71,10 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		return id;
 	}
 
+	public int getLoadedId() {
+		return id;
+	}
+
 	public void setLook(LookData lookData) {
 		this.look = lookData;
 	}

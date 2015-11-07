@@ -101,6 +101,11 @@ public class Sprite implements Serializable, Cloneable {
 		}
 		return id;
 	}
+
+	public int getLoadedId() {
+		return id;
+	}
+
 	private void init() {
 		look = new Look(this);
 		isPaused = false;

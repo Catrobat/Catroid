@@ -81,6 +81,10 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		return id;
 	}
 
+	public int getLoadedId() {
+		return id;
+	}
+
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToSoundDirectory(), fileName);

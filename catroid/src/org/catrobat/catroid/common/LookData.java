@@ -86,6 +86,10 @@ public class LookData implements Serializable, Cloneable {
 		return id;
 	}
 
+	public int getLoadedId() {
+		return id;
+	}
+
 	public TextureRegion getTextureRegion() {
 		if (region == null) {
 			region = new TextureRegion(new Texture(getPixmap()));

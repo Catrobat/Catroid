@@ -219,24 +219,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		if (project != null) {
 			idPool.clear();
-			for (Sprite sprite : project.getSpriteList()) {
-				idPool.voidId(sprite.getId());
-				for (LookData lookData : sprite.getLookDataList()) {
-					idPool.voidId(lookData.getId());
-				}
-				for (SoundInfo soundInfo : sprite.getSoundList()) {
-					idPool.voidId(soundInfo.getId());
-				}
-				for (PlaySoundBrick playSoundBrick : sprite.getPlaySoundBricks()) {
-					idPool.voidId(playSoundBrick.getId());
-				}
-				for (PointToBrick pointToBrick : sprite.getPointToBricks()) {
-					idPool.voidId(pointToBrick.getId());
-				}
-				for (SetLookBrick setLookBrick : sprite.getSetLookBricks()) {
-					idPool.voidId(setLookBrick.getId());
-				}
-			}
+			voidIdsAfterLoading(project);
 
 			for (Sprite sprite : project.getSpriteList()) {
 				setCurrentSprite(sprite);
@@ -256,6 +239,27 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 			if ((resources & Brick.FACE_DETECTION) > 0) {
 				SettingsActivity.setFaceDetectionSharedPreferenceEnabled(context, true);
+			}
+		}
+	}
+
+	private void voidIdsAfterLoading(Project project) {
+		for (Sprite sprite : project.getSpriteList()) {
+			idPool.voidId(sprite.getLoadedId());
+			for (LookData lookData : sprite.getLookDataList()) {
+				idPool.voidId(lookData.getLoadedId());
+			}
+			for (SoundInfo soundInfo : sprite.getSoundList()) {
+				idPool.voidId(soundInfo.getLoadedId());
+			}
+			for (PlaySoundBrick playSoundBrick : sprite.getPlaySoundBricks()) {
+				idPool.voidId(playSoundBrick.getLoadedId());
+			}
+			for (PointToBrick pointToBrick : sprite.getPointToBricks()) {
+				idPool.voidId(pointToBrick.getLoadedId());
+			}
+			for (SetLookBrick setLookBrick : sprite.getSetLookBricks()) {
+				idPool.voidId(setLookBrick.getLoadedId());
 			}
 		}
 	}
