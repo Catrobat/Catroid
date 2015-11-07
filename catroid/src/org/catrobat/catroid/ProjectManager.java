@@ -64,6 +64,7 @@ import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListene
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.IdPool;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -75,6 +76,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
+	private final IdPool idPool = new IdPool();
+
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
@@ -83,7 +86,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleCorrectAddButton;
-	private ArrayList<Integer> idList = new ArrayList<>();
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
@@ -121,12 +123,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public int getNewId() {
-		int id = 0;
-		while (idList.contains(id)) {
-			id++;
-		}
-		idList.add(id);
-		return id;
+		return idPool.getNewId();
 	}
 
 	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
@@ -221,6 +218,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 
 		if (project != null) {
+			idPool.clear();
+			voidIdsAfterLoading(project);
+
 			for (Sprite sprite : project.getSpriteList()) {
 				setCurrentSprite(sprite);
 				LookDataHistory.getInstance(sprite.getId()).update();
@@ -239,6 +239,27 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 			if ((resources & Brick.FACE_DETECTION) > 0) {
 				SettingsActivity.setFaceDetectionSharedPreferenceEnabled(context, true);
+			}
+		}
+	}
+
+	private void voidIdsAfterLoading(Project project) {
+		for (Sprite sprite : project.getSpriteList()) {
+			idPool.voidId(sprite.getLoadedId());
+			for (LookData lookData : sprite.getLookDataList()) {
+				idPool.voidId(lookData.getLoadedId());
+			}
+			for (SoundInfo soundInfo : sprite.getSoundList()) {
+				idPool.voidId(soundInfo.getLoadedId());
+			}
+			for (PlaySoundBrick playSoundBrick : sprite.getPlaySoundBricks()) {
+				idPool.voidId(playSoundBrick.getLoadedId());
+			}
+			for (PointToBrick pointToBrick : sprite.getPointToBricks()) {
+				idPool.voidId(pointToBrick.getLoadedId());
+			}
+			for (SetLookBrick setLookBrick : sprite.getSetLookBricks()) {
+				idPool.voidId(setLookBrick.getLoadedId());
 			}
 		}
 	}

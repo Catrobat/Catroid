@@ -55,7 +55,7 @@ public class LookData implements Serializable, Cloneable {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
-	private int id = ProjectManager.getInstance().getNewId();
+	private int id;
 
 	@Override
 	public LookData clone() {
@@ -63,7 +63,6 @@ public class LookData implements Serializable, Cloneable {
 
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
-		cloneLookData.id = this.id;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
@@ -81,11 +80,14 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	public int getId() {
-		return this.id;
+		if (id == 0) {
+			id = ProjectManager.getInstance().getNewId();
+		}
+		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public int getLoadedId() {
+		return id;
 	}
 
 	public TextureRegion getTextureRegion() {

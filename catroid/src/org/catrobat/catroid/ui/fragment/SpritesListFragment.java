@@ -483,7 +483,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		Sprite copiedSprite = spriteToEdit.clone();
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
-		copiedSprite.setId(ProjectManager.getInstance().getNewId());
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
