@@ -417,8 +417,6 @@
   <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
   <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
-  <string name="error_redo">Something went wrong when redoing.</string>
-  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
   <string name="title_paired_devices">Paired devices</string>

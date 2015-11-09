@@ -116,6 +116,9 @@
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekte</string>
   <string name="spritelist_background_headline">Hintergrund</string>
+  <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
+  <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="select_all">Alle auswählen</string>
   <string name="copy_sprite_name_suffix">_Kopie</string>
   <string name="scripts">Skripte</string>
@@ -148,6 +151,9 @@
   <string name="select_look_from_gallery">Bild auswählen</string>
   <string name="select_look_from_camera">Foto auswählen</string>
   <string name="look_measure">Abmessungen:</string>
+  <string name="dialog_confirm_delete_look_title">Dieses Aussehen löschen?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Diese Aussehen löschen?</string>
+  <string name="dialog_confirm_delete_look_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="lookname">Name:</string>
   <string name="fragment_sound_text_description">Tippe auf \"+\" um Klänge hinzuzufügen</string>
   <string name="rename_sound_dialog">Klang umbenennen</string>
@@ -418,8 +424,6 @@
   <string name="error_drone_wrong_platform">Leider können wir kein ARDronen Projekt auf deinem Gerät ausführen.</string>
   <string name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
   <string name="error_changing_description_of_incompatible_project">Ändern der Beschreibung eines inkompatiblen Projektes ist nicht möglich.</string>
-  <string name="error_redo">Beim Wiederherstellen ist etwas schief gegangen.</string>
-  <string name="error_undo">Beim Rückgängigmachen ist etwas schief gegangen.</string>
   <string name="error_unknown_error">Ein unbekannter Fehler ist aufgetreten.</string>
   <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
   <string name="title_paired_devices">Verbundene Geräte</string>

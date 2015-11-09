@@ -111,6 +111,9 @@
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekti</string>
   <string name="spritelist_background_headline">Ozadje</string>
+  <string name="dialog_confirm_delete_object_title">Ali želite izbrisati ta objekt?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Ali želite izbrisati te objekte?</string>
+  <string name="dialog_confirm_delete_object_message">To dejanje ne more biti razveljavljeno!</string>
   <string name="select_all">Izberi vse</string>
   <string name="copy_sprite_name_suffix">_Kopiraj</string>
   <string name="scripts">Skripti</string>
@@ -147,6 +150,9 @@
   <string name="select_look_from_gallery">Izberi sliko</string>
   <string name="select_look_from_camera">Izberite fotografijo</string>
   <string name="look_measure">Mera:</string>
+  <string name="dialog_confirm_delete_look_title">Izbrisati ta izgled?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Izbrisati te izglede?</string>
+  <string name="dialog_confirm_delete_look_message">To dejanje ne more biti razveljavljeno!</string>
   <string name="lookname">ime izgleda:</string>
   <string name="fragment_sound_text_description">Tapnite \"+\" da dodate zvok</string>
   <string name="rename_sound_dialog">Preimenuj zvok</string>
@@ -427,8 +433,6 @@
   <string name="error_drone_wrong_platform">Na vaši napravi ni mogoče zagnati ARDrone projekta.</string>
   <string name="error_rename_incompatible_project">Nezdružljivega projekta ne morete preimenovati.</string>
   <string name="error_changing_description_of_incompatible_project">Opisa nezdružljivega projekta ne morete spremeniti.</string>
-  <string name="error_redo">Something went wrong when redoing.</string>
-  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">Prišlo je do neznane napake.</string>
   <string name="notification_blueth_err">Bluetootha se ne da omogočiti, zapiram</string>
   <string name="title_paired_devices">Povezane naprave</string>

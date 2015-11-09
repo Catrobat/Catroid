@@ -348,17 +348,6 @@ public final class StorageHandler {
 		}
 	}
 
-	public String[] getLookFileList(String projectName) {
-		File directoryLooks = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.IMAGE_DIRECTORY));
-
-		return directoryLooks.list();
-	}
-
-	public String[] getSoundFileList(String projectName) {
-		File directorySounds = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.SOUND_DIRECTORY));
-		return directorySounds.list();
-	}
-
 	public File getBackPackSoundDirectory() {
 		return backPackSoundDirectory;
 	}
