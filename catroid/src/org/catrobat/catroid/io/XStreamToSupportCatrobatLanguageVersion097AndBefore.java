@@ -127,14 +127,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion096AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion097AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion096AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion097AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -462,6 +462,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 
 			deleteChildNodeByName(originalDocument, "scriptList", "object");
 			deleteChildNodeByName(originalDocument, "brickList", "object");
+			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
 
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
@@ -496,13 +497,12 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 	}
 
 	private void modifyVariables(Document originalDocument) {
-
-		try {
-			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
+		Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
+		if (variableNode != null) {
 			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
 			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
-		} catch (Exception exception) {
-			Log.e(TAG, "Failed to modify variables tag", exception);
+		} else {
+			Log.e(TAG, "XML-Update: No variables to modify.");
 		}
 	}
 
@@ -630,7 +630,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 
 						scriptListNode.replaceChild(newScriptNode, scriptNode);
 					} else {
-						Log.e(TAG, scriptNode.getNodeName() + " script cannot be converted to new structure");
+						Log.e(TAG, scriptNode.getNodeName() + ": Found no scripts to convert to new structure.\"");
 					}
 				}
 			}
@@ -683,7 +683,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 						}
 						brickListNode.replaceChild(newBrickNode, brickNode);
 					} else {
-						Log.e(TAG, brickNode.getNodeName() + " brick cannot be converted to new structure");
+						Log.e(TAG, brickNode.getNodeName() + ": Found no bricks to convert to new structure.");
 					}
 				}
 			}
