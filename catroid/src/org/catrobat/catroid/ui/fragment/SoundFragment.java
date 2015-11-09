@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -70,9 +71,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.SoundInfoHistory;
-import org.catrobat.catroid.content.commands.Command;
-import org.catrobat.catroid.content.commands.SoundCommands;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
@@ -84,6 +82,7 @@ import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
@@ -92,6 +91,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -205,27 +205,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			StorageHandler.getInstance().clearBackPackSoundDirectory();
 		}
 
-		com.actionbarsherlock.view.MenuItem undo = menu.findItem(R.id.menu_undo);
-		if (!getHistory().isUndoable()) {
-			undo.setIcon(R.drawable.icon_undo_disabled);
-			undo.setEnabled(false);
-		} else {
-			undo.setIcon(R.drawable.icon_undo);
-			undo.setEnabled(true);
-		}
-
-		com.actionbarsherlock.view.MenuItem redo = menu.findItem(R.id.menu_redo);
-		if (!getHistory().isRedoable()) {
-			redo.setIcon(R.drawable.icon_redo_disabled);
-			redo.setEnabled(false);
-		} else {
-			redo.setIcon(R.drawable.icon_redo);
-			redo.setEnabled(true);
-		}
-
-		menu.findItem(R.id.menu_undo).setVisible(true);
-		menu.findItem(R.id.menu_redo).setVisible(true);
-
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -239,7 +218,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onStart() {
 		super.onStart();
 		mediaPlayer = new MediaPlayer();
-		updatePlayersInCommands(mediaPlayer);
 		initClickListener();
 	}
 
@@ -291,10 +269,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
 
 		SoundController.getInstance().handleAddButtonFromNew(this);
-
-		if (!SoundInfoHistory.getAllUndoRedoStatus()) {
-			SoundInfoHistory.applyChanges(ProjectManager.getInstance().getCurrentProject().getName());
-		}
 	}
 
 	@Override
@@ -412,15 +386,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 					break;
 				case SoundController.REQUEST_MEDIA_LIBRARY:
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
-					int sizeBeforeAdd = soundInfoList.size();
 					SoundController.getInstance().addSoundFromMediaLibrary(filePath, getActivity(), soundInfoList, this);
-					if (soundInfoList.size() > sizeBeforeAdd) {
-						ArrayList<SoundInfo> soundInfos = new ArrayList<>();
-						soundInfos.add(soundInfoList.get(soundInfoList.size() - 1));
-						SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(soundInfos, mediaPlayer, adapter);
-						getHistory().add(command);
-						getSherlockActivity().invalidateOptionsMenu();
-					}
 			}
 		}
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
@@ -569,16 +535,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				break;
 
 			case R.id.context_menu_copy:
-				int sizeBeforeCopy = soundInfoList.size();
 				SoundInfo newSoundInfo = SoundController.getInstance().copySound(selectedSoundInfo, soundInfoList,
 						adapter);
-				if (soundInfoList.size() > sizeBeforeCopy) {
-					ArrayList<SoundInfo> soundInfos = new ArrayList<>();
-					soundInfos.add(soundInfoList.get(soundInfoList.size() - 1));
-					SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(soundInfos, mediaPlayer, adapter);
-					getHistory().add(command);
-					getSherlockActivity().invalidateOptionsMenu();
-				}
 				updateSoundAdapter(newSoundInfo);
 
 				break;
@@ -597,9 +555,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				break;
 
 			case R.id.context_menu_delete:
-				deleteSounds();
+				showConfirmDeleteDialog();
 				break;
-			case R.id.context_menu_move_down:
+			case  R.id.context_menu_move_down:
 				moveSoundDown();
 				break;
 			case R.id.context_menu_move_to_bottom:
@@ -733,10 +691,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
 
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
-					SoundCommands.RenameSoundCommand command = new SoundCommands.RenameSoundCommand(selectedSoundInfo, newSoundTitle);
-					command.execute();
-					getHistory().add(command);
-					getSherlockActivity().invalidateOptionsMenu();
+					selectedSoundInfo.setTitle(newSoundTitle);
 					adapter.notifyDataSetChanged();
 				}
 			}
@@ -839,7 +794,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		public void onDestroyActionMode(ActionMode mode) {
 
 			((SoundAdapter) adapter).onDestroyActionModeCopy(mode);
-			getSherlockActivity().invalidateOptionsMenu();
 		}
 	};
 
@@ -910,7 +864,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			if (adapter.getAmountOfCheckedItems() == 0) {
 				clearCheckedSoundsAndEnableButtons();
 			} else {
-				deleteSounds();
+				showConfirmDeleteDialog();
 			}
 		}
 	};
@@ -925,12 +879,41 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		});
 	}
 
-	private void deleteSounds() {
-		SoundCommands.DeleteSoundCommand command = new SoundCommands.DeleteSoundCommand(adapter, mediaPlayer);
-		command.execute();
-		getHistory().add(command);
-		getSherlockActivity().invalidateOptionsMenu();
-		clearCheckedSoundsAndEnableButtons();
+	private void showConfirmDeleteDialog() {
+		int titleId;
+		if (adapter.getAmountOfCheckedItems() == 1) {
+			titleId = R.string.dialog_confirm_delete_sound_title;
+		} else {
+			titleId = R.string.dialog_confirm_delete_multiple_sounds_title;
+		}
+
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_sound_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
+				clearCheckedSoundsAndEnableButtons();
+			}
+		});
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				clearCheckedSoundsAndEnableButtons();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
 	}
 
 	public void clearCheckedSoundsAndEnableButtons() {
@@ -942,14 +925,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		registerForContextMenu(listView);
 		BottomBar.showBottomBar(getActivity());
-	}
-
-	public MediaPlayer getPlayer() {
-		return mediaPlayer;
-	}
-
-	public SoundBaseAdapter getAdapter() {
-		return adapter;
 	}
 
 	@Override
@@ -1037,11 +1012,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
 				SoundInfo newSoundInfo = SoundController.getInstance().updateSoundAdapter(soundTitle, fileName,
 						soundInfoList, adapter);
-				ArrayList<SoundInfo> sounds = new ArrayList<>();
-				sounds.add(newSoundInfo);
-				SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(sounds, mediaPlayer, adapter);
-				getHistory().add(command);
-				getSherlockActivity().invalidateOptionsMenu();
 
 				if (soundInfoListChangedAfterNewListener != null) {
 					soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
@@ -1088,71 +1058,31 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 	}
 
-	public void startUndoActionMode() {
-		getHistory().undo();
-		getSherlockActivity().invalidateOptionsMenu();
-		adapter.notifyDataSetChanged();
-	}
-
-	public void startRedoActionMode() {
-		getHistory().redo();
-		getSherlockActivity().invalidateOptionsMenu();
-		adapter.notifyDataSetChanged();
-	}
-
 	private void moveSoundDown() {
-		SoundCommands.MoveSoundCommand command = new SoundCommands.MoveSoundCommand(selectedSoundPosition + 1, selectedSoundPosition);
-		command.execute();
-		adapter.notifyDataSetChanged();
-		getHistory().add(command);
-		getSherlockActivity().invalidateOptionsMenu();
+		if (selectedSoundPosition != soundInfoList.size() - 1) {
+			Collections.swap(soundInfoList, selectedSoundPosition + 1, selectedSoundPosition);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	private void moveSoundToBottom() {
-		SoundCommands.MoveSoundToBottomCommand command = new SoundCommands.MoveSoundToBottomCommand(selectedSoundPosition);
-		command.execute();
+		for (int i = selectedSoundPosition; i < soundInfoList.size() - 1; i++) {
+			Collections.swap(soundInfoList, i, i + 1);
+		}
 		adapter.notifyDataSetChanged();
-		getHistory().add(command);
-		getSherlockActivity().invalidateOptionsMenu();
 	}
 
 	private void moveSoundUp() {
-		SoundCommands.MoveSoundCommand command = new SoundCommands.MoveSoundCommand(selectedSoundPosition - 1, selectedSoundPosition);
-		command.execute();
-		adapter.notifyDataSetChanged();
-		getHistory().add(command);
-		getSherlockActivity().invalidateOptionsMenu();
+		if (selectedSoundPosition != 0) {
+			Collections.swap(soundInfoList, selectedSoundPosition - 1, selectedSoundPosition);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	private void moveSoundToTop() {
-		SoundCommands.MoveSoundToTopCommand command = new SoundCommands.MoveSoundToTopCommand(selectedSoundPosition);
-		command.execute();
+		for (int i = selectedSoundPosition; i > 0; i--) {
+			Collections.swap(soundInfoList, i, i - 1);
+		}
 		adapter.notifyDataSetChanged();
-		getHistory().add(command);
-		getSherlockActivity().invalidateOptionsMenu();
-	}
-
-	private SoundInfoHistory getHistory() {
-		return SoundInfoHistory.getInstance(ProjectManager.getInstance().getCurrentSprite().getId());
-	}
-
-	private void updatePlayersInCommands(MediaPlayer player) {
-		for (Command command : getHistory().getUndoStack()) {
-			if (command instanceof SoundCommands.DeleteSoundCommand) {
-				((SoundCommands.DeleteSoundCommand) command).updatePlayer(player);
-			}
-			if (command instanceof SoundCommands.AddSoundCommand) {
-				((SoundCommands.AddSoundCommand) command).updateMediaPlayer(player);
-			}
-		}
-
-		for (Command command : getHistory().getRedoStack()) {
-			if (command instanceof SoundCommands.DeleteSoundCommand) {
-				((SoundCommands.DeleteSoundCommand) command).updatePlayer(player);
-			}
-			if (command instanceof SoundCommands.AddSoundCommand) {
-				((SoundCommands.AddSoundCommand) command).updateMediaPlayer(player);
-			}
-		}
 	}
 }

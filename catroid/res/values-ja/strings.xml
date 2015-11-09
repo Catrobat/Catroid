@@ -110,6 +110,9 @@
   <string name="sprite">オブジェクト</string>
   <string name="sprites">オブジェクト</string>
   <string name="spritelist_background_headline">背景</string>
+  <string name="dialog_confirm_delete_object_title">このオブジェクトを削除しますか？</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">これらのオブジェクトを削除しますか？</string>
+  <string name="dialog_confirm_delete_object_message">元に戻すことができない ！</string>
   <string name="select_all">すべてを選択します。</string>
   <string name="copy_sprite_name_suffix">_コピー</string>
   <string name="scripts">スクリプト</string>
@@ -140,6 +143,9 @@
   <string name="select_look_from_gallery">画像を選択</string>
   <string name="select_look_from_camera">写真を選択</string>
   <string name="look_measure">測定:</string>
+  <string name="dialog_confirm_delete_look_title">この外見を削除しますか？</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">この外見を消すか？</string>
+  <string name="dialog_confirm_delete_look_message">元に戻すことができない ！</string>
   <string name="lookname">外見の名:</string>
   <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>
   <string name="rename_sound_dialog">音の名前を変更します</string>
@@ -405,8 +411,6 @@
   <string name="error_drone_wrong_platform">お使いのデバイスで ARDrone プロジェクトを実行できません。</string>
   <string name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更できません。</string>
   <string name="error_changing_description_of_incompatible_project">互換性のないプロジェクトの説明を変更できません。</string>
-  <string name="error_redo">やり直しのときに何か問題がありました。</string>
-  <string name="error_undo">元に戻すときに何か問題がありました</string>
   <string name="error_unknown_error">不明なエラーが発生しました。</string>
   <string name="notification_blueth_err">Bluetoothが有効にできませんでした、ステージをクロースします</string>
   <string name="title_paired_devices">デバイスの組み合わせ</string>

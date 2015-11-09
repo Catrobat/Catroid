@@ -404,8 +404,6 @@
   <string name="error_drone_wrong_platform">이 장치에서 ARDrone 프로젝트를 실행할 수 없습니다.</string>
   <string name="error_rename_incompatible_project">호환 되지 않는 프로젝트의 이름을 바꿀 수 없습니다.</string>
   <string name="error_changing_description_of_incompatible_project">호환되지 않는 프로젝트의 설명을 변경할 수 없습니다.</string>
-  <string name="error_redo">다시 실행할 때 뭔가 잘못 되었다.</string>
-  <string name="error_undo">실행 취소할 때 뭔가 잘못 되었다.</string>
   <string name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
   <string name="notification_blueth_err">블루투스를 이용할 수 없습니다. 단계를 취소합니다.</string>
   <string name="title_paired_devices">페어링 된 장치</string>

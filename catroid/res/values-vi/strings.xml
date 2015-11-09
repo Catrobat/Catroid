@@ -408,8 +408,6 @@
   <string name="error_drone_wrong_platform">Chúng tôi không thể chạy dự án ARDrone trên thiết bị của bạn.</string>
   <string name="error_rename_incompatible_project">Bạn không thể đổi tên một dự án không tương thích.</string>
   <string name="error_changing_description_of_incompatible_project">Thay đổi mô tả của một dự án không tương thích là không thể.</string>
-  <string name="error_redo">Something went wrong when redoing.</string>
-  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">Đã xảy ra lỗi.</string>
   <string name="notification_blueth_err">Bluetooth có thể không được kích hoạt, kết thúc</string>
   <string name="title_paired_devices">Thiết bị ghép nối</string>

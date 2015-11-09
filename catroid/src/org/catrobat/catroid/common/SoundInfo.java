@@ -40,7 +40,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private String name;
 	private String fileName;
 	public transient boolean isPlaying;
-	private int id = ProjectManager.getInstance().getNewId();
 
 	public SoundInfo() {
 	}
@@ -51,7 +50,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 		cloneSoundInfo.name = this.name;
 		cloneSoundInfo.fileName = this.fileName;
-		cloneSoundInfo.id = this.id;
 
 		return cloneSoundInfo;
 	}
@@ -73,14 +71,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		}
 
 		return cloneSoundInfo;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getAbsolutePath() {

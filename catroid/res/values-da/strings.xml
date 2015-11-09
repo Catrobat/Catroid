@@ -108,6 +108,9 @@
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekter</string>
   <string name="spritelist_background_headline">Baggrund</string>
+  <string name="dialog_confirm_delete_object_title">Slet dette objekt?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Slet disse objekter?</string>
+  <string name="dialog_confirm_delete_object_message">Dette kan ikke fortrydes!</string>
   <string name="select_all">Vælg alle</string>
   <string name="copy_sprite_name_suffix">_Kopier</string>
   <string name="scripts">Manuskripter</string>
@@ -140,6 +143,9 @@
   <string name="select_look_from_gallery">Vælg billede</string>
   <string name="select_look_from_camera">Vælg foto</string>
   <string name="look_measure">Mål:</string>
+  <string name="dialog_confirm_delete_look_title">Slet dette udseende?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Slet disse udseender?</string>
+  <string name="dialog_confirm_delete_look_message">Dette kan ikke fortrydes!</string>
   <string name="lookname">navn på udseende:</string>
   <string name="fragment_sound_text_description">Tryk på \"+\" for at tilføje Lyde</string>
   <string name="rename_sound_dialog">Omdøb Lyd</string>
@@ -410,8 +416,6 @@
   <string name="error_drone_wrong_platform">Vi kan ikke køre et ARDrone-projekt på enheden.</string>
   <string name="error_rename_incompatible_project">Omdøbning af et inkompatibelt projekt er ikke muligt.</string>
   <string name="error_changing_description_of_incompatible_project">Ændring af beskrivelsen af ​​et inkompatibelt projekt er ikke muligt.</string>
-  <string name="error_redo">Something went wrong when redoing.</string>
-  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth kan ikke aktiveres, lukker fase</string>
   <string name="title_paired_devices">Parrede enheder</string>

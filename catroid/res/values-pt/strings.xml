@@ -417,8 +417,6 @@
   <string name="error_drone_wrong_platform">Não é possível executar um projeto AR.Drone no seu dispositivo.</string>
   <string name="error_rename_incompatible_project">Não é possível renomear um projeto incompatível.</string>
   <string name="error_changing_description_of_incompatible_project">Não é possível alterar a descrição de um projeto incompatível.</string>
-  <string name="error_redo">Algo deu errado ao refazer.</string>
-  <string name="error_undo">Algo deu errado ao desfazer</string>
   <string name="error_unknown_error">Ocorreu um erro desconhecido.</string>
   <string name="notification_blueth_err">O Bluetooth não pode ser ativado. Fechando palco</string>
   <string name="title_paired_devices">Dispositivos pareados</string>

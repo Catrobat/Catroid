@@ -405,8 +405,6 @@
   <string name="error_drone_wrong_platform">ما نمی تونیم یک پروژه آردرون روی دستگاهت راه اندازی کنیم.</string>
   <string name="error_rename_incompatible_project">تغییر نام یک پروژه نا تمام ممکن نیست.</string>
   <string name="error_changing_description_of_incompatible_project">تغییر دادن توضیحات یک پروژه ی نامناسب امکان پذیر نیست.</string>
-  <string name="error_redo">Something went wrong when redoing.</string>
-  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">یک خطای نامعلوم اتفاق افتاد.</string>
   <string name="notification_blueth_err">بلوتوث فعال نشده است، بسته شدن مرحله</string>
   <string name="title_paired_devices">دستگاه های متصل شده</string>

@@ -108,6 +108,9 @@
   <string name="sprite">Objek</string>
   <string name="sprites">Objek</string>
   <string name="spritelist_background_headline">Latar belakang</string>
+  <string name="dialog_confirm_delete_object_title">Hapus objek ini?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Hapus objek-objek ini?</string>
+  <string name="dialog_confirm_delete_object_message">Perintah ini tidak dapat dibatalkan!</string>
   <string name="select_all">Pilih Semua</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Script</string>
@@ -140,6 +143,9 @@ Salin %d Brick</item>
   <string name="select_look_from_gallery">Pilih gambar</string>
   <string name="select_look_from_camera">Pilih foto</string>
   <string name="look_measure">Ukur:</string>
+  <string name="dialog_confirm_delete_look_title">Hapus tampilan ini?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Hapus penampilan ini?</string>
+  <string name="dialog_confirm_delete_look_message">Perintah ini tidak dapat dibatalkan!</string>
   <string name="lookname">Nama tampilan:</string>
   <string name="fragment_sound_text_description">Tekan \"+\" untuk menambah suara</string>
   <string name="rename_sound_dialog">Ubah nama suara</string>
@@ -405,8 +411,6 @@ Salin %d Brick</item>
   <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
   <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
-  <string name="error_redo">Something went wrong when redoing.</string>
-  <string name="error_undo">Something went wrong when undoing</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
   <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
   <string name="title_paired_devices">Paired devices</string>
