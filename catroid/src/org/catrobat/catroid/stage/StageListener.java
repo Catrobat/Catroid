@@ -329,6 +329,7 @@ public class StageListener implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
+			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 			int spriteSize = sprites.size();
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
