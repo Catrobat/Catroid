@@ -557,7 +557,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-			case  R.id.context_menu_move_down:
+			case R.id.context_menu_move_down:
 				moveSoundDown();
 				break;
 			case R.id.context_menu_move_to_bottom:

@@ -33,6 +33,11 @@
     <!-- To enable SuppressWithNearbyCommentFilter -->
     <module name="FileContentsHolder" />
 
+    <!-- Custom Catroid checks -->
+    <module name="org.catrobat.catroid.checks.GroupImportsCheck" />
+    <module name="org.catrobat.catroid.checks.GroupTokensCheck" />
+    <module name="org.catrobat.catroid.checks.SingleSpaceSeparatorCheck" />
+
     <!-- Annotations -->
     <module name="AnnotationLocation">
       <property name="allowSamelineMultipleAnnotations" value="false" />
