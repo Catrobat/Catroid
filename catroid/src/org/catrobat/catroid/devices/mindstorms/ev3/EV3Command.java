@@ -24,6 +24,11 @@
 package org.catrobat.catroid.devices.mindstorms.ev3;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsCommand;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandByteCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandParamByteCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandParamFormat;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandVariableScope;
 
 import java.io.ByteArrayOutputStream;
 
@@ -68,6 +73,66 @@ public class EV3Command implements MindstormsCommand {
 		append((byte) (0xFF & (data >> 8)));
 		append((byte) (0xFF & (data >> 16)));
 		append((byte) (0xFF & (data >> 24)));
+	}
+
+	public void append(EV3CommandByteCode commandCode) {
+		append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, commandCode.getByte());
+	}
+
+	public void append(EV3CommandVariableScope variableScope, int bytesToReserve) {
+
+		int byteToAppend = EV3CommandParamFormat.PARAM_FORMAT_SHORT.getByte()
+				| EV3CommandParamByteCode.PARAM_TYPE_VARIABLE.getByte()
+				| variableScope.getByte()
+				| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & bytesToReserve)
+				| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
+
+		append((byte) byteToAppend);
+	}
+
+	public void append(EV3CommandParamFormat paramFormat, int data) {
+		int byteToAppend;
+
+		if (paramFormat == EV3CommandParamFormat.PARAM_FORMAT_SHORT) {
+			byteToAppend = EV3CommandParamFormat.PARAM_FORMAT_SHORT.getByte()
+					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
+					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & data);
+
+			if (data >= 0) {
+				byteToAppend |= EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
+			} else {
+				byteToAppend |= EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
+			}
+
+			append((byte) byteToAppend);
+		} else {
+			int controlByte;
+
+			if ((data >= 0 && data <= 0x7F) || (data < 0 && data <= 0xFF)) {
+
+				controlByte = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
+						| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
+						| EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte();
+
+				byteToAppend = data & 0xFF;
+
+				append((byte) controlByte);
+				append((byte) byteToAppend);
+			} else {
+
+				int secondByteToAppend;
+				controlByte = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
+						| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
+						| EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte();
+
+				byteToAppend = data & 0x00FF;
+				secondByteToAppend = (data & 0xFF00) >> 8;
+
+				append((byte) controlByte);
+				append((byte) byteToAppend);
+				append((byte) secondByteToAppend);
+			}
+		}
 	}
 
 	@Override

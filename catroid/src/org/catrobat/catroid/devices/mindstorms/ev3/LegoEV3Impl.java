@@ -33,7 +33,8 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandByteCode;
-import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandParamByteCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandParamFormat;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorService;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -95,19 +96,10 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_SOUND);
 		mindstormsConnection.incCommandCounter();
 
-		command.append(EV3CommandByteCode.SOUND_PLAY_TONE.getByte());
-
-		//Don't know why this is handled as long Param-Format not as short (source example 4.2.5 Lego EV3 Communication Developer Kit)
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
-		command.append((byte) (volumeInPercent & 0xFF));
-
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (frequencyInHz & 0x00FF));
-		command.append((byte) ((frequencyInHz & 0xFF00) >> 8));
-
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (durationInMs & 0x00FF));
-		command.append((byte) ((durationInMs & 0xFF00) >> 8));
+		command.append(EV3CommandByteCode.SOUND_PLAY_TONE);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, volumeInPercent);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, frequencyInHz);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, durationInMs);
 
 		try {
 			mindstormsConnection.send(command);
@@ -161,7 +153,7 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY, 0, 0, EV3CommandOpCode.OP_UI_READ);
 		mindstormsConnection.incCommandCounter();
 
-		command.append((byte) 0x01); //cmd get_vBatt TODO: enum?
+		command.append(EV3CommandByteCode.UI_READ_GET_VBATT);
 	}
 
 	public void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho, int step3Tacho, boolean brake) {
@@ -169,27 +161,16 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_STEP_SPEED);
 		mindstormsConnection.incCommandCounter();
 
-		command.append((byte) chainLayer);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, outputField);
 
-		command.append(outputField);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, speed);
 
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
-		command.append((byte) (speed & 0xFF));
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step1Tacho);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step2Tacho);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step3Tacho);
 
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (step1Tacho & 0x00FF));
-		command.append((byte) ((step1Tacho & 0xFF00) >> 8));
-
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (step2Tacho & 0x00FF));
-		command.append((byte) ((step2Tacho & 0xFF00) >> 8));
-
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (step3Tacho & 0x00FF));
-		command.append((byte) ((step3Tacho & 0xFF00) >> 8));
-
-		// I don't know why this parameter is just appended without control-byte in between... source : example from Lego Ev3 Communication Dev Kit 4.2.2
-		command.append((byte) (brake ? 0x01 : 0x00));
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, (brake ? 0x01 : 0x00));
 
 		try {
 			mindstormsConnection.send(command);
@@ -203,27 +184,16 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_OUTPUT_TIME_POWER);
 		mindstormsConnection.incCommandCounter();
 
-		command.append((byte) chainLayer);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, outputField);
 
-		command.append(outputField);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, power);
 
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
-		command.append((byte) (power & 0xFF));
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step1TimeInMs);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step2TimeInMs);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step3TimeInMs);
 
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (step1TimeInMs & 0x00FF));
-		command.append((byte) ((step1TimeInMs & 0xFF00) >> 8));
-
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (step2TimeInMs & 0x00FF));
-		command.append((byte) ((step2TimeInMs & 0xFF00) >> 8));
-
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_TWO_BYTE.getByte()));
-		command.append((byte) (step3TimeInMs & 0x00FF));
-		command.append((byte) ((step3TimeInMs & 0xFF00) >> 8));
-
-		// I don't know why this parameter is just appended without control-byte in between... source : example from Lego Ev3 Communication Dev Kit 4.2.2
-		command.append((byte) (brake ? 0x01 : 0x00));
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, (brake ? 0x01 : 0x00));
 
 		try {
 			mindstormsConnection.send(command);
@@ -255,11 +225,9 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_UI_WRITE);
 		mindstormsConnection.incCommandCounter();
 
-		command.append(EV3CommandByteCode.UI_WRITE_LED.getByte());
+		command.append(EV3CommandByteCode.UI_WRITE_LED);
 
-		command.append((byte) (EV3CommandParamByteCode.PARAM_FORMAT_LONG.getByte() | EV3CommandParamByteCode.PARAM_FOLLOW_ONE_BYTE.getByte()));
-
-		command.append((byte) (ledStatus & 0xFF));
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, ledStatus);
 
 		try {
 			mindstormsConnection.send(command);

@@ -30,8 +30,9 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Command;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandByteCode;
-import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandParamByteCode;
-import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandOpCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandParamFormat;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandVariableScope;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Reply;
 
@@ -103,45 +104,14 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		connection.incCommandCounter();
 
 		int chainLayer = 0;
-		int type = 0;
-		int tempMode = 0;
+		int type = 0; // don't change type
+		int samples = 0; // request 0 samples
 
-		chainLayer = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-				| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-				| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) chainLayer)
-				| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-		command.append((byte) chainLayer);
-
-		int port = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-				| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-				| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) this.port)
-				| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-		command.append((byte) port);
-
-		type = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-				| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-				| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) type)
-				| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-		command.append((byte) type); // don't change type
-
-		tempMode = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-				| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-				| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & mode.getByte())
-				| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-		command.append((byte) tempMode);
-
-		int sampels = 0;
-		sampels = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-				| EV3CommandParamByteCode.PARAM_TYPE_VARIABLE.getByte()
-				| EV3CommandParamByteCode.PARAM_VARIABLE_SCOPE_GLOBAL.getByte()
-				| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) sampels)
-				| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-		command.append((byte) sampels); // request 0 samples
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, this.port);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, type);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, mode.getByte());
+		command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, samples);
 
 		try {
 			connection.sendAndReceive(command);
@@ -162,54 +132,17 @@ public abstract class EV3Sensor implements MindstormsSensor {
 			command.append(EV3CommandByteCode.INPUT_DEVICE_READY_RAW.getByte());
 
 			int chainLayer = 0;
-			int type = 0;
-			int mode = 1;
-			int returnValue = 1;
+			int type = 0;  // don't change type
+			int mode = -1; // don't change mode
+			int returnValue = 1; // request 1 return value
+			int returnValueIndex = 0;
 
-			chainLayer = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) chainLayer)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) chainLayer);
-
-			int port = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) this.port)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) port);
-
-			type = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) type)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) type); // don't change type
-
-			mode = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) mode)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
-
-			command.append((byte) mode); // don't change mode
-
-			returnValue = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) returnValue)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) returnValue); // request 1 return value
-
-			// reserve byte for return value
-			int index = 0;
-			index = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_VARIABLE.getByte()
-					| EV3CommandParamByteCode.PARAM_VARIABLE_SCOPE_GLOBAL.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) index)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) index);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, this.port);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, type);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, mode);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, returnValue);
+			command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, returnValueIndex);
 
 			try {
 				connection.sendAndReceive(command);
@@ -236,46 +169,15 @@ public abstract class EV3Sensor implements MindstormsSensor {
 			connection.incCommandCounter();
 
 			int chainLayer = 0;
-			int type = 0;
-			int mode = 1;
+			int type = 0;  // don't change type
+			int mode = -1; // don't change mode
+			int returnValueIndex = 0;
 
-			chainLayer = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) chainLayer)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) chainLayer);
-
-			int port = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) this.port)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) port);
-
-			type = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) type)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) type); // don't change type
-
-			mode = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) mode)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_NEGATIVE.getByte();
-
-			command.append((byte) mode); // don't change mode
-
-			// reserve byte for return value
-			int index = 0;
-			index = EV3CommandParamByteCode.PARAM_FORMAT_SHORT.getByte()
-					| EV3CommandParamByteCode.PARAM_TYPE_VARIABLE.getByte()
-					| EV3CommandParamByteCode.PARAM_VARIABLE_SCOPE_GLOBAL.getByte()
-					| (EV3CommandParamByteCode.PARAM_SHORT_MAX.getByte() & (byte) index)
-					| EV3CommandParamByteCode.PARAM_SHORT_SIGN_POSITIVE.getByte();
-
-			command.append((byte) index);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, this.port);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, type);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, mode);
+			command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, returnValueIndex);
 
 			try {
 				EV3Reply reply = new EV3Reply(connection.sendAndReceive(command));

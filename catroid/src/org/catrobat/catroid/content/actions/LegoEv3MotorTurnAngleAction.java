@@ -79,7 +79,6 @@ public class LegoEv3MotorTurnAngleAction extends TemporalAction {
 
 		switch (motorEnum) {
 			case MOTOR_A:
-				//ev3.getMotorA().move(direction * 30, tmpAngle);
 				outputField = (byte) 0x01;
 				break;
 			case MOTOR_B:

@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Command;
-import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandOpCode;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.PausableScheduledThreadPoolExecutor;

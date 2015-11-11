@@ -40,6 +40,9 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 	private static final int BASIC_MESSAGE_BYTE_OFFSET = 6;
 	private static final int POWER_DOWN_RAMP_DEGREES = 20;
 
+	private static final byte LONG_PARAMETER_BYTE_ONE_FOLLOW = (byte) 0x81;
+	private static final byte LONG_PARAMETER_BYTE_TWO_FOLLOW = (byte) 0x82;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -70,21 +73,35 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		int offset = BASIC_MESSAGE_BYTE_OFFSET + 1;
 
 		assertEquals("Expected OutputField(Motor) doesn't match input", expectedOutputField, setOutputState[offset]);
-		offset += 2;
+		offset += 1;
+
+		//byteToAppend = data & 0x00FF;
+		//secondByteToAppend = (data & 0xFF00) >> 8;
+
+		assertEquals("Expected control byte for power-value doesn't match", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
 
 		assertEquals("Expected Power not same as input Power", (byte) expectedPower, setOutputState[offset]);
-		offset += 2;
+		offset += 1;
 
+		assertEquals("Control-Byte for unused StepTime 1 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
 		assertEquals("Unused StepTime 1 was not 0", (byte) expectedTime1, setOutputState[offset]);
-		assertEquals("Unused StepTime 1 was not 0", (byte) (expectedTime1 >> 8), setOutputState[offset + 1]);
-		offset += 3;
+		offset += 1;
 
+		assertEquals("Control-Byte for unused StepTime 1 wrong", LONG_PARAMETER_BYTE_TWO_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
 		assertEquals("Expected Time doesn't match input", (byte) expectedTimeInMs, setOutputState[offset]);
 		assertEquals("Expected Time doesn't match input", (byte) (expectedTimeInMs >> 8), setOutputState[offset + 1]);
-		offset += 3;
+		offset += 2;
 
+		assertEquals("Control-Byte for unused StepTime 3 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
 		assertEquals("Unused StepTime 3 was not 0", (byte) expectedTime3, setOutputState[offset]);
-		assertEquals("Unused StepTime 3 was not 0", (byte) (expectedTime3 >> 8), setOutputState[offset + 1]);
 	}
 
 	public void testStopMotorTest() {
@@ -101,7 +118,7 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		assertEquals("Expected OutputField(Motor) doesn't match input", expectedOutputField, setOutputState[offset]);
 	}
 
-	public void testMotorTurnAngleTest() {
+	public void testMotorTurnAngle360DegreeTest() {
 		int step2Degrees = 360 - POWER_DOWN_RAMP_DEGREES;
 		int step3Degrees = POWER_DOWN_RAMP_DEGREES;
 		int inputSpeed = -70;
@@ -123,17 +140,67 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		offset += 2;
 
 		assertEquals("Expected Power not same as input Power", (byte) expectedSpeed, setOutputState[offset]);
+		offset += 1;
+
+		assertEquals("Control-Byte for unused Step 1 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
+		assertEquals("Unused Step 1 was not 0", (byte) expectedStep1Degrees, setOutputState[offset]);
+		offset += 1;
+
+		assertEquals("Control-Byte for input degree wrong", LONG_PARAMETER_BYTE_TWO_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
+		assertEquals("Expected Degrees don't match input", (byte) expectedStep2Degrees, setOutputState[offset]);
+		assertEquals("Expected Degrees don't match input", (byte) (expectedStep2Degrees >> 8),
+				setOutputState[offset + 1]);
 		offset += 2;
 
-		assertEquals("Unused Step 1 was not 0", (byte) expectedStep1Degrees, setOutputState[offset]);
-		assertEquals("Unused Step 1 was not 0", (byte) (expectedStep1Degrees >> 8), setOutputState[offset + 1]);
-		offset += 3;
-
-		assertEquals("Expected Degrees don't match input", (byte) expectedStep2Degrees, setOutputState[offset]);
-		assertEquals("Expected Degrees don't match input", (byte) (expectedStep2Degrees >> 8), setOutputState[offset + 1]);
-		offset += 3;
-
+		assertEquals("Control-Byte for Step 3 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
 		assertEquals("Unused Step 3 was not 20", (byte) expectedStep3Degrees, setOutputState[offset]);
-		assertEquals("Unused Step 3 was not 20", (byte) (expectedStep3Degrees >> 8), setOutputState[offset + 1]);
+	}
+
+	public void testMotorTurnAngleMinus15DegreeTest() {
+		int step2Degrees = 15;
+		int step3Degrees = 0;
+		int inputSpeed = -70;
+		byte outputField = (byte) 0x01;
+		int expectedStep1Degrees = 0;
+		int expectedStep2Degrees = 15;
+		int expectedStep3Degrees = 0;
+		int expectedSpeed = -70;
+		byte expectedOutputField = (byte) 0x01;
+
+		ev3.initialise();
+		ev3.moveMotorStepsSpeed(outputField, 0, inputSpeed, 0, step2Degrees, step3Degrees, true);
+
+		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
+
+		int offset = BASIC_MESSAGE_BYTE_OFFSET + 1;
+
+		assertEquals("Expected OutputField(Motor) doesn't match input", expectedOutputField, setOutputState[offset]);
+		offset += 2;
+
+		assertEquals("Expected Power not same as input Power", (byte) expectedSpeed, setOutputState[offset]);
+		offset += 1;
+
+		assertEquals("Control-Byte for unused Step 1 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
+		assertEquals("Unused Step 1 was not 0", (byte) expectedStep1Degrees, setOutputState[offset]);
+		offset += 1;
+
+		assertEquals("Control-Byte for input degree wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
+		assertEquals("Expected Degrees don't match input", (byte) expectedStep2Degrees, setOutputState[offset]);
+		offset += 1;
+
+		assertEquals("Control-Byte for Step 3 wrong", LONG_PARAMETER_BYTE_ONE_FOLLOW,
+				setOutputState[offset]);
+		offset += 1;
+		assertEquals("Unused Step 3 was not 20", (byte) expectedStep3Degrees, setOutputState[offset]);
 	}
 }
