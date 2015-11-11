@@ -88,6 +88,11 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			btService.connectDevice(BluetoothDevice.ARDUINO, this.getContext());
 		}
+
+		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			btService.connectDevice(BluetoothDevice.PHIRO, this.getContext());
+		}
 	}
 
 	@Override
