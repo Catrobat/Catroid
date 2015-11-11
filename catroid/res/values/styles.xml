@@ -402,17 +402,17 @@
 
     <style name="BrickContainer.Lego.Small" >
         <item name="android:minHeight" >@dimen/brick_height_small</item >
-        <item name="android:background" >@drawable/brick_cyan_1h</item >
+        <item name="android:background" >@drawable/brick_yellow_1h</item >
     </style >
 
     <style name="BrickContainer.Lego.Medium" >
         <item name="android:minHeight" >@dimen/brick_height_medium</item >
-        <item name="android:background" >@drawable/brick_cyan_2h</item >
+        <item name="android:background" >@drawable/brick_yellow_2h</item >
     </style >
 
     <style name="BrickContainer.Lego.Big" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
-        <item name="android:background" >@drawable/brick_cyan_3h</item >
+        <item name="android:background" >@drawable/brick_yellow_3h</item >
     </style >
 
     <style name="BrickContainer.Control" ></style >
@@ -568,8 +568,8 @@
     </style >
 
     <style name="BrickCategoryText.Lego" >
-        <item name="android:background" >@drawable/brick_selection_background_bluetooth</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_bluetooth</item >
+        <item name="android:background" >@drawable/brick_selection_background_lego</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_lego</item >
     </style >
 
     <style name="BrickCategoryText.Phiro" >
