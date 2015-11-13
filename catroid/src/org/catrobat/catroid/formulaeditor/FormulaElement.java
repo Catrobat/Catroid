@@ -25,8 +25,12 @@ package org.catrobat.catroid.formulaeditor;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.arduino.Arduino;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -368,6 +372,24 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionLength(left, sprite);
 			case JOIN:
 				return interpretFunctionJoin(sprite);
+			case ARDUINODIGITAL:
+				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
+				if (arduinoDigital != null && left != null) {
+					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 13) {
+						return 0d;
+					}
+					return arduinoDigital.getDigitalArduinoPin(doubleValueOfLeftChild.intValue());
+				}
+				break;
+			case ARDUINOANALOG:
+				Arduino arduinoAnalog = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
+				if (arduinoAnalog != null && left != null) {
+					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 5) {
+						return 0d;
+					}
+					return arduinoAnalog.getAnalogArduinoPin(doubleValueOfLeftChild.intValue());
+				}
+				break;
 			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
@@ -882,6 +904,15 @@ public class FormulaElement implements Serializable {
 		}
 		if (rightChild != null) {
 			resources |= rightChild.getRequiredResources();
+		}
+		if (type == ElementType.FUNCTION) {
+			Functions functions = Functions.getFunctionByValue(value);
+			switch (functions) {
+				case ARDUINOANALOG:
+				case ARDUINODIGITAL:
+					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
+					break;
+			}
 		}
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);

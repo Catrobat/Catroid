@@ -48,7 +48,7 @@ import org.catrobat.catroid.web.ServerCalls;
 
 public class LoginRegisterDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
-	public static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
+	public static final String PASSWORD_FORGOTTEN_PATH = "resetting/request";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_login_register";
 
 	private EditText usernameEditText;
@@ -123,9 +123,8 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 	}
 
 	private void handlePasswordForgottenButtonClick() {
-		String username = usernameEditText.getText().toString();
 		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
-		String url = baseUrl + PASSWORD_FORGOTTEN_PATH + username;
+		String url = baseUrl + PASSWORD_FORGOTTEN_PATH;
 
 		((MainMenuActivity) getActivity()).startWebViewActivity(url);
 	}
