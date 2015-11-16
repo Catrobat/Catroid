@@ -79,6 +79,8 @@
   <string name="preference_description_select_camera">Válassza ki az arcfelismeréshez használandó kamerát</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Kép rajzolása</string>
   <string name="dialog_new_object_gallery">Kép kiválasztása</string>
   <string name="dialog_new_object_camera">Fotó készítése</string>
@@ -107,6 +109,9 @@
   <string name="sprite">Objektum</string>
   <string name="sprites">Objektumok</string>
   <string name="spritelist_background_headline">Háttér</string>
+  <string name="dialog_confirm_delete_object_title">Törlöd ezt az objektumot?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Törlöd ezeket az objektumokat?</string>
+  <string name="dialog_confirm_delete_object_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="select_all">Összes kijelölése</string>
   <string name="copy_sprite_name_suffix">_Másolás</string>
   <string name="scripts">Szkriptek</string>
@@ -139,6 +144,9 @@
   <string name="select_look_from_gallery">Kép kijelölése</string>
   <string name="select_look_from_camera">Fotó kijelölése</string>
   <string name="look_measure">Méret:</string>
+  <string name="dialog_confirm_delete_look_title">Törlöd ezt a kinézetet?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Törlöd ezeket a kinézeteket?</string>
+  <string name="dialog_confirm_delete_look_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="lookname">kinézet neve:</string>
   <string name="fragment_sound_text_description">Érintsd meg a \"+\" jelet hangok hozzáadásához</string>
   <string name="rename_sound_dialog">Hang átnevezése</string>
@@ -155,7 +163,7 @@
   <string name="dialog_confirm_delete_sound_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="sound_name">hang neve:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">lett kicsomagolva!</item>
     <item quantity="other">lett kicsomagolva!</item>
@@ -196,7 +204,7 @@
   <string name="add_look_choose_image">Kép kiválasztása</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -251,6 +259,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Ugorj "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -412,11 +421,14 @@
   <string name="title_other_devices">Új eszközök</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">Bluetooth-eszközök keresése</string>
-  <string name="select_device">Válaszd ki Lego Mindstorms NXT eszközödet</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Kapcsolódás az eszközhöz.\nKérlek, várj&#8230;</string>
   <string name="bt_connection_failed">Sikertelen kapcsolódás.</string>
   <string name="none_found">Nem találhatók párosítatlan eszközök</string>
   <string name="none_paired">Nem találhatók párosított eszközök</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">ennyire:</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">ennyire:</string>
   <string name="nxt_motor_speed">speed</string>
@@ -562,6 +574,8 @@
   <string name="formula_editor_function_letter_parameter">(1, \"helló világ\")</string>
   <string name="formula_editor_function_join">összefűz</string>
   <string name="formula_editor_function_join_parameter">(\"helló\", \"világ\")</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">elem</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">tartalmazza</string>

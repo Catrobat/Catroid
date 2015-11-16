@@ -37,9 +37,7 @@ public interface BluetoothDevice extends StageResourceInterface {
 
 	String getName();
 	Class<? extends BluetoothDevice> getDeviceType();
-
 	void setConnection(BluetoothConnection connection);
-
 	void disconnect();
 
 	boolean isAlive();

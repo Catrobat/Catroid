@@ -50,7 +50,7 @@ class PhiroListener implements IFirmata.Listener {
 			return;
 		}
 
-		Log.d(TAG, String.format("Pin: %d | Value: %d", message.getPin(), message.getValue()));
+//		Log.d(TAG, String.format("Pin: %d | Value: %d", message.getPin() ,message.getValue()));
 
 		switch (message.getPin()) {
 			case PhiroImpl.PIN_SENSOR_SIDE_RIGHT:

@@ -79,6 +79,8 @@
   <string name="preference_description_select_camera">Wybierz aparat, który jest używany do wykrywania twarzy</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Rysuj obraz</string>
   <string name="dialog_new_object_gallery">Wybierz obraz</string>
   <string name="dialog_new_object_camera">Zrób zdjęcie</string>
@@ -105,6 +107,9 @@
   <string name="sprite">Obiekt</string>
   <string name="sprites">Obiekty</string>
   <string name="spritelist_background_headline">Tło</string>
+  <string name="dialog_confirm_delete_object_title">Usunąć ten obiekt?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Usunąć te obiekty?</string>
+  <string name="dialog_confirm_delete_object_message">Tego nie można cofnąć!</string>
   <string name="select_all">Zaznacz wszystko</string>
   <string name="copy_sprite_name_suffix">_Kopia</string>
   <string name="scripts">Skrypty</string>
@@ -139,6 +144,9 @@
   <string name="select_look_from_gallery">Wybierz obraz</string>
   <string name="select_look_from_camera">Wybierz zdjęcie</string>
   <string name="look_measure">Pomiary:</string>
+  <string name="dialog_confirm_delete_look_title">Skasować ten wygląd?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Skasować te wyglądy?</string>
+  <string name="dialog_confirm_delete_look_message">Tego nie można cofnąć!</string>
   <string name="lookname">nazwa wyglądu:</string>
   <string name="fragment_sound_text_description">Naciśnij \"+\", aby dodać dźwięki</string>
   <string name="rename_sound_dialog">Zmień nazwę dźwięku</string>
@@ -155,7 +163,7 @@
   <string name="dialog_confirm_delete_sound_message">Tego nie można cofnąć!</string>
   <string name="sound_name">nazwa dźwięku:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">zostało rozpakowane!</item>
     <item quantity="few">zostało rozpakowane!</item>
@@ -197,7 +205,7 @@
   <string name="add_look_choose_image">Wybierz obraz</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -252,6 +260,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Idź do "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -417,11 +426,14 @@
   <string name="title_other_devices">Nowe urządzenia</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">Wyszukiwanie urządzeń Bluetooth</string>
-  <string name="select_device">Wybierz twój Lego Mindstorms NXT</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Łączenie z Twoim urządzeniem. \nProszę, czekaj&#8230;</string>
   <string name="bt_connection_failed">Podłączenie urządzenia nie powiodło się!</string>
   <string name="none_found">Nie znaleziono niesparowanych urządzeń</string>
   <string name="none_paired">Nie znaleziono sparowanych urządzeń</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">na</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">na</string>
   <string name="nxt_motor_speed">speed</string>
@@ -567,6 +579,8 @@
   <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
   <string name="formula_editor_function_join">połącz</string>
   <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*nazwa listy*)</string>
   <string name="formula_editor_function_contains">zawiera</string>

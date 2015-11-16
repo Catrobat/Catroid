@@ -79,6 +79,8 @@
   <string name="preference_description_select_camera">Selecteer de camera voor de gezichtsdetectie</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Teken afbeelding</string>
   <string name="dialog_new_object_gallery">Selecteer afbeelding</string>
   <string name="dialog_new_object_camera">Van camera</string>
@@ -105,6 +107,9 @@
   <string name="sprite">Object</string>
   <string name="sprites">Objecten</string>
   <string name="spritelist_background_headline">Achtergrond</string>
+  <string name="dialog_confirm_delete_object_title">Verwijder dit object?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Verwijder deze objecten?</string>
+  <string name="dialog_confirm_delete_object_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="select_all">Selecteer alles</string>
   <string name="copy_sprite_name_suffix">_Kopiëren</string>
   <string name="scripts">Scripts</string>
@@ -137,6 +142,9 @@
   <string name="select_look_from_gallery">Selecteer afbeelding</string>
   <string name="select_look_from_camera">Selecteer foto</string>
   <string name="look_measure">Afmetingen:</string>
+  <string name="dialog_confirm_delete_look_title">Verwijder dit uiterlijk?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Deze uiterlijken verwijderen?</string>
+  <string name="dialog_confirm_delete_look_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="lookname">naam uiterlijk:</string>
   <string name="fragment_sound_text_description">Tik op \"+\" geluiden toe te voegen</string>
   <string name="rename_sound_dialog">Geluid hernoemen</string>
@@ -153,7 +161,7 @@
   <string name="dialog_confirm_delete_sound_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="sound_name">naam van geluid:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">werd uitgepakt!</item>
     <item quantity="other">werden uitgepakt!</item>
@@ -194,7 +202,7 @@
   <string name="add_look_choose_image">Kies afbeelding</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -249,6 +257,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Plaats op:"</string>
   <string name="x_label">"X:"</string>
   <string name="y_label">"Y:"</string>
@@ -410,11 +419,14 @@
   <string name="title_other_devices">Nieuwe apparaten</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">Zoeken naar Bluetooth-apparaten</string>
-  <string name="select_device">Selecteer je Lego Mindstorms NXT</string>
+  <string name="select_device">Selecteer apparaat:</string>
   <string name="connecting_please_wait">Verbinding maken met je apparaat.\nEven wachten&#8230;</string>
   <string name="bt_connection_failed">Verbinding maken mislukt!</string>
   <string name="none_found">Geen niet-gekoppelde apparaten gevonden</string>
   <string name="none_paired">Geen gekoppelde apparaten gevonden</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">in op</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">in op</string>
   <string name="nxt_motor_speed">speed</string>
@@ -560,6 +572,8 @@
   <string name="formula_editor_function_letter_parameter">(1,\'hallo wereld\')</string>
   <string name="formula_editor_function_join">samenvoegen</string>
   <string name="formula_editor_function_join_parameter">(\'hallo\',\'wereld\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>

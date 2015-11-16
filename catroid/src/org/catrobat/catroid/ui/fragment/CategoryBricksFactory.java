@@ -345,13 +345,6 @@ public class CategoryBricksFactory {
 		return legoNXTBrickList;
 	}
 
-	private List<Brick> setupArduinoCategoryList() {
-		List<Brick> arduinoBrickList = new ArrayList<Brick>();
-		arduinoBrickList.add(new ArduinoSendDigitalValueBrick(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
-		arduinoBrickList.add(new ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
-		return arduinoBrickList;
-	}
-
 	private List<Brick> setupDroneCategoryList() {
 		List<Brick> droneBrickList = new ArrayList<Brick>();
 		droneBrickList.add(new DroneTakeOffLandBrick());
@@ -398,6 +391,14 @@ public class CategoryBricksFactory {
 		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_BOTTOM_RIGHT));
 
 		return phiroProBrickList;
+	}
+
+	private List<Brick> setupArduinoCategoryList() {
+		List<Brick> arduinoBrickList = new ArrayList<Brick>();
+		arduinoBrickList.add(new ArduinoSendDigitalValueBrick(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
+		arduinoBrickList.add(new ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
+
+		return arduinoBrickList;
 	}
 
 	private boolean isBackground(Sprite sprite) {

@@ -50,9 +50,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.SpriteHistory;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
-import org.catrobat.catroid.content.commands.SpriteCommands;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -66,7 +64,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class NewSpriteDialog extends DialogFragment {
 
@@ -391,11 +388,6 @@ public class NewSpriteDialog extends DialogFragment {
 		}
 
 		Sprite sprite = new Sprite(newSpriteName);
-		ArrayList<Sprite> sprites = new ArrayList<>();
-		sprites.add(sprite);
-		SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(sprites);
-		SpriteHistory.getInstance(projectManager.getCurrentProject().getName()).add(command);
-		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_NEW_SPRITE_CREATED));
 		projectManager.addSprite(sprite);
 
 		LookData lookData;

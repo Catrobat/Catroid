@@ -795,10 +795,6 @@ public class FormulaElement implements Serializable {
 		this.leftChild.parent = this;
 	}
 
-	public FormulaElement getLeftChild() {
-		return leftChild;
-	}
-
 	public void replaceElement(FormulaElement current) {
 		parent = current.parent;
 		leftChild = current.leftChild;
@@ -909,6 +905,15 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			resources |= rightChild.getRequiredResources();
 		}
+		if (type == ElementType.FUNCTION) {
+			Functions functions = Functions.getFunctionByValue(value);
+			switch (functions) {
+				case ARDUINOANALOG:
+				case ARDUINODIGITAL:
+					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
+					break;
+			}
+		}
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);
 			switch (sensor) {
@@ -934,12 +939,6 @@ public class FormulaElement implements Serializable {
 				case PHIRO_BOTTOM_RIGHT:
 					resources |= Brick.BLUETOOTH_PHIRO;
 					break;
-
-				case ARDUINOANALOG:
-				case ARDUINODIGITAL:
-					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
-					break;
-
 				default:
 			}
 		}

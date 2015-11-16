@@ -79,6 +79,8 @@
   <string name="preference_description_select_camera">Välj kamera som används för ansiktsavkänning</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Rita bild</string>
   <string name="dialog_new_object_gallery">Välj bild</string>
   <string name="dialog_new_object_camera">Ta bild</string>
@@ -105,6 +107,9 @@
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekt</string>
   <string name="spritelist_background_headline">Bakgrund</string>
+  <string name="dialog_confirm_delete_object_title">Ta bort detta objekt?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Ta bort dessa objekt?</string>
+  <string name="dialog_confirm_delete_object_message">Detta kan inte ångras!</string>
   <string name="select_all">Välj alla</string>
   <string name="copy_sprite_name_suffix">_Kopiera</string>
   <string name="scripts">Skript</string>
@@ -137,6 +142,9 @@
   <string name="select_look_from_gallery">Välj bild</string>
   <string name="select_look_from_camera">Välj foto</string>
   <string name="look_measure">Mät:</string>
+  <string name="dialog_confirm_delete_look_title">Ta bort detta utseende?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Ta bort dessa utseenden?</string>
+  <string name="dialog_confirm_delete_look_message">Detta kan inte ångras!</string>
   <string name="lookname">Utseende namn:</string>
   <string name="fragment_sound_text_description">Tryck på \"+\" för att lägga till ljud</string>
   <string name="rename_sound_dialog">Byt namn på ljudet</string>
@@ -153,7 +161,7 @@
   <string name="dialog_confirm_delete_sound_message">Detta kan inte ångras!</string>
   <string name="sound_name">ljud namn:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">var uppackad!</item>
     <item quantity="other">var uppackad!</item>
@@ -194,7 +202,7 @@
   <string name="add_look_choose_image">Välj bild</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -249,6 +257,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Placera vid "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -410,11 +419,14 @@
   <string name="title_other_devices">Nya enheter</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">Sök Bluetooth-enheter</string>
-  <string name="select_device">Välj din Lego Mindstorms NXT</string>
+  <string name="select_device">Välj enhet:</string>
   <string name="connecting_please_wait">Ansluter till din enhet. \nVar god vänta&#8230;</string>
   <string name="bt_connection_failed">Det gick inte att ansluta till enheten!</string>
   <string name="none_found">Inga oparade enheter finns</string>
   <string name="none_paired">Inga parade enheter finns</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">till</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">till</string>
   <string name="nxt_motor_speed">speed</string>
@@ -560,6 +572,8 @@
   <string name="formula_editor_function_letter_parameter">(1, \"hello world\")</string>
   <string name="formula_editor_function_join">gå med</string>
   <string name="formula_editor_function_join_parameter">(\"Hej\", \"världen\")</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>

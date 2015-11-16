@@ -363,17 +363,6 @@ public final class StorageHandler {
 		}
 	}
 
-	public String[] getLookFileList(String projectName) {
-		File directoryLooks = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.IMAGE_DIRECTORY));
-
-		return directoryLooks.list();
-	}
-
-	public String[] getSoundFileList(String projectName) {
-		File directorySounds = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.SOUND_DIRECTORY));
-		return directorySounds.list();
-	}
-
 	public File getBackPackSoundDirectory() {
 		return backPackSoundDirectory;
 	}
@@ -869,9 +858,6 @@ public final class StorageHandler {
 		}
 		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			permissionsSet.add(Constants.BLUETOOTH_LEGO_NXT);
-		}
-		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-			permissionsSet.add(Constants.BLUETOOTH_SENSORS_ARDUINO);
 		}
 		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
 			permissionsSet.add(Constants.ARDRONE_SUPPORT);

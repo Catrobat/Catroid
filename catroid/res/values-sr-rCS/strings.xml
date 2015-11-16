@@ -79,6 +79,8 @@
   <string name="preference_description_select_camera">Izaberi kameru za detekciju lica</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Nacrtaj sliku</string>
   <string name="dialog_new_object_gallery">Izaberi sliku</string>
   <string name="dialog_new_object_camera">Slikaj</string>
@@ -112,6 +114,9 @@
   <string name="sprite">Object</string>
   <string name="sprites">Objects</string>
   <string name="spritelist_background_headline">Pozadina</string>
+  <string name="dialog_confirm_delete_object_title">Delete this object?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
+  <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
   <string name="select_all">Select all</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Scripts</string>
@@ -128,13 +133,11 @@
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete 1 Brick</item>
     <item quantity="few">Delete %d Bricks</item>
-    <item quantity="many">Delete %d Bricks</item>
     <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
     <item quantity="one">Copy 1 Brick</item>
     <item quantity="few">Copy %d Bricks</item>
-    <item quantity="many">Copy %d Bricks</item>
     <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
@@ -148,6 +151,9 @@
   <string name="select_look_from_gallery">Izaberi sliku</string>
   <string name="select_look_from_camera">Izaberi fotografiju</string>
   <string name="look_measure">Mera:</string>
+  <string name="dialog_confirm_delete_look_title">Izbriši ovaj izgled?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Izbriši ove izglede?</string>
+  <string name="dialog_confirm_delete_look_message">Ovo se ne može opozvati!</string>
   <string name="lookname">Ime izgleda:</string>
   <string name="fragment_sound_text_description">Pritisni \"+\" da bi dodali zvuk</string>
   <string name="rename_sound_dialog">Preimenuj zvuk</string>
@@ -164,11 +170,10 @@
   <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
   <string name="sound_name">sound name:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">was unpacked!</item>
     <item quantity="few">were unpacked!</item>
-    <item quantity="many">were unpacked!</item>
     <item quantity="other">were unpacked!</item>
   </plurals>
   <string name="last_used">Last access:</string>
@@ -207,7 +212,7 @@
   <string name="add_look_choose_image">Izaberi sliku</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -262,6 +267,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Place at "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -273,7 +279,6 @@
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">layer</item>
     <item quantity="few">layers</item>
-    <item quantity="many">layers</item>
     <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
@@ -282,7 +287,6 @@
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">step</item>
     <item quantity="few">steps</item>
-    <item quantity="many">steps</item>
     <item quantity="other">steps</item>
   </plurals>
   <string name="brick_turn_left">Turn left</string>
@@ -321,7 +325,6 @@
   <plurals name="second_plural">
     <item quantity="one">"second "</item>
     <item quantity="few">"seconds "</item>
-    <item quantity="many">"seconds "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
   <string name="brick_broadcast_receive">When I receive</string>
@@ -333,7 +336,6 @@
   <plurals name="time_plural">
     <item quantity="one">time</item>
     <item quantity="few">times</item>
-    <item quantity="many">times</item>
     <item quantity="other">times</item>
   </plurals>
   <string name="brick_loop_end">End of loop</string>
@@ -436,6 +438,9 @@
   <string name="bt_connection_failed">Connection to device failed!</string>
   <string name="none_found">No unpaired devices found</string>
   <string name="none_paired">No paired devices found</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">to</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">to</string>
   <string name="nxt_motor_speed">speed</string>
@@ -581,6 +586,8 @@
   <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
   <string name="formula_editor_function_join">join</string>
   <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>
@@ -655,7 +662,6 @@
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="one">Item selected!</item>
     <item quantity="few">Items selected!</item>
-    <item quantity="many">Items selected!</item>
     <item quantity="other">Items selected!</item>
   </plurals>
   <string name="camera_facing_front">Front Camera</string>
