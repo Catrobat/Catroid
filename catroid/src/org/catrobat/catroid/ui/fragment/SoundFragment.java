@@ -72,6 +72,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -665,6 +666,12 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
 		startActivityForResult(intent, SoundController.REQUEST_MEDIA_LIBRARY);
+	}
+
+	public void addPocketMusic() {
+		isAddNewSoundButtonClicked = true;
+		Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
+		startActivity(intent);
 	}
 
 	@TargetApi(19)

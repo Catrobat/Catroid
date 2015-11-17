@@ -161,6 +161,10 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".pocketmusic.PocketMusicActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />

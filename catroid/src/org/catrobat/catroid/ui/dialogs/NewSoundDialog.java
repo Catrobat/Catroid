@@ -61,6 +61,7 @@ public class NewSoundDialog extends DialogFragment {
 		setupRecordButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupMediaLibraryButton(dialogView);
+		setupPocketMusicButton(dialogView);
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -119,6 +120,18 @@ public class NewSoundDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				fragment.addSoundMediaLibrary();
+				NewSoundDialog.this.dismiss();
+			}
+		});
+	}
+
+	private void setupPocketMusicButton(View parentView) {
+		View pocketMusicButton = parentView.findViewById(R.id.dialog_new_sound_pocketmusic);
+
+		pocketMusicButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				fragment.addPocketMusic();
 				NewSoundDialog.this.dismiss();
 			}
 		});
