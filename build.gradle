@@ -153,7 +153,7 @@ android {
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 25
+        versionCode 26
         println "VersionCode is " + versionCode
         versionName "0.9.19"
         println "VersionName is " + versionName
