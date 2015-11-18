@@ -61,7 +61,6 @@ android {
     }
 }
 
-
 ext {
     projectVersion = "0.9"
 }
@@ -145,7 +144,6 @@ def getCurrentGitBranch() {
     }
 }
 
-
 android {
     compileSdkVersion 22
     buildToolsVersion '22.0.1'
@@ -157,7 +155,7 @@ android {
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
         versionCode 25
         println "VersionCode is " + versionCode
-        versionName "0.9.18"
+        versionName "0.9.19"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
