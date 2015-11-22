@@ -66,7 +66,7 @@ public class Project implements Serializable {
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
 		} else {
-			iflandscapeModeSwitchWidthAndHeight();
+			ifLandscapeSwitchWidthAndHeight();
 		}
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			Utils.updateScreenWidthAndHeight(context);
@@ -92,7 +92,7 @@ public class Project implements Serializable {
 		this(context, name, false);
 	}
 
-	private void iflandscapeModeSwitchWidthAndHeight() {
+	private void ifLandscapeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
@@ -282,14 +282,6 @@ public class Project implements Serializable {
 				return;
 			}
 		}
-	}
-
-	public boolean checkIfPhiroProProject() {
-		return xmlHeader.isPhiroProProject();
-	}
-
-	public void setIsPhiroProProject(boolean isPhiroProProject) {
-		xmlHeader.setPhiroProProject(isPhiroProProject);
 	}
 
 	public boolean islandscapeMode() {

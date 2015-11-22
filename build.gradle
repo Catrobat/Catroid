@@ -67,7 +67,7 @@ android {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LED_BRICK_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_BACKPACK_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -76,11 +76,10 @@ android {
             buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
         }
     }
 }
-
 
 ext {
     projectVersion = "0.9"
@@ -166,7 +165,6 @@ def getCurrentGitBranch() {
     }
 }
 
-
 android {
     compileSdkVersion 22
     buildToolsVersion '22.0.1'
@@ -176,9 +174,9 @@ android {
         applicationId 'org.catrobat.drone'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 25
+        versionCode 26
         println "VersionCode is " + versionCode
-        versionName "0.9.18"
+        versionName "0.9.19"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
