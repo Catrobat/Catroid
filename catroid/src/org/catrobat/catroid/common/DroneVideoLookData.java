@@ -97,7 +97,6 @@ public class DroneVideoLookData extends LookData {
 			camera.viewportHeight = (float) virtualScreenWidth;
 			camera.update();
 			//*************************************************
-
 		} else {
 			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) videoWidth};
 		}
