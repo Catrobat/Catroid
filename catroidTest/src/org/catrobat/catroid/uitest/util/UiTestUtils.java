@@ -71,7 +71,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -141,7 +140,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
-import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.DialogWizardStep;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.utils.NotificationData;
@@ -1418,27 +1416,6 @@ public final class UiTestUtils {
 
 	public static List<InternToken> getInternTokenList() {
 		return internTokenList;
-	}
-
-	public static Project deleteOldAndCreateAndSaveCleanStandardProject(Context context, Instrumentation instrumentation) {
-		String standardProjectName = context.getString(R.string.default_project_name);
-		Project standardProject;
-		try {
-			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
-				ProjectManager.getInstance().loadProject(standardProjectName, context);
-				ProjectManager.getInstance().deleteCurrentProject(null);
-			}
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
-					instrumentation.getTargetContext());
-			ProjectManager.getInstance().setProject(standardProject);
-			return standardProject;
-		} catch (ProjectException projectException) {
-			Log.e(TAG, "Cannot load old standard project", projectException);
-			fail("Cannot load old standard project");
-		} catch (IOException exception) {
-			fail("Standard project not created");
-		}
-		return null;
 	}
 
 	public static void clearAllUtilTestProjects() {
