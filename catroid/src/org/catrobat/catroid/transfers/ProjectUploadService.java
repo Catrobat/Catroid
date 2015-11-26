@@ -25,8 +25,10 @@ package org.catrobat.catroid.transfers;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -155,6 +157,14 @@ public class ProjectUploadService extends IntentService {
 			StatusBarNotificationManager.getInstance().showUploadRejectedNotification(notificationId, statusCode, serverAnswer, uploadBackupBundle);
 		} else {
 			ToastUtil.showSuccess(this, R.string.notification_upload_finished);
+		}
+
+		Context context = getApplicationContext();
+
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
+			sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+			sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
 		}
 		super.onDestroy();
 	}

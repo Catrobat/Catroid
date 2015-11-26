@@ -120,7 +120,7 @@ public class UploadProjectDialog extends DialogFragment {
 					}
 				}).create();
 
-		dialog.setCanceledOnTouchOutside(true);
+		dialog.setCanceledOnTouchOutside(false);
 		dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -265,6 +265,12 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void handleCancelButtonClick() {
+		Context context = getActivity().getApplicationContext();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
+			sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+			sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+		}
 		dismiss();
 	}
 }

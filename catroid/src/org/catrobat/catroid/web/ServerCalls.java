@@ -344,6 +344,12 @@ public final class ServerCalls {
 			userEmail = emailForUiTests;
 		}
 
+		if (userEmail == null) { //restricted users
+			userEmail = "restricted";
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			sharedPreferences.edit().putBoolean(Constants.RESTRICTED_USER, true).commit();
+		}
+
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
