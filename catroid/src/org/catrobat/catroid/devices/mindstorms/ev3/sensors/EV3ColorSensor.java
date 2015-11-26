@@ -24,29 +24,27 @@
 package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
-import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
-public class EV3SensorFactory {
+public class EV3ColorSensor extends EV3Sensor {
 
-	private MindstormsConnection connection;
+	public static final String TAG = EV3ColorSensor.class.getSimpleName();
+	private static final int DEFAULT_VALUE = 50;
 
-	public EV3SensorFactory(MindstormsConnection connection) {
-		this.connection = connection;
+	public EV3ColorSensor(int port, MindstormsConnection connection, EV3SensorMode mode) {
+		// Mode0: Reflected light
+		// Mode1: Ambient light
+		// Mode2: Color
+
+		super(port, EV3SensorType.EV3_COLOR, mode, connection);
+		lastValidValue = DEFAULT_VALUE;
 	}
 
-	public EV3Sensor create(EV3Sensor.Sensor sensorType, int port) {
-
-		switch (sensorType) {
-			case INFRARED:
-				return new EV3InfraredSensor(port, connection);
-			case COLOR:
-				return new EV3ColorSensor(port, connection, EV3SensorMode.MODE2);
-			case COLOR_AMBIENT:
-				return new EV3ColorSensor(port, connection, EV3SensorMode.MODE0);
-			case COLOR_REFLECT:
-				return new EV3ColorSensor(port, connection, EV3SensorMode.MODE1);
-			default:
-				throw new MindstormsException("No valid sensor found!"); // Should never occur
+	@Override
+	public int getValue() {
+		if (this.sensorMode == EV3SensorMode.MODE2) {
+			return getRawValue();
+		} else {
+			return getPercentValue();
 		}
 	}
 }

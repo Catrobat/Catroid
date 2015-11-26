@@ -620,6 +620,8 @@
     <string name="ev3_sensor_touch">EV3 touch sensor</string>
     <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
     <string name="ev3_sensor_color">EV3 color sensor</string>
+    <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
+    <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
     
     <string name="ev3_motor_a">A</string>
     <string name="ev3_motor_b">B</string>

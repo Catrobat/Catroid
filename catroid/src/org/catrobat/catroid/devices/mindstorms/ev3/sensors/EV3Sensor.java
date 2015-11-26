@@ -36,6 +36,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandVari
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Reply;
 
+import java.math.BigInteger;
 import java.util.Locale;
 
 public abstract class EV3Sensor implements MindstormsSensor {
@@ -44,6 +45,8 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		NO_SENSOR,
 		TOUCH,
 		COLOR,
+		COLOR_REFLECT,
+		COLOR_AMBIENT,
 		INFRARED;
 
 		public static String[] getSensorCodes() {
@@ -193,6 +196,47 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		}
 
 		return percentValue;
+	}
+
+	public int getRawValue() {
+		int rawValue = 0;
+
+		if (!hasInit) {
+			initialize();
+		} else {
+			int commandCount = connection.getCommandCounter();
+
+			EV3Command command = new EV3Command(connection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY,
+					1, 0, EV3CommandOpCode.OP_INPUT_DEVICE);
+			connection.incCommandCounter();
+
+			int chainLayer = 0;
+			int returnValueIndex = 0;
+
+			command.append(EV3CommandByteCode.INPUT_DEVICE_GET_RAW);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
+			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, this.port);
+			command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, returnValueIndex);
+
+			try {
+				EV3Reply reply = new EV3Reply(connection.sendAndReceive(command));
+
+				if (!reply.isValid(commandCount)) {
+					throw new MindstormsException("Reply not valid!");
+				}
+
+				int offset = 3;
+				int replyLength = reply.getLength();
+				byte[] valueBytes = reply.getData(offset, replyLength - offset);
+				BigInteger intValue = new BigInteger(valueBytes);
+
+				rawValue = intValue.intValue();
+			} catch (MindstormsException e) {
+				Log.e(TAG, e.getMessage());
+			}
+		}
+
+		return rawValue;
 	}
 
 	@Override
