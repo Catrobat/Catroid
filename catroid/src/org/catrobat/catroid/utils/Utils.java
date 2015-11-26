@@ -540,4 +540,12 @@ public final class Utils {
 			selectAllActionModeButton.setVisibility(View.GONE);
 		}
 	}
+
+	public static void invalidateLoginTokenIfUserRestricted(Context context) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
+			sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+			sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+		}
+	}
 }
