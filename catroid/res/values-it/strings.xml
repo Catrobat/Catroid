@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">Scegli la fotocamera per rilevare volti</string>
   <string name="preference_title_enable_phiro_bricks">Mattoncini Phiro</string>
   <string name="preference_description_phiro_bricks">Permette il controllo di un robot Phiro</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Disegna Immagine</string>
   <string name="dialog_new_object_gallery">Selezionare immagine</string>
   <string name="dialog_new_object_camera">Scatta foto</string>
@@ -258,6 +260,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Posiziona a "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -421,11 +424,14 @@
   <string name="title_other_devices">Nuovi dispositivi</string>
   <string name="searching_devices">Ricerca di dispositivi&#8230;</string>
   <string name="button_scan">Ricerca dispositivi Bluetooth</string>
-  <string name="select_device">Seleziona il tuo Lego Mindstorms NXT</string>
+  <string name="select_device">Seleziona il dispositivo:</string>
   <string name="connecting_please_wait">Connessione al tuo dispositivo. \nAttendere&#8230;</string>
   <string name="bt_connection_failed">Connessione al dispositivo non riuscita!</string>
   <string name="none_found">Nessun dispositivo spaiato trovato</string>
   <string name="none_paired">Nessun dispositivo accoppiato trovato</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">a</string>
   <string name="nxt_brick_motor_move">Imposta motore NXT</string>
   <string name="nxt_motor_speed_to">a</string>
   <string name="nxt_motor_speed">velocità</string>
@@ -558,7 +564,7 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
-  <string name="formula_editor_function_floor">floor</string>
+  <string name="formula_editor_function_floor">parteintera</string>
   <string name="formula_editor_function_floor_parameter">(0,7)</string>
   <string name="formula_editor_function_ceil">tetto</string>
   <string name="formula_editor_function_ceil_parameter">(0,3)</string>
@@ -574,6 +580,8 @@
   <string name="formula_editor_function_letter_parameter">(1,\'ciao mondo\')</string>
   <string name="formula_editor_function_join">concatena</string>
   <string name="formula_editor_function_join_parameter">(\'ciao\', \'mondo\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">elemento</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contiene</string>

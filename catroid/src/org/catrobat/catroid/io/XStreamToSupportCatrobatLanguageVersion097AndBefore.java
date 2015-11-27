@@ -31,6 +31,8 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -125,14 +127,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion096AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion097AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion096AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion097AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -280,6 +282,16 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
 		brickInfoMap.put("phiroSensorEndBrick", brickInfo);
 
+		brickInfo = new BrickInfo(ArduinoSendDigitalValueBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
+		brickInfo.addBrickFieldToMap("digitalPinValue", BrickField.ARDUINO_DIGITAL_PIN_VALUE);
+		brickInfoMap.put("arduinoSendDigitalValueBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ArduinoSendPWMValueBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("pwmPinNumber", BrickField.ARDUINO_ANALOG_PIN_NUMBER);
+		brickInfo.addBrickFieldToMap("pwmPinValue", BrickField.ARDUINO_ANALOG_PIN_VALUE);
+		brickInfoMap.put("arduinoSendPWMValueBrick", brickInfo);
+
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);
 
@@ -354,7 +366,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
 
-		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
 		brickInfoMap.put("whenBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
@@ -372,7 +384,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("timeToWaitInSeconds", BrickField.TIME_TO_WAIT_IN_SECONDS);
 		brickInfoMap.put("waitBrick", brickInfo);
 
-		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
 		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
@@ -450,6 +462,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 
 			deleteChildNodeByName(originalDocument, "scriptList", "object");
 			deleteChildNodeByName(originalDocument, "brickList", "object");
+			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
 
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
@@ -484,13 +497,12 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 	}
 
 	private void modifyVariables(Document originalDocument) {
-
-		try {
-			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
+		Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
+		if (variableNode != null) {
 			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
 			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
-		} catch (Exception exception) {
-			Log.e(TAG, "Failed to modify variables tag", exception);
+		} else {
+			Log.e(TAG, "XML-Update: No variables to modify.");
 		}
 	}
 
@@ -618,7 +630,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 
 						scriptListNode.replaceChild(newScriptNode, scriptNode);
 					} else {
-						Log.e(TAG, scriptNode.getNodeName() + " script cannot be converted to new structure");
+						Log.e(TAG, scriptNode.getNodeName() + ": Found no scripts to convert to new structure.\"");
 					}
 				}
 			}
@@ -671,7 +683,7 @@ public class XStreamToSupportCatrobatLanguageVersion096AndBefore extends XStream
 						}
 						brickListNode.replaceChild(newBrickNode, brickNode);
 					} else {
-						Log.e(TAG, brickNode.getNodeName() + " brick cannot be converted to new structure");
+						Log.e(TAG, brickNode.getNodeName() + ": Found no bricks to convert to new structure.");
 					}
 				}
 			}

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <CheckBox
+        android:id="@+id/brick_arduino_send_analog_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" >
+    </CheckBox>
+
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_arduino_send_analog_layout"
+        style="@style/BrickContainer.Arduino.Big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+ 
+        <TextView
+            android:id="@+id/brick_arduino_set_analog_pin_text_view"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_arduino_select_analog_value" />
+
+        <TextView
+             android:id="@+id/brick_arduino_set_analog_pin_edit_text"
+             style="@style/BrickEditText"
+             app:layout_inputType="number"
+             app:layout_textField="true" />
+
+        <TextView
+            android:id="@+id/brick_arduino_set_analog_pin_prototype_text_view"
+            style="@style/BrickPrototypeTextView" />
+
+        <TextView
+            android:id="@+id/brick_arduino_set_analog_value_text_view"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_arduino_set_pin_value_to"
+            app:layout_newLine="true" />
+
+        <TextView
+             android:id="@+id/brick_arduino_set_analog_value_prototype_text_view"
+             style="@style/BrickPrototypeTextView" />
+
+        <TextView
+             android:id="@+id/brick_arduino_set_analog_value_edit_text"
+             style="@style/BrickEditText"
+             app:layout_inputType="number"
+             app:layout_textField="true" />
+
+    </org.catrobat.catroid.ui.BrickLayout>
+</LinearLayout>

@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">چہرے کی شناخت کے لیے استعمال ہونے والا کیمرہ منتخب کریں</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">نقش بنائیں</string>
   <string name="dialog_new_object_gallery">تصویر منتخب کریں</string>
   <string name="dialog_new_object_camera">تصویر لیجئے</string>
@@ -167,7 +169,7 @@
   <string name="dialog_confirm_delete_sound_message">یہ کالعدم نہیں کیا جا سکتا!</string>
   <string name="sound_name">sound name:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">was unpacked!</item>
     <item quantity="other">were unpacked!</item>
@@ -208,7 +210,7 @@
   <string name="add_look_choose_image">Select image</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -263,6 +265,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Place at "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -431,6 +434,9 @@
   <string name="bt_connection_failed">Connection to device failed!</string>
   <string name="none_found">No unpaired devices found</string>
   <string name="none_paired">No paired devices found</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">to</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">to</string>
   <string name="nxt_motor_speed">speed</string>
@@ -579,6 +585,8 @@
   <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
   <string name="formula_editor_function_join">join</string>
   <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>

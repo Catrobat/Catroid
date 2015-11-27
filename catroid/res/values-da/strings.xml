@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">Vælg kamera, som bruges til ansigtsgenkendelse</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">Tegn Billede</string>
   <string name="dialog_new_object_gallery">Vælg Billede</string>
   <string name="dialog_new_object_camera">Tag Billede</string>
@@ -160,7 +162,7 @@
   <string name="dialog_confirm_delete_sound_message">Dette kan ikke fortrydes!</string>
   <string name="sound_name">navn på lyd:</string>
   <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">blev pakket ud!</item>
     <item quantity="other">blev pakket ud!</item>
@@ -201,7 +203,7 @@
   <string name="add_look_choose_image">Vælg billede</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="look_rename_overwrite">Look Name already exists!</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
@@ -256,6 +258,7 @@
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"Placér ved"</string>
   <string name="x_label">"X:"</string>
   <string name="y_label">"Y:"</string>
@@ -419,11 +422,14 @@
   <string name="title_other_devices">Nye enheder</string>
   <string name="searching_devices">Looking for devices &#8230;</string>
   <string name="button_scan">Søg efter Bluetooth-enheder</string>
-  <string name="select_device">Vælg</string>
+  <string name="select_device">Vælg enhed:</string>
   <string name="connecting_please_wait">Tilslutning til din enhed.\nVent venligst ...</string>
   <string name="bt_connection_failed">Tilslutning til enhed mislykkedes!</string>
   <string name="none_found">Ingen uparrede enheder fundet</string>
   <string name="none_paired">Ingen parrede enheder fundet</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">til</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">til</string>
   <string name="nxt_motor_speed">speed</string>
@@ -572,6 +578,8 @@
   <string name="formula_editor_function_letter_parameter">(1, \'Hej, Verden\")</string>
   <string name="formula_editor_function_join">deltag</string>
   <string name="formula_editor_function_join_parameter">(\'Hej\', \'verden\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>

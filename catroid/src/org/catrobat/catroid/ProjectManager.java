@@ -185,9 +185,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.94f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.94f) {
-				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+				project.setCatrobatLanguageVersion(0.95f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.95f) {
+				project.setCatrobatLanguageVersion(0.96f);
+			}
+			if (project.getCatrobatLanguageVersion() == 0.96f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here

@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">選擇人臉偵測使用的相機</string>
   <string name="preference_title_enable_phiro_bricks">Phiro 程式塊</string>
   <string name="preference_description_phiro_bricks">控制 Phiro 機器人</string>
+  <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
   <string name="dialog_new_object_pocketpaint">繪製圖像</string>
   <string name="dialog_new_object_gallery">選擇圖像</string>
   <string name="dialog_new_object_camera">拍照</string>
@@ -157,8 +159,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">刪除這些音效?</string>
   <string name="dialog_confirm_delete_sound_message">此操作無法復原</string>
   <string name="sound_name">音效名稱:</string>
-  <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists !</string>
+  <string name="new_sound_name">新音效名稱:</string>
+  <string name="rename_sound_overwrite">相同名稱的音效已經存在!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="other">已取出!</item>
   </plurals>
@@ -196,9 +198,9 @@
   <string name="add_look_from_camera">拍照</string>
   <string name="add_look_draw_new_image">繪製圖像</string>
   <string name="add_look_choose_image">選擇圖像</string>
-  <string name="add_look_media_library">Media Library</string>
-  <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists !</string>
+  <string name="add_look_media_library">多媒體圖書館</string>
+  <string name="new_look_name">新外觀名稱:</string>
+  <string name="look_rename_overwrite">相同名稱的外觀已經存在!</string>
   <string name="new_sound_dialog_title">增加音效</string>
   <string name="add_sound_from_recorder">錄製音效</string>
   <string name="add_sound_choose_file">選擇音效檔案</string>
@@ -227,12 +229,12 @@
   <string name="overwrite_text">相同名稱的程式檔已經存在</string>
   <string name="overwrite_replace">覆蓋掉現有程式檔</string>
   <string name="overwrite_rename">下載程式檔更名</string>
-  <string name="overwrite_replace_look">Replace existing look</string>
-  <string name="overwrite_rename_look">Rename downloaded look</string>
-  <string name="overwrite_replace_sound">Replace existing sound</string>
-  <string name="overwrite_rename_sound">Rename downloaded sound</string>
-  <string name="overwrite_replace_default">Replace existing media</string>
-  <string name="overwrite_rename_default">Rename existing media</string>
+  <string name="overwrite_replace_look">替換掉現有外觀</string>
+  <string name="overwrite_rename_look">已下載外觀更名</string>
+  <string name="overwrite_replace_sound">替換掉現有音效</string>
+  <string name="overwrite_rename_sound">已下載音效更名</string>
+  <string name="overwrite_replace_default">替換掉現有媒體</string>
+  <string name="overwrite_rename_default">現有媒體更名</string>
   <string name="stage_dialog_back">返回</string>
   <string name="stage_dialog_resume">繼續</string>
   <string name="stage_dialog_restart">重新開始</string>
@@ -253,6 +255,7 @@
   <string name="category_lego_nxt">樂高 NXT</string>
   <string name="category_drone">AR.Drone</string>
   <string name="category_phiro">Phiro</string>
+  <string name="category_arduino">Arduino</string>
   <string name="brick_place_at">"放置座標 "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -417,6 +420,9 @@
   <string name="bt_connection_failed">設備連接失敗!</string>
   <string name="none_found">沒有未配對的設備</string>
   <string name="none_paired">沒有已配對的設備</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_set_pin_value_to">為</string>
   <string name="nxt_brick_motor_move">設定樂高NXT馬達移動</string>
   <string name="nxt_motor_speed_to">為</string>
   <string name="nxt_motor_speed">速度</string>
@@ -565,10 +571,12 @@
   <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
   <string name="formula_editor_function_join">join</string>
   <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+  <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+  <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_list_item">element</string>
-  <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
+  <string name="formula_editor_function_list_item_parameter">(1,*清單名稱*)</string>
   <string name="formula_editor_function_contains">contains</string>
-  <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+  <string name="formula_editor_function_contains_parameter">(*清單名稱*,1)</string>
   <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
   <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
   <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
@@ -635,7 +643,7 @@
   <string name="formula_editor_sensor_face_x_position">位置座標_X</string>
   <string name="formula_editor_sensor_face_y_position">位置座標_Y</string>
   <string name="formula_editor_function_number_of_items">清單資料數</string>
-  <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+  <string name="formula_editor_function_number_of_items_parameter">(*清單名稱*)</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="other">資料已選取</item>
   </plurals>
@@ -650,9 +658,9 @@
   <string name="add_line_break">增加斷行</string>
   <string name="edit_variable">編輯變數</string>
   <string name="variable_hint">變數名稱</string>
-  <string name="brick_show_text_var">Show variable</string>
-  <string name="brick_show_text_pos">"at  "</string>
-  <string name="brick_hide_text_var">Hide variable</string>
+  <string name="brick_show_text_var">顯示變數</string>
+  <string name="brick_show_text_pos">"在座標  "</string>
+  <string name="brick_hide_text_var">隱藏變數</string>
   <string name="define">自定義</string>
   <string name="new_user_brick">新程式塊</string>
   <string name="new_user_brick_variable">變數 1</string>

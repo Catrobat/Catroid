@@ -74,7 +74,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int ACTION_MODE_DELETE = 1;
 	private static final int ACTION_MODE_RENAME = 2;
 
-	private static final int TIME_TO_WAIT = 200;
+	private static final int TIME_TO_WAIT = 400;
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
