@@ -67,14 +67,16 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 
 	public void onDestroyActionModeUnpacking() {
 		Boolean deleteUnpackedItems = backPackScriptFragment.isDeleteUnpackedItems();
-		for (Integer scriptPosition = checkedScriptGroups.size() - 1; scriptPosition >= 0; scriptPosition--) {
-			String scriptGroup = getItem(scriptPosition);
+
+		List<String> scriptGroupsToUnpack = new ArrayList<>();
+		for (Integer scriptPosition : checkedScriptGroups) {
+			scriptGroupsToUnpack.add(getItem(scriptPosition));
+		}
+		for (String scriptGroup : scriptGroupsToUnpack) {
 			BackPackScriptController.getInstance().unpack(scriptGroup, deleteUnpackedItems, true,
 					backPackScriptFragment.getActivity(), false);
-			if (deleteUnpackedItems) {
-				notifyDataSetChanged();
-			}
 		}
+
 		backPackScriptFragment.clearCheckedItemsAndEnableButtons();
 	}
 

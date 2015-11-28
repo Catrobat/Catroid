@@ -43,7 +43,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -306,7 +305,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		clickOnContextMenuItem(firstTestLookNamePacked, unpackAndKeep);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(firstTestLookNamePackedAndUnpacked, delete);
+		deleteLook(firstTestLookNamePackedAndUnpacked);
 		solo.sleep(200);
 		UiTestUtils.openBackPack(solo, getActivity());
 
@@ -326,7 +325,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpack);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, delete);
+		deleteLook(FIRST_TEST_LOOK_NAME);
 		solo.sleep(50);
 		UiTestUtils.openBackPack(solo, getActivity());
 
@@ -2197,5 +2196,13 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void checkIfNumberOfLooksIsEqual(int expectedNumber) {
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		assertEquals("Number of looks is not as expected", expectedNumber, lookDataList.size());
+	}
+
+	private void deleteLook(String lookName) {
+		clickOnContextMenuItem(lookName, delete);
+		solo.waitForDialogToOpen();
+		solo.waitForText(solo.getString(R.string.yes));
+		solo.clickOnText(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 	}
 }

@@ -44,7 +44,6 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import java.io.DataOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public transient Look look = new Look(this);
 	public transient boolean isPaused;
-	public transient boolean isBackpackLookData = false;
+
 	@XStreamAsAttribute
 	private String name;
 	private List<Script> scriptList = new ArrayList<>();
@@ -64,6 +63,8 @@ public class Sprite implements Serializable, Cloneable {
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private transient int newUserBrickNext = 1;
+	public transient boolean isBackpackSprite = false;
+	public transient boolean isBackgroundSprite = false;
 
 	public Sprite(String name) {
 		this.name = name;
@@ -217,7 +218,7 @@ public class Sprite implements Serializable, Cloneable {
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
 		cloneSprite.setName(this.getName());
-		cloneSprite.isBackpackLookData = false;
+		cloneSprite.isBackpackSprite = false;
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {

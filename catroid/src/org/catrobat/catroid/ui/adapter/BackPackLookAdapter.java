@@ -32,6 +32,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BackPackLookAdapter extends LookBaseAdapter implements ActionModeActivityAdapterInterface {
@@ -54,12 +55,19 @@ public class BackPackLookAdapter extends LookBaseAdapter implements ActionModeAc
 	}
 
 	public void onDestroyActionModeUnpacking() {
-		for (Integer position = checkedLookPositions.size() - 1; position >= 0; position--) {
-			LookController.getInstance().unpack(lookDataItems.get(position), backpackLookFragment
-					.isDeleteUnpackedItems(), false);
+		List<LookData> looksToUnpack = new ArrayList<>();
+		for (Integer checkedPosition : checkedLookPositions) {
+			looksToUnpack.add(getItem(checkedPosition));
 		}
+		for (LookData lookData : looksToUnpack) {
+			LookController.getInstance().unpack(lookData, backpackLookFragment.isDeleteUnpackedItems(), false);
+		}
+
+		boolean returnToScriptActivity = checkedLookPositions.size() > 0;
 		backpackLookFragment.clearCheckedLooksAndEnableButtons();
 
-		((BackPackActivity) backpackLookFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
+		if (returnToScriptActivity) {
+			((BackPackActivity) backpackLookFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
+		}
 	}
 }

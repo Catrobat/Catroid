@@ -401,7 +401,7 @@ public final class Utils {
 	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
 		String newName;
 		List<Sprite> spriteList;
-		if (!sprite.isBackpackLookData) {
+		if (!sprite.isBackpackSprite) {
 			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
 		} else {
 			spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();

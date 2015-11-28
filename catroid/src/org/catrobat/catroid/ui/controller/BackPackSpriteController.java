@@ -52,7 +52,8 @@ public final class BackPackSpriteController {
 
 		String newSpriteName = Utils.getUniqueSpriteName(spriteToEdit);
 		backPackSprite.setName(newSpriteName);
-		backPackSprite.isBackpackLookData = true;
+		backPackSprite.isBackpackSprite = true;
+		backPackSprite.isBackgroundSprite = ProjectManager.getInstance().getCurrentProject().isBackgroundSprite(spriteToEdit);
 
 		for (LookData lookData : spriteToEdit.getLookDataList()) {
 			if (!lookDataIsUsedInScript(lookData)) {
@@ -65,7 +66,7 @@ public final class BackPackSpriteController {
 			}
 		}
 		List<Script> backPackedScripts = BackPackScriptController.getInstance().backpack(spriteToEdit.getName(),
-				spriteToEdit.getListWithAllBricks(), true);
+				spriteToEdit.getListWithAllBricks(), true, backPackSprite);
 		if (backPackedScripts != null && !backPackedScripts.isEmpty()) {
 			backPackSprite.getScriptList().addAll(backPackedScripts);
 		}
@@ -88,23 +89,12 @@ public final class BackPackSpriteController {
 
 		BackPackScriptController.getInstance().unpack(selectedSprite.getName(), delete, false, null, true);
 
-		if (selectedSprite.getLookDataList() != null) {
-			for (LookData lookData : selectedSprite.getLookDataList()) {
-				if (lookData != null && !lookDataIsUsedInScript(lookData)) {
-					LookController.getInstance().unpack(lookData, delete, true);
-				}
-			}
+		if (selectedSprite.isBackgroundSprite) {
+			ProjectManager.getInstance().getCurrentProject().replaceBackgroundSprite(unpackedSprite);
+		} else {
+			ProjectManager.getInstance().addSprite(unpackedSprite);
 		}
 
-		if (selectedSprite.getSoundList() != null) {
-			for (SoundInfo soundInfo : selectedSprite.getSoundList()) {
-				if (soundInfo != null && !soundInfoIsUsedInScript(soundInfo)) {
-					SoundController.getInstance().unpack(soundInfo, delete, true);
-				}
-			}
-		}
-
-		ProjectManager.getInstance().addSprite(unpackedSprite);
 		if (keepCurrentSprite) {
 			ProjectManager.getInstance().setCurrentSprite(currentSprite);
 		} else {

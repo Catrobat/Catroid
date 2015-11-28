@@ -24,12 +24,11 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ListView;
 
 import com.robotium.solo.By;
-import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -38,7 +37,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
-import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -99,7 +97,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	private String rename;
 	private String delete;
 	private String copy;
-	private String deleteDialogTitle;
 
 	private String unpack;
 	private String unpackAndKeep;
@@ -119,6 +116,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		sprite = new Sprite(SPRITE_NAME);
 		sprite2 = new Sprite(SPRITE_NAME2);
 		project.addSprite(sprite);
+		project.addSprite(sprite2);
 		project.getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
 		project.getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
 
@@ -131,7 +129,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		rename = solo.getString(R.string.rename);
 		backpackTitle = solo.getString(R.string.backpack_title);
 		delete = solo.getString(R.string.delete);
-		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_sound_title);
 		copy = solo.getString(R.string.copy);
 		unpack = solo.getString(R.string.unpacking);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
@@ -139,10 +136,15 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		UiTestUtils.clearBackPack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+
+		SpriteAdapter adapter = getSpriteAdapter();
+		if (adapter != null && adapter.getShowDetails()) {
+			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
+			solo.sleep(TIME_TO_WAIT);
+		}
 	}
 
 	public void testLocalVariablesWhenSpriteCopiedFromSpritesListFragment() {
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.clickLongOnText(SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.copy));
 
@@ -169,7 +171,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testSelectAllActionModeButton() {
-		UiTestUtils.clickOnText(solo, solo.getString(R.string.main_menu_continue));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
@@ -202,7 +203,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteUp() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteUp(SPRITE_NAME2);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -216,7 +216,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteDown() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteDown(SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -230,7 +229,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteToBottom() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteToBottom(SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -244,7 +242,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteToTop() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteToTop(SPRITE_NAME2);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -258,7 +255,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteUpFirstEntry() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteUp(SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -272,7 +268,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteDownLastEntry() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteDown(SPRITE_NAME2);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -286,7 +281,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteToTopFirstEntry() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteToTop(SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -300,7 +294,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testMoveSpriteToBottomLastEntry() {
 		project.addSprite(sprite2);
 		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		moveSpriteToBottom(SPRITE_NAME2);
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
@@ -311,9 +304,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		project.removeSprite(sprite2);
 	}
 
-	private void moveSpriteDown(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_down));
-	}
 	public void testEmptyActionModeDialogs() {
 		solo.goBack();
 		UiTestUtils.createEmptyProject();
@@ -343,18 +333,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 				.waitForText(solo.getString(R.string.nothing_to_backpack_and_unpack), 1, TIME_TO_WAIT_BACKPACK));
 	}
 
-	private void moveSpriteUp(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveSpriteToBottom(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveSpriteToTop(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_to_top));
-	}
-
 	public void testEmptyActionModeDialogsInBackPack() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), "cat", null);
 		UiTestUtils.deleteAllItems(solo, getActivity());
@@ -378,7 +356,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testGetSpriteFromMediaLibrary() {
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
 		int numberSpritesBefore = ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
@@ -398,7 +375,6 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 	@Device
 	public void testAddSpriteFromMediaLibraryWithNoInternet() {
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
 		int retryCounter = 0;
 		WifiManager wifiManager = (WifiManager) this.getActivity().getSystemService(Context.WIFI_SERVICE);
@@ -465,7 +441,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		clickOnContextMenuItem(SPRITE_NAME, unpackAndKeep);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(SPRITE_NAME_UNPACKED, delete);
+		deleteSprite(SPRITE_NAME2);
 		solo.sleep(TIME_TO_WAIT);
 		UiTestUtils.openBackPack(solo, getActivity());
 
@@ -483,17 +459,18 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertNotNull("Could not get Adapter", adapter);
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(SPRITE_NAME, backpack);
+		clickOnContextMenuItem(SPRITE_NAME2, backpack);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
-		clickOnContextMenuItem(SPRITE_NAME, delete);
+		deleteSprite(SPRITE_NAME2);
+
 		solo.sleep(TIME_TO_WAIT);
 		UiTestUtils.openBackPack(solo, getActivity());
 
-		clickOnContextMenuItem(SPRITE_NAME, unpack);
+		clickOnContextMenuItem(SPRITE_NAME2, unpack);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
-		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
+		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME2, 0, TIME_TO_WAIT));
 
 		int newCount = adapter.getCount();
 		assertEquals("Counts have to be equal", oldCount, newCount);
@@ -542,6 +519,21 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME, 1, 3000));
 	}
 
+	public void testBackPackBackgroundSprite() {
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
+
+		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, unpack);
+		solo.waitForDialogToOpen(TIME_TO_WAIT_BACKPACK);
+		assertTrue("No replace background dialog was shown", solo.waitForText(solo.getString(R.string.unpack_background)));
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("Background sprite was not unpacked or renamed to background",
+				solo.waitForText(solo.getString(R.string.background)));
+	}
+
 	public void testBackPackActionModeCheckingAndTitle() {
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
 
@@ -557,34 +549,34 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
 
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 
 		int expectedNumberOfSelectedSprites = 1;
 		String expectedTitle = backpack + " " + expectedNumberOfSelectedSprites + " " + sprite;
 
-		solo.clickOnCheckBox(0);
-		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true, false);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedNumberOfSelectedSprites = 2;
 		expectedTitle = backpack + " " + expectedNumberOfSelectedSprites + " " + sprites;
 
 		// Check if multiple-selection is possible
-		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.clickOnCheckBox(2);
+		checkIfCheckboxesAreCorrectlyChecked(false, true, true);
 		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedNumberOfSelectedSprites = 1;
 		expectedTitle = backpack + " " + expectedNumberOfSelectedSprites + " " + sprite;
 
-		solo.clickOnCheckBox(0);
-		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, true);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedTitle = backpack;
 
-		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		solo.clickOnCheckBox(2);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
@@ -592,16 +584,16 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
 		int expectedNumberOfSprites = ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 1, TIME_TO_WAIT, false, true));
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		solo.goBack();
-		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 1, TIME_TO_WAIT, false, true));
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 	}
 
@@ -609,12 +601,12 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.clickOnCheckBox(2);
+		checkIfCheckboxesAreCorrectlyChecked(false, true, true);
 		solo.goBack();
 
-		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 1, TIME_TO_WAIT, false, true));
 		assertFalse("Backpack was opened, but shouldn't be!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
 	}
 
@@ -666,7 +658,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertTrue("No backpack is emtpy text appeared", solo.searchText(backpack));
 		assertTrue("No backpack is emtpy text appeared", solo.searchText(solo.getString(R.string.is_empty)));
 
-		assertEquals("Not all sprites were backpacked", 2, oldCount);
+		assertEquals("Not all sprites were backpacked", 3, oldCount);
 		assertEquals("Sprite wasn't deleted in backpack", 0, newCount);
 		assertEquals("Count of the backpack spritlist is not correct", newCount, backPackSpriteList.size());
 	}
@@ -684,11 +676,12 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		solo.waitForActivity(ProjectActivity.class);
-		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME_BACKGROUND, 1, 1000));
+		assertFalse("Background sprite was unpacked, but shouldn't be!", solo.waitForText(SPRITE_NAME_BACKGROUND, 1,
+				1000));
 		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME, 1, 1000));
 		UiTestUtils.deleteAllItems(solo, getActivity());
-		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME_BACKGROUND, 1, 1000));
 		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME, 1, 1000));
+		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME2, 1, 1000));
 
 		UiTestUtils.openBackPack(solo, getActivity());
 
@@ -697,19 +690,14 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.waitForActivity(ProjectActivity.class);
 
-		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME_BACKGROUND, 1, 1000));
+		assertFalse("Background sprite was unpacked, but shouldn't be!", solo.waitForText(SPRITE_NAME_BACKGROUND, 1,
+				1000));
 		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME, 1, 1000));
-
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		assertFalse("Backpack items were not cleared!", solo.waitForText(unpack, 1, 1000));
+		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME2, 1, 1000));
 	}
 
 	public void testBackPackDeleteActionModeCheckingAndTitle() {
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		if (getSpriteAdapter().getShowDetails()) {
-			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
-			solo.sleep(TIME_TO_WAIT);
-		}
 
 		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
@@ -726,13 +714,15 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
 
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 
 		int expectedNumberOfSelectedSprites = 1;
 		String expectedTitle = delete + " " + expectedNumberOfSelectedSprites + " " + sprite;
 
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnCheckBox(0);
-		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		checkIfCheckboxesAreCorrectlyChecked(true, false, false);
 		assertTrue("Title not as expected" + expectedTitle, solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedNumberOfSelectedSprites = 2;
@@ -740,20 +730,20 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		// Check if multiple-selection is possible
 		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		checkIfCheckboxesAreCorrectlyChecked(true, true, false);
 		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedNumberOfSelectedSprites = 1;
 		expectedTitle = delete + " " + expectedNumberOfSelectedSprites + " " + sprite;
 
 		solo.clickOnCheckBox(0);
-		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		checkIfCheckboxesAreCorrectlyChecked(false, true, false);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedTitle = delete;
 
 		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
@@ -763,16 +753,16 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		int expectedNumberOfSprites = BackPackListManager.getInstance().getBackPackedSprites().size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 1, TIME_TO_WAIT, false, true));
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
-		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		solo.goBack();
-		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 1, TIME_TO_WAIT, false, true));
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 	}
 
@@ -782,12 +772,12 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
-		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.clickOnCheckBox(2);
+		checkIfCheckboxesAreCorrectlyChecked(false, true, true);
 		solo.goBack();
 
-		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 1, TIME_TO_WAIT, false, true));
 	}
 
 	public void testBackPackDeleteSelectAll() {
@@ -798,16 +788,16 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkIfCheckboxesAreCorrectlyChecked(true, true, true);
+
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
-		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME_BACKGROUND, 0, TIME_TO_WAIT));
-		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
+		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME_BACKGROUND, 0, TIME_TO_WAIT, false, true));
+		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT, false, true));
+		assertFalse("Sprite wasn't deleted!", solo.waitForText(SPRITE_NAME2, 0, TIME_TO_WAIT, false, true));
 		assertTrue("No empty bg found!", solo.waitForText(solo.getString(R.string.is_empty), 0, TIME_TO_WAIT));
 	}
 
@@ -880,7 +870,8 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME3, "cat");
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
+		ListView listView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		int brickCountInView = listView.getCount();
 		int numberOfBricksInBrickList = ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks();
 
 		solo.goBack();
@@ -889,17 +880,21 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.openBackPack(solo, getActivity());
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, unpack);
+		solo.waitForDialogToOpen();
+		solo.waitForText(solo.getString(R.string.unpack_background));
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForDialogToClose();
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
-		solo.clickOnText(SPRITE_NAME_BACKGROUND);
+		solo.clickOnText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
-		assertEquals("Brick count in list view not correct", brickCountInView + 9, UiTestUtils.getScriptListView(solo)
-				.getCount());
 		assertEquals("Brick count in current sprite not correct", numberOfBricksInBrickList + 8,
 				ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks());
+		listView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		assertEquals("Brick count in list view not correct", brickCountInView + 9, listView.getCount());
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
@@ -925,7 +920,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 				.getUserVariable().getName().equals("global_var"));
 
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.looks));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Look was not unpacked!", solo.waitForText(TEST_LOOK_NAME, 1, TIME_TO_WAIT_BACKPACK));
 		solo.goBack();
@@ -1003,16 +998,46 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
-			boolean secondCheckboxExpectedChecked) {
+			boolean secondCheckboxExpectedChecked, boolean thirdCheckboxExpectedChecked) {
 		solo.sleep(300);
 		CheckBox firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
 		CheckBox secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
+		CheckBox thirdCheckBox = solo.getCurrentViews(CheckBox.class).get(2);
+		if (solo.getCurrentViews(CheckBox.class).size() > 3) {
+			firstCheckBox = solo.getCurrentViews(CheckBox.class).get(3);
+			secondCheckBox = solo.getCurrentViews(CheckBox.class).get(4);
+			thirdCheckBox = solo.getCurrentViews(CheckBox.class).get(5);
+		}
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
+		assertEquals("Third checkbox not correctly checked", thirdCheckboxExpectedChecked, thirdCheckBox.isChecked());
+	}
+
+	private void deleteSprite(String spriteName) {
+		clickOnContextMenuItem(spriteName, delete);
+		solo.waitForDialogToOpen();
+		solo.waitForText(solo.getString(R.string.yes));
+		solo.clickOnText(solo.getString(R.string.yes));
 	}
 
 	private void checkIfNumberOfSpritesIsEqual(int expectedNumber) {
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertEquals("Number of sprites is not as expected", expectedNumber, spriteList.size());
+	}
+
+	private void moveSpriteDown(String spriteToMove) {
+		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_down));
+	}
+
+	private void moveSpriteUp(String spriteToMove) {
+		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_up));
+	}
+
+	private void moveSpriteToBottom(String spriteToMove) {
+		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_to_bottom));
+	}
+
+	private void moveSpriteToTop(String spriteToMove) {
+		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_to_top));
 	}
 }

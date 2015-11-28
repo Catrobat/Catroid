@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,14 +37,17 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionModeActivityAdapterInterface {
 
 	private final BackPackSpriteFragment backpackSpriteFragment;
+	private boolean disableBackgroundSprites;
 
 	public BackPackSpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects,
 			BackPackSpriteFragment backpackSpriteFragment) {
@@ -89,13 +93,21 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		handleHolderViews(position, holder);
 
 		if (selectMode != ListView.CHOICE_MODE_NONE) {
-			holder.checkbox.setVisibility(View.VISIBLE);
+			if (disableBackgroundSprites && getItem(position).isBackgroundSprite) {
+				holder.checkbox.setVisibility(View.INVISIBLE);
+				enableHolderViews(holder, false);
+				spriteView.setAlpha((float) 0.25);
+			} else {
+				holder.checkbox.setVisibility(View.VISIBLE);
+			}
 			holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
 		} else {
 			holder.background.setBackgroundResource(R.drawable.button_background_selector);
 			holder.checkbox.setVisibility(View.GONE);
 			holder.checkbox.setChecked(false);
+			enableHolderViews(holder, true);
 			clearCheckedItems();
+			spriteView.setAlpha(1);
 		}
 		holder.backgroundHeadline.setVisibility(View.GONE);
 		holder.objectsHeadline.setVisibility(View.GONE);
@@ -118,11 +130,55 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		return spriteView;
 	}
 
+	private void enableHolderViews(ViewHolder holder, boolean enabled) {
+		holder.checkbox.setEnabled(enabled);
+		holder.background.setEnabled(enabled);
+		holder.text.setEnabled(enabled);
+		holder.backgroundHeadline.setEnabled(enabled);
+		holder.objectsHeadline.setEnabled(enabled);
+		holder.image.setEnabled(enabled);
+		holder.scripts.setEnabled(enabled);
+		holder.bricks.setEnabled(enabled);
+		holder.looks.setEnabled(enabled);
+		holder.sounds.setEnabled(enabled);
+		holder.details.setEnabled(enabled);
+	}
+
 	public void onDestroyActionModeUnpacking(boolean delete) {
-		for (Integer position = checkedSprites.size() - 1; position >= 0; position--) {
-			BackPackSpriteController.getInstance().unpack(getItem(position), delete, false, false);
+		List<Sprite> spritesToUnpack = new ArrayList<>();
+		for (Integer checkedPosition : checkedSprites) {
+			spritesToUnpack.add(getItem(checkedPosition));
 		}
+
+		for (Sprite sprite : spritesToUnpack) {
+			BackPackSpriteController.getInstance().unpack(sprite, delete, false, false);
+		}
+
+		boolean returnToProjectActivity = !checkedSprites.isEmpty();
 		clearCheckedItems();
-		backpackSpriteFragment.returnToProjectActivity();
+		this.disableBackgroundSprites = false;
+		if (returnToProjectActivity) {
+			returnToProjectActivity();
+		}
+	}
+
+	public void returnToProjectActivity() {
+		Intent intent = new Intent(getContext(), ProjectActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		getContext().startActivity(intent);
+	}
+
+	public void disableBackgroundSprites() {
+		this.disableBackgroundSprites = true;
+	}
+
+	public int getCountWithBackgroundSprites() {
+		int numberOfBackgroundSprites = 0;
+		for (int position = 0; position < getCount(); position++) {
+			if (getItem(position).isBackgroundSprite) {
+				numberOfBackgroundSprites++;
+			}
+		}
+		return getCount() - numberOfBackgroundSprites;
 	}
 }

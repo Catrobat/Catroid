@@ -64,7 +64,8 @@ public final class BackPackScriptController {
 		return INSTANCE;
 	}
 
-	public List<Script> backpack(String groupName, List<Brick> checkedBricks, boolean addToHiddenBackpack) {
+	public List<Script> backpack(String groupName, List<Brick> checkedBricks, boolean addToHiddenBackpack, Sprite
+			backpackedSprite) {
 		Iterator<Brick> iterator = checkedBricks.iterator();
 		List<Script> scriptsToAdd = new ArrayList<>();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -79,10 +80,16 @@ public final class BackPackScriptController {
 						SetLookBrick brick = (SetLookBrick) brickOfScript;
 						LookData newLookData = LookController.getInstance().backPackLook(brick.getLook(), true);
 						brick.setLook(newLookData);
+						if (backpackedSprite != null) {
+							backpackedSprite.getLookDataList().add(newLookData);
+						}
 					} else if (brickOfScript instanceof PlaySoundBrick) {
 						PlaySoundBrick brick = (PlaySoundBrick) brickOfScript;
 						SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackSound(brick.getSound(), true);
 						brick.setSoundInfo(backPackedSoundInfo);
+						if (backpackedSprite != null) {
+							backpackedSprite.getSoundList().add(backPackedSoundInfo);
+						}
 					} else if (brickOfScript instanceof UserVariableBrick) {
 						UserVariableBrick brick = (UserVariableBrick) brickOfScript;
 						Integer type = currentProject.getDataContainer()

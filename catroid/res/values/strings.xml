@@ -59,10 +59,11 @@
     <string name="my_group">My Group</string>
     <string name="name">Name:</string>
     <string name="nothing_to_copy">Nothing to copy</string>
-  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
-  <string name="nothing_to_unpack">Nothing to unpack</string>
-  <string name="nothing_to_delete">Nothing to delete</string>
-  <string name="nothing_to_rename">Nothing to rename</string>
+    <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
+    <string name="nothing_to_unpack">Nothing to unpack</string>
+    <string name="nothing_to_delete">Nothing to delete</string>
+    <string name="nothing_to_rename">Nothing to rename</string>
+    <string name="unpack_background">Program background will be replaced</string>
     <!--  -->
 
 
@@ -230,8 +231,8 @@
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="length">Length:</string>
     <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
-    <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
-    <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
+  <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
+  <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
     <string name="new_sound_name">Sound name:</string>
     <string name="rename_sound_overwrite">Sound with same name already exists!</string>
@@ -929,6 +930,6 @@
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
     <string name="variable">Variable</string>
-    <!-- -->
+  <!-- -->
 
 </resources>

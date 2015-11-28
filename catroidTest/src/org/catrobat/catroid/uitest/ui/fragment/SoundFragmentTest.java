@@ -725,7 +725,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		clickOnContextMenuItem(firstTestSoundNamePacked, unpackAndKeep);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(firstTestSoundNamePackedAndUnpacked, delete);
+		deleteSound(firstTestSoundNamePackedAndUnpacked);
 		solo.sleep(200);
 		UiTestUtils.openBackPack(solo, getActivity());
 
@@ -745,7 +745,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpack);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, delete);
+		deleteSound(FIRST_TEST_SOUND_NAME);
 		solo.sleep(200);
 		UiTestUtils.openBackPack(solo, getActivity());
 
@@ -1086,18 +1086,16 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.clickOnText(solo, selectAll);
 		solo.sleep(TIME_TO_WAIT);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		List<CheckBox> checkBoxes = solo.getCurrentViews(CheckBox.class);
+		assertTrue("CheckBox is not Checked!", checkBoxes.get(checkBoxes.size() - 2).isChecked());
+		assertTrue("CheckBox is not Checked!", checkBoxes.get(checkBoxes.size() - 1).isChecked());
+
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		solo.waitForDialogToOpen();
-		solo.waitForText(solo.getString(R.string.yes));
-		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(300);
 
-		assertFalse("Sound wasn't deleted!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
-		assertFalse("Sound wasn't deleted!", solo.waitForText(secondTestSoundNamePacked, 0, TIME_TO_WAIT));
+		assertFalse("Sound wasn't deleted!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT, false, true));
+		assertFalse("Sound wasn't deleted!", solo.waitForText(secondTestSoundNamePacked, 0, TIME_TO_WAIT, false, true));
 		assertTrue("No empty bg found!", solo.waitForText(solo.getString(R.string.is_empty), 0, TIME_TO_WAIT));
 	}
 
@@ -1598,18 +1596,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Backpack wasn't opened", solo.waitForText(backpackTitle));
 	}
 
-	private void addNewSound(String title, String fileName, int resource) {
-		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, fileName,
-				resource, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
-		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle(title);
-
-		soundInfoList.add(soundInfo);
-		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
-	}
-
 	public void testOpenDeleteDialogAndGoBack() {
 		int viewAmountBeforeDeleteMode = solo.getCurrentViews().size();
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
@@ -1629,6 +1615,26 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int viewAmountAfterDeleteMode = solo.getCurrentViews().size();
 
 		assertTrue("checkboxes or other delete elements are still visible", viewAmountBeforeDeleteMode == viewAmountAfterDeleteMode);
+	}
+
+	private void addNewSound(String title, String fileName, int resource) {
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, fileName,
+				resource, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(title);
+
+		soundInfoList.add(soundInfo);
+		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
+	}
+
+	private void deleteSound(String soundName) {
+		clickOnContextMenuItem(soundName, delete);
+		solo.waitForDialogToOpen();
+		solo.waitForText(solo.getString(R.string.yes));
+		solo.clickOnText(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 	}
 
 	private void renameSound(String soundToRename, String newSoundName) {

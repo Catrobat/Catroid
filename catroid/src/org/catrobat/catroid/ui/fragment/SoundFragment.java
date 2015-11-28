@@ -89,8 +89,8 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -543,7 +543,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-			case  R.id.context_menu_move_down:
+			case R.id.context_menu_move_down:
 				moveSoundDown();
 				break;
 			case R.id.context_menu_move_to_bottom:

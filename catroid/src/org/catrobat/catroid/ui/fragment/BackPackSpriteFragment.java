@@ -55,7 +55,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BackPackSpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
@@ -63,6 +62,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.dialogs.ConfirmUnpackBackgroundDialog;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -145,7 +145,9 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			if (adapter.getAmountOfCheckedItems() > 0) {
+			if (adapter.getAmountOfCheckedItems() == 0) {
+				clearCheckedSpritesAndEnableButtons();
+			} else {
 				showUnpackingConfirmationMessage();
 			}
 			adapter.onDestroyActionModeUnpacking(deleteUnpackedItems);
@@ -170,9 +172,9 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		listView = getListView();
 		registerForContextMenu(listView);
 
-		adapter = new BackPackSpriteAdapter(getActivity(), R.layout.fragment_script_backpack_item, R.id
-				.fragment_script_backpack_item_name_text_view, BackPackListManager.getInstance()
-				.getBackPackedSprites(), this);
+		adapter = new BackPackSpriteAdapter(getActivity(), R.layout.fragment_script_backpack_item,
+				R.id.fragment_script_backpack_item_name_text_view,
+				BackPackListManager.getInstance().getBackPackedSprites(), this);
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
 	}
@@ -204,18 +206,29 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_unpacking_keep:
-				BackPackSpriteController.getInstance().unpack(selectedSpriteBackPack, false, false, false);
-				returnToProjectActivity();
+				checkForBackgroundUnpacking(selectedSpriteBackPack, false, false, false);
 				break;
 			case R.id.context_menu_unpacking:
-				BackPackSpriteController.getInstance().unpack(selectedSpriteBackPack, true, false, false);
-				returnToProjectActivity();
+				checkForBackgroundUnpacking(selectedSpriteBackPack, true, false, false);
 				break;
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	private void checkForBackgroundUnpacking(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite,
+			boolean fromHiddenBackPack) {
+		if (selectedSprite.isBackgroundSprite) {
+			ConfirmUnpackBackgroundDialog dialog = new ConfirmUnpackBackgroundDialog(selectedSprite, delete,
+					keepCurrentSprite, fromHiddenBackPack);
+			dialog.show(getActivity().getSupportFragmentManager(), ConfirmUnpackBackgroundDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			BackPackSpriteController.getInstance().unpack(selectedSprite, delete,
+					keepCurrentSprite, fromHiddenBackPack);
+			adapter.returnToProjectActivity();
+		}
 	}
 
 	private void showConfirmDeleteDialog() {
@@ -271,7 +284,6 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				selectedSpritePosition = position;
-				onScriptGroupChecked();
 			}
 		});
 		adapter.setOnSpriteEditListener(this);
@@ -324,6 +336,10 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 					@Override
 					public void onClick(View view) {
 						for (int position = 0; position < adapter.getCount(); position++) {
+							if (adapter.getItem(position).isBackgroundSprite && actionModeTitle.equals(
+									getString(R.string.unpacking))) {
+								continue;
+							}
 							adapter.addCheckedSprite(position);
 						}
 						adapter.notifyDataSetChanged();
@@ -363,6 +379,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 			} else {
 				if (actionModeCallback.equals(unpackingModeCallBack)) {
 					this.deleteUnpackedItems = deleteUnpackedItems;
+					adapter.disableBackgroundSprites();
 				}
 				actionMode = getSherlockActivity().startActionMode(actionModeCallback);
 				unregisterForContextMenu(listView);
@@ -418,16 +435,6 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		return adapter;
 	}
 
-	public void onScriptGroupChecked() {
-		if (actionMode == null) {
-			return;
-		}
-
-		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
-	}
-
 	private void updateActionModeTitle() {
 		if (actionMode == null) {
 			return;
@@ -479,17 +486,16 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		}
 	}
 
-	public void returnToProjectActivity() {
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		getActivity().startActivity(intent);
-	}
-
 	@Override
 	public void onSpriteChecked() {
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+		if (actionModeTitle.equals(getString(R.string.unpacking))) {
+			Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+					adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCountWithBackgroundSprites());
+		} else {
+			Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+					adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+		}
 	}
 
 	@Override

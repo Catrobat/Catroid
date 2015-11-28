@@ -33,6 +33,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface {
@@ -54,11 +55,19 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionMode
 	}
 
 	public void onDestroyActionModeUnpacking() {
-		for (Integer position = checkedSounds.size() - 1; position >= 0; position--) {
-			SoundInfo currentSoundInfo = soundInfoItems.get(position);
-			SoundController.getInstance().unpack(currentSoundInfo, backPackSoundFragment.isDeleteUnpackedItems(), false);
+		List<SoundInfo> soundsToUnpack = new ArrayList<>();
+		for (Integer checkedPosition : checkedSounds) {
+			soundsToUnpack.add(getItem(checkedPosition));
 		}
+		for (SoundInfo soundInfo : soundsToUnpack) {
+			SoundController.getInstance().unpack(soundInfo, backPackSoundFragment.isDeleteUnpackedItems(), false);
+		}
+
+		boolean returnToScriptActivity = checkedSounds.size() > 0;
 		backPackSoundFragment.clearCheckedSoundsAndEnableButtons();
-		((BackPackActivity) backPackSoundFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
+
+		if (returnToScriptActivity) {
+			((BackPackActivity) backPackSoundFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
+		}
 	}
 }

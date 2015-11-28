@@ -66,7 +66,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -2151,6 +2150,11 @@ public final class UiTestUtils {
 
 	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {
 		solo.clickOnCheckBox(checkBoxIndex);
+		solo.sleep(100);
+	}
+
+	public static void clickOnListItem(Solo solo, int listIndex) {
+		solo.clickInList(listIndex + 1);
 		solo.sleep(100);
 	}
 

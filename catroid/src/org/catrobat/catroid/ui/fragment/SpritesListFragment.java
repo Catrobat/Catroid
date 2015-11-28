@@ -481,7 +481,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 	@Override
 	protected void showDeleteDialog() {
-		
 	}
 
 	private void showConfirmDeleteDialog() {

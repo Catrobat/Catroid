@@ -1345,7 +1345,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public void backPackScript(String groupName) {
 		if (!checkedBricks.isEmpty()) {
-			int scriptsBackPacked = BackPackScriptController.getInstance().backpack(groupName, checkedBricks, false)
+			int scriptsBackPacked = BackPackScriptController.getInstance().backpack(groupName, checkedBricks, false,
+					null)
 					.size();
 			String textForBackpacking = context.getResources().getQuantityString(R.plurals.packing_items_plural,
 					scriptsBackPacked);

@@ -51,11 +51,11 @@ public class Project implements Serializable {
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
 	@XStreamAlias("objectList")
-	private List<Sprite> spriteList = new ArrayList<Sprite>();
+	private List<Sprite> spriteList = new ArrayList<>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
 	@XStreamAlias("settings")
-	private List<Setting> settings = new ArrayList<Setting>();
+	private List<Setting> settings = new ArrayList<>();
 
 	public Project(Context context, String name, boolean landscape) {
 		xmlHeader.setProgramName(name);
@@ -280,5 +280,16 @@ public class Project implements Serializable {
 				return;
 			}
 		}
+	}
+
+	public boolean isBackgroundSprite(Sprite sprite) {
+		if (spriteList.indexOf(sprite) == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public void replaceBackgroundSprite(Sprite unpackedSprite) {
+		spriteList.set(0, unpackedSprite);
 	}
 }

@@ -38,7 +38,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
@@ -49,13 +49,13 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	private String lookName = "lookNametest";
 	private File imageFile;
 	private File imageFile2;
-	private ArrayList<LookData> lookDataList;
+	private List<LookData> lookDataList;
 
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
-	private ArrayList<SoundInfo> soundInfoList;
+	private List<SoundInfo> soundInfoList;
 
 	public DeleteDialogTest() {
 		super(MainMenuActivity.class);

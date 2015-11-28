@@ -34,7 +34,6 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -68,7 +67,6 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 
 	public void onDestroyActionModeCopy(ActionMode mode) {
 		Iterator<Integer> iterator = checkedSounds.iterator();
-		List<SoundInfo> soundInfos = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			int position = iterator.next();
