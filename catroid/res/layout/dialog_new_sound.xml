@@ -33,7 +33,7 @@
         style="@style/DefaultDialog.Item"
         android:layout_marginTop="8dp"
         android:baselineAligned="false"
-        android:weightSum="3" >
+        android:weightSum="4" >
 
         <TextView
             android:id="@+id/dialog_new_sound_recorder"
@@ -66,6 +66,17 @@
             android:drawableTop="@drawable/ic_media_library"
             android:gravity="center"
             android:text="@string/add_look_media_library"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/dialog_new_sound_pocketmusic"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/new_object_dialog_selector"
+            android:drawableTop="@drawable/ic_pocketmusic"
+            android:gravity="center"
+            android:text="@string/add_sound_pocketmusic"
             android:textSize="12sp" />
     </LinearLayout >
 
