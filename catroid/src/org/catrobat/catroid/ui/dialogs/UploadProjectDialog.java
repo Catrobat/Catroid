@@ -120,7 +120,7 @@ public class UploadProjectDialog extends DialogFragment {
 					}
 				}).create();
 
-		dialog.setCanceledOnTouchOutside(true);
+		dialog.setCanceledOnTouchOutside(false);
 		dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -265,6 +265,8 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void handleCancelButtonClick() {
+		Utils.invalidateLoginTokenIfUserRestricted(getActivity());
 		dismiss();
 	}
+
 }
