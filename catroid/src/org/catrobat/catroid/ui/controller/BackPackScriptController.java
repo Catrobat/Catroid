@@ -78,16 +78,16 @@ public final class BackPackScriptController {
 				for (Brick brickOfScript : scriptToAdd.getBrickList()) {
 					if (brickOfScript instanceof SetLookBrick) {
 						SetLookBrick brick = (SetLookBrick) brickOfScript;
-						LookData newLookData = LookController.getInstance().backPackLook(brick.getLook(), true);
-						brick.setLook(newLookData);
-						if (backpackedSprite != null) {
-							backpackedSprite.getLookDataList().add(newLookData);
+						LookData backPackedLookData = LookController.getInstance().backPackLook(brick.getLook(), true);
+						brick.setLook(backPackedLookData);
+						if (backpackedSprite != null && !backpackedSprite.getLookDataList().contains(backPackedLookData)) {
+							backpackedSprite.getLookDataList().add(backPackedLookData);
 						}
 					} else if (brickOfScript instanceof PlaySoundBrick) {
 						PlaySoundBrick brick = (PlaySoundBrick) brickOfScript;
 						SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackSound(brick.getSound(), true);
 						brick.setSoundInfo(backPackedSoundInfo);
-						if (backpackedSprite != null) {
+						if (backpackedSprite != null && !backpackedSprite.getSoundList().contains(backPackedSoundInfo)) {
 							backpackedSprite.getSoundList().add(backPackedSoundInfo);
 						}
 					} else if (brickOfScript instanceof UserVariableBrick) {
@@ -171,19 +171,15 @@ public final class BackPackScriptController {
 		for (Brick brickOfScript : newScript.getBrickList()) {
 			if (brickOfScript instanceof SetLookBrick) {
 				SetLookBrick brick = (SetLookBrick) brickOfScript;
-				if (brick.getLook() != null) {
-					LookData newLookData = LookController.getInstance().unpack(brick.getLook(), deleteUnpackedItems, true);
-					if (newLookData != null) {
-						brick.setLook(newLookData);
-					}
+				LookData newLookData = LookController.getInstance().unpack(brick.getLook(), deleteUnpackedItems, true);
+				if (newLookData != null) {
+					brick.setLook(newLookData);
 				}
 			} else if (brickOfScript instanceof PlaySoundBrick) {
 				PlaySoundBrick brick = (PlaySoundBrick) brickOfScript;
-				if (brick.getSound() != null) {
-					SoundInfo newSoundInfo = SoundController.getInstance().unpack(brick.getSound(), deleteUnpackedItems, true);
-					if (newSoundInfo != null) {
-						brick.setSoundInfo(newSoundInfo);
-					}
+				SoundInfo newSoundInfo = SoundController.getInstance().unpack(brick.getSound(), deleteUnpackedItems, true);
+				if (newSoundInfo != null) {
+					brick.setSoundInfo(newSoundInfo);
 				}
 			} else if (brickOfScript instanceof UserVariableBrick) {
 				UserVariableBrick brick = (UserVariableBrick) brickOfScript;
@@ -230,9 +226,9 @@ public final class BackPackScriptController {
 				}
 			} else if (brickOfScript instanceof PointToBrick) {
 				PointToBrick brick = (PointToBrick) brickOfScript;
-				Sprite unpackedSprite = BackPackSpriteController.getInstance().unpack(brick.getPointedObject(),
+				Sprite unpackedPointToSprite = BackPackSpriteController.getInstance().unpack(brick.getPointedObject(),
 						deleteUnpackedItems, true, true);
-				brick.setPointedObject(unpackedSprite);
+				brick.setPointedObject(unpackedPointToSprite);
 			}
 		}
 	}

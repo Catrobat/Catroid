@@ -48,6 +48,27 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof SoundInfo)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		SoundInfo soundInfo = (SoundInfo) obj;
+		if (soundInfo.fileName.equals(this.fileName) && soundInfo.name.equals(this.name)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode() + fileName.hashCode() + super.hashCode();
+	}
+
+	@Override
 	public SoundInfo clone() {
 		SoundInfo cloneSoundInfo = new SoundInfo();
 
@@ -84,6 +105,14 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 			} else {
 				return Utils.buildPath(getPathToSoundDirectory(), fileName);
 			}
+		} else {
+			return null;
+		}
+	}
+
+	public String getAbsolutePathBackPack() {
+		if (fileName != null) {
+			return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
 		} else {
 			return null;
 		}

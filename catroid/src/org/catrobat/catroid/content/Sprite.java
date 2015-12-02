@@ -73,6 +73,27 @@ public class Sprite implements Serializable, Cloneable {
 	public Sprite() {
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Sprite)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		Sprite sprite = (Sprite) obj;
+		if (sprite.name.equals(this.name) || sprite.name.equals(this.name + "1") || sprite.name.concat("1").equals(this.name)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode() + super.hashCode();
+	}
+
 	private Object readResolve() {
 		//filling FileChecksumContainer:
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
@@ -434,5 +455,14 @@ public class Sprite implements Serializable, Cloneable {
 
 	public List<SoundInfo> getSoundList() {
 		return soundList;
+	}
+
+	public boolean containsLookData(LookData lookData) {
+		for (LookData lookOfSprite : lookList) {
+			if (lookOfSprite.equals(lookData)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

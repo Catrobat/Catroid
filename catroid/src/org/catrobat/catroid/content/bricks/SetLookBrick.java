@@ -216,7 +216,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		SetLookBrick clonedBrick = new SetLookBrick();
 		clonedBrick.setLook(look);
 		return clonedBrick;
-		//test
 	}
 
 	@Override

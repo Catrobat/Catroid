@@ -171,6 +171,36 @@ public final class BackPackListManager {
 		hiddenBackpackedSprites.remove(sprite);
 	}
 
+	public boolean backPackedSoundsContain(SoundInfo soundInfo) {
+		List<SoundInfo> backPackedSounds = getAllBackPackedSounds();
+		for (SoundInfo backPackedSound : backPackedSounds) {
+			if (backPackedSound.equals(soundInfo)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean backPackedLooksContain(LookData lookData) {
+		List<LookData> backPackedLooks = getAllBackPackedLooks();
+		for (LookData backPackedLook : backPackedLooks) {
+			if (backPackedLook.equals(lookData)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean backPackedSpritesContains(Sprite sprite) {
+		List<Sprite> backPackedSprites = getAllBackPackedSprites();
+		for (Sprite backPackedSprite : backPackedSprites) {
+			if (backPackedSprite.equals(sprite)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public ArrayList<String> getAllBackPackedScriptGroups() {
 		ArrayList<String> allScriptGroups = new ArrayList<>();
 		allScriptGroups.addAll(new ArrayList<>(backpackedScripts.keySet()));

@@ -46,6 +46,10 @@ public final class BackPackSpriteController {
 
 	public Sprite backpack(Sprite spriteToEdit, boolean addToHiddenBackpack) {
 
+		if (addToHiddenBackpack && BackPackListManager.getInstance().backPackedSpritesContains(spriteToEdit)) {
+			return spriteToEdit;
+		}
+
 		ProjectManager.getInstance().setCurrentSprite(spriteToEdit);
 
 		Sprite backPackSprite = spriteToEdit.cloneForBackPack();
@@ -56,17 +60,18 @@ public final class BackPackSpriteController {
 		backPackSprite.isBackgroundSprite = ProjectManager.getInstance().getCurrentProject().isBackgroundSprite(spriteToEdit);
 
 		for (LookData lookData : spriteToEdit.getLookDataList()) {
-			if (!lookDataIsUsedInScript(lookData)) {
+			if (!lookDataIsUsedInScript(lookData, ProjectManager.getInstance().getCurrentSprite())) {
 				backPackSprite.getLookDataList().add(LookController.getInstance().backPackLook(lookData, true));
 			}
 		}
 		for (SoundInfo soundInfo : spriteToEdit.getSoundList()) {
-			if (!soundInfoIsUsedInScript(soundInfo)) {
+			if (!soundInfoIsUsedInScript(soundInfo, ProjectManager.getInstance().getCurrentSprite())) {
 				backPackSprite.getSoundList().add(SoundController.getInstance().backPackSound(soundInfo, true));
 			}
 		}
-		List<Script> backPackedScripts = BackPackScriptController.getInstance().backpack(spriteToEdit.getName(),
+		List<Script> backPackedScripts = BackPackScriptController.getInstance().backpack(backPackSprite.getName(),
 				spriteToEdit.getListWithAllBricks(), true, backPackSprite);
+
 		if (backPackedScripts != null && !backPackedScripts.isEmpty()) {
 			backPackSprite.getScriptList().addAll(backPackedScripts);
 		}
@@ -79,6 +84,11 @@ public final class BackPackSpriteController {
 	}
 
 	public Sprite unpack(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite, boolean fromHiddenBackPack) {
+
+		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentProject().containsSprite(selectedSprite)) {
+			return selectedSprite;
+		}
+
 		Sprite unpackedSprite = selectedSprite.cloneForBackPack();
 		String newSpriteName = Utils.getUniqueSpriteName(selectedSprite);
 		unpackedSprite.setName(newSpriteName);
@@ -86,6 +96,17 @@ public final class BackPackSpriteController {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		ProjectManager.getInstance().setCurrentSprite(unpackedSprite);
+
+		for (LookData lookData : selectedSprite.getLookDataList()) {
+			if (!lookDataIsUsedInScript(lookData, selectedSprite)) {
+				LookController.getInstance().unpack(lookData, delete, true);
+			}
+		}
+		for (SoundInfo soundInfo : selectedSprite.getSoundList()) {
+			if (!soundInfoIsUsedInScript(soundInfo, selectedSprite)) {
+				SoundController.getInstance().unpack(soundInfo, delete, true);
+			}
+		}
 
 		BackPackScriptController.getInstance().unpack(selectedSprite.getName(), delete, false, null, true);
 
@@ -111,23 +132,19 @@ public final class BackPackSpriteController {
 		return unpackedSprite;
 	}
 
-	private boolean lookDataIsUsedInScript(LookData lookData) {
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			for (Brick brick : sprite.getListWithAllBricks()) {
-				if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook().equals(lookData)) {
-					return true;
-				}
+	private boolean lookDataIsUsedInScript(LookData lookData, Sprite sprite) {
+		for (Brick brick : sprite.getListWithAllBricks()) {
+			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook().equals(lookData)) {
+				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean soundInfoIsUsedInScript(SoundInfo soundInfo) {
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			for (Brick brick : sprite.getListWithAllBricks()) {
-				if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound().equals(soundInfo)) {
-					return true;
-				}
+	private boolean soundInfoIsUsedInScript(SoundInfo soundInfo, Sprite sprite) {
+		for (Brick brick : sprite.getListWithAllBricks()) {
+			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound().equals(soundInfo)) {
+				return true;
 			}
 		}
 		return false;

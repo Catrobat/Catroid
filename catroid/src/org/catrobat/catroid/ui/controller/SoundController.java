@@ -365,16 +365,6 @@ public final class SoundController {
 		soundInfo.isPlaying = false;
 	}
 
-	public SoundInfo backPackSound(SoundInfo selectedSoundInfo, boolean addToHiddenBackpack) {
-		String newSoundInfoTitle = Utils.getUniqueSoundName(selectedSoundInfo, true);
-		String existingFileNameInBackPackDirectory = soundFileAlreadyInBackPackDirectory(selectedSoundInfo);
-		if (existingFileNameInBackPackDirectory == null) {
-			copySoundBackPack(selectedSoundInfo, newSoundInfoTitle, false);
-		}
-		return updateSoundBackPackAfterInsert(newSoundInfoTitle, selectedSoundInfo,
-				existingFileNameInBackPackDirectory, addToHiddenBackpack);
-	}
-
 	public String soundFileAlreadyInBackPackDirectory(SoundInfo soundInfoToCheck) {
 		if (soundInfoToCheck == null) {
 			return null;
@@ -498,7 +488,7 @@ public final class SoundController {
 				BackPackListManager.getInstance().removeItemFromSoundBackPack(soundInfo);
 			}
 			if (!otherSoundInfoItemsHaveAFileReference(soundInfo)) {
-				StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath(), true);
+				StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePathBackPack(), true);
 			}
 		}
 
@@ -676,6 +666,19 @@ public final class SoundController {
 
 		fragment.updateSoundAdapter(soundInfo);
 		return soundInfo;
+	}
+
+	public SoundInfo backPackSound(SoundInfo selectedSoundInfo, boolean addToHiddenBackpack) {
+		if (addToHiddenBackpack && BackPackListManager.getInstance().backPackedSoundsContain(selectedSoundInfo)) {
+			return selectedSoundInfo;
+		}
+		String newSoundInfoTitle = Utils.getUniqueSoundName(selectedSoundInfo, true);
+		String existingFileNameInBackPackDirectory = soundFileAlreadyInBackPackDirectory(selectedSoundInfo);
+		if (existingFileNameInBackPackDirectory == null) {
+			copySoundBackPack(selectedSoundInfo, newSoundInfoTitle, false);
+		}
+		return updateSoundBackPackAfterInsert(newSoundInfoTitle, selectedSoundInfo,
+				existingFileNameInBackPackDirectory, addToHiddenBackpack);
 	}
 
 	public SoundInfo unpack(SoundInfo currentSoundInfo, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {

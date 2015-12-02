@@ -51,14 +51,4 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar" />
 
-    <!--
-    <fragment
-        android:id="@+id/fragment_sprites_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.SpritesListFragment"
-        tools:layout="@layout/fragment_sprites_list" />
-     -->
-
 </RelativeLayout>
