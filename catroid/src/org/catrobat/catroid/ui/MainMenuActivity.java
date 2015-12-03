@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -192,7 +193,16 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
-		startWebViewActivity(Constants.BASE_URL_HTTPS);
+		if (Utils.isUserLoggedIn(this)) {
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+			String url = Constants.CATROBAT_TOKEN_LOGIN_URL + username + Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + token;
+			startWebViewActivity(url);
+		} else {
+			startWebViewActivity(Constants.BASE_URL_HTTPS);
+		}
 	}
 
 	public void startWebViewActivity(String url) {

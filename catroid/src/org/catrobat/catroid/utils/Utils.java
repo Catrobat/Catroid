@@ -62,8 +62,10 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -588,8 +590,23 @@ public final class Utils {
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
-			sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
-			sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+			logoutUser(context);
 		}
+	}
+
+	public static void logoutUser(Context context) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+		sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+		WebViewActivity.clearCookies(context);
+	}
+
+	public static boolean isUserLoggedIn(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+		return tokenValid;
 	}
 }
