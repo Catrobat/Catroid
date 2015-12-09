@@ -112,6 +112,10 @@ public final class BrickValues {
 	public static final int ARDUINO_DIGITAL_INITIAL_PIN_VALUE = 1;
 	public static final int ARDUINO_DIGITAL_INITIAL_PIN_NUMBER = 13;
 
+	//Constants Raspi
+	public static final int RASPI_DIGITAL_INITIAL_PIN_VALUE = 1;
+	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
+
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
 		throw new AssertionError();

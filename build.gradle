@@ -64,6 +64,7 @@ android {
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -78,6 +79,7 @@ android {
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
         }
     }
 }

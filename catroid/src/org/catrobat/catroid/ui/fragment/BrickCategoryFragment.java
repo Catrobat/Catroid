@@ -171,6 +171,10 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
 		}
 
+		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
+		}
+
 		adapter = new BrickCategoryAdapter(categories);
 		this.setListAdapter(adapter);
 	}
