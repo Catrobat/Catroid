@@ -43,16 +43,22 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPi;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiImpl;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -187,6 +193,12 @@ public class PreStageActivity extends BaseActivity {
 		if (requiredResources == Brick.NO_RESOURCES) {
 			startStage();
 		}
+
+		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
+            		connectRaspberrySocket();
+		}
+
+
 	}
 
 	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
@@ -197,6 +209,33 @@ public class PreStageActivity extends BaseActivity {
 			resourceInitialized();
 		}
 	}
+
+	private void connectRaspberrySocket() {
+        String host = SettingsActivity.getRaspiHost(this.getBaseContext());
+        int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+
+        Log.e("RASPI HOST IS...", host);
+        Log.e("RASPI POrt is..", Integer.toString(port));
+
+        RaspberryPiImpl rpi;
+        try {
+            rpi = new RaspberryPiImpl();
+            rpi.connect(host, port);
+            RaspberryPiService.connection = rpi.getConnection();
+        } catch (Exception e){
+            Log.e(getClass().getSimpleName(), "RPi connection failed!!" + e);
+            return;
+        }
+
+        if(rpi.getConnection().isConnected()) {
+            resourceInitialized();
+        }
+        else {
+            ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+            resourceFailed();
+        }
+	}
+
 
 	public DroneInitializer getDroneInitialiser() {
 		if (droneInitializer == null) {
@@ -247,6 +286,17 @@ public class PreStageActivity extends BaseActivity {
 
 		if (FaceDetectionHandler.isFaceDetectionRunning()) {
 			FaceDetectionHandler.stopFaceDetection();
+		}
+
+		if (RaspberryPiService.connection != null) {
+
+		    try {
+		        RaspberryPiService.connection.disconnect();
+		        RaspberryPiService.connection = null;
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+
 		}
 	}
 
