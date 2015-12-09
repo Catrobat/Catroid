@@ -72,6 +72,35 @@
         android:summary="@string/preference_description_arduino_bricks"
         android:title="@string/preference_title_enable_arduino_bricks" />
 
+    <PreferenceScreen
+        android:key="settings_raspberry_screen"
+        android:summary="@string/preference_description_raspi_bricks"
+        android:title="@string/preference_title_enable_raspi_bricks" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_raspi_bricks"
+            android:summary="@string/preference_description_raspi_bricks"
+            android:title="@string/preference_title_enable_raspi_bricks" />
+
+        <PreferenceCategory
+            android:title="@string/raspi_config_info_title"
+            android:key="setting_raspi_connection_settings_category">
+            <Preference android:summary="@string/preference_raspi_config_summary" />
+
+            <EditTextPreference android:key="setting_raspi_host_preference"
+                android:title="@string/preference_raspi_host"
+                android:defaultValue="192.168.0.1" />
+
+            <EditTextPreference android:key="setting_raspi_port_preference"
+                android:title="@string/preference_raspi_port"
+                android:inputType="number"
+                android:defaultValue="1000" />
+
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_enable_phiro_bricks"

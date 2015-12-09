@@ -17,6 +17,7 @@ public class RPiSocketConnection {
 
     private Socket clientSocket;
     private String RPiVersion;
+
     private boolean isConnected;
     private OutputStream outToServer;
     private DataOutputStream outStream;
@@ -388,5 +389,9 @@ public class RPiSocketConnection {
             available_GPIOs.add(24);
             available_GPIOs.add(26);
         }
+    }
+
+    public boolean isConnected() {
+        return isConnected;
     }
 }

@@ -391,6 +391,23 @@
         <item name="android:background">@drawable/brick_cyan_3h</item>
     </style>
 
+    <style name="BrickContainer.Raspi"></style>
+
+    <style name="BrickContainer.Raspi.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Raspi.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+
+    <style name="BrickContainer.Raspi.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
+
     <style name="BrickContainer.Lego" ></style >
 
     <style name="BrickContainer.Lego.Small" >
@@ -571,6 +588,11 @@
     </style >
 
     <style name="BrickCategoryText.Arduino">
+        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_bluetooth</item>
+    </style>
+
+    <style name="BrickCategoryText.Raspi">
         <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_bluetooth</item>
     </style>
