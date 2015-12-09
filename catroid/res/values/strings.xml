@@ -105,6 +105,11 @@
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+    <string name="preference_title_enable_raspi_bricks">Raspberry bricks</string>
+    <string name="preference_description_raspi_bricks">Allow to control Raspberry bricks</string>
+    <string name="preference_raspi_config_summary">Connection settings</string>
+    <string name="preference_raspi_host">RaspberryPi IP-/Host-Address</string>
+    <string name="preference_raspi_port">RaspberryPi Port</string>
     <!--  -->
 
 
@@ -419,6 +424,7 @@
     <string name="category_drone">ARDrone</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
+    <string name="category_raspi">Raspberry Pi</string>
     <!--  -->
 
     <!-- Motion bricks -->
@@ -685,6 +691,14 @@
     <string name="brick_arduino_set_pin_value_to">to</string>
     <!--  -->
 
+    <!-- Raspi Bricks -->
+    <string name="brick_raspi_select_digital_value">Set Raspberry Digital Pin</string>
+    <string name="brick_raspi_set_pin_value_to">to</string>
+    <string name="brick_raspi_if_begin" >If Raspi Pin</string >
+    <string name="brick_raspi_if_begin_second_part" >is true then</string >
+    <string name="raspi_config_info_title">Raspi Connection Configuration</string>
+    <!--  -->
+
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">Set NXT motor</string>
     <string name="nxt_motor_speed_to">to</string>
@@ -881,6 +895,7 @@
     <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital">raspi_digital_pin</string>
     <string name="formula_editor_function_list_item">element</string>
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>

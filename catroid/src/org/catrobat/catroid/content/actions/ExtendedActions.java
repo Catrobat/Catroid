@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -253,6 +254,14 @@ public class ExtendedActions extends Actions {
 		action.setPinValue(pinValue);
 		return action;
 	}
+
+    public static RaspiSendDigitalValueAction sendDigitalRaspiValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+        RaspiSendDigitalValueAction action = action(RaspiSendDigitalValueAction.class);
+        action.setSprite(sprite);
+        action.setPinNumber(pinNumber);
+        action.setPinValue(pinValue);
+        return action;
+    }
 
 	public static ArduinoSendPWMValueAction sendPWMArduinoValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
 		ArduinoSendPWMValueAction action = action(ArduinoSendPWMValueAction.class);
