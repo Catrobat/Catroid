@@ -161,9 +161,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 			Context context = this.getActivity().getApplicationContext();
 
-			if (SettingsActivity.isFaceDetectionPreferenceEnabled(context)) {
-				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
-			}
+			itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.facedetection;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
@@ -55,12 +54,9 @@ public final class FaceDetectionHandler {
 		return running;
 	}
 
-	public static boolean startFaceDetection(Context context) {
+	public static boolean startFaceDetection() {
 		if (running) {
 			return true;
-		}
-		if (context != null) {
-			CameraManager.getInstance().updateCameraID(context);
 		}
 		if (faceDetector == null) {
 			createFaceDetector();
@@ -107,7 +103,7 @@ public final class FaceDetectionHandler {
 		if (!paused) {
 			return;
 		}
-		startFaceDetection(null);
+		startFaceDetection();
 		paused = false;
 	}
 
@@ -146,8 +142,14 @@ public final class FaceDetectionHandler {
 		}
 		int possibleFaces = 0;
 		try {
+			if (!CameraManager.getInstance().isReady()) {
+				CameraManager.getInstance().startCamera();
+			}
+
 			Camera camera = CameraManager.getInstance().getCamera();
 			possibleFaces = getNumberOfCameras(camera);
+
+			CameraManager.getInstance().releaseCamera();
 		} catch (Exception exception) {
 			Log.e(TAG, "Camera unaccessable!", exception);
 		}

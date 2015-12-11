@@ -22,9 +22,13 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -33,6 +37,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -40,6 +45,7 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -56,6 +62,8 @@ public class StageActivity extends AndroidApplication {
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
 	private StageAudioFocus stageAudioFocus;
+
+	AndroidApplicationConfiguration configuration = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +84,17 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
-		initialize(stageListener, new AndroidApplicationConfiguration());
+		configuration = new AndroidApplicationConfiguration();
+		configuration.r = configuration.g = configuration.b = configuration.a = 8;
+
+		initialize(stageListener, configuration);
+
+		if (graphics.getView() instanceof SurfaceView) {
+			SurfaceView glView = (SurfaceView) graphics.getView();
+			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+			glView.setZOrderOnTop(true);
+		}
+
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
@@ -90,6 +108,8 @@ public class StageActivity extends AndroidApplication {
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);
+
+		CameraManager.getInstance().setStageActivity(this);
 	}
 
 	@Override
@@ -108,9 +128,14 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
-		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
+
+		CameraManager.getInstance().pausePreviewAsync();
+
 		LedUtil.pauseLed();
+		FaceDetectionHandler.pauseFaceDetection();
+
+		CameraManager.getInstance().releaseCamera();
 		VibratorUtil.pauseVibrator();
 		super.onPause();
 
@@ -123,11 +148,16 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onResume() {
-		SensorHandler.startSensorListener(this);
-		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
+
+		FaceDetectionHandler.resumeFaceDetection();
 		LedUtil.resumeLed();
+		CameraManager.getInstance().resumePreviewAsync();
+
 		VibratorUtil.resumeVibrator();
+
+		SensorHandler.startSensorListener(this);
+
 		super.onResume();
 
 		if (droneConnection != null) {
@@ -144,6 +174,8 @@ public class StageActivity extends AndroidApplication {
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
 
+		CameraManager.getInstance().pausePreviewAsync();
+
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
 	}
 
@@ -152,7 +184,9 @@ public class StageActivity extends AndroidApplication {
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
-		FaceDetectionHandler.startFaceDetection(this);
+		FaceDetectionHandler.resumeFaceDetection();
+
+		CameraManager.getInstance().resumePreviewAsync();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
@@ -226,6 +260,12 @@ public class StageActivity extends AndroidApplication {
 		Log.d(TAG, "Destroy");
 		LedUtil.destroy();
 		VibratorUtil.destroy();
+		FaceDetectionHandler.stopFaceDetection();
+		CameraManager.getInstance().stopPreviewAsync();
+		CameraManager.getInstance().releaseCamera();
+
+		CameraManager.getInstance().setCameraID(1);
+
 		super.onDestroy();
 	}
 
@@ -242,5 +282,38 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public int getLogLevel() {
 		return 0;
+	}
+
+	//for running Asynchronous Tasks from the stage
+	public void post(Runnable r) {
+		handler.post(r);
+	}
+
+	public void destroy() {
+		stageListener.finish();
+		manageLoadAndFinish();
+
+		final AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+		builder.setMessage(R.string.error_flash_front_camera).setCancelable(false)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+						onDestroy();
+						exit();
+					}
+				});
+
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					AlertDialog dialog = builder.create();
+					dialog.show();
+				} catch (Exception e) {
+					Log.e(TAG, "Error while showing dialog. " + e.getMessage());
+				}
+			}
+		});
 	}
 }
