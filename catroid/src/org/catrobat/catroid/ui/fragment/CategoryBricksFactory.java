@@ -88,6 +88,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -414,6 +415,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupRaspiCategoryList() {
 		List<Brick> raspiBrickList = new ArrayList<Brick>();
 		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
+		raspiBrickList.add(new RaspiIfLogicBeginBrick(0));
 		// TODO: add more Bricks
 
 		return raspiBrickList;
