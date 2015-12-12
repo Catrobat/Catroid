@@ -255,6 +255,14 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static ArduinoSendPWMValueAction sendPWMArduinoValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+		ArduinoSendPWMValueAction action = action(ArduinoSendPWMValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
     public static RaspiSendDigitalValueAction sendDigitalRaspiValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
         RaspiSendDigitalValueAction action = action(RaspiSendDigitalValueAction.class);
         action.setSprite(sprite);
@@ -263,13 +271,14 @@ public class ExtendedActions extends Actions {
         return action;
     }
 
-	public static ArduinoSendPWMValueAction sendPWMArduinoValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
-		ArduinoSendPWMValueAction action = action(ArduinoSendPWMValueAction.class);
-		action.setSprite(sprite);
-		action.setPinNumber(pinNumber);
-		action.setPinValue(pinValue);
-		return action;
-	}
+    public static RaspiIfLogicAction raspiIfLogicAction(Sprite sprite, Formula pinNumber, Action ifAction, Action elseAction) {
+        RaspiIfLogicAction action = action(RaspiIfLogicAction.class);
+        action.setSprite(sprite);
+        action.setPinNumber(pinNumber);
+        action.setIfAction(ifAction);
+        action.setElseAction(elseAction);
+        return action;
+    }
 
 	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
