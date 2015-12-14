@@ -396,7 +396,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	public enum ActionAfterFinished {
-		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER,NONE;
+		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER, NONE;
 		static final String KEY = "action";
 	}
 

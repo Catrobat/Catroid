@@ -1995,8 +1995,8 @@ public final class UiTestUtils {
 
 	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
 			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
-		if (!(solo.getCurrentActivity() instanceof Activity)) {
-			fail("Current activity is not a FragmentActivity");
+		if (solo.getCurrentActivity() != null) {
+			fail("Current activity is not a Activity");
 		}
 
 		FragmentManager fragmentManager = solo.getCurrentActivity().getFragmentManager();

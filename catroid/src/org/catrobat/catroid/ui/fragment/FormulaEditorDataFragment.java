@@ -202,15 +202,15 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 		super.onStart();
 	}
 
-	public void setAddButtonListener(final Activity fragmentActivity) {
-		ImageButton buttonAdd = (ImageButton) fragmentActivity.findViewById(R.id.button_add);
+	public void setAddButtonListener(final Activity activity) {
+		ImageButton buttonAdd = (ImageButton) activity.findViewById(R.id.button_add);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				NewDataDialog dialog = new NewDataDialog(NewDataDialog.DialogType.SHOW_LIST_CHECKBOX);
 				dialog.addUserListDialogListener(FormulaEditorDataFragment.this);
 				dialog.addVariableDialogListener(FormulaEditorDataFragment.this);
-				dialog.show(fragmentActivity.getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
+				dialog.show(activity.getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
 	}

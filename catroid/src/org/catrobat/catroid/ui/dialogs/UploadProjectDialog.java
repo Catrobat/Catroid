@@ -268,5 +268,4 @@ public class UploadProjectDialog extends DialogFragment {
 		Utils.invalidateLoginTokenIfUserRestricted(getActivity());
 		dismiss();
 	}
-
 }
