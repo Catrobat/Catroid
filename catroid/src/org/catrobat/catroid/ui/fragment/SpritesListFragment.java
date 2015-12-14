@@ -65,6 +65,7 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -106,6 +107,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private boolean actionModeActive = false;
 	private boolean isRenameActionMode;
 	private String programName;
+	private boolean selectAll = true;
 
 	private LoadProjectTask loadProjectTask;
 	public boolean isLoading = false;
@@ -333,8 +335,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, spriteAdapter.getCount() > 1
-				&& spriteAdapter.getAmountOfCheckedSprites() != spriteAdapter.getCount() - 1);
 	}
 
 	private void updateActionModeTitle() {
@@ -553,11 +553,23 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 			@Override
 			public void onClick(View view) {
-				for (int position = 1; position < spriteList.size(); position++) {
-					spriteAdapter.addCheckedSprite(position);
+				CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+
+				if (selectAll) {
+					for (int position = 1; position < spriteList.size(); position++) {
+						spriteAdapter.addCheckedSprite(position);
+					}
+					spriteAdapter.notifyDataSetChanged();
+					onSpriteChecked();
+					selectAll = false;
+					selectAllView.setText(R.string.deselect_all);
+				} else {
+					spriteAdapter.clearCheckedSprites();
+					spriteAdapter.notifyDataSetChanged();
+					onSpriteChecked();
+					selectAll = true;
+					selectAllView.setText(R.string.select_all);
 				}
-				spriteAdapter.notifyDataSetChanged();
-				onSpriteChecked();
 			}
 		});
 	}
