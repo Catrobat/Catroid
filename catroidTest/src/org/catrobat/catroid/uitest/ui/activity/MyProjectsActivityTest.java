@@ -104,7 +104,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		Log.v(TAG, "setUp");
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 
 		// disable show details when activated
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -693,13 +693,15 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(200);
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Select All is still shown", solo.waitForText(deselectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
-		solo.sleep(200);
+		solo.sleep(500);
 
 		for (int count = 0; count < 10; count++) {
 			assertFalse("Project not deleted",
@@ -730,11 +732,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(200);
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
 		solo.sleep(200);
 
@@ -1888,7 +1892,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
-		assertTrue("Select All is shown", solo.searchText(selectAll));
+		assertTrue("Select All is not shown", solo.searchText(selectAll));
 
 		UiTestUtils.clickOnText(solo, selectAll);
 		assertTrue("Deselect All is not shown", solo.getView(R.id.select_all).isShown());
@@ -2100,7 +2104,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectManager.setCurrentSprite(testSprite);
 
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				IMAGE_RESOURCE_1, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
@@ -2144,7 +2148,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectManager.setCurrentSprite(testSprite);
 
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, "catroid_sunglasses.png",
-				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				IMAGE_RESOURCE_1, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();

@@ -103,6 +103,13 @@ public class LookBaseAdapter extends ArrayAdapter<LookData> implements ActionMod
 		checkedLookPositions.add(position);
 	}
 
+	public void addCheckedItemIfNotExists(int position) {
+		checkedLookPositions.add(position);
+		if (!checkedLookPositions.contains(position)) {
+			checkedLookPositions.add(position);
+		}
+	}
+
 	@Override
 	public void clearCheckedItems() {
 		checkedLookPositions.clear();

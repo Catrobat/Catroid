@@ -35,18 +35,17 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
@@ -103,7 +102,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -139,7 +138,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -198,7 +197,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		menu.setHeaderTitle(selectedSpriteBackPack.getName());
 		adapter.addCheckedSprite(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
 	}
 
 	@Override
@@ -223,7 +222,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		if (selectedSprite.isBackgroundSprite) {
 			ConfirmUnpackBackgroundDialog dialog = new ConfirmUnpackBackgroundDialog(selectedSprite, delete,
 					keepCurrentSprite, fromHiddenBackPack);
-			dialog.show(getActivity().getSupportFragmentManager(), ConfirmUnpackBackgroundDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(getFragmentManager(), ConfirmUnpackBackgroundDialog.DIALOG_FRAGMENT_TAG);
 		} else {
 			BackPackSpriteController.getInstance().unpack(selectedSprite, delete,
 					keepCurrentSprite, fromHiddenBackPack);
@@ -329,7 +328,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 
 		selectAllActionModeButton.setOnClickListener(
 				new View.OnClickListener() {
@@ -381,7 +380,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 					this.deleteUnpackedItems = deleteUnpackedItems;
 					adapter.disableBackgroundSprites();
 				}
-				actionMode = getSherlockActivity().startActionMode(actionModeCallback);
+				actionMode = getActivity().startActionMode(actionModeCallback);
 				unregisterForContextMenu(listView);
 				BottomBar.hideBottomBar(getActivity());
 			}

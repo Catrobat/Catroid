@@ -176,6 +176,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				R.id.fragment_sound_item_title_text_view, soundInfoList, false);
 
 		adapter.setOnSoundEditListener(this);
+		adapter.notifyDataSetChanged();
 		setListAdapter(adapter);
 		((SoundAdapter) adapter).setSoundFragment(this);
 
@@ -496,6 +497,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
+		adapter.notifyDataSetChanged();
 
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
@@ -727,8 +729,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			public void onClick(View view) {
 				for (int position = 0; position < soundInfoList.size(); position++) {
 					adapter.addCheckedItem(position);
+					adapter.notifyDataSetChanged();
 				}
-				adapter.notifyDataSetChanged();
 				onSoundChecked();
 			}
 		});
@@ -893,6 +895,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
+				adapter.addCheckedItemIfNotExists(selectedSoundPosition);
 				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
 				clearCheckedSoundsAndEnableButtons();
 			}
@@ -919,6 +922,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void clearCheckedSoundsAndEnableButtons() {
 		setSelectMode(ListView.CHOICE_MODE_NONE);
 		adapter.clearCheckedItems();
+		adapter.notifyDataSetChanged();
 
 		actionMode = null;
 		setActionModeActive(false);

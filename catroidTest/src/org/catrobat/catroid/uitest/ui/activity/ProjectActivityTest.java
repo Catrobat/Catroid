@@ -114,7 +114,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		super.setUp();
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 
 		projectManager = ProjectManager.getInstance();
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -342,6 +342,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
@@ -349,7 +350,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 			}
 		}
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -937,6 +938,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(selectAll);
@@ -948,7 +950,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			}
 		}
 
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		String yes = solo.getString(R.string.yes);

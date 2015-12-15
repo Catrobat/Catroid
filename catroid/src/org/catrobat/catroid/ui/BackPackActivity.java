@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,9 +36,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;

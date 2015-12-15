@@ -22,18 +22,18 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -41,6 +41,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -73,12 +74,15 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
-		String programName;
+		String programName = getString(R.string.app_name);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			programName = bundle.getString(Constants.PROJECTNAME_TO_LOAD);
 		} else {
-			programName = ProjectManager.getInstance().getCurrentProject().getName();
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			if (project != null) {
+				programName = project.getName();
+			}
 		}
 
 		final ActionBar actionBar = getActionBar();

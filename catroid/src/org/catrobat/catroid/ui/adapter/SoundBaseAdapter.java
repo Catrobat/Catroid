@@ -47,7 +47,7 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ActionM
 	protected static long currentPlayingBase;
 	protected boolean showDetails;
 
-	protected SortedSet<Integer> checkedSounds = new TreeSet<Integer>();
+	protected SortedSet<Integer> checkedSounds = new TreeSet<>();
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
@@ -84,6 +84,12 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ActionM
 
 	public void addCheckedItem(int position) {
 		checkedSounds.add(position);
+	}
+
+	public void addCheckedItemIfNotExists(int position) {
+		if (!checkedSounds.contains(position)) {
+			checkedSounds.add(position);
+		}
 	}
 
 	@Override
@@ -142,10 +148,6 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ActionM
 
 	public SortedSet<Integer> getCheckedSounds() {
 		return checkedSounds;
-	}
-
-	public void setCheckedSounds(SortedSet<Integer> checkedSounds) {
-		this.checkedSounds = checkedSounds;
 	}
 
 	public int getCurrentPlayingPosition() {

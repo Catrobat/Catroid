@@ -1356,7 +1356,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testBackPackSpecialBricks() {
 		UiTestUtils.createEmptyProjectWithoutScript();
 		UiTestUtils.createTestProjectWithSpecialBricksForBackPack(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		UiTestUtils.prepareForSpecialBricksTest(getActivity(), getInstrumentation().getContext(), RESOURCE_IMAGE,
+		UiTestUtils.prepareForSpecialBricksTest(getInstrumentation().getContext(), RESOURCE_IMAGE,
 				RESOURCE_SOUND, TEST_LOOK_NAME, TEST_SOUND_NAME);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 

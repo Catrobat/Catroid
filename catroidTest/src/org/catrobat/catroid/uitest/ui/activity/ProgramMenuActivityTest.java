@@ -68,7 +68,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		super.setUp();
 		createProject();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 	}
 
 	@Override
@@ -206,7 +206,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		ProjectManager.getInstance().setCurrentScript(startScriptCat);
 
 		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
-				org.catrobat.catroid.test.R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				org.catrobat.catroid.test.R.drawable.catroid_sunglasses, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();

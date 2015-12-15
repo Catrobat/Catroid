@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -90,7 +89,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -280,6 +278,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		this.activity = activity;
 	}
 
+	/*
 	@Override
 	public void onDetach() {
 		super.onDetach();
@@ -293,6 +292,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			throw new RuntimeException(e);
 		}
 	}
+	*/
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -506,6 +506,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		selectedLookData = adapter.getItem(selectedLookPosition);
 		menu.setHeaderTitle(selectedLookData.getLookName());
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
+		adapter.notifyDataSetChanged();
 
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_move_up).setVisible(true);
@@ -634,7 +635,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	public void addLookMediaLibrary() {
 		Intent intent = new Intent(activity, WebViewActivity.class);
-		String url = null;
+		String url;
 		if (ProjectManager.getInstance().getCurrentSprite().getName().compareTo(getString(R.string.background)) == 0) {
 			url = Constants.LIBRARY_BACKGROUNDS_URL;
 		} else {
@@ -851,8 +852,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			public void onClick(View view) {
 				for (int position = 0; position < lookDataList.size(); position++) {
 					adapter.addCheckedItem(position);
+					adapter.notifyDataSetChanged();
 				}
-				adapter.notifyDataSetChanged();
 				onLookChecked();
 			}
 		});
@@ -872,6 +873,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
+				adapter.addCheckedItemIfNotExists(selectedLookPosition);
 				LookController.getInstance().deleteCheckedLooks(adapter, lookDataList, activity);
 				clearCheckedLooksAndEnableButtons();
 			}
@@ -898,6 +900,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void clearCheckedLooksAndEnableButtons() {
 		setSelectMode(ListView.CHOICE_MODE_NONE);
 		adapter.clearCheckedItems();
+		adapter.notifyDataSetChanged();
 
 		actionMode = null;
 		setActionModeActive(false);

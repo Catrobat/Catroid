@@ -68,6 +68,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 public final class SoundController {
 	public static final int REQUEST_SELECT_OR_RECORD_SOUND = 0;
@@ -412,6 +413,10 @@ public final class SoundController {
 	}
 
 	private void deleteSound(int position, List<SoundInfo> soundInfoList, Activity activity) {
+		if (position < 0 || position >= soundInfoList.size()) {
+			Log.d(TAG, "attempted to delete a sound at a position not in soundInfoList");
+			return;
+		}
 		SoundInfo soundInfoToDelete = soundInfoList.get(position);
 		if (soundInfoToDelete.isBackpackSoundInfo && !otherSoundInfoItemsHaveAFileReference(soundInfoToDelete)) {
 			StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath(), true);
@@ -436,14 +441,10 @@ public final class SoundController {
 
 	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, List<SoundInfo> soundInfoList,
 			MediaPlayer mediaPlayer) {
-		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedSounds.iterator();
 		SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-		int numberDeleted = 0;
+		Iterator iterator = ((TreeSet) adapter.getCheckedItems()).descendingIterator();
 		while (iterator.hasNext()) {
-			int position = iterator.next();
-			deleteSound(position - numberDeleted, soundInfoList, activity);
-			++numberDeleted;
+			deleteSound((int) iterator.next(), soundInfoList, activity);
 		}
 	}
 

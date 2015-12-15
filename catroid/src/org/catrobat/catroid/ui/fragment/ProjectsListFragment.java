@@ -569,6 +569,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		selectAll = true;
 		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 

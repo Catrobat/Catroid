@@ -1871,7 +1871,7 @@ public final class UiTestUtils {
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
 		solo.sleep(300);
-		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, solo.getView(android.R.id.list));
+		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, solo.getView(android.R.id.content));
 		for (int textView = 0; textView < textViews.size(); textView++) {
 			TextView view = textViews.get(textView);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
@@ -1883,7 +1883,7 @@ public final class UiTestUtils {
 	}
 
 	public static boolean longClickOnTextInList(Solo solo, String text) {
-		solo.waitForView(solo.getView(android.R.id.list));
+		solo.waitForView(solo.getView(android.R.id.content));
 		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
 		for (int position = 0; position < textViews.size(); position++) {
 			TextView view = textViews.get(position);
@@ -2055,9 +2055,9 @@ public final class UiTestUtils {
 		return false;
 	}
 
-	public static File setUpLookFile(Solo solo) throws IOException {
+	public static File setUpLookFile(Solo solo, Context instrumentationContext) throws IOException {
 		File lookFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				R.drawable.default_project_mole_whacked, solo.getCurrentActivity());
+				R.drawable.default_project_mole_whacked, instrumentationContext);
 
 		return lookFile;
 	}
@@ -2069,7 +2069,7 @@ public final class UiTestUtils {
 
 	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
 			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
-		if (solo.getCurrentActivity() != null) {
+		if (solo.getCurrentActivity() == null) {
 			fail("Current activity is not a Activity");
 		}
 
@@ -2278,13 +2278,13 @@ public final class UiTestUtils {
 		BackPackListManager.getInstance().clearBackPackSprites();
 	}
 
-	public static void prepareForSpecialBricksTest(Activity activity, Context instrumentationContext, int imageResource,
+	public static void prepareForSpecialBricksTest(Context instrumentationContext, int imageResource,
 			int soundResource, String testLookName, String testSoundName) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				imageResource, activity, UiTestUtils.FileTypes.IMAGE);
+				imageResource, instrumentationContext, UiTestUtils.FileTypes.IMAGE);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName(testLookName);

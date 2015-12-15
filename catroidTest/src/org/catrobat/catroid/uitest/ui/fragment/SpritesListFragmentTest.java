@@ -29,6 +29,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.robotium.solo.By;
+import com.robotium.solo.WebElement;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -172,18 +174,33 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 	public void testSelectAllActionModeButton() {
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
+		solo.sleep(TIME_TO_WAIT);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertTrue("CheckBox is not checked!", checkBox.isChecked());
+			}
+		}
+
+		assertTrue("Deselect All is not shown", solo.searchText(deselectAll, 1, false, true));
+		UiTestUtils.clickOnText(solo, deselectAll);
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertFalse("CheckBox is checked!", checkBox.isChecked());
+			}
+		}
+		assertFalse("Deselect All is still shown", solo.searchText(deselectAll, 1, false, true));
 
 		solo.clickOnCheckBox(0);
 		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		solo.clickOnCheckBox(0);
-		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		solo.goBack();
 
@@ -191,13 +208,13 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
+		assertTrue("Deselect All is not shown", solo.searchText(deselectAll, 1, false, true));
 
 		solo.clickOnCheckBox(0);
-		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
+		assertTrue("Deselect All is not shown", solo.searchText(deselectAll, 1, false, true));
 
 		solo.clickOnCheckBox(0);
-		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
+		assertTrue("Deselect All is not shown", solo.searchText(deselectAll, 1, false, true));
 	}
 
 	public void testMoveSpriteUp() {
@@ -361,8 +378,17 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(200);
+
+		ArrayList<WebElement> webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getClassName().contains("program mediafile-")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.waitForFragmentByTag(SpritesListFragment.TAG);
 		UiTestUtils.enterText(solo, 0, "testSpriteMediaLibrary");
 		solo.waitForText(solo.getString(R.string.ok));
@@ -614,12 +640,13 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
 		solo.waitForActivity("ProjectActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
 			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 		}
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertTrue("Backpack didn't appear", solo.waitForText(backpackTitle));
@@ -828,7 +855,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 		UiTestUtils.createEmptyProjectWithoutScript();
 		UiTestUtils.createTestProjectWithSpecialBricksForBackPack(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		UiTestUtils.prepareForSpecialBricksTest(getActivity(), getInstrumentation().getContext(), RESOURCE_IMAGE,
+		UiTestUtils.prepareForSpecialBricksTest(getInstrumentation().getContext(), RESOURCE_IMAGE,
 				RESOURCE_SOUND, TEST_LOOK_NAME, TEST_SOUND_NAME);
 		solo.clickOnText(continueMenu);
 		solo.sleep(TIME_TO_WAIT);

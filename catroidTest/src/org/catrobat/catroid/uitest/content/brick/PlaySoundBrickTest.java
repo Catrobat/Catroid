@@ -72,10 +72,10 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 	@Override
 	public void tearDown() throws Exception {
-		if (soundFile.exists()) {
+		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		if (soundFile2.exists()) {
+		if (soundFile2 != null && soundFile2.exists()) {
 			soundFile2.delete();
 		}
 		super.tearDown();

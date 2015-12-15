@@ -83,7 +83,7 @@ public class Sprite implements Serializable, Cloneable {
 		}
 
 		Sprite sprite = (Sprite) obj;
-		if (sprite.name.equals(this.name) || sprite.name.equals(this.name + "1") || sprite.name.concat("1").equals(this.name)) {
+		if (sprite.name.equals(this.name)) {
 			return true;
 		}
 		return false;
@@ -91,7 +91,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	@Override
 	public int hashCode() {
-		return name.hashCode() + super.hashCode();
+		return super.hashCode() * TAG.hashCode();
 	}
 
 	private Object readResolve() {
@@ -252,13 +252,13 @@ public class Sprite implements Serializable, Cloneable {
 			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
 		}
 
-		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
+		ArrayList<LookData> cloneLookList = new ArrayList<>();
 		for (LookData element : this.lookList) {
 			cloneLookList.add(element.clone());
 		}
 		cloneSprite.lookList = cloneLookList;
 
-		ArrayList<SoundInfo> cloneSoundList = new ArrayList<SoundInfo>();
+		ArrayList<SoundInfo> cloneSoundList = new ArrayList<>();
 		for (SoundInfo element : this.soundList) {
 			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
 		}

@@ -80,10 +80,6 @@ public class FileChecksumContainer implements Serializable {
 		return checksumFileInfoMap.get(checksum).path;
 	}
 
-	public String getPathBackPack(String checksum) {
-		return backPackChecksumFileInfoMap.get(checksum).path;
-	}
-
 	public int getUsage(String checksum) {
 		if (!checksumFileInfoMap.containsKey(checksum)) {
 			return 0;

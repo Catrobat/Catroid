@@ -57,6 +57,7 @@ public class DeleteLookDialog extends DialogFragment {
 		final int selectedPosition = getArguments().getInt(BUNDLE_ARGUMENTS_SELECTED_POSITION);
 
 		Dialog dialog = new CustomAlertDialogBuilder(getActivity()).setTitle(R.string.delete_look_dialog)
+				.setMessage(R.string.dialog_confirm_delete_look_message)
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

@@ -339,13 +339,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		}
 
 		updateActionModeTitle();
-		boolean setVisible = false;
-		if (isBackPackActionMode()) {
-			setVisible = spriteAdapter.getAmountOfCheckedItems() != spriteAdapter.getCount();
-		} else {
-			setVisible = spriteAdapter.getAmountOfCheckedItems() != spriteAdapter.getCount() - 1;
-		}
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, setVisible);
 	}
 
 	private void updateActionModeTitle() {
@@ -569,13 +562,14 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		selectAll = true;
 		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
+			CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+
 			@Override
 			public void onClick(View view) {
-				CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
-
 				if (selectAll) {
 					int startPosition = 1;
 					if (isBackPackActionMode) {
@@ -681,6 +675,8 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(ListView.CHOICE_MODE_SINGLE);
+
 			mode.setTitle(R.string.rename);
 			actionModeActive = true;
 			isRenameActionMode = true;

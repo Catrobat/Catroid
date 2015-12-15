@@ -187,6 +187,5 @@ public class SpriteBaseAdapter extends ArrayAdapter<Sprite> implements ActionMod
 		protected TextView looks;
 		protected TextView sounds;
 		protected View details;
-		protected ImageView arrow;
 	}
 }

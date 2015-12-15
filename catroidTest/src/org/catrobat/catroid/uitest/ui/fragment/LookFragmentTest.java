@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.robotium.solo.By;
 import com.robotium.solo.Solo;
+import com.robotium.solo.WebElement;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -139,15 +140,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
+		//Bitmap bm = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), RESOURCE_IMAGE);
+
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
-				RESOURCE_IMAGE2, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.jpg",
-				RESOURCE_IMAGE3, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE3, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, getActivity());
+				org.catrobat.catroid.test.R.drawable.catroid_banzai, getInstrumentation().getContext());
 
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
@@ -194,7 +197,10 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	@Override
 	public void tearDown() throws Exception {
-		paintroidImageFile.delete();
+		if (paintroidImageFile != null && paintroidImageFile.exists()) {
+			paintroidImageFile.delete();
+		}
+
 		super.tearDown();
 	}
 
@@ -872,8 +878,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(200);
+
+		ArrayList<WebElement> webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getClassName().contains("program mediafile-")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.waitForFragmentByTag(LookFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 		int numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
@@ -886,8 +901,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(200);
+
+		webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getClassName().contains("program mediafile-")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.sleep(TIME_TO_WAIT);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForFragmentByTag(LookFragment.TAG);
@@ -903,13 +927,23 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(200);
+
+		webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getClassName().contains("program mediafile-")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.waitForDialogToOpen();
 		solo.clickOnView(solo.getView(R.id.dialog_overwrite_media_radio_rename));
 		UiTestUtils.enterText(solo, 0, "testMedia");
 		solo.sleep(TIME_TO_WAIT);
 		solo.clickOnView(solo.getView(Button.class, 3));
+		solo.waitForDialogToClose();
 		solo.waitForFragmentByTag(LookFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 		numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
@@ -1241,7 +1275,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testEditImageWhichIsAlreadyUsed() {
 		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				"catroid_sunglasses2.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				"catroid_sunglasses2.png", RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		LookData lookDataToAdd = new LookData();
 		lookDataToAdd.setLookFilename(tempImageFile.getName());
@@ -1279,7 +1313,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		final String assertMessageText = "Look not renamed correctly";
 
 		String defaultLookName = solo.getString(R.string.default_look_name);
-		String newLookName = defaultLookName;
+		String newLookName;
 		String copyAdditionString = solo.getString(R.string.copy_addition);
 
 		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
@@ -1317,7 +1351,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String fileName = defaultLookName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
-					RESOURCE_IMAGE2, getActivity());
+					RESOURCE_IMAGE2, getInstrumentation().getContext());
 		} catch (IOException e) {
 			Log.e(TAG, "Image was not created", e);
 			fail("Image was not created");
@@ -1344,7 +1378,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		fileName = defaultLookName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
-					RESOURCE_IMAGE, getActivity());
+					RESOURCE_IMAGE, getInstrumentation().getContext());
 		} catch (IOException e) {
 			Log.e(TAG, "Image was not created", e);
 			fail("Image was not created");

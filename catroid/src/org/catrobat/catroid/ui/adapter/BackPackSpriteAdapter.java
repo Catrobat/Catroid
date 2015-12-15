@@ -73,7 +73,6 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
 			holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
-			holder.arrow = (ImageView) spriteView.findViewById(R.id.arrow_right);
 			spriteView.setTag(holder);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
@@ -111,7 +110,6 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		}
 		holder.backgroundHeadline.setVisibility(View.GONE);
 		holder.objectsHeadline.setVisibility(View.GONE);
-		holder.arrow.setVisibility(View.GONE);
 
 		holder.background.setOnClickListener(new OnClickListener() {
 

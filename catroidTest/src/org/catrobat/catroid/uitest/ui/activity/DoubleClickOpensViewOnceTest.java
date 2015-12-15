@@ -526,7 +526,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			UiTestUtils.createTestProject();
 
 			File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-					"catroid_sunglasses.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+					"catroid_sunglasses.png", RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 			List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 			LookData lookData = new LookData();

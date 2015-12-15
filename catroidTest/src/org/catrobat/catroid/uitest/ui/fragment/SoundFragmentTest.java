@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import com.robotium.solo.By;
 import com.robotium.solo.Solo;
+import com.robotium.solo.WebElement;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -337,8 +338,10 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.delete));
 		solo.waitForText(deleteDialogTitle);
-		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForText(solo.getString(R.string.yes));
+		solo.clickOnText(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
+		solo.sleep(TIME_TO_WAIT);
 
 		int newCount = adapter.getCount();
 
@@ -511,16 +514,26 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testGetSoundFromMediaLibrary() {
 		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
 		int numberSoundsBefore = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		int expectedNumberOfSounds = numberSoundsBefore + 1;
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(2500);
+
+		ArrayList<WebElement> webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getText().equals("Download")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.waitForFragmentByTag(SoundFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 		int numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
-		assertEquals("No Sound was added from Media Library!", numberSoundsBefore + 1, numberSoundsAfter);
+		assertEquals("No Sound was added from Media Library!", expectedNumberOfSounds, numberSoundsAfter);
 		String newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore).getTitle();
 		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
 				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
@@ -529,13 +542,32 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
-		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(2500);
+
+		webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getText().equals("Download")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
+		if (solo.searchText(solo.getString(R.string.overwrite_rename), 800, false, true)) {
+			solo.clickOnView(solo.getView(R.id.dialog_overwrite_media_radio_replace));
+			UiTestUtils.enterText(solo, 0, "testMedia");
+			solo.waitForText(solo.getString(R.string.ok));
+			solo.clickOnText(solo.getString(R.string.ok));
+			solo.waitForFragmentByTag(SoundFragment.TAG);
+			solo.sleep(TIME_TO_WAIT);
+		} else {
+			expectedNumberOfSounds++;
+		}
+
 		solo.waitForFragmentByTag(SoundFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 		numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
-		assertEquals("Sound was added from Media Library!", numberSoundsBefore + 1, numberSoundsAfter);
+		assertEquals("Sound was added from Media Library!", expectedNumberOfSounds, numberSoundsAfter);
 		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore)
 				.getTitle();
 		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
@@ -545,8 +577,17 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(2500);
+
+		webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getText().equals("Download")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.waitForDialogToOpen();
 		solo.clickOnView(solo.getView(R.id.dialog_overwrite_media_radio_rename));
 		UiTestUtils.enterText(solo, 0, "testMedia");
@@ -554,12 +595,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForFragmentByTag(SoundFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
+		expectedNumberOfSounds++;
 		numberSoundsAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
-		assertEquals("Second Sound was not added from Media Library!", numberSoundsBefore + 2, numberSoundsAfter);
+		assertEquals("Second Sound was not added from Media Library!", expectedNumberOfSounds, numberSoundsAfter);
 		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore).getTitle();
 		assertEquals("Temp File for " + newSoundName + " was not deleted!", false, UiTestUtils
 				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
-		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(numberSoundsBefore + 1)
+		newSoundName = ProjectManager.getInstance().getCurrentSprite().getSoundList().get(expectedNumberOfSounds - 1)
 				.getTitle();
 		assertEquals("Temp File for  " + newSoundName + " was not deleted!(", false, UiTestUtils
 				.checkTempFileFromMediaLibrary(Constants.TMP_SOUNDS_PATH, newSoundName));
@@ -1105,6 +1147,12 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
+
+		if (getBackPackSoundAdapter().getShowDetails()) {
+			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
+			solo.sleep(TIME_TO_WAIT);
+		}
+
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
@@ -1333,7 +1381,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testDeleteActionMode() {
-		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 1;
+		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 2;
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
@@ -1341,21 +1389,31 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		checkIfNumberOfSoundsIsEqual(getCurrentNumberOfSounds());
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.waitForDialogToOpen();
+		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
-		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		solo.waitForDialogToClose();
+		solo.sleep(500);
+		assertFalse("ActionMode didn't disappear", solo.searchText(delete, 1, false, true));
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 
-		assertTrue("Unselected sound '" + FIRST_TEST_SOUND_NAME + "' has been deleted!",
+		assertFalse("Unselected sound '" + FIRST_TEST_SOUND_NAME + "' has not been deleted!",
 				soundInfoList.contains(soundInfo));
 
-		assertFalse("Selected sound '" + SECOND_TEST_SOUND_NAME + "' was not deleted!",
+		assertFalse("Selected sound '" + SECOND_TEST_SOUND_NAME + "'has not been deleted!",
 				soundInfoList.contains(soundInfo2));
 
 		assertFalse("Sound '" + SECOND_TEST_SOUND_NAME + "' has been deleted but is still showing!",
 				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
+
+		assertFalse("Sound '" + FIRST_TEST_SOUND_NAME + "' has been deleted but is still showing!",
+				solo.waitForText(FIRST_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
 	public void testLongClickCancelDeleteAndCopy() {
@@ -1382,7 +1440,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
-		solo.sleep(400);
+		solo.sleep(800);
 
 		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
 		assertTrue("Bottom bar is visible" + solo.getCurrentViews(CheckBox.class).size(), solo.getCurrentViews(CheckBox.class).size() == 5);
@@ -1630,7 +1688,10 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void deleteSound(String soundName) {
-		clickOnContextMenuItem(soundName, delete);
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.sleep(TIME_TO_WAIT);
+		solo.clickOnText(soundName);
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.waitForDialogToOpen();
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnText(solo.getString(R.string.yes));

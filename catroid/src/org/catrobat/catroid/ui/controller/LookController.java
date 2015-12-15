@@ -52,7 +52,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BackPackLookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.LookFragment;
@@ -63,7 +62,9 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 public final class LookController {
 	public static final int REQUEST_SELECT_OR_DRAW_IMAGE = 0;
@@ -99,9 +100,6 @@ public final class LookController {
 
 		boolean checkboxIsVisible = handleCheckboxes(position, holder, lookAdapter);
 		handleDetails(lookData, holder, lookAdapter);
-		if (lookAdapter instanceof BackPackLookAdapter) {
-			holder.lookArrowView.setVisibility(View.GONE);
-		}
 
 		// Disable ImageView on active ActionMode
 		if (checkboxIsVisible) {
@@ -212,6 +210,7 @@ public final class LookController {
 		}
 
 		if (catchedException || (data == null && originalImagePath.equals(""))) {
+			Log.e(TAG, "Error loading image in onLoadFinished");
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 			return;
 		}
@@ -270,6 +269,7 @@ public final class LookController {
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 
 			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+				Log.e(TAG, "Error loading image in copyImageToCatroid imageDimensions");
 				Utils.showErrorDialog(activity, R.string.error_load_image);
 				return;
 			}
@@ -301,6 +301,7 @@ public final class LookController {
 				pixmap = Utils.getPixmapFromFile(imageFile);
 
 				if (pixmap == null) {
+					Log.e(TAG, "Error loading image in copyImageToCatroid pixmap");
 					Utils.showErrorDialog(activity, R.string.error_load_image);
 					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath(), false);
 					return;
@@ -308,9 +309,10 @@ public final class LookController {
 			}
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException e) {
+			Log.e(TAG, "Error loading image in copyImageToCatroid IOException");
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		} catch (NullPointerException e) {
-			Log.e("NullPointerException", "probably originalImagePath null; message: " + e.getMessage());
+			Log.e(TAG, "probably originalImagePath null; message: " + e.getMessage());
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
 		fragment.destroyLoader();
@@ -354,6 +356,7 @@ public final class LookController {
 
 		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPocketPaintImage);
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+			Log.e(TAG, "Error loading image in loadPocketPaintImageIntoCatroid");
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 			return;
 		}
@@ -393,6 +396,7 @@ public final class LookController {
 
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+				Log.e(TAG, "Error loading image in loadPictureFromCameraIntoCatroid");
 				Utils.showErrorDialog(activity, R.string.error_load_image);
 				return;
 			}
@@ -444,10 +448,9 @@ public final class LookController {
 	}
 
 	public void deleteCheckedLooks(LookBaseAdapter adapter, List<LookData> lookDataList, Activity activity) {
-		int numberDeleted = 0;
-		for (int position : adapter.getCheckedItems()) {
-			deleteLook(position - numberDeleted, lookDataList, activity);
-			++numberDeleted;
+		Iterator iterator = ((TreeSet) adapter.getCheckedItems()).descendingIterator();
+		while (iterator.hasNext()) {
+			deleteLook((int) iterator.next(), lookDataList, activity);
 		}
 	}
 
@@ -464,6 +467,10 @@ public final class LookController {
 	}
 
 	private void deleteLook(int position, List<LookData> lookDataList, Activity activity) {
+		if (position < 0 || position >= lookDataList.size()) {
+			Log.d(TAG, "attempted to delete a look at a position not in lookdatalist");
+			return;
+		}
 		LookData lookDataToDelete = lookDataList.get(position);
 		boolean isBackPackLook = lookDataToDelete.isBackpackLookData;
 
@@ -573,6 +580,7 @@ public final class LookController {
 
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException ioException) {
+			Log.e(TAG, "Error loading image in copyLook");
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
