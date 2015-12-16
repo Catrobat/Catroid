@@ -206,14 +206,13 @@
   </module>
 
   <module name="NewlineAtEndOfFile">
-    <property name="fileExtensions" value="java" />
+    <property name="fileExtensions" value="java,gradle" />
     <property name="lineSeparator" value="lf_cr_crlf" />
   </module>
   <module name="UniqueProperties" />
 
   <module name="RegexpHeader">
     <property name="headerFile" value="catroidSourceTest/res/agpl_license_text.txt" />
-    <property name="fileExtensions" value="java,xml" />
     <property name="multiLines" value="1,2" />
   </module>
 
@@ -227,14 +226,19 @@
     <property name="message" value="Remove author from the comment." />
   </module>
 
+  <module name="RegexpSingleline">
+    <property name="fileExtensions" value="gradle" />
+    <property name="format" value="^ *\t" />
+    <property name="message" value="Tabs aren't allowed for indentation. Spaces only" />
+  </module>
+
   <module name="RegexpMultiline">
-    <property name="fileExtensions" value="java" />
     <property name="format" value=".\n{2,}\s*\}" />
     <property name="message" value="Next line is an unnecessary newline" />
   </module>
 
   <module name="RegexpMultiline">
-    <property name="fileExtensions" value="java" />
+    <property name="fileExtensions" value="java,gradle" />
     <property name="format" value=".\n{3,}" />
     <property name="message" value="Maximum of blank lines is 1" />
   </module>
@@ -246,7 +250,7 @@
   </module>
 
   <module name="RegexpSingleline">
-    <property name="fileExtensions" value="java" />
+    <property name="fileExtensions" value="java,gradle" />
     <property name="format" value="^\s+$" />
     <property name="message" value="Empty line contains whitespaces." />
   </module>
