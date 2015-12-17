@@ -384,6 +384,13 @@ public class NewSpriteDialog extends DialogFragment {
 			getActivity().sendBroadcast(broadcastIntent);
 		}
 
+		if (requestedAction == ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT) {
+			projectManager.setCurrentSprite(sprite);
+
+			Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+			intent.putExtra(ProgramMenuActivity.FORWARD_TO_SCRIPT_ACTIVITY, ScriptActivity.FRAGMENT_SCRIPTS);
+			startActivity(intent);
+		}
 		dismiss();
 		return true;
 	}
