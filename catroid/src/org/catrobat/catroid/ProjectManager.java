@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
@@ -112,21 +112,21 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return INSTANCE;
 	}
 
-	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
+	public void uploadProject(String projectName, Activity activity) {
 		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(fragmentActivity, projectName, false, false);
+			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, false, false);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
 		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
 		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog(fragmentActivity);
+			showLoginRegisterDialog(activity);
 		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(fragmentActivity, token, username);
+			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
 		}
@@ -467,19 +467,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	@Override
-	public void onTokenNotValid(FragmentActivity fragmentActivity) {
-		showLoginRegisterDialog(fragmentActivity);
+	public void onTokenNotValid(Activity activity) {
+		showLoginRegisterDialog(activity);
 	}
 
 	@Override
-	public void onCheckTokenSuccess(FragmentActivity fragmentActivity) {
+	public void onCheckTokenSuccess(Activity activity) {
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(fragmentActivity.getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		uploadProjectDialog.show(activity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void showLoginRegisterDialog(FragmentActivity fragmentActivity) {
+	private void showLoginRegisterDialog(Activity activity) {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(fragmentActivity.getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+		loginRegisterDialog.show(activity.getFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

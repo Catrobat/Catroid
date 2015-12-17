@@ -94,8 +94,6 @@ configurations {
 }
 
 dependencies {
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3.1'
@@ -107,6 +105,7 @@ dependencies {
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
+    compile 'com.android.support:support-v4:19.1.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')

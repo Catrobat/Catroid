@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.MotionEvent;
@@ -35,7 +36,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
@@ -144,7 +144,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(InsertItemIntoUserListBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
@@ -158,7 +158,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(InsertItemIntoUserListBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();

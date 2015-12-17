@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,8 +37,6 @@ import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-
-import com.actionbarsherlock.app.ActionBar;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -76,7 +75,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		setContentView(R.layout.activity_main_menu);
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setTitle(R.string.app_name);
 
@@ -172,7 +171,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+		dialog.show(getFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handleProgramsButton(View view) {

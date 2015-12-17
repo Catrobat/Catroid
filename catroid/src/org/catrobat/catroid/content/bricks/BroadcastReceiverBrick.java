@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -224,7 +224,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			}
 		};
 
-		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
+		editDialog.show(((Activity) context).getFragmentManager(), "dialog_broadcast_brick");
 	}
 
 	@Override

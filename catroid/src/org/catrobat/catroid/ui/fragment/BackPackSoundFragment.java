@@ -24,25 +24,27 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,9 +58,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -150,7 +149,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		menu.setHeaderTitle(selectedSoundInfoBackPack.getTitle());
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
 	}
 
 	@Override
@@ -405,14 +404,14 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
 					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
-			actionMode = getSherlockActivity().startActionMode(unpackingModeCallBack);
+			actionMode = getActivity().startActionMode(unpackingModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -449,7 +448,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -466,7 +465,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
 					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 		}
@@ -495,7 +494,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 

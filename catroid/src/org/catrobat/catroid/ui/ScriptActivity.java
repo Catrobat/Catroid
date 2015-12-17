@@ -22,22 +22,21 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -83,7 +82,7 @@ public class ScriptActivity extends BaseActivity {
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;
-	private FragmentManager fragmentManager = getSupportFragmentManager();
+	private FragmentManager fragmentManager = getFragmentManager();
 	private ScriptFragment scriptFragment = null;
 	private LookFragment lookFragment = null;
 	private SoundFragment soundFragment = null;
@@ -140,8 +139,8 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	public void setupActionBar() {
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setHomeButtonEnabled(true);
+		final ActionBar actionBar = getActionBar();
+		//actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		String currentSprite = null;
 		try {
@@ -228,7 +227,7 @@ public class ScriptActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -240,7 +239,7 @@ public class ScriptActivity extends BaseActivity {
 			return super.onOptionsItemSelected(item);
 		}
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
+		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getFragmentManager()
 				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
 
 		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
@@ -307,7 +306,7 @@ public class ScriptActivity extends BaseActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentManager fragmentManager = getFragmentManager();
 
 		for (String tag : FormulaEditorListFragment.TAGS) {
 			FormulaEditorListFragment fragment = (FormulaEditorListFragment) fragmentManager.findFragmentByTag(tag);
@@ -322,20 +321,21 @@ public class ScriptActivity extends BaseActivity {
 			return fragment.onKey(null, keyCode, event);
 		}
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
+		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getFragmentManager()
 				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
 
 		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
 			return formulaEditorDataFragment.onKey(null, keyCode, event);
 		}
 
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSupportFragmentManager().findFragmentByTag(
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager().findFragmentByTag(
 				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
 		if (formulaEditor != null && formulaEditor.isVisible()) {
 			scriptFragment.getAdapter().updateProjectBrickList();
 			return formulaEditor.onKey(null, keyCode, event);
 		}
+
 		if (soundFragment != null && soundFragment.isVisible() && soundFragment.onKey(null, keyCode, event)) {
 			return true;
 		}
@@ -417,7 +417,7 @@ public class ScriptActivity extends BaseActivity {
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		//Dismiss ActionMode without effecting checked items
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
+		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getFragmentManager()
 				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
 
 		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {

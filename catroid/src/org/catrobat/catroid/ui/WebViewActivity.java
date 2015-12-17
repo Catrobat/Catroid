@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -41,8 +42,6 @@ import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.actionbarsherlock.app.ActionBar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -74,7 +73,7 @@ public class WebViewActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);
 
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 
 		Intent intent = getIntent();

@@ -25,10 +25,8 @@ package org.catrobat.catroid.transfers;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;

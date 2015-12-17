@@ -27,10 +27,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;

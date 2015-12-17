@@ -351,7 +351,7 @@ public class PointToBrick extends BrickBaseType {
 
 		protected void showNewSpriteDialog() {
 			NewSpriteDialog dialog = new NewSpriteDialog(this);
-			dialog.show(((ScriptActivity) context).getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(((ScriptActivity) context).getFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 		}
 
 		public void refreshSpinnerAfterNewSprite(final Context context, final String newSpriteName) {

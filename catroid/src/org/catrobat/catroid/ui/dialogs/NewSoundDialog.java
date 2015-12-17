@@ -24,10 +24,10 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +51,7 @@ public class NewSoundDialog extends DialogFragment {
 			throw new RuntimeException("This dialog (NewSoundDialog) can only be called by the SoundFragment.");
 		}
 		this.fragment = (SoundFragment) fragment;
-		show(fragment.getActivity().getSupportFragmentManager(), TAG);
+		show(fragment.getActivity().getFragmentManager(), TAG);
 	}
 
 	@Override
