@@ -80,7 +80,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private SpinnerAdapterWrapper spinnerAdapter;
 
 	public NewSpriteDialog() {
-		this.requestedAction = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
+		this.requestedAction = ActionAfterFinished.NONE;
 		this.wizardStep = DialogWizardStep.STEP_1;
 	}
 
@@ -384,19 +384,12 @@ public class NewSpriteDialog extends DialogFragment {
 			getActivity().sendBroadcast(broadcastIntent);
 		}
 
-		if (requestedAction == ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT) {
-			projectManager.setCurrentSprite(sprite);
-
-			Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-			intent.putExtra(ProgramMenuActivity.FORWARD_TO_SCRIPT_ACTIVITY, ScriptActivity.FRAGMENT_SCRIPTS);
-			startActivity(intent);
-		}
 		dismiss();
 		return true;
 	}
 
 	public enum ActionAfterFinished {
-		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER;
+		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER,NONE;
 		static final String KEY = "action";
 	}
 
