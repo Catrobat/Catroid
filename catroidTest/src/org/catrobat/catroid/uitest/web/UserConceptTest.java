@@ -36,9 +36,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -76,7 +74,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		super.tearDown();
 	}
 
-	@Device
 	public void testLicenceLinkPresent() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -90,7 +87,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 				solo.searchText(solo.getString(R.string.register_pocketcode_terms_of_use_text)));
 	}
 
-	@Device
 	public void testRegisterNewUser() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -104,7 +100,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-	@Device
 	public void testRegisterWithValidTokenSaved() throws Throwable {
 		setTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -115,7 +110,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-	@Device
 	public void testTokenPersistance() throws Throwable {
 		setTestUrl();
 
@@ -134,7 +128,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-	@Device
 	public void testRegisterWithWrongToken() throws Throwable {
 		setTestUrl();
 
@@ -149,7 +142,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.goBackToHome(getInstrumentation());
 	}
 
-	@Device
 	public void testRegisterWithShortPassword() throws Throwable {
 		setTestUrl();
 
@@ -165,7 +157,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
-	@Device
 	public void testRegisterUsernameDifferentCases() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
