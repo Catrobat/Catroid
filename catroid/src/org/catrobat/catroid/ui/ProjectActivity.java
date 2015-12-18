@@ -94,7 +94,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && !spritesListFragment.isLoading) {
+		if (spritesListFragment != null) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
 		}
 		return super.onCreateOptionsMenu(menu);
