@@ -25,9 +25,11 @@
 
     <item
         android:id="@+id/context_menu_backpack"
+        android:visible="false"
         android:title="@string/backpack" />
 	<item
         android:id="@+id/context_menu_unpacking"
+        android:visible="false"
         android:title="@string/unpack" />
     <item
         android:id="@+id/context_menu_delete"
