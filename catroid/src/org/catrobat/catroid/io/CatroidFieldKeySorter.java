@@ -27,32 +27,81 @@ import android.util.Log;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
-import com.thoughtworks.xstream.core.util.OrderRetainingMap;
-
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
+import com.thoughtworks.xstream.io.StreamException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class CatroidFieldKeySorter implements FieldKeySorter {
-
 	private static final String TAG = CatroidFieldKeySorter.class.getSimpleName();
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Map sort(final Class type, final Map keyedByFieldKey) {
-		if (type.equals(Project.class)) {
-			return sortProjectFields(keyedByFieldKey);
+		XStreamFieldKeyOrder fieldKeyOrderAnnotation =
+				(XStreamFieldKeyOrder) type.getAnnotation(XStreamFieldKeyOrder.class);
+		if (fieldKeyOrderAnnotation != null) {
+			List<String> fieldOrder = Arrays.asList(fieldKeyOrderAnnotation.value());
+			return sortByList(fieldOrder, keyedByFieldKey);
+		} else {
+			return sortByFieldDepth(keyedByFieldKey);
 		}
+	}
 
-		if (type.equals(Sprite.class)) {
-			return sortSpriteFields(keyedByFieldKey);
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Map sortByList(final List<String> fieldOrder, final Map keyedByFieldKey) {
+		checkForMissingSerializedFields(fieldOrder, keyedByFieldKey.entrySet());
+		final Map map = new TreeMap(new Comparator() {
+
+			@Override
+			public int compare(final Object objectOne, final Object objectTwo) {
+				final FieldKey fieldKeyOne = (FieldKey) objectOne;
+				final FieldKey fieldKeyTwo = (FieldKey) objectTwo;
+
+				int fieldKeyOneIndex = getFieldKeyIndex(fieldOrder, fieldKeyOne.getFieldName());
+				int fieldKeyTwoIndex = getFieldKeyIndex(fieldOrder, fieldKeyTwo.getFieldName());
+
+				return fieldKeyOneIndex - fieldKeyTwoIndex;
+			}
+		});
+		map.putAll(keyedByFieldKey);
+		return map;
+	}
+
+	private int getFieldKeyIndex(List<String> fieldOrder, String fieldName) {
+		return fieldOrder.contains(fieldName) ? fieldOrder.indexOf(fieldName) : Integer.MAX_VALUE;
+	}
+
+	private void checkForMissingSerializedFields(List<String> fieldOrder, Set<Map.Entry<FieldKey, Field>> fields)
+			throws StreamException {
+		String missingFieldsClass = null;
+		List<String> missingFields = new ArrayList<>();
+		for (Map.Entry<FieldKey, Field> fieldEntry : fields) {
+			final FieldKey fieldKey = fieldEntry.getKey();
+			if (!fieldOrder.contains(fieldKey.getFieldName()) && isSerializable(fieldEntry.getValue())) {
+				missingFieldsClass = fieldKey.getDeclaringClass().getSimpleName();
+				missingFields.add(fieldKey.getFieldName());
+			}
 		}
+		if (!missingFields.isEmpty()) {
+			throw new StreamException("You have not given the annotation XStreamFieldKeyOrder a list of all fields to "
+					+ "be serialized. Missing fields in class " + missingFieldsClass + " are " + missingFields);
+		}
+	}
 
+	private boolean isSerializable(Field field) {
+		int modifiers = field.getModifiers();
+		return !Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Map sortByFieldDepth(final Map keyedByFieldKey) {
 		final Map map = new TreeMap(new Comparator() {
 
 			@Override
@@ -83,69 +132,9 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			} else {
 				return fieldName;
 			}
-		} catch (SecurityException securityException) {
+		} catch (SecurityException | NoSuchFieldException securityException) {
 			Log.e(TAG, Log.getStackTraceString(securityException));
-		} catch (NoSuchFieldException noSuchFieldException) {
-			Log.e(TAG, Log.getStackTraceString(noSuchFieldException));
 		}
 		return fieldName;
-	}
-
-	private Map sortProjectFields(Map map) {
-		Map orderedMap = new OrderRetainingMap();
-		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
-		Iterator<FieldKey> iterator = map.keySet().iterator();
-		while (iterator.hasNext()) {
-			FieldKey fieldKey = iterator.next();
-			if (fieldKey.getFieldName().equals("xmlHeader")) {
-				fieldKeyOrder[0] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("spriteList")) {
-				fieldKeyOrder[1] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("dataContainer")) {
-				fieldKeyOrder[2] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
-				fieldKeyOrder[3] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("settings")) {
-				fieldKeyOrder[4] = fieldKey;
-			}
-		}
-		for (FieldKey fieldKey : fieldKeyOrder) {
-			orderedMap.put(fieldKey, map.get(fieldKey));
-		}
-		return orderedMap;
-	}
-
-	private Map sortSpriteFields(Map map) {
-		Map orderedMap = new OrderRetainingMap();
-		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
-		Iterator<FieldKey> iterator = map.keySet().iterator();
-		while (iterator.hasNext()) {
-			FieldKey fieldKey = iterator.next();
-			if (fieldKey.getFieldName().equals("TAG")) {
-				fieldKeyOrder[0] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
-				fieldKeyOrder[1] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("look")) {
-				fieldKeyOrder[2] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("name")) {
-				fieldKeyOrder[3] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("isPaused")) {
-				fieldKeyOrder[4] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("lookList")) {
-				fieldKeyOrder[5] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("soundList")) {
-				fieldKeyOrder[6] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("scriptList")) {
-				fieldKeyOrder[7] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("userBricks")) {
-				fieldKeyOrder[8] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("newUserBrickNext")) {
-				fieldKeyOrder[9] = fieldKey;
-			}
-		}
-		for (FieldKey fieldKey : fieldKeyOrder) {
-			orderedMap.put(fieldKey, map.get(fieldKey));
-		}
-		return orderedMap;
 	}
 }
