@@ -36,6 +36,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.FragmentActivity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -1528,13 +1529,7 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-		View doneButton;
-
-		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
-		} else {
-			doneButton = solo.getCurrentActivity().findViewById(R.id.abs__action_mode_close_button);
-		}
+		View doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
 
 		solo.clickOnView(doneButton);
 		solo.sleep(200);
@@ -1666,7 +1661,7 @@ public final class UiTestUtils {
 	}
 
 	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
-			final float yTo, final int steps) {
+										final float yTo, final int steps) {
 		final Activity activity = solo.getCurrentActivity();
 		Handler handler = new Handler(activity.getMainLooper());
 
@@ -2028,7 +2023,7 @@ public final class UiTestUtils {
 			actionToPerform = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		}
 
-		FragmentManager fragmentManager = ((FragmentActivity) solo.getCurrentActivity()).getSupportFragmentManager();
+		FragmentManager fragmentManager = ((FragmentActivity) solo.getCurrentActivity()).getFragmentManager();
 
 		NewSpriteDialog dialog;
 
