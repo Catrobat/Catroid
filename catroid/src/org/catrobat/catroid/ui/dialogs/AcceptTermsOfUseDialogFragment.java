@@ -29,49 +29,38 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.Utils;
 
-public class AboutDialogFragment extends DialogFragment {
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_pocketcode";
+public class AcceptTermsOfUseDialogFragment extends DialogFragment {
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_accept_terms_of_use";
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View view = View.inflate(getActivity(), R.layout.dialog_about, null);
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_terms_of_use, null);
 
-		TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
-		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		TextView termsOfUseUrlTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_url);
+		termsOfUseUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		String aboutUrl = getString(R.string.about_link_template, Constants.ABOUT_POCKETCODE_LICENSE_URL,
-				getString(R.string.dialog_about_pocketcode_license_link_text));
+		String termsOfUseUrl = getString(R.string.terms_of_use_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
+				getString(R.string.dialog_terms_of_use_link_text));
 
-		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+		termsOfUseUrlTextView.setText(Html.fromHtml(termsOfUseUrl));
 
-		TextView aboutUrlCatrobatView = (TextView) view.findViewById(R.id.dialog_about_text_catrobat_url);
-		aboutUrlCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
-
-		String aboutCatrobatUrl = getString(R.string.about_link_template, Constants.CATROBAT_ABOUT_URL,
-				getString(R.string.dialog_about_catrobat_link_text));
-
-		aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
-
-		TextView aboutVersionNameTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_version_name);
-		String versionName = this.getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
-		aboutVersionNameTextView.setText(versionName);
-
-		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
+		Dialog termsOfUseDialog = new AlertDialog.Builder(getActivity()).setView(view)
+				.setTitle(R.string.dialog_terms_of_use_title)
 				.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}
 				}).create();
-		aboutDialog.setCanceledOnTouchOutside(true);
+		termsOfUseDialog.setCanceledOnTouchOutside(true);
 
-		return aboutDialog;
+		return termsOfUseDialog;
 	}
 }

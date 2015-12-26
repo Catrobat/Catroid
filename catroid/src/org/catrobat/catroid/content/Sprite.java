@@ -51,23 +51,19 @@ public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
 
-	public transient Look look;
+	public transient Look look = new Look(this);
 	public transient boolean isPaused;
 
 	@XStreamAsAttribute
 	private String name;
-	private List<Script> scriptList;
-	private ArrayList<LookData> lookList;
-	private ArrayList<SoundInfo> soundList;
-	private ArrayList<UserBrick> userBricks;
+	private List<Script> scriptList = new ArrayList<>();
+	private ArrayList<LookData> lookList = new ArrayList<>();
+	private ArrayList<SoundInfo> soundList = new ArrayList<>();
+	private ArrayList<UserBrick> userBricks = new ArrayList<>();
 	private transient int newUserBrickNext = 1;
 
 	public Sprite(String name) {
 		this.name = name;
-		scriptList = new ArrayList<Script>();
-		lookList = new ArrayList<LookData>();
-		soundList = new ArrayList<SoundInfo>();
-		init();
 	}
 
 	public Sprite() {
@@ -75,11 +71,8 @@ public class Sprite implements Serializable, Cloneable {
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
-		if (soundList != null && lookList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-			if (container == null) {
-				ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-			}
 			for (SoundInfo soundInfo : soundList) {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
@@ -87,25 +80,7 @@ public class Sprite implements Serializable, Cloneable {
 				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 			}
 		}
-		init();
 		return this;
-	}
-
-	private void init() {
-		look = new Look(this);
-		isPaused = false;
-		if (soundList == null) {
-			soundList = new ArrayList<SoundInfo>();
-		}
-		if (lookList == null) {
-			lookList = new ArrayList<LookData>();
-		}
-		if (scriptList == null) {
-			scriptList = new ArrayList<Script>();
-		}
-		if (userBricks == null) {
-			userBricks = new ArrayList<UserBrick>();
-		}
 	}
 
 	public List<Script> getScriptList() {
@@ -269,8 +244,6 @@ public class Sprite implements Serializable, Cloneable {
 		}
 		cloneSprite.userBricks = cloneUserBrickList;
 		cloneSprite.newUserBrickNext = this.newUserBrickNext;
-
-		cloneSprite.init();
 
 		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
 		try {

@@ -1,0 +1,168 @@
+CURRENT STATS:
+System memory usage:
+  SOff/Norm: 1 samples:
+    Cached: 1,3GB min, 1,3GB avg, 1,3GB max
+    Free: 516MB min, 516MB avg, 516MB max
+    ZRam: 0,00 min, 0,00 avg, 0,00 max
+    Kernel: 81MB min, 81MB avg, 81MB max
+    Native: 72MB min, 72MB avg, 72MB max
+  SOn /Norm: 2 samples:
+    Cached: 1,2GB min, 1,3GB avg, 1,3GB max
+    Free: 104MB min, 120MB avg, 137MB max
+    ZRam: 0,00 min, 0,00 avg, 0,00 max
+    Kernel: 102MB min, 104MB avg, 106MB max
+    Native: 73MB min, 73MB avg, 73MB max
+
+Per-Package Stats:
+  * org.catrobat.drone / u0a122 / v26:
+      * org.catrobat.drone / u0a122 / v26:
+               TOTAL: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+                 Top: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+          (Last Act): 2,1% (179MB-179MB-179MB/174MB-174MB-174MB over 1)
+            (Cached): 1,4%
+
+Summary:
+  * org.catrobat.drone / u0a122 / v26:
+           TOTAL: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+             Top: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+      (Last Act): 2,1% (179MB-179MB-179MB/174MB-174MB-174MB over 1)
+        (Cached): 1,4%
+
+Run time Stats:
+  SOff/Norm: +14m2s771ms
+  SOn /Norm: +18m36s120ms (running)
+      TOTAL: +32m38s891ms
+
+Memory usage:
+  Kernel : 96MB (24 samples)
+  Native : 73MB (24 samples)
+  Persist: 220MB (35 samples)
+  Top    : 85MB (63 samples)
+  ImpFg  : 52MB (121 samples)
+  ImpBg  : 11MB (61 samples)
+  Service: 177MB (231 samples)
+  Receivr: 563KB (267 samples)
+  Home   : 29MB (18 samples)
+  LastAct: 53MB (40 samples)
+  CchAct : 155MB (17 samples)
+  CchEmty: 223MB (165 samples)
+  Cached : 1,3GB (24 samples)
+  Free   : 252MB (24 samples)
+  TOTAL  : 2,7GB
+  ServRst: 5,1KB (21 samples)
+
+          Start time: 2015-11-23 12:58:11
+  Total elapsed time: +3h51m0s271ms (partial) libart.so
+
+AGGREGATED OVER LAST 24 HOURS:
+System memory usage:
+  SOff/Norm: 6 samples:
+    Cached: 0,94GB min, 1,2GB avg, 1,4GB max
+    Free: 106MB min, 307MB avg, 516MB max
+    ZRam: 0,00 min, 0,00 avg, 0,00 max
+    Kernel: 81MB min, 94MB avg, 104MB max
+    Native: 70MB min, 72MB avg, 75MB max
+  SOn /Norm: 9 samples:
+    Cached: 0,90GB min, 1,3GB avg, 1,4GB max
+    Free: 104MB min, 164MB avg, 441MB max
+    ZRam: 0,00 min, 0,00 avg, 0,00 max
+    Kernel: 83MB min, 100MB avg, 109MB max
+    Native: 73MB min, 73MB avg, 75MB max
+
+Per-Package Stats:
+  * org.catrobat.drone / u0a122 / v26:
+      * org.catrobat.drone / u0a122 / v26:
+               TOTAL: 2,8% (20MB-88MB-219MB/18MB-82MB-190MB over 8)
+                 Top: 2,8% (20MB-88MB-219MB/18MB-82MB-190MB over 8)
+          (Last Act): 0,24% (179MB-179MB-179MB/174MB-174MB-174MB over 1)
+            (Cached): 25% (121MB-121MB-121MB/116MB-117MB-117MB over 9)
+
+Summary:
+  * org.catrobat.drone / u0a122 / v26:
+           TOTAL: 2,8% (20MB-88MB-219MB/18MB-82MB-190MB over 8)
+             Top: 2,8% (20MB-88MB-219MB/18MB-82MB-190MB over 8)
+      (Last Act): 0,24% (179MB-179MB-179MB/174MB-174MB-174MB over 1)
+        (Cached): 25% (121MB-121MB-121MB/116MB-117MB-117MB over 9)
+
+Run time Stats:
+  SOff/Norm: +3h10m36s237ms
+  SOn /Norm: +1h31m54s367ms
+      TOTAL: +4h42m30s604ms
+
+Memory usage:
+  Kernel : 96MB (105 samples)
+  Native : 73MB (105 samples)
+  Persist: 235MB (245 samples)
+  Top    : 62MB (304 samples)
+  ImpFg  : 61MB (477 samples)
+  ImpBg  : 20MB (789 samples)
+  Service: 230MB (1307 samples)
+  Receivr: 287KB (1643 samples)
+  Home   : 14MB (32 samples)
+  LastAct: 46MB (232 samples)
+  CchAct : 160MB (91 samples)
+  CchCAct: 62KB (30 samples)
+  CchEmty: 195MB (800 samples)
+  Cached : 1,2GB (105 samples)
+  Free   : 260MB (105 samples)
+  TOTAL  : 2,6GB
+  ServRst: 2,5KB (200 samples)
+
+          Start time: 2015-11-21 16:58:03
+  Total elapsed time: +1d1h51m7s188ms (partial) libart.so
+
+AGGREGATED OVER LAST 3 HOURS:
+System memory usage:
+  SOff/Norm: 1 samples:
+    Cached: 1,3GB min, 1,3GB avg, 1,3GB max
+    Free: 516MB min, 516MB avg, 516MB max
+    ZRam: 0,00 min, 0,00 avg, 0,00 max
+    Kernel: 81MB min, 81MB avg, 81MB max
+    Native: 72MB min, 72MB avg, 72MB max
+  SOn /Norm: 2 samples:
+    Cached: 1,2GB min, 1,3GB avg, 1,3GB max
+    Free: 104MB min, 120MB avg, 137MB max
+    ZRam: 0,00 min, 0,00 avg, 0,00 max
+    Kernel: 102MB min, 104MB avg, 106MB max
+    Native: 73MB min, 73MB avg, 73MB max
+
+Per-Package Stats:
+  * org.catrobat.drone / u0a122 / v26:
+      * org.catrobat.drone / u0a122 / v26:
+               TOTAL: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+                 Top: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+          (Last Act): 2,1% (179MB-179MB-179MB/174MB-174MB-174MB over 1)
+            (Cached): 1,4%
+
+Summary:
+  * org.catrobat.drone / u0a122 / v26:
+           TOTAL: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+             Top: 19% (20MB-93MB-219MB/18MB-85MB-190MB over 6)
+      (Last Act): 2,1% (179MB-179MB-179MB/174MB-174MB-174MB over 1)
+        (Cached): 1,4%
+
+Run time Stats:
+  SOff/Norm: +14m2s771ms
+  SOn /Norm: +18m36s356ms
+      TOTAL: +32m39s127ms
+
+Memory usage:
+  Kernel : 96MB (24 samples)
+  Native : 73MB (24 samples)
+  Persist: 220MB (35 samples)
+  Top    : 85MB (63 samples)
+  ImpFg  : 52MB (121 samples)
+  ImpBg  : 11MB (61 samples)
+  Service: 177MB (231 samples)
+  Receivr: 563KB (267 samples)
+  Home   : 29MB (18 samples)
+  LastAct: 56MB (41 samples)
+  CchAct : 155MB (17 samples)
+  CchEmty: 223MB (166 samples)
+  Cached : 1,3GB (24 samples)
+  Free   : 252MB (24 samples)
+  TOTAL  : 2,7GB
+  ServRst: 5,1KB (21 samples)
+
+          Start time: 2015-11-23 12:58:11
+  Total elapsed time: +3h51m0s483ms (partial) libart.so

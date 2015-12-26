@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,7 +34,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -84,7 +84,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private LookData.LookDataType lookDataType;
 
 	public NewSpriteDialog() {
-		this.requestedAction = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
+		this.requestedAction = ActionAfterFinished.NONE;
 		this.wizardStep = DialogWizardStep.STEP_1;
 	}
 
@@ -222,7 +222,7 @@ public class NewSpriteDialog extends DialogFragment {
 
 				NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
 						requestedAction, spinnerAdapter, LookData.LookDataType.IMAGE);
-				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				dialog.show(getActivity().getFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 				dismiss();
 			} catch (NullPointerException e) {
 				Utils.showErrorDialog(getActivity(), R.string.error_load_image);
@@ -356,8 +356,10 @@ public class NewSpriteDialog extends DialogFragment {
 				lookUri = Uri.fromFile(newLookFile);
 				NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
 						requestedAction, spinnerAdapter, LookData.LookDataType.DRONE_VIDEO);
-				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				dialog.show(getActivity().getFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 				dismiss();
+
+
 			}
 		});
 	}
@@ -454,7 +456,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	public enum ActionAfterFinished {
-		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER;
+		ACTION_FORWARD_TO_NEW_OBJECT, ACTION_UPDATE_SPINNER, NONE;
 		static final String KEY = "action";
 	}
 

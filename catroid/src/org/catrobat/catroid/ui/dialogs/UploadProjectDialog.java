@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -34,7 +35,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -120,7 +120,7 @@ public class UploadProjectDialog extends DialogFragment {
 					}
 				}).create();
 
-		dialog.setCanceledOnTouchOutside(true);
+		dialog.setCanceledOnTouchOutside(false);
 		dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -265,6 +265,7 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void handleCancelButtonClick() {
+		Utils.invalidateLoginTokenIfUserRestricted(getActivity());
 		dismiss();
 	}
 }

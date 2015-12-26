@@ -24,8 +24,11 @@ package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -33,10 +36,6 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -162,13 +161,11 @@ public final class LookController {
 
 		if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
-			holder.lookArrowView.setVisibility(View.GONE);
 			holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
 			checkboxIsVisible = true;
 		} else {
 			holder.checkbox.setVisibility(View.GONE);
 			holder.checkbox.setChecked(false);
-			holder.lookArrowView.setVisibility(View.VISIBLE);
 			holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
 			lookAdapter.clearCheckedItems();
 		}
@@ -181,7 +178,7 @@ public final class LookController {
 		return checkboxIsVisible;
 	}
 
-	public Loader<Cursor> onCreateLoader(int id, Bundle arguments, FragmentActivity activity) {
+	public Loader<Cursor> onCreateLoader(int id, Bundle arguments, Activity activity) {
 		Uri imageUri = null;
 
 		if (arguments != null) {
@@ -476,9 +473,9 @@ public final class LookController {
 	public void switchToScriptFragment(LookFragment fragment, ScriptActivity scriptActivity) {
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
-		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = scriptActivity.getFragmentManager().beginTransaction();
 		fragmentTransaction.hide(fragment);
-		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.show(scriptActivity.getFragmentManager().findFragmentByTag(ScriptFragment.TAG));
 		fragmentTransaction.commitAllowingStateLoss();
 
 		scriptActivity.setIsLookFragmentFromSetLookBrickNewFalse();

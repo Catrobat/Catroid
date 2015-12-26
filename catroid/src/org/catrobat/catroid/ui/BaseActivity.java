@@ -22,17 +22,16 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -40,7 +39,7 @@ import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
-public class BaseActivity extends SherlockFragmentActivity {
+public class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
@@ -54,10 +53,11 @@ public class BaseActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		// Partly from http://stackoverflow.com/a/5069354
 		unbindDrawables(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
 		System.gc();
+
+		super.onDestroy();
 	}
 
 	@Override
@@ -65,13 +65,13 @@ public class BaseActivity extends SherlockFragmentActivity {
 		super.onResume();
 
 		if (getTitleActionBar() != null) {
-			getSupportActionBar().setTitle(getTitleActionBar());
+			getActionBar().setTitle(getTitleActionBar());
 		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -100,11 +100,11 @@ public class BaseActivity extends SherlockFragmentActivity {
 				return true;
 			case R.id.menu_terms_of_use:
 				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
-				termsOfUseDialog.show(getSupportFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+				termsOfUseDialog.show(getFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				aboutDialog.show(getFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			default:
 				break;

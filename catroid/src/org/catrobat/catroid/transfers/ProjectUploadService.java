@@ -156,6 +156,9 @@ public class ProjectUploadService extends IntentService {
 		} else {
 			ToastUtil.showSuccess(this, R.string.notification_upload_finished);
 		}
+
+		Utils.invalidateLoginTokenIfUserRestricted(getApplicationContext());
+
 		super.onDestroy();
 	}
 }

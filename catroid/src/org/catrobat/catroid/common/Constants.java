@@ -99,6 +99,7 @@ public final class Constants {
 	public static final String NO_TOKEN = "no_token";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
+	public static final String RESTRICTED_USER = "restricted_user";
 
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";

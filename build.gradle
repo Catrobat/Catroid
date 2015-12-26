@@ -20,6 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+import java.util.regex.Pattern
+
 buildscript {
     repositories {
         mavenCentral()
@@ -91,9 +94,6 @@ configurations {
 }
 
 dependencies {
-
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3.1'
@@ -105,6 +105,7 @@ dependencies {
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
+    compile 'com.android.support:support-v4:19.1.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -174,9 +175,9 @@ android {
         applicationId 'org.catrobat.drone'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 26
+        versionCode 27
         println "VersionCode is " + versionCode
-        versionName "0.9.19"
+        versionName "0.9.20"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
@@ -251,7 +252,6 @@ if (project.hasProperty('jenkins')) {
                 }
                 manifestOutputFile.write(generatedContent)
             }
-
         }
     }
 }

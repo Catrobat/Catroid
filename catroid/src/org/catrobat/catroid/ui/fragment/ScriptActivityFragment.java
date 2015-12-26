@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import android.app.ListFragment;
 
-public abstract class ScriptActivityFragment extends SherlockListFragment {
+public abstract class ScriptActivityFragment extends ListFragment {
 
 	protected boolean actionModeActive = false;
 

@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -36,7 +36,7 @@ import org.catrobat.catroid.web.WebconnectionException;
 public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = CheckTokenTask.class.getSimpleName();
 
-	private FragmentActivity fragmentActivity;
+	private Activity activity;
 	private ProgressDialog progressDialog;
 	private String token;
 	private String username;
@@ -45,8 +45,8 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 
 	private OnCheckTokenCompleteListener onCheckTokenCompleteListener;
 
-	public CheckTokenTask(FragmentActivity fragmentActivity, String token, String username) {
-		this.fragmentActivity = fragmentActivity;
+	public CheckTokenTask(Activity activity, String token, String username) {
+		this.activity = activity;
 		this.token = token;
 		this.username = username;
 	}
@@ -58,18 +58,18 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (fragmentActivity == null) {
+		if (activity == null) {
 			return;
 		}
-		String title = fragmentActivity.getString(R.string.please_wait);
-		String message = fragmentActivity.getString(R.string.loading);
-		progressDialog = ProgressDialog.show(fragmentActivity, title, message);
+		String title = activity.getString(R.string.please_wait);
+		String message = activity.getString(R.string.loading);
+		progressDialog = ProgressDialog.show(activity, title, message);
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			if (!Utils.isNetworkAvailable(fragmentActivity)) {
+			if (!Utils.isNetworkAvailable(activity)) {
 				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
@@ -97,34 +97,34 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 		if (!success) {
 			// token is not valid -> maybe password has changed
 			if (onCheckTokenCompleteListener != null) {
-				onCheckTokenCompleteListener.onTokenNotValid(fragmentActivity);
+				onCheckTokenCompleteListener.onTokenNotValid(activity);
 			}
 
 			return;
 		}
 
 		if (onCheckTokenCompleteListener != null) {
-			onCheckTokenCompleteListener.onCheckTokenSuccess(fragmentActivity);
+			onCheckTokenCompleteListener.onCheckTokenSuccess(activity);
 		}
 	}
 
 	private void showDialog(int messageId) {
-		if (fragmentActivity == null) {
+		if (activity == null) {
 			return;
 		}
 		if (exception.getMessage() == null) {
-			new CustomAlertDialogBuilder(fragmentActivity).setMessage(messageId).setPositiveButton(R.string.ok, null)
+			new CustomAlertDialogBuilder(activity).setMessage(messageId).setPositiveButton(R.string.ok, null)
 					.show();
 		} else {
-			new CustomAlertDialogBuilder(fragmentActivity).setMessage(exception.getMessage())
+			new CustomAlertDialogBuilder(activity).setMessage(exception.getMessage())
 					.setPositiveButton(R.string.ok, null).show();
 		}
 	}
 
 	public interface OnCheckTokenCompleteListener {
 
-		void onTokenNotValid(FragmentActivity fragmentActivity);
+		void onTokenNotValid(Activity activity);
 
-		void onCheckTokenSuccess(FragmentActivity fragmentActivity);
+		void onCheckTokenSuccess(Activity activity);
 	}
 }

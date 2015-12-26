@@ -184,7 +184,10 @@ public class CategoryBricksFactory {
 
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		controlBrickList.add(new IfLogicBeginBrick(0));
+		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, "<", null);
+		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
+		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {

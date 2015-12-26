@@ -39,13 +39,13 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -538,6 +538,14 @@ public final class Utils {
 			selectAllActionModeButton.setVisibility(View.VISIBLE);
 		} else {
 			selectAllActionModeButton.setVisibility(View.GONE);
+		}
+	}
+
+	public static void invalidateLoginTokenIfUserRestricted(Context context) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
+			sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+			sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
 		}
 	}
 }
