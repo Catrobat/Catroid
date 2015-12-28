@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -129,13 +128,11 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	private void updateActionBar() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getActionBar();
 
-			if (actionBar != null) {
-				actionBar.setTitle(R.string.preference_title);
-				actionBar.setHomeButtonEnabled(true);
-			}
+		if (actionBar != null) {
+			actionBar.setTitle(R.string.preference_title);
+			actionBar.setHomeButtonEnabled(true);
 		}
 	}
 

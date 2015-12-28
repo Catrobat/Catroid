@@ -22,10 +22,8 @@
  */
 package org.catrobat.catroid.facedetection;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.Camera;
-import android.os.Build;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
@@ -140,10 +138,6 @@ public final class FaceDetectionHandler {
 	}
 
 	public static boolean isIcsFaceDetectionSupported() {
-		int currentApi = android.os.Build.VERSION.SDK_INT;
-		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			return false;
-		}
 		int possibleFaces = 0;
 		try {
 			Camera camera = CameraManager.getInstance().getCamera();
@@ -154,7 +148,6 @@ public final class FaceDetectionHandler {
 		return possibleFaces > 0;
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private static int getNumberOfCameras(Camera camera) {
 		if (camera != null && camera.getParameters() != null) {
 			return camera.getParameters().getMaxNumDetectedFaces();

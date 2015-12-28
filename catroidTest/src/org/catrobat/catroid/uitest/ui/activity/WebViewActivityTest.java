@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.ui.activity;
 
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
 
@@ -68,50 +67,40 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		String webButtonText = solo.getString(R.string.main_menu_web);
 		solo.clickOnButton(webButtonText);
 
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+		solo.waitForView(solo.getView(R.id.webView));
+		solo.sleep(2000);
 
-			solo.waitForView(solo.getView(R.id.webView));
-			solo.sleep(2000);
+		assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
+				.getClass());
 
-			assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
-					.getClass());
+		final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
+		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				assertEquals("Catrobat URL is not correct", Constants.BASE_URL_HTTPS, webView.getUrl());
+			}
+		});
 
-			final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
-			solo.getCurrentActivity().runOnUiThread(new Runnable() {
-				public void run() {
-					assertEquals("Catrobat URL is not correct", Constants.BASE_URL_HTTPS, webView.getUrl());
-				}
-			});
-
-			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
-		} else {
-			applyWebViewOnOldDevices(webButtonText);
-		}
+		assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
 	}
 
 	public void testWebViewHelp() {
 		String helpButtonText = solo.getString(R.string.main_menu_help);
 
 		solo.clickOnButton(helpButtonText);
+		solo.waitForView(solo.getView(R.id.webView));
+		solo.sleep(2000);
 
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-			solo.waitForView(solo.getView(R.id.webView));
-			solo.sleep(2000);
+		assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
+				.getClass());
 
-			assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
-					.getClass());
+		final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
+		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				assertEquals("Catrobat help URL is not correct", Constants.CATROBAT_HELP_URL, webView.getUrl());
+			}
+		});
 
-			final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
-			solo.getCurrentActivity().runOnUiThread(new Runnable() {
-				public void run() {
-					assertEquals("Catrobat help URL is not correct", Constants.CATROBAT_HELP_URL, webView.getUrl());
-				}
-			});
-
-			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
-		} else {
-			applyWebViewOnOldDevices(helpButtonText);
-		}
+		assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
 	}
 
 	public void testWebViewPasswordForgotten() {
@@ -121,51 +110,22 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		String passwordForgottenButtonText = solo.getString(R.string.password_forgotten);
 		solo.clickOnButton(passwordForgottenButtonText);
 
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-			solo.waitForView(solo.getView(R.id.webView));
-			solo.sleep(2000);
+		solo.waitForView(solo.getView(R.id.webView));
+		solo.sleep(2000);
 
-			assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
-					.getClass());
+		assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
+				.getClass());
 
-			String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
-			final String url = baseUrl + LoginRegisterDialog.PASSWORD_FORGOTTEN_PATH;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
+		final String url = baseUrl + LoginRegisterDialog.PASSWORD_FORGOTTEN_PATH;
 
-			final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
-			solo.getCurrentActivity().runOnUiThread(new Runnable() {
-				public void run() {
-					assertEquals("Catrobat password forgotten URL is not correct", url, webView.getUrl());
-				}
-			});
+		final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
+		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				assertEquals("Catrobat password forgotten URL is not correct", url, webView.getUrl());
+			}
+		});
 
-			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
-		} else {
-			applyWebViewOnOldDevices(passwordForgottenButtonText);
-		}
-	}
-
-	private void applyWebViewOnOldDevices(String buttonText) {
-		String webButtonText = solo.getString(R.string.main_menu_web);
-		String cancelButtonText = solo.getString(R.string.cancel_button);
-		String dialogTitleText = solo.getString(R.string.main_menu_web_dialog_title);
-
-		solo.clickOnButton(buttonText);
-
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-			solo.sleep(300);
-			assertTrue("Alert dialog title not found", solo.searchText(dialogTitleText));
-			assertTrue("Alert dialog message not found",
-					solo.searchText(solo.getString(R.string.main_menu_web_dialog_message)));
-			assertTrue("OK button not found", solo.searchText(solo.getString(R.string.ok)));
-			assertTrue("Cancel button not found", solo.searchText(cancelButtonText));
-
-			solo.clickOnButton(cancelButtonText);
-			solo.sleep(200);
-			assertFalse("Dialog was not closed when pressing cancel", solo.searchText(dialogTitleText));
-			solo.clickOnButton(webButtonText);
-			solo.sleep(300);
-			solo.goBack();
-			assertFalse("Dialog was not closed when clicked back button", solo.searchText(dialogTitleText));
-		}
+		assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
 	}
 }

@@ -23,12 +23,8 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
@@ -36,7 +32,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -200,54 +195,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void startWebViewActivity(String url) {
-		// TODO just a quick fix for not properly working webview on old devices
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-			boolean showBrowserWarning = preferences.getBoolean(SHARED_PREFERENCES_SHOW_BROWSER_WARNING, true);
-			if (showBrowserWarning) {
-				showWebWarningDialog();
-			} else {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
-				startActivity(browserIntent);
-			}
-		} else {
-			Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
-			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-			startActivity(intent);
-		}
-	}
-
-	private void showWebWarningDialog() {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final View checkboxView = View.inflate(this, R.layout.dialog_web_warning, null);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getText(R.string.main_menu_web_dialog_title));
-		builder.setView(checkboxView);
-
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				CheckBox dontShowAgainCheckBox = (CheckBox) checkboxView
-						.findViewById(R.id.main_menu_web_dialog_dont_show_checkbox);
-				if (dontShowAgainCheckBox != null && dontShowAgainCheckBox.isChecked()) {
-					preferences.edit().putBoolean(SHARED_PREFERENCES_SHOW_BROWSER_WARNING, false).commit();
-				}
-
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
-				startActivity(browserIntent);
-			}
-		});
-		builder.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.setCanceledOnTouchOutside(true);
-		alertDialog.show();
+		Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		startActivity(intent);
 	}
 
 	public void handleUploadButton(View view) {

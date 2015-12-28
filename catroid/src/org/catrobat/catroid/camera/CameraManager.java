@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.camera;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
@@ -31,7 +30,6 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -57,7 +55,6 @@ public final class CameraManager implements Camera.PreviewCallback {
 	private int orientation = 0;
 
 	private boolean facingBack = true;
-	private boolean useTexture = false;
 
 	public static CameraManager getInstance() {
 		if (instance == null) {
@@ -67,11 +64,7 @@ public final class CameraManager implements Camera.PreviewCallback {
 	}
 
 	private CameraManager() {
-		int currentApi = android.os.Build.VERSION.SDK_INT;
-		if (currentApi >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-			useTexture = true;
-			createTexture();
-		}
+		createTexture();
 	}
 
 	public Camera getCamera() {
@@ -117,7 +110,7 @@ public final class CameraManager implements Camera.PreviewCallback {
 		}
 		camera.setPreviewCallbackWithBuffer(this);
 
-		if (useTexture && texture != null) {
+		if (texture != null) {
 			try {
 				setTexture();
 			} catch (IOException iOException) {
@@ -184,12 +177,10 @@ public final class CameraManager implements Camera.PreviewCallback {
 		return decodableBytes;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void createTexture() {
 		texture = new SurfaceTexture(TEXTURE_NAME);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setTexture() throws IOException {
 		camera.setPreviewTexture(texture);
 	}

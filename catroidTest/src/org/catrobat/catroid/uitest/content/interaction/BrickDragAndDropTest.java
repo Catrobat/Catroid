@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.interaction;
 
-import android.os.Build;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -79,10 +78,6 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
 		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			// just to get focus and get the correct list
-			solo.clickOnText(currentSprite);
-		}
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
@@ -110,12 +105,6 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 			solo.goBack();
 		}
 
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			// just to get focus and get the correct list
-			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-			solo.clickOnText(currentSprite);
-		}
-
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 
 		//just to gain focus
@@ -130,11 +119,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.sleep(2000);
 		solo.drag(20, 20, 300, height - 20, 100);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			// just to get focus and get the correct list
-			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-			solo.clickOnText(currentSprite);
-		}
+
 		solo.sleep(2000);
 		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}
