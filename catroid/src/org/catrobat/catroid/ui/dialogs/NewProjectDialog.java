@@ -24,13 +24,13 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -159,7 +159,7 @@ public class NewProjectDialog extends DialogFragment {
 		}
 
 		orientationDialog = new OrientationDialog();
-		orientationDialog.show(getActivity().getSupportFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
+		orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
 		orientationDialog.setOpenedFromProjectList(openedFromProjectList);
 		orientationDialog.setProjectName(projectName);
 		orientationDialog.setShouldBeEmpty(shouldBeEmpty);

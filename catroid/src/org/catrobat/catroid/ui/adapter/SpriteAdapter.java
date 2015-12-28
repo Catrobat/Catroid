@@ -79,7 +79,6 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		private TextView looks;
 		private TextView sounds;
 		private View details;
-		private ImageView arrow;
 	}
 
 	public int getAmountOfCheckedSprites() {
@@ -132,7 +131,6 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
 			holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
-			holder.arrow = (ImageView) spriteView.findViewById(R.id.arrow_right);
 			spriteView.setTag(holder);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
@@ -200,22 +198,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.backgroundHeadline.setVisibility(View.VISIBLE);
 			holder.objectsHeadline.setVisibility(View.VISIBLE);
 			holder.checkbox.setVisibility(View.GONE);
-			holder.arrow.setVisibility(View.VISIBLE);
 			if (selectMode == ListView.CHOICE_MODE_NONE) {
 				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 			} else {
-				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.button_background);
 			}
 		} else {
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
 			} else {
 				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setVisibility(View.GONE);
-				holder.arrow.setVisibility(View.VISIBLE);
 				holder.checkbox.setChecked(false);
 				clearCheckedSprites();
 			}

@@ -22,17 +22,15 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -76,11 +74,11 @@ public class ProjectActivity extends BaseActivity {
 			programName = ProjectManager.getInstance().getCurrentProject().getName();
 		}
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		setTitleActionBar(programName);
 
-		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
+		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
 				R.id.fragment_sprites_list);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
@@ -96,8 +94,8 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && !spritesListFragment.isLoading) {
-			getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		if (spritesListFragment != null) {
+			getMenuInflater().inflate(R.menu.menu_current_project, menu);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -168,13 +166,13 @@ public class ProjectActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-		Fragment previousFragment = getSupportFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		Fragment previousFragment = getFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 		if (previousFragment != null) {
 			fragmentTransaction.remove(previousFragment);
 		}
 
-		DialogFragment newFragment = new NewSpriteDialog();
+		NewSpriteDialog newFragment = new NewSpriteDialog();
 		newFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 

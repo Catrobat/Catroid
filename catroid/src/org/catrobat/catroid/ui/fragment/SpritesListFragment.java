@@ -23,6 +23,8 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.ListFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,14 +33,15 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,10 +49,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.ListView;
-
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -65,6 +64,7 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -80,7 +80,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener,
+public class SpritesListFragment extends ListFragment implements OnSpriteEditListener,
 		OnLoadProjectCompleteListener {
 
 	public static final String TAG = SpritesListFragment.class.getSimpleName();
@@ -106,6 +106,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private boolean actionModeActive = false;
 	private boolean isRenameActionMode;
 	private String programName;
+	private boolean selectAll = true;
 
 	private LoadProjectTask loadProjectTask;
 	public boolean isLoading = false;
@@ -163,7 +164,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 
 			isLoading = true;
-			this.getSherlockActivity().supportInvalidateOptionsMenu();
 
 			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
@@ -267,7 +267,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		menu.setHeaderTitle(spriteToEdit.getName());
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
@@ -333,8 +333,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, spriteAdapter.getCount() > 1
-				&& spriteAdapter.getAmountOfCheckedSprites() != spriteAdapter.getCount() - 1);
 	}
 
 	private void updateActionModeTitle() {
@@ -365,14 +363,19 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	@Override
 	public void onSpriteEdit(int position) {
-		ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-		Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-		startActivity(intent);
+		if (isRenameActionMode) {
+			spriteToEdit = spriteAdapter.getItem(position);
+			showRenameDialog();
+		} else {
+			ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+			Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			actionMode = getActivity().startActionMode(renameModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
@@ -380,7 +383,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
@@ -412,7 +415,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getActivity().startActionMode(copyModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
@@ -543,16 +546,28 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
-				for (int position = 1; position < spriteList.size(); position++) {
-					spriteAdapter.addCheckedSprite(position);
+				CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+
+				if (selectAll) {
+					for (int position = 1; position < spriteList.size(); position++) {
+						spriteAdapter.addCheckedSprite(position);
+					}
+					spriteAdapter.notifyDataSetChanged();
+					onSpriteChecked();
+					selectAll = false;
+					selectAllView.setText(R.string.deselect_all);
+				} else {
+					spriteAdapter.clearCheckedSprites();
+					spriteAdapter.notifyDataSetChanged();
+					onSpriteChecked();
+					selectAll = true;
+					selectAllView.setText(R.string.select_all);
 				}
-				spriteAdapter.notifyDataSetChanged();
-				onSpriteChecked();
 			}
 		});
 	}
@@ -615,7 +630,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -638,21 +653,20 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_SINGLE);
 			mode.setTitle(R.string.rename);
-
 			actionModeActive = true;
-
+			isRenameActionMode = true;
 			return true;
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+			isRenameActionMode = false;
 			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
 			Iterator<Integer> iterator = checkedSprites.iterator();
 			if (iterator.hasNext()) {
@@ -687,7 +701,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -728,7 +742,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		initListeners();
 		spriteAdapter.notifyDataSetChanged();
 		isLoading = false;
-		this.getSherlockActivity().supportInvalidateOptionsMenu();
 		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
 		getActivity().findViewById(R.id.fragment_sprites_list).setVisibility(View.VISIBLE);
 		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
@@ -739,7 +752,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private void showInfoFragmentIfNeeded() {
 		if (needToShowLegoNXTInfoDialog()) {
 			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
-			dialog.show(this.getActivity().getSupportFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}
 

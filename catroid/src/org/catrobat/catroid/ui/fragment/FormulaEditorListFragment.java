@@ -22,30 +22,29 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
 
 import java.util.Arrays;
 
-public class FormulaEditorListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
+public class FormulaEditorListFragment extends ListFragment implements Dialog.OnKeyListener {
 
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
@@ -110,8 +109,8 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
 			R.string.formula_editor_phiro_sensor_bottom_right };
 
-	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
-			R.string.formula_editor_function_arduino_read_pin_value_digital};
+	private static final int[] ARDUINO_SENSOR_ITEMS = { R.string.formula_editor_function_arduino_read_pin_value_analog,
+			R.string.formula_editor_function_arduino_read_pin_value_digital };
 
 	private static final int[] FACE_DETECTION_SENSOR_ITEMS = { R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
@@ -122,7 +121,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
@@ -210,9 +209,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			menu.getItem(index).setVisible(false);
 		}
 
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
+		getActivity().getActionBar().setTitle(actionBarTitle);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -223,8 +222,8 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	}
 
 	public void showFragment(Context context) {
-		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		Activity activity = (Activity) context;
+		FragmentManager fragmentManager = activity.getFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 		Fragment formulaEditorFragment = fragmentManager
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -237,11 +236,10 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	@Override
 	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
-					.beginTransaction();
+			FragmentTransaction fragTransaction = getActivity().getFragmentManager().beginTransaction();
 			fragTransaction.hide(this);
-			fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
-					FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+			fragTransaction.show(getActivity().getFragmentManager()
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 			fragTransaction.commit();
 			return true;
 		}

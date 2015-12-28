@@ -1879,6 +1879,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		assertFalse("Select All is shown", solo.searchText(selectAll));
@@ -1887,15 +1888,32 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is shown", solo.searchText(selectAll));
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Deselect All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is shown", solo.searchText(deselectAll));
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+			}
+		}
 
 		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is shown", solo.searchText(deselectAll));
 
 		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is shown", solo.searchText(deselectAll));
+
+		UiTestUtils.clickOnText(solo, deselectAll);
+		assertTrue("Select All is shown", solo.searchText(selectAll));
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertFalse("CheckBox is Checked!", checkBox.isChecked());
+			}
+		}
 	}
 
 	public void testDeletingProjectAndVerifySettings() {

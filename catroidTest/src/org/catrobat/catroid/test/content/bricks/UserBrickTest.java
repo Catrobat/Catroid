@@ -58,8 +58,6 @@ public class UserBrickTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		sprite = new Sprite("testSprite");
-		Reflection.invokeMethod(sprite, "init");
-
 		project = new Project(null, "testProject");
 
 		project.addSprite(sprite);

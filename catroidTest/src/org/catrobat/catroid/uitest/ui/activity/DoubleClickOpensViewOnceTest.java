@@ -495,7 +495,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			solo.waitForFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
 			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getSupportFragmentManager()
+			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getFragmentManager()
 					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 			solo.sleep(250);
 			final OnItemClickListener onItemClickListener = brickCategoryFragment.getListView()

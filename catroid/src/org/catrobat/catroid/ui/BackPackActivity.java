@@ -22,16 +22,15 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListAdapter;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
@@ -57,7 +56,7 @@ public class BackPackActivity extends BaseActivity {
 	public static final String ACTION_SCRIPT_DELETED = "org.catrobat.catroid.SCRIPT_DELETED";
 	private static int currentFragmentPosition;
 	private boolean backpackItem = false;
-	private FragmentManager fragmentManager = getSupportFragmentManager();
+	private FragmentManager fragmentManager = getFragmentManager();
 	private BackPackSoundFragment backPackSoundFragment = null;
 	private BackPackLookFragment backPackLookFragment = null;
 	private BackPackScriptFragment backPackScriptFragment = null;
@@ -87,7 +86,7 @@ public class BackPackActivity extends BaseActivity {
 		fragmentTransaction.commit();
 		fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 	}
@@ -130,7 +129,7 @@ public class BackPackActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -42,8 +43,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -53,7 +52,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewDataDialog extends SherlockDialogFragment {
+public class NewDataDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_data_catroid";
 	Spinner spinnerToUpdate;
@@ -225,7 +224,7 @@ public class NewDataDialog extends SherlockDialogFragment {
 		final EditText dialogEditText = (EditText) dialogNewUserList
 				.findViewById(R.id.dialog_formula_editor_data_name_edit_text);
 
-		InputMethodManager inputMethodManager = (InputMethodManager) getSherlockActivity().getSystemService(
+		InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(
 				Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.showSoftInput(dialogEditText, InputMethodManager.SHOW_IMPLICIT);
 
