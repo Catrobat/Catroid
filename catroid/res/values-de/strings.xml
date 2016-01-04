@@ -699,4 +699,5 @@
   <string name="warning">Warnung</string>
   <string name="abort">Abbruch</string>
   <string name="variable">Variable</string>
+  <string name="no_camera_available">Gesichtserkennung nicht verfügbar</string>
 </resources>

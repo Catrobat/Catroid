@@ -253,6 +253,7 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
     <string name="no_flash_led_available">No flash LED available</string>
     <string name="no_vibrator_available">Vibrator not available</string>
+    <string name="no_camera_available">Facedetection not supported</string>
     <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
     <!--  -->
 
