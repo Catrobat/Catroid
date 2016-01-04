@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.uitest.facedetection;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
@@ -70,7 +67,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		super.tearDown();
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testResourceNeeded() throws Exception {
 		createProject(true);
 		UiTestUtils.prepareStageForTest();
@@ -87,7 +83,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testResourceNotNeeded() throws Exception {
 		createProject(false);
 		UiTestUtils.prepareStageForTest();
@@ -101,7 +96,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testResourceChanged() throws Exception {
 		createProject(true);
 		UiTestUtils.prepareStageForTest();
@@ -128,7 +122,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.sleep(SLEEP_TIME);
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private void createProject(boolean faceDetection) {
 		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
 		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;

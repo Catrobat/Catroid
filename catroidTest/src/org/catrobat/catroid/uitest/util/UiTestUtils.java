@@ -33,7 +33,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
@@ -50,7 +49,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -1461,13 +1459,7 @@ public final class UiTestUtils {
 	}
 
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			solo.waitForView(LinearLayout.class);
-			LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
-			solo.clickOnView(linearLayout);
-		} else {
-			solo.clickOnActionBarItem(imageButtonId);
-		}
+		solo.clickOnActionBarItem(imageButtonId);
 	}
 
 	/**

@@ -34,7 +34,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -253,12 +252,8 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			}
 		};
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			checkDroneConnectionTask.executeOnExecutor(CheckDroneNetworkAvailabilityTask.THREAD_POOL_EXECUTOR,
-					prestageStageActivity);
-		} else {
-			checkDroneConnectionTask.execute(prestageStageActivity);
-		}
+		checkDroneConnectionTask.executeOnExecutor(CheckDroneNetworkAvailabilityTask.THREAD_POOL_EXECUTOR,
+				prestageStageActivity);
 	}
 
 	public void onPrestageActivityPause() {
