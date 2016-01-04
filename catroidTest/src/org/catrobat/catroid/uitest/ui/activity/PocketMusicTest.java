@@ -65,9 +65,33 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.sleep(200);
 
 		assertEquals(SoundRecorderActivity.class.getSimpleName()
-						+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+						+ " not set to be in portrait mode in AndroidManifest.xml!",
+				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
 				activityInfo.screenOrientation
 		);
+	}
+
+	public void testPianoElement() {
+		prepareTest();
+		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		assertNotNull("Piano Element was not found.", solo.getCurrentActivity().findViewById(R.id.musicdroid_piano));
+	}
+
+	public void testNoteGridElement() {
+		prepareTest();
+		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		assertNotNull("NoteGrid Element was not found.", solo.getCurrentActivity().findViewById(R.id
+				.musicdroid_note_grid));
+	}
+
+	public void testPlayButtonElement() {
+		prepareTest();
+		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		assertNotNull("Play Button Element was not found.",
+				solo.getCurrentActivity().findViewById(R.id.musicdroid_button_play));
 	}
 
 	private void prepareTest() {
