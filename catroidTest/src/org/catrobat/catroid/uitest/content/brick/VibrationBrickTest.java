@@ -44,21 +44,21 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		super(ScriptActivity.class);
 	}
 
-/*	@Override
+	@Override
 	protected void setUp() throws Exception {
-		createProject();
+	/*	createProject();
 		SensorTestServerConnection.connectToArduinoServer();
 		setActivityInitialTouchMode(false);
 		SensorTestServerConnection.closeConnection();
-		super.setUp();
+		super.setUp();*/
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SensorTestServerConnection.closeConnection();
+	/*	SensorTestServerConnection.closeConnection();
 		setActivityInitialTouchMode(true);
-		super.tearDown();
-	}*/
+		super.tearDown();*/
+	}
 
 	@Device
 	public void testVibrationBrick() {
