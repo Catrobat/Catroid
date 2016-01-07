@@ -117,8 +117,6 @@ public final class DroneConfigManager {
 	private void setAltitude(String preference) {
 		int altitudeValue = BrickValues.DRONE_ALTITUDE_MIN;
 
-		Log.d("test", preference);
-
 		switch (preference) {
 			case first:
 				altitudeValue = BrickValues.DRONE_ALTITUDE_MIN;
