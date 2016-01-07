@@ -67,7 +67,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 public final class SoundController {
