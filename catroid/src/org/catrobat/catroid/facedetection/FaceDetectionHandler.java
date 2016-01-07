@@ -59,6 +59,9 @@ public final class FaceDetectionHandler {
 		}
 		if (context != null) {
 			CameraManager.getInstance().updateCameraID(context);
+			if (CameraManager.getInstance().getCameraID() == CameraManager.NO_CAMERA) {
+				return false;
+			}
 		}
 		if (faceDetector == null) {
 			createFaceDetector();

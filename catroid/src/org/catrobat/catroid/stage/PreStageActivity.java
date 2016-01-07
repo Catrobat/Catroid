@@ -117,7 +117,16 @@ public class PreStageActivity extends BaseActivity {
 			if (success) {
 				resourceInitialized();
 			} else {
-				resourceFailed();
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.no_camera_available)).setCancelable(false)
+						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								resourceFailed();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
 			}
 		}
 

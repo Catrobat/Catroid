@@ -43,6 +43,7 @@ import java.util.List;
 public final class CameraManager implements Camera.PreviewCallback {
 
 	public static final int TEXTURE_NAME = 1;
+	public static final int NO_CAMERA = -1;
 	private static final String TAG = CameraManager.class.getSimpleName();
 	private static CameraManager instance;
 	private Camera camera;
@@ -80,10 +81,25 @@ public final class CameraManager implements Camera.PreviewCallback {
 				context.getResources().getString(R.string.preference_key_select_camera), "0");
 		cameraID = Integer.parseInt(idAsString);
 
-		CameraInfo cameraInfo = new CameraInfo();
-		Camera.getCameraInfo(cameraID, cameraInfo);
-		orientation = cameraInfo.orientation;
-		facingBack = cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK;
+		int cameraCount = Camera.getNumberOfCameras();
+		if (cameraCount == 0 && cameraID != NO_CAMERA) {
+			cameraID = NO_CAMERA;
+			preferences.edit().putString(context.getResources().getString(R.string.preference_key_select_camera),
+					String.valueOf(cameraID))
+					.commit();
+		} else if (cameraCount == 1 && cameraID != 0) {
+			cameraID = 0;
+			preferences.edit().putString(context.getResources().getString(R.string.preference_key_select_camera),
+					String.valueOf(cameraID))
+					.commit();
+		}
+
+		if (cameraID != NO_CAMERA) {
+			CameraInfo cameraInfo = new CameraInfo();
+			Camera.getCameraInfo(cameraID, cameraInfo);
+			orientation = cameraInfo.orientation;
+			facingBack = cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK;
+		}
 	}
 
 	public int getCameraID() {
@@ -103,7 +119,11 @@ public final class CameraManager implements Camera.PreviewCallback {
 			return false;
 		}
 		try {
-			camera = Camera.open(cameraID);
+			if (cameraID == NO_CAMERA) {
+				return false;
+			} else {
+				camera = Camera.open(cameraID);
+			}
 		} catch (RuntimeException runtimeException) {
 			Log.e(TAG, "Creating camera failed!", runtimeException);
 			return false;
