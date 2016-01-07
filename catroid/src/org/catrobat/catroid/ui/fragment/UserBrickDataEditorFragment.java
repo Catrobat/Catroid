@@ -104,7 +104,7 @@ public class UserBrickDataEditorFragment extends Fragment implements OnKeyListen
 			bundle.putSerializable(BRICK_BUNDLE_ARGUMENT, brick);
 			dataEditorFragment.setArguments(bundle);
 
-			fragTransaction.add(R.id.script_fragment_container, dataEditorFragment, BRICK_DATA_EDITOR_FRAGMENT_TAG);
+			fragTransaction.add(R.id.fragment_container, dataEditorFragment, BRICK_DATA_EDITOR_FRAGMENT_TAG);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(dataEditorFragment);
 			BottomBar.hideBottomBar(activity);

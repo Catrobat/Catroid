@@ -114,7 +114,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		super.setUp();
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 
 		projectManager = ProjectManager.getInstance();
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -342,6 +342,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
@@ -349,7 +350,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 			}
 		}
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -369,7 +370,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		String spriteBackgroundLabel = solo.getString(R.string.background);
 		assertTrue("Wrong name for background sprite!", solo.searchText(spriteBackgroundLabel));
@@ -429,7 +430,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
@@ -704,7 +705,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.goBack();
 
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		checkVisibilityOfViews(detailsView, true);
 
@@ -937,6 +938,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(selectAll);
@@ -948,7 +950,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			}
 		}
 
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		String yes = solo.getString(R.string.yes);
@@ -1264,12 +1266,12 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	private int checkNumberOfElements(Sprite firstSprite, Sprite copiedSprite) {
 
-		ArrayList<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
-		ArrayList<SoundInfo> firstSoundList = firstSprite.getSoundList();
+		List<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
+		List<SoundInfo> firstSoundList = firstSprite.getSoundList();
 		assertEquals("The number of sounds differs!", firstSoundList.size(), copiedSoundList.size());
 
-		ArrayList<LookData> copiedCustomeList = copiedSprite.getLookDataList();
-		ArrayList<LookData> firstCustomeList = firstSprite.getLookDataList();
+		List<LookData> copiedCustomeList = copiedSprite.getLookDataList();
+		List<LookData> firstCustomeList = firstSprite.getLookDataList();
 		assertEquals("The number of customes differs!", firstCustomeList.size(), copiedCustomeList.size());
 
 		assertEquals("The first sprite is NOT copied!", copiedSprite.getName(),

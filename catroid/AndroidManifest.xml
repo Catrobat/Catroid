@@ -109,7 +109,8 @@
         <activity
             android:name=".ui.BackPackActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:noHistory="true"/>
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />

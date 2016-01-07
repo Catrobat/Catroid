@@ -198,7 +198,6 @@ public class SetVariableBrick extends UserVariableBrick {
 				userVariable = null;
 			}
 		});
-
 		return view;
 	}
 
@@ -231,7 +230,6 @@ public class SetVariableBrick extends UserVariableBrick {
 		} else {
 			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
 		}
-
 		return prototypeView;
 	}
 
@@ -273,6 +271,7 @@ public class SetVariableBrick extends UserVariableBrick {
 	public SetVariableBrick clone() {
 		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
 				.clone(), userVariable);
+		clonedBrick.setBackPackedData(backPackedData);
 		return clonedBrick;
 	}
 

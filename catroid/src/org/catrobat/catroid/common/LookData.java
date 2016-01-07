@@ -56,6 +56,29 @@ public class LookData implements Serializable, Cloneable {
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
 
+	public transient boolean isBackpackLookData = false;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof LookData)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		LookData lookData = (LookData) obj;
+		if (lookData.fileName.equals(this.fileName) && lookData.name.equals(this.name)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode() + fileName.hashCode() + super.hashCode();
+	}
+
 	@Override
 	public LookData clone() {
 		LookData cloneLookData = new LookData();
@@ -63,6 +86,7 @@ public class LookData implements Serializable, Cloneable {
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
+		cloneLookData.isBackpackLookData = false;
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
 		} catch (FileNotFoundException fileNotFoundexception) {
@@ -119,7 +143,19 @@ public class LookData implements Serializable, Cloneable {
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathToImageDirectory(), fileName);
+			if (isBackpackLookData) {
+				return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
+			} else {
+				return Utils.buildPath(getPathToImageDirectory(), fileName);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	public String getAbsolutePathBackPack() {
+		if (fileName != null) {
+			return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
 		} else {
 			return null;
 		}
@@ -151,6 +187,11 @@ public class LookData implements Serializable, Cloneable {
 	private String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Constants.IMAGE_DIRECTORY);
+	}
+
+	private String getPathToBackPackImageDirectory() {
+		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {

@@ -28,6 +28,8 @@ public abstract class BackPackActivityFragment extends ListFragment {
 
 	protected boolean actionModeActive = false;
 
+	protected boolean deleteUnpackedItems = false;
+
 	public boolean getActionModeActive() {
 		return actionModeActive;
 	}
@@ -48,5 +50,9 @@ public abstract class BackPackActivityFragment extends ListFragment {
 
 	protected abstract void showDeleteDialog();
 
-	public abstract void startUnPackingActionMode();
+	public abstract void startUnPackingActionMode(boolean deleteUnpackedItems);
+
+	public boolean isDeleteUnpackedItems() {
+		return deleteUnpackedItems;
+	}
 }

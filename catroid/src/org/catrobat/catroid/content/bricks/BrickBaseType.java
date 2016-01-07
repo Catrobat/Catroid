@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
@@ -150,5 +151,23 @@ public class BrickBaseType implements Brick {
 	@Override
 	public void setAlpha(int newAlpha) {
 		alphaValue = newAlpha;
+	}
+
+	@Override
+	public void enableAllViews(View recursiveView, boolean enable) {
+		View viewToDisable = recursiveView == null ? view : recursiveView;
+
+		if (viewToDisable != null) {
+			if (!(viewToDisable instanceof CheckBox)) {
+				viewToDisable.setEnabled(enable);
+			}
+			if (viewToDisable instanceof ViewGroup) {
+				ViewGroup viewGroup = (ViewGroup) viewToDisable;
+				for (int i = 0; i < viewGroup.getChildCount(); i++) {
+					View child = viewGroup.getChildAt(i);
+					enableAllViews(child, enable);
+				}
+			}
+		}
 	}
 }

@@ -63,6 +63,7 @@ public class PointToBrick extends BrickBaseType {
 	public static final String EXTRA_NEW_SPRITE_NAME = "EXTRA_NEW_SPRITE_NAME";
 
 	private static final long serialVersionUID = 1L;
+
 	private Sprite pointedObject;
 	private transient String oldSelectedObject;
 	private transient AdapterView<?> adapterView;
@@ -398,5 +399,13 @@ public class PointToBrick extends BrickBaseType {
 		public void updateSpinner() {
 			setSpinnerSelection(spinner);
 		}
+	}
+
+	public Sprite getPointedObject() {
+		return pointedObject;
+	}
+
+	public void setPointedObject(Sprite pointedObject) {
+		this.pointedObject = pointedObject;
 	}
 }

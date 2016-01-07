@@ -62,12 +62,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -121,6 +124,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -129,6 +134,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.DialogWizardStep;
@@ -152,6 +158,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -181,6 +188,11 @@ public final class UiTestUtils {
 	public static final String JUST_SPECIAL_CHAR_PROJECT_NAME2 = "*\"/:<>?\\|%";
 	public static final String JUST_ONE_DOT_PROJECT_NAME = ".";
 	public static final String JUST_TWO_DOTS_PROJECT_NAME = "..";
+	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<>();
+	static {
+		INITIALIZED_LIST_VALUES.add(1.0);
+		INITIALIZED_LIST_VALUES.add(2.0);
+	}
 
 	public static final int DRAG_FRAMES = 35;
 
@@ -660,11 +672,11 @@ public final class UiTestUtils {
 		}
 
 		solo.sleep(600);
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, solo.getCurrentActivity());
+		openActionMode(solo, solo.getString(R.string.delete), R.id.delete, solo.getCurrentActivity());
 
 		solo.clickOnCheckBox(1);
 
-		UiTestUtils.acceptAndCloseActionMode(solo);
+		acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
 	}
 
@@ -920,7 +932,7 @@ public final class UiTestUtils {
 
 		Script testScript = new StartScript();
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 
 		ForeverBrick firstForeverBrick = new ForeverBrick();
 		ForeverBrick secondForeverBrick = new ForeverBrick();
@@ -1121,13 +1133,57 @@ public final class UiTestUtils {
 		return brickList;
 	}
 
-	public static void createTestProjectForActionModeDelete() {
+	public static List<Brick> createTestProjectWithSpecialBricksForBackPack(String projectName) {
+		Project project = new Project(null, projectName);
+		Sprite firstSprite = new Sprite("cat");
+		Sprite secondSprite = new Sprite("dog");
+
+		Script testScript = new StartScript();
+
+		ArrayList<Brick> brickList = new ArrayList<>();
+
+		brickList.add(new PlaySoundBrick());
+		brickList.add(new PointToBrick(secondSprite));
+		brickList.add(new SetLookBrick());
+		brickList.add(new AddItemToUserListBrick(0));
+		brickList.add(new AddItemToUserListBrick(0));
+		brickList.add(new SetVariableBrick(0));
+		brickList.add(new ChangeVariableBrick(0));
+		brickList.add(new ShowBrick());
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		Script testScriptSecondSprite = new StartScript();
+		ArrayList<Brick> brickListSecondSprite = new ArrayList<>();
+		brickListSecondSprite.add(new SetXBrick(0));
+		brickListSecondSprite.add(new SetYBrick(0));
+		for (Brick brick : brickListSecondSprite) {
+			testScriptSecondSprite.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(testScriptSecondSprite);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static void createTestProjectWithTwoScripts() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
 		Script firstScript = new StartScript();
 
-		ArrayList<Brick> firstBrickList = new ArrayList<Brick>();
+		ArrayList<Brick> firstBrickList = new ArrayList<>();
 		firstBrickList.add(new HideBrick());
 		firstBrickList.add(new ShowBrick());
 
@@ -1136,7 +1192,7 @@ public final class UiTestUtils {
 		}
 
 		Script secondScript = new WhenScript();
-		ArrayList<Brick> secondBrickList = new ArrayList<Brick>();
+		ArrayList<Brick> secondBrickList = new ArrayList<>();
 		secondBrickList.add(new HideBrick());
 		secondBrickList.add(new ShowBrick());
 
@@ -1167,6 +1223,18 @@ public final class UiTestUtils {
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+	}
+
+	public static void createEmptyProjectWithoutScript() {
+		Project project = new Project(null, PROJECTNAME3);
+		Sprite firstSprite = new Sprite("cat");
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	/**
@@ -1484,7 +1552,13 @@ public final class UiTestUtils {
 			UiTestUtils.clickOnActionBar(solo, menuItemId);
 		} else if (overflowMenuItemName != null) {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
-			solo.clickOnMenuItem(overflowMenuItemName, true);
+
+			if (overflowMenuItemName.equals(solo.getString(R.string.unpacking))
+					|| overflowMenuItemName.equals(solo.getString(R.string.unpack_keep))) {
+				solo.clickOnActionBarItem(menuItemId);
+			} else {
+				solo.clickOnMenuItem(overflowMenuItemName, true);
+			}
 		} else {
 			fail("Cannot click on element with menuItemid " + menuItemId + " or overflowMenuItemName "
 					+ overflowMenuItemName);
@@ -1789,7 +1863,7 @@ public final class UiTestUtils {
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
 		solo.sleep(300);
-		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, solo.getView(android.R.id.list));
+		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class, solo.getView(android.R.id.content));
 		for (int textView = 0; textView < textViews.size(); textView++) {
 			TextView view = textViews.get(textView);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
@@ -1801,7 +1875,7 @@ public final class UiTestUtils {
 	}
 
 	public static boolean longClickOnTextInList(Solo solo, String text) {
-		solo.waitForView(solo.getView(android.R.id.list));
+		solo.waitForView(solo.getView(android.R.id.content));
 		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
 		for (int position = 0; position < textViews.size(); position++) {
 			TextView view = textViews.get(position);
@@ -1973,9 +2047,9 @@ public final class UiTestUtils {
 		return false;
 	}
 
-	public static File setUpLookFile(Solo solo) throws IOException {
+	public static File setUpLookFile(Solo solo, Context instrumentationContext) throws IOException {
 		File lookFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				R.drawable.default_project_mole_whacked, solo.getCurrentActivity());
+				R.drawable.default_project_mole_whacked, instrumentationContext);
 
 		return lookFile;
 	}
@@ -1987,7 +2061,7 @@ public final class UiTestUtils {
 
 	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
 			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
-		if (solo.getCurrentActivity() != null) {
+		if (solo.getCurrentActivity() == null) {
 			fail("Current activity is not a Activity");
 		}
 
@@ -2041,7 +2115,7 @@ public final class UiTestUtils {
 		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.sounds), 0, 500));
 		solo.goBack();
 		hidePocketPaintDialog(solo);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertEquals("Not in expected fragment", true,
 				solo.waitForText(ProjectManager.getInstance().getCurrentProject().getName(), 0, 500));
 	}
@@ -2071,6 +2145,11 @@ public final class UiTestUtils {
 		solo.sleep(100);
 	}
 
+	public static void clickOnListItem(Solo solo, int listIndex) {
+		solo.clickInList(listIndex + 1);
+		solo.sleep(100);
+	}
+
 	public static void clickOnText(Solo solo, String text) {
 		solo.waitForText(text);
 		solo.clickOnText(text);
@@ -2084,7 +2163,7 @@ public final class UiTestUtils {
 					public boolean isSatisfied() {
 						return view.isShown() == wantedState;
 					}
-				}, 500);
+				}, 800);
 
 		if (!result) {
 			fail("Condition is not satisfied before timeout. wantedState: " + Boolean.valueOf(wantedState));
@@ -2104,5 +2183,136 @@ public final class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static void switchToProgrammBackground(Solo solo, String programName, String spriteName) {
+		clickOnHomeActionBarButton(solo);
+		solo.clickOnText(solo.getString(R.string.programs));
+		solo.sleep(500);
+		UiTestUtils.clickOnTextInList(solo, programName);
+		solo.sleep(500);
+		UiTestUtils.clickOnTextInList(solo, spriteName);
+		solo.sleep(500);
+		solo.clickOnText(solo.getString(R.string.background));
+		solo.sleep(500);
+	}
+
+	public static void backPackAllItems(Solo solo, Activity activity, String firstTestItemNamePacked, String
+			secondTestItemNamePacked) {
+		openBackPackActionModeWhenEmtpy(solo, activity);
+		solo.waitForActivity("ScriptActivity");
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+
+		acceptAndCloseActionMode(solo);
+		assertTrue("Backpack didn't appear", solo.waitForText(solo.getString(R.string.backpack_title)));
+		if (firstTestItemNamePacked != null) {
+			assertTrue("Item wasn't backpacked!", solo.waitForText(firstTestItemNamePacked, 0, 300));
+		}
+		if (secondTestItemNamePacked != null) {
+			assertTrue("Item wasn't backpacked!", solo.waitForText(secondTestItemNamePacked, 0, 300));
+		}
+	}
+
+	public static void openBackPackActionMode(Solo solo, Activity activity) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+		solo.waitForDialogToOpen();
+		solo.sleep(50);
+		solo.waitForText(solo.getString(R.string.packing));
+		solo.clickOnText(solo.getString(R.string.packing));
+		solo.sleep(500);
+	}
+
+	public static void openBackPack(Solo solo, Activity activity) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+		solo.waitForDialogToOpen();
+		solo.sleep(100);
+		solo.waitForText(solo.getString(R.string.unpacking));
+		solo.clickOnText(solo.getString(R.string.unpacking));
+		solo.sleep(500);
+	}
+
+	public static void openBackPackFromEmtpyAdapter(Solo solo, Activity activity) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+		solo.waitForDialogToOpen();
+		solo.sleep(300);
+	}
+
+	public static void openBackPackActionModeWhenEmtpy(Solo solo, Activity activity) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+		solo.sleep(500);
+	}
+
+	public static boolean fileExists(String path) {
+		File fileToCheck = new File(path);
+		return fileToCheck.exists();
+	}
+
+	public static void deleteAllItems(Solo solo, Activity activity) {
+		openActionMode(solo, solo.getString(R.string.delete), R.id.delete, activity);
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.waitForText(selectAll);
+		clickOnText(solo, selectAll);
+		acceptAndCloseActionMode(solo);
+		solo.waitForDialogToOpen();
+		if (solo.waitForText(solo.getString(R.string.yes), 1, 800)) {
+			solo.clickOnButton(solo.getString(R.string.yes));
+		}
+		solo.sleep(300);
+	}
+
+	public static void clearBackPack() {
+		BackPackListManager.getInstance().clearBackPackLooks();
+		StorageHandler.getInstance().clearBackPackLookDirectory();
+		BackPackListManager.getInstance().clearBackPackSounds();
+		StorageHandler.getInstance().clearBackPackSoundDirectory();
+		BackPackListManager.getInstance().clearBackPackScripts();
+		BackPackListManager.getInstance().clearBackPackSprites();
+	}
+
+	public static void prepareForSpecialBricksTest(Context instrumentationContext, int imageResource,
+			int soundResource, String testLookName, String testSoundName) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+				imageResource, instrumentationContext, UiTestUtils.FileTypes.IMAGE);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(imageFile.getName());
+		lookData.setLookName(testLookName);
+		lookDataList.add(lookData);
+		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+
+		List<SoundInfo> soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+				soundResource, instrumentationContext, UiTestUtils.FileTypes.SOUND);
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(testSoundName);
+		soundInfoList.add(soundInfo);
+		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+
+		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		dataContainer.addProjectUserVariable("global_var");
+		dataContainer.addSpriteUserVariable("sprite_var");
+		dataContainer.addProjectUserList("global_list");
+		dataContainer.addSpriteUserList("sprite_list");
+		UserList projectUserList = projectManager.getCurrentProject().getDataContainer()
+				.getUserList("global_list", null);
+		projectUserList.setList(INITIALIZED_LIST_VALUES);
+		UserList spriteUserList = projectManager.getCurrentProject().getDataContainer()
+				.getSpriteListOfLists(projectManager.getCurrentSprite()).get(0);
+		spriteUserList.setList(INITIALIZED_LIST_VALUES);
+		UserVariable spriteUserVariable = dataContainer.getUserVariable("sprite_var", projectManager.getCurrentSprite());
+		UserVariable projectUserVariable = dataContainer.getProjectVariables().get(0);
+
+		List<Brick> bricks = projectManager.getCurrentSprite().getListWithAllBricks();
+
+		((PlaySoundBrick) bricks.get(1)).setSoundInfo(soundInfo);
+		((SetLookBrick) bricks.get(3)).setLook(lookData);
+		((AddItemToUserListBrick) bricks.get(4)).setUserList(spriteUserList);
+		((AddItemToUserListBrick) bricks.get(5)).setUserList(projectUserList);
+		((SetVariableBrick) bricks.get(6)).setUserVariable(spriteUserVariable);
+		((ChangeVariableBrick) bricks.get(7)).setUserVariable(projectUserVariable);
 	}
 }

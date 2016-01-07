@@ -22,25 +22,33 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.Utils;
@@ -66,12 +74,15 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
-		String programName;
+		String programName = getString(R.string.app_name);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			programName = bundle.getString(Constants.PROJECTNAME_TO_LOAD);
 		} else {
-			programName = ProjectManager.getInstance().getCurrentProject().getName();
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			if (project != null) {
+				programName = project.getName();
+			}
 		}
 
 		final ActionBar actionBar = getActionBar();
@@ -79,7 +90,10 @@ public class ProjectActivity extends BaseActivity {
 		setTitleActionBar(programName);
 
 		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_sprites_list);
+				R.id.fragment_container);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		updateFragment(fragmentTransaction);
+		fragmentTransaction.commit();
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
 	}
@@ -96,6 +110,9 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
+			menu.findItem(R.id.unpacking).setVisible(false);
+			menu.findItem(R.id.unpacking_keep).setVisible(false);
+			menu.findItem(R.id.backpack).setVisible(true);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -105,6 +122,10 @@ public class ProjectActivity extends BaseActivity {
 		switch (item.getItemId()) {
 			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
+				break;
+
+			case R.id.backpack:
+				showBackPackChooser();
 				break;
 
 			case R.id.copy:
@@ -135,6 +156,40 @@ public class ProjectActivity extends BaseActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void showBackPackChooser() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		CharSequence[] items;
+		int numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedSprites().size();
+
+		if (numberOfItemsInBackpack == 0) {
+			spritesListFragment.startBackPackActionMode();
+		} else {
+
+			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpacking) };
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (which == 0) {
+						spritesListFragment.startBackPackActionMode();
+					} else if (which == 1) {
+						openBackPack();
+					}
+					dialog.dismiss();
+				}
+			});
+			builder.setTitle(R.string.backpack_title);
+			builder.setCancelable(true);
+			builder.show();
+		}
+	}
+
+	private void openBackPack() {
+		Intent intent = new Intent(this, BackPackActivity.class);
+		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SPRITES);
+		startActivity(intent);
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -155,6 +210,20 @@ public class ProjectActivity extends BaseActivity {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
 			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
+		}
+	}
+
+	private void updateFragment(FragmentTransaction fragmentTransaction) {
+		boolean fragmentExists = true;
+		if (spritesListFragment == null) {
+			spritesListFragment = new SpritesListFragment();
+			fragmentExists = false;
+		}
+
+		if (fragmentExists) {
+			fragmentTransaction.show(spritesListFragment);
+		} else {
+			fragmentTransaction.add(R.id.fragment_container, spritesListFragment, SpritesListFragment.TAG);
 		}
 	}
 
@@ -191,7 +260,7 @@ public class ProjectActivity extends BaseActivity {
 		if (spritesListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
 			SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
-			adapter.clearCheckedSprites();
+			adapter.clearCheckedItems();
 		}
 
 		return super.dispatchKeyEvent(event);
@@ -201,5 +270,39 @@ public class ProjectActivity extends BaseActivity {
 		spritesListFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+	}
+
+	public void showEmptyActionModeDialog(String actionMode) {
+		@SuppressLint("InflateParams")
+		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
+		TextView actionModeEmptyText = (TextView) dialogView.findViewById(R.id.dialog_action_mode_emtpy_text);
+
+		if (actionMode.equals(getString(R.string.backpack))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_backpack_and_unpack));
+		} else if (actionMode.equals(getString(R.string.unpacking))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_unpack));
+		} else if (actionMode.equals(getString(R.string.delete))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_delete));
+		} else if (actionMode.equals(getString(R.string.copy))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_copy));
+		} else if (actionMode.equals(getString(R.string.rename))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_rename));
+		}
+
+		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
+				.setTitle(actionMode)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).create();
+
+		actionModeEmptyDialog.setCanceledOnTouchOutside(true);
+		actionModeEmptyDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		actionModeEmptyDialog.show();
+	}
+
+	public SpritesListFragment getSpritesListFragment() {
+		return spritesListFragment;
 	}
 }

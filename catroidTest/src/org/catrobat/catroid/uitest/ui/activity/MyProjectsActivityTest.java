@@ -104,7 +104,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		Log.v(TAG, "setUp");
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 
 		// disable show details when activated
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -188,7 +188,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 
 		Project activeProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
+		List<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
 
 		String defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
 		String delete = solo.getString(R.string.delete);
@@ -289,7 +289,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -693,13 +693,15 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(200);
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Select All is still shown", solo.waitForText(deselectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
-		solo.sleep(200);
+		solo.sleep(500);
 
 		for (int count = 0; count < 10; count++) {
 			assertFalse("Project not deleted",
@@ -730,11 +732,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(200);
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
 		solo.sleep(200);
 
@@ -1525,7 +1529,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
 
@@ -1544,7 +1548,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(UiTestUtils.COPIED_PROJECT_NAME);
 
 		Project oldProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> lookDataListOldProject = oldProject.getSpriteList().get(1).getLookDataList();
+		List<LookData> lookDataListOldProject = oldProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataOldProject = lookDataListOldProject.get(0);
 		String oldChecksum = lookDataOldProject.getChecksum();
 
@@ -1553,7 +1557,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + UiTestUtils.COPIED_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.COPIED_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		assertTrue("project " + UiTestUtils.COPIED_PROJECT_NAME + " was not added",
 				solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, 1, true));
@@ -1562,7 +1566,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("The sprite name should be: 'testSprite'", solo.searchText("testSprite", 1, false));
 
 		Project copiedProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> lookDataListCopiedProject = copiedProject.getSpriteList().get(1).getLookDataList();
+		List<LookData> lookDataListCopiedProject = copiedProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataCopiedProject = lookDataListCopiedProject.get(0);
 		String copiedLookChecksum = lookDataCopiedProject.getChecksum();
 
@@ -1888,7 +1892,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
-		assertTrue("Select All is shown", solo.searchText(selectAll));
+		assertTrue("Select All is not shown", solo.searchText(selectAll));
 
 		UiTestUtils.clickOnText(solo, selectAll);
 		assertTrue("Deselect All is not shown", solo.getView(R.id.select_all).isShown());
@@ -1979,7 +1983,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_5, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
 		backgroundGreen = new LookData();
 		backgroundGreen.setLookFilename(imageFile1.getName());
@@ -2100,9 +2104,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectManager.setCurrentSprite(testSprite);
 
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				IMAGE_RESOURCE_1, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName("testname");
@@ -2144,9 +2148,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectManager.setCurrentSprite(testSprite);
 
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, "catroid_sunglasses.png",
-				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				IMAGE_RESOURCE_1, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName("testname");

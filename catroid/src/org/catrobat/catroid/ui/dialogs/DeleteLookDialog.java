@@ -35,7 +35,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteLookDialog extends DialogFragment {
 
@@ -57,6 +57,7 @@ public class DeleteLookDialog extends DialogFragment {
 		final int selectedPosition = getArguments().getInt(BUNDLE_ARGUMENTS_SELECTED_POSITION);
 
 		Dialog dialog = new CustomAlertDialogBuilder(getActivity()).setTitle(R.string.delete_look_dialog)
+				.setMessage(R.string.dialog_confirm_delete_look_message)
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -75,9 +76,9 @@ public class DeleteLookDialog extends DialogFragment {
 	}
 
 	private void handleDeleteLook(int position) {
-		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 
-		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
+		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath(), false);
 		lookDataList.remove(position);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));

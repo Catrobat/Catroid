@@ -84,8 +84,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			loadProgramFromExternalSource(loadExternalProjectUri);
 		}
 
-		if (!BackPackListManager.isBackpackFlag()) {
-			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+		if (!BackPackListManager.getInstance().isBackpackFlag()) {
+			BackPackListManager.getInstance().clearBackPackSounds();
+			BackPackListManager.getInstance().clearBackPackLooks();
 		}
 
 		//TODO Drone do not create project for now

@@ -314,7 +314,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("MyProjectsActivity not shown", solo.waitForActivity(MyProjectsActivity.class.getSimpleName()));
 		solo.clickOnText(testProject2);
 		assertTrue("ProjectActivity not shown", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
-		assertTrue("SpritesListFragment not shown", solo.waitForFragmentById(R.id.fragment_sprites_list));
+		assertTrue("SpritesListFragment not shown", solo.waitForFragmentById(R.id.fragment_container));
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -496,7 +496,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, testProject);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -509,7 +509,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		solo.clickOnText(testProject2, 1, true);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -526,7 +526,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustSpecialChars);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -540,7 +540,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameWithNormalAndSpecialChars2);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -558,7 +558,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustOneDot);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -574,7 +574,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustTwoDots);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());

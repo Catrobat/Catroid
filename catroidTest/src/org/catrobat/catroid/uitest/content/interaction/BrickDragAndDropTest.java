@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -65,6 +66,8 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
 
 		ListView view = UiTestUtils.getScriptListView(solo);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
+		solo.sleep(300);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);

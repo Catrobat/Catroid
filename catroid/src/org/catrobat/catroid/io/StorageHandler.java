@@ -174,8 +174,10 @@ public final class StorageHandler {
 
 	private XStreamToSupportCatrobatLanguageVersion097AndBefore xstream;
 
-	private File backPackSoundDirectory;
 	private FileInputStream fileInputStream;
+
+	private File backPackSoundDirectory;
+	private File backPackImageDirectory;
 
 	private Lock loadSaveLock = new ReentrantLock();
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
@@ -187,6 +189,7 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
+
 	private StorageHandler() throws IOException {
 		xstream = new XStreamToSupportCatrobatLanguageVersion097AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
@@ -346,10 +349,6 @@ public final class StorageHandler {
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
-	}
-
-	public File getBackPackSoundDirectory() {
-		return backPackSoundDirectory;
 	}
 
 	public Project loadProject(String projectName) {
@@ -532,7 +531,7 @@ public final class StorageHandler {
 		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 
-		File backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
+		backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
 		backPackImageDirectory.mkdir();
 
 		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
@@ -540,28 +539,37 @@ public final class StorageHandler {
 	}
 
 	public void clearBackPackSoundDirectory() {
-		try {
-			if (backPackSoundDirectory.listFiles().length > 1) {
-				for (File node : backPackSoundDirectory.listFiles()) {
-					if (!(node.getName().equals(".nomedia"))) {
-						node.delete();
-					}
+		if (backPackSoundDirectory == null) {
+			Log.d(TAG, "Backpack sound directory not created yet - probably project was never saved before");
+			return;
+		}
+		File[] backPackFiles = backPackSoundDirectory.listFiles();
+		if (backPackFiles != null && backPackFiles.length > 1) {
+			for (File node : backPackSoundDirectory.listFiles()) {
+				if (!(node.getName().equals(".nomedia"))) {
+					node.delete();
 				}
 			}
-		} catch (NullPointerException nullPointerException) {
-			Log.e(TAG, Log.getStackTraceString(nullPointerException));
+		}
+	}
+
+	public void clearBackPackLookDirectory() {
+		if (backPackImageDirectory == null) {
+			Log.d(TAG, "Backpack image directory not created yet - probably project was never saved before");
+			return;
+		}
+		File[] backPackFiles = backPackImageDirectory.listFiles();
+		if (backPackFiles != null && backPackFiles.length > 1) {
+			for (File node : backPackImageDirectory.listFiles()) {
+				if (!(node.getName().equals(".nomedia"))) {
+					node.delete();
+				}
+			}
 		}
 	}
 
 	public boolean deleteProject(String projectName) {
 		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
-	}
-
-	public boolean deleteProject(Project project) {
-		if (project != null) {
-			return deleteProject(project.getName());
-		}
-		return false;
 	}
 
 	public boolean projectExists(String projectName) {
@@ -595,21 +603,71 @@ public final class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
-	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException, IllegalArgumentException {
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo, String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
 
-		String path = selectedSoundInfo.getAbsolutePath();
+		if (selectedSoundInfo == null) {
+			return null;
+		}
+		String inputFilePath = selectedSoundInfo.getAbsolutePath();
 
-		File inputFile = new File(path);
+		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			throw new IllegalArgumentException("file " + path + " doesn`t exist or can`t be read");
+			if (copyFromBackpack) {
+				return null;
+			}
+			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+		} else {
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
+		}
 
-		File outputFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY, currentProject
-				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
+		File outputFile = new File(outputFilePath);
+		return copyFileAddCheckSum(outputFile, inputFile);
+	}
 
+	public File copyImageBackPack(LookData selectedLookData, String newName, boolean copyFromBackpack)
+			throws IOException {
+
+		String inputFilePath = selectedLookData.getAbsolutePath();
+
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			if (copyFromBackpack) {
+				return null;
+			}
+			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
+
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), IMAGE_DIRECTORY,
+					inputFileChecksum + "_" + newName + fileFormat);
+		} else {
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY,
+					inputFileChecksum + "_" + newName + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
+		}
+
+		File outputFile = new File(outputFilePath);
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
@@ -622,8 +680,7 @@ public final class StorageHandler {
 			return null;
 		}
 
-		int[] imageDimensions = new int[2];
-		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
+		int[] imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
@@ -709,11 +766,16 @@ public final class StorageHandler {
 		return compressedFile;
 	}
 
-	public void deleteFile(String filepath) {
+	public void deleteFile(String filepath, boolean isBackPackFile) {
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		try {
-			if (container.decrementUsage(filepath)) {
+			if (isBackPackFile) {
 				File toDelete = new File(filepath);
+				Log.d("LookController", "delete" + toDelete);
+				toDelete.delete();
+			} else if (container.decrementUsage(filepath)) {
+				File toDelete = new File(filepath);
+				Log.d("LookController", "delete" + toDelete);
 				toDelete.delete();
 			}
 		} catch (FileNotFoundException fileNotFoundException) {

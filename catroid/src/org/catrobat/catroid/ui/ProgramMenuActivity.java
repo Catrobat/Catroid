@@ -31,6 +31,7 @@ import android.widget.Button;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -62,9 +63,12 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
-			String title = ProjectManager.getInstance().getCurrentSprite().getName();
-			actionBar.setTitle(title);
-			actionBar.setHomeButtonEnabled(true);
+			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+			if (sprite != null) {
+				String title = sprite.getName();
+				actionBar.setTitle(title);
+				actionBar.setHomeButtonEnabled(true);
+			}
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
 			finish();

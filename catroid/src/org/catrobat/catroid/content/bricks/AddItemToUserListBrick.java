@@ -216,6 +216,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 	@Override
 	public Brick clone() {
 		AddItemToUserListBrick clonedBrick = new AddItemToUserListBrick(getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).clone(), userList);
+		clonedBrick.setBackPackedData(new UserListBrick.BackPackedData(backPackedData));
 		return clonedBrick;
 	}
 

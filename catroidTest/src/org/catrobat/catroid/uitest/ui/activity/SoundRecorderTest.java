@@ -45,7 +45,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -179,7 +179,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 			recordTitle += (recordNumber - 1);
 		}
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("wrong number of items in the list ", recordNumber, soundInfoList.size());
 		SoundInfo lastAddedSoundInfo = soundInfoList.get(soundInfoList.size() - 1);
 		assertEquals("recorded sound not found in project", recordTitle, lastAddedSoundInfo.getTitle());

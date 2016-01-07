@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.Spinner;
 
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
@@ -32,6 +33,8 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
 
 	protected UserList userList;
+
+	protected transient BackPackedData backPackedData;
 
 	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
 		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
@@ -65,5 +68,47 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	public UserList getUserList() {
+		return userList;
+	}
+
+	public void setUserList(UserList userList) {
+		this.userList = userList;
+	}
+
+	public BackPackedData getBackPackedData() {
+		return backPackedData;
+	}
+
+	public void setBackPackedData(Project project, UserList userList, Integer userListType) {
+		if (backPackedData == null) {
+			backPackedData = new BackPackedData();
+		}
+		this.backPackedData.project = project;
+		this.backPackedData.userList = userList;
+		this.backPackedData.userListType = userListType;
+	}
+
+	public void setBackPackedData(BackPackedData backPackedData) {
+		this.backPackedData = backPackedData;
+	}
+
+	public class BackPackedData {
+		public UserList userList;
+		public Integer userListType;
+		public Project project;
+
+		public BackPackedData() {
+		}
+
+		public BackPackedData(BackPackedData backPackedData) {
+			if (backPackedData != null) {
+				this.userList = backPackedData.userList;
+				this.userListType = backPackedData.userListType;
+				this.project = backPackedData.project;
+			}
+		}
 	}
 }
