@@ -1333,7 +1333,7 @@ public final class UiTestUtils {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(context, projectName);
-		Sprite firstSprite = new Sprite(context.getString(R.string.default_project_sprites_mole_name));
+		Sprite firstSprite = new Sprite(context.getString(R.string.default_drone_project_name));
 		Sprite secondSprite = new Sprite("second_sprite");
 
 		Script firstSpriteScript = new StartScript();
@@ -2049,7 +2049,7 @@ public final class UiTestUtils {
 
 	public static File setUpLookFile(Solo solo, Context instrumentationContext) throws IOException {
 		File lookFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				R.drawable.default_project_mole_whacked, instrumentationContext);
+				R.drawable.default_project_bird_wing_up, solo.getCurrentActivity());
 
 		return lookFile;
 	}

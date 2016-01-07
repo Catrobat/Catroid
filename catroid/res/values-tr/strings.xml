@@ -348,13 +348,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <string name="default_project_name">İlk programım</string>
-  <string name="default_project_sprites_mole_name">Köstebek</string>
-  <string name="default_project_sprites_mole_moving">Köstebek taşıma</string>
-  <string name="default_project_sprites_mole_whacked">Yorgun köstebek</string>
-  <string name="default_project_sprites_mole_sound">Vur</string>
   <string name="default_project_backgroundname">Arka plan</string>
-  <string name="default_project_var_random_from">rastgele  --dan</string>
-  <string name="default_project_var_random_to">rastgele için</string>
   <string name="default_drone_project_name">İlk uçak programım</string>
   <string name="default_drone_project_sprites_takeoff">Havalan</string>
   <string name="default_drone_project_srpites_land">Yere in</string>

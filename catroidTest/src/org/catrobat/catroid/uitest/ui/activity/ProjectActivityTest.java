@@ -127,7 +127,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sprite_dialog);
 		delete = solo.getString(R.string.delete);
-		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name) + " 1";
+		defaultSpriteName = solo.getString(R.string.default_project_sprites_bird_name);
 	}
 
 	@Override
@@ -299,7 +299,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	}
 
 	public void testCopySprite() {
-		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
+		defaultSpriteName = solo.getString(R.string.default_project_sprites_bird_name);
 		UiTestUtils.createProjectForCopySprite(UiTestUtils.PROJECTNAME1, getActivity());
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));

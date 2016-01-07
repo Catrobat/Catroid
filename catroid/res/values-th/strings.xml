@@ -338,13 +338,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">ที่ตำแหน่ง</string>
   <string name="brick_replace_item_in_userlist_with_value">แทนด้วย</string>
   <string name="default_project_name">โปรแกรมแรกของฉัน</string>
-  <string name="default_project_sprites_mole_name">ตัวตุ่น</string>
-  <string name="default_project_sprites_mole_moving">กำลังเคลื่อนย้ายตัวตุ่น</string>
-  <string name="default_project_sprites_mole_whacked">ตัวตุ่นที่ถูกตี</string>
-  <string name="default_project_sprites_mole_sound">ตี</string>
   <string name="default_project_backgroundname">พื้นหลัง</string>
-  <string name="default_project_var_random_from">สุ่มจาก</string>
-  <string name="default_project_var_random_to">สุ่มถึง</string>
   <string name="default_drone_project_name">โปรแกรมควบคุม Drone โปรแกรมแรกของฉัน</string>
   <string name="default_drone_project_sprites_takeoff">ออกบิน</string>
   <string name="default_drone_project_srpites_land">ลงจอด</string>

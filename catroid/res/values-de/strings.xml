@@ -366,13 +366,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">auf Position</string>
   <string name="brick_replace_item_in_userlist_with_value">mit</string>
   <string name="default_project_name">Mein erstes Programm</string>
-  <string name="default_project_sprites_mole_name">Maulwurf</string>
-  <string name="default_project_sprites_mole_moving">Bewegender Maulwurf</string>
-  <string name="default_project_sprites_mole_whacked">Benommener Maulwurf</string>
-  <string name="default_project_sprites_mole_sound">Treffer</string>
   <string name="default_project_backgroundname">Hintergrund</string>
-  <string name="default_project_var_random_from">zufällig von</string>
-  <string name="default_project_var_random_to">zufällig bis</string>
   <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
   <string name="default_drone_project_sprites_takeoff">Abheben</string>
   <string name="default_drone_project_srpites_land">Landen</string>
