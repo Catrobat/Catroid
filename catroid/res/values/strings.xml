@@ -78,8 +78,6 @@
     <string name="main_menu_terms_of_use">Terms of use</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
-    <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
-    <string name="main_menu_web_dialog_dont_show">Don\'t show again</string>
     <!--  -->
 
 
@@ -503,7 +501,10 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
-    <string name="default_project_backgroundname">Background</string>
+    <string name="default_project_background_name">Background</string>
+    <string name="default_project_cloud_name">Clouds</string>
+    <string name="default_project_cloud_sprite_name_1">Clouds1</string>
+    <string name="default_project_cloud_sprite_name_2">Clouds2</string>
     <string name="default_project_sprites_bird_name">Bird</string>
     <string name="default_project_sprites_bird_name_wing_up">Bird Wings up</string>
     <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>

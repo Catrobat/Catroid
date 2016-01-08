@@ -24,26 +24,21 @@ package org.catrobat.catroid.test.common;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.catroid.R;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
 
-	private static final String TEST_PROJECT_NAME = "testStandardProjectBuilding";
-	private static final int BACKGROUNDIMAGE_WIDTH = 1776;
-	private static final int BACKGROUNDIMAGE_HEIGHT = 1943;
+	private static final String TEST_PROJECT_NAME = "testStandardProject";
 
 	public StandardProjectHandlerTest() throws IOException {
 	}
@@ -59,46 +54,23 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		TestUtils.clearProject(TEST_PROJECT_NAME);
 	}
 
-	public void testCreateStandardProject() throws IOException {
-		ScreenValues.SCREEN_WIDTH = BACKGROUNDIMAGE_WIDTH;
-		ScreenValues.SCREEN_HEIGHT = BACKGROUNDIMAGE_HEIGHT;
-
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
-
-		assertEquals("The Project has the wrong name.", TEST_PROJECT_NAME, testProject.getName());
-		assertEquals("wrong number of sprites.", 2, testProject.getSpriteList().size());
-
-		int catroidSpriteIndex = 1;
-		assertEquals("wrong number of scripts in the Catroid sprite", 3,
-				testProject.getSpriteList().get(catroidSpriteIndex).getNumberOfScripts());
-
-		int catroidOnTouchScriptIndex = 2;
-		Script whenScript = testProject.getSpriteList().get(catroidSpriteIndex).getScript(catroidOnTouchScriptIndex);
-		assertTrue("not a when script", whenScript instanceof WhenScript);
-		assertEquals("wrong number of bricks in the touch script", 1, whenScript.getBrickList().size());
-
-		for (int birdNumber = 0; birdNumber < 2; birdNumber++) {
-			LookData catLookData = testProject.getSpriteList().get(1).getLookDataList()
-					.get(birdNumber);
-			assertEquals("wrong width of bird image " + birdNumber, 328, catLookData.getMeasure()[0]);
-			assertEquals("wrong height of bird image " + birdNumber, 328, catLookData.getMeasure()[1]);
-		}
-	}
-
 	public void testCreateScaledStandardProject() throws IOException {
-		ScreenValues.SCREEN_WIDTH = 800;
-		ScreenValues.SCREEN_HEIGHT = 1280;
-		double scale = ImageEditing.calculateScaleFactorToScreenSize(
-				R.drawable.default_project_background, getContext());
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext()));
 
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		Project currentProject = projectManager.getCurrentProject();
+		List<Sprite> spriteList = currentProject.getSpriteList();
 
-		for (int birdNumber = 0; birdNumber < 2; birdNumber++) {
-			LookData catLookData = testProject.getSpriteList().get(1).getLookDataList()
-					.get(birdNumber);
-			assertEquals("wrong size of mole image", (int) (300d * scale), catLookData.getMeasure()[0]);
-			assertEquals("wrong size of mole image", (int) (300d * scale), catLookData.getMeasure()[1]);
-		}
+		assertEquals("Number of Sprites in defaultProject is incorrect.", 4, spriteList.size());
+
+		assertEquals("Number of Scripts in cloudSprite1 is incorrect.", 1, spriteList.get(1).getNumberOfScripts());
+		assertEquals("Number of Scripts in cloudSprite2 is incorrect.", 1, spriteList.get(2).getNumberOfScripts());
+		assertEquals("Number of Scripts in birdSprite is incorrect.", 3, spriteList.get(3).getNumberOfScripts());
+
+		assertEquals("Number of Looks in background is incorrect.", 1, spriteList.get(0).getLookDataList().size());
+		assertEquals("Number of Looks in cloudSprite1 is incorrect.", 1, spriteList.get(1).getLookDataList().size());
+		assertEquals("Number of Looks in cloudSprite2 is incorrect.", 1, spriteList.get(2).getLookDataList().size());
+		assertEquals("Number of Looks in birdSprite is incorrect.", 2, spriteList.get(3).getLookDataList().size());
 	}
 
 	public void testDefaultProjectScreenshot() throws IOException {
