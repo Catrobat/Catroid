@@ -45,7 +45,8 @@ public class CheckForVerifiesOrAssertionsTest extends TestCase {
 			"ObservedInputStream.java", "ObservedOutputStream.java", "LocalConnectionProxy.java", "BluetoothConnectionProxy.java", "DeviceModel.java",
 			"BluetoothLogger.java", "ModelRunner.java", "ConnectionDataLogger.java", "MindstormsNXTTestModel.java",
 			"FirmataMessage.java", "ProjectToMidiConverterTestDataFactory.java", "ProjectTestDataFactory.java",
-			"TrackTestDataFactory.java", "TrackGridTestDataFactory.java", "NoteEventTestDataFactory.java" };
+			"TrackTestDataFactory.java", "TrackGridTestDataFactory.java", "NoteEventTestDataFactory.java",
+			"GridRowPositionTestDataFactory.java", "GridRowTestDataFactory.java"};
 
 	private boolean fileHasVerifiesOrAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
