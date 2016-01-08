@@ -95,6 +95,8 @@ public final class Constants {
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
 
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
+	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
+	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
 
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";

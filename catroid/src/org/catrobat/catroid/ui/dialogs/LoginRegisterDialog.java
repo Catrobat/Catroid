@@ -108,7 +108,6 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 	@Override
 	public void onRegistrationComplete() {
 		dismiss();
-
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}

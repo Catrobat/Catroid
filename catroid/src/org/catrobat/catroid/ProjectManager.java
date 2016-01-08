@@ -57,7 +57,6 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,8 +121,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
+		if (!Utils.isUserLoggedIn(activity)) {
 			showLoginRegisterDialog(activity);
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
