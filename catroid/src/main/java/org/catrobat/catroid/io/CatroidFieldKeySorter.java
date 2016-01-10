@@ -66,8 +66,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				final FieldKey fieldKeyTwo = (FieldKey) objectTwo;
 				int fieldKeyComparator = fieldKeyOne.getDepth() - fieldKeyTwo.getDepth();
 				if (fieldKeyComparator == 0) {
-					String fieldNameOrAlias1 = getFieldNameOrAlias(fieldKeyOne);
-					String fieldNameOrAlias2 = getFieldNameOrAlias(fieldKeyTwo);
+					String fieldNameOrAlias1 = getAliasOrFieldName(fieldKeyOne);
+					String fieldNameOrAlias2 = getAliasOrFieldName(fieldKeyTwo);
 					fieldKeyComparator = fieldNameOrAlias1.compareTo(fieldNameOrAlias2);
 				}
 				return fieldKeyComparator;
@@ -77,7 +77,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		return map;
 	}
 
-	private String getFieldNameOrAlias(FieldKey fieldKey) {
+	public static String getAliasOrFieldName(FieldKey fieldKey) {
 		String fieldName = fieldKey.getFieldName();
 		try {
 			Field field = fieldKey.getDeclaringClass().getDeclaredField(fieldName);
