@@ -261,4 +261,9 @@
     <property name="influenceFormat" value="$2" />
   </module>
 
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="@formatter\:off" />
+    <property name="onCommentFormat" value="@formatter\:on" />
+  </module>
+
 </module>
