@@ -27,9 +27,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
@@ -205,6 +208,39 @@ public class SettingsActivity extends PreferenceActivity {
 			listPreference.setEnabled(areChoosersEnabled);
 		}
 	}
+
+    @SuppressWarnings("deprecation")
+    private void setUpRaspiPreferences() {
+        CheckBoxPreference raspiCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+        final PreferenceCategory rpi_connection_settings = (PreferenceCategory) findPreference(RASPI_CONNECTION_SETTINGS_CATEGORY);
+        rpi_connection_settings.setEnabled(raspiCheckBoxPreference.isChecked());
+
+        raspiCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object isChecked) {
+                rpi_connection_settings.setEnabled((Boolean) isChecked);
+                return true;
+            }
+        });
+
+        final EditTextPreference host = (EditTextPreference) findPreference(RASPI_HOST);
+        host.setSummary(host.getText());
+        host.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                host.setSummary(newValue.toString());
+                return true;
+            }
+        });
+
+        final EditTextPreference port = (EditTextPreference) findPreference(RASPI_PORT);
+        port.setSummary(port.getText());
+        port.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                port.setSummary(newValue.toString());
+                return true;
+            }
+        });
+        
+    }
 
 	private void setNXTSensors() {
 
