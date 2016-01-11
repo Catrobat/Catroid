@@ -64,12 +64,10 @@ public class SettingsActivity extends PreferenceActivity {
 		screen = getPreferenceScreen();
 		int cameraCount = Camera.getNumberOfCameras();
 
-
 		ListPreference listPreference = (ListPreference) findPreference(getResources().getString(
 				R.string.preference_key_select_camera));
 
-		if(cameraCount == 0)
-		{
+		if (cameraCount == 0) {
 			screen.removePreference(listPreference);
 		} else {
 			String[] entryValues = new String[cameraCount];
