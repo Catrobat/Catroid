@@ -72,14 +72,14 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 			possibleFaces = camera.getParameters().getMaxNumDetectedFaces();
 			camera.release();
 		} catch (Exception exc) {
-			Log.e("ICSFacedetectionTest", Log.getStackTraceString(exc));
+			Log.e(TAG, Log.getStackTraceString(exc));
 		} finally {
 			if (camera != null) {
 				camera.release();
 			}
 		}
 		if (possibleFaces == 0) {
-			Log.w("CAMERA", "The hardware does not support facedetection");
+			Log.w(TAG, "The hardware does not support facedetection");
 		}
 	}
 

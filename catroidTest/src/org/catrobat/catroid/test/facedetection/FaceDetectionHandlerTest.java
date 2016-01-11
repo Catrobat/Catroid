@@ -38,7 +38,7 @@ public class FaceDetectionHandlerTest extends TestCase {
 		FaceDetectionHandler.resumeFaceDetection();
 		assertFalse("FaceDetector could be resumed although it was never started", detector.started);
 
-		FaceDetectionHandler.startFaceDetection(null);
+		FaceDetectionHandler.startFaceDetection();
 		assertTrue("FaceDetector was not started", detector.started);
 
 		FaceDetectionHandler.pauseFaceDetection();

@@ -160,9 +160,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 			Context context = this.getActivity().getApplicationContext();
 
-			if (SettingsActivity.isFaceDetectionPreferenceEnabled(context)) {
-				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
-			}
+			itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);

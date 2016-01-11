@@ -375,12 +375,12 @@ public final class StandardProjectHandler {
 			backgroundStartScript.addBrick(setLookBrick);
 			SetSizeToBrick setSizeToBrick = new SetSizeToBrick(200);
 			backgroundStartScript.addBrick(setSizeToBrick);
-			PlaceAtBrick placeAtBrick = new PlaceAtBrick((int) (1200*backgroundImageScaleFactor), 0);
-			PlaceAtBrick placeAtBrick1 = new PlaceAtBrick((int) (1200*backgroundImageScaleFactor), 0);
+			PlaceAtBrick placeAtBrick = new PlaceAtBrick((int) (1200 * backgroundImageScaleFactor), 0);
+			PlaceAtBrick placeAtBrick1 = new PlaceAtBrick((int) (1200 * backgroundImageScaleFactor), 0);
 			backgroundStartScript.addBrick(placeAtBrick);
 			ForeverBrick foreverBrick = new ForeverBrick();
 			backgroundStartScript.addBrick(foreverBrick);
-			GlideToBrick glideToBrick = new GlideToBrick(-(int) (1299*backgroundImageScaleFactor), 0, 5000);
+			GlideToBrick glideToBrick = new GlideToBrick(-(int) (1299 * backgroundImageScaleFactor), 0, 5000);
 			backgroundStartScript.addBrick(glideToBrick);
 			backgroundStartScript.addBrick(placeAtBrick1);
 			LoopEndlessBrick loopEndlessBrick = new LoopEndlessBrick(foreverBrick);
