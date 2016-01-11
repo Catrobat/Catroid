@@ -61,33 +61,40 @@ public class SettingsActivity extends PreferenceActivity {
 
 		addPreferencesFromResource(R.xml.preferences);
 
+		screen = getPreferenceScreen();
+		int cameraCount = Camera.getNumberOfCameras();
+
+
 		ListPreference listPreference = (ListPreference) findPreference(getResources().getString(
 				R.string.preference_key_select_camera));
-		int cameraCount = Camera.getNumberOfCameras();
-		String[] entryValues = new String[cameraCount];
-		CharSequence[] entries = new CharSequence[cameraCount];
-		for (int id = 0; id < cameraCount; id++) {
-			entryValues[id] = Integer.toString(id);
-			Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-			Camera.getCameraInfo(id, cameraInfo);
-			switch (cameraInfo.facing) {
-				case CameraInfo.CAMERA_FACING_FRONT:
-					entries[id] = getResources().getText(R.string.camera_facing_front);
-					break;
-				case CameraInfo.CAMERA_FACING_BACK:
-					entries[id] = getResources().getText(R.string.camera_facing_back);
-					break;
-				default:
-					Log.d("CAMERA", "No Camera detected");
-			}
-		}
-		listPreference.setEntries(entries);
-		listPreference.setEntryValues(entryValues);
 
+		if(cameraCount == 0)
+		{
+			screen.removePreference(listPreference);
+		} else {
+			String[] entryValues = new String[cameraCount];
+			CharSequence[] entries = new CharSequence[cameraCount];
+			for (int id = 0; id < cameraCount; id++) {
+				entryValues[id] = Integer.toString(id);
+				Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+				Camera.getCameraInfo(id, cameraInfo);
+				switch (cameraInfo.facing) {
+					case CameraInfo.CAMERA_FACING_FRONT:
+						entries[id] = getResources().getText(R.string.camera_facing_front);
+						break;
+					case CameraInfo.CAMERA_FACING_BACK:
+						entries[id] = getResources().getText(R.string.camera_facing_back);
+						break;
+					default:
+						Log.d("CAMERA", "No Camera detected");
+				}
+			}
+
+			listPreference.setEntries(entries);
+			listPreference.setEntryValues(entryValues);
+		}
 		setNXTSensors();
 		updateActionBar();
-
-		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
 			CheckBoxPreference legoNxtPreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
