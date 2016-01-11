@@ -99,8 +99,8 @@
 
             <ListPreference android:key="setting_raspi_version_preference"
                 android:title="GPIO Version"
-                android:summary="Select the GPIO version of your Raspberry."
-                android:defaultValue="RaspberryPi 2"
+                android:summary="%s"
+                android:defaultValue="0013"
                 android:entries="@array/raspi_version_spinner_names"
                 android:entryValues="@array/raspi_version_spinner_revisions"/>
 
