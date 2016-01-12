@@ -85,9 +85,12 @@ public class RaspberryPiImpl implements RaspberryPi {
             int progress;
 
             try {
-                System.out.println("RPi try to connect...");
                 connection.connect(host, port);
-                System.out.println("RPi connected...");
+
+                for (Integer pin : RaspberryPiService.getInstance().getPinInterrupts()) {
+                    connection.activatePinInterrupt(pin);
+                }
+
                 progress = 0;
             } catch (UnknownHostException e) {
                 progress = 1;

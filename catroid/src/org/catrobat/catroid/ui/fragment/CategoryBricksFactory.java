@@ -112,6 +112,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.VideoBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -416,6 +417,7 @@ public class CategoryBricksFactory {
 		List<Brick> raspiBrickList = new ArrayList<Brick>();
 		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 		raspiBrickList.add(new RaspiIfLogicBeginBrick(0));
+		raspiBrickList.add(new WhenRaspiPinChangedBrick(null));
 		// TODO: add more Bricks
 
 		return raspiBrickList;
