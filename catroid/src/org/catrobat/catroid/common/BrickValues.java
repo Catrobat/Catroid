@@ -95,6 +95,8 @@ public final class BrickValues {
 	//Constants Raspi
 	public static final int RASPI_DIGITAL_INITIAL_PIN_VALUE = 1;
 	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
+	public static final String RASPI_PRESSED_EVENT = "pressed";
+    public static final String RASPI_RELEASED_EVENT = "released";
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

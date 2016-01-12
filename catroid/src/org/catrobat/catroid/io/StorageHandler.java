@@ -39,6 +39,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
@@ -107,6 +108,8 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -249,6 +252,8 @@ public final class StorageHandler {
 		xstream.alias("script", StartScript.class);
 		xstream.alias("script", WhenScript.class);
 		xstream.alias("script", BroadcastScript.class);
+        xstream.alias("script", RaspiInterruptScript.class);
+
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
@@ -335,6 +340,9 @@ public final class StorageHandler {
 
 		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
 		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);
+
+        xstream.alias("brick", RaspiSendDigitalValueBrick.class);
+        xstream.alias("brick", RaspiIfLogicBeginBrick.class);
 
 		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);

@@ -52,8 +52,11 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
 
+    public static final String RASPI_SETTINTS_SCREEN = "settings_raspberry_screen";
+    public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
     public static final String RASPI_HOST = "setting_raspi_host_preference";
     public static final String RASPI_PORT = "setting_raspi_port_preference";
+	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 	@Override
 	public boolean hasHeaders() {
@@ -97,10 +100,15 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if(!BuildConfig.FEATURE_RASPI_ENABLED) {
-			PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+            PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(RASPI_SETTINTS_SCREEN);
 			raspiPreference.setEnabled(false);
 			screen.removePreference(raspiPreference);
 		}
+        else {
+            setUpRaspiPreferences();
+        }
+
+
 	}
 
 	private void setNXTSensors() {
@@ -205,6 +213,9 @@ public class SettingsActivity extends PreferenceActivity {
 
     public static int getRaspiPort(Context context) {
         return Integer.parseInt(getSharedPreferences(context).getString(RASPI_PORT, null));
+    }
+    public static String getRaspiRevision(Context context) {
+        return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
     }
 
 	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {

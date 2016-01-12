@@ -456,6 +456,9 @@ public class StageListener implements ApplicationListener {
 		if (currentActions.get(Constants.BROADCAST_NOTIFY_ACTION) != null) {
 			actions.addAll(currentActions.get(Constants.BROADCAST_NOTIFY_ACTION));
 		}
+		if (currentActions.get(Constants.RASPI_SCRIPT) != null) {
+			actions.addAll(currentActions.get(Constants.RASPI_SCRIPT));
+		}
 		for (String action : actions) {
 			for (String actionOfLook : actions) {
 				if (action.equals(actionOfLook)
