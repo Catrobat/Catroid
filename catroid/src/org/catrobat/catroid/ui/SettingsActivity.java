@@ -60,8 +60,11 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
 	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
 
+	public static final String RASPI_SETTINGS_SCREEN = "settings_raspberry_screen";
+	public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
 	public static final String RASPI_HOST = "setting_raspi_host_preference";
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
+	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 
 	@SuppressWarnings("deprecation")
@@ -115,9 +118,12 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if(!BuildConfig.FEATURE_RASPI_ENABLED) {
-			PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+			PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(RASPI_SETTINGS_SCREEN);
 			raspiPreference.setEnabled(false);
 			screen.removePreference(raspiPreference);
+		}
+		else {
+			setUpRaspiPreferences();
 		}
 	}
 
@@ -299,7 +305,11 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static int getRaspiPort(Context context) {
-		return Integer.parseInt(getSharedPreferences(context).getString(RASPI_PORT, null));
+	    return Integer.parseInt(getSharedPreferences(context).getString(RASPI_PORT, null));
+	}
+
+	public static String getRaspiRevision(Context context) {
+	    return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
 	}
 
 	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {
