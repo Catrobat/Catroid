@@ -716,6 +716,15 @@
     <string name="brick_raspi_set_pin_value_to">to</string>
     <string name="brick_raspi_if_begin" >If Raspi Pin</string >
     <string name="brick_raspi_if_begin_second_part" >is true then</string >
+    <string name="brick_raspi_when_begin" >When Raspi Pin</string >
+    <string name="brick_raspi_pressed_text">pressed</string>
+    <string name="brick_raspi_released_text">released</string>
+    <!--  -->
+
+    <!-- Raspi Settings -->
+    <string name="raspi_config_info_text">This Project contains RaspberryPi Bricks. Please make sure the connection Parameters are set correctly.</string>
+    <string name="raspi_config_host">Host</string>
+    <string name="raspi_config_port">Port</string>
     <string name="raspi_config_info_title">Raspi Connection Configuration</string>
     <!--  -->
 

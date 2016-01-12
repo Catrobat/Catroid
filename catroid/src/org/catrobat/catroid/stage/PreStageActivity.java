@@ -43,8 +43,6 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPi;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiImpl;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
@@ -214,26 +212,14 @@ public class PreStageActivity extends BaseActivity {
         String host = SettingsActivity.getRaspiHost(this.getBaseContext());
         int port = SettingsActivity.getRaspiPort(this.getBaseContext());
 
-        Log.e("RASPI HOST IS...", host);
-        Log.e("RASPI POrt is..", Integer.toString(port));
-
-        RaspberryPiImpl rpi;
-        try {
-            rpi = new RaspberryPiImpl();
-            rpi.connect(host, port);
-            RaspberryPiService.connection = rpi.getConnection();
-        } catch (Exception e){
-            Log.e(getClass().getSimpleName(), "RPi connection failed!!" + e);
-            return;
-        }
-
-        if(rpi.getConnection().isConnected()) {
+		if (RaspberryPiService.getInstance().connect(host, port)) {
             resourceInitialized();
         }
         else {
             ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
             resourceFailed();
         }
+
 	}
 
 
@@ -288,16 +274,7 @@ public class PreStageActivity extends BaseActivity {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-		if (RaspberryPiService.connection != null) {
-
-		    try {
-		        RaspberryPiService.connection.disconnect();
-		        RaspberryPiService.connection = null;
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
-
-		}
+        RaspberryPiService.getInstance().disconnect();
 	}
 
 	//all resources that should not have to be reinitialized every stage start

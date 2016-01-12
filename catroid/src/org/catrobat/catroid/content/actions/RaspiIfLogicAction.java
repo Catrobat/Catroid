@@ -76,7 +76,7 @@ public class RaspiIfLogicAction extends Action {
 	}
 
     protected boolean readIfConditionValue() {
-        RPiSocketConnection connection = RaspberryPiService.connection;
+        RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
         try {
             Log.d(getClass().getSimpleName(), "RPi get " + pin);
             return connection.getPin(pin);
