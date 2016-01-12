@@ -193,10 +193,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
-            		connectRaspberrySocket();
+			connectRaspberrySocket();
 		}
-
-
 	}
 
 	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
@@ -209,17 +207,15 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void connectRaspberrySocket() {
-        String host = SettingsActivity.getRaspiHost(this.getBaseContext());
-        int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
+		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
 
 		if (RaspberryPiService.getInstance().connect(host, port)) {
-            resourceInitialized();
-        }
-        else {
-            ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
-            resourceFailed();
-        }
-
+			resourceInitialized();
+		} else {
+			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			resourceFailed();
+		}
 	}
 
 
@@ -274,7 +270,7 @@ public class PreStageActivity extends BaseActivity {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-        RaspberryPiService.getInstance().disconnect();
+		RaspberryPiService.getInstance().disconnect();
 	}
 
 	//all resources that should not have to be reinitialized every stage start

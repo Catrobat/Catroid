@@ -39,7 +39,7 @@ public final class MessageContainer {
 	private static Map<String, List<BroadcastScript>> backupReceiverMap = null;
 	private static ArrayAdapter<String> messageAdapter = null;
 
-    private static int hiddenEntries = 0;
+	private static int hiddenEntries = 0;
 
 	// Suppress default constructor for noninstantiability
 	private MessageContainer() {
@@ -48,7 +48,7 @@ public final class MessageContainer {
 
 	public static void clear() {
 		receiverMap.clear();
-        hiddenEntries = 0;
+		hiddenEntries = 0;
 		messageAdapter = null;
 	}
 
@@ -74,12 +74,11 @@ public final class MessageContainer {
 
 		if (!receiverMap.containsKey(message)) {
 			receiverMap.put(message, new ArrayList<BroadcastScript>());
-            if(message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
-                hiddenEntries++;
-            }
-			else {
-                addMessageToAdapter(message);
-            }
+			if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
+				hiddenEntries++;
+			} else {
+				addMessageToAdapter(message);
+			}
 		}
 	}
 
@@ -114,9 +113,9 @@ public final class MessageContainer {
 				addMessage(context.getString(R.string.brick_broadcast_default_value));
 			} else {
 				for (String message : receiverMap.keySet()) {
-                    if(message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
-                        continue;
-                    }
+					if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
+						continue;
+					}
 					addMessageToAdapter(message);
 				}
 			}
@@ -138,7 +137,7 @@ public final class MessageContainer {
 	public static void removeUnusedMessages(List<String> usedMessages) {
 		messageAdapter = null;
 		receiverMap = new HashMap<String, List<BroadcastScript>>();
-        hiddenEntries = 0;
+		hiddenEntries = 0;
 
 		for (String message : usedMessages) {
 			addMessage(message);

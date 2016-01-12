@@ -821,7 +821,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
 			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
-		
 	}
 
 	private boolean needToShowLegoNXTInfoDialog() {

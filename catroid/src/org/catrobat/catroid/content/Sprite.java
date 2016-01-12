@@ -222,7 +222,6 @@ public class Sprite implements Serializable, Cloneable {
 					BroadcastHandler.getStringActionMap().put(actionName, action);
 				}
 			}
-
 		}
 	}
 
