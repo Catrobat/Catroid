@@ -40,25 +40,23 @@ public class RaspiIfLogicAction extends Action {
 	private Action elseAction;
 	private boolean isInitialized = false;
 	private Formula pinNumber;
-    private int pin;
+	private int pin;
 
+	public void setPinNumber(Formula pinNumber) {
+		this.pinNumber = pinNumber;
+	}
 
-    public void setPinNumber(Formula pinNumber) {
-        this.pinNumber = pinNumber;
-    }
+	protected void begin() {
+		Integer pinNumberInterpretation;
 
-
-    protected void begin() {
-        Integer pinNumberInterpretation;
-
-        try {
-            pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
-        } catch (InterpretationException interpretationException) {
-            pinNumberInterpretation = 0;
-            Log.e(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
-                    interpretationException);
-        }
-        this.pin = pinNumberInterpretation;
+		try {
+			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
+		} catch (InterpretationException interpretationException) {
+			pinNumberInterpretation = 0;
+			Log.e(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
+					interpretationException);
+		}
+		this.pin = pinNumberInterpretation;
 	}
 
 	@Override
@@ -75,16 +73,16 @@ public class RaspiIfLogicAction extends Action {
 		}
 	}
 
-    protected boolean readIfConditionValue() {
-        RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
-        try {
-            Log.d(getClass().getSimpleName(), "RPi get " + pin);
-            return connection.getPin(pin);
-        } catch (Exception e){
-            Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
-        }
-        return false;
-    }
+	protected boolean readIfConditionValue() {
+		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
+		try {
+			Log.d(getClass().getSimpleName(), "RPi get " + pin);
+			return connection.getPin(pin);
+		} catch (Exception e) {
+			Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+		}
+		return false;
+	}
 
 	@Override
 	public void restart() {
@@ -105,7 +103,6 @@ public class RaspiIfLogicAction extends Action {
 	public void setElseAction(Action elseAction) {
 		this.elseAction = elseAction;
 	}
-
 
 	@Override
 	public void setActor(Actor actor) {
