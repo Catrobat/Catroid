@@ -44,7 +44,6 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPiImpl;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -56,7 +55,6 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -171,10 +169,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
-            		connectRaspberrySocket();
+			connectRaspberrySocket();
 		}
-
-
 	}
 
 	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
@@ -187,19 +183,16 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void connectRaspberrySocket() {
-        String host = SettingsActivity.getRaspiHost(this.getBaseContext());
-        int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
+		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
 
 		if (RaspberryPiService.getInstance().connect(host, port)) {
-            resourceInitialized();
-        }
-        else {
-            ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
-            resourceFailed();
-        }
-
+			resourceInitialized();
+		} else {
+			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			resourceFailed();
+		}
 	}
-
 
 	public DroneInitializer getDroneInitializer() {
 		if (droneInitializer == null) {
@@ -304,7 +297,7 @@ public class PreStageActivity extends BaseActivity {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-        RaspberryPiService.getInstance().disconnect();
+		RaspberryPiService.getInstance().disconnect();
 	}
 
 	//all resources that should not have to be reinitialized every stage start

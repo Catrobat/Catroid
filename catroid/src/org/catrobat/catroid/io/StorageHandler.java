@@ -252,7 +252,7 @@ public final class StorageHandler {
 		xstream.alias("script", StartScript.class);
 		xstream.alias("script", WhenScript.class);
 		xstream.alias("script", BroadcastScript.class);
-        xstream.alias("script", RaspiInterruptScript.class);
+		xstream.alias("script", RaspiInterruptScript.class);
 
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
@@ -341,8 +341,8 @@ public final class StorageHandler {
 		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
 		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);
 
-        xstream.alias("brick", RaspiSendDigitalValueBrick.class);
-        xstream.alias("brick", RaspiIfLogicBeginBrick.class);
+		xstream.alias("brick", RaspiSendDigitalValueBrick.class);
+		xstream.alias("brick", RaspiIfLogicBeginBrick.class);
 
 		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);

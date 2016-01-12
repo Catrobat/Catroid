@@ -29,8 +29,8 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -55,10 +55,10 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
 
-    public static final String RASPI_SETTINTS_SCREEN = "settings_raspberry_screen";
-    public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
-    public static final String RASPI_HOST = "setting_raspi_host_preference";
-    public static final String RASPI_PORT = "setting_raspi_port_preference";
+	public static final String RASPI_SETTINTS_SCREEN = "settings_raspberry_screen";
+	public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
+	public static final String RASPI_HOST = "setting_raspi_host_preference";
+	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 	@Override
@@ -97,55 +97,51 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
-            CheckBoxPreference arduinoPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
+			CheckBoxPreference arduinoPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
 			arduinoPreference.setEnabled(false);
 			screen.removePreference(arduinoPreference);
 		}
 
-		if(!BuildConfig.FEATURE_RASPI_ENABLED) {
-            PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(RASPI_SETTINTS_SCREEN);
+		if (!BuildConfig.FEATURE_RASPI_ENABLED) {
+			PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(RASPI_SETTINTS_SCREEN);
 			raspiPreference.setEnabled(false);
 			screen.removePreference(raspiPreference);
+		} else {
+			setUpRaspiPreferences();
 		}
-        else {
-            setUpRaspiPreferences();
-        }
-
-
 	}
 
-    @SuppressWarnings("deprecation")
-    private void setUpRaspiPreferences() {
-        CheckBoxPreference raspiCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
-        final PreferenceCategory rpi_connection_settings = (PreferenceCategory) findPreference(RASPI_CONNECTION_SETTINGS_CATEGORY);
-        rpi_connection_settings.setEnabled(raspiCheckBoxPreference.isChecked());
+	@SuppressWarnings("deprecation")
+	private void setUpRaspiPreferences() {
+		CheckBoxPreference raspiCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+		final PreferenceCategory rpi_connection_settings = (PreferenceCategory) findPreference(RASPI_CONNECTION_SETTINGS_CATEGORY);
+		rpi_connection_settings.setEnabled(raspiCheckBoxPreference.isChecked());
 
-        raspiCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            public boolean onPreferenceChange(Preference preference, Object isChecked) {
-                rpi_connection_settings.setEnabled((Boolean) isChecked);
-                return true;
-            }
-        });
+		raspiCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				rpi_connection_settings.setEnabled((Boolean) isChecked);
+				return true;
+			}
+		});
 
-        final EditTextPreference host = (EditTextPreference) findPreference(RASPI_HOST);
-        host.setSummary(host.getText());
-        host.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                host.setSummary(newValue.toString());
-                return true;
-            }
-        });
+		final EditTextPreference host = (EditTextPreference) findPreference(RASPI_HOST);
+		host.setSummary(host.getText());
+		host.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				host.setSummary(newValue.toString());
+				return true;
+			}
+		});
 
-        final EditTextPreference port = (EditTextPreference) findPreference(RASPI_PORT);
-        port.setSummary(port.getText());
-        port.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                port.setSummary(newValue.toString());
-                return true;
-            }
-        });
-        
-    }
+		final EditTextPreference port = (EditTextPreference) findPreference(RASPI_PORT);
+		port.setSummary(port.getText());
+		port.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				port.setSummary(newValue.toString());
+				return true;
+			}
+		});
+	}
 
 	private void setNXTSensors() {
 
@@ -214,7 +210,7 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
-		return  getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
@@ -244,15 +240,16 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static String getRaspiHost(Context context) {
-        return getSharedPreferences(context).getString(RASPI_HOST, null);
-    }
+		return getSharedPreferences(context).getString(RASPI_HOST, null);
+	}
 
-    public static int getRaspiPort(Context context) {
-        return Integer.parseInt(getSharedPreferences(context).getString(RASPI_PORT, null));
-    }
-    public static String getRaspiRevision(Context context) {
-        return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
-    }
+	public static int getRaspiPort(Context context) {
+		return Integer.parseInt(getSharedPreferences(context).getString(RASPI_PORT, null));
+	}
+
+	public static String getRaspiRevision(Context context) {
+		return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
+	}
 
 	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {
 		String sensor = getSharedPreferences(context).getString(sensorSetting, null);
