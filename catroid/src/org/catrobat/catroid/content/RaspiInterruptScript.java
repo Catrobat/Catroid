@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
@@ -37,15 +35,14 @@ public class RaspiInterruptScript extends BroadcastScript {
 
 	private static final long serialVersionUID = 1L;
 
-    private String pin;
-    private String eventValue;
+	private String pin;
+	private String eventValue;
 
 	public RaspiInterruptScript(String pin, String eventValue) {
-        super(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX+ pin + " " + eventValue);
+		super(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX + pin + " " + eventValue);
 
-        this.pin = pin;
-        this.eventValue = eventValue;
-
+		this.pin = pin;
+		this.eventValue = eventValue;
 	}
 
 	@Override
@@ -59,38 +56,37 @@ public class RaspiInterruptScript extends BroadcastScript {
 
 	public void setPin(String pin) {
 		this.pin = pin;
-        updateBroadcastMessage();
+		updateBroadcastMessage();
 	}
 
 	public void setEventValue(String eventValue) {
-        this.eventValue = eventValue;
-        updateBroadcastMessage();
-    }
+		this.eventValue = eventValue;
+		updateBroadcastMessage();
+	}
 
-    private void updateBroadcastMessage() {
-        setBroadcastMessage(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX + pin + " " + eventValue);
+	private void updateBroadcastMessage() {
+		setBroadcastMessage(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX + pin + " " + eventValue);
+	}
 
-    }
+	public String getPin() {
+		return pin;
+	}
 
-    public String getPin() {
-        return pin;
-    }
+	public String getEventValue() {
+		return eventValue;
+	}
 
-    public String getEventValue() {
-        return eventValue;
-    }
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+		RaspiInterruptScript cloneScript = new RaspiInterruptScript(pin, eventValue);
 
-    @Override
-    public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
-        RaspiInterruptScript cloneScript = new RaspiInterruptScript(pin, eventValue);
+		doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		return cloneScript;
+	}
 
-        doCopy(copySprite, cloneScript, preCopiedUserBricks);
-        return cloneScript;
-    }
-
-    @Override
-    public int getRequiredResources() {
-        RaspberryPiService.getInstance().addPinInterrupt(Integer.parseInt(pin));
-        return super.getRequiredResources() | Brick.SOCKET_RASPI;
-    }
+	@Override
+	public int getRequiredResources() {
+		RaspberryPiService.getInstance().addPinInterrupt(Integer.parseInt(pin));
+		return super.getRequiredResources() | Brick.SOCKET_RASPI;
+	}
 }

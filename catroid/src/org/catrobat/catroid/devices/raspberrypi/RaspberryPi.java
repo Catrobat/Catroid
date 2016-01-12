@@ -5,11 +5,11 @@ package org.catrobat.catroid.devices.raspberrypi;
  */
 public interface RaspberryPi {
 
-    Boolean connect(String host, int port);
+	Boolean connect(String host, int port);
 
-    void setPin(int GPIO, Boolean pinValue);
+	void setPin(int GPIO, Boolean pinValue);
 
-    void disconnect();
+	void disconnect();
 
     /*void setPWM(int GPIO);
 

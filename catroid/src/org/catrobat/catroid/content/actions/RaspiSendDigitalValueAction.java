@@ -27,18 +27,11 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.common.CatroidService;
-import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPi;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPiImpl;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.stage.PreStageActivity;
 
 public class RaspiSendDigitalValueAction extends TemporalAction {
 
@@ -71,22 +64,20 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 					interpretationException);
 		}
 
-
-			this.pin = pinNumberInterpretation;
-			this.value = pinValueInterpretation;
-
+		this.pin = pinNumberInterpretation;
+		this.value = pinValueInterpretation;
 	}
 
 	@Override
 	protected void update(float percent) {
 
-        RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
-        try {
-            Log.d(getClass().getSimpleName(), "RPi set " + pin + " to " + value);
-            connection.setPin(pin,value);
-        } catch (Exception e){
+		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
+		try {
+			Log.d(getClass().getSimpleName(), "RPi set " + pin + " to " + value);
+			connection.setPin(pin, value);
+		} catch (Exception e) {
 			Log.e(getClass().getSimpleName(), "RPi: exception during setPin: " + e);
-        }
+		}
 	}
 
 	public void setSprite(Sprite sprite) {
