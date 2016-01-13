@@ -639,6 +639,8 @@ public class StageListener implements ApplicationListener {
 		whiteBackgroundPixmap.fill();
 		whiteBackground.setPixmap(whiteBackgroundPixmap);
 		whiteBackground.setTextureRegion();
+		whiteBackground.setLookFilename("white");
+		whiteBackground.setLookName("white");
 		return whiteBackground;
 	}
 
