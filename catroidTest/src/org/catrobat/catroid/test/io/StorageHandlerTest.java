@@ -30,8 +30,6 @@ import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -69,7 +67,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
@@ -183,42 +180,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		//		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
 		//		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
 		//		assertEquals("Version names are not equal", preVersionName, postVersionName);
-	}
-
-	public void testDefaultProject() throws IOException {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(projectName, getContext()));
-
-		assertEquals("not the right number of sprites in the default project", 2, projectManager.getCurrentProject()
-				.getSpriteList().size());
-		assertEquals("not the right number of scripts in the second sprite of default project", 3, projectManager
-				.getCurrentProject().getSpriteList().get(1).getNumberOfScripts());
-		assertEquals("not the right number of bricks in the first script of Stage", 7, projectManager
-				.getCurrentProject().getSpriteList().get(0).getScript(0).getBrickList().size());
-
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		List<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
-		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundLookList.size());
-
-		String imagePath = backgroundLookList.get(0).getAbsolutePath();
-		File testFile = new File(imagePath);
-		assertTrue("Image " + backgroundLookList.get(0).getLookFileName() + " does not exist", testFile.exists());
-
-		assertEquals("not the right number of bricks in the first script", 3, projectManager.getCurrentProject()
-				.getSpriteList().get(1).getScript(0).getBrickList().size());
-		assertEquals("not the right number of bricks in the second script", 4, projectManager.getCurrentProject()
-				.getSpriteList().get(1).getScript(1).getBrickList().size());
-
-		ArrayList<LookData> catroidLookList = (ArrayList<LookData>) currentProject.getSpriteList().get(1).getLookDataList();
-		assertEquals("wrong number of pictures in catroid sprite", 2, catroidLookList.size());
-
-		imagePath = catroidLookList.get(0).getAbsolutePath();
-		testFile = new File(imagePath);
-		assertTrue("Image " + catroidLookList.get(0).getLookFileName() + " does not exist", testFile.exists());
-
-		imagePath = catroidLookList.get(1).getAbsolutePath();
-		testFile = new File(imagePath);
-		assertTrue("Image " + catroidLookList.get(1).getLookFileName() + " does not exist", testFile.exists());
 	}
 
 	public void testSanityCheck() throws IOException {
