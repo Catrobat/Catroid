@@ -45,19 +45,22 @@ import java.util.List;
 
 public class VideoBrick extends BrickBaseType {
 
+	private static final int OFF = 0;
+	private static final int ON = 1;
+
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
 	private String[] spinnerValues;
-	private int selectedID;
-
-	public VideoBrick() {
-		spinnerValues = new String[2];
-		selectedID = 1;
-	}
+	private int onOrOffSpinnerID;
 
 	public VideoBrick(int onOrOff) {
 		spinnerValues = new String[2];
-		selectedID = onOrOff;
+		onOrOffSpinnerID = onOrOff;
+	}
+
+	public VideoBrick() {
+		spinnerValues = new String[2];
+		onOrOffSpinnerID = ON;
 	}
 
 	@Override
@@ -97,7 +100,7 @@ public class VideoBrick extends BrickBaseType {
 
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-				selectedID = position;
+				onOrOffSpinnerID = position;
 			}
 
 			@Override
@@ -105,7 +108,7 @@ public class VideoBrick extends BrickBaseType {
 			}
 		});
 
-		videoSpinner.setSelection(selectedID);
+		videoSpinner.setSelection(onOrOffSpinnerID);
 
 		return view;
 	}
@@ -121,7 +124,7 @@ public class VideoBrick extends BrickBaseType {
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);
-		setVideoSpinner.setSelection(selectedID);
+		setVideoSpinner.setSelection(onOrOffSpinnerID);
 
 		return prototypeView;
 	}
@@ -152,8 +155,8 @@ public class VideoBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
-		spinnerValues[0] = context.getString(R.string.video_brick_camera_off);
-		spinnerValues[1] = context.getString(R.string.video_brick_camera_on);
+		spinnerValues[OFF] = context.getString(R.string.video_brick_camera_off);
+		spinnerValues[ON] = context.getString(R.string.video_brick_camera_on);
 
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerValues);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -173,7 +176,7 @@ public class VideoBrick extends BrickBaseType {
 	}
 
 	private CameraManager.CameraState getCameraStateFromSpinner() {
-		if (selectedID == 0) {
+		if (onOrOffSpinnerID == OFF) {
 			return CameraManager.CameraState.stopped;
 		}
 

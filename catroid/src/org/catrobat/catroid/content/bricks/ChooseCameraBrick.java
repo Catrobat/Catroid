@@ -47,16 +47,18 @@ public class ChooseCameraBrick extends BrickBaseType {
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
 	private String[] spinnerValues;
-	private int selectedID;
+	private int spinnerSelectionID;
+	private static final int BACK = 0;
+	private static final int FRONT = 1;
 
 	public ChooseCameraBrick() {
 		spinnerValues = new String[2];
-		selectedID = 1;
+		spinnerSelectionID = FRONT;
 	}
 
-	public ChooseCameraBrick(int cameraId) {
+	public ChooseCameraBrick(int frontOrBack) {
 		spinnerValues = new String[2];
-		selectedID = cameraId;
+		spinnerSelectionID = frontOrBack;
 	}
 
 	@Override
@@ -96,7 +98,7 @@ public class ChooseCameraBrick extends BrickBaseType {
 
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-				selectedID = position;
+				spinnerSelectionID = position;
 			}
 
 			@Override
@@ -104,7 +106,7 @@ public class ChooseCameraBrick extends BrickBaseType {
 			}
 		});
 
-		videoSpinner.setSelection(selectedID);
+		videoSpinner.setSelection(spinnerSelectionID);
 
 		return view;
 	}
@@ -120,7 +122,7 @@ public class ChooseCameraBrick extends BrickBaseType {
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);
-		setVideoSpinner.setSelection(selectedID);
+		setVideoSpinner.setSelection(spinnerSelectionID);
 
 		return prototypeView;
 	}
@@ -149,8 +151,8 @@ public class ChooseCameraBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
-		spinnerValues[0] = context.getString(R.string.choose_camera_back);
-		spinnerValues[1] = context.getString(R.string.choose_camera_front);
+		spinnerValues[BACK] = context.getString(R.string.choose_camera_back);
+		spinnerValues[FRONT] = context.getString(R.string.choose_camera_front);
 
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerValues);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -160,19 +162,19 @@ public class ChooseCameraBrick extends BrickBaseType {
 
 	@Override
 	public int getRequiredResources() {
-		if (selectedID == 1) {
-			return CAMERA_BACK;
+		if (spinnerSelectionID == FRONT) {
+			return CAMERA_FRONT;
 		}
-		return CAMERA_FRONT;
+		return CAMERA_BACK;
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setCamera(getSelectedCamera()));
+		if (spinnerSelectionID == FRONT) {
+			sequence.addAction(ExtendedActions.setFrontCamera());
+			return null;
+		}
+		sequence.addAction(ExtendedActions.setBackCamera());
 		return null;
-	}
-
-	private int getSelectedCamera() {
-		return selectedID;
 	}
 }

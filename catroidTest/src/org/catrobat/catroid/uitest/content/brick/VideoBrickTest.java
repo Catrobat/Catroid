@@ -77,7 +77,7 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().getCameraID() == 1);
+		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isFacingFront());
 	}
 
 	@Device
@@ -103,7 +103,7 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 				== CameraManager.CameraState.notUsed || CameraManager.getInstance().getState()
 				== CameraManager.CameraState.stopped);
 
-		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().getCameraID() == 1);
+		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isFacingFront());
 	}
 
 	@Device
@@ -121,7 +121,7 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().getCameraID() == 1);
+		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isFacingFront());
 	}
 
 	@Device
@@ -146,7 +146,7 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().getCameraID() == 0);
+		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isFacingBack());
 	}
 
 	@Device
@@ -173,7 +173,7 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 				== CameraManager.CameraState.notUsed || CameraManager.getInstance().getState()
 				== CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().getCameraID() == 0);
+		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isFacingBack());
 	}
 
 	@Device
@@ -191,11 +191,11 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().getCameraID() == 1);
+		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isFacingFront());
 
 		solo.sleep(2000);
 
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().getCameraID() == 0);
+		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isFacingBack());
 
 		solo.sleep(2000);
 
@@ -210,7 +210,7 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 		solo.sleep(2000);
 
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().getCameraID() == 1);
+		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isFacingFront());
 
 		solo.goBack();
 		solo.goBack();

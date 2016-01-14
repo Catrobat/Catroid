@@ -232,7 +232,7 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().stopPreviewAsync();
 		CameraManager.getInstance().releaseCamera();
 
-		CameraManager.getInstance().setCameraID(1);
+		CameraManager.getInstance().setToDefaultCamera();
 
 		super.onDestroy();
 	}

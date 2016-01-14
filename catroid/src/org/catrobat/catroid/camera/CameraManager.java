@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.camera;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
@@ -56,7 +54,13 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	private int previewFormat;
 	private int previewWidth;
 	private int previewHeight;
-	private int cameraID = 1;
+	private int currentCameraID = NO_CAMERA;
+	private int frontCameraID = NO_CAMERA;
+	private int backCameraID = NO_CAMERA;
+	private int defaultCameraID = NO_CAMERA;
+	private boolean hasFlashBack = false;
+	private int cameraCount = 0;
+
 	private int orientation = 0;
 
 	StageActivity stageActivity = null;
@@ -69,21 +73,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	private final Object cameraBaseLock = new Object();
 	private boolean wasRunning = false;
 
-	public static CameraManager getInstance() {
-		if (instance == null) {
-			instance = new CameraManager();
-		}
-		return instance;
-	}
-
-	private CameraManager() {
-		createTexture();
-	}
-
-	public void setCameraID(int cameraId) {
-		this.cameraID = cameraId;
-	}
-
 	//Mode used for CameraPreview
 	public enum CameraState {
 		notUsed,
@@ -95,29 +84,73 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 	private CameraState state = CameraState.notUsed;
 
+	public static CameraManager getInstance() {
+		if (instance == null) {
+			instance = new CameraManager();
+		}
+		return instance;
+	}
+
+	private CameraManager() {
+		cameraCount = Camera.getNumberOfCameras();
+		for (int id = 0; id < cameraCount; id++) {
+			Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+			Camera.getCameraInfo(id, cameraInfo);
+
+			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+				backCameraID = id;
+				hasFlashBack = hasCameraFlash(id);
+			}
+			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+				frontCameraID = id;
+				//Adapt to support front flash
+			}
+			defaultCameraID = id;
+		}
+		currentCameraID = defaultCameraID;
+		createTexture();
+	}
+
+	public void setToDefaultCamera() {
+		currentCameraID = defaultCameraID;
+	}
+
+	public boolean setToFrontCamera() {
+		if (!hasFrontCamera()) {
+			return false;
+		}
+		updateCamera(frontCameraID);
+		return true;
+	}
+
+	public boolean setToBackCamera() {
+		if (!hasBackCamera()) {
+			return false;
+		}
+		updateCamera(backCameraID);
+		return true;
+	}
+
+	public boolean hasBackCamera() {
+		if (backCameraID == NO_CAMERA) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean hasFrontCamera() {
+		if (frontCameraID == NO_CAMERA) {
+			return false;
+		}
+		return true;
+	}
+
 	public CameraState getState() {
 		return state;
 	}
 
-	public void setState(CameraState state) {
-		this.state = state;
-	}
-
 	public Camera getCamera() {
 		return camera;
-	}
-
-	public boolean isCameraAvailable(Context context, String feature) {
-		PackageManager pm = context.getPackageManager();
-
-		if (pm.hasSystemFeature(feature)) {
-			return true;
-		}
-		return false;
-	}
-
-	public int getCameraID() {
-		return cameraID;
 	}
 
 	public int getOrientation() {
@@ -125,16 +158,19 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	}
 
 	public boolean isFacingBack() {
-		return cameraID == 0;
+		return currentCameraID == backCameraID;
 	}
 
+	public boolean isFacingFront() {
+		return currentCameraID == frontCameraID;
+	}
 	private boolean createCamera() {
 
 		if (camera != null) {
 			return false;
 		}
 		try {
-			camera = Camera.open(cameraID);
+			camera = Camera.open(currentCameraID);
 			camera.setDisplayOrientation(90);
 
 			Camera.Parameters p = camera.getParameters();
@@ -399,16 +435,16 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		this.updateBackgroundToNotTransparent = updateBackgroundToNotTransparent;
 	}
 
-	public void updateCamera(int cameraId) {
+	private void updateCamera(int cameraId) {
 
 		synchronized (cameraChangeLock) {
 			CameraState currentState = state;
 
-			if (cameraId == getCameraID()) {
+			if (cameraId == currentCameraID) {
 				return;
 			}
 
-			setCameraID(cameraId);
+			currentCameraID = cameraId;
 
 			if (LedUtil.isOn() && !isFacingBack()) {
 				Log.w("FlashError", "destroy Stage because flash isOn and front Camera was chosen");
@@ -418,10 +454,9 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 			LedUtil.pauseLed();
 			FaceDetectionHandler.pauseFaceDetection();
-
 			releaseCamera();
-			startCamera();
 
+			startCamera();
 			FaceDetectionHandler.resumeFaceDetection();
 			LedUtil.resumeLed();
 
@@ -453,6 +488,41 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	public void destroyStage() {
 		if (this.stageActivity != null) {
 			stageActivity.destroy();
+		}
+	}
+
+	public boolean hasFlash() {
+		return hasFlashBack;
+	}
+
+	private boolean hasCameraFlash(int cameraID) {
+		try {
+			Camera camera;
+			camera = Camera.open(cameraID);
+
+			if (camera == null) {
+				return false;
+			}
+
+			Camera.Parameters parameters = camera.getParameters();
+
+			if (parameters.getFlashMode() == null) {
+				camera.release();
+				return false;
+			}
+
+			List<String> supportedFlashModes = parameters.getSupportedFlashModes();
+			if (supportedFlashModes == null || supportedFlashModes.isEmpty()
+					|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+				camera.release();
+				return false;
+			}
+
+			camera.release();
+			return true;
+		} catch (Exception exception) {
+			Log.e(TAG, "failed checking for flash", exception);
+			return false;
 		}
 	}
 }

@@ -709,5 +709,7 @@
   <string name="warning">Warnung</string>
   <string name="abort">Abbruch</string>
   <string name="variable">Variable</string>
-  <string name="no_camera_available">Gesichtserkennung nicht verfügbar</string>
+  <string name="no_camera_available">Gesichtserkennung nicht verfügbar.</string>
+  <string name="no_front_camera_available">Front Kamera nicht verfügbar</string>
+  <string name="no_back_camera_available">Rückseitige Kamera nicht verfügbar.</string>
 </resources>
