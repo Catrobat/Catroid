@@ -130,6 +130,8 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position};
 
+	private static final int[] RASPBERRY_SENSOR_ITEMS = {R.string.formula_editor_function_raspi_read_pin_value_digital};
+
 	private String actionBarTitle;
 	private int[] itemsIds;
 
@@ -193,6 +195,10 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 				System.arraycopy(SENSOR_ITEMS, 0, array1and2, 0, SENSOR_ITEMS.length);
 				System.arraycopy(SENSOR_ITEMS_DRONE, 0, array1and2, SENSOR_ITEMS.length, SENSOR_ITEMS_DRONE.length);
 				itemsIds = array1and2;
+			}
+
+			if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
 			}
 		}
 
