@@ -57,7 +57,7 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 		UiTestUtils.createTestProject(testingproject);
 	}
 

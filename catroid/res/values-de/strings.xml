@@ -37,8 +37,9 @@
   <string name="cut">Ausschneiden</string>
   <string name="move">Verschieben</string>
   <string name="backpack">Rucksack</string>
+  <string name="packing">Einpacken</string>
   <string name="unpacking">Auspacken</string>
-  <string name="unpack">Pack es aus</string>
+  <string name="unpack_keep">Auspacken und behalten</string>
   <string name="copy_addition">Kopie</string>
   <string name="close">Schließen</string>
   <string name="error">Fehler</string>
@@ -52,6 +53,15 @@
   <string name="undo">Rückgängig</string>
   <string name="name_exists">Name existiert bereits</string>
   <string name="no_name">Kein Name</string>
+  <string name="is_empty">ist leer</string>
+  <string name="new_group">Neue Gruppe</string>
+  <string name="my_group">Meine Gruppe</string>
+  <string name="name">Name:</string>
+  <string name="nothing_to_copy">Nichts zu kopieren</string>
+  <string name="nothing_to_backpack_and_unpack">Nichts ein- und auszupacken</string>
+  <string name="nothing_to_unpack">Nichts auszupacken</string>
+  <string name="nothing_to_delete">Nichts zu löschen</string>
+  <string name="nothing_to_rename">Nichts umzubenennen</string>
   <string name="main_menu_new">Neu</string>
   <string name="main_menu_continue">Fortsetzen</string>
   <string name="main_menu_programs">Programme</string>
@@ -132,6 +142,8 @@
   <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
   <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
+  <string name="dialog_confirm_delete_script_group_title">Diese Gruppe löschen?</string>
+    <string name="dialog_confirm_delete_multiple_script_groups_title">Diese Gruppen löschen?</string>
   <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Lösche 1 Baustein</item>
@@ -158,7 +170,7 @@
   <string name="lookname">Name:</string>
   <string name="fragment_sound_text_description">Tippe auf \"+\" um Klänge hinzuzufügen</string>
   <string name="rename_sound_dialog">Klang umbenennen</string>
-  <string name="backpack_title">Rucksack</string>
+  <string name="backpack_title">Dein Rucksack</string>
   <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
   <string name="sound_play">abspielen</string>
   <string name="sound_stop">stoppen</string>
@@ -355,13 +367,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">auf Position</string>
   <string name="brick_replace_item_in_userlist_with_value">mit</string>
   <string name="default_project_name">Mein erstes Programm</string>
-  <string name="default_project_sprites_mole_name">Maulwurf</string>
-  <string name="default_project_sprites_mole_moving">Bewegender Maulwurf</string>
-  <string name="default_project_sprites_mole_whacked">Benommener Maulwurf</string>
-  <string name="default_project_sprites_mole_sound">Treffer</string>
   <string name="default_project_backgroundname">Hintergrund</string>
-  <string name="default_project_var_random_from">zufällig von</string>
-  <string name="default_project_var_random_to">zufällig bis</string>
   <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
   <string name="default_drone_project_sprites_up">Fliege hoch</string>
   <string name="default_drone_project_sprites_down">Fliege runter</string>
@@ -703,4 +709,5 @@
   <string name="warning">Warnung</string>
   <string name="abort">Abbruch</string>
   <string name="variable">Variable</string>
+  <string name="no_camera_available">Gesichtserkennung nicht verfügbar</string>
 </resources>

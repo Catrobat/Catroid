@@ -40,7 +40,6 @@
   <string name="move">تحرك</string>
   <string name="backpack">حقيبة ظهر</string>
   <string name="unpacking">تفريغ</string>
-  <string name="unpack">أفرغه</string>
   <string name="copy_addition">نسخ</string>
   <string name="close">إغلاق</string>
   <string name="error">خطأ</string>
@@ -375,13 +374,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <string name="default_project_name">برنامجي الأول</string>
-  <string name="default_project_sprites_mole_name">الخلد</string>
-  <string name="default_project_sprites_mole_moving">تحريك الخلد</string>
-  <string name="default_project_sprites_mole_whacked">ضرب الخلد بعنف</string>
-  <string name="default_project_sprites_mole_sound">ضرب</string>
   <string name="default_project_backgroundname">خلفية</string>
-  <string name="default_project_var_random_from">عشوائي من</string>
-  <string name="default_project_var_random_to">عشوائي إلى</string>
   <string name="default_drone_project_name">برنامجي طائرة بدون طيار الأول</string>
   <string name="default_drone_project_sprites_takeoff">إقلاع</string>
   <string name="default_drone_project_sprites_up">الأعلى</string>

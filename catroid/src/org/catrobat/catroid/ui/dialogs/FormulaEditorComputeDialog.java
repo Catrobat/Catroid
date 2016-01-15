@@ -76,7 +76,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		}
 		int resources = formula.getRequiredResources();
 		if ((resources & Brick.FACE_DETECTION) > 0) {
-			FaceDetectionHandler.startFaceDetection(getContext());
+			FaceDetectionHandler.startFaceDetection();
 		}
 
 		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {

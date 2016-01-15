@@ -29,26 +29,26 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.common.LookData;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class LookBaseAdapter extends ArrayAdapter<LookData> implements ScriptActivityAdapterInterface {
+public class LookBaseAdapter extends ArrayAdapter<LookData> implements ActionModeActivityAdapterInterface {
 
-	protected ArrayList<LookData> lookDataItems;
+	protected List<LookData> lookDataItems;
 	protected Context context;
 
 	private OnLookEditListener onLookEditListener;
 
 	private int selectMode;
 	private boolean showDetails;
-	private SortedSet<Integer> checkedLooks = new TreeSet<Integer>();
+	protected SortedSet<Integer> checkedLookPositions = new TreeSet<>();
 
 	public LookBaseAdapter(final Context context, int currentPlayingposition) {
 		super(context, currentPlayingposition);
 	}
 
-	public LookBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
+	public LookBaseAdapter(final Context context, int resource, int textViewResourceId, List<LookData> items,
 			boolean showDetails) {
 		super(context, resource, textViewResourceId, items);
 		this.context = context;
@@ -87,25 +87,32 @@ public class LookBaseAdapter extends ArrayAdapter<LookData> implements ScriptAct
 
 	@Override
 	public int getAmountOfCheckedItems() {
-		return checkedLooks.size();
+		return checkedLookPositions.size();
 	}
 
 	@Override
 	public SortedSet<Integer> getCheckedItems() {
-		return checkedLooks;
+		return checkedLookPositions;
 	}
 
-	public ArrayList<LookData> getLookDataItems() {
+	public List<LookData> getLookDataItems() {
 		return lookDataItems;
 	}
 
 	public void addCheckedItem(int position) {
-		checkedLooks.add(position);
+		checkedLookPositions.add(position);
+	}
+
+	public void addCheckedItemIfNotExists(int position) {
+		checkedLookPositions.add(position);
+		if (!checkedLookPositions.contains(position)) {
+			checkedLookPositions.add(position);
+		}
 	}
 
 	@Override
 	public void clearCheckedItems() {
-		checkedLooks.clear();
+		checkedLookPositions.clear();
 	}
 
 	public interface OnLookEditListener {

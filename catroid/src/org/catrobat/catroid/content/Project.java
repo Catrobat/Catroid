@@ -27,6 +27,7 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
@@ -51,11 +52,11 @@ public class Project implements Serializable {
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
 	@XStreamAlias("objectList")
-	private List<Sprite> spriteList = new ArrayList<Sprite>();
+	private List<Sprite> spriteList = new ArrayList<>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
 	@XStreamAlias("settings")
-	private List<Setting> settings = new ArrayList<Setting>();
+	private List<Setting> settings = new ArrayList<>();
 
 	public Project(Context context, String name, boolean landscapeMode) {
 		xmlHeader.setProgramName(name);
@@ -282,6 +283,26 @@ public class Project implements Serializable {
 				return;
 			}
 		}
+	}
+
+	public boolean isBackgroundSprite(Sprite sprite) {
+		if (spriteList.indexOf(sprite) == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public void replaceBackgroundSprite(Sprite unpackedSprite) {
+		spriteList.set(0, unpackedSprite);
+	}
+
+	public boolean containsSprite(Sprite selectedSprite) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			if (sprite.equals(selectedSprite)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean islandscapeMode() {

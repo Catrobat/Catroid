@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
@@ -32,7 +31,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -54,6 +52,7 @@ import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
@@ -150,6 +149,7 @@ public class StageListener implements ApplicationListener {
 	public boolean axesOn = false;
 
 	private byte[] thumbnail;
+	private LookData whiteBackground = null;
 
 	StageListener() {
 	}
@@ -203,16 +203,8 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
-	}
 
-	void activityResume() {
-		if (!paused) {
-			FaceDetectionHandler.resumeFaceDetection();
-		}
-	}
-
-	void activityPause() {
-		FaceDetectionHandler.pauseFaceDetection();
+		whiteBackground = createWhiteBackgroundLookData();
 	}
 
 	void menuResume() {
@@ -243,7 +235,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public void reloadProject(Context context, StageDialog stageDialog) {
+	public void reloadProject(StageDialog stageDialog) {
 		if (reloadProject) {
 			return;
 		}
@@ -294,12 +286,13 @@ public class StageListener implements ApplicationListener {
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
+		CameraManager.getInstance().setCameraID(1);
 	}
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
@@ -308,10 +301,11 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			Sprite sprite;
 			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				sprites.get(0).look.setLookData(whiteBackground);
 			}
+
+			Sprite sprite;
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
@@ -335,8 +329,9 @@ public class StageListener implements ApplicationListener {
 			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 			int spriteSize = sprites.size();
 			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				sprites.get(0).look.setLookData(whiteBackground);
 			}
+
 			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
@@ -389,6 +384,8 @@ public class StageListener implements ApplicationListener {
 
 		if (!finished) {
 			stage.draw();
+
+			updateCameraEvents();
 		}
 
 		if (makeAutomaticScreenshot) {
@@ -426,6 +423,23 @@ public class StageListener implements ApplicationListener {
 			drawText("Surface: " + width + " : " + height, -width / 2, height / 2);
 			drawText("   ARDRONE", width / 6, height / 2 - 20);
 			drawText("SUPPORTED", width / 6, height / 2 - 50);
+		}
+	}
+
+	private void updateCameraEvents() {
+		if (CameraManager.getInstance().isUpdateBackgroundToTransparent()) {
+			//Set the transparency of the Background to 100% if there was no background image specified or 50% if so
+			if (sprites.get(0).look.getLookData().equals(whiteBackground)) {
+				sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(99f);
+			} else {
+				sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(50f);
+			}
+			CameraManager.getInstance().setUpdateBackgroundToTransparent(false);
+		}
+
+		if (CameraManager.getInstance().isUpdateBackgroundToNotTransparent()) {
+			sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(0f);
+			CameraManager.getInstance().setUpdateBackgroundToNotTransparent(false);
 		}
 	}
 
@@ -632,10 +646,12 @@ public class StageListener implements ApplicationListener {
 	private LookData createWhiteBackgroundLookData() {
 		LookData whiteBackground = new LookData();
 		Pixmap whiteBackgroundPixmap = new Pixmap((int) virtualWidth, (int) virtualHeight, Format.RGBA8888);
-		whiteBackgroundPixmap.setColor(Color.WHITE);
+		whiteBackgroundPixmap.setColor(1, 1, 1, 1);
 		whiteBackgroundPixmap.fill();
 		whiteBackground.setPixmap(whiteBackgroundPixmap);
 		whiteBackground.setTextureRegion();
+		whiteBackground.setLookFilename("white");
+		whiteBackground.setLookName("white");
 		return whiteBackground;
 	}
 

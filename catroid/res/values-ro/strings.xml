@@ -40,7 +40,6 @@
   <string name="move">Mișcă</string>
   <string name="backpack">Rucsac</string>
   <string name="unpacking">Despachetare</string>
-  <string name="unpack">Despachetază</string>
   <string name="copy_addition">copie</string>
   <string name="close">Închidere</string>
   <string name="error">Eroare</string>
@@ -352,13 +351,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <string name="default_project_name">proiectulImplicit</string>
-  <string name="default_project_sprites_mole_name">Aluniţă</string>
-  <string name="default_project_sprites_mole_moving">Aluniță mișcătoare</string>
-  <string name="default_project_sprites_mole_whacked">Aluniță lovită</string>
-  <string name="default_project_sprites_mole_sound">Lovit</string>
   <string name="default_project_backgroundname">Fundal</string>
-  <string name="default_project_var_random_from">aleator de la</string>
-  <string name="default_project_var_random_to">aleator până la</string>
   <string name="default_drone_project_name">Primul meu program Drone</string>
   <string name="default_drone_project_sprites_takeoff">Decolare</string>
   <string name="default_drone_project_sprites_up">Sus</string>

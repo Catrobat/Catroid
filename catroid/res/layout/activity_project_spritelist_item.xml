@@ -45,7 +45,8 @@
         <RelativeLayout
             android:id="@+id/spritelist_item_background"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:longClickable="false">
 
             <ImageView
                 android:id="@+id/sprite_img"

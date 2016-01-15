@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
@@ -607,6 +608,18 @@ public class ExtendedActions extends Actions {
 	public static HideTextAction hideText(Sprite sprite, String variableName) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setText(variableName);
+		return action;
+	}
+
+	public static VideoBrickAction updateCameraPreview(CameraManager.CameraState state) {
+		VideoBrickAction action = action(VideoBrickAction.class);
+		action.setCameraAction(state);
+		return action;
+	}
+
+	public static ChooseCameraAction setCamera(int cameraId) {
+		ChooseCameraAction action = action(ChooseCameraAction.class);
+		action.setCameraId(cameraId);
 		return action;
 	}
 }

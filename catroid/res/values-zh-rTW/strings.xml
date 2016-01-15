@@ -38,7 +38,6 @@
   <string name="move">移動</string>
   <string name="backpack">放進背包</string>
   <string name="unpacking">取出中</string>
-  <string name="unpack">取出使用</string>
   <string name="copy_addition">複製</string>
   <string name="close">關閉​​​</string>
   <string name="error">錯誤</string>
@@ -339,13 +338,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">的資料在位置</string>
   <string name="brick_replace_item_in_userlist_with_value">替換為</string>
   <string name="default_project_name">我的程式檔</string>
-  <string name="default_project_sprites_mole_name">地鼠</string>
-  <string name="default_project_sprites_mole_moving">移動的地鼠</string>
-  <string name="default_project_sprites_mole_whacked">被打的地鼠</string>
-  <string name="default_project_sprites_mole_sound">敲擊聲</string>
   <string name="default_project_backgroundname">背景</string>
-  <string name="default_project_var_random_from">亂數範圍開始</string>
-  <string name="default_project_var_random_to">亂數範圍結束</string>
   <string name="default_drone_project_name">我的AR.Drone程式檔</string>
   <string name="default_drone_project_sprites_takeoff">起飛</string>
   <string name="default_drone_project_sprites_up">上</string>

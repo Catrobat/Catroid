@@ -314,7 +314,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("MyProjectsActivity not shown", solo.waitForActivity(MyProjectsActivity.class.getSimpleName()));
 		solo.clickOnText(testProject2);
 		assertTrue("ProjectActivity not shown", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
-		assertTrue("SpritesListFragment not shown", solo.waitForFragmentById(R.id.fragment_sprites_list));
+		assertTrue("SpritesListFragment not shown", solo.waitForFragmentById(R.id.fragment_container));
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -441,8 +441,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 		} catch (IOException e) {
-			Log.e(TAG, "Could not create standard project", e);
-			fail("Could not create standard project");
+			fail("Could not create standard project " + standardProjectName);
+			Log.e(TAG, "Could not create standard Project: " + Log.getStackTraceString(e));
 		}
 
 		if (standardProject == null) {
@@ -458,11 +458,13 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
-		assertEquals("Number of bricks in background sprite was wrong", 3, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong", 7, backgroundSprite.getNumberOfBricks());
 		startingScript.addBrick(new SetLookBrick());
 		startingScript.addBrick(new SetLookBrick());
 		startingScript.addBrick(new SetLookBrick());
-		assertEquals("Number of bricks in background sprite was wrong", 6, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong after adding three new bricks", 10,
+				backgroundSprite
+				.getNumberOfBricks());
 		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
 		ProjectManager.getInstance().setCurrentScript(startingScript);
 		StorageHandler.getInstance().saveProject(standardProject);
@@ -484,7 +486,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.getCurrentActivity().startActivity(intent);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_backgroundname));
-		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 6,
+		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 10,
 				ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
@@ -496,7 +498,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, testProject);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -509,7 +511,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		solo.clickOnText(testProject2, 1, true);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -526,7 +528,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustSpecialChars);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -540,7 +542,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameWithNormalAndSpecialChars2);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -558,7 +560,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustOneDot);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -574,7 +576,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustTwoDots);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());

@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.utils.LedUtil;
 
 public class LedAction extends TemporalAction {
@@ -32,7 +35,18 @@ public class LedAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		LedUtil.setNextLedValue(this.ledValue);
+
+		if (!CameraManager.getInstance().isFacingBack() && !LedUtil.isOn() && ledValue) {
+			Log.w("FlashError", "destry Stage because frontCamera is chosen and ledValue = " + ledValue);
+			CameraManager.getInstance().destroyStage();
+			return;
+		}
+
+		if (LedUtil.isOn() && !ledValue) {
+			LedUtil.ledOff();
+		} else if (!LedUtil.isOn() && ledValue) {
+			LedUtil.ledOn();
+		}
 	}
 
 	public void setLedValue(boolean ledValue) {

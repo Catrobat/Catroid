@@ -20,22 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.adapter;
 
-import java.util.Set;
+package org.catrobat.catroid.content.actions;
 
-public interface ScriptActivityAdapterInterface {
-	void setSelectMode(int mode);
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-	int getSelectMode();
+import org.catrobat.catroid.camera.CameraManager;
 
-	void setShowDetails(boolean showDetails);
+public class ChooseCameraAction extends TemporalAction {
 
-	boolean getShowDetails();
+	private int cameraId = CameraManager.getInstance().getCameraID();
 
-	int getAmountOfCheckedItems();
+	@Override
+	protected void update(float percent) {
 
-	Set<Integer> getCheckedItems();
+		CameraManager.getInstance().updateCamera(cameraId);
+	}
 
-	void clearCheckedItems();
+	public void setCameraId(int cameraId) {
+		this.cameraId = cameraId;
+	}
 }

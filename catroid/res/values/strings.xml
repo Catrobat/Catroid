@@ -38,8 +38,9 @@
     <string name="cut">Cut</string>
     <string name="move">Move</string>
     <string name="backpack">Backpack</string>
-    <string name="unpacking">Unpacking</string>
-    <string name="unpack">Unpack it</string>
+    <string name="packing">Pack</string>
+    <string name="unpacking">Unpack</string>
+    <string name="unpack_keep">Unpack and keep</string>
     <string name="copy_addition">copy</string>
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -53,6 +54,16 @@
     <string name="undo">Undo</string>
     <string name="name_exists">Name already exists</string>
     <string name="no_name">No name</string>
+    <string name="is_empty">is empty</string>
+    <string name="new_group">New Group</string>
+    <string name="my_group">My Group</string>
+    <string name="name">Name:</string>
+    <string name="nothing_to_copy">Nothing to copy</string>
+    <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
+    <string name="nothing_to_unpack">Nothing to unpack</string>
+    <string name="nothing_to_delete">Nothing to delete</string>
+    <string name="nothing_to_rename">Nothing to rename</string>
+    <string name="unpack_background">Program background will be replaced</string>
     <!--  -->
 
 
@@ -67,9 +78,6 @@
     <string name="main_menu_terms_of_use">Terms of use</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
-    <string name="main_menu_web_dialog_title">Caution!</string>
-    <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
-    <string name="main_menu_web_dialog_dont_show">Don\'t show again</string>
     <!--  -->
 
 
@@ -164,6 +172,9 @@
     <string name="sounds">Sounds</string>
     <string name="backgrounds">Backgrounds</string>
     <string name="size">Size:</string>
+    <string name="script_group">Script Group</string>
+    <string name="script_groups">Script Groups</string>
+    <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
     <!--  -->
 
 
@@ -172,6 +183,8 @@
     <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
     <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
+    <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
+    <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
     <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
 
     <plurals name="number_of_bricks_to_delete">
@@ -182,8 +195,11 @@
         <item quantity="one">Copy 1 Brick</item>
         <item quantity="other">Copy %d Bricks</item>
     </plurals>
+    <plurals name="number_of_bricks_to_backpack">
+        <item quantity="one">Backpack 1 Brick</item>
+        <item quantity="other">Backpack %d Bricks</item>
+    </plurals>
     <!--  -->
-
 
     <!-- Look fragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
@@ -207,7 +223,7 @@
     <!-- Sound fragment -->
     <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
-    <string name="backpack_title">BackPack</string>
+    <string name="backpack_title">Your Backpack</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_stop">stop</string>
@@ -216,8 +232,8 @@
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="length">Length:</string>
     <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
-    <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
-    <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
+  <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
+  <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
     <string name="new_sound_name">Sound name:</string>
     <string name="rename_sound_overwrite">Sound with same name already exists!</string>
@@ -226,6 +242,16 @@
     <plurals name="unpacking_items_plural">
         <item quantity="one">was unpacked!</item>
         <item quantity="other">were unpacked!</item>
+    </plurals>
+
+    <plurals name="packing_items_plural">
+        <item quantity="one">was backpacked!</item>
+        <item quantity="other">were backpacked!</item>
+    </plurals>
+
+    <plurals name="scripts_plural">
+        <item quantity="one">Script</item>
+        <item quantity="other">Scripts</item>
     </plurals>
 
     <!-- My Projects activity -->
@@ -257,7 +283,6 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
     <string name="no_flash_led_available">No flash LED available</string>
     <string name="no_vibrator_available">Vibrator not available</string>
-    <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
     <!--  -->
 
 
@@ -268,7 +293,7 @@
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <string name="brick_context_dialog_add_to_script">Add To Script</string>
-    <string name="brick_context_dialog_edit_brick">Edit Brick</string>
+	<string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <!--  -->
@@ -486,13 +511,15 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
-    <string name="default_project_sprites_mole_name">Mole</string>
-    <string name="default_project_sprites_mole_moving">Moving Mole</string>
-    <string name="default_project_sprites_mole_whacked">Whacked Mole</string>
-    <string name="default_project_sprites_mole_sound">Hit</string>
-    <string name="default_project_backgroundname">Background</string>
-    <string name="default_project_var_random_from">random from</string>
-    <string name="default_project_var_random_to">random to</string>
+    <string name="default_project_background_name">Background</string>
+    <string name="default_project_cloud_name">Clouds</string>
+    <string name="default_project_cloud_sprite_name_1">Clouds1</string>
+    <string name="default_project_cloud_sprite_name_2">Clouds2</string>
+    <string name="default_project_sprites_bird_name">Bird</string>
+    <string name="default_project_sprites_bird_name_wing_up">Bird Wings up</string>
+    <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
+    <string name="default_project_sprites_tweet_1">Tweet1</string>
+    <string name="default_project_sprites_tweet_2">Tweet2</string>
 
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
@@ -607,7 +634,7 @@
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
-    <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
+	<string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
     <!--  -->
@@ -917,11 +944,6 @@
     </plurals>
     <!--  -->
 
-    <!-- Camera Strings -->
-    <string name="camera_facing_front">Front Camera</string>
-    <string name="camera_facing_back">Back Camera</string>
-    <!--  -->
-
     <!-- Brick Data Editor Strings -->
     <string name="brick_data_editor_title">Brick Editor</string>
  	<string name="separator">|</string>
@@ -963,6 +985,15 @@
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
     <string name="variable">Variable</string>
+  <!-- -->
+
+    <string name="brick_video">Camera:</string>
+    <string name="video_brick_camera_on">On</string>
+    <string name="video_brick_camera_off">Off</string>
+
+    <string name="brick_choose_camera">Choose Camera:</string>
+    <string name="choose_camera_front">Front</string>
+    <string name="choose_camera_back">Back</string><string name="error_flash_front_camera">"You can use the flash only with the back camera (this is an Android restriction). Please use the \"Set camera\" brick from the Looks category and select the back camera before executing a flash brick. "</string>
     <!-- -->
 
 </resources>

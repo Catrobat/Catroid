@@ -38,7 +38,6 @@
   <string name="move">Muovi</string>
   <string name="backpack">Zaino</string>
   <string name="unpacking">Scompatta</string>
-  <string name="unpack">Scompattalo</string>
   <string name="copy_addition">copiare</string>
   <string name="close">Chiudere</string>
   <string name="error">Errore</string>
@@ -348,13 +347,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
   <string name="brick_replace_item_in_userlist_with_value">con</string>
   <string name="default_project_name">Il mio primo programma</string>
-  <string name="default_project_sprites_mole_name">Talpa</string>
-  <string name="default_project_sprites_mole_moving">Talpa in movimento</string>
-  <string name="default_project_sprites_mole_whacked">Talpa stanco</string>
-  <string name="default_project_sprites_mole_sound">Colpisci</string>
   <string name="default_project_backgroundname">Sfondo</string>
-  <string name="default_project_var_random_from">casuale da</string>
-  <string name="default_project_var_random_to">casuale fino a</string>
   <string name="default_drone_project_name">Il mio primo programma per Drone</string>
   <string name="default_drone_project_sprites_takeoff">Decolla</string>
   <string name="default_drone_project_sprites_up">Su</string>

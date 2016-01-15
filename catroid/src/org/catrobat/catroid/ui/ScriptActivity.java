@@ -22,33 +22,44 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
+import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
+import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
@@ -80,6 +91,8 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 	public static final String ACTION_USERLIST_DELETED = "org.catrobat.catroid.USERLIST_DELETED";
+	public static final String ACTION_SCRIPT_GROUP_DELETED = "org.catrobat.catroid.LOOK_DELETED";
+	public static final String NUMBER_INSERTED_BRICKS = "NUMBER_INSERTED_BRICKS";
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;
@@ -143,14 +156,16 @@ public class ScriptActivity extends BaseActivity {
 		final ActionBar actionBar = getActionBar();
 		//actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
-		String currentSprite = null;
 		try {
-			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+			if (sprite != null) {
+				String title = sprite.getName();
+				actionBar.setTitle(title);
+			}
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 			finish();
 		}
-		actionBar.setTitle(currentSprite);
 	}
 
 	@Override
@@ -208,7 +223,7 @@ public class ScriptActivity extends BaseActivity {
 		if (fragmentExists) {
 			fragmentTransaction.show(currentFragment);
 		} else {
-			fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
+			fragmentTransaction.add(R.id.fragment_container, currentFragment, currentFragmentTag);
 		}
 	}
 
@@ -249,7 +264,7 @@ public class ScriptActivity extends BaseActivity {
 
 		switch (item.getItemId()) {
 			case R.id.backpack:
-				currentFragment.startBackPackActionMode();
+				showBackPackChooser();
 				break;
 
 			case R.id.show_details:
@@ -261,12 +276,6 @@ public class ScriptActivity extends BaseActivity {
 				break;
 
 			case R.id.cut:
-				break;
-
-			case R.id.unpacking:
-				Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
-				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
-				startActivity(intent);
 				break;
 
 			case R.id.insert_below:
@@ -290,6 +299,68 @@ public class ScriptActivity extends BaseActivity {
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void openBackPack() {
+		if (currentFragment == lookFragment) {
+			Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
+			startActivity(intent);
+		} else if (currentFragment == soundFragment) {
+			Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
+			startActivity(intent);
+		} else if (currentFragment == scriptFragment) {
+			Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+			startActivity(intent);
+		}
+	}
+
+	private void showBackPackChooser() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		CharSequence[] items;
+		int numberOfItemsInBackpack = 0;
+		int numberOfItemsInAdapter = 0;
+
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SCRIPTS:
+				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedScripts().size();
+				numberOfItemsInAdapter = ((ScriptFragment) currentFragment).getAdapter().getCount();
+				break;
+			case FRAGMENT_LOOKS:
+				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedLooks().size();
+				numberOfItemsInAdapter = currentFragment.getListAdapter().getCount();
+				break;
+			case FRAGMENT_SOUNDS:
+				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedSounds().size();
+				numberOfItemsInAdapter = currentFragment.getListAdapter().getCount();
+				break;
+		}
+
+		if (numberOfItemsInBackpack > 0 && numberOfItemsInAdapter == 0) {
+			openBackPack();
+		} else if (numberOfItemsInBackpack == 0) {
+			currentFragment.startBackPackActionMode();
+		} else {
+			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpacking) };
+
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (which == 0) {
+						currentFragment.startBackPackActionMode();
+					} else if (which == 1) {
+						openBackPack();
+					}
+					dialog.dismiss();
+				}
+			});
+			builder.setTitle(R.string.backpack_title);
+			builder.setCancelable(true);
+			builder.show();
+		}
 	}
 
 	@Override
@@ -353,7 +424,9 @@ public class ScriptActivity extends BaseActivity {
 		for (int i = backStackEntryCount; i > 0; --i) {
 			String backStackEntryName = fragmentManager.getBackStackEntryAt(i - 1).getName();
 			if (backStackEntryName != null
-					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG))) {
+					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG)
+					|| backStackEntryName.equals(BackPackScriptFragment.TAG) || backStackEntryName.equals(BackPackLookFragment
+					.TAG) || backStackEntryName.equals(BackPackSoundFragment.TAG))) {
 				fragmentManager.popBackStack();
 			} else {
 				break;
@@ -361,6 +434,9 @@ public class ScriptActivity extends BaseActivity {
 		}
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && currentFragmentPosition == FRAGMENT_SCRIPTS) {
+			if (scriptFragment.getAdapter().isBackPackActionMode()) {
+				scriptFragment.getAdapter().setIsBackPackActionMode(false);
+			}
 			DragAndDropListView listView = scriptFragment.getListView();
 			if (listView.isCurrentlyDragging()) {
 				listView.resetDraggingScreen();
@@ -427,19 +503,22 @@ public class ScriptActivity extends BaseActivity {
 
 		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
 			ListAdapter adapter = formulaEditorDataFragment.getListAdapter();
-			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+			((ActionModeActivityAdapterInterface) adapter).clearCheckedItems();
 			return super.dispatchKeyEvent(event);
 		}
 
 		if (currentFragment != null && currentFragment.getActionModeActive()
 				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-			ListAdapter adapter = null;
+			if (scriptFragment != null && scriptFragment.getAdapter() != null && scriptFragment.getAdapter().isBackPackActionMode()) {
+				scriptFragment.getAdapter().setIsBackPackActionMode(false);
+			}
+			ListAdapter adapter;
 			if (currentFragment instanceof ScriptFragment) {
 				adapter = ((ScriptFragment) currentFragment).getAdapter();
 			} else {
 				adapter = currentFragment.getListAdapter();
 			}
-			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+			((ActionModeActivityAdapterInterface) adapter).clearCheckedItems();
 		}
 
 		return super.dispatchKeyEvent(event);
@@ -566,7 +645,7 @@ public class ScriptActivity extends BaseActivity {
 				if (lookFragment == null) {
 					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					lookFragment = new LookFragment();
-					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
+					fragmentTransaction.add(R.id.fragment_container, lookFragment, LookFragment.TAG);
 				} else {
 					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(true);
 					fragmentTransaction.show(lookFragment);
@@ -581,7 +660,7 @@ public class ScriptActivity extends BaseActivity {
 				if (soundFragment == null) {
 					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					soundFragment = new SoundFragment();
-					fragmentTransaction.add(R.id.script_fragment_container, soundFragment, SoundFragment.TAG);
+					fragmentTransaction.add(R.id.fragment_container, soundFragment, SoundFragment.TAG);
 				} else {
 					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
 					fragmentTransaction.show(soundFragment);
@@ -596,5 +675,33 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setSwitchToScriptFragment(boolean switchToScriptFragment) {
 		this.switchToScriptFragment = switchToScriptFragment;
+	}
+
+	public void showEmptyActionModeDialog(String actionMode) {
+		@SuppressLint("InflateParams")
+		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
+		TextView actionModeEmptyText = (TextView) dialogView.findViewById(R.id.dialog_action_mode_emtpy_text);
+
+		if (actionMode.equals(getString(R.string.backpack))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_backpack_and_unpack));
+		} else if (actionMode.equals(getString(R.string.delete))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_delete));
+		} else if (actionMode.equals(getString(R.string.copy))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_copy));
+		} else if (actionMode.equals(getString(R.string.rename))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_rename));
+		}
+
+		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
+				.setTitle(actionMode)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).create();
+
+		actionModeEmptyDialog.setCanceledOnTouchOutside(true);
+		actionModeEmptyDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		actionModeEmptyDialog.show();
 	}
 }

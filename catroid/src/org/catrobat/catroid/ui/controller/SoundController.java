@@ -58,7 +58,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.UtilFile;
@@ -66,9 +65,9 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.SortedSet;
+import java.util.List;
+import java.util.TreeSet;
 
 public final class SoundController {
 	public static final int REQUEST_SELECT_OR_RECORD_SOUND = 0;
@@ -366,87 +365,136 @@ public final class SoundController {
 		soundInfo.isPlaying = false;
 	}
 
-	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
-			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
+	public String soundFileAlreadyInBackPackDirectory(SoundInfo soundInfoToCheck) {
+		if (soundInfoToCheck == null) {
+			return null;
+		}
+		for (SoundInfo soundInfo : BackPackListManager.getInstance().getAllBackPackedSounds()) {
+			if (soundInfo == null) {
+				continue;
+			}
+			if (soundInfo.getChecksum().equals(soundInfoToCheck.getChecksum())) {
+				return soundInfo.getSoundFileName();
+			}
+		}
+		return null;
 	}
 
-	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList,
-			SoundBaseAdapter adapter) {
+	public File copySoundBackPack(SoundInfo selectedSoundInfo, String newSoundInfoTitle, boolean copyFromBackpack) {
 		try {
-			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo);
+			return StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo, newSoundInfoTitle,
+					copyFromBackpack);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
-		updateBackPackActivity(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
-				adapter);
+		return null;
 	}
 
-	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
+	public SoundInfo copySound(SoundInfo selectedSoundInfo, List<SoundInfo> soundInfoList, SoundFragment fragment) {
 		try {
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		return updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
-				adapter);
+				fragment);
 	}
 
-	public void copySound(int position, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
+	public void copySound(int position, List<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 		SoundInfo soundInfo = soundInfoList.get(position);
 		try {
 			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
-		SoundController.getInstance().updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName(),
-				soundInfoList, adapter);
+		String newSoundInfoTitle = Utils.getUniqueSoundName(soundInfo, false);
+		updateSoundAdapter(soundInfo, adapter, newSoundInfoTitle, false, false);
 	}
 
-	private void deleteSound(int position, ArrayList<SoundInfo> soundInfoList, Activity activity) {
-		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+	private void deleteSound(int position, List<SoundInfo> soundInfoList, Activity activity) {
+		if (position < 0 || position >= soundInfoList.size()) {
+			Log.d(TAG, "attempted to delete a sound at a position not in soundInfoList");
+			return;
+		}
+		SoundInfo soundInfoToDelete = soundInfoList.get(position);
+		if (soundInfoToDelete.isBackpackSoundInfo && !otherSoundInfoItemsHaveAFileReference(soundInfoToDelete)) {
+			StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath(), true);
+		}
+
 		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
 
-	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, ArrayList<SoundInfo> soundInfoList,
+	public boolean otherSoundInfoItemsHaveAFileReference(SoundInfo soundInfoToCheck) {
+		for (SoundInfo soundInfo : BackPackListManager.getInstance().getAllBackPackedSounds()) {
+			if (soundInfo.equals(soundInfoToCheck)) {
+				continue;
+			}
+			if (soundInfo.getSoundFileName().equals(soundInfoToCheck.getSoundFileName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, List<SoundInfo> soundInfoList,
 			MediaPlayer mediaPlayer) {
-		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedSounds.iterator();
 		SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-		int numberDeleted = 0;
+		Iterator iterator = ((TreeSet) adapter.getCheckedItems()).descendingIterator();
 		while (iterator.hasNext()) {
-			int position = iterator.next();
-			deleteSound(position - numberDeleted, soundInfoList, activity);
-			++numberDeleted;
+			deleteSound((int) iterator.next(), soundInfoList, activity);
 		}
 	}
 
-	public SoundInfo updateBackPackActivity(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-			SoundBaseAdapter adapter) {
-		title = Utils.getUniqueSoundName(title);
-
+	public SoundInfo updateSoundBackPackAfterInsert(String title, SoundInfo currentSoundInfo, String
+			existingFileNameInBackPackDirectory, boolean addToHiddenBackpack) {
 		SoundInfo newSoundInfo = new SoundInfo();
+		newSoundInfo.isBackpackSoundInfo = true;
 		newSoundInfo.setTitle(title);
-		newSoundInfo.setSoundFileName(fileName);
-		soundInfoList.add(newSoundInfo);
 
-		adapter.notifyDataSetChanged();
+		if (existingFileNameInBackPackDirectory == null) {
+			String fileName = currentSoundInfo.getSoundFileName();
+			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
+			fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
+			newSoundInfo.setSoundFileName(fileName);
+		} else {
+			newSoundInfo.setSoundFileName(existingFileNameInBackPackDirectory);
+		}
+
+		if (addToHiddenBackpack) {
+			BackPackListManager.getInstance().addSoundToHiddenBackpack(newSoundInfo);
+		} else {
+			BackPackListManager.getInstance().addSoundToBackPack(newSoundInfo);
+		}
+
 		return newSoundInfo;
 	}
 
-	public SoundInfo updateSoundAdapter(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-			SoundBaseAdapter adapter) {
-
-		title = Utils.getUniqueSoundName(title);
-
+	public SoundInfo updateSoundAdapter(SoundInfo soundInfo,
+			SoundBaseAdapter adapter, String title, boolean delete, boolean fromHiddenBackPack) {
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
+		String fileName = soundInfo.getSoundFileName();
+		String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
+		fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
 		newSoundInfo.setSoundFileName(fileName);
-		soundInfoList.add(newSoundInfo);
+		ProjectManager.getInstance().getCurrentSprite().getSoundList().add(newSoundInfo);
 
-		adapter.notifyDataSetChanged();
+		if (delete) {
+			if (fromHiddenBackPack) {
+				BackPackListManager.getInstance().removeItemFromSoundHiddenBackpack(soundInfo);
+			} else {
+				BackPackListManager.getInstance().removeItemFromSoundBackPack(soundInfo);
+			}
+			if (!otherSoundInfoItemsHaveAFileReference(soundInfo)) {
+				StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePathBackPack(), true);
+			}
+		}
+
+		if (adapter != null) {
+			adapter.notifyDataSetChanged();
+		}
 		return newSoundInfo;
 	}
 
@@ -454,7 +502,7 @@ public final class SoundController {
 		return mediaPlayer.isPlaying();
 	}
 
-	public void stopSound(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList) {
+	public void stopSound(MediaPlayer mediaPlayer, List<SoundInfo> soundInfoList) {
 		if (isSoundPlaying(mediaPlayer)) {
 			mediaPlayer.stop();
 		}
@@ -464,7 +512,7 @@ public final class SoundController {
 		}
 	}
 
-	public void handlePlaySoundButton(View view, ArrayList<SoundInfo> soundInfoList, MediaPlayer mediaPlayer,
+	public void handlePlaySoundButton(View view, List<SoundInfo> soundInfoList, MediaPlayer mediaPlayer,
 			final SoundBaseAdapter adapter) {
 		final int position = (Integer) view.getTag();
 		final SoundInfo soundInfo = soundInfoList.get(position);
@@ -484,7 +532,7 @@ public final class SoundController {
 		});
 	}
 
-	public void stopSoundAndUpdateList(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList,
+	public void stopSoundAndUpdateList(MediaPlayer mediaPlayer, List<SoundInfo> soundInfoList,
 			SoundBaseAdapter adapter) {
 		if (!isSoundPlaying(mediaPlayer)) {
 			return;
@@ -543,7 +591,7 @@ public final class SoundController {
 	}
 
 	public void addSoundFromMediaLibrary(String filePath, Activity activity,
-			ArrayList<SoundInfo> soundData, SoundFragment fragment) {
+			List<SoundInfo> soundData, SoundFragment fragment) {
 		File mediaImage = null;
 		mediaImage = new File(filePath);
 		copySoundToCatroid(mediaImage.toString(), activity, soundData, fragment);
@@ -573,7 +621,7 @@ public final class SoundController {
 		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
 	}
 
-	private void copySoundToCatroid(String originalSoundPath, Activity activity, ArrayList<SoundInfo> soundList,
+	private void copySoundToCatroid(String originalSoundPath, Activity activity, List<SoundInfo> soundList,
 			SoundFragment fragment) {
 		try {
 			File oldFile = new File(originalSoundPath);
@@ -604,9 +652,12 @@ public final class SoundController {
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
-	private void updateSoundAdapter(String name, String fileName, ArrayList<SoundInfo> soundList, SoundFragment
+	public SoundInfo updateSoundAdapter(String name, String fileName, List<SoundInfo> soundList, SoundFragment
 			fragment) {
-		name = Utils.getUniqueSoundName(name);
+		SoundInfo soundInfoToCheck = new SoundInfo();
+		soundInfoToCheck.setSoundFileName(fileName);
+		soundInfoToCheck.setTitle(name);
+		name = Utils.getUniqueSoundName(soundInfoToCheck, false);
 
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(fileName);
@@ -614,5 +665,28 @@ public final class SoundController {
 		soundList.add(soundInfo);
 
 		fragment.updateSoundAdapter(soundInfo);
+		return soundInfo;
+	}
+
+	public SoundInfo backPackSound(SoundInfo selectedSoundInfo, boolean addToHiddenBackpack) {
+		if (addToHiddenBackpack && BackPackListManager.getInstance().backPackedSoundsContain(selectedSoundInfo)) {
+			return selectedSoundInfo;
+		}
+		String newSoundInfoTitle = Utils.getUniqueSoundName(selectedSoundInfo, true);
+		String existingFileNameInBackPackDirectory = soundFileAlreadyInBackPackDirectory(selectedSoundInfo);
+		if (existingFileNameInBackPackDirectory == null) {
+			copySoundBackPack(selectedSoundInfo, newSoundInfoTitle, false);
+		}
+		return updateSoundBackPackAfterInsert(newSoundInfoTitle, selectedSoundInfo,
+				existingFileNameInBackPackDirectory, addToHiddenBackpack);
+	}
+
+	public SoundInfo unpack(SoundInfo currentSoundInfo, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
+		String newSoundTitle = Utils.getUniqueSoundName(currentSoundInfo, false);
+		if (copySoundBackPack(currentSoundInfo, newSoundTitle, true) != null) {
+			return updateSoundAdapter(currentSoundInfo,
+					BackPackListManager.getInstance().getCurrentSoundAdapter(), newSoundTitle, deleteUnpackedItems, fromHiddenBackPack);
+		}
+		return null;
 	}
 }

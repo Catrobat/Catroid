@@ -52,7 +52,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -68,7 +68,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		super.setUp();
 		createProject();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 	public void testTitle() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		String spriteName = "sprite1";
 
@@ -119,7 +119,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 
 		solo.goBack();
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.waitForText(spriteName);
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
@@ -206,10 +206,10 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		ProjectManager.getInstance().setCurrentScript(startScriptCat);
 
 		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
-				org.catrobat.catroid.test.R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				org.catrobat.catroid.test.R.drawable.catroid_sunglasses, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName("Catroid sun");
@@ -223,7 +223,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle("longsound");
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());

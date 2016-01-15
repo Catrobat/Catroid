@@ -35,23 +35,19 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
-import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.drone.DroneBrickFactory;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
@@ -363,243 +359,184 @@ public final class StandardProjectHandler {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
-		String moleLookName = context.getString(R.string.default_project_sprites_mole_name);
-		String mole1Name = moleLookName + " 1";
-		String mole2Name = moleLookName + " 2";
-		String mole3Name = moleLookName + " 3";
-		String mole4Name = moleLookName + " 4";
-		String whackedMoleLookName = context.getString(R.string.default_project_sprites_mole_whacked);
-		String movingMoleLookName = context.getString(R.string.default_project_sprites_mole_moving);
-		String soundName = context.getString(R.string.default_project_sprites_mole_sound);
-		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
-		String varRandomFrom = context.getString(R.string.default_project_var_random_from);
-		String varRandomTo = context.getString(R.string.default_project_var_random_to);
+		String birdLookName = context.getString(R.string.default_project_sprites_bird_name);
+		String birdWingUpLookName = context.getString(R.string.default_project_sprites_bird_name_wing_up);
+		String birdWingDownLookName = context.getString(R.string.default_project_sprites_bird_name_wing_down);
+
+		String cloudSpriteName1 = context.getString(R.string.default_project_cloud_sprite_name_1);
+		String cloudSpriteName2 = context.getString(R.string.default_project_cloud_sprite_name_2);
+
+		String backgroundName = context.getString(R.string.default_project_background_name);
+		String cloudName = context.getString(R.string.default_project_cloud_name);
+
+		String tweet1 = context.getString(R.string.default_project_sprites_tweet_1);
+		String tweet2 = context.getString(R.string.default_project_sprites_tweet_2);
 
 		Project defaultProject = new Project(context, projectName, landscapeMode);
 		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
 
-		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
-				R.drawable.default_project_background, context);
+		File backgroundFile;
+		File cloudFile;
 
-		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+		if (landscapeMode) {
+			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
+					R.drawable.default_project_background_landscape, context);
+			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_clouds_landscape,
+					context, true,
+					backgroundImageScaleFactor);
+			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background_landscape,
+					context, true,
+					backgroundImageScaleFactor);
+		} else {
+			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
+					R.drawable.default_project_background_portrait, context);
+			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background_portrait,
+					context, true,
+					backgroundImageScaleFactor);
+			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_clouds_portrait,
+					context, true,
+					backgroundImageScaleFactor);
+		}
+		File birdWingUpFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingUpLookName
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_bird_wing_up, context, true,
 				backgroundImageScaleFactor);
-		File movingMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, movingMoleLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_moving, context, true,
-				backgroundImageScaleFactor);
-		File diggedOutMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, moleLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
-				backgroundImageScaleFactor);
-		File whackedMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, whackedMoleLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_whacked, context, true,
+		File birdWingDownFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingDownLookName
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_bird_wing_down, context, true,
 				backgroundImageScaleFactor);
 		try {
-			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "1"
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_1, context, true);
-			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "2"
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_2, context, true);
-			File soundFile3 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "3"
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_3, context, true);
-			File soundFile4 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "4"
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_4, context, true);
+			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, tweet1
+					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_1, context, true);
+			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, tweet2
+					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_2, context, true);
 			UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					R.drawable.default_project_screenshot, context, false);
 
-			Log.i(TAG, String.format("createAndSaveStandardProject(%s) %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n",
-					projectName, backgroundFile.getName(), movingMoleFile.getName(), diggedOutMoleFile.getName(), whackedMoleFile.getName(),
-					soundFile1.getName(), soundFile2.getName(), soundFile3.getName(), soundFile4.getName()));
-
-			LookData movingMoleLookData = new LookData();
-			movingMoleLookData.setLookName(movingMoleLookName);
-			movingMoleLookData.setLookFilename(movingMoleFile.getName());
-
-			LookData diggedOutMoleLookData = new LookData();
-			diggedOutMoleLookData.setLookName(moleLookName);
-			diggedOutMoleLookData.setLookFilename(diggedOutMoleFile.getName());
-
-			LookData whackedMoleLookData = new LookData();
-			whackedMoleLookData.setLookName(whackedMoleLookName);
-			whackedMoleLookData.setLookFilename(whackedMoleFile.getName());
+			Log.i(TAG, String.format("createAndSaveStandardProject(%s) %s created%n %s created%n %s created%n %s created%n %s",
+					projectName, backgroundFile.getName(), birdWingUpFile.getName(), birdWingDownFile.getName(),
+					soundFile1.getName(), soundFile2.getName()));
 
 			LookData backgroundLookData = new LookData();
 			backgroundLookData.setLookName(backgroundName);
 			backgroundLookData.setLookFilename(backgroundFile.getName());
 
-			SoundInfo soundInfo = new SoundInfo();
-			soundInfo.setTitle(soundName);
-			soundInfo.setSoundFileName(soundFile1.getName());
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-
-			DataContainer userVariables = defaultProject.getDataContainer();
 			Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
-
-			userVariables.addProjectUserVariable(varRandomFrom);
-			UserVariable randomFrom = userVariables.getUserVariable(varRandomFrom, backgroundSprite);
-
-			userVariables.addProjectUserVariable(varRandomTo);
-			UserVariable randomTo = userVariables.getUserVariable(varRandomTo, backgroundSprite);
-
-			// Background sprite
 			backgroundSprite.getLookDataList().add(backgroundLookData);
-			Script backgroundStartScript = new StartScript();
 
-			SetLookBrick setLookBrick = new SetLookBrick();
-			setLookBrick.setLook(backgroundLookData);
-			backgroundStartScript.addBrick(setLookBrick);
+			LookData birdWingUpLookData = new LookData();
+			birdWingUpLookData.setLookName(birdWingUpLookName);
+			birdWingUpLookData.setLookFilename(birdWingUpFile.getName());
 
-			SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(1), randomFrom);
-			backgroundStartScript.addBrick(setVariableBrick);
+			LookData birdWingDownLookData = new LookData();
+			birdWingDownLookData.setLookName(birdWingDownLookName);
+			birdWingDownLookData.setLookFilename(birdWingDownFile.getName());
 
-			setVariableBrick = new SetVariableBrick(new Formula(5), randomTo);
-			backgroundStartScript.addBrick(setVariableBrick);
+			LookData cloudLookData = new LookData();
+			cloudLookData.setLookName(cloudName);
+			cloudLookData.setLookFilename(cloudFile.getName());
 
-			backgroundSprite.addScript(backgroundStartScript);
+			SoundInfo soundInfo1 = new SoundInfo();
+			soundInfo1.setTitle(tweet1);
+			soundInfo1.setSoundFileName(soundFile1.getName());
 
-			FormulaElement randomElement = new FormulaElement(ElementType.FUNCTION, Functions.RAND.toString(), null);
-			randomElement.setLeftChild(new FormulaElement(ElementType.USER_VARIABLE, varRandomFrom, randomElement));
-			randomElement.setRightChild(new FormulaElement(ElementType.USER_VARIABLE, varRandomTo, randomElement));
-			Formula randomWait = new Formula(randomElement);
+			SoundInfo soundInfo2 = new SoundInfo();
+			soundInfo2.setTitle(tweet2);
+			soundInfo2.setSoundFileName(soundFile2.getName());
 
-			FormulaElement waitOneOrTwoSeconds = new FormulaElement(ElementType.FUNCTION, Functions.RAND.toString(),
-					null);
-			waitOneOrTwoSeconds.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", waitOneOrTwoSeconds));
-			waitOneOrTwoSeconds.setRightChild(new FormulaElement(ElementType.NUMBER, "2", waitOneOrTwoSeconds));
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 
-			// Mole 1 sprite
-			Sprite mole1Sprite = new Sprite(mole1Name);
-			mole1Sprite.getLookDataList().add(movingMoleLookData);
-			mole1Sprite.getLookDataList().add(diggedOutMoleLookData);
-			mole1Sprite.getLookDataList().add(whackedMoleLookData);
-			mole1Sprite.getSoundList().add(soundInfo);
+			Sprite cloudSprite1 = new Sprite(cloudSpriteName1);
+			Sprite cloudSprite2 = new Sprite(cloudSpriteName2);
+			cloudSprite1.getLookDataList().add(cloudLookData);
+			cloudSprite2.getLookDataList().add(cloudLookData);
 
-			Script mole1StartScript = new StartScript();
-			Script mole1WhenScript = new WhenScript();
+			Script cloudSpriteScript1 = new StartScript();
+			Script cloudSpriteScript2 = new StartScript();
 
-			// start script
-			SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(30));
-			mole1StartScript.addBrick(setSizeToBrick);
+			PlaceAtBrick placeAtBrick1 = new PlaceAtBrick(0, 0);
+			PlaceAtBrick placeAtBrick2 = new PlaceAtBrick(ScreenValues.SCREEN_WIDTH, 0);
+
+			cloudSpriteScript1.addBrick(placeAtBrick1);
+			cloudSpriteScript2.addBrick(placeAtBrick2);
+
+			GlideToBrick glideToBrick1 = new GlideToBrick(-ScreenValues.SCREEN_WIDTH, 0, 5000);
+			cloudSpriteScript1.addBrick(glideToBrick1);
+
+			cloudSpriteScript1.addBrick(placeAtBrick2);
 
 			ForeverBrick foreverBrick = new ForeverBrick();
-			mole1StartScript.addBrick(foreverBrick);
+			cloudSpriteScript1.addBrick(foreverBrick);
+			cloudSpriteScript2.addBrick(foreverBrick);
 
-			PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(-160),
-					calculateValueRelativeToScaledBackground(-110));
-			mole1StartScript.addBrick(placeAtBrick);
+			GlideToBrick glideToBrick2 = new GlideToBrick(-ScreenValues.SCREEN_WIDTH, 0, 10000);
 
-			WaitBrick waitBrick = new WaitBrick(new Formula(waitOneOrTwoSeconds));
-			mole1StartScript.addBrick(waitBrick);
+			cloudSpriteScript1.addBrick(glideToBrick2);
+			cloudSpriteScript1.addBrick(placeAtBrick2);
 
-			ShowBrick showBrick = new ShowBrick();
-			mole1StartScript.addBrick(showBrick);
-
-			setLookBrick = new SetLookBrick();
-			setLookBrick.setLook(movingMoleLookData);
-			mole1StartScript.addBrick(setLookBrick);
-
-			GlideToBrick glideToBrick = new GlideToBrick(calculateValueRelativeToScaledBackground(-160),
-					calculateValueRelativeToScaledBackground(-95), 100);
-			mole1StartScript.addBrick(glideToBrick);
-
-			setLookBrick = new SetLookBrick();
-			setLookBrick.setLook(diggedOutMoleLookData);
-			mole1StartScript.addBrick(setLookBrick);
-
-			//add filechecksums
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(movingMoleLookData.getChecksum(), movingMoleLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(diggedOutMoleLookData.getChecksum(), diggedOutMoleLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(whackedMoleLookData.getChecksum(), whackedMoleLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(backgroundLookData.getChecksum(), backgroundLookData.getAbsolutePath());
-
-			waitBrick = new WaitBrick(randomWait.clone());
-			mole1StartScript.addBrick(waitBrick);
-
-			HideBrick hideBrick = new HideBrick();
-			mole1StartScript.addBrick(hideBrick);
-
-			waitBrick = new WaitBrick(randomWait.clone());
-			mole1StartScript.addBrick(waitBrick);
+			cloudSpriteScript2.addBrick(glideToBrick2);
+			cloudSpriteScript2.addBrick(placeAtBrick2);
 
 			LoopEndlessBrick loopEndlessBrick = new LoopEndlessBrick(foreverBrick);
-			mole1StartScript.addBrick(loopEndlessBrick);
+			cloudSpriteScript1.addBrick(loopEndlessBrick);
+			cloudSprite1.addScript(cloudSpriteScript1);
+			cloudSpriteScript2.addBrick(loopEndlessBrick);
+			cloudSprite2.addScript(cloudSpriteScript2);
 
-			// when script
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick();
-			playSoundBrick.setSoundInfo(soundInfo);
-			mole1WhenScript.addBrick(playSoundBrick);
+			defaultProject.addSprite(cloudSprite1);
+			defaultProject.addSprite(cloudSprite2);
 
-			setLookBrick = new SetLookBrick();
-			setLookBrick.setLook(whackedMoleLookData);
-			mole1WhenScript.addBrick(setLookBrick);
+			Sprite birdSprite = new Sprite(birdLookName);
+			birdSprite.getLookDataList().add(birdWingUpLookData);
+			birdSprite.getLookDataList().add(birdWingDownLookData);
+			birdSprite.getSoundList().add(soundInfo1);
+			birdSprite.getSoundList().add(soundInfo2);
+			Script birdStartScript = new StartScript();
+			Script birdStartScriptTwo = new StartScript();
+			ForeverBrick foreverBrickBird = new ForeverBrick();
+			ForeverBrick foreverBrickTwo = new ForeverBrick();
+			birdStartScript.addBrick(foreverBrickBird);
+			birdStartScriptTwo.addBrick(foreverBrickTwo);
 
-			waitBrick = new WaitBrick(1500);
-			mole1WhenScript.addBrick(waitBrick);
+			FormulaElement randomElement = new FormulaElement(ElementType.FUNCTION, Functions.RAND.toString(), null);
+			randomElement.setLeftChild(new FormulaElement(ElementType.NUMBER, "-300", randomElement));
+			randomElement.setRightChild(new FormulaElement(ElementType.NUMBER, "300", randomElement));
+			Formula randomGlide1 = new Formula(randomElement);
+			FormulaElement randomElement2 = new FormulaElement(ElementType.FUNCTION, Functions.RAND.toString(), null);
+			randomElement2.setLeftChild(new FormulaElement(ElementType.NUMBER, "-200", randomElement));
+			randomElement2.setRightChild(new FormulaElement(ElementType.NUMBER, "200", randomElement));
+			Formula randomGlide2 = new Formula(randomElement2);
+			GlideToBrick glideToBrickBird = new GlideToBrick(randomGlide1, randomGlide2, new Formula(1));
+			birdStartScript.addBrick(glideToBrickBird);
 
-			hideBrick = new HideBrick();
-			mole1WhenScript.addBrick(hideBrick);
+			NextLookBrick nextLookBrickBird = new NextLookBrick();
+			WaitBrick waitBrick = new WaitBrick(200);
+			birdStartScriptTwo.addBrick(nextLookBrickBird);
+			birdStartScriptTwo.addBrick(waitBrick);
+			LoopEndlessBrick loopEndlessBrickBird = new LoopEndlessBrick(foreverBrickBird);
+			LoopEndlessBrick loopEndlessBrickTwo = new LoopEndlessBrick(foreverBrickTwo);
+			birdStartScript.addBrick(loopEndlessBrickBird);
+			birdStartScriptTwo.addBrick(loopEndlessBrickTwo);
+			birdSprite.addScript(birdStartScript);
+			birdSprite.addScript(birdStartScriptTwo);
+			WhenScript whenScriptBird = new WhenScript();
+			PlaySoundBrick playSoundBrickBird = new PlaySoundBrick();
+			playSoundBrickBird.setSoundInfo(soundInfo1);
+			whenScriptBird.addBrick(playSoundBrickBird);
+			birdSprite.addScript(whenScriptBird);
+			defaultProject.addSprite(birdSprite);
 
-			mole1Sprite.addScript(mole1StartScript);
-			mole1Sprite.addScript(mole1WhenScript);
-			defaultProject.addSprite(mole1Sprite);
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLookData.getChecksum(), birdWingDownLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(cloudLookData.getChecksum(), cloudLookData.getAbsolutePath());
 
 			StorageHandler.getInstance().fillChecksumContainer();
-
-			// Mole 2 sprite
-			Sprite mole2Sprite = mole1Sprite.clone();
-			mole2Sprite.getSoundList().get(0).setSoundFileName(soundFile2.getName());
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile2.getName(), soundFile2.getAbsolutePath());
-
-			mole2Sprite.setName(mole2Name);
-			defaultProject.addSprite(mole2Sprite);
-
-			Script tempScript = mole2Sprite.getScript(0);
-			placeAtBrick = (PlaceAtBrick) tempScript.getBrick(2);
-			placeAtBrick.setXPosition(new Formula(calculateValueRelativeToScaledBackground(160)));
-			placeAtBrick.setYPosition(new Formula(calculateValueRelativeToScaledBackground(-110)));
-
-			glideToBrick = (GlideToBrick) tempScript.getBrick(6);
-			glideToBrick.setXDestination(new Formula(calculateValueRelativeToScaledBackground(160)));
-			glideToBrick.setYDestination(new Formula(calculateValueRelativeToScaledBackground(-95)));
-
-			// Mole 3 sprite
-			Sprite mole3Sprite = mole1Sprite.clone();
-			mole3Sprite.getSoundList().get(0).setSoundFileName(soundFile3.getName());
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile3.getName(), soundFile3.getAbsolutePath());
-
-			mole3Sprite.setName(mole3Name);
-			defaultProject.addSprite(mole3Sprite);
-
-			tempScript = mole3Sprite.getScript(0);
-			placeAtBrick = (PlaceAtBrick) tempScript.getBrick(2);
-			placeAtBrick.setXPosition(new Formula(calculateValueRelativeToScaledBackground(-160)));
-			placeAtBrick.setYPosition(new Formula(calculateValueRelativeToScaledBackground(-290)));
-
-			glideToBrick = (GlideToBrick) tempScript.getBrick(6);
-			glideToBrick.setXDestination(new Formula(calculateValueRelativeToScaledBackground(-160)));
-			glideToBrick.setYDestination(new Formula(calculateValueRelativeToScaledBackground(-275)));
-
-			// Mole 4 sprite
-			Sprite mole4Sprite = mole1Sprite.clone();
-			mole4Sprite.getSoundList().get(0).setSoundFileName(soundFile4.getName());
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile4.getName(), soundFile4.getAbsolutePath());
-
-			mole4Sprite.setName(mole4Name);
-			defaultProject.addSprite(mole4Sprite);
-
-			tempScript = mole4Sprite.getScript(0);
-			placeAtBrick = (PlaceAtBrick) tempScript.getBrick(2);
-			placeAtBrick.setXPosition(new Formula(calculateValueRelativeToScaledBackground(160)));
-			placeAtBrick.setYPosition(new Formula(calculateValueRelativeToScaledBackground(-290)));
-
-			glideToBrick = (GlideToBrick) tempScript.getBrick(6);
-			glideToBrick.setXDestination(new Formula(calculateValueRelativeToScaledBackground(160)));
-			glideToBrick.setYDestination(new Formula(calculateValueRelativeToScaledBackground(-275)));
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new IOException(TAG, illegalArgumentException);
 		}

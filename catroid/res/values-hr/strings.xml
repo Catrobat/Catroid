@@ -40,7 +40,6 @@
   <string name="move">Premjestiti</string>
   <string name="backpack">Ostava</string>
   <string name="unpacking">Otpakivanje</string>
-  <string name="unpack">Otpakuj</string>
   <string name="copy_addition">kopija</string>
   <string name="close">Zatvoriti</string>
   <string name="error">Pogreška</string>
@@ -365,13 +364,7 @@ su otpakovani!</item>
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <string name="default_project_name">Moj prvi program</string>
-  <string name="default_project_sprites_mole_name">Krtica</string>
-  <string name="default_project_sprites_mole_moving">Pokretne krtice</string>
-  <string name="default_project_sprites_mole_whacked">Udarena krtica</string>
-  <string name="default_project_sprites_mole_sound">Udarac</string>
   <string name="default_project_backgroundname">Pozadina</string>
-  <string name="default_project_var_random_from">nasumično iz</string>
-  <string name="default_project_var_random_to">slučajno do</string>
   <string name="default_drone_project_name">Moj prvi Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <string name="default_drone_project_sprites_up">Gore</string>

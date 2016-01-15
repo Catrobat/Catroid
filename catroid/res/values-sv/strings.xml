@@ -40,7 +40,6 @@
   <string name="move">Flytta</string>
   <string name="backpack">Ryggsäck</string>
   <string name="unpacking">Uppackning</string>
-  <string name="unpack">Packa upp den</string>
   <string name="copy_addition">kopiera</string>
   <string name="close">Stäng</string>
   <string name="error">Fel</string>
@@ -345,13 +344,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <string name="default_project_name">Mitt första program</string>
-  <string name="default_project_sprites_mole_name">Mullvad</string>
-  <string name="default_project_sprites_mole_moving">rörande mullvad</string>
-  <string name="default_project_sprites_mole_whacked">Smälld mullvad</string>
-  <string name="default_project_sprites_mole_sound">Slå</string>
   <string name="default_project_backgroundname">Bakgrund</string>
-  <string name="default_project_var_random_from">slumpmässigt från</string>
-  <string name="default_project_var_random_to">slumpmässigt på</string>
   <string name="default_drone_project_name">Mitt första Drone-program</string>
   <string name="default_drone_project_sprites_takeoff">Ge sig av</string>
   <string name="default_drone_project_sprites_up">Upp</string>

@@ -46,7 +46,6 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -57,7 +56,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
-	private ArrayList<SoundInfo> soundInfoList;
+	private List<SoundInfo> soundInfoList;
 
 	public PlaySoundBrickTest() {
 		super(MainMenuActivity.class);
@@ -73,10 +72,10 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 	@Override
 	public void tearDown() throws Exception {
-		if (soundFile.exists()) {
+		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		if (soundFile2.exists()) {
+		if (soundFile2 != null && soundFile2.exists()) {
 			soundFile2.delete();
 		}
 		super.tearDown();

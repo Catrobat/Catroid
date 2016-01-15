@@ -40,7 +40,6 @@
   <string name="move">Áthelyezés</string>
   <string name="backpack">Hátizsák</string>
   <string name="unpacking">Kibontás</string>
-  <string name="unpack">Bontsd ki</string>
   <string name="copy_addition">másolat</string>
   <string name="close">Bezárás</string>
   <string name="error">Hiba</string>
@@ -347,13 +346,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">pozícióban</string>
   <string name="brick_replace_item_in_userlist_with_value">ezzel</string>
   <string name="default_project_name">Első programom</string>
-  <string name="default_project_sprites_mole_name">Vakond</string>
-  <string name="default_project_sprites_mole_moving">Mozgó vakond</string>
-  <string name="default_project_sprites_mole_whacked">Megütött vakond</string>
-  <string name="default_project_sprites_mole_sound">Ütés</string>
   <string name="default_project_backgroundname">Háttér</string>
-  <string name="default_project_var_random_from">véletlen ettől</string>
-  <string name="default_project_var_random_to">véletlen eddig</string>
   <string name="default_drone_project_name">Első Drone programom</string>
   <string name="default_drone_project_sprites_takeoff">Felszállás</string>
   <string name="default_drone_project_sprites_up">Fel</string>

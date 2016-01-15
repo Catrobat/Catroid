@@ -21,31 +21,42 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/DefaultDialog"
-              android:orientation="vertical"
-              android:theme="@android:style/Theme.Light" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal" >
 
-    <TextView
-        style="@style/DefaultDialog.Item"
-        android:layout_marginTop="@dimen/dialog_item_margin"
-        android:paddingBottom="0dp"
-        android:text="@string/main_menu_web_dialog_message" />
+    <CheckBox
+        android:id="@+id/brick_video_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_video_layout"
+        style="@style/BrickContainer.Look.Medium"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" >
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <CheckBox
-            android:id="@+id/main_menu_web_dialog_dont_show_checkbox"
+        <TextView
+            android:id="@+id/brick_video_prototype_text_view"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_video" />
+
+        <Spinner
+            android:id="@+id/brick_video_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:checked="false"
-            android:text="@string/main_menu_web_dialog_dont_show"
-            android:textColor="@color/spritelist_details_text_color" />
-    </LinearLayout >
+            android:clickable="false"
+            android:focusable="false" />
+    </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

@@ -41,7 +41,6 @@
   <string name="move">Pindah</string>
   <string name="backpack">Backpack</string>
   <string name="unpacking">Membongkar</string>
-  <string name="unpack">Membongkarnya</string>
   <string name="copy_addition">salinan</string>
   <string name="close">Tutup</string>
   <string name="error">Kesalahan</string>
@@ -344,13 +343,7 @@ Salin %d Brick</item>
   <string name="brick_replace_item_in_userlist_item_at_index">pada posisi</string>
   <string name="brick_replace_item_in_userlist_with_value">dengan</string>
   <string name="default_project_name">Program pertama saya</string>
-  <string name="default_project_sprites_mole_name">Mole</string>
-  <string name="default_project_sprites_mole_moving">Moving Mole</string>
-  <string name="default_project_sprites_mole_whacked">Memukul Mole</string>
-  <string name="default_project_sprites_mole_sound">Pukul</string>
   <string name="default_project_backgroundname">Latar belakang</string>
-  <string name="default_project_var_random_from">acak dari</string>
-  <string name="default_project_var_random_to">acak hingga</string>
   <string name="default_drone_project_name">Program Drone pertama</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <string name="default_drone_project_sprites_up">Atas</string>

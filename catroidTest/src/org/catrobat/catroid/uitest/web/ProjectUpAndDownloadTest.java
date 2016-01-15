@@ -53,7 +53,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -127,7 +126,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		setServerURLToTestUrl();
 
 		UiTestUtils.createTestProject(testProject);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.sleep(1000);
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -164,7 +163,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		setServerURLToTestUrl();
 
 		UiTestUtils.createTestProject(testProject);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.sleep(1000);
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -311,7 +310,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		int numberMediaFiles = 5;
 		String soundName = "testSound";
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberMediaFiles; number++) {
 			File soundFile = UiTestUtils.saveFileToProject(projectName,
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
@@ -384,14 +383,14 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.waitForText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		solo.waitForText(solo.getString(R.string.default_project_sprites_mole_name) + " 1");
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_mole_name) + " 1");
+		solo.waitForText(solo.getString(R.string.default_project_sprites_bird_name));
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_bird_name));
 
 		solo.waitForText(solo.getString(R.string.looks));
 		solo.clickOnButton(solo.getString(R.string.looks));
 
 		String deleteLookText = solo.getString(R.string.delete);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_mole_whacked));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_bird_name));
 		solo.waitForText(deleteLookText);
 		solo.clickOnText(deleteLookText);
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -420,7 +419,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		int numberOfMediaFilesToExtentDownloadTime = 5;
 		String soundName = "testSound";
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberOfMediaFilesToExtentDownloadTime; number++) {
 			File soundFile = UiTestUtils.saveFileToProject(projectName,
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,

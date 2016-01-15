@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
@@ -106,6 +107,7 @@ import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
+import org.catrobat.catroid.content.bricks.VideoBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -463,6 +465,12 @@ public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream
 
 		brickInfo = new BrickInfo(HideTextBrick.class.getSimpleName());
 		brickInfoMap.put("hideTextBrick", brickInfo);
+
+		brickInfo = new BrickInfo(VideoBrick.class.getSimpleName());
+		brickInfoMap.put("videoBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ChooseCameraBrick.class.getSimpleName());
+		brickInfoMap.put("chooseCameraBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {

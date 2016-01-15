@@ -40,7 +40,6 @@
   <string name="move">Pomakni</string>
   <string name="backpack">Ostava</string>
   <string name="unpacking">Otpakovati</string>
-  <string name="unpack">Raspakuj</string>
   <string name="copy_addition">kopiraj</string>
   <string name="close">Zatvori</string>
   <string name="error">Greška</string>
@@ -359,13 +358,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <string name="default_project_name">My first program</string>
-  <string name="default_project_sprites_mole_name">Mole</string>
-  <string name="default_project_sprites_mole_moving">Moving Mole</string>
-  <string name="default_project_sprites_mole_whacked">Whacked Mole</string>
-  <string name="default_project_sprites_mole_sound">Hit</string>
   <string name="default_project_backgroundname">Pozadina</string>
-  <string name="default_project_var_random_from">random from</string>
-  <string name="default_project_var_random_to">random to</string>
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <string name="default_drone_project_sprites_up">Up</string>
