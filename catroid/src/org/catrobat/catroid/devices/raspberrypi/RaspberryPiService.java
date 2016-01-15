@@ -163,6 +163,10 @@ public class RaspberryPiService {
 		GpioVersionMap.put("Beta", 0);
 	}
 
+	public boolean isValidPin(String revision, int pinNumber) {
+		return getGpioList(revision).contains(pinNumber);
+	}
+
 	public Set<Integer> getPinInterrupts() {
 		return pinInterrupts;
 	}
