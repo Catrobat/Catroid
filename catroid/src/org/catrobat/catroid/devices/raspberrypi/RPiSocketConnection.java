@@ -179,13 +179,18 @@ public class RPiSocketConnection {
 		}
 	}
 
-	public void setPWM(int pin, double d, double e) throws NoConnectionException, IOException {
-
-		// TODO: check if pin is PWM enabled
-		String pwmRequestMessage = "pwm " + pin + " " + Math.round(d * 100) / 100.0d + " "
-				+ Math.round(e * 100) / 100.0d;
+	public void setPWM(int pin, double frequencyInHz, double dutyCycleInPercent) throws NoConnectionException,
+			IOException, NoGPIOException {
+		if (!available_GPIOs.contains(pin)) {
+			throw new NoGPIOException("Pin out of range on this model!");
+		}
+		// pwm <pin> <frequency> <dutycycle>
+		String pwmRequestMessage = "pwm " + pin + " " + frequencyInHz + " " + dutyCycleInPercent;
 		String received_line = processCommand(pwmRequestMessage);
-		// TODO
+
+		if (!pwmRequestMessage.equals(received_line)) {
+			throw new IOException("pwmRequest: Error with response");
+		}
 	}
 
 	private class RPiSocketReceiver implements Runnable {
