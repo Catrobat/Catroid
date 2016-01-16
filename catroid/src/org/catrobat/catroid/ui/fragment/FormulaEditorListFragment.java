@@ -116,6 +116,8 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position };
 
+	private static final int[] RASPBERRY_SENSOR_ITEMS = {R.string.formula_editor_function_raspi_read_pin_value_digital};
+
 	private String actionBarTitle;
 	private int[] itemsIds;
 
@@ -172,6 +174,10 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
 			}
 		}
 

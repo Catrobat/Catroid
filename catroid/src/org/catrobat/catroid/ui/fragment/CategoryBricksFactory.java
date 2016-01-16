@@ -87,6 +87,9 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -109,6 +112,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.VideoBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -154,6 +158,8 @@ public class CategoryBricksFactory {
 			tempList = setupDroneCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
+		} else if (category.equals(context.getString(R.string.category_raspi))) {
+			tempList = setupRaspiCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -394,6 +400,17 @@ public class CategoryBricksFactory {
 		arduinoBrickList.add(new ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
 
 		return arduinoBrickList;
+	}
+
+	private List<Brick> setupRaspiCategoryList() {
+		List<Brick> raspiBrickList = new ArrayList<Brick>();
+		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
+		raspiBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		raspiBrickList.add(new WhenRaspiPinChangedBrick(null));
+		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues
+				.RASPI_PWM_INITIAL_FREQUENCY, BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
+
+		return raspiBrickList;
 	}
 
 	private boolean isBackground(Sprite sprite) {

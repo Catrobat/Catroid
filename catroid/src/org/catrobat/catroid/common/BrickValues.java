@@ -92,6 +92,14 @@ public final class BrickValues {
 	public static final int ARDUINO_DIGITAL_INITIAL_PIN_VALUE = 1;
 	public static final int ARDUINO_DIGITAL_INITIAL_PIN_NUMBER = 13;
 
+	//Constants Raspi
+	public static final int RASPI_DIGITAL_INITIAL_PIN_VALUE = 1;
+	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
+	public static final String RASPI_PRESSED_EVENT = "pressed";
+	public static final String RASPI_RELEASED_EVENT = "released";
+	public static final double RASPI_PWM_INITIAL_PERCENTAGE = 50.0;
+	public static final double RASPI_PWM_INITIAL_FREQUENCY = 50.0;
+
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
 		throw new AssertionError();

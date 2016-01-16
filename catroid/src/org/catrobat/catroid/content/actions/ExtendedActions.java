@@ -265,6 +265,33 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static RaspiSendDigitalValueAction sendDigitalRaspiValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+		RaspiSendDigitalValueAction action = action(RaspiSendDigitalValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public static RaspiPwmAction sendRaspiPwmValue(Sprite sprite, Formula pinNumber, Formula
+			pwmFrequency, Formula pwmPercentage) {
+		RaspiPwmAction action = action(RaspiPwmAction.class);
+		action.setSprite(sprite);
+		action.setPinNumberFormula(pinNumber);
+		action.setPwmFrequencyFormula(pwmFrequency);
+		action.setPwmPercentageFormula(pwmPercentage);
+		return action;
+	}
+
+	public static RaspiIfLogicAction raspiIfLogicAction(Sprite sprite, Formula pinNumber, Action ifAction, Action elseAction) {
+		RaspiIfLogicAction action = action(RaspiIfLogicAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setIfAction(ifAction);
+		action.setElseAction(elseAction);
+		return action;
+	}
+
 	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);
