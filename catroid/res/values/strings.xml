@@ -670,6 +670,7 @@
     <string name="brick_raspi_when_begin" >When Raspi Pin</string >
     <string name="brick_raspi_pressed_text">pressed</string>
     <string name="brick_raspi_released_text">released</string>
+    <string name="brick_raspi_set_pwm">Set Raspberry PWM Pin</string>
     <!--  -->
 
     <!-- Raspi Settings -->
