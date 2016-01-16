@@ -29,8 +29,8 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -67,7 +67,6 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String RASPI_HOST = "setting_raspi_host_preference";
 	public static final String RASPI_PORT = "setting_raspi_port_preference";
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
-
 
 	@SuppressWarnings("deprecation")
 	@Override

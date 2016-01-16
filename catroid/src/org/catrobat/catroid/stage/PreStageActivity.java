@@ -43,7 +43,6 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPiImpl;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
@@ -56,7 +55,6 @@ import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -217,7 +215,6 @@ public class PreStageActivity extends BaseActivity {
 			resourceFailed();
 		}
 	}
-
 
 	public DroneInitializer getDroneInitialiser() {
 		if (droneInitializer == null) {
