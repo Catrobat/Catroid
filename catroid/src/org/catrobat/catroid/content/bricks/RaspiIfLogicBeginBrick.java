@@ -131,7 +131,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
 		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_prototype_text_view);
-		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
+		textIfBegin.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 		return prototypeView;
 	}
 

@@ -397,7 +397,6 @@ public class FormulaElement implements Serializable {
 				int pin = doubleValueOfLeftChild.intValue();
 				// TODO check if pin is valid
 				try {
-					Log.d(getClass().getSimpleName(), "RPi get " + pin);
 					return connection.getPin(pin) ? 1d : 0d;
 				} catch (Exception e) {
 					Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
