@@ -36,7 +36,7 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -735,7 +735,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testBackgroundBricks() {
 		Project standardProject = null;
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(
 					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		} catch (IOException e) {
 			Log.e(TAG, "Could not create standard project", e);

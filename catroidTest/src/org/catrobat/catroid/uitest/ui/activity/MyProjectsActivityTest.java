@@ -45,7 +45,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -181,7 +181,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testDeleteSprite() {
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -230,7 +230,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		//unzip = true;
 		//saveProjectsToZip();
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -273,7 +273,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		//unzip = true;
 		//saveProjectsToZip();
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -901,7 +901,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		//unzip = true;
 		//saveProjectsToZip();
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -1933,8 +1933,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testDeletingProjectAndVerifySettings() {
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-			StandardProjectHandler.createAndSaveStandardProject("test", getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject("test", getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -2193,7 +2193,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		if (UtilFile.getProjectNames(rootDirectory).isEmpty()) {
 			Log.v(TAG, "projectlist empty - creating standard project");
 			try {
-				StandardProjectHandler.createAndSaveStandardProject(getActivity());
+				DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 			} catch (IOException e) {
 				Log.e(TAG, "Standard Project not created", e);
 				fail("Standard Project could not be not created");

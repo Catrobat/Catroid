@@ -42,7 +42,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -275,7 +275,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			UtilFile.deleteDirectory(directory);
 		}
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");

@@ -57,44 +57,44 @@ import org.catrobat.catroid.utils.UtilFile;
 import java.io.File;
 import java.io.IOException;
 
-public final class StandardProjectHandler {
+public final class DefaultProjectHandler {
 
-	private static final String TAG = StandardProjectHandler.class.getSimpleName();
+	private static final String TAG = DefaultProjectHandler.class.getSimpleName();
 	private static double backgroundImageScaleFactor = 1;
 
 	// Suppress default constructor for noninstantiability
-	private StandardProjectHandler() {
+	private DefaultProjectHandler() {
 		throw new AssertionError();
 	}
 
-	public static Project createAndSaveStandardProject(Context context, boolean landscapeMode) throws IOException {
+	public static Project createAndSaveDefaultProject(Context context, boolean landscapeMode) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
-		Project standardProject = null;
+		Project defaultProject = null;
 
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			StorageHandler.getInstance().deleteProject(projectName);
 		}
 
 		try {
-			standardProject = createAndSaveStandardProject(projectName, context, landscapeMode);
+			defaultProject = createAndSaveDefaultProject(projectName, context, landscapeMode);
 		} catch (IllegalArgumentException ilArgument) {
 			Log.e(TAG, "Could not create standard project!", ilArgument);
 		}
 
-		return standardProject;
+		return defaultProject;
 	}
 
-	public static Project createAndSaveStandardProject(Context context) throws IOException {
-		return createAndSaveStandardProject(context, false);
+	public static Project createAndSaveDefaultProject(Context context) throws IOException {
+		return createAndSaveDefaultProject(context, false);
 	}
 
-	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {
-		Log.d(TAG, "createAndSaveStandardDroneProject");
+	public static Project createAndSaveDefaultDroneProject(Context context) throws IOException {
+		Log.d(TAG, "createAndSaveDefaultDroneProject");
 		String projectName = context.getString(R.string.default_drone_project_name);
-		return createAndSaveStandardDroneProject(projectName, context, false);
+		return createAndSaveDefaultDroneProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveStandardDroneProject(String projectName, Context context, boolean landscapeMode) throws IOException,
+	public static Project createAndSaveDefaultDroneProject(String projectName, Context context, boolean landscapeMode) throws IOException,
 			IllegalArgumentException {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
@@ -349,13 +349,10 @@ public final class StandardProjectHandler {
 		return sprite;
 	}
 
-	public static Project createAndSaveStandardProject(String projectName, Context context, boolean landscapeMode) throws
+	public static Project createAndSaveDefaultProject(String projectName, Context context, boolean landscapeMode) throws
 			IOException,
 			IllegalArgumentException {
-		// temporarily until standard landscapeMode project exists.
-		if (landscapeMode) {
-			return createAndSaveEmptyProject(projectName, context, landscapeMode);
-		}
+
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
@@ -418,7 +415,8 @@ public final class StandardProjectHandler {
 			UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					R.drawable.default_project_screenshot, context, false);
 
-			Log.i(TAG, String.format("createAndSaveStandardProject(%s) %s created%n %s created%n %s created%n %s created%n %s",
+			Log.i(TAG, String.format("createAndSaveDefaultProject(%s) %s created%n %s created%n %s created%n %s "
+							+ "created%n %s",
 					projectName, backgroundFile.getName(), birdWingUpFile.getName(), birdWingDownFile.getName(),
 					soundFile1.getName(), soundFile2.getName()));
 
@@ -546,10 +544,10 @@ public final class StandardProjectHandler {
 		return defaultProject;
 	}
 
-	public static Project createAndSaveStandardProject(String projectName, Context context) throws
+	public static Project createAndSaveDefaultProject(String projectName, Context context) throws
 			IOException,
 			IllegalArgumentException {
-		return createAndSaveStandardProject(projectName, context, false);
+		return createAndSaveDefaultProject(projectName, context, false);
 	}
 
 	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode) {

@@ -161,14 +161,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		switch (sensor) {
 
 			case X_ACCELERATION:
-				if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) (-instance.linearAccelerationY);
 				} else {
 					return (double) instance.linearAccelerationX;
 				}
 
 			case Y_ACCELERATION:
-				if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) instance.linearAccelerationX;
 				} else {
 					return (double) instance.linearAccelerationY;
@@ -183,7 +183,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
 				}
-				if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 							.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 					android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -196,7 +196,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case X_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationX;
-					if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance
 								.accelerationXYZ[1]));
 					} else {
@@ -217,7 +217,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 							correctedInclinationX = (90 + rawInclinationX);
 						}
 					}
-					if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						correctedInclinationX = -correctedInclinationX;
 					}
 					return (double) correctedInclinationX;
@@ -225,7 +225,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -238,7 +238,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case Y_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationY;
-					if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
 					} else {
 						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[1]));
@@ -262,7 +262,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -291,13 +291,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) (-instance.facePositionY);
 				} else {
 					return (double) instance.facePositionX;
 				}
 			case FACE_Y_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) instance.facePositionX;
 				} else {
 					return (double) instance.facePositionY;

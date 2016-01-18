@@ -57,7 +57,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
@@ -506,7 +506,7 @@ public final class Utils {
 
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
-			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
+			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
 					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");

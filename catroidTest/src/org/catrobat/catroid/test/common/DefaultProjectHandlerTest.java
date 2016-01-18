@@ -26,7 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageListener;
@@ -36,11 +36,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class StandardProjectHandlerTest extends AndroidTestCase {
+public class DefaultProjectHandlerTest extends AndroidTestCase {
 
 	private static final String TEST_PROJECT_NAME = "testStandardProject";
 
-	public StandardProjectHandlerTest() throws IOException {
+	public DefaultProjectHandlerTest() throws IOException {
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 
 	public void testCreateScaledStandardProject() throws IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext()));
+		projectManager.setProject(DefaultProjectHandler.createAndSaveDefaultProject(TEST_PROJECT_NAME, getContext()));
 
 		Project currentProject = projectManager.getCurrentProject();
 		List<Sprite> spriteList = currentProject.getSpriteList();
@@ -74,7 +74,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	}
 
 	public void testDefaultProjectScreenshot() throws IOException {
-		StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		DefaultProjectHandler.createAndSaveDefaultProject(TEST_PROJECT_NAME, getContext());
 		String projectPath = Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME;
 
 		File file = new File(projectPath + "/" + StageListener.SCREENSHOT_MANUAL_FILE_NAME);
