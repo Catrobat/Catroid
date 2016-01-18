@@ -50,7 +50,6 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
@@ -415,14 +414,6 @@ public class StageListener implements ApplicationListener {
 		if (makeTestPixels) {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
-		}
-
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
-			int width = Gdx.graphics.getWidth();
-			int height = Gdx.graphics.getHeight();
-			drawText("Surface: " + width + " : " + height, -width / 2, height / 2);
-			drawText("   ARDRONE", width / 6, height / 2 - 20);
-			drawText("SUPPORTED", width / 6, height / 2 - 50);
 		}
 	}
 
