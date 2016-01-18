@@ -28,12 +28,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -51,6 +53,12 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
 
+	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
+	public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
+	public static final String DRONE_VERTICAL_SPEED = "setting_drone_vertical_speed";
+	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
+	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,20 @@ public class SettingsActivity extends PreferenceActivity {
 		setNXTSensors();
 		updateActionBar();
 
+		setDronePreferences();
+
+		CheckBoxPreference preference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+		preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				boolean checked = Boolean.valueOf(newValue.toString());
+
+				enableARDroneBricks(getApplicationContext(), checked);
+				return true;
+			}
+		});
+
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
@@ -70,7 +92,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
-			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+			PreferenceScreen dronePreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
 		}
@@ -88,11 +110,90 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 	}
 
+	private void setDronePreferences() {
+
+		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
+
+		final String[] dronePreferences = new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+		for (String dronePreference : dronePreferences) {
+			ListPreference listPreference = (ListPreference) findPreference(dronePreference);
+
+			switch (dronePreference) {
+				case DRONE_CONFIGS:
+					listPreference.setEntries(R.array.drone_setting_default_config);
+					final ListPreference list = listPreference;
+					listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+						public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+							int index = list.findIndexOfValue(newValue.toString());
+							for (String dronePreference : dronePreferences) {
+								ListPreference listPreference = (ListPreference) findPreference(dronePreference);
+
+								switch (dronePreference) {
+
+									case DRONE_ALTITUDE_LIMIT:
+										listPreference.setValue("FIRST");
+										break;
+
+									case DRONE_VERTICAL_SPEED:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+
+									case DRONE_ROTATION_SPEED:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+
+									case DRONE_TILT_ANGLE:
+										if (index == 0 || index == 1) {
+											listPreference.setValue("SECOND");
+										}
+										if (index == 2 || index == 3) {
+											listPreference.setValue("THIRD");
+										}
+										break;
+								}
+							}
+							return true;
+						}
+					});
+					break;
+
+				case DRONE_ALTITUDE_LIMIT:
+					listPreference.setEntries(R.array.drone_altitude_spinner_items);
+					break;
+
+				case DRONE_VERTICAL_SPEED:
+					listPreference.setEntries(R.array.drone_max_vertical_speed_items);
+					break;
+
+				case DRONE_ROTATION_SPEED:
+					listPreference.setEntries(R.array.drone_max_rotation_speed_items);
+					break;
+
+				case DRONE_TILT_ANGLE:
+					listPreference.setEntries(R.array.drone_max_tilt_angle_items);
+					break;
+			}
+			listPreference.setEntryValues(DroneConfigPreference.Preferences.getPreferenceCodes());
+			listPreference.setEnabled(areChoosersEnabled);
+		}
+	}
+
 	private void setNXTSensors() {
 
 		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
+		final String[] sensorPreferences = new String[]{NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
@@ -111,12 +212,11 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static void setTermsOfServiceAgreedPermanently(Context context, boolean agreed) {
-		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
-				context);
+		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
-	public static boolean isDroneSharedPreferenceEnabled(Context context, boolean defaultValue) {
-		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
+	public static boolean isDroneSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
 
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
@@ -124,8 +224,7 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static boolean areTermsOfServiceAgreedPermanently(Context context) {
-		return getBooleanSharedPreference(false,
-				SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
+		return getBooleanSharedPreference(false, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
@@ -163,7 +262,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static NXTSensor.Sensor[] getLegoMindstormsNXTSensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
+				new String[]{NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -196,15 +295,43 @@ public class SettingsActivity extends PreferenceActivity {
 		editor.commit();
 	}
 
-	public static void enableLegoMindstormsNXTBricks(Context context) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
-		editor.commit();
+	public static DroneConfigPreference.Preferences[] getDronePreferencMapping(Context context) {
+
+		final String[] dronePreferences =
+				new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+
+		DroneConfigPreference.Preferences[] preferenceMapping = new DroneConfigPreference.Preferences[5];
+		for (int i = 0; i < 5; i++) {
+			String preference = getSharedPreferences(context).getString(dronePreferences[i], null);
+			preferenceMapping[i] = DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
+		}
+
+		return preferenceMapping;
+	}
+
+	public static DroneConfigPreference.Preferences getDronePreferencMapping(Context context, String
+			preferenceSetting) {
+		String preference = getSharedPreferences(context).getString(preferenceSetting, null);
+		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
+	}
+
+	public static void enableARDroneBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
+	}
+
+	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, newValue).commit();
 	}
 
 	public static void setLegoMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);
+		editor.commit();
+	}
+
+	public static void enableLegoMindstormsNXTBricks(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
 		editor.commit();
 	}
 

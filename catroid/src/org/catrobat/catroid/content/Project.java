@@ -58,11 +58,13 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<>();
 
-	public Project(Context context, String name, boolean landscape) {
+	public Project(Context context, String name, boolean landscapeMode) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
-		if (landscape) {
+		xmlHeader.setlandscapeMode(landscapeMode);
+
+		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
 		} else {
 			ifLandscapeSwitchWidthAndHeight();
@@ -301,5 +303,9 @@ public class Project implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	public boolean islandscapeMode() {
+		return xmlHeader.islandscapeMode();
 	}
 }

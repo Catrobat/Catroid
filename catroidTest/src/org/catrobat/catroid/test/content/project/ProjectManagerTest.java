@@ -89,7 +89,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		projectManager.initializeNewProject(projectNameOne, context, false, false);
+		projectManager.initializeNewProject(projectNameOne, context, false, false, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
@@ -147,7 +147,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		projectManager.initializeNewProject(projectNameOne, context, true, false);
+		projectManager.initializeNewProject(projectNameOne, context, true, false, false);
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull("no current project set", currentProject);
 

@@ -47,6 +47,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
@@ -185,12 +186,12 @@ public final class LookController {
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-		String[] projection = { MediaStore.MediaColumns.DATA };
+		String[] projection = {MediaStore.MediaColumns.DATA};
 		return new CursorLoader(activity, imageUri, projection, null, null, null);
 	}
 
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data, Activity activity, List<LookData> lookDataList,
-			LookFragment fragment) {
+							   LookFragment fragment) {
 		String originalImagePath = "";
 		CursorLoader cursorLoader = (CursorLoader) loader;
 
@@ -250,20 +251,44 @@ public final class LookController {
 		return newLookData;
 	}
 
-	private void updateLookAdapter(String name, String fileName, List<LookData> lookDataList, LookFragment fragment) {
-		LookData lookData = new LookData();
-		lookData.setLookName(name);
-		name = Utils.getUniqueLookName(lookData, false);
+	private void updateLookAdapter(String name, String fileName, List<LookData> lookDataList, LookFragment fragment, LookData.LookDataType lookDataType) {
+		LookData lookData;
+
+		switch (lookDataType) {
+			case DRONE_VIDEO:
+				lookData = new DroneVideoLookData();
+				break;
+			default:
+				lookData = new LookData();
+				break;
+		}
 
 		lookData.setLookFilename(fileName);
 		lookData.setLookName(name);
 		lookDataList.add(lookData);
-
 		fragment.updateLookAdapter(lookData);
 	}
 
+	private void updateLookAdapter(String name, String fileName, List<LookData> lookDataList, LookFragment fragment) {
+
+		updateLookAdapter(name, fileName, lookDataList, fragment, LookData.LookDataType.IMAGE);
+	}
+
+	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, List<LookData> lookDataList, LookFragment fragment) {
+		try {
+
+			File imageFile = StorageHandler.getInstance().copyImageFromResourceToCatroid(activity, imageId, defaultImageName);
+			updateLookAdapter(defaultImageName, imageFile.getName(), lookDataList, fragment, LookData.LookDataType.DRONE_VIDEO);
+		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_image);
+		}
+
+		fragment.destroyLoader();
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+	}
+
 	private void copyImageToCatroid(String originalImagePath, Activity activity, List<LookData> lookDataList,
-			LookFragment fragment) {
+									LookFragment fragment) {
 		try {
 
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
@@ -320,7 +345,7 @@ public final class LookController {
 	}
 
 	public void loadImageIntoCatroid(Intent intent, Activity activity, List<LookData> lookDataList,
-			LookFragment fragment) {
+									 LookFragment fragment) {
 		String originalImagePath = "";
 
 		//get path of image - will work for most applications
@@ -332,7 +357,7 @@ public final class LookController {
 		Uri imageUri = intent.getData();
 		if (imageUri != null) {
 
-			Cursor cursor = activity.getContentResolver().query(imageUri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+			Cursor cursor = activity.getContentResolver().query(imageUri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
 
 			if (cursor != null) {
 				cursor.moveToFirst();
@@ -390,7 +415,7 @@ public final class LookController {
 	}
 
 	public void loadPictureFromCameraIntoCatroid(Uri lookFromCameraUri, Activity activity,
-			List<LookData> lookData, LookFragment fragment) {
+												 List<LookData> lookData, LookFragment fragment) {
 		if (lookFromCameraUri != null) {
 			String originalImagePath = lookFromCameraUri.getPath();
 
@@ -408,7 +433,7 @@ public final class LookController {
 	}
 
 	public void loadPictureFromLibraryIntoCatroid(String filePath, Activity activity,
-			List<LookData> lookData, LookFragment fragment) {
+												  List<LookData> lookData, LookFragment fragment) {
 		File mediaImage = null;
 		mediaImage = new File(filePath);
 		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);

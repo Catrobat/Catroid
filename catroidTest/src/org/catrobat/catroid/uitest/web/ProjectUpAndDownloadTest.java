@@ -45,7 +45,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -375,7 +374,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				solo.searchText(solo.getString(R.string.error_upload_default_project)));
 	}
 
-	@Device
 	public void testUploadModifiedStandardProject() throws Throwable {
 		deleteOldAndCreateAndSaveCleanStandardProject();
 

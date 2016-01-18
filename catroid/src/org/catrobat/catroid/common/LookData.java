@@ -30,31 +30,42 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
-public class LookData implements Serializable, Cloneable {
+public class LookData extends Image implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LookData.class.getSimpleName();
 
 	@XStreamAsAttribute
-	private String name;
-	private String fileName;
-	private transient Bitmap thumbnailBitmap;
-	private transient Integer width;
-	private transient Integer height;
-	private static final transient int THUMBNAIL_WIDTH = 150;
-	private static final transient int THUMBNAIL_HEIGHT = 150;
-	private transient Pixmap pixmap = null;
-	private transient Pixmap originalPixmap = null;
-	private transient TextureRegion region = null;
+	protected String name;
+	protected String fileName;
+	protected transient Bitmap thumbnailBitmap;
+	protected transient Integer width;
+	protected transient Integer height;
+	protected static final transient int THUMBNAIL_WIDTH = 150;
+	protected static final transient int THUMBNAIL_HEIGHT = 150;
+	protected transient Pixmap pixmap = null;
+	protected transient Pixmap originalPixmap = null;
+	protected transient TextureRegion textureRegion = null;
+	private int id = ProjectManager.getInstance().getNewId();
+
+	public LookData() {
+	}
+
+	public static enum LookDataType {
+		IMAGE,
+		DRONE_VIDEO
+	}
 
 	public transient boolean isBackpackLookData = false;
 
@@ -85,6 +96,7 @@ public class LookData implements Serializable, Cloneable {
 
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
+		cloneLookData.id = this.id;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		cloneLookData.isBackpackLookData = false;
 		try {
@@ -99,18 +111,26 @@ public class LookData implements Serializable, Cloneable {
 	public void resetLookData() {
 		pixmap = null;
 		originalPixmap = null;
-		region = null;
+		textureRegion = null;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public TextureRegion getTextureRegion() {
-		if (region == null) {
-			region = new TextureRegion(new Texture(getPixmap()));
+		if (textureRegion == null) {
+			textureRegion = new TextureRegion(new Texture(getPixmap()));
 		}
-		return region;
+		return textureRegion;
 	}
 
 	public void setTextureRegion() {
-		this.region = new TextureRegion(new Texture(getPixmap()));
+		this.textureRegion = new TextureRegion(new Texture(getPixmap()));
 	}
 
 	public Pixmap getPixmap() {
@@ -136,9 +156,6 @@ public class LookData implements Serializable, Cloneable {
 			originalPixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
 		}
 		return originalPixmap;
-	}
-
-	public LookData() {
 	}
 
 	public String getAbsolutePath() {
@@ -184,7 +201,7 @@ public class LookData implements Serializable, Cloneable {
 		return fileName.substring(0, 32);
 	}
 
-	private String getPathToImageDirectory() {
+	protected String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Constants.IMAGE_DIRECTORY);
 	}
@@ -219,5 +236,13 @@ public class LookData implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public void onDraw() {
+		//Nothing to do here
+	}
+
+	public int getRequiredResources() {
+		return Brick.NO_RESOURCES;
 	}
 }

@@ -35,6 +35,7 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -45,6 +46,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -106,9 +108,12 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.ARDUINO);
 		}
 
-		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
-			droneInitializer = getDroneInitializer();
-			droneInitializer.initialise();
+		if (DroneServiceWrapper.checkARDroneAvailability()) {
+			CatroidApplication.loadNativeLibs();
+			if (CatroidApplication.parrotLibrariesLoaded) {
+				droneInitializer = getDroneInitialiser();
+				droneInitializer.initialise();
+			}
 		}
 
 		if ((requiredResources & Brick.CAMERA_BACK) > 0) {
@@ -176,9 +181,9 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
-	public DroneInitializer getDroneInitializer() {
+	public DroneInitializer getDroneInitialiser() {
 		if (droneInitializer == null) {
-			droneInitializer = new DroneInitializer(this, returnToActivityIntent);
+			droneInitializer = new DroneInitializer(this);
 		}
 		return droneInitializer;
 	}
@@ -312,7 +317,6 @@ public class PreStageActivity extends BaseActivity {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
 			Log.d(TAG, "Start Stage");
-
 			startStage();
 		}
 	}
@@ -390,7 +394,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
-			HashMap<String, String> speakParameter) {
+									HashMap<String, String> speakParameter) {
 		if (text == null) {
 			text = "";
 		}
@@ -414,3 +418,4 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 }
+

@@ -199,7 +199,7 @@ public final class Utils {
 		MenuItem item = menu.findItem(R.id.select_all);
 		View view = item.getActionView();
 		if (view.getId() == R.id.select_all) {
-			View selectAllView = inflater.inflate(R.layout.action_mode_select_all, null);
+			View selectAllView = View.inflate(inflater.getContext(), R.layout.action_mode_select_all, null);
 			item.setActionView(selectAllView);
 			return selectAllView;
 		}

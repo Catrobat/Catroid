@@ -77,6 +77,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean handleCorrectAddButton;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
+	private ArrayList<Integer> idList = new ArrayList<>();
 
 	private ProjectManager() {
 		this.comingFromScriptFragmentToSoundFragment = false;
@@ -84,32 +85,41 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.handleCorrectAddButton = false;
 	}
 
-	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
-		this.comingFromScriptFragmentToSoundFragment = value;
+	public static ProjectManager getInstance() {
+		return INSTANCE;
 	}
 
 	public boolean getComingFromScriptFragmentToSoundFragment() {
 		return this.comingFromScriptFragmentToSoundFragment;
 	}
 
-	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
-		this.comingFromScriptFragmentToLooksFragment = value;
+	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
+		this.comingFromScriptFragmentToSoundFragment = value;
 	}
 
 	public boolean getComingFromScriptFragmentToLooksFragment() {
 		return this.comingFromScriptFragmentToLooksFragment;
 	}
 
-	public void setHandleCorrectAddButton(boolean value) {
-		this.handleCorrectAddButton = value;
+	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
+		this.comingFromScriptFragmentToLooksFragment = value;
 	}
 
 	public boolean getHandleCorrectAddButton() {
 		return this.handleCorrectAddButton;
 	}
 
-	public static ProjectManager getInstance() {
-		return INSTANCE;
+	public void setHandleCorrectAddButton(boolean value) {
+		this.handleCorrectAddButton = value;
+	}
+
+	public int getNewId() {
+		int id = 0;
+		while (idList.contains(id)) {
+			id++;
+		}
+		idList.add(id);
+		return id;
 	}
 
 	public void uploadProject(String projectName, Activity activity) {
@@ -257,6 +267,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public boolean initializeDefaultProject(Context context) {
+
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
+			return initializeDroneProject(context);
+		} else {
+			return initializeStandardProject(context);
+		}
+	}
+
+	public boolean initializeStandardProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			project = StandardProjectHandler.createAndSaveStandardProject(context);
@@ -286,30 +305,32 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean isDroneProject, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape);
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
+		} else if (isDroneProject) {
+			project = StandardProjectHandler.createAndSaveStandardDroneProject(projectName, context, landscapeMode);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
+			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscapeMode);
 		}
 
 		currentSprite = null;
 		currentScript = null;
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean isDroneProject)
 			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, false);
+		initializeNewProject(projectName, context, empty, isDroneProject, false);
 	}
 
 	public Project getCurrentProject() {
 		return project;
 	}
 
-	public boolean isCurrentProjectLandscape() {
+	public boolean isCurrentProjectlandscapeMode() {
 		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
 

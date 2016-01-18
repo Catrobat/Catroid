@@ -45,10 +45,6 @@ public class DroneMoveBackwardBrick extends DroneMoveBrick {
 		super(durationInMilliseconds, powerInPercent);
 	}
 
-	public DroneMoveBackwardBrick() {
-		super();
-	}
-
 	@Override
 	protected String getBrickLabel(View view) {
 		return view.getResources().getString(R.string.brick_drone_move_backward);

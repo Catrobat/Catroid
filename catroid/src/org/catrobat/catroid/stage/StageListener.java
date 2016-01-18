@@ -41,6 +41,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -49,6 +50,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
@@ -56,6 +58,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -413,6 +416,14 @@ public class StageListener implements ApplicationListener {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
+
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+			int width = Gdx.graphics.getWidth();
+			int height = Gdx.graphics.getHeight();
+			drawText("Surface: " + width + " : " + height, -width / 2, height / 2);
+			drawText("   ARDRONE", width / 6, height / 2 - 20);
+			drawText("SUPPORTED", width / 6, height / 2 - 50);
+		}
 	}
 
 	private void updateCameraEvents() {
@@ -663,11 +674,24 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
-	public void addActor(ShowTextActor actor) {
+	public void addActor(Actor actor) {
 		stage.addActor(actor);
 	}
 
 	public Stage getStage() {
 		return stage;
+	}
+
+	public void removeActor(Look look) {
+		look.remove();
+	}
+
+	private void drawText(String text, int posX, int posY) {
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+		Batch batch = stage.getBatch();
+		batch.begin();
+		font.draw(batch, text, posX, posY);
+		batch.end();
 	}
 }

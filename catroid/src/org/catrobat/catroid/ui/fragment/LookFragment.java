@@ -646,6 +646,11 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		startActivityForResult(intent, LookController.REQUEST_MEDIA_LIBRARY);
 	}
 
+	public void addLookDroneVideo() {
+
+		LookController.getInstance().loadDroneVideoImageToProject(getString(R.string.add_look_drone_video), R.drawable.ic_video, this.getActivity(), lookDataList, this);
+	}
+
 	@Override
 	public boolean getShowDetails() {
 		// TODO CHANGE THIS!!! (was just a quick fix)

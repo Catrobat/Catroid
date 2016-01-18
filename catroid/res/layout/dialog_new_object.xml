@@ -21,53 +21,55 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            style="style/DefaultDialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="0dp" >
+<ScrollView
+    style="style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/dialog_new_object_step_1_layout"
-                style="@style/DefaultDialog.Item"
-                android:layout_marginTop="8dp"
-                android:baselineAligned="false"
-                android:weightSum="2" >
-
-                <TextView
-                    android:id="@+id/dialog_new_object_paintroid"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/new_object_dialog_selector"
-                    android:drawableTop="@drawable/ic_paintroid"
-                    android:gravity="center"
-                    android:text="@string/dialog_new_object_pocketpaint"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/dialog_new_object_library"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/new_object_dialog_selector"
-                    android:drawableTop="@drawable/ic_media_library"
-                    android:gravity="center"
-                    android:text="@string/add_look_media_library"
-                    android:textSize="12sp" />
-            </LinearLayout >
         <LinearLayout
+            android:id="@+id/dialog_new_object_step_1_layout"
             style="@style/DefaultDialog.Item"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="false"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/dialog_new_object_paintroid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_paintroid"
+                android:gravity="center"
+                android:text="@string/dialog_new_object_pocketpaint"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/dialog_new_object_library"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_media_library"
+                android:gravity="center"
+                android:text="@string/add_look_media_library"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/dialog_new_object_second_row"
+            style="@style/DefaultDialog.Item"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:weightSum="2" >
+            android:weightSum="2">
 
             <TextView
                 android:id="@+id/dialog_new_object_gallery"
@@ -78,7 +80,7 @@
                 android:drawableTop="@drawable/ic_gallery"
                 android:gravity="center"
                 android:text="@string/dialog_new_object_gallery"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/dialog_new_object_camera"
@@ -89,14 +91,14 @@
                 android:drawableTop="@drawable/ic_camera"
                 android:gravity="center"
                 android:text="@string/dialog_new_object_camera"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/dialog_new_object_step_2_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/dialog_new_object_look_preview"
@@ -108,21 +110,42 @@
                 android:background="@drawable/dialog_add_object_image_border"
                 android:contentDescription="@string/dialog_new_object_look_preview"
                 android:maxHeight="200dp"
-                android:maxWidth="200dp" />
+                android:maxWidth="200dp"/>
 
             <org.catrobat.catroid.ui.CapitalizedTextView
                 android:id="@+id/dialog_new_object_name_text_view"
                 style="@style/DefaultDialog.TextView"
-                android:text="@string/dialog_new_object_name" />
+                android:text="@string/dialog_new_object_name"/>
 
-            <View style="@style/DefaultDialog.Line" />
+            <View style="@style/DefaultDialog.Line"/>
 
             <EditText
                 android:id="@+id/dialog_new_object_name_edit_text"
                 style="@style/DefaultDialog.EditText"
-                android:inputType="text" >
-            </EditText >
-        </LinearLayout >
-    </LinearLayout >
+                android:inputType="text">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_new_object_drone"
+            style="@style/DefaultDialog.Item"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="false"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/dialog_new_object_drone_video"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_video"
+                android:gravity="center"
+                android:text="@string/add_look_drone_video"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </ScrollView>

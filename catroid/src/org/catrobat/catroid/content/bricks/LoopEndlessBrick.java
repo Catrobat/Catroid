@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -53,8 +52,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 		}
 		if (view == null || !isPuzzleView) {
 			isPuzzleView = true;
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.brick_loop_endless, null);
+			view = View.inflate(context, R.layout.brick_loop_endless, null);
 			view = getViewWithAlpha(alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
 
@@ -104,8 +102,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null || isPuzzleView) {
 			isPuzzleView = false;
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
+			view = View.inflate(context, R.layout.brick_loop_endless_no_puzzle, null);
 			view = getViewWithAlpha(alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
 

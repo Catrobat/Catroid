@@ -38,6 +38,15 @@ public class DroneFlipAction extends TemporalAction {
 	}
 
 	@Override
+	protected void begin() {
+		super.begin();
+
+		if (service.getDroneService() != null) {
+			service.getDroneService().doLeftFlip();
+		}
+	}
+
+	@Override
 	protected void update(float percent) {
 		Log.d(TAG, "update!");
 	}
@@ -46,8 +55,6 @@ public class DroneFlipAction extends TemporalAction {
 	@Override
 	public boolean act(float delta) {
 		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		service.getDroneService().doLeftFlip();
 		return superReturn;
 	}
 }

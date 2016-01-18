@@ -43,6 +43,7 @@ public class XmlHeader implements Serializable {
 	public ScreenModes screenMode = ScreenModes.STRETCH;
 
 	private float catrobatLanguageVersion;
+	private boolean landscapeMode;
 
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
@@ -180,5 +181,13 @@ public class XmlHeader implements Serializable {
 
 	public ScreenModes getScreenMode() {
 		return this.screenMode;
+	}
+
+	public boolean islandscapeMode() {
+		return landscapeMode;
+	}
+
+	public void setlandscapeMode(boolean landscapeMode) {
+		this.landscapeMode = landscapeMode;
 	}
 }

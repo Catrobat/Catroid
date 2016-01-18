@@ -23,7 +23,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">Pocket Code</string>
+  <string name="app_name">Pocket Drone</string>
   <string name="cancel_button">Abbrechen</string>
   <string name="rename">Umbenennen</string>
   <string name="delete">Löschen</string>
@@ -103,11 +103,12 @@
     Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau 
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
     dem folgenden \"Terms of Use\" Link zur Verfügung.\n</string>
-  <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen</string>
-  <string name="dialog_terms_of_use_agree_permanent">Ich stimme immer zu – frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
-  <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
-  <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
-  <string name="dialog_about_title">Über Pocket Code</string>
+    <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen</string>
+    <string name="dialog_terms_of_use_agree_permanent">Ich stimme immer zu – frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
+    <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you that you must abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code, otherwise you are not allowed to use Pocket Code.</string>
+    <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
+    <string name="dialog_about_title">Über Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung 
         für Android-Geräte für die visuelle Programmiersprache Catrobat.\n\n
         Der Quellode von Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
@@ -368,12 +369,8 @@
   <string name="default_project_name">Mein erstes Programm</string>
   <string name="default_project_backgroundname">Hintergrund</string>
   <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
-  <string name="default_drone_project_sprites_takeoff">Abheben</string>
-  <string name="default_drone_project_srpites_land">Landen</string>
-  <string name="default_drone_project_srpites_rotate">Rotieren</string>
   <string name="default_drone_project_sprites_up">Fliege hoch</string>
   <string name="default_drone_project_sprites_down">Fliege runter</string>
-  <string name="default_drone_project_sprites_left">Fliege links</string>
   <string name="default_drone_project_sprites_right">Fliege rechts</string>
   <string name="default_drone_project_sprites_forward">Fliege nach vorne</string>
   <string name="default_drone_project_sprites_back">Fliege rückwärts</string>
@@ -480,9 +477,8 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Diese Nachricht nicht mehr anzeigen.</string>
-  <string name="brick_drone_takeoff">Hebe ab</string>
-  <string name="brick_drone_land">Lande</string>
   <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
+    <string name="brick_drone_takeoff_land">Hebe ab / Lande</string>
   <string name="brick_drone_move_left">Fliege nach links</string>
   <string name="brick_drone_move_right">Fliege nach rechts</string>
   <string name="brick_drone_move_forward">Fliege nach vorne</string>
@@ -490,7 +486,6 @@
   <string name="brick_drone_move_up">Fliege nach oben</string>
   <string name="brick_drone_move_down">Fliege nach unten</string>
   <string name="brick_drone_flip">Flip</string>
-  <string name="brick_drone_power">Power</string>
   <string name="brick_drone_turn_right">Drehe nach rechts</string>
   <string name="brick_drone_turn_left">Drehe nach links</string>
   <string name="brick_drone_turn_left_magneto">Drehe nach links</string>
@@ -598,6 +593,15 @@
   <string name="formula_editor_function_list_item_parameter">(1,*Listenname*)</string>
   <string name="formula_editor_function_contains">enthält</string>
   <string name="formula_editor_function_contains_parameter">(*Listenname*,1)</string>
+  <string name="formula_editor_sensor_drone_battery_status">Drohne: Batteriestatus</string>
+  <string name="formula_editor_sensor_drone_emergency_state">Drohne: in Notlauf</string>
+  <string name="formula_editor_sensor_drone_flying">Drohne: fliegt</string>
+  <string name="formula_editor_sensor_drone_initialized">Drohne: initialisiert</string>
+  <string name="formula_editor_sensor_drone_usb_active">Drohne: USB bereit</string>
+  <string name="formula_editor_sensor_drone_usb_remaining_time">Drohne: verbleibende USB zeit</string>
+  <string name="formula_editor_sensor_drone_camera_ready">Drohne: Kamera bereit</string>
+  <string name="formula_editor_sensor_drone_record_ready">Drohne: Aufnahme bereit</string>
+  <string name="formula_editor_sensor_drone_num_frames">Drohne: Frame anzahl</string>
   <string name="formula_editor_sensor_x_acceleration">Beschleunigung_x</string>
   <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
   <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>

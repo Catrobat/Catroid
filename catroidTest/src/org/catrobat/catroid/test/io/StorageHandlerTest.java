@@ -76,7 +76,6 @@ import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private final StorageHandler storageHandler;
-	private Project currentProject;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
@@ -87,14 +86,15 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	@Override
-	public void setUp() {
-		TestUtils.deleteTestProjects();
-		currentProject = ProjectManager.getInstance().getCurrentProject();
+	public void setUp() throws Exception {
+		StandardProjectHandler.createAndSaveStandardProject(getContext());
+		super.setUp();
+//		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setProject(currentProject);
+//		ProjectManager.getInstance().setProject(currentProject);
 		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
@@ -293,7 +293,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
 
-		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[]{
 				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
 		};
@@ -368,7 +368,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		LegoNxtMotorMoveBrick motorBrick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
 				Sensors.FACE_SIZE.name(), null)));
-		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, firstSprite,
+		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK,
 				DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
 
 		testScript.addBrick(hideBrick);

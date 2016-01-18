@@ -46,6 +46,7 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.utils.Utils;
 
 public class NewProjectDialog extends DialogFragment {
@@ -58,6 +59,7 @@ public class NewProjectDialog extends DialogFragment {
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
+	private CheckBox standardDroneProjectCheckBox;
 	private OrientationDialog orientationDialog;
 	private SharedPreferences sharedPreferences;
 
@@ -137,12 +139,20 @@ public class NewProjectDialog extends DialogFragment {
 		emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
 		emptyProjectCheckBox.setChecked(shouldBeEmpty);
 
+		standardDroneProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.standard_drone_project_checkbox);
+		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
+			standardDroneProjectCheckBox.setEnabled(true);
+			standardDroneProjectCheckBox.setVisibility(View.VISIBLE);
+		} else {
+			standardDroneProjectCheckBox.setEnabled(false);
+			standardDroneProjectCheckBox.setVisibility(View.INVISIBLE);
+		}
 		return newProjectDialog;
 	}
 
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
-		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
+
 		if (getActivity() == null) {
 			Log.e(TAG, "handleOkButtonClick() Activity was null!");
 			return;
@@ -158,11 +168,14 @@ public class NewProjectDialog extends DialogFragment {
 			return;
 		}
 
+		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
+		boolean isDroneProjectChecked = standardDroneProjectCheckBox.isChecked();
 		orientationDialog = new OrientationDialog();
 		orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
 		orientationDialog.setOpenedFromProjectList(openedFromProjectList);
 		orientationDialog.setProjectName(projectName);
 		orientationDialog.setShouldBeEmpty(shouldBeEmpty);
+		orientationDialog.setIfStandardDroneProjectIsChecked(isDroneProjectChecked);
 
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);

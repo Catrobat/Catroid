@@ -77,8 +77,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, timeToWaitInSeconds);
 	}
 
-	protected abstract String getBrickLabel(View view);
-
 	@Override
 	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 
@@ -155,9 +153,10 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
 		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+
+		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
-		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
 		return prototypeView;
 	}
 
@@ -222,4 +221,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 	}
+
+	protected abstract String getBrickLabel(View view);
 }

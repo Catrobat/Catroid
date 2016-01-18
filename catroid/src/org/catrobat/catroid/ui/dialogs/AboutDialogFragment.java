@@ -29,7 +29,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -42,7 +41,7 @@ public class AboutDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_about, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_about, null);
 
 		TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());

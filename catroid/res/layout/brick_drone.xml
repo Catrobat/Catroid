@@ -30,15 +30,15 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_drone_play_led_animation_checkbox"
+        android:id="@+id/brick_drone_basic_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_play_led_animation"
-        style="@style/BrickContainer.Drone.Small"
+        android:id="@+id/brick_drone_basic_layout"
+        style="@style/BrickContainer.Motion.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/ValueTextView"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_drone_play_led_animation" >
+            android:text="" >
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

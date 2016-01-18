@@ -57,9 +57,9 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+		if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
 			setContentView(R.layout.dialog_formulaeditor_compute_landscape);
-			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview_landscape);
+			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview_landscape_mode);
 		} else {
 			setContentView(R.layout.dialog_formulaeditor_compute);
 			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);

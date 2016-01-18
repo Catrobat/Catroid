@@ -47,7 +47,7 @@
             android:padding="20dp" ></RadioButton>
 
         <RadioButton
-            android:id="@+id/landscape"
+            android:id="@+id/landscape_mode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.5"

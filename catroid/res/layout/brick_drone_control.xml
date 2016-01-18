@@ -23,22 +23,22 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_drone_flip_checkbox"
+        android:id="@+id/brick_drone_basic_control_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_flip"
-        style="@style/BrickContainer.Drone.Small"
+        android:id="@+id/brick_drone_basic_control_layout"
+        style="@style/BrickContainer.Control.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -46,10 +46,10 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/ValueTextView"
+            android:id="@+id/ValueTextViewControl"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_drone_flip" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:text="" >
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

@@ -41,35 +41,31 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
-	private boolean resizePossible;
-	private StageDialog stageDialog;
-
-	private DroneConnection droneConnection = null;
-
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
 	private StageAudioFocus stageAudioFocus;
+	private StageDialog stageDialog;
+	private boolean resizePossible;
 
 	AndroidApplicationConfiguration configuration = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate()");
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+		if (ProjectManager.getInstance().isCurrentProjectlandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -77,13 +73,11 @@ public class StageActivity extends AndroidApplication {
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		if (getIntent().getBooleanExtra(DroneInitializer.INIT_DRONE_STRING_EXTRA, false)) {
-			droneConnection = new DroneConnection(this);
-		}
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
+		// need we this here?
 		configuration = new AndroidApplicationConfiguration();
 		configuration.r = configuration.g = configuration.b = configuration.a = 8;
 
@@ -94,17 +88,9 @@ public class StageActivity extends AndroidApplication {
 			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 			glView.setZOrderOnTop(true);
 		}
-
-		if (droneConnection != null) {
-			try {
-				droneConnection.initialise();
-			} catch (RuntimeException runtimeException) {
-				Log.e(TAG, "Failure during drone service startup", runtimeException);
-				ToastUtil.showError(this, R.string.error_no_drone_connected);
-				this.finish();
-			}
-		}
-
+		// _________________________________________ end
+        // or one this one?
+        // initialize(stageListener, new AndroidApplicationConfiguration());
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);
@@ -129,19 +115,12 @@ public class StageActivity extends AndroidApplication {
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
-
-		CameraManager.getInstance().pausePreviewAsync();
-
 		LedUtil.pauseLed();
 		FaceDetectionHandler.pauseFaceDetection();
 
 		CameraManager.getInstance().releaseCamera();
 		VibratorUtil.pauseVibrator();
 		super.onPause();
-
-		if (droneConnection != null) {
-			droneConnection.pause();
-		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
 	}
@@ -159,10 +138,6 @@ public class StageActivity extends AndroidApplication {
 		SensorHandler.startSensorListener(this);
 
 		super.onResume();
-
-		if (droneConnection != null) {
-			droneConnection.start();
-		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
@@ -199,7 +174,7 @@ public class StageActivity extends AndroidApplication {
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
-			ifLandscapeSwitchWidthAndHeight();
+			iflandscapeModeSwitchWidthAndHeight();
 		} else {
 			ifPortraitSwitchWidthAndHeight();
 		}
@@ -233,7 +208,7 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
-	private void ifLandscapeSwitchWidthAndHeight() {
+	private void iflandscapeModeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
@@ -251,13 +226,8 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
-		if (droneConnection != null) {
-			droneConnection.destroy();
-		}
-
+		Log.d(TAG, "onDestroy()");
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
-
-		Log.d(TAG, "Destroy");
 		LedUtil.destroy();
 		VibratorUtil.destroy();
 		FaceDetectionHandler.stopFaceDetection();

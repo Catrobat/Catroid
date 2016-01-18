@@ -252,18 +252,18 @@ public class Sprite implements Serializable, Cloneable {
 			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
 		}
 
-		ArrayList<LookData> cloneLookList = new ArrayList<>();
+		List<LookData> cloneLookList = new ArrayList<>();
 		for (LookData element : this.lookList) {
 			cloneLookList.add(element.clone());
 		}
 		cloneSprite.lookList = cloneLookList;
 
-		ArrayList<SoundInfo> cloneSoundList = new ArrayList<>();
+		List<SoundInfo> cloneSoundList = new ArrayList<>();
 		for (SoundInfo element : this.soundList) {
 			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
 		}
 		cloneSprite.soundList = cloneSoundList;
-		ArrayList<UserBrick> cloneUserBrickList = new ArrayList<>();
+		List<UserBrick> cloneUserBrickList = new ArrayList<>();
 
 		for (UserBrick original : userBricks) {
 			int originalId = original.getUserBrickId();
@@ -441,6 +441,11 @@ public class Sprite implements Serializable, Cloneable {
 		for (Script script : scriptList) {
 			resources |= script.getRequiredResources();
 		}
+
+		for (LookData lookData : getLookDataList()) {
+			resources |= lookData.getRequiredResources();
+		}
+
 		return resources;
 	}
 

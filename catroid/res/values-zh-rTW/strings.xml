@@ -341,8 +341,6 @@
   <string name="default_project_backgroundname">背景</string>
   <string name="default_drone_project_name">我的AR.Drone程式檔</string>
   <string name="default_drone_project_sprites_takeoff">起飛</string>
-  <string name="default_drone_project_srpites_land">降落</string>
-  <string name="default_drone_project_srpites_rotate">翻滾</string>
   <string name="default_drone_project_sprites_up">上</string>
   <string name="default_drone_project_sprites_down">下</string>
   <string name="default_drone_project_sprites_left">左</string>

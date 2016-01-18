@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.stage;
+package org.catrobat.catroid.drone;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -38,12 +38,12 @@ import com.parrot.freeflight.receivers.DroneReadyReceiver;
 import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.stage.StageResourceInterface;
 
 public class DroneConnection implements StageResourceInterface, DroneReadyReceiverDelegate,
 		DroneConnectionChangeReceiverDelegate {
 
-	private Context stageActivityContext = null;
+	private Context context = null;
 
 	private static final String TAG = DroneConnection.class.getSimpleName();
 
@@ -51,14 +51,22 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 	private BroadcastReceiver droneReadyReceiver = null;
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver = null;
 
-	public DroneConnection(Context stageActivityContext) {
-		this.stageActivityContext = stageActivityContext;
+	public DroneConnection(Context context) {
+		this.context = context;
 	}
 
 	@Override
 	public void initialise() throws RuntimeException {
 		//TODO Drone: process return value
 		prepareDroneResources();
+	}
+
+	private void prepareDroneResources() throws RuntimeException {
+		Log.d(TAG, "prepareResources()");
+		droneReadyReceiver = new DroneReadyReceiver(this);
+		droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+
+		helpBindDroneService();
 	}
 
 	@Override
@@ -68,7 +76,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 			droneControlService.resume();
 			DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		}
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(stageActivityContext);
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
 		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
 		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
 				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
@@ -80,7 +88,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 			droneControlService.pause();
 			DroneServiceWrapper.getInstance().setDroneService(null);
 		}
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(stageActivityContext);
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
 		manager.unregisterReceiver(droneReadyReceiver);
 		manager.unregisterReceiver(droneConnectionChangeReceiver);
 	}
@@ -88,14 +96,6 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 	@Override
 	public void destroy() {
 		helpUnbindDroneService();
-	}
-
-	private void prepareDroneResources() throws RuntimeException {
-		Log.d(TAG, "prepareResources()");
-		droneReadyReceiver = new DroneReadyReceiver(this);
-		droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
-
-		helpBindDroneService();
 	}
 
 	private void onDroneServiceConnected(IBinder service) {
@@ -126,7 +126,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 
 	private void helpUnbindDroneService() {
 		if (droneControlService != null) {
-			stageActivityContext.unbindService(droneServiceConnection);
+			context.unbindService(droneServiceConnection);
 			droneServiceConnection = null;
 			droneControlService = null;
 		}
@@ -134,7 +134,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 
 	private void helpBindDroneService() throws RuntimeException {
 		if (droneControlService == null
-				&& !stageActivityContext.bindService(new Intent(stageActivityContext, DroneControlService.class),
+				&& !context.bindService(new Intent(context, DroneControlService.class),
 				this.droneServiceConnection, Context.BIND_AUTO_CREATE)) {
 			throw new RuntimeException("Connection to the drone not successful");
 		}

@@ -21,26 +21,27 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/DefaultDialog"
-            android:orientation="vertical"
-            android:paddingBottom="0dp"
-            android:theme="@android:style/Theme.Light" >
+<ScrollView
+    style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:theme="@android:style/Theme.Light">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dialog_item_margin" >
+        android:paddingBottom="@dimen/dialog_item_margin">
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/project_name"
             style="@style/DefaultDialog.TextView"
-            android:text="@string/new_project_name" />
+            android:text="@string/new_project_name"/>
 
         <View
             android:id="@+id/project_name_line"
             style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/project_name" />
+            android:layout_below="@+id/project_name"/>
 
         <EditText
             android:id="@+id/project_name_edittext"
@@ -49,15 +50,15 @@
             android:hint="@string/new_project_dialog_hint"
             android:inputType="text"
             android:maxLines="1"
-            android:selectAllOnFocus="true" />
+            android:selectAllOnFocus="true"/>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/project_name_edittext"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" >
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
 
             <CheckBox
                 android:id="@+id/project_empty_checkbox"
@@ -66,9 +67,19 @@
                 android:layout_gravity="bottom"
                 android:checked="false"
                 android:text="@string/new_project_empty"
-                android:textColor="@color/spritelist_details_text_color" />
+                android:textColor="@color/spritelist_details_text_color"/>
 
-        </LinearLayout >
-    </RelativeLayout >
+            <CheckBox
+                android:id="@+id/standard_drone_project_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:checked="false"
+                android:text="@string/new_standard_drone_project"
+                android:textColor="@color/spritelist_details_drone_text_color"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

@@ -348,8 +348,6 @@
   <string name="default_project_backgroundname">Baggrund</string>
   <string name="default_drone_project_name">Min første Drone-program</string>
   <string name="default_drone_project_sprites_takeoff">Start</string>
-  <string name="default_drone_project_srpites_land">Land</string>
-  <string name="default_drone_project_srpites_rotate">Rotér</string>
   <string name="default_drone_project_sprites_up">Op</string>
   <string name="default_drone_project_sprites_down">Ned</string>
   <string name="default_drone_project_sprites_left">Venstre</string>
@@ -459,8 +457,6 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
-  <string name="brick_drone_takeoff">Start</string>
-  <string name="brick_drone_land">Land</string>
   <string name="brick_drone_play_led_animation">Spil LED animation</string>
   <string name="brick_drone_move_left">Flyt til venstre</string>
   <string name="brick_drone_move_right">Flyt til højre</string>
@@ -469,7 +465,6 @@
   <string name="brick_drone_move_up">Flyt op</string>
   <string name="brick_drone_move_down">Flyt ned</string>
   <string name="brick_drone_flip">Vend rundt</string>
-  <string name="brick_drone_power">Strøm</string>
   <string name="brick_drone_turn_right">Drej til højre</string>
   <string name="brick_drone_turn_left">Drej til venstre</string>
   <string name="brick_drone_turn_left_magneto">Drej til venstre [vinkel]</string>
