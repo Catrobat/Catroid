@@ -88,9 +88,7 @@ public class StageActivity extends AndroidApplication {
 			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 			glView.setZOrderOnTop(true);
 		}
-		// _________________________________________ end
-        // or one this one?
-        // initialize(stageListener, new AndroidApplicationConfiguration());
+
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);

@@ -86,8 +86,6 @@
         <item >@string/drone_set_tilt_max</item >
     </string-array >
 
-
-
     <!-- User Brick UI Data Editor Fragment -->
     <string-array name="data_editor_buttons" >
  		<item >@string/add_text</item >

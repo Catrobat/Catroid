@@ -89,10 +89,6 @@
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
     <string name="preference_title_drone_config_properties">Drone config properties</string>
-    <string name="preference_title_use_face_detection">Face Detection</string>
-    <string name="preference_description_use_face_detection">Allow to detect faces</string>
-    <string name="preference_title_select_camera">Choose Camera</string>
-    <string name="preference_description_select_camera">Select camera which is used for face detection</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
