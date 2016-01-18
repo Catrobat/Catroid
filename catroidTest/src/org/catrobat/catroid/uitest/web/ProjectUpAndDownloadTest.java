@@ -34,7 +34,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -471,7 +471,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				ProjectManager.getInstance().loadProject(standardProjectName, getActivity());
 				ProjectManager.getInstance().deleteCurrentProject(null);
 			}
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 			ProjectManager.getInstance().setProject(standardProject);
 		} catch (ProjectException projectException) {

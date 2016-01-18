@@ -52,11 +52,11 @@ public class OrientationDialog extends DialogFragment {
 	private Dialog orientationDialog;
 	private String projectName;
 	private RadioButton landscapeMode;
-	private boolean shouldBeEmpty;
-	private boolean shouldBelandscapeMode = false;
+	private boolean createEmptyProject;
+	private boolean createLandscapeProject = false;
 
 	private boolean openedFromProjectList = false;
-	private boolean isStandardDroneProjectChecked;
+	private boolean createDroneProject = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -97,10 +97,10 @@ public class OrientationDialog extends DialogFragment {
 	}
 
 	protected void handleOkButtonClick() {
-		shouldBelandscapeMode = landscapeMode.isChecked();
+		createLandscapeProject = landscapeMode.isChecked();
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, isStandardDroneProjectChecked, shouldBelandscapeMode);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
@@ -136,11 +136,11 @@ public class OrientationDialog extends DialogFragment {
 		this.projectName = projectName;
 	}
 
-	public void setShouldBeEmpty(boolean shouldBeEmpty) {
-		this.shouldBeEmpty = shouldBeEmpty;
+	public void setCreateEmptyProject(boolean isChecked) {
+		this.createEmptyProject = isChecked;
 	}
 
-	public void setIfStandardDroneProjectIsChecked(boolean isChecked) {
-		isStandardDroneProjectChecked = isChecked;
+	public void setCreateDroneProject(boolean isChecked) {
+		createDroneProject = isChecked;
 	}
 }

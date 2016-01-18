@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -157,7 +157,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project = Utils.findValidProject();
 				if (project == null) {
 					try {
-						project = StandardProjectHandler.createAndSaveStandardProject(context);
+						project = DefaultProjectHandler.createAndSaveDefaultProject(context);
 						MessageContainer.clearBackup();
 					} catch (IOException ioException) {
 						Log.e(TAG, "Cannot load project.", ioException);
@@ -267,18 +267,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public boolean initializeDefaultProject(Context context) {
-
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
-			return initializeDroneProject(context);
-		} else {
-			return initializeStandardProject(context);
-		}
-	}
-
-	public boolean initializeStandardProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			project = StandardProjectHandler.createAndSaveStandardProject(context);
+			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
 
 			currentSprite = null;
 			currentScript = null;
@@ -293,7 +284,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public boolean initializeDroneProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			project = StandardProjectHandler.createAndSaveStandardDroneProject(context);
+			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(context);
 
 			currentSprite = null;
 			currentScript = null;
@@ -305,32 +296,32 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean isDroneProject, boolean landscapeMode)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
-		} else if (isDroneProject) {
-			project = StandardProjectHandler.createAndSaveStandardDroneProject(projectName, context, landscapeMode);
+			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
+		} else if (drone) {
+			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(projectName, context, landscapeMode);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscapeMode);
+			project = DefaultProjectHandler.createAndSaveDefaultProject(projectName, context, landscapeMode);
 		}
 
 		currentSprite = null;
 		currentScript = null;
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean isDroneProject)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone)
 			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, isDroneProject, false);
+		initializeNewProject(projectName, context, empty, drone, false);
 	}
 
 	public Project getCurrentProject() {
 		return project;
 	}
 
-	public boolean isCurrentProjectlandscapeMode() {
+	public boolean isCurrentProjectLandscapeMode() {
 		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
 

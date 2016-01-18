@@ -24,7 +24,7 @@ package org.catrobat.catroid.uitest.content.interaction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -49,8 +49,8 @@ public class MergeProjectTest extends BaseActivityInstrumentationTestCase<MainMe
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Project projectTo = StandardProjectHandler.createAndSaveEmptyProject(projectNameTo, getActivity());
-		Project projectFrom = StandardProjectHandler.createAndSaveEmptyProject(projectNameFrom, getActivity());
+		Project projectTo = DefaultProjectHandler.createAndSaveEmptyProject(projectNameTo, getActivity());
+		Project projectFrom = DefaultProjectHandler.createAndSaveEmptyProject(projectNameFrom, getActivity());
 		ProjectManager.getInstance().setProject(projectFrom);
 		ProjectManager.getInstance().setProject(projectTo);
 	}

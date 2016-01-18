@@ -39,7 +39,7 @@ import com.robotium.solo.Solo;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -438,7 +438,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		Project standardProject = null;
 
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 		} catch (IOException e) {
 			fail("Could not create standard project " + standardProjectName);

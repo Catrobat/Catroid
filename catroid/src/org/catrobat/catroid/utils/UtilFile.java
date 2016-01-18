@@ -191,20 +191,6 @@ public final class UtilFile {
 		}
 	}
 
-	public static void loadExistingOrCreateStandardDroneProject(Context context) {
-		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
-		try {
-			ProjectManager.getInstance().loadProject(droneStandardProjectName, context);
-		} catch (ProjectException cannotLoadDroneProjectException) {
-			Log.e(TAG, "Cannot load standard drone project" + cannotLoadDroneProjectException);
-		}
-
-		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
-		if (!currentName.equals(droneStandardProjectName)) {
-			ProjectManager.getInstance().initializeDroneProject(context);
-		}
-	}
-
 	/**
 	 * returns a list of strings of all projectnames in the catroid folder
 	 */

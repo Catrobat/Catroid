@@ -53,13 +53,14 @@ public class NewProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
+	public static final String SHARED_PREFERENCES_DRONE_PROJECT = "shared_preferences_drone_project";
 
 	private static final String TAG = NewProjectDialog.class.getSimpleName();
 
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
-	private CheckBox standardDroneProjectCheckBox;
+	private CheckBox droneProjectCheckBox;
 	private OrientationDialog orientationDialog;
 	private SharedPreferences sharedPreferences;
 
@@ -134,19 +135,19 @@ public class NewProjectDialog extends DialogFragment {
 		});
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		boolean shouldBeEmpty = sharedPreferences.getBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, false);
+		boolean createEmptyProject = sharedPreferences.getBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, false);
+		boolean createDroneProject = sharedPreferences.getBoolean(SHARED_PREFERENCES_DRONE_PROJECT, false);
 
 		emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
-		emptyProjectCheckBox.setChecked(shouldBeEmpty);
+		emptyProjectCheckBox.setChecked(createEmptyProject);
 
-		standardDroneProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.standard_drone_project_checkbox);
+		droneProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.default_drone_project_checkbox);
+		droneProjectCheckBox.setChecked(createDroneProject);
+
 		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
-			standardDroneProjectCheckBox.setEnabled(true);
-			standardDroneProjectCheckBox.setVisibility(View.VISIBLE);
-		} else {
-			standardDroneProjectCheckBox.setEnabled(false);
-			standardDroneProjectCheckBox.setVisibility(View.INVISIBLE);
+			droneProjectCheckBox.setVisibility(View.VISIBLE);
 		}
+
 		return newProjectDialog;
 	}
 
@@ -168,16 +169,17 @@ public class NewProjectDialog extends DialogFragment {
 			return;
 		}
 
-		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
-		boolean isDroneProjectChecked = standardDroneProjectCheckBox.isChecked();
+		boolean createEmptyProject = emptyProjectCheckBox.isChecked();
+		boolean createDroneProject = droneProjectCheckBox.isChecked();
 		orientationDialog = new OrientationDialog();
 		orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
 		orientationDialog.setOpenedFromProjectList(openedFromProjectList);
 		orientationDialog.setProjectName(projectName);
-		orientationDialog.setShouldBeEmpty(shouldBeEmpty);
-		orientationDialog.setIfStandardDroneProjectIsChecked(isDroneProjectChecked);
+		orientationDialog.setCreateEmptyProject(createEmptyProject);
+		orientationDialog.setCreateDroneProject(createDroneProject);
 
-		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
+		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, createEmptyProject).commit();
+		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_DRONE_PROJECT, createDroneProject).commit();
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 
 		dismiss();

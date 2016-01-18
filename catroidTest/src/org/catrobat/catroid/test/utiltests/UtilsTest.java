@@ -29,7 +29,7 @@ import android.util.Log;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -183,7 +183,7 @@ public class UtilsTest extends AndroidTestCase {
 		ScreenValues.SCREEN_HEIGHT = 800;
 
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(NEW_PROGRAM_NAME, getContext());
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(NEW_PROGRAM_NAME, getContext());
 		} catch (IOException | IllegalArgumentException e) {
 			Log.e(TAG, "error creating standard project", e);
 			fail("error creating standard project");
