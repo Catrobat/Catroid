@@ -26,8 +26,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -56,7 +54,6 @@ import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 @SuppressWarnings("deprecation")
@@ -117,11 +114,11 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.CAMERA_BACK) > 0) {
-			if (CameraManager.getInstance().isCameraAvailable(this.getApplicationContext(), PackageManager.FEATURE_CAMERA)) {
+			if (CameraManager.getInstance().hasBackCamera()) {
 				resourceInitialized();
 			} else {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.no_camera_available)).setCancelable(false)
+				builder.setMessage(getString(R.string.no_back_camera_available)).setCancelable(false)
 						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
@@ -134,10 +131,19 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.CAMERA_FRONT) > 0) {
-			if (CameraManager.getInstance().isCameraAvailable(this.getApplicationContext(), PackageManager.FEATURE_CAMERA_FRONT)) {
+			if (CameraManager.getInstance().hasFrontCamera()) {
 				resourceInitialized();
 			} else {
-				resourceFailed();
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.no_front_camera_available)).setCancelable(false)
+						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								resourceFailed();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
 			}
 		}
 
@@ -163,7 +169,16 @@ public class PreStageActivity extends BaseActivity {
 			if (success) {
 				resourceInitialized();
 			} else {
-				resourceFailed();
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.no_camera_available)).setCancelable(false)
+						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								resourceFailed();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
 			}
 		}
 
@@ -186,59 +201,6 @@ public class PreStageActivity extends BaseActivity {
 			droneInitializer = new DroneInitializer(this);
 		}
 		return droneInitializer;
-	}
-
-	protected boolean hasFlash() {
-
-		boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-		boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-
-		if (!hasCamera || !hasLed) {
-			return false;
-		}
-
-		for (int i = 0; i < 2; i++) {
-
-			boolean supported = true;
-
-			CameraManager.getInstance().setCameraID(i);
-
-			Camera camera;
-
-			try {
-				CameraManager.getInstance().startCamera();
-				camera = CameraManager.getInstance().getCamera();
-
-				if (camera == null) {
-					supported = false;
-				}
-
-				Camera.Parameters parameters = camera.getParameters();
-
-				if (parameters.getFlashMode() == null) {
-					supported = false;
-				}
-
-				List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-				if (supportedFlashModes == null || supportedFlashModes.isEmpty()
-						|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
-					supported = false;
-				}
-
-				CameraManager.getInstance().releaseCamera();
-
-				if (supported) {
-					CameraManager.getInstance().setCameraID(1);
-					return true;
-				}
-			} catch (Exception exception) {
-				Log.e(TAG, "failed to open Camera", exception);
-			}
-		}
-
-		CameraManager.getInstance().setCameraID(1);
-
-		return false;
 	}
 
 	@Override
@@ -409,12 +371,21 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void ledInitialize() {
-		if (hasFlash()) {
-			resourceInitialized();
+		if (CameraManager.getInstance().hasFlash()) {
+			CameraManager.getInstance().setToBackCamera();
 			LedUtil.initializeLed();
+			resourceInitialized();
 		} else {
-			ToastUtil.showError(PreStageActivity.this, R.string.no_flash_led_available);
-			resourceFailed();
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(getString(R.string.no_flash_led_available)).setCancelable(false)
+					.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							resourceFailed();
+						}
+					});
+			AlertDialog alert = builder.create();
+			alert.show();
 		}
 	}
 }

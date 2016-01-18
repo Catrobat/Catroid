@@ -286,7 +286,7 @@ public class StageListener implements ApplicationListener {
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
-		CameraManager.getInstance().setCameraID(1);
+		CameraManager.getInstance().setToDefaultCamera();
 	}
 
 	@Override

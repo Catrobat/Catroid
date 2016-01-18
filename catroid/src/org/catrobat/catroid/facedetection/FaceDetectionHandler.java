@@ -56,6 +56,10 @@ public final class FaceDetectionHandler {
 		if (running) {
 			return true;
 		}
+		if (!CameraManager.getInstance().hasBackCamera() && !CameraManager.getInstance().hasFrontCamera()) {
+			return false;
+		}
+
 		if (faceDetector == null) {
 			createFaceDetector();
 			if (faceDetector == null) {
@@ -141,7 +145,7 @@ public final class FaceDetectionHandler {
 			}
 
 			Camera camera = CameraManager.getInstance().getCamera();
-			possibleFaces = getNumberOfCameras(camera);
+			possibleFaces = getMaxNumberOfFaces(camera);
 
 			CameraManager.getInstance().releaseCamera();
 		} catch (Exception exception) {
@@ -150,7 +154,7 @@ public final class FaceDetectionHandler {
 		return possibleFaces > 0;
 	}
 
-	private static int getNumberOfCameras(Camera camera) {
+	private static int getMaxNumberOfFaces(Camera camera) {
 		if (camera != null && camera.getParameters() != null) {
 			return camera.getParameters().getMaxNumDetectedFaces();
 		}

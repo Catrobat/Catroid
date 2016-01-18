@@ -617,9 +617,15 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static ChooseCameraAction setCamera(int cameraId) {
+	public static ChooseCameraAction setFrontCamera() {
 		ChooseCameraAction action = action(ChooseCameraAction.class);
-		action.setCameraId(cameraId);
+		action.setFrontCamera();
+		return action;
+	}
+
+	public static ChooseCameraAction setBackCamera() {
+		ChooseCameraAction action = action(ChooseCameraAction.class);
+		action.setBackCamera();
 		return action;
 	}
 }

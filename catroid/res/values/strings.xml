@@ -122,7 +122,6 @@
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
     <!--  -->
 
-
     <!-- About Dialog -->
     <string name="dialog_about_title">About Pocket Code</string>
     <string name="dialog_about_license_info">Pocket Code is a programming 
@@ -991,6 +990,9 @@
     <string name="choose_camera_front">Front</string>
     <string name="choose_camera_back">Back</string>
     <string name="error_flash_front_camera">"You can use the flash only with the back camera (this is an Android restriction). Please use the \"Set camera\" brick from the Looks category and select the back camera before executing a flash brick. "</string>
+    <string name="no_back_camera_available">No back facing camera available.</string>
+    <string name="no_camera_available">Facedetection not available.</string>
+    <string name="no_front_camera_available">No front facing camera available.</string>
     <!-- -->
 
 </resources>

@@ -29,15 +29,24 @@ import org.catrobat.catroid.camera.CameraManager;
 
 public class ChooseCameraAction extends TemporalAction {
 
-	private int cameraId = CameraManager.getInstance().getCameraID();
+	private static final int BACK = 0;
+	private static final int FRONT = 1;
+	private int cameraFacing = FRONT;
 
 	@Override
 	protected void update(float percent) {
-
-		CameraManager.getInstance().updateCamera(cameraId);
+		if (cameraFacing == FRONT) {
+			CameraManager.getInstance().setToFrontCamera();
+		} else {
+			CameraManager.getInstance().setToBackCamera();
+		}
 	}
 
-	public void setCameraId(int cameraId) {
-		this.cameraId = cameraId;
+	public void setFrontCamera() {
+		cameraFacing = FRONT;
+	}
+
+	public void setBackCamera() {
+		cameraFacing = BACK;
 	}
 }
