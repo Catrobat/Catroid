@@ -24,7 +24,7 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Pocket Drone</string>
+    <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
@@ -232,8 +232,8 @@
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="length">Length:</string>
     <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
-  <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
+    <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
+    <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
     <string name="new_sound_name">Sound name:</string>
     <string name="rename_sound_overwrite">Sound with same name already exists!</string>
@@ -293,7 +293,7 @@
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <string name="brick_context_dialog_add_to_script">Add To Script</string>
-	<string name="brick_context_dialog_edit_brick">Edit Brick</string>
+    <string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <!--  -->
@@ -465,47 +465,47 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started" >When program started</string >
-    <string name="brick_when" >When tapped</string >
-    <string name="brick_wait" >Wait</string >
+    <string name="brick_when_started">When program started</string>
+    <string name="brick_when">When tapped</string>
+    <string name="brick_wait">Wait</string>
 
-    <plurals name="second_plural" >
-        <item quantity="one" >"second "</item >
-        <item quantity="other" >"seconds "</item >
-    </plurals >
+    <plurals name="second_plural">
+        <item quantity="one">"second "</item>
+        <item quantity="other">"seconds "</item>
+    </plurals>
 
-    <string name="brick_broadcast_receive" >When I receive</string >
-    <string name="brick_broadcast" >Broadcast</string >
-    <string name="brick_broadcast_wait" >Broadcast and wait</string >
-    <string name="brick_note" >Note</string >
-    <string name="brick_forever" >Forever</string >
-    <string name="brick_repeat" >Repeat</string >
+    <string name="brick_broadcast_receive">When I receive</string>
+    <string name="brick_broadcast">Broadcast</string>
+    <string name="brick_broadcast_wait">Broadcast and wait</string>
+    <string name="brick_note">Note</string>
+    <string name="brick_forever">Forever</string>
+    <string name="brick_repeat">Repeat</string>
 
-    <plurals name="time_plural" >
-        <item quantity="one" >time</item >
-        <item quantity="other" >times</item >
-    </plurals >
+    <plurals name="time_plural">
+        <item quantity="one">time</item>
+        <item quantity="other">times</item>
+    </plurals>
 
-    <string name="brick_loop_end" >End of loop</string >
-    <string name="brick_if_begin" >If</string >
-    <string name="brick_if_begin_second_part" >is true then</string >
-    <string name="brick_if_else" >Else</string >
+    <string name="brick_loop_end">End of loop</string>
+    <string name="brick_if_begin">If</string>
+    <string name="brick_if_begin_second_part">is true then</string>
+    <string name="brick_if_else">Else</string>
     <string name="brick_if_end">End If</string>
-    <string name="brick_set_variable" >Set variable</string >
-    <string name="brick_change_variable" >Change variable</string >
-    <string name="brick_variable_spinner_create_new_variable" >New…</string >
-    <string name="brick_note_default_value" >"add comment here…"</string >
-    <string name="brick_broadcast_default_value" >"message 1"</string >
-    <string name="brick_add_item_to_userlist_add" >Add</string >
-    <string name="brick_add_item_to_userlist" >to list</string >
-    <string name="brick_delete_item_from_userlist_delete" >Delete item from list</string >
-    <string name="brick_delete_item_from_userlist" >at position</string >
-    <string name="brick_insert_item_into_userlist_insert_into" >Insert</string >
-    <string name="brick_insert_item_into_userlist_into_list" >into list</string >
-    <string name="brick_insert_item_into_userlist_at_position" >at position</string >
-    <string name="brick_replace_item_in_userlist_replace_in_list" >Replace item in list</string >
-    <string name="brick_replace_item_in_userlist_item_at_index" >at position</string >
-    <string name="brick_replace_item_in_userlist_with_value" >with</string >
+    <string name="brick_set_variable">Set variable</string>
+    <string name="brick_change_variable">Change variable</string>
+    <string name="brick_variable_spinner_create_new_variable">New…</string>
+    <string name="brick_note_default_value">"add comment here…"</string>
+    <string name="brick_broadcast_default_value">"message 1"</string>
+    <string name="brick_add_item_to_userlist_add">Add</string>
+    <string name="brick_add_item_to_userlist">to list</string>
+    <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
+    <string name="brick_delete_item_from_userlist">at position</string>
+    <string name="brick_insert_item_into_userlist_insert_into">Insert</string>
+    <string name="brick_insert_item_into_userlist_into_list">into list</string>
+    <string name="brick_insert_item_into_userlist_at_position">at position</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
+    <string name="brick_replace_item_in_userlist_with_value">with</string>
     <!--  -->
 
 
@@ -634,7 +634,7 @@
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
-	<string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
+    <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
     <!--  -->
@@ -917,28 +917,28 @@
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
-    <string name="formula_editor_list_dialog_title" >New List</string >
+    <string name="formula_editor_list_dialog_title">New List</string>
     <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
-    <string name="formula_editor_data_dialog_hint" >Enter name</string>
+    <string name="formula_editor_data_dialog_hint">Enter name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
     <string name="formula_editor_data_dialog_title">New</string>
-    <string name="formula_editor_existing_data_item" >Name already in use!</string>
-    <string name="formula_editor_fragment_data_current_items" >current items</string >
-    <string name="formula_editor_data_dialog_is_list" >Make it a list</string >
-    <string name="formula_editor_lists" >Lists</string >
+    <string name="formula_editor_existing_data_item">Name already in use!</string>
+    <string name="formula_editor_fragment_data_current_items">current items</string>
+    <string name="formula_editor_data_dialog_is_list">Make it a list</string>
+    <string name="formula_editor_lists">Lists</string>
     <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
     <string name="formula_editor_sensor_face_detected">is_face_detected</string>
     <string name="formula_editor_sensor_face_size">face_size</string>
     <string name="formula_editor_sensor_face_x_position">face_x_position</string>
     <string name="formula_editor_sensor_face_y_position">face_y_position</string>
-    <string name="formula_editor_function_number_of_items" >number_of_items</string>
-    <string name="formula_editor_function_number_of_items_parameter" >(*list name*)</string>
+    <string name="formula_editor_function_number_of_items">number_of_items</string>
+    <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
 
-    <plurals name="formula_editor_data_fragment_context_action_item_selected" >
+    <plurals name="formula_editor_data_fragment_context_action_item_selected">
         <item quantity="one">Item selected!</item>
         <item quantity="other">Items selected!</item>
     </plurals>
@@ -946,14 +946,14 @@
 
     <!-- Brick Data Editor Strings -->
     <string name="brick_data_editor_title">Brick Editor</string>
- 	<string name="separator">|</string>
- 	<string name="add_text">Add Text</string>
- 	<string name="edit_text">Edit Text</string>
- 	<string name="text_hint">Brick Text</string>
- 	<string name="add_variable">Add Variable</string>
- 	<string name="add_line_break">Add Line Break</string>
- 	<string name="edit_variable">Edit Variable</string>
- 	<string name="variable_hint">Variable Name</string>
+    <string name="separator">|</string>
+    <string name="add_text">Add Text</string>
+    <string name="edit_text">Edit Text</string>
+    <string name="text_hint">Brick Text</string>
+    <string name="add_variable">Add Variable</string>
+    <string name="add_line_break">Add Line Break</string>
+    <string name="edit_variable">Edit Variable</string>
+    <string name="variable_hint">Variable Name</string>
     <string name="brick_show_text_var">Show variable</string>
     <string name="brick_show_text_pos">"at  "</string>
     <string name="brick_hide_text_var">Hide variable</string>
@@ -961,10 +961,10 @@
 
     <!-- User Bricks strings -->
     <string name="define">define</string>
- 	<string name="new_user_brick">New Brick</string>
- 	<string name="new_user_brick_variable">Variable 1</string>
+    <string name="new_user_brick">New Brick</string>
+    <string name="new_user_brick_variable">Variable 1</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
- 	<string name="brick_single">Brick</string>
+    <string name="brick_single">Brick</string>
     <string name="brick_multiple">Bricks</string>
 
     <!-- Merge strings -->
@@ -985,7 +985,7 @@
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
     <string name="variable">Variable</string>
-  <!-- -->
+    <!-- -->
 
     <string name="brick_video">Camera:</string>
     <string name="video_brick_camera_on">On</string>
@@ -993,7 +993,8 @@
 
     <string name="brick_choose_camera">Choose Camera:</string>
     <string name="choose_camera_front">Front</string>
-    <string name="choose_camera_back">Back</string><string name="error_flash_front_camera">"You can use the flash only with the back camera (this is an Android restriction). Please use the \"Set camera\" brick from the Looks category and select the back camera before executing a flash brick. "</string>
+    <string name="choose_camera_back">Back</string>
+    <string name="error_flash_front_camera">"You can use the flash only with the back camera (this is an Android restriction). Please use the \"Set camera\" brick from the Looks category and select the back camera before executing a flash brick. "</string>
     <!-- -->
 
 </resources>

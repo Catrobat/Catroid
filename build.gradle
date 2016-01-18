@@ -120,10 +120,10 @@ task copyAndroidNatives() {
     file("catroid/jniLibs/x86/").mkdirs();
     configurations.natives.files.each { jar ->
         def outputDir = null
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
-        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
-        if (outputDir != null) {
+        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
+        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
+        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
+        if(outputDir != null) {
             copy {
                 from zipTree(jar)
                 into outputDir
@@ -170,7 +170,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
-        applicationId 'org.catrobat.drone'
+        applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
         versionCode 27

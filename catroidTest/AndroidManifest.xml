@@ -65,10 +65,10 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="org.catrobat.drone"/>
+        android:targetPackage="org.catrobat.catroid"/>
     <!-- this instrumentation is needed to run the tests from jenkins -->
     <instrumentation
         android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        android:targetPackage="org.catrobat.drone"/>
+        android:targetPackage="org.catrobat.catroid"/>
 
 </manifest>
