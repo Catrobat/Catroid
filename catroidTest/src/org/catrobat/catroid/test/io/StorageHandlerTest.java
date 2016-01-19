@@ -30,6 +30,7 @@ import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -87,7 +88,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() throws Exception {
-		StandardProjectHandler.createAndSaveStandardProject(getContext());
+		DefaultProjectHandler.createAndSaveDefaultProject(getContext());
 		super.setUp();
 //		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}

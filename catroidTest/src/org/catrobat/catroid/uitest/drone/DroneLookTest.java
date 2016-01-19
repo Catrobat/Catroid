@@ -41,7 +41,7 @@ public class DroneLookTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	@Override
 	protected void setUp() throws Exception {
 		TestUtils.deleteTestProjects();
-		DroneTestUtils.createStandardDroneProject();
+		DroneTestUtils.createDefaultDroneProject();
 		SettingsActivity.enableARDroneBricks(getActivity(), true);
 		super.setUp();
 	}
@@ -55,7 +55,7 @@ public class DroneLookTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	public void testAddLook() {
-		ProjectManager.getInstance().initializeStandardProject(getActivity());
+		ProjectManager.getInstance().initializeDroneProject(getActivity());
 
 		solo.waitForActivity(ProgramMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.programs));

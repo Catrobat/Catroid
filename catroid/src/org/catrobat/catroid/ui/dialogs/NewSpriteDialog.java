@@ -358,8 +358,6 @@ public class NewSpriteDialog extends DialogFragment {
 						requestedAction, spinnerAdapter, LookData.LookDataType.DRONE_VIDEO);
 				dialog.show(getActivity().getFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 				dismiss();
-
-
 			}
 		});
 	}

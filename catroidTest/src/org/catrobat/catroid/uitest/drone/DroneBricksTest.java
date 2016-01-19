@@ -52,7 +52,7 @@ public class DroneBricksTest extends BaseActivityInstrumentationTestCase<ScriptA
 	@Override
 	public void setUp() throws Exception {
 		TestUtils.deleteTestProjects();
-		DroneTestUtils.createStandardDroneProject();
+		DroneTestUtils.createDefaultDroneProject();
 		SettingsActivity.enableARDroneBricks(getActivity(), true);
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		super.setUp();
