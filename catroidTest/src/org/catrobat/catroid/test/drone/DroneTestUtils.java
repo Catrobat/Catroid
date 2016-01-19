@@ -37,7 +37,7 @@ public abstract class DroneTestUtils {
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
-	public static void createStandardDroneProject() {
+	public static void createDefaultDroneProject() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("DroneBricksTest");
 		Script script = new StartScript();

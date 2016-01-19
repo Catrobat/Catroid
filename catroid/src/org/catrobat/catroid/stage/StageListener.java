@@ -676,13 +676,4 @@ public class StageListener implements ApplicationListener {
 	public void removeActor(Look look) {
 		look.remove();
 	}
-
-	private void drawText(String text, int posX, int posY) {
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-		Batch batch = stage.getBatch();
-		batch.begin();
-		font.draw(batch, text, posX, posY);
-		batch.end();
-	}
 }

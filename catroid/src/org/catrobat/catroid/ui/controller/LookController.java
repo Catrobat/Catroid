@@ -191,7 +191,7 @@ public final class LookController {
 	}
 
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data, Activity activity, List<LookData> lookDataList,
-							   LookFragment fragment) {
+			LookFragment fragment) {
 		String originalImagePath = "";
 		CursorLoader cursorLoader = (CursorLoader) loader;
 
@@ -345,7 +345,7 @@ public final class LookController {
 	}
 
 	public void loadImageIntoCatroid(Intent intent, Activity activity, List<LookData> lookDataList,
-									 LookFragment fragment) {
+			LookFragment fragment) {
 		String originalImagePath = "";
 
 		//get path of image - will work for most applications
@@ -415,7 +415,7 @@ public final class LookController {
 	}
 
 	public void loadPictureFromCameraIntoCatroid(Uri lookFromCameraUri, Activity activity,
-												 List<LookData> lookData, LookFragment fragment) {
+			List<LookData> lookData, LookFragment fragment) {
 		if (lookFromCameraUri != null) {
 			String originalImagePath = lookFromCameraUri.getPath();
 
@@ -433,7 +433,7 @@ public final class LookController {
 	}
 
 	public void loadPictureFromLibraryIntoCatroid(String filePath, Activity activity,
-												  List<LookData> lookData, LookFragment fragment) {
+			List<LookData> lookData, LookFragment fragment) {
 		File mediaImage = null;
 		mediaImage = new File(filePath);
 		copyImageToCatroid(mediaImage.toString(), activity, lookData, fragment);
