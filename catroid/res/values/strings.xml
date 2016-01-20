@@ -39,7 +39,7 @@
     <string name="move">Move</string>
     <string name="backpack">Backpack</string>
     <string name="packing">Pack</string>
-    <string name="unpacking">Unpack</string>
+    <string name="unpacking">Unpacking</string>
     <string name="unpack_keep">Unpack and keep</string>
     <string name="copy_addition">copy</string>
     <string name="close">Close</string>
@@ -195,6 +195,7 @@
         <item quantity="other">Backpack %d Bricks</item>
     </plurals>
     <!--  -->
+
 
     <!-- Look fragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
@@ -982,14 +983,17 @@
     <string name="variable">Variable</string>
     <!-- -->
 
-    <string name="brick_video">Camera:</string>
-    <string name="video_brick_camera_on">On</string>
-    <string name="video_brick_camera_off">Off</string>
 
-    <string name="brick_choose_camera">Choose Camera:</string>
-    <string name="choose_camera_front">Front</string>
-    <string name="choose_camera_back">Back</string>
-    <string name="error_flash_front_camera">"You can use the flash only with the back camera (this is an Android restriction). Please use the \"Set camera\" brick from the Looks category and select the back camera before executing a flash brick. "</string>
+    <!-- Camera related strings -->
+    <string name="brick_video">Turn camera</string>
+    <string name="video_brick_camera_on">on</string>
+    <string name="video_brick_camera_off">off</string>
+
+    <string name="brick_choose_camera">Use camera</string>
+    <string name="choose_camera_front">front</string>
+    <string name="choose_camera_back">back</string>
+    <string name="error_flash_front_camera">"You can use the flash only with the back camera. Please add a \"Use
+        camera\" brick and change to your device's back camera. "</string>
     <string name="no_back_camera_available">No back facing camera available.</string>
     <string name="no_camera_available">Facedetection not available.</string>
     <string name="no_front_camera_available">No front facing camera available.</string>

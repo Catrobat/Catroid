@@ -100,7 +100,7 @@ public final class DefaultProjectHandler {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
-		String backgroundName = context.getString(R.string.default_project_backgroundname);
+		String backgroundName = context.getString(R.string.default_project_background_name);
 
 		Project defaultDroneProject = new Project(context, projectName, landscapeMode);
 		defaultDroneProject.setDeviceData(context); // density anywhere here
