@@ -265,7 +265,6 @@ public final class StorageHandler {
 		xstream.alias("script", BroadcastScript.class);
 		xstream.alias("script", RaspiInterruptScript.class);
 
-
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
 		xstream.alias("brick", BroadcastReceiverBrick.class);

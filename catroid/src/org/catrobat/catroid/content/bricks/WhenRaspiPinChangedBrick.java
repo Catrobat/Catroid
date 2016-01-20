@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 
 	private RaspiInterruptScript script;
 
-	private String pinString = Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE);
+	private String pinString = Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER);
 	private String eventString = BrickValues.RASPI_PRESSED_EVENT;
 
 	public WhenRaspiPinChangedBrick(RaspiInterruptScript script) {
@@ -163,7 +163,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-
 			}
 		});
 		valueSpinner.setSelection(valueAdapter.getPosition(getProtocolStringFromLanguageSpecificSpinnerSelection(eventString, context)), true);

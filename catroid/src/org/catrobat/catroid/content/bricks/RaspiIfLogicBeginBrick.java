@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -131,7 +131,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
 		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_prototype_text_view);
-		textIfBegin.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
+		textIfBegin.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		return prototypeView;
 	}
 

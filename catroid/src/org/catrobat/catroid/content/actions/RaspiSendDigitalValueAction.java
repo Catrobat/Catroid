@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,12 +41,10 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 	private int pin;
 	private boolean value;
 
-	private boolean restart = false;
-
 	@Override
 	protected void begin() {
 		Integer pinNumberInterpretation;
-		Boolean pinValueInterpretation;
+		boolean pinValueInterpretation;
 
 		try {
 			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
@@ -57,7 +55,7 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 		}
 
 		try {
-			pinValueInterpretation = pinValue == null ? Boolean.valueOf(false) : pinValue.interpretBoolean(sprite);
+			pinValueInterpretation = pinValue == null ? false : pinValue.interpretBoolean(sprite);
 		} catch (InterpretationException interpretationException) {
 			pinValueInterpretation = false;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,8 +79,8 @@ public class RaspiPwmAction extends TemporalAction {
 
 		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 		try {
-			Log.d(getClass().getSimpleName(), "RPi pwm pin=" + pinInterpretation + ", " + percentageInterpretation +
-					"%, " + frequencyInterpretation + "Hz");
+			Log.d(getClass().getSimpleName(), "RPi pwm pin=" + pinInterpretation + ", " + percentageInterpretation
+					+ "%, " + frequencyInterpretation + "Hz");
 			connection.setPWM(pinInterpretation, frequencyInterpretation, percentageInterpretation);
 		} catch (Exception e) {
 			Log.e(getClass().getSimpleName(), "RPi: exception during setPwm: " + e);
