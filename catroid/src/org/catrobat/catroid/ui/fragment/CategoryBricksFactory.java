@@ -289,7 +289,7 @@ public class CategoryBricksFactory {
 		);
 		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
 
-		soundBrickList.add(new SpeakBrick(BrickValues.SPEAK));
+		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
