@@ -23,7 +23,8 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/DefaultDialog"
-            android:paddingBottom="0dp" >
+            android:paddingBottom="0dp"
+            android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,8 +100,6 @@
             style="@style/DefaultDialog.EditText"
             android:hint="@string/new_project_description_dialog_hint"
             android:inputType="textMultiLine"
-            android:lines="2"
-            android:maxLines="2"
             android:minLines="1"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="vertical"
