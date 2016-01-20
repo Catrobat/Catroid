@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.stage.CameraSurface;
 import org.catrobat.catroid.stage.DeviceCameraControl;
@@ -164,34 +165,41 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	public boolean isFacingFront() {
 		return currentCameraID == frontCameraID;
 	}
+
 	private boolean createCamera() {
 
 		if (camera != null) {
 			return false;
 		}
+
 		try {
 			camera = Camera.open(currentCameraID);
-			camera.setDisplayOrientation(90);
+			if (ProjectManager.getInstance().getCurrentProject().islandscapeMode()) {
+				camera.setDisplayOrientation(0);
+			} else {
+				camera.setDisplayOrientation(90);
+			}
 
 			Camera.Parameters p = camera.getParameters();
-			List<Camera.Size> sizes = p.getSupportedPictureSizes();
-			for (int i = 0; i < sizes.size(); i++) {
-				try {
-					p.setPreviewSize(sizes.get(i).width, sizes.get(i).height);
-					camera.setParameters(p);
-					Log.d("VALID Preview Size", "Supported size: " + sizes.get(i).width + " x " + sizes.get(i).height);
-					break;
-				} catch (RuntimeException e) {
-					Log.d("INVALID Preview Size", "Supported size: " + sizes.get(i).width + " x " + sizes.get(i).height);
+			List<Camera.Size> previewSizes = p.getSupportedPreviewSizes();
+			int previewHeight = 0;
+			int previewWidth = 0;
+			for (int i = 0; i < previewSizes.size(); i++) {
+				Log.d("Available Preview Size", "Supported size: " + previewSizes.get(i).width + " x " + previewSizes
+						.get(i).height);
+				if (previewSizes.get(i).height > previewHeight) {
+					previewHeight = previewSizes.get(i).height;
+					previewWidth = previewSizes.get(i).width;
 				}
 			}
+			p.setPreviewSize(previewWidth, previewHeight);
+			camera.setParameters(p);
 		} catch (RuntimeException runtimeException) {
 			Log.e(TAG, "Creating camera failed!", runtimeException);
 			return false;
 		}
 
 		camera.setPreviewCallbackWithBuffer(this);
-
 		if (texture != null) {
 			try {
 				setTexture();
