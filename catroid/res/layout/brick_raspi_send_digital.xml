@@ -65,7 +65,7 @@
             android:id="@+id/brick_raspi_set_digital_value_text_view"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
-            android:text="@string/brick_arduino_set_pin_value_to" />
+            android:text="@string/brick_raspi_set_pin_value_to" />
 
         <TextView
             android:id="@+id/brick_raspi_set_digital_value_prototype_text_view"

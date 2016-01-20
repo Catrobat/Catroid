@@ -34,6 +34,7 @@
     <!-- Symbols -->
     <string name="degree_symbol" translatable="false" >°</string >
     <string name="percent_symbol" translatable="false" >%</string >
+    <string name="hertz_symbol" translatable="false" >㎐</string>
     <!--  -->
 
     <!-- Numbers -->

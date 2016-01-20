@@ -93,9 +93,12 @@
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
-    <string name="preference_title_enable_raspi_bricks">Raspberry bricks</string>
-    <string name="preference_description_raspi_bricks">Allow to control Raspberry bricks</string>
-    <string name="preference_raspi_config_summary">Connection settings</string>
+    <string name="preference_title_enable_raspi_bricks">RaspberryPi bricks</string>
+    <string name="preference_description_raspi_bricks">Allow to control RaspberryPi bricks</string>
+    <string name="preference_raspi_enable_bricks">Enable RaspberryPi bricks</string>
+    <string name="preference_raspi_help">Help / Getting started</string>
+    <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
+    <string name="preference_raspi_help_link">https://confluence.catrob.at/display/CATARDUINO/Raspberry+Pi+Integration?lang=en</string>
     <string name="preference_raspi_host">RaspberryPi IP-/Host-Address</string>
     <string name="preference_raspi_port">RaspberryPi Port</string>
     <!--  -->
@@ -663,21 +666,20 @@
     <!--  -->
 
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Set Raspberry Digital Pin</string>
+    <string name="brick_raspi_select_digital_value">Set RaspberryPi pin</string>
     <string name="brick_raspi_set_pin_value_to">to</string>
-    <string name="brick_raspi_if_begin" >If Raspi Pin</string >
+    <string name="brick_raspi_if_begin" >If RaspberryPi pin</string >
     <string name="brick_raspi_if_begin_second_part" >is true then</string >
-    <string name="brick_raspi_when_begin" >When Raspi Pin</string >
-    <string name="brick_raspi_pressed_text">pressed</string>
-    <string name="brick_raspi_released_text">released</string>
-    <string name="brick_raspi_set_pwm">Set Raspberry PWM Pin</string>
+    <string name="brick_raspi_when_begin" >When RaspberryPi pin</string >
+    <string name="brick_raspi_when_equals" >is</string >
+    <string name="brick_raspi_pressed_text">True</string>
+    <string name="brick_raspi_released_text">False</string>
+    <string name="brick_raspi_set_pwm">Set RaspberryPi PWM pin</string>
     <!--  -->
 
     <!-- Raspi Settings -->
-    <string name="raspi_config_info_text">This Project contains RaspberryPi Bricks. Please make sure the connection Parameters are set correctly.</string>
-    <string name="raspi_config_host">Host</string>
-    <string name="raspi_config_port">Port</string>
-    <string name="raspi_config_info_title">Raspi Connection Configuration</string>
+    <string name="raspi_settings_title_name">RaspberryPi Settings</string>
+    <string name="raspi_settings_gpio_version">GPIO Version</string>
     <!--  -->
 
     <!-- Lego Mindstorms Strings -->

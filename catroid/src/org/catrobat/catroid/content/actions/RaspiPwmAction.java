@@ -79,8 +79,8 @@ public class RaspiPwmAction extends TemporalAction {
 
 		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 		try {
-			Log.d(getClass().getSimpleName(), "RPi pwm pin=" + pinInterpretation + ", " + percentageInterpretation +
-					"%, " + frequencyInterpretation + "Hz");
+			Log.d(getClass().getSimpleName(), "RPi pwm pin=" + pinInterpretation + ", " + percentageInterpretation
+					+ "%, " + frequencyInterpretation + "Hz");
 			connection.setPWM(pinInterpretation, frequencyInterpretation, percentageInterpretation);
 		} catch (Exception e) {
 			Log.e(getClass().getSimpleName(), "RPi: exception during setPwm: " + e);

@@ -130,12 +130,12 @@ public class SettingsActivity extends PreferenceActivity {
 	@SuppressWarnings("deprecation")
 	private void setUpRaspiPreferences() {
 		CheckBoxPreference raspiCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
-		final PreferenceCategory rpi_connection_settings = (PreferenceCategory) findPreference(RASPI_CONNECTION_SETTINGS_CATEGORY);
-		rpi_connection_settings.setEnabled(raspiCheckBoxPreference.isChecked());
+		final PreferenceCategory rpiConnectionSettings = (PreferenceCategory) findPreference(RASPI_CONNECTION_SETTINGS_CATEGORY);
+		rpiConnectionSettings.setEnabled(raspiCheckBoxPreference.isChecked());
 
 		raspiCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object isChecked) {
-				rpi_connection_settings.setEnabled((Boolean) isChecked);
+				rpiConnectionSettings.setEnabled((Boolean) isChecked);
 				return true;
 			}
 		});

@@ -47,7 +47,7 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 
 	private RaspiInterruptScript script;
 
-	private String pinString = Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE);
+	private String pinString = Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER);
 	private String eventString = BrickValues.RASPI_PRESSED_EVENT;
 
 	public WhenRaspiPinChangedBrick(RaspiInterruptScript script) {
@@ -163,7 +163,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-
 			}
 		});
 		valueSpinner.setSelection(valueAdapter.getPosition(getProtocolStringFromLanguageSpecificSpinnerSelection(eventString, context)), true);

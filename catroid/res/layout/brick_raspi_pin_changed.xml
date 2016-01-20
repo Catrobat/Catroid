@@ -67,7 +67,7 @@
                 android:id="@+id/brick_raspi_when_label_second_part"
                 style="@style/BrickText.Multiple"
                 android:paddingLeft="5dip"
-                android:text="is" >
+                android:text="@string/brick_raspi_when_equals" >
             </TextView >
 
             <Spinner
@@ -77,12 +77,6 @@
                 android:layout_weight="1" />
 
         </TableRow>
-
-
-
-
-
-
 
     </org.catrobat.catroid.ui.BrickLayout >
 

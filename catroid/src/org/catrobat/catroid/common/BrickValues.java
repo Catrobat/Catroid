@@ -118,7 +118,7 @@ public final class BrickValues {
 	public static final String RASPI_PRESSED_EVENT = "pressed";
 	public static final String RASPI_RELEASED_EVENT = "released";
 	public static final double RASPI_PWM_INITIAL_PERCENTAGE = 50.0;
-	public static final double RASPI_PWM_INITIAL_FREQUENCY = 50.0;
+	public static final double RASPI_PWM_INITIAL_FREQUENCY = 100.0;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
