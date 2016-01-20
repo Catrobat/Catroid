@@ -25,8 +25,7 @@
     style="@style/DefaultDialog"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:theme="@android:style/Theme.Light">
+    android:paddingBottom="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -52,34 +51,37 @@
             android:maxLines="1"
             android:selectAllOnFocus="true"/>
 
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checkedButton="@+id/project_empty_radio_button"
             android:layout_below="@+id/project_name_edittext"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/project_empty_checkbox"
+            <RadioButton
+                android:id="@+id/project_empty_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:checked="false"
-                android:text="@string/new_project_empty"
-                android:textColor="@color/spritelist_details_text_color"/>
+                android:text="@string/new_project_empty" />
 
-            <CheckBox
-                android:id="@+id/default_drone_project_checkbox"
+            <RadioButton
+                android:id="@+id/project_default_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:checked="false"
-                android:text="@string/new_standard_drone_project"
-                android:textColor="@color/spritelist_details_drone_text_color"
+                android:text="@string/new_project_default" />
+
+            <RadioButton
+                android:id="@+id/project_default_drone_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/new_project_default_drone"
                 android:visibility="gone"/>
-
-        </LinearLayout>
+        </RadioGroup>
     </RelativeLayout>
 
 </ScrollView>

@@ -46,7 +46,6 @@
     <!-- Project Activity Colors -->
     <color name="spritelist_item_thumbnail_border_color">#A8DFF4</color>
     <color name="spritelist_details_text_color">#CCCCCC</color>
-    <color name="spritelist_details_drone_text_color">#BE8B8B</color>
     <color name="spritelist_separation_line_color">#51656C</color>
 
     <!-- Program Menu Colors -->
