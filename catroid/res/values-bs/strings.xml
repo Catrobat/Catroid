@@ -184,7 +184,7 @@
   <string name="soundrecorder_recorded_filename">snimaj</string>
   <string name="soundrecorder_text_view">Pritisni na ikonu iznad za pokretanje i zaustavljanje snimanja.</string>
   <string name="text_to_speech_engine_not_installed">TTS nije instaliran!\nŽelite li ga instalirati?</string>
-  <string name="no_flash_led_available">Flash svjetlo nije dostupno</string>
+  <string name="no_flash_available">Flash svjetlo nije dostupno</string>
   <string name="no_vibrator_available">Vibracija nije dostupna</string>
   <string name="led_and_front_camera_warning">LED svjetlo i prednja kamera nisu podržani</string>
   <string name="brick_context_dialog_move_brick">Pomjeri blok</string>
@@ -300,8 +300,8 @@
   <string name="brick_clear_graphic_effect">Očisti grafičke efekte</string>
   <string name="brick_next_look">Sljedeći izgled</string>
   <string name="brick_next_background">Sljedeća pozadina</string>
-  <string name="brick_led_on">Turn flashlight ON</string>
-  <string name="brick_led_off">Turn flashlight OFF</string>
+  <string name="brick_flash_on">Turn flashlight ON</string>
+  <string name="brick_flash_off">Turn flashlight OFF</string>
   <string name="brick_vibration">Vibrate for</string>
   <string name="brick_play_sound">Pokreni zvuk</string>
   <string name="brick_stop_all_sounds">Zaustavi sve zvukove</string>

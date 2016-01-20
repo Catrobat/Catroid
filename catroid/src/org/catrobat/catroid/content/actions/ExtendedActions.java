@@ -584,9 +584,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LedAction lights(boolean ledValue) {
-		LedAction action = action(LedAction.class);
-		action.setLedValue(ledValue);
+	public static FlashAction lights(boolean ledValue) {
+		FlashAction action = action(FlashAction.class);
+		action.setFlashValue(ledValue);
 		return action;
 	}
 

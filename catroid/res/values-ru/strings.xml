@@ -190,7 +190,7 @@
   <string name="soundrecorder_recorded_filename">Новая запись</string>
   <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
   <string name="text_to_speech_engine_not_installed">Программа воспроизведения текста не установлена! \n Хотите установить ее?</string>
-  <string name="no_flash_led_available">No flash LED available</string>
+  <string name="no_flash_available">No flash LED available</string>
   <string name="no_vibrator_available">Vibrator not available</string>
   <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
   <string name="brick_context_dialog_move_brick">Переместить</string>
@@ -306,8 +306,8 @@
   <string name="brick_clear_graphic_effect">Очистить графические эффекты</string>
   <string name="brick_next_look">Следующий образ</string>
   <string name="brick_next_background">Следующий фон</string>
-  <string name="brick_led_on">Turn flashlight ON</string>
-  <string name="brick_led_off">Turn flashlight OFF</string>
+  <string name="brick_flash_on">Turn flashlight ON</string>
+  <string name="brick_flash_off">Turn flashlight OFF</string>
   <string name="brick_vibration">Vibrate for</string>
   <string name="brick_play_sound">Воспроизвести звук</string>
   <string name="brick_stop_all_sounds">Остановить все звуки</string>

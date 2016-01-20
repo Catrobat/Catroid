@@ -186,7 +186,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="soundrecorder_recorded_filename">Kaydet</string>
   <string name="soundrecorder_text_view">Kaydı başlatmak ve durdurmak için yukarıdaki diyalog kutusuna tıklayın.</string>
   <string name="text_to_speech_engine_not_installed">Metin okuma altyapısı yüklü değil! \n Yüklemek istiyor musunuz?</string>
-  <string name="no_flash_led_available">LED flaş mevcut değil</string>
+  <string name="no_flash_available">LED flaş mevcut değil</string>
   <string name="no_vibrator_available">Vibratör mevcut değil</string>
   <string name="led_and_front_camera_warning">LED ve ön kamera desteklenmez</string>
   <string name="brick_context_dialog_move_brick">Tuğlayı taşı</string>
@@ -300,8 +300,8 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_clear_graphic_effect">Grafik efektlerini temizle</string>
   <string name="brick_next_look">Sonraki görüntü</string>
   <string name="brick_next_background">Sonraki arka plan</string>
-  <string name="brick_led_on">LED kamerayı aç</string>
-  <string name="brick_led_off">LED kamerayı kapat</string>
+  <string name="brick_flash_on">LED kamerayı aç</string>
+  <string name="brick_flash_off">LED kamerayı kapat</string>
   <string name="brick_vibration">Titreşim için</string>
   <string name="brick_play_sound">Sesi başlat</string>
   <string name="brick_stop_all_sounds">Tüm sesleri durdur</string>

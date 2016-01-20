@@ -30,18 +30,18 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 
-public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class FlashBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-	private static final String TAG = LedBrickTest.class.getSimpleName();
+	private static final String TAG = FlashBrickTest.class.getSimpleName();
 
 	//private static final int LED_DELAY_MS = 8000;
 	//private static final int WLAN_DELAY_MS = 700;
 
-	//private LedOffBrick ledOffBrick;
-	//private LedOnBrick ledOnBrick;
+	//private FlashOffBrick ledOffBrick;
+	//private FlashOnBrick ledOnBrick;
 	//private Project project;
 
-	public LedBrickTest() {
+	public FlashBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -66,7 +66,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	}
 
 	@Device
-	public void testLedBricks() {
+	public void testFlashBricks() {
 
 		Assert.assertTrue("fix this test", true);
 		//TODO: fix this test
@@ -138,7 +138,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		solo.sleep(WLAN_DELAY_MS);
 		*/
 
-		Log.d(TAG, "testLedBrick() finished");
+		Log.d(TAG, "testFlashBrick() finished");
 	}
 
 	/*private void createProject() {
@@ -147,8 +147,8 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		Script startScript = new StartScript();
 		Script tappedScript = new WhenScript();
 
-		ledOnBrick = new LedOnBrick();
-		ledOffBrick = new LedOffBrick();
+		ledOnBrick = new FlashOnBrick();
+		ledOffBrick = new FlashOffBrick();
 
 		sprite.addScript(startScript);
 		startScript.addBrick(ledOffBrick);

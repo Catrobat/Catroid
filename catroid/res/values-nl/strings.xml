@@ -183,7 +183,7 @@
   <string name="soundrecorder_recorded_filename">opnemen</string>
   <string name="soundrecorder_text_view">Tik op het pictogram hierboven om het opnemen te starten en te stoppen.</string>
   <string name="text_to_speech_engine_not_installed">Text-to-Speech engine is niet geïnstalleerd!\nWil je het installeren?</string>
-  <string name="no_flash_led_available">Geen flitser beschikbaar</string>
+  <string name="no_flash_available">Geen flitser beschikbaar</string>
   <string name="no_vibrator_available">Trilfunctie niet beschikbaar</string>
   <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
   <string name="brick_context_dialog_move_brick">Verplaats steen</string>
@@ -297,8 +297,8 @@
   <string name="brick_clear_graphic_effect">Grafische effecten verwijderen</string>
   <string name="brick_next_look">Volgende uiterlijk</string>
   <string name="brick_next_background">Volgende achtergrond</string>
-  <string name="brick_led_on">Zet flitser AAN</string>
-  <string name="brick_led_off">Zet flitser UIT</string>
+  <string name="brick_flash_on">Zet flitser AAN</string>
+  <string name="brick_flash_off">Zet flitser UIT</string>
   <string name="brick_vibration">Tril</string>
   <string name="brick_play_sound">Start geluid</string>
   <string name="brick_stop_all_sounds">Stop alle geluiden</string>

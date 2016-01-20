@@ -180,7 +180,7 @@
   <string name="soundrecorder_recorded_filename">บันทึกเสียง</string>
   <string name="soundrecorder_text_view">แตะไอคอนด้านบนเพื่อเริ่ม หรือหยุดการบันทึก</string>
   <string name="text_to_speech_engine_not_installed">ไม่ได้ติดตั้งระบบแปลงข้อความเป็นเสียง! \nคุณต้องการติดตั้งหรือไม่?</string>
-  <string name="no_flash_led_available">ไม่มีไฟแฟลช LED</string>
+  <string name="no_flash_available">ไม่มีไฟแฟลช LED</string>
   <string name="no_vibrator_available">มอเตอร์สั่นไม่มี</string>
   <string name="led_and_front_camera_warning">ไม่สนับสนุนไฟ led และกล้องหน้า</string>
   <string name="brick_context_dialog_move_brick">ย้ายก้อนคำสั่ง</string>
@@ -292,8 +292,8 @@
   <string name="brick_clear_graphic_effect">ล้างลักษณะพิเศษ</string>
   <string name="brick_next_look">รูปลักษณ์ถัดไป</string>
   <string name="brick_next_background">พื้นหลังถัดไป</string>
-  <string name="brick_led_on">เปิดไฟฉาย</string>
-  <string name="brick_led_off">ปิดไฟฉาย</string>
+  <string name="brick_flash_on">เปิดไฟฉาย</string>
+  <string name="brick_flash_off">ปิดไฟฉาย</string>
   <string name="brick_vibration">สั่นเป็นเวลา</string>
   <string name="brick_play_sound">เริ่มเล่นเสียง</string>
   <string name="brick_stop_all_sounds">หยุดเสียงทั้งหมด</string>

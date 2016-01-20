@@ -179,7 +179,7 @@
   <string name="soundrecorder_recorded_filename">녹음</string>
   <string name="soundrecorder_text_view">녹음을 시작하고 중지하려면 위의 아이콘을 터치합니다.</string>
   <string name="text_to_speech_engine_not_installed">텍스트 음성 변환 엔진이 설치되어 있지 않습니다! \n 설치하겠습니까?</string>
-  <string name="no_flash_led_available">LED플래시를 사용할 수 없습니다</string>
+  <string name="no_flash_available">LED플래시를 사용할 수 없습니다</string>
   <string name="no_vibrator_available">진동장치를 사용할 수 없습니다</string>
   <string name="led_and_front_camera_warning">Led와 전면 카메라는 지원되지 않습니다</string>
   <string name="brick_context_dialog_move_brick">블록 이동</string>
@@ -291,8 +291,8 @@
   <string name="brick_clear_graphic_effect">그래픽 효과 지우기</string>
   <string name="brick_next_look">다음 형태</string>
   <string name="brick_next_background">다음 배경</string>
-  <string name="brick_led_on">플래시 켜기</string>
-  <string name="brick_led_off">플래시 끄기</string>
+  <string name="brick_flash_on">플래시 켜기</string>
+  <string name="brick_flash_off">플래시 끄기</string>
   <string name="brick_vibration">진동하기</string>
   <string name="brick_play_sound">소리 재생</string>
   <string name="brick_stop_all_sounds">모든 소리 멈추기</string>

@@ -27,29 +27,29 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 
-public class LedAction extends TemporalAction {
+public class FlashAction extends TemporalAction {
 
-	private boolean ledValue;
+	private boolean flashValue;
 
 	@Override
 	protected void update(float percent) {
 
-		if (!CameraManager.getInstance().isFacingBack() && !LedUtil.isOn() && ledValue) {
-			Log.w("FlashError", "destry Stage because frontCamera is chosen and ledValue = " + ledValue);
+		if (!CameraManager.getInstance().isFacingBack() && !FlashUtil.isOn() && flashValue) {
+			Log.w("FlashError", "destry Stage because frontCamera is chosen and flashValue = " + flashValue);
 			CameraManager.getInstance().destroyStage();
 			return;
 		}
 
-		if (LedUtil.isOn() && !ledValue) {
-			LedUtil.ledOff();
-		} else if (!LedUtil.isOn() && ledValue) {
-			LedUtil.ledOn();
+		if (FlashUtil.isOn() && !flashValue) {
+			FlashUtil.flashOff();
+		} else if (!FlashUtil.isOn() && flashValue) {
+			FlashUtil.flashOn();
 		}
 	}
 
-	public void setLedValue(boolean ledValue) {
-		this.ledValue = ledValue;
+	public void setFlashValue(boolean flashValue) {
+		this.flashValue = flashValue;
 	}
 }

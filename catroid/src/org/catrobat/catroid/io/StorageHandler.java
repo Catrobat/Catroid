@@ -80,6 +80,8 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.FlashOffBrick;
+import org.catrobat.catroid.content.bricks.FlashOnBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -91,8 +93,6 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
-import org.catrobat.catroid.content.bricks.LedOffBrick;
-import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -285,8 +285,8 @@ public final class StorageHandler {
 		xstream.alias("brick", IfLogicEndBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
-		xstream.alias("brick", LedOffBrick.class);
-		xstream.alias("brick", LedOnBrick.class);
+		xstream.alias("brick", FlashOffBrick.class);
+		xstream.alias("brick", FlashOnBrick.class);
 		xstream.alias("brick", ChooseCameraBrick.class);
 		xstream.alias("brick", VideoBrick.class);
 		xstream.alias("brick", LegoNxtMotorMoveBrick.class);
@@ -933,8 +933,8 @@ public final class StorageHandler {
 		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
 			permissionsSet.add(Constants.BLUETOOTH_PHIRO_PRO);
 		}
-		if ((resources & Brick.CAMERA_LED) > 0) {
-			permissionsSet.add(Constants.CAMERA_LED);
+		if ((resources & Brick.CAMERA_FLASH) > 0) {
+			permissionsSet.add(Constants.CAMERA_FLASH);
 		}
 		if ((resources & Brick.VIBRATOR) > 0) {
 			permissionsSet.add(Constants.VIBRATOR);

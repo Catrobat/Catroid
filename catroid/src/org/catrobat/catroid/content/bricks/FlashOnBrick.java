@@ -37,12 +37,12 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class LedOffBrick extends BrickBaseType {
+public class FlashOnBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public LedOffBrick() {
+	public FlashOnBrick() {
 	}
 
 	@Override
@@ -55,10 +55,10 @@ public class LedOffBrick extends BrickBaseType {
 			alphaValue = 0xFF;
 		}
 
-		view = View.inflate(context, R.layout.brick_led_off, null);
+		view = View.inflate(context, R.layout.brick_flash_on, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_led_off_checkbox);
+		setCheckboxView(R.id.brick_flash_on_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -76,7 +76,7 @@ public class LedOffBrick extends BrickBaseType {
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_led_off_layout);
+			View layout = view.findViewById(R.id.brick_flash_on_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -88,18 +88,18 @@ public class LedOffBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.lights(false));
+		sequence.addAction(ExtendedActions.lights(true));
 		return null;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_led_off, null);
+		prototypeView = View.inflate(context, R.layout.brick_flash_on, null);
 		return prototypeView;
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return CAMERA_LED;
+		return CAMERA_FLASH;
 	}
 }

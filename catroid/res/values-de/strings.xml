@@ -206,7 +206,7 @@
   <string name="soundrecorder_recorded_filename">Aufnahme</string>
   <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
   <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
-  <string name="no_flash_led_available">Kein Blitzlicht gefunden</string>
+  <string name="no_flash_available">Kein Blitzlicht gefunden</string>
   <string name="no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
   <string name="led_and_front_camera_warning">Led UND Front Kamera werden nicht unterstützt</string>
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
@@ -320,8 +320,8 @@
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
   <string name="brick_next_look">Nächstes Aussehen</string>
   <string name="brick_next_background">Nächster Hintergrund</string>
-  <string name="brick_led_on">Schalte Blitzlicht an</string>
-  <string name="brick_led_off">Schalte Blitzlicht aus</string>
+  <string name="brick_flash_on">Schalte Blitzlicht an</string>
+  <string name="brick_flash_off">Schalte Blitzlicht aus</string>
   <string name="brick_vibration">Vibrieren für</string>
   <string name="brick_play_sound">Klang starten</string>
   <string name="brick_stop_all_sounds">Alle Klänge stoppen</string>

@@ -197,7 +197,7 @@
   <string name="soundrecorder_recorded_filename">سجل</string>
   <string name="soundrecorder_text_view">اضغط على الأيقونة أعلاه لبدء وإيقاف التسجيل.</string>
   <string name="text_to_speech_engine_not_installed">محرك تحويل النص إلى كلام غير مثبت! \n هل تريد تثبيته؟</string>
-  <string name="no_flash_led_available"> فلاش LED غير متاح</string>
+  <string name="no_flash_available"> فلاش LED غير متاح</string>
   <string name="no_vibrator_available">هزاز غير متوفر</string>
   <string name="led_and_front_camera_warning">لا يقوم بدعم فلاش led و الكاميرا ألامامية</string>
   <string name="brick_context_dialog_move_brick">أنقل الطوب</string>
@@ -319,8 +319,8 @@
   <string name="brick_clear_graphic_effect">مسح التأثيرات الرسومية</string>
   <string name="brick_next_look">المشهد التالي</string>
   <string name="brick_next_background">الخلفية التالية</string>
-  <string name="brick_led_on">تشغيل الفلاش</string>
-  <string name="brick_led_off">إطفاء الفلاش</string>
+  <string name="brick_flash_on">تشغيل الفلاش</string>
+  <string name="brick_flash_off">إطفاء الفلاش</string>
   <string name="brick_vibration">يهتز لـفترة</string>
   <string name="brick_play_sound">بدء تشغيل الصوت</string>
   <string name="brick_stop_all_sounds">إيقاف كافة الأصوات</string>

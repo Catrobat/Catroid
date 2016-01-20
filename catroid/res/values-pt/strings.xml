@@ -188,7 +188,7 @@
   <string name="soundrecorder_recorded_filename">gravação</string>
   <string name="soundrecorder_text_view">Toque no ícone acima para iniciar e parar a gravação.</string>
   <string name="text_to_speech_engine_not_installed">Ferramenta Text-to-Speech não instalada!\nVocê quer instalá-la?</string>
-  <string name="no_flash_led_available">Nenhum flash LED disponível</string>
+  <string name="no_flash_available">Nenhum flash LED disponível</string>
   <string name="no_vibrator_available">Vibração não está disponível</string>
   <string name="led_and_front_camera_warning">Led E Câmera Frontal não são suportados</string>
   <string name="brick_context_dialog_move_brick">Mover blocos</string>
@@ -302,8 +302,8 @@
   <string name="brick_clear_graphic_effect">Limpar efeitos gráficos</string>
   <string name="brick_next_look">Próxima aparência</string>
   <string name="brick_next_background">Próximo pano de fundo</string>
-  <string name="brick_led_on">Ligar lanterna</string>
-  <string name="brick_led_off">Desligar lanterna</string>
+  <string name="brick_flash_on">Ligar lanterna</string>
+  <string name="brick_flash_off">Desligar lanterna</string>
   <string name="brick_vibration">Vibrar por</string>
   <string name="brick_play_sound">Iniciar som</string>
   <string name="brick_stop_all_sounds">Parar todos os sons</string>

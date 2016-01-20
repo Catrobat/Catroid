@@ -186,7 +186,7 @@
   <string name="soundrecorder_recorded_filename">registra</string>
   <string name="soundrecorder_text_view">Premere l\'icona qui sopra per avviare e interrompere la registrazione.</string>
   <string name="text_to_speech_engine_not_installed">Motore di sintesi vocale non installato! \nVuoi installarlo?</string>
-  <string name="no_flash_led_available">Nessun flash LED disponibile</string>
+  <string name="no_flash_available">Nessun flash LED disponibile</string>
   <string name="no_vibrator_available">Vibrazione non disponibile</string>
   <string name="led_and_front_camera_warning">Led e fotocamera anteriore non supportati</string>
   <string name="brick_context_dialog_move_brick">Sposta mattoncino</string>
@@ -300,8 +300,8 @@
   <string name="brick_clear_graphic_effect">Elimina gli effetti grafici</string>
   <string name="brick_next_look">Prossimo aspetto</string>
   <string name="brick_next_background">Prossimo sfondo</string>
-  <string name="brick_led_on">Accendi luce flash</string>
-  <string name="brick_led_off">Spegni luce flash</string>
+  <string name="brick_flash_on">Accendi luce flash</string>
+  <string name="brick_flash_off">Spegni luce flash</string>
   <string name="brick_vibration">Vibra per</string>
   <string name="brick_play_sound">Inizia suono</string>
   <string name="brick_stop_all_sounds">Interrompi tutti i suoni</string>

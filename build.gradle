@@ -54,7 +54,7 @@ android {
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LED_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
@@ -68,7 +68,7 @@ android {
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LED_BRICK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"

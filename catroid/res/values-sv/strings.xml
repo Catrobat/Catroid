@@ -183,7 +183,7 @@
   <string name="soundrecorder_recorded_filename">spela in</string>
   <string name="soundrecorder_text_view">Tryck på ikonen ovan för att starta och stoppa inspelningen.</string>
   <string name="text_to_speech_engine_not_installed">Text till tal-motorn inte installerad! \nvill du installera det?</string>
-  <string name="no_flash_led_available">Ingen flash LED tillgänglig</string>
+  <string name="no_flash_available">Ingen flash LED tillgänglig</string>
   <string name="no_vibrator_available">Vibrator inte tillgänglig</string>
   <string name="led_and_front_camera_warning">LED och främre kameran stöds inte</string>
   <string name="brick_context_dialog_move_brick">Flytta kloss</string>
@@ -297,8 +297,8 @@
   <string name="brick_clear_graphic_effect">ta bort grafiska effekter</string>
   <string name="brick_next_look">Nästa utseende</string>
   <string name="brick_next_background">Nästa bakgrund</string>
-  <string name="brick_led_on">Aktivera ficklampa</string>
-  <string name="brick_led_off">Inaktivera ficklampa</string>
+  <string name="brick_flash_on">Aktivera ficklampa</string>
+  <string name="brick_flash_off">Inaktivera ficklampa</string>
   <string name="brick_vibration">Vibrera för</string>
   <string name="brick_play_sound">Starta ljud</string>
   <string name="brick_stop_all_sounds">Stoppa alla ljud</string>

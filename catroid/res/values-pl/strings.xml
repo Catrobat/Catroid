@@ -186,7 +186,7 @@
   <string name="soundrecorder_recorded_filename">nagranie</string>
   <string name="soundrecorder_text_view">Puknij obrazek mikrofonu, aby rozpocząć i zakończyć nagrywanie.</string>
   <string name="text_to_speech_engine_not_installed">Zamiana tekstu na głos nie zainstalowana!\nCzy chcesz ją zainstalować?</string>
-  <string name="no_flash_led_available">Żadna dioda LED nie jest dostępna</string>
+  <string name="no_flash_available">Żadna dioda LED nie jest dostępna</string>
   <string name="no_vibrator_available">Wibracje nie są dostępne</string>
   <string name="led_and_front_camera_warning">LED i kamera z przodu i nie są obsługiwane</string>
   <string name="brick_context_dialog_move_brick">Przenieś blok</string>
@@ -302,8 +302,8 @@
   <string name="brick_clear_graphic_effect">Wyczyść efekty graficzne</string>
   <string name="brick_next_look">Następny wygląd</string>
   <string name="brick_next_background">Następne tło</string>
-  <string name="brick_led_on">Włącz lampę błyskową</string>
-  <string name="brick_led_off">Wyłącz lampę błyskową</string>
+  <string name="brick_flash_on">Włącz lampę błyskową</string>
+  <string name="brick_flash_off">Wyłącz lampę błyskową</string>
   <string name="brick_vibration">Wibruj przez</string>
   <string name="brick_play_sound">Zagraj dźwięk</string>
   <string name="brick_stop_all_sounds">Zatrzymaj wszystkie dźwięki</string>

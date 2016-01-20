@@ -196,7 +196,7 @@
   <string name="soundrecorder_recorded_filename">zapis</string>
   <string name="soundrecorder_text_view">Pritisni na zgornjo ikono, če želiš začeti ali prekiniti snemanje.</string>
   <string name="text_to_speech_engine_not_installed">Text-to-Speech engine ni instaliran.\nAli jo želiš instalirat?</string>
-  <string name="no_flash_led_available">LED bliskavica ni na voljo</string>
+  <string name="no_flash_available">LED bliskavica ni na voljo</string>
   <string name="no_vibrator_available">Vibrator ni na voljo</string>
   <string name="led_and_front_camera_warning">LED in sprednja kamera nista podpirana</string>
   <string name="brick_context_dialog_move_brick">Premakni blok</string>
@@ -314,8 +314,8 @@
   <string name="brick_clear_graphic_effect">Izbriši grafične efekte</string>
   <string name="brick_next_look">Naslednji izgled</string>
   <string name="brick_next_background">Naslednjo ozadje</string>
-  <string name="brick_led_on">Vklopite svetilko</string>
-  <string name="brick_led_off">Izklopite svetilko</string>
+  <string name="brick_flash_on">Vklopite svetilko</string>
+  <string name="brick_flash_off">Izklopite svetilko</string>
   <string name="brick_vibration">Vibrirati za</string>
   <string name="brick_play_sound">Začni zvok</string>
   <string name="brick_stop_all_sounds">Ustavi vse zvoke</string>

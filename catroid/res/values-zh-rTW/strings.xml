@@ -181,7 +181,7 @@
   <string name="soundrecorder_recorded_filename">錄音</string>
   <string name="soundrecorder_text_view">按上方圖示開始或停止錄音</string>
   <string name="text_to_speech_engine_not_installed">文字轉語音系統未安裝! \n您想要安裝嗎?</string>
-  <string name="no_flash_led_available">沒有閃光燈可用</string>
+  <string name="no_flash_available">沒有閃光燈可用</string>
   <string name="no_vibrator_available">手機振動器無法使用</string>
   <string name="led_and_front_camera_warning">沒有閃光燈與前鏡頭</string>
   <string name="brick_context_dialog_move_brick">移動程式塊</string>
@@ -293,8 +293,8 @@
   <string name="brick_clear_graphic_effect">清除外觀特效</string>
   <string name="brick_next_look">下一個外觀</string>
   <string name="brick_next_background">下一個背景</string>
-  <string name="brick_led_on">打開閃光燈</string>
-  <string name="brick_led_off">關閉閃光燈</string>
+  <string name="brick_flash_on">打開閃光燈</string>
+  <string name="brick_flash_off">關閉閃光燈</string>
   <string name="brick_vibration">震動</string>
   <string name="brick_play_sound">播放音效</string>
   <string name="brick_stop_all_sounds">停止所有音效</string>

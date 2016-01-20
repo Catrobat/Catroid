@@ -30,14 +30,14 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_led_off_checkbox"
+        android:id="@+id/brick_flash_on_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_led_off_layout"
+        android:id="@+id/brick_flash_on_layout"
         style="@style/BrickContainer.Look.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,9 +46,9 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_led_off_label"
+            android:id="@+id/brick_led_on_label"
             style="@style/BrickText.Multiple"
-            android:text="@string/brick_led_off" >
+            android:text="@string/brick_flash_on" >
         </TextView>
 
     </org.catrobat.catroid.ui.BrickLayout>
