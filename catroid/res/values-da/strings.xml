@@ -184,7 +184,7 @@
   <string name="soundrecorder_recorded_filename">optag</string>
   <string name="soundrecorder_text_view">Tryk på ikonet ovenfor for at starte og stoppe optagelsen.</string>
   <string name="text_to_speech_engine_not_installed">Tekst-til-Tale motor ikke installeret!\nØnsker du at installere den?</string>
-  <string name="no_flash_led_available">Ingen LED-blitz tilgængelig</string>
+  <string name="no_flash_available">Ingen LED-blitz tilgængelig</string>
   <string name="no_vibrator_available">Vibrator ikke tilgængelig</string>
   <string name="led_and_front_camera_warning">LED og frontkameraet understøttes ikke</string>
   <string name="brick_context_dialog_move_brick">Flyt Klods</string>
@@ -298,8 +298,8 @@
   <string name="brick_clear_graphic_effect">Klare grafiske effekter</string>
   <string name="brick_next_look">Næste udseende</string>
   <string name="brick_next_background">Næste baggrund</string>
-  <string name="brick_led_on">Drej lommelygte TIL</string>
-  <string name="brick_led_off">Slå lommelygte FRA</string>
+  <string name="brick_flash_on">Drej lommelygte TIL</string>
+  <string name="brick_flash_off">Slå lommelygte FRA</string>
   <string name="brick_vibration">Vibrér for</string>
   <string name="brick_play_sound">Start lyd</string>
   <string name="brick_stop_all_sounds">Stop alle lyde</string>

@@ -186,7 +186,7 @@
   <string name="soundrecorder_recorded_filename">înregistrare</string>
   <string name="soundrecorder_text_view">Atingeţi pictograma de mai sus pentru a porni şi opri înregistrarea.</string>
   <string name="text_to_speech_engine_not_installed">Motorul Text-spre-Voce nu e instalat!\nDoriți să-l instalaţi?</string>
-  <string name="no_flash_led_available">LED-ul flash nu este disponibil</string>
+  <string name="no_flash_available">LED-ul flash nu este disponibil</string>
   <string name="no_vibrator_available">Vibratorul nu este disponibil</string>
   <string name="led_and_front_camera_warning">LED-ul și camera frontală nu sunt susținute</string>
   <string name="brick_context_dialog_move_brick">Mută cărămidă</string>
@@ -302,8 +302,8 @@
   <string name="brick_clear_graphic_effect">Șterge efectele grafice</string>
   <string name="brick_next_look">Următoarea privire</string>
   <string name="brick_next_background">Următorul fundal</string>
-  <string name="brick_led_on">Pornește lanterna</string>
-  <string name="brick_led_off">Oprește lanterna</string>
+  <string name="brick_flash_on">Pornește lanterna</string>
+  <string name="brick_flash_off">Oprește lanterna</string>
   <string name="brick_vibration">Vibreze pentru</string>
   <string name="brick_play_sound">Redarea sunetul</string>
   <string name="brick_stop_all_sounds">Oprește toate sunetele</string>

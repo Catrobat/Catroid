@@ -46,7 +46,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
-import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 public class StageActivity extends AndroidApplication {
@@ -113,7 +113,7 @@ public class StageActivity extends AndroidApplication {
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
-		LedUtil.pauseLed();
+		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
 
 		CameraManager.getInstance().releaseCamera();
@@ -128,7 +128,7 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus.requestAudioFocus();
 
 		FaceDetectionHandler.resumeFaceDetection();
-		LedUtil.resumeLed();
+		FlashUtil.resumeFlash();
 		CameraManager.getInstance().resumePreviewAsync();
 
 		VibratorUtil.resumeVibrator();
@@ -143,7 +143,7 @@ public class StageActivity extends AndroidApplication {
 	public void pause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
-		LedUtil.pauseLed();
+		FlashUtil.pauseFlash();
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
 
@@ -154,7 +154,7 @@ public class StageActivity extends AndroidApplication {
 
 	public void resume() {
 		stageListener.menuResume();
-		LedUtil.resumeLed();
+		FlashUtil.resumeFlash();
 		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
 		FaceDetectionHandler.resumeFaceDetection();
@@ -226,7 +226,7 @@ public class StageActivity extends AndroidApplication {
 	protected void onDestroy() {
 		Log.d(TAG, "onDestroy()");
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
-		LedUtil.destroy();
+		FlashUtil.destroy();
 		VibratorUtil.destroy();
 		FaceDetectionHandler.stopFaceDetection();
 		CameraManager.getInstance().stopPreviewAsync();

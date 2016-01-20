@@ -190,7 +190,7 @@
   <string name="soundrecorder_recorded_filename">रिकॉर्ड</string>
   <string name="soundrecorder_text_view">रिकॉर्डिंग प्रारम्भ करने और रोकने के लिए उपरोक्त चिह्न को दबाए।</string>
   <string name="text_to_speech_engine_not_installed">लिखे हुए को बोल में बदलने वाला इंजन स्थापित नहीं हैं!\nआप इसे स्थापित करना चाहते हैं?</string>
-  <string name="no_flash_led_available">कोई एलईडी फ्लैश उपलब्ध नहीं हैं</string>
+  <string name="no_flash_available">कोई एलईडी फ्लैश उपलब्ध नहीं हैं</string>
   <string name="no_vibrator_available">थरथारानेवाला कृत्य उपलब्ध नहीं है</string>
   <string name="led_and_front_camera_warning">एलईडी और सामने वाला कैमरा समर्थित नहीं हैं</string>
   <string name="brick_context_dialog_move_brick">ईंट को स्थानांतरित करें</string>
@@ -304,8 +304,8 @@
   <string name="brick_clear_graphic_effect">ग्राफ़िक प्रभाव हटाए</string>
   <string name="brick_next_look">अगला नज़ारा</string>
   <string name="brick_next_background">अगली पृष्टभूमि</string>
-  <string name="brick_led_on">टॉर्च को जलाए</string>
-  <string name="brick_led_off">टॉर्च को बुझाये</string>
+  <string name="brick_flash_on">टॉर्च को जलाए</string>
+  <string name="brick_flash_off">टॉर्च को बुझाये</string>
   <string name="brick_vibration">थरथराए</string>
   <string name="brick_play_sound">ध्वनि चलाये</string>
   <string name="brick_stop_all_sounds">सारी ध्वनियाँ बंद करें</string>

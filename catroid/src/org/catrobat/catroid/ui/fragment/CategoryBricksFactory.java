@@ -60,6 +60,8 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.FlashOffBrick;
+import org.catrobat.catroid.content.bricks.FlashOnBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -68,8 +70,6 @@ import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
-import org.catrobat.catroid.content.bricks.LedOffBrick;
-import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -315,9 +315,9 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
-		if (BuildConfig.FEATURE_LED_BRICK_ENABLED) {
-			looksBrickList.add(new LedOffBrick());
-			looksBrickList.add(new LedOnBrick());
+		if (BuildConfig.FEATURE_FLASH_BRICK_ENABLED) {
+			looksBrickList.add(new FlashOffBrick());
+			looksBrickList.add(new FlashOnBrick());
 		}
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {

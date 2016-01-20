@@ -35,7 +35,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.stage.CameraSurface;
 import org.catrobat.catroid.stage.DeviceCameraControl;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -276,10 +276,10 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		camera.setPreviewTexture(texture);
 	}
 
-	public void setLedParams(Parameters led) {
-		if (camera != null && led != null) {
+	public void setFlashParams(Parameters flash) {
+		if (camera != null && flash != null) {
 			Parameters current = camera.getParameters();
-			current.setFlashMode(led.getFlashMode());
+			current.setFlashMode(flash.getFlashMode());
 			camera.setParameters(current);
 		}
 	}
@@ -320,7 +320,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 					camera.stopPreview();
 					setTexture();
 				}
-				if (FaceDetectionHandler.isFaceDetectionRunning() || LedUtil.isAvailable()) {
+				if (FaceDetectionHandler.isFaceDetectionRunning() || FlashUtil.isAvailable()) {
 					camera.startPreview();
 				}
 			} catch (IOException e) {
@@ -446,19 +446,19 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 			currentCameraID = cameraId;
 
-			if (LedUtil.isOn() && !isFacingBack()) {
+			if (FlashUtil.isOn() && !isFacingBack()) {
 				Log.w("FlashError", "destroy Stage because flash isOn and front Camera was chosen");
 				CameraManager.getInstance().destroyStage();
 				return;
 			}
 
-			LedUtil.pauseLed();
+			FlashUtil.pauseFlash();
 			FaceDetectionHandler.pauseFaceDetection();
 			releaseCamera();
 
 			startCamera();
 			FaceDetectionHandler.resumeFaceDetection();
-			LedUtil.resumeLed();
+			FlashUtil.resumeFlash();
 
 			if (currentState == CameraState.prepare
 					|| currentState == CameraState.previewRunning) {

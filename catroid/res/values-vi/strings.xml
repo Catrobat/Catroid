@@ -180,7 +180,7 @@
   <string name="soundrecorder_recorded_filename">ghi âm</string>
   <string name="soundrecorder_text_view">Bấm vào biểu tượng trên để bắt đầu và ngừng ghi âm.</string>
   <string name="text_to_speech_engine_not_installed">Động cơ văn bản-tới-lời thoại không được cài đặt! \nDo bạn muốn cài đặt nó?</string>
-  <string name="no_flash_led_available">Đèn flash LED không có sẵn</string>
+  <string name="no_flash_available">Đèn flash LED không có sẵn</string>
   <string name="no_vibrator_available">Động cơ rung không có sẵn</string>
   <string name="led_and_front_camera_warning">Led và máy ảnh trước không được hỗ trợ</string>
   <string name="brick_context_dialog_move_brick">Di chuyển gạch</string>
@@ -292,8 +292,8 @@
   <string name="brick_clear_graphic_effect">Hiệu ứng đồ họa rõ ràng</string>
   <string name="brick_next_look">Giao diện tiếp theo</string>
   <string name="brick_next_background">Nền tiếp theo</string>
-  <string name="brick_led_on">Bật đèn pin</string>
-  <string name="brick_led_off">Tắt đèn pin</string>
+  <string name="brick_flash_on">Bật đèn pin</string>
+  <string name="brick_flash_off">Tắt đèn pin</string>
   <string name="brick_vibration">Rung</string>
   <string name="brick_play_sound">Bắt đầu âm thanh</string>
   <string name="brick_stop_all_sounds">Ngừng tất cả âm thanh</string>

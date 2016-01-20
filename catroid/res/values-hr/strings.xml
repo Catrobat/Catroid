@@ -199,7 +199,7 @@ su otpakovani!</item>
   <string name="soundrecorder_recorded_filename">snimak</string>
   <string name="soundrecorder_text_view">Pritisni ikonu iznad za pokretanje i zaustavljanje snimanja.</string>
   <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-  <string name="no_flash_led_available">LED bljesak nije dostupan</string>
+  <string name="no_flash_available">LED bljesak nije dostupan</string>
   <string name="no_vibrator_available">Vibrator nije dostupan</string>
   <string name="led_and_front_camera_warning">LED i prednja kamera nisu dostupni</string>
   <string name="brick_context_dialog_move_brick">Pomjeri blok</string>
@@ -315,8 +315,8 @@ su otpakovani!</item>
   <string name="brick_clear_graphic_effect">Ukloni grafičke efekte</string>
   <string name="brick_next_look">Sljedeći izgled</string>
   <string name="brick_next_background">Sljedeća pozadina</string>
-  <string name="brick_led_on">Uključite bljeskalicu</string>
-  <string name="brick_led_off">Isključite bljeskalicu</string>
+  <string name="brick_flash_on">Uključite bljeskalicu</string>
+  <string name="brick_flash_off">Isključite bljeskalicu</string>
   <string name="brick_vibration">Vibrate for</string>
   <string name="brick_play_sound">Pokreni zvuk</string>
   <string name="brick_stop_all_sounds">Zaustavi sve zvukove</string>

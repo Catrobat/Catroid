@@ -187,7 +187,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="soundrecorder_recorded_filename">registro</string>
   <string name="soundrecorder_text_view">Pulse el icono de arriba para iniciar y detener la grabación.</string>
   <string name="text_to_speech_engine_not_installed">¿Motor texto-a-voz no instalado! \nDo desea instalarlo?</string>
-  <string name="no_flash_led_available">No flash LED disponible</string>
+  <string name="no_flash_available">No flash LED disponible</string>
   <string name="no_vibrator_available">Vibrador no disponible</string>
   <string name="led_and_front_camera_warning">El LED y cámara frontal no está disponible</string>
   <string name="brick_context_dialog_move_brick">Mover el Bloque</string>
@@ -301,8 +301,8 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_clear_graphic_effect">Limpie los efectos gráficos</string>
   <string name="brick_next_look">Proxima Apariencia</string>
   <string name="brick_next_background">Próxima imagen de fondo</string>
-  <string name="brick_led_on">Encienda la linterna</string>
-  <string name="brick_led_off">Apague la linterna</string>
+  <string name="brick_flash_on">Encienda la linterna</string>
+  <string name="brick_flash_off">Apague la linterna</string>
   <string name="brick_vibration">Vibrar por</string>
   <string name="brick_play_sound">Iniciar sonido</string>
   <string name="brick_stop_all_sounds">Para todos los sonidos</string>

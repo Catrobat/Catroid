@@ -188,7 +188,7 @@ il faut
   <string name="soundrecorder_recorded_filename">enregistrer</string>
   <string name="soundrecorder_text_view">Appuyer sur l\'icône ci-dessus pour démarrer ou arrêter l\'enregistrement.</string>
   <string name="text_to_speech_engine_not_installed">Le module Text-to-Speech n\'est pas installé !\nInstaller?</string>
-  <string name="no_flash_led_available">Flash indisponible</string>
+  <string name="no_flash_available">Flash indisponible</string>
   <string name="no_vibrator_available">Le vibreur n\'est pas disponible.</string>
   <string name="led_and_front_camera_warning">DEL et l\'appareil photo ne sont pas supportés</string>
   <string name="brick_context_dialog_move_brick">Déplacer élément</string>
@@ -302,8 +302,8 @@ il faut
   <string name="brick_clear_graphic_effect">Supprimer les effets graphiques</string>
   <string name="brick_next_look">Prochain style</string>
   <string name="brick_next_background">Prochain arrière-plan</string>
-  <string name="brick_led_on">Allumer la lampe Flash</string>
-  <string name="brick_led_off">Eteindre la lampe Flash</string>
+  <string name="brick_flash_on">Allumer la lampe Flash</string>
+  <string name="brick_flash_off">Eteindre la lampe Flash</string>
   <string name="brick_vibration">Vibrer pour</string>
   <string name="brick_play_sound">Jouer le son</string>
   <string name="brick_stop_all_sounds">Arrêter tous les sons</string>

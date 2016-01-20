@@ -63,7 +63,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
-import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -242,7 +242,7 @@ public class StageListener implements ApplicationListener {
 
 		project.getDataContainer().resetAllDataObjects();
 
-		LedUtil.reset();
+		FlashUtil.reset();
 		VibratorUtil.reset();
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();

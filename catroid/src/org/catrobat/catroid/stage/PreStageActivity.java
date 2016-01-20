@@ -48,7 +48,7 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -147,8 +147,8 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_LED) > 0) {
-			ledInitialize();
+		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
+			flashInitialize();
 		}
 
 		if ((requiredResources & Brick.VIBRATOR) > 0) {
@@ -253,8 +253,8 @@ public class PreStageActivity extends BaseActivity {
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
 
 		deleteSpeechFiles();
-		if (LedUtil.isAvailable()) {
-			LedUtil.destroy();
+		if (FlashUtil.isAvailable()) {
+			FlashUtil.destroy();
 		}
 		if (VibratorUtil.isActive()) {
 			VibratorUtil.destroy();
@@ -370,14 +370,14 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
-	private void ledInitialize() {
+	private void flashInitialize() {
 		if (CameraManager.getInstance().hasFlash()) {
 			CameraManager.getInstance().setToBackCamera();
-			LedUtil.initializeLed();
+			FlashUtil.initializeFlash();
 			resourceInitialized();
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(getString(R.string.no_flash_led_available)).setCancelable(false)
+			builder.setMessage(getString(R.string.no_flash_available)).setCancelable(false)
 					.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {

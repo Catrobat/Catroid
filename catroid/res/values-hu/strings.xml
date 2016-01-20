@@ -185,7 +185,7 @@
   <string name="soundrecorder_recorded_filename">felvétel</string>
   <string name="soundrecorder_text_view">Kattints az ikonra a felvétel elindításához és leállításához.</string>
   <string name="text_to_speech_engine_not_installed">A Text-to-Speech modul nincs telepítve.\nSzeretnéd telepíteni?</string>
-  <string name="no_flash_led_available">Nincs elérhető LED-vaku</string>
+  <string name="no_flash_available">Nincs elérhető LED-vaku</string>
   <string name="no_vibrator_available">Rezgőfunkció nem elérhető</string>
   <string name="led_and_front_camera_warning">LED és előlapi kamera nem támogatottak</string>
   <string name="brick_context_dialog_move_brick">Elem mozgatása</string>
@@ -299,8 +299,8 @@
   <string name="brick_clear_graphic_effect">Töröld a grafikai hatásokat</string>
   <string name="brick_next_look">Következő kinézet</string>
   <string name="brick_next_background">Következő háttér</string>
-  <string name="brick_led_on">Kapcsold be a világítófényt</string>
-  <string name="brick_led_off">Kapcsold ki a világítófényt</string>
+  <string name="brick_flash_on">Kapcsold be a világítófényt</string>
+  <string name="brick_flash_off">Kapcsold ki a világítófényt</string>
   <string name="brick_vibration">Rezgés ennyi ideig:</string>
   <string name="brick_play_sound">Játszd le</string>
   <string name="brick_stop_all_sounds">Minden hangot állíts le</string>

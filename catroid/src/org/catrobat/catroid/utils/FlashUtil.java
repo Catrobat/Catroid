@@ -27,20 +27,20 @@ import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 
-public final class LedUtil {
+public final class FlashUtil {
 
-	private static final String TAG = LedUtil.class.getSimpleName();
+	private static final String TAG = FlashUtil.class.getSimpleName();
 	private static Camera.Parameters paramsOn = null;
 	private static Camera.Parameters paramsOff = null;
 
 	private static boolean paused = false;
 	private static boolean available = false;
 
-	private static boolean currentLedValue = false;
+	private static boolean currentFlashValue = false;
 
 	private static boolean startAgain = false;
 
-	private LedUtil() {
+	private FlashUtil() {
 	}
 
 	public static boolean isAvailable() {
@@ -48,26 +48,26 @@ public final class LedUtil {
 	}
 
 	public static boolean isOn() {
-		return currentLedValue;
+		return currentFlashValue;
 	}
 
-	public static void pauseLed() {
-		Log.d(TAG, "pauseLed");
+	public static void pauseFlash() {
+		Log.d(TAG, "pauseFlash");
 		if (!paused && isAvailable()) {
 			paused = true;
 			if (isOn()) {
 				startAgain = true;
-				ledOff();
+				flashOff();
 			}
 		}
 	}
 
-	public static void resumeLed() {
-		Log.d(TAG, "resumeLed()");
+	public static void resumeFlash() {
+		Log.d(TAG, "resumeFlash()");
 		if (paused) {
-			initializeLed();
+			initializeFlash();
 			if (startAgain) {
-				ledOn();
+				flashOn();
 				startAgain = false;
 			}
 		}
@@ -76,7 +76,7 @@ public final class LedUtil {
 
 	public static void destroy() {
 		Log.d(TAG, "reset all variables - called by StageActivity::onDestroy");
-		currentLedValue = false;
+		currentFlashValue = false;
 		paused = false;
 		available = false;
 
@@ -87,11 +87,11 @@ public final class LedUtil {
 	}
 
 	public static void reset() {
-		currentLedValue = false;
+		currentFlashValue = false;
 	}
 
-	public static void initializeLed() {
-		Log.d(TAG, "initializeLed()");
+	public static void initializeFlash() {
+		Log.d(TAG, "initializeFlash()");
 
 		available = true;
 
@@ -109,15 +109,15 @@ public final class LedUtil {
 		}
 	}
 
-	public static void ledOn() {
-		Log.d(TAG, "ledOn()");
-		CameraManager.getInstance().setLedParams(paramsOn);
-		currentLedValue = true;
+	public static void flashOn() {
+		Log.d(TAG, "flashOn()");
+		CameraManager.getInstance().setFlashParams(paramsOn);
+		currentFlashValue = true;
 	}
 
-	public static void ledOff() {
-		Log.d(TAG, "ledOff()");
-		CameraManager.getInstance().setLedParams(paramsOff);
-		currentLedValue = false;
+	public static void flashOff() {
+		Log.d(TAG, "flashOff()");
+		CameraManager.getInstance().setFlashParams(paramsOff);
+		currentFlashValue = false;
 	}
 }

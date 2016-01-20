@@ -68,7 +68,7 @@ public final class Constants {
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
 	public static final String BLUETOOTH_PHIRO_PRO = "BLUETOOTH_PHIRO_PRO";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";
-	public static final String CAMERA_LED = "CAMERA_LED";
+	public static final String CAMERA_FLASH = "CAMERA_FLASH";
 	public static final String VIBRATOR = "VIBRATOR";
 	public static final String FACE_DETECTION = "FACE_DETECTION";
 

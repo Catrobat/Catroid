@@ -177,7 +177,7 @@
   <string name="soundrecorder_recorded_filename">ضبط کردن</string>
   <string name="soundrecorder_text_view">برای شروع و توقف ضبط روی این آیکون ضربه بزن.</string>
   <string name="text_to_speech_engine_not_installed">موتور تبدیل متن به گفتار نصب نشده!\nآیا می خواهی نصبش کنی؟</string>
-  <string name="no_flash_led_available">فلش LED موجود نیست</string>
+  <string name="no_flash_available">فلش LED موجود نیست</string>
   <string name="no_vibrator_available">\"ویبراتور\" در دسترس نیست</string>
   <string name="led_and_front_camera_warning">\"ال ای دی\" و دوربین جلو پشتیبانی نمی شوند</string>
   <string name="brick_context_dialog_move_brick">حرکت آجر</string>
@@ -289,8 +289,8 @@
   <string name="brick_clear_graphic_effect">پاک کردن اثر گرافیکی</string>
   <string name="brick_next_look">ظاهر بعدی</string>
   <string name="brick_next_background">پس زمینه بعدی</string>
-  <string name="brick_led_on">روشن کردن چراغ قوه</string>
-  <string name="brick_led_off">خاموش کردن چراغ قوه</string>
+  <string name="brick_flash_on">روشن کردن چراغ قوه</string>
+  <string name="brick_flash_off">خاموش کردن چراغ قوه</string>
   <string name="brick_vibration">لرزیدن برای</string>
   <string name="brick_play_sound">شروع  صدا</string>
   <string name="brick_stop_all_sounds">توقف همه صداها</string>

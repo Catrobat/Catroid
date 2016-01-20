@@ -75,7 +75,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		assertTrue("Terms of servie should be permanently accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
 		assertTrue("Terms of servie should be permanently accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
-	
+
 	public void testDroneConnectToDroneDialog() {
 		assertTrue("DroneBricks not activated!", SettingsActivity.isDroneSharedPreferenceEnabled(getActivity()));
 

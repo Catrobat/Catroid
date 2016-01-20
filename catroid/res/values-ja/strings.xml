@@ -183,7 +183,7 @@
   <string name="soundrecorder_recorded_filename">録音</string>
   <string name="soundrecorder_text_view">録音を開始しとか停止に、上記のアイコンを押します。</string>
   <string name="text_to_speech_engine_not_installed">テキストツースピーチエンジンがインストールされていません。\nテキストツースピーチを今すぐインストールしますか？</string>
-  <string name="no_flash_led_available">LED の点滅は利用できません</string>
+  <string name="no_flash_available">LED の点滅は利用できません</string>
   <string name="no_vibrator_available">バイブレーターは利用できません</string>
   <string name="led_and_front_camera_warning">LED と前面カメラはサポートされていません</string>
   <string name="brick_context_dialog_move_brick">ブロックを移動します。</string>
@@ -295,8 +295,8 @@
   <string name="brick_clear_graphic_effect">画像効果をなくす</string>
   <string name="brick_next_look">次の外見</string>
   <string name="brick_next_background">次の背景</string>
-  <string name="brick_led_on">フラッシュライトをオンにする</string>
-  <string name="brick_led_off">フラッシュライトをオフにする</string>
+  <string name="brick_flash_on">フラッシュライトをオンにする</string>
+  <string name="brick_flash_off">フラッシュライトをオフにする</string>
   <string name="brick_vibration">振動する</string>
   <string name="brick_play_sound">サウンドの再生</string>
   <string name="brick_stop_all_sounds">すべてのサウンドを停止</string>

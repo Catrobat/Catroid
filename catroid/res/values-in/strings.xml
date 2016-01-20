@@ -186,7 +186,7 @@ Salin %d Brick</item>
   <string name="soundrecorder_recorded_filename">rekam</string>
   <string name="soundrecorder_text_view">Tekan ikon di atas untuk memulai dan menghentikan perekaman.</string>
   <string name="text_to_speech_engine_not_installed">Mesin Text-ke-Suara tidak diinstal!\nApakah Anda ingin menginstalnya?</string>
-  <string name="no_flash_led_available">Tidak ada LED flash yang tersedia</string>
+  <string name="no_flash_available">Tidak ada LED flash yang tersedia</string>
   <string name="no_vibrator_available">Vibrator tidak tersedia</string>
   <string name="led_and_front_camera_warning">LED dan kamera depan tidak didukung</string>
   <string name="brick_context_dialog_move_brick">Pindahkan Brick</string>
@@ -298,8 +298,8 @@ Salin %d Brick</item>
   <string name="brick_clear_graphic_effect">Hapus efek grafik</string>
   <string name="brick_next_look">Tampilan berikutnya</string>
   <string name="brick_next_background">Latar belakang berikutnya</string>
-  <string name="brick_led_on">Nyalakan lampu senter</string>
-  <string name="brick_led_off">Matikan lampu senter</string>
+  <string name="brick_flash_on">Nyalakan lampu senter</string>
+  <string name="brick_flash_off">Matikan lampu senter</string>
   <string name="brick_vibration">Bergetar untuk</string>
   <string name="brick_play_sound">Mulai suara</string>
   <string name="brick_stop_all_sounds">Hentikan semua suara</string>
