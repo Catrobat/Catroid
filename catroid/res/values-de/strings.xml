@@ -23,7 +23,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">Pocket Drone</string>
+  <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Abbrechen</string>
   <string name="rename">Umbenennen</string>
   <string name="delete">Löschen</string>
@@ -37,9 +37,9 @@
   <string name="cut">Ausschneiden</string>
   <string name="move">Verschieben</string>
   <string name="backpack">Rucksack</string>
-  <string name="packing">Einpacken</string>
+  <string name="packing">Pack</string>
   <string name="unpacking">Auspacken</string>
-  <string name="unpack_keep">Auspacken und behalten</string>
+  <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">Kopie</string>
   <string name="close">Schließen</string>
   <string name="error">Fehler</string>
@@ -53,15 +53,16 @@
   <string name="undo">Rückgängig</string>
   <string name="name_exists">Name existiert bereits</string>
   <string name="no_name">Kein Name</string>
-  <string name="is_empty">ist leer</string>
-  <string name="new_group">Neue Gruppe</string>
-  <string name="my_group">Meine Gruppe</string>
+  <string name="is_empty">is empty</string>
+  <string name="new_group">New Group</string>
+  <string name="my_group">My Group</string>
   <string name="name">Name:</string>
-  <string name="nothing_to_copy">Nichts zu kopieren</string>
-  <string name="nothing_to_backpack_and_unpack">Nichts ein- und auszupacken</string>
-  <string name="nothing_to_unpack">Nichts auszupacken</string>
-  <string name="nothing_to_delete">Nichts zu löschen</string>
-  <string name="nothing_to_rename">Nichts umzubenennen</string>
+  <string name="nothing_to_copy">Nothing to copy</string>
+  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
+  <string name="nothing_to_unpack">Nothing to unpack</string>
+  <string name="nothing_to_delete">Nothing to delete</string>
+  <string name="nothing_to_rename">Nothing to rename</string>
+  <string name="unpack_background">Program background will be replaced</string>
   <string name="main_menu_new">Neu</string>
   <string name="main_menu_continue">Fortsetzen</string>
   <string name="main_menu_programs">Programme</string>
@@ -72,19 +73,13 @@
   <string name="main_menu_terms_of_use">Nutzungsbedingungen</string>
   <string name="main_menu_rate_app">Bewerte uns!</string>
   <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
-  <string name="main_menu_web_dialog_title">Achtung!</string>
-  <string name="main_menu_web_dialog_message">Derzeit werden keine alternativen Browser wie Firefox oder Dolphin unterstützt</string>
-  <string name="main_menu_web_dialog_dont_show">Nicht mehr anzeigen</string>
   <string name="preference_title">Einstellungen</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
   <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT Bausteine</string>
   <string name="preference_description_mindstorms_nxt_bricks">Erlaube Steuerung von Lego Mindstorms NXT Robotern</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensoren</string>
-  <string name="preference_title_use_face_detection">Gesichtserkennung</string>
-  <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
-  <string name="preference_title_select_camera">Auswahl der Kamera</string>
-  <string name="preference_description_select_camera">Wähle eine Kamera für die Gesichtserkennung</string>
+  <string name="preference_title_drone_config_properties">Drone config properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
   <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>
   <string name="preference_title_enable_arduino_bricks">Arduino Bausteine</string>
@@ -103,12 +98,11 @@
     Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau 
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
     dem folgenden \"Terms of Use\" Link zur Verfügung.\n</string>
-    <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen</string>
-    <string name="dialog_terms_of_use_agree_permanent">Ich stimme immer zu – frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
-    <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you that you must abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code, otherwise you are not allowed to use Pocket Code.</string>
-    <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
-    <string name="dialog_about_title">Über Pocket Code</string>
+  <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <string name="dialog_about_title">Über Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung 
         für Android-Geräte für die visuelle Programmiersprache Catrobat.\n\n
         Der Quellode von Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
@@ -131,6 +125,7 @@
   <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
   <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="select_all">Alle auswählen</string>
+  <string name="deselect_all">Deselect all</string>
   <string name="copy_sprite_name_suffix">_Kopie</string>
   <string name="scripts">Skripte</string>
   <string name="look">Aussehen</string>
@@ -138,12 +133,15 @@
   <string name="sounds">Klänge</string>
   <string name="backgrounds">Hintergründe</string>
   <string name="size">Größe:</string>
+  <string name="script_group">Script Group</string>
+  <string name="script_groups">Script Groups</string>
+  <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
   <string name="fragment_script_text_description">Tippe auf \"+\" um Skripte hinzuzufügen</string>
   <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
   <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
-  <string name="dialog_confirm_delete_script_group_title">Diese Gruppe löschen?</string>
-    <string name="dialog_confirm_delete_multiple_script_groups_title">Diese Gruppen löschen?</string>
+  <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
   <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Lösche 1 Baustein</item>
@@ -152,6 +150,10 @@
   <plurals name="number_of_bricks_to_copy">
     <item quantity="one">Kopiere 1 Baustein</item>
     <item quantity="other">Kopiere %d Bausteine</item>
+  </plurals>
+  <plurals name="number_of_bricks_to_backpack">
+    <item quantity="one">Backpack 1 Brick</item>
+    <item quantity="other">Backpack %d Bricks</item>
   </plurals>
   <string name="fragment_look_text_description">Tippe auf \"+\" um Aussehen hinzuzufügen</string>
   <string name="fragment_background_text_description">Tippe auf \"+\" um Hintergründe hinzuzufügen</string>
@@ -170,7 +172,7 @@
   <string name="lookname">Name:</string>
   <string name="fragment_sound_text_description">Tippe auf \"+\" um Klänge hinzuzufügen</string>
   <string name="rename_sound_dialog">Klang umbenennen</string>
-  <string name="backpack_title">Dein Rucksack</string>
+  <string name="backpack_title">Rucksack</string>
   <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
   <string name="sound_play">abspielen</string>
   <string name="sound_stop">stoppen</string>
@@ -187,6 +189,14 @@
   <plurals name="unpacking_items_plural">
     <item quantity="one">wurde entpackt!</item>
     <item quantity="other">wurden entpackt!</item>
+  </plurals>
+  <plurals name="packing_items_plural">
+    <item quantity="one">was backpacked!</item>
+    <item quantity="other">were backpacked!</item>
+  </plurals>
+  <plurals name="scripts_plural">
+    <item quantity="one">Script</item>
+    <item quantity="other">Scripts</item>
   </plurals>
   <string name="last_used">Letzter Zugriff:</string>
   <string name="description">Beschreibung:</string>
@@ -206,9 +216,8 @@
   <string name="soundrecorder_recorded_filename">Aufnahme</string>
   <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
   <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
-  <string name="no_flash_available">Kein Blitzlicht gefunden</string>
+  <string name="no_flash_available">No flash LED available</string>
   <string name="no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
-  <string name="led_and_front_camera_warning">Led UND Front Kamera werden nicht unterstützt</string>
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
   <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
   <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
@@ -225,6 +234,7 @@
   <string name="add_look_media_library">Medien Bibliothek</string>
   <string name="new_look_name">Bild Name:</string>
   <string name="look_rename_overwrite">Bild mit demselben Namen existiert bereits!</string>
+  <string name="add_look_drone_video">Drone Video</string>
   <string name="new_sound_dialog_title">Klang hinzufügen</string>
   <string name="add_sound_from_recorder">Klang aufnehmen</string>
   <string name="add_sound_choose_file">Klang auswählen</string>
@@ -233,6 +243,7 @@
   <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
   <string name="new_project_name">Programmname:</string>
   <string name="new_project_empty">Leeres Programm erstellen</string>
+  <string name="new_standard_drone_project">Create a drone project</string>
   <string name="project_orientation_title">Ausrichtung:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
   <string name="new_sprite_dialog_title">Neues Objekt</string>
@@ -320,8 +331,8 @@
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
   <string name="brick_next_look">Nächstes Aussehen</string>
   <string name="brick_next_background">Nächster Hintergrund</string>
-  <string name="brick_flash_on">Schalte Blitzlicht an</string>
-  <string name="brick_flash_off">Schalte Blitzlicht aus</string>
+  <string name="brick_flash_on">Turn flashlight ON</string>
+  <string name="brick_flash_off">Turn flashlight OFF</string>
   <string name="brick_vibration">Vibrieren für</string>
   <string name="brick_play_sound">Klang starten</string>
   <string name="brick_stop_all_sounds">Alle Klänge stoppen</string>
@@ -367,15 +378,49 @@
   <string name="brick_replace_item_in_userlist_item_at_index">auf Position</string>
   <string name="brick_replace_item_in_userlist_with_value">mit</string>
   <string name="default_project_name">Mein erstes Programm</string>
-  <string name="default_project_backgroundname">Hintergrund</string>
+  <string name="default_project_background_name">Hintergrund</string>
+  <string name="default_project_cloud_name">Clouds</string>
+  <string name="default_project_cloud_sprite_name_1">Clouds1</string>
+  <string name="default_project_cloud_sprite_name_2">Clouds2</string>
+  <string name="default_project_sprites_bird_name">Bird</string>
+  <string name="default_project_sprites_bird_name_wing_up">Bird Wings up</string>
+  <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
+  <string name="default_project_sprites_tweet_1">Tweet1</string>
+  <string name="default_project_sprites_tweet_2">Tweet2</string>
   <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
+  <string name="default_drone_project_sprites_takeoff">Abheben</string>
+  <string name="default_drone_project_sprites_rotate">Drehen</string>
   <string name="default_drone_project_sprites_up">Fliege hoch</string>
   <string name="default_drone_project_sprites_down">Fliege runter</string>
+  <string name="default_drone_project_sprites_left">Fliege links</string>
   <string name="default_drone_project_sprites_right">Fliege rechts</string>
   <string name="default_drone_project_sprites_forward">Fliege nach vorne</string>
   <string name="default_drone_project_sprites_back">Fliege rückwärts</string>
   <string name="default_drone_project_sprites_turn_left">Drehe links</string>
   <string name="default_drone_project_sprites_turn_right">Drehe rechts</string>
+  <string name="default_drone_project_sprites_emergency">Emergency</string>
+  <string name="drone_brick_set_text">Text</string>
+  <string name="drone_brick_set_x">X:</string>
+  <string name="drone_config_indoor_with_hull">indoor with hull</string>
+  <string name="drone_config_indoor_without_hull">indoor without hull</string>
+  <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
+  <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+  <string name="drone_set_altitude_max_3m">3 meters</string>
+  <string name="drone_set_altitude_max_5m">5 meters</string>
+  <string name="drone_set_altitude_max_10m">10 meters</string>
+  <string name="drone_set_altitude_max_100m">100 meters</string>
+  <string name="drone_set_vertical_min">200 mm/s</string>
+  <string name="drone_set_vertical_indoor">700 mm/s</string>
+  <string name="drone_set_vertical_outdoor">1000 mm/s</string>
+  <string name="drone_set_vertical_max">2000 mm/s</string>
+  <string name="drone_set_rotation_min">40 °/s</string>
+  <string name="drone_set_rotation_indoor">100 °/s</string>
+  <string name="drone_set_rotation_outdoor">200 °/s</string>
+  <string name="drone_set_rotation_max">350 °/s</string>
+  <string name="drone_set_tilt_min">5 °</string>
+  <string name="drone_set_tilt_indoor">12 °</string>
+  <string name="drone_set_tilt_outdoor">20 ° </string>
+  <string name="drone_set_tilt_max">30 °</string>
   <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
   <string name="notification_screenshot_ok">Bildvorschau gespeichert</string>
   <string name="notification_download_project_cancel">Programm herunterladen abgebrochen</string>
@@ -393,11 +438,21 @@
   <string name="notification_download_pending">Download wird ausgeführt</string>
   <string name="notification_download_finished">Download erfolgreich</string>
   <string name="notification_title_open">"Öffne "</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
   <string name="project_rename">(Das Programm wird umbenannt.)</string>
   <string name="size_of_project">Größe:</string>
   <string name="upload_button">Hochladen</string>
   <string name="upload_project_dialog_title">Programm hochladen</string>
   <string name="upload_description">Beschreibung:</string>
+  <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
+  <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
+  <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
+  <string name="drone_emergency_angle">AR.Drone euler angles went too high. Motors shutdown to prevent bad behaviors.</string>
+  <string name="drone_emergency_cutout">One or more motor(s) was stopped by environment.</string>
+  <string name="drone_alert_battery_low">Battery is too low to take-off again.</string>
+  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
+  <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
+  <string name="drone_emergency_title">Emergency</string>
   <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
   <string name="error_no_program_name_entered">Bitte einen Programnamen angeben.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
@@ -471,14 +526,15 @@
   <string name="preference_disable_nxt_info_dialog">Info Dialog deaktivieren</string>
   <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Programmes werden programmspezfifische NXT Einstellungen nicht mehr angezeigt.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Die Zuweisung von NXT Sensoren zu deren Port ist programmspezifisch und können nur für geöffnete Programme konfiguriert werden!</string>
+  <string name="preference_title_drone_properties_setting_description">The selective of drone config properties is program specific and can only be configured for opened programs!</string>
   <string name="lego_nxt_sensor_config_info_text">Das geöffnete Programm beinhaltet Lego Mindstorms NXT Bausteine oder Sensoren. Bitte schließe die Sensoren wie folgt an den Roboter an damit das Programm einwandfrei funktioniert</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Diese Nachricht nicht mehr anzeigen.</string>
+  <string name="brick_drone_takeoff_land">Take off / Land</string>
   <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
-    <string name="brick_drone_takeoff_land">Hebe ab / Lande</string>
   <string name="brick_drone_move_left">Fliege nach links</string>
   <string name="brick_drone_move_right">Fliege nach rechts</string>
   <string name="brick_drone_move_forward">Fliege nach vorne</string>
@@ -486,11 +542,20 @@
   <string name="brick_drone_move_up">Fliege nach oben</string>
   <string name="brick_drone_move_down">Fliege nach unten</string>
   <string name="brick_drone_flip">Flip</string>
+  <string name="brick_drone_emergency">Emergency</string>
   <string name="brick_drone_turn_right">Drehe nach rechts</string>
   <string name="brick_drone_turn_left">Drehe nach links</string>
   <string name="brick_drone_turn_left_magneto">Drehe nach links</string>
   <string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
   <string name="brick_drone_angle">Winkel</string>
+  <string name="brick_drone_set_config">Set config</string>
+  <string name="brick_drone_switch_camera">Switch camera</string>
+  <string name="brick_drone_set_altitude">Altitude limit</string>
+  <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
+  <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
+  <string name="brick_drone_set_tilt_limit">Tilt limit</string>
+  <string name="brick_drone_with">mit</string>
+  <string name="brick_drone_percent_power">% power</string>
   <string name="phiro_motor_stop">Stop Phiro motor</string>
   <string name="brick_phiro_motor_forward_action">Setze Phiro Motor geradeaus</string>
   <string name="brick_phiro_motor_backward_action">Setze Phiro Motor rückwärts</string>
@@ -593,15 +658,6 @@
   <string name="formula_editor_function_list_item_parameter">(1,*Listenname*)</string>
   <string name="formula_editor_function_contains">enthält</string>
   <string name="formula_editor_function_contains_parameter">(*Listenname*,1)</string>
-  <string name="formula_editor_sensor_drone_battery_status">Drohne: Batteriestatus</string>
-  <string name="formula_editor_sensor_drone_emergency_state">Drohne: in Notlauf</string>
-  <string name="formula_editor_sensor_drone_flying">Drohne: fliegt</string>
-  <string name="formula_editor_sensor_drone_initialized">Drohne: initialisiert</string>
-  <string name="formula_editor_sensor_drone_usb_active">Drohne: USB bereit</string>
-  <string name="formula_editor_sensor_drone_usb_remaining_time">Drohne: verbleibende USB zeit</string>
-  <string name="formula_editor_sensor_drone_camera_ready">Drohne: Kamera bereit</string>
-  <string name="formula_editor_sensor_drone_record_ready">Drohne: Aufnahme bereit</string>
-  <string name="formula_editor_sensor_drone_num_frames">Drohne: Frame anzahl</string>
   <string name="formula_editor_sensor_x_acceleration">Beschleunigung_x</string>
   <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
   <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>
@@ -609,6 +665,16 @@
   <string name="formula_editor_sensor_x_inclination">Neigung_x</string>
   <string name="formula_editor_sensor_y_inclination">Neigung_y</string>
   <string name="formula_editor_sensor_loudness">Umgebungslautstärke</string>
+  <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
+  <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
+  <string name="formula_editor_sensor_drone_flying">drone_flying</string>
+  <string name="formula_editor_sensor_drone_initialized">drone_initialized</string>
+  <string name="formula_editor_sensor_drone_usb_active">drone_usb_active</string>
+  <string name="formula_editor_sensor_drone_usb_remaining_time">drone_usb_remaining_time</string>
+  <string name="formula_editor_sensor_drone_camera_ready">drone_camera_ready</string>
+  <string name="formula_editor_sensor_drone_record_ready">drone_record_ready</string>
+  <string name="formula_editor_sensor_drone_recording">drone_recording</string>
+  <string name="formula_editor_sensor_drone_num_frames">drone_num_frames</string>
   <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
   <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
@@ -673,8 +739,6 @@
     <item quantity="one">Element ausgewählt!</item>
     <item quantity="other">Elemente ausgewählt!</item>
   </plurals>
-  <string name="camera_facing_front">Vordere Kamera</string>
-  <string name="camera_facing_back">Hintere Kamera</string>
   <string name="brick_data_editor_title">Bausteineditor</string>
   <string name="separator">|</string>
   <string name="add_text">Text hinzufügen</string>
@@ -709,7 +773,15 @@
   <string name="warning">Warnung</string>
   <string name="abort">Abbruch</string>
   <string name="variable">Variable</string>
-  <string name="no_camera_available">Gesichtserkennung nicht verfügbar.</string>
-  <string name="no_front_camera_available">Front Kamera nicht verfügbar</string>
-  <string name="no_back_camera_available">Rückseitige Kamera nicht verfügbar.</string>
+  <string name="brick_video">Turn camera</string>
+  <string name="video_brick_camera_on">on</string>
+  <string name="video_brick_camera_off">off</string>
+  <string name="brick_choose_camera">Use camera</string>
+  <string name="choose_camera_front">front</string>
+  <string name="choose_camera_back">back</string>
+  <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. \"</string>
+  <string name="no_back_camera_available">No back facing camera available.</string>
+  <string name="no_camera_available">Facedetection not available.</string>
+  <string name="no_front_camera_available">No front facing camera available.</string>
 </resources>
