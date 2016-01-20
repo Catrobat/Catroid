@@ -246,7 +246,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Program name not shown in 5 secs!", solo.waitForText(defaultProjectName, 0, 5000));
 		UiTestUtils.clickOnTextInList(solo, defaultProjectName);
 
-		String backgroundName = solo.getString(R.string.default_project_backgroundname);
+		String backgroundName = solo.getString(R.string.default_project_background_name);
 
 		assertTrue("Program does not open within 5 secs!", solo.waitForText(backgroundName));
 
