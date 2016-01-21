@@ -218,9 +218,9 @@
   <string name="soundrecorder_error">Ghi âm không thành công</string>
   <string name="soundrecorder_recorded_filename">ghi âm</string>
   <string name="soundrecorder_text_view">Bấm vào biểu tượng trên để bắt đầu và ngừng ghi âm.</string>
-  <string name="text_to_speech_engine_not_installed">Động cơ văn bản-tới-lời thoại không được cài đặt! \nDo bạn muốn cài đặt nó?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">Động cơ rung không có sẵn</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Động cơ văn bản-tới-lời thoại không được cài đặt! \nDo bạn muốn cài đặt nó?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">Động cơ rung không có sẵn</string>
   <string name="brick_context_dialog_move_brick">Di chuyển gạch</string>
   <string name="brick_context_dialog_show_source">Hiển thị gạch nguồn</string>
   <string name="brick_context_dialog_delete_brick">Xóa gạch</string>
@@ -796,7 +796,7 @@
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>
