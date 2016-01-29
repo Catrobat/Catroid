@@ -251,10 +251,8 @@
   <string name="spritename_invalid">वस्तु का नाम उप्युक्त नहीं हैं</string>
   <string name="no_spritename_entered">कृपया ऑब्जेक्ट का नाम दर्ज करें।</string>
   <string name="sprite_name">वस्तु का नाम:</string>
-  <string name="login_register_dialog_title">प्रवेश करे</string>
   <string name="username">उपयोगकर्ता नाम</string>
   <string name="password">पारण शब्द:</string>
-  <string name="login_or_register">प्रवेश करे या पंजीकरण</string>
   <string name="password_forgotten">पारण शब्द भूल गए है</string>
   <string name="new_user_registered">नया खाता बना दिया गया है</string>
   <string name="register_error">कुछ त्रुटी हो गई हैं</string>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<oauth>
+    <facebook_testuser_name>PLACEHOLDER_FB_USERNAME</facebook_testuser_name>
+    <facebook_testuser_mail>PLACEHOLDER_FB_MAIL</facebook_testuser_mail>
+    <facebook_testuser_password>PLACEHOLDER_FB_PW</facebook_testuser_password>
+    <facebook_testuser_id>PLACEHOLDER_FB_ID</facebook_testuser_id>
+    <facebook_app_token>PLACEHOLDER_FB_APP_TOKEN_LEFT|PLACEHOLDER_FB_APP_TOKEN_RIGHT</facebook_app_token>
+    <gplus_testuser_name>PLACEHOLDER_GOOGLE_USERNAME</gplus_testuser_name>
+    <gplus_testuser_mail>PLACEHOLDER_GOOGLE_MAIL</gplus_testuser_mail>
+    <gplus_testuser_password>PLACEHOLDER_GOOGLE_PW</gplus_testuser_password>
+    <gplus_testuser_id>PLACEHOLDER_GOOGLE_ID</gplus_testuser_id>
+</oauth>

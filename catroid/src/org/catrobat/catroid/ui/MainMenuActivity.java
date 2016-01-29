@@ -30,8 +30,18 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -40,10 +50,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -52,12 +65,17 @@ import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
+	private static final String TAG = ProjectActivity.class.getSimpleName();
+
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
+	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 
 	private static final String TYPE_FILE = "file";
 	private static final String TYPE_HTTP = "http";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private CallbackManager callbackManager;
+	private SignInDialog signInDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +83,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
+		initializeFacebookSdk();
+
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		Utils.updateScreenWidthAndHeight(this);
 
@@ -98,6 +118,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
+		AppEventsLogger.activateApp(this);
+
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
 
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
@@ -120,6 +142,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.externalStorageAvailable()) {
 			return;
 		}
+
+		AppEventsLogger.deactivateApp(this);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
@@ -237,5 +261,44 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectFailure() {
+	}
+
+	public void initializeFacebookSdk() {
+		FacebookSdk.sdkInitialize(getApplicationContext());
+		callbackManager = CallbackManager.Factory.create();
+
+		LoginManager.getInstance().registerCallback(callbackManager,
+				new FacebookCallback<LoginResult>() {
+					@Override
+					public void onSuccess(LoginResult loginResult) {
+						Log.d(TAG, loginResult.toString());
+						AccessToken accessToken = loginResult.getAccessToken();
+						GetFacebookUserInfoTask getFacebookUserInfoTask = new GetFacebookUserInfoTask(MainMenuActivity.this,
+								accessToken.getToken(), accessToken.getUserId());
+						getFacebookUserInfoTask.setOnGetFacebookUserInfoTaskCompleteListener(signInDialog);
+						getFacebookUserInfoTask.execute();
+					}
+
+					@Override
+					public void onCancel() {
+						Log.d(TAG, "cancel");
+					}
+
+					@Override
+					public void onError(FacebookException exception) {
+						ToastUtil.showError(MainMenuActivity.this, exception.getMessage());
+						Log.d(TAG, exception.getMessage());
+					}
+				});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		callbackManager.onActivityResult(requestCode, resultCode, data);
+	}
+
+	public void setSignInDialog(SignInDialog signInDialog) {
+		this.signInDialog = signInDialog;
 	}
 }

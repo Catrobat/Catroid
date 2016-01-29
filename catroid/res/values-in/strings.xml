@@ -240,10 +240,8 @@ Salin %d Brick</item>
   <string name="spritename_invalid">Nama objek ini tidak valid</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Nama objek:</string>
-  <string name="login_register_dialog_title">Login</string>
   <string name="username">Nama pengguna:</string>
   <string name="password">Kata sandi:</string>
-  <string name="login_or_register">Login atau daftar</string>
   <string name="password_forgotten">Lupa password</string>
   <string name="new_user_registered">Account baru telah dibuat</string>
   <string name="register_error">Terjadi kesalahan</string>

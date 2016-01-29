@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            style="@style/DefaultDialog"
+            android:orientation="vertical"
+            android:paddingBottom="0dp"
+            android:theme="@android:style/Theme.Light" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dialog_item_margin" >
+
+        <Button
+            android:id="@+id/dialog_sign_in_login"
+            style="@style/DefaultDialog.Item"
+            android:text="@string/login"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom|center_horizontal"
+            android:layout_marginTop="15dp"
+            android:paddingTop="10dp" />
+
+        <Button
+            android:id="@+id/dialog_sign_in_register"
+            style="@style/DefaultDialog.Item"
+            android:text="@string/register"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/dialog_sign_in_login"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom|center_horizontal"
+            android:paddingTop="10dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            style="@style/DefaultDialog.TextView"
+            android:layout_below="@+id/dialog_sign_in_register"
+            android:layout_toLeftOf="@+id/dialog_sign_in_or"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"/>
+
+        <org.catrobat.catroid.ui.CapitalizedTextView
+            android:id="@+id/dialog_sign_in_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/or"
+            android:paddingLeft="0dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@+id/dialog_sign_in_register"
+            android:gravity="center"
+            android:layout_centerHorizontal="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            style="@style/DefaultDialog.TextView"
+            android:layout_below="@+id/dialog_sign_in_register"
+            android:layout_toRightOf="@+id/dialog_sign_in_or"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"/>
+
+        <Button
+            android:id="@+id/dialog_sign_in_facebook_login_button"
+            android:background="@drawable/sign_in_with_facebook"
+            style="@style/OAuthButton"
+            android:layout_below="@+id/dialog_sign_in_or" />
+
+        <Button
+            android:id="@+id/dialog_sign_in_gplus_login_button"
+            android:background="@drawable/sign_in_with_google"
+            style="@style/OAuthButton"
+            android:layout_below="@+id/dialog_sign_in_facebook_login_button" />
+
+        <LinearLayout
+            style="@style/DefaultDialog.Item"
+            android:layout_below="@+id/dialog_sign_in_gplus_login_button"
+            android:orientation="vertical"
+            android:paddingBottom="4dp"
+            android:paddingTop="16dp" >
+
+            <TextView
+                android:id="@+id/register_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/register_terms"
+                android:textColor="@color/spritelist_details_text_color"
+                android:textSize="@dimen/dialog_item_text_size" />
+
+            <TextView
+                android:id="@+id/register_terms_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|bottom"
+                android:textColorLink="#17a5b8"
+                android:textSize="14sp" />
+        </LinearLayout >
+    </RelativeLayout >
+
+</ScrollView>

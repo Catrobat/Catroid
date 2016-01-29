@@ -29,70 +29,76 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.RegistrationTask;
-import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.web.ServerCalls;
 
-public class LoginRegisterDialog extends DialogFragment implements OnRegistrationCompleteListener {
+public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {
 
 	public static final String PASSWORD_FORGOTTEN_PATH = "resetting/request";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_login_register";
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
-	private TextView termsOfUseLinkTextView;
+	private CheckBox showPasswordCheckBox;
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login_register, null);
+		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_login, null);
 
-		usernameEditText = (EditText) rootView.findViewById(R.id.username);
-		passwordEditText = (EditText) rootView.findViewById(R.id.password);
-		termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
-
-		String termsOfUseUrl = getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
-				getString(R.string.register_pocketcode_terms_of_use_text));
-		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
+		usernameEditText = (EditText) rootView.findViewById(R.id.dialog_login_username);
+		passwordEditText = (EditText) rootView.findViewById(R.id.dialog_login_password);
+		showPasswordCheckBox = (CheckBox) rootView.findViewById(R.id.dialog_login_checkbox_showpassword);
 
 		usernameEditText.setText("");
 		passwordEditText.setText("");
 
-		final AlertDialog loginRegisterDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
-				.setTitle(R.string.login_register_dialog_title).setPositiveButton(R.string.login_or_register, null)
-				.setNeutralButton(R.string.password_forgotten, null).create();
-		loginRegisterDialog.setCanceledOnTouchOutside(true);
-		loginRegisterDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		showPasswordCheckBox.setChecked(false);
 
-		loginRegisterDialog.setOnShowListener(new OnShowListener() {
+		showPasswordCheckBox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (showPasswordCheckBox.isChecked()) {
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+				} else {
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+				}
+			}
+		});
+
+		final AlertDialog loginDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
+				.setTitle(R.string.login).setPositiveButton(R.string.login, null)
+				.setNeutralButton(R.string.password_forgotten, null).create();
+		loginDialog.setCanceledOnTouchOutside(true);
+		loginDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+		loginDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(usernameEditText, InputMethodManager.SHOW_IMPLICIT);
 
-				Button loginRegisterButton = loginRegisterDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-				loginRegisterButton.setOnClickListener(new View.OnClickListener() {
+				Button loginButton = loginDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				loginButton.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						handleLoginRegisterButtonClick();
+						handleLoginButtonClick();
 					}
 				});
 
-				Button passwordForgottenButton = loginRegisterDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+				Button passwordForgottenButton = loginDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
 				passwordForgottenButton.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
@@ -102,28 +108,30 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 			}
 		});
 
-		return loginRegisterDialog;
+		return loginDialog;
 	}
 
 	@Override
-	public void onRegistrationComplete() {
+	public void onLoginComplete() {
 		dismiss();
-
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		Bundle bundle = new Bundle();
+		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
+		uploadProjectDialog.setArguments(bundle);
 		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void handleLoginRegisterButtonClick() {
+	private void handleLoginButtonClick() {
 		String username = usernameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 
-		RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password);
-		registrationTask.setOnRegistrationCompleteListener(this);
-		registrationTask.execute();
+		LoginTask loginTask = new LoginTask(getActivity(), username, password);
+		loginTask.setOnLoginCompleteListener(this);
+		loginTask.execute();
 	}
 
 	private void handlePasswordForgottenButtonClick() {
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : Constants.BASE_URL_HTTPS;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : Constants.BASE_URL_HTTPS;
 		String url = baseUrl + PASSWORD_FORGOTTEN_PATH;
 
 		((MainMenuActivity) getActivity()).startWebViewActivity(url);

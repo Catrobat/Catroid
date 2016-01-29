@@ -62,7 +62,7 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading);
+		String message = activity.getString(R.string.loading_check_token);
 		progressDialog = ProgressDialog.show(activity, title, message);
 	}
 
@@ -90,7 +90,7 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (!success && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
+		if (Utils.checkForNetworkError(success, exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

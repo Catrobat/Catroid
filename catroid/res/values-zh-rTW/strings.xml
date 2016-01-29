@@ -238,10 +238,8 @@
   <string name="spritename_invalid">物件命名不正確</string>
   <string name="no_spritename_entered">請輸入物件名稱。</string>
   <string name="sprite_name">物件名稱:</string>
-  <string name="login_register_dialog_title">登入</string>
   <string name="username">使用者名稱:</string>
   <string name="password">密碼:</string>
-  <string name="login_or_register">登入或註冊</string>
   <string name="password_forgotten">忘記密碼</string>
   <string name="new_user_registered">已建立新帳號</string>
   <string name="register_error">已發生錯誤</string>

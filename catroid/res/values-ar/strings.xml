@@ -270,10 +270,8 @@
   <string name="spritename_invalid">إسم الكائن غير صالح</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">اسم الكائن:</string>
-  <string name="login_register_dialog_title">تسجيل الدخول</string>
   <string name="username">اسم المستخدم:</string>
   <string name="password">كلمة المرور:</string>
-  <string name="login_or_register">تسجيل الدخول أو التسجيل</string>
   <string name="password_forgotten">نسيت كلمة السر</string>
   <string name="new_user_registered">إنشاء حساب جديد</string>
   <string name="register_error">حدث خطأ</string>

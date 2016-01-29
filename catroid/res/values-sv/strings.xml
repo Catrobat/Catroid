@@ -244,10 +244,8 @@
   <string name="spritename_invalid">Det här objektnamnet är ogiltigt</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Objektnamn:</string>
-  <string name="login_register_dialog_title">Logga in</string>
   <string name="username">Användarnamn:</string>
   <string name="password">Lösenord:</string>
-  <string name="login_or_register">Logga in eller registrera</string>
   <string name="password_forgotten">Glömt lösenord</string>
   <string name="new_user_registered">Nytt konto skapat</string>
   <string name="register_error">Fel uppstod</string>

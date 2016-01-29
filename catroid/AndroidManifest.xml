@@ -52,6 +52,7 @@
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <!-- For testing purposes, this is automatically removed in live builds, but not in jenkins builds -->
     <uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />
@@ -66,6 +67,15 @@
         android:label="@string/app_name"
         android:name=".CatroidApplication"
         android:theme="@style/Theme.Catroid" >
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
         <activity
             android:name=".ui.MainMenuActivity"
             android:launchMode="standard"

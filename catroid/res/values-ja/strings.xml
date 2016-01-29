@@ -240,10 +240,8 @@
   <string name="spritename_invalid">このオブジェクトの名前は無効です</string>
   <string name="no_spritename_entered">オブジェクト名を入力してください。</string>
   <string name="sprite_name">オブジェクト名:</string>
-  <string name="login_register_dialog_title">ログイン</string>
   <string name="username">ユーザー名:</string>
   <string name="password">パスワード:</string>
-  <string name="login_or_register">ログインまたは登録</string>
   <string name="password_forgotten">パスワードを忘れました</string>
   <string name="new_user_registered">新しいアカウントを作成</string>
   <string name="register_error">エラーが生じた場合</string>

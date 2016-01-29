@@ -250,10 +250,8 @@
   <string name="spritename_invalid">Ta nazwa obiektu jest nieprawidłowa</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Nazwa obiektu:</string>
-  <string name="login_register_dialog_title">Logowanie</string>
   <string name="username">Nazwa użytkownika:</string>
   <string name="password">Hasło:</string>
-  <string name="login_or_register">Zaloguj się lub zarejestruj</string>
   <string name="password_forgotten">Nie pamiętasz hasła</string>
   <string name="new_user_registered">Nowe konto utworzone</string>
   <string name="register_error">Wystąpił błąd</string>

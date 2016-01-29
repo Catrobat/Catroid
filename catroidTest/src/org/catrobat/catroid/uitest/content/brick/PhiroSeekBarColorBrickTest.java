@@ -39,11 +39,11 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class PhiroSeekBarColorBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-	private static double SEEK_BAR_VALUE = 126;
+	private static final double SEEK_BAR_VALUE = 126;
 	// Clicking on a seek bar sets the value to 126 or 127 depending on the screen size.
 	// A threshold of 1 is needed to work on jenkins (126) and other devices,
 	// e.g. Samsung Galaxy S4 or Google Nexus 4 (127).
-	private static double SEEK_BAR_VALUE_THRESHOLD = 1;
+	private static final double SEEK_BAR_VALUE_THRESHOLD = 1;
 
 	public PhiroSeekBarColorBrickTest() {
 		super(ScriptActivity.class);

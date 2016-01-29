@@ -48,7 +48,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		ActivityInstrumentationTestCase2<T> {
 	protected Solo solo;
 
-	private static final String TAG = "BaseActivityInstrumentationTestCase";
+	private static final String TAG = "BaseActivityTestCase";
 	private Class clazz;
 	private SystemAnimations systemAnimations;
 	private static final String ZIPFILE_NAME = "testzip";

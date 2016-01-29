@@ -251,10 +251,8 @@
   <string name="spritename_invalid">This object name is invalid</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Object name:</string>
-  <string name="login_register_dialog_title">Login</string>
   <string name="username">Username:</string>
   <string name="password">Password:</string>
-  <string name="login_or_register">Login or Register</string>
   <string name="password_forgotten">Password forgotten</string>
   <string name="new_user_registered">New account created</string>
   <string name="register_error">Error occurred</string>

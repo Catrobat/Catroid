@@ -46,16 +46,19 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private ProgressDialog progressDialog;
 	private String username;
 	private String password;
+	private String email;
 
 	private String message;
 	private boolean userRegistered;
 
 	private OnRegistrationCompleteListener onRegistrationCompleteListener;
+	private WebconnectionException exception;
 
-	public RegistrationTask(Context activity, String username, String password) {
+	public RegistrationTask(Context activity, String username, String password, String email) {
 		this.context = activity;
 		this.username = username;
 		this.password = password;
+		this.email = email;
 	}
 
 	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
@@ -77,16 +80,16 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			if (!Utils.isNetworkAvailable(context)) {
+				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
-			String email = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode();
 			String country = UtilDeviceInfo.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
+			userRegistered = ServerCalls.getInstance().register(username, password, email, language,
 					country, token, context);
 
 			return true;
@@ -98,19 +101,20 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected void onPostExecute(Boolean result) {
-		super.onPostExecute(result);
+	protected void onPostExecute(Boolean success) {
+		super.onPostExecute(success);
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
 
-		if (!result) {
+		if (Utils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}
 
-		if (context == null) {
+		if (Utils.checkForSignInError(success, exception, context, userRegistered)) {
+			showDialog(R.string.sign_in_error);
 			return;
 		}
 

@@ -263,10 +263,8 @@ su otpakovani!</item>
   <string name="spritename_invalid">Naziv objekta nije valjan</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Naziv objekta:</string>
-  <string name="login_register_dialog_title">Prijava</string>
   <string name="username">Korisničko ime:</string>
   <string name="password">Lozinka:</string>
-  <string name="login_or_register">Prijava ili registracija</string>
   <string name="password_forgotten">Lozinka zaboravljena</string>
   <string name="new_user_registered">Novi račun otvoren</string>
   <string name="register_error">Došlo je do pogreške</string>

@@ -246,10 +246,8 @@
   <string name="spritename_invalid">Az objektumnév helytelen</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Objektum neve:</string>
-  <string name="login_register_dialog_title">Bejelentkezés</string>
   <string name="username">Felhasználónév:</string>
   <string name="password">Jelszó:</string>
-  <string name="login_or_register">Belépés vagy regisztráció</string>
   <string name="password_forgotten">Elfelejtett jelszó</string>
   <string name="new_user_registered">Új fiók létrehozva</string>
   <string name="register_error">Hiba történt</string>

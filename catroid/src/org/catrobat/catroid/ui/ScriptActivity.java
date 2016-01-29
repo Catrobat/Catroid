@@ -92,7 +92,6 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 	public static final String ACTION_USERLIST_DELETED = "org.catrobat.catroid.USERLIST_DELETED";
 	public static final String ACTION_SCRIPT_GROUP_DELETED = "org.catrobat.catroid.LOOK_DELETED";
-	public static final String NUMBER_INSERTED_BRICKS = "NUMBER_INSERTED_BRICKS";
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;

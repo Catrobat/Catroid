@@ -244,10 +244,8 @@
   <string name="spritename_invalid">Deze objectnaam is ongeldig</string>
   <string name="no_spritename_entered">Please enter a object name.</string>
   <string name="sprite_name">Object naam:</string>
-  <string name="login_register_dialog_title">Inloggen</string>
   <string name="username">Gebruikersnaam:</string>
   <string name="password">Wachtwoord:</string>
-  <string name="login_or_register">Inloggen of Registreren</string>
   <string name="password_forgotten">Wachtwoord vergeten</string>
   <string name="new_user_registered">Nieuw account aangemaakt</string>
   <string name="register_error">Er is iets fout gegaan</string>
