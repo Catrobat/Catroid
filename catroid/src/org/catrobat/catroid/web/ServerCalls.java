@@ -443,8 +443,7 @@ public final class ServerCalls {
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				String tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.equals("")
-						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+				if (isInvalidToken(tokenReceived)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
 				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -495,8 +494,7 @@ public final class ServerCalls {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				String tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.equals("")
-						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
+				if (isInvalidToken(tokenReceived)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
 				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
@@ -516,6 +514,10 @@ public final class ServerCalls {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
+	}
+
+	private boolean isInvalidToken(String token) {
+		return token.length() != TOKEN_LENGTH || token.equals("") || token.equals(TOKEN_CODE_INVALID);
 	}
 
 	public Boolean checkOAuthToken(String id, String oauthProvider, Context context) throws WebconnectionException {

@@ -91,7 +91,7 @@ public class CheckUserNameAvailableTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
+		if (Utils.checkForNetworkError(success, exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

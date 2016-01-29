@@ -64,6 +64,7 @@ import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -127,6 +128,21 @@ public final class Utils {
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+
+	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
+		return !success && exception != null && exception.getStatusCode() == WebconnectionException
+				.ERROR_NETWORK;
+	}
+
+	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
+			boolean userSignedIn) {
+		return (!success && exception != null) || context == null || !userSignedIn;
+	}
+
+	public static boolean checkForNetworkError(WebconnectionException exception) {
+		return exception != null && exception.getStatusCode() == WebconnectionException
+				.ERROR_NETWORK;
 	}
 
 	/**

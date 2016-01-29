@@ -118,7 +118,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
-		// Logs 'install' and 'app activate' App Events.
 		AppEventsLogger.activateApp(this);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
@@ -144,7 +143,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
-		// Logs 'app deactivate' App Event.
 		AppEventsLogger.deactivateApp(this);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();

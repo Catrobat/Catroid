@@ -136,8 +136,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if ((token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID))) {
+		boolean isTokenInvalid = token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID);
+
+		if (isTokenInvalid) {
 			showSignInDialog(activity);
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
@@ -503,22 +505,25 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	@Override
 	public void onCheckFacebookServerTokenValidityComplete(Boolean requestNewToken, Activity activity) {
 		if (requestNewToken) {
-			//trigger facebook token refresh on server
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-			sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, true);
-			FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(activity,
-					AccessToken.getCurrentAccessToken().getToken(),
-					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-					sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-					sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-					sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-			);
-			facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
-			facebookExchangeTokenTask.execute();
+			triggerFacebookTokenRefreshOnServer(activity);
 		} else {
 			UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 			uploadProjectDialog.show(activity.getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 		}
+	}
+
+	private void triggerFacebookTokenRefreshOnServer(Activity activity) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, true);
+		FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(activity,
+				AccessToken.getCurrentAccessToken().getToken(),
+				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+				sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+				sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+		);
+		facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
+		facebookExchangeTokenTask.execute();
 	}
 
 	private void showSignInDialog(Activity activity) {

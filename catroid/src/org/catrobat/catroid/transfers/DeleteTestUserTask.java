@@ -77,7 +77,7 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	protected void onPostExecute(Boolean deleted) {
 		super.onPostExecute(deleted);
 
-		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
+		if (Utils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

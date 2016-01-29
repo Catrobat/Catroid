@@ -77,7 +77,8 @@ public class SignInDialog extends DialogFragment implements
 		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener,
 		FacebookLogInTask.OnFacebookLogInCompleteListener,
 		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
-		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener, GetFacebookUserInfoTask.OnGetFacebookUserInfoTaskCompleteListener {
+		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
+		GetFacebookUserInfoTask.OnGetFacebookUserInfoTaskCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_sign_in";
 	private static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
@@ -112,7 +113,6 @@ public class SignInDialog extends DialogFragment implements
 
 		facebookLoginButton.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {
-
 					@Override
 					public void onGlobalLayout() {
 						int width = facebookLoginButton.getWidth();
@@ -305,7 +305,6 @@ public class SignInDialog extends DialogFragment implements
 					googleApiClient.connect();
 				}
 			} else {
-				//Could not resolve the connection result
 				new AlertDialog.Builder(getActivity()).setTitle(R.string.error)
 						.setMessage(R.string.sign_in_error).setPositiveButton(R.string.ok, null).show();
 			}
@@ -314,65 +313,83 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onCheckOAuthTokenComplete(Boolean tokenAvailable, String provider) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
 		if (provider.equals(Constants.FACEBOOK)) {
-			if (tokenAvailable) {
-				FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
-						sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-						sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-						sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-						sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-				);
-				facebookLogInTask.setOnFacebookLogInCompleteListener(this);
-				facebookLogInTask.execute();
-			} else {
-				CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(getActivity(),
-						sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL), provider);
-				checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
-				checkEmailAvailableTask.execute();
-			}
+			checkOAuthTokenFacebook(tokenAvailable);
 		} else if (provider.equals(Constants.GOOGLE_PLUS)) {
-			if (tokenAvailable) {
-				GoogleLogInTask googleLogInTask = new GoogleLogInTask(getActivity(),
-						sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
-						sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
-						sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
-						sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
-				googleLogInTask.setOnGoogleServerLogInCompleteListener(this);
-				googleLogInTask.execute();
-			} else {
-				String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
-				CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(getActivity(),
-						email, provider);
-				checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
-				checkEmailAvailableTask.execute();
-			}
+			checkOAuthTokenGoogle(tokenAvailable);
+		}
+	}
+
+	private void checkOAuthTokenFacebook(boolean tokenAvailable) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (tokenAvailable) {
+			FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
+					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+					sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+					sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+					sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+			);
+			facebookLogInTask.setOnFacebookLogInCompleteListener(this);
+			facebookLogInTask.execute();
+		} else {
+			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(getActivity(),
+					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL), Constants.FACEBOOK);
+			checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
+			checkEmailAvailableTask.execute();
+		}
+	}
+
+	private void checkOAuthTokenGoogle(boolean tokenAvailable) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (tokenAvailable) {
+			GoogleLogInTask googleLogInTask = new GoogleLogInTask(getActivity(),
+					sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL),
+					sharedPreferences.getString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME),
+					sharedPreferences.getString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID),
+					sharedPreferences.getString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE));
+			googleLogInTask.setOnGoogleServerLogInCompleteListener(this);
+			googleLogInTask.execute();
+		} else {
+			String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
+			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(getActivity(),
+					email, Constants.GOOGLE_PLUS);
+			checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
+			checkEmailAvailableTask.execute();
 		}
 	}
 
 	@Override
 	public void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider) {
 		if (provider.equals(Constants.FACEBOOK)) {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			if (emailAvailable) {
-				FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(getActivity(),
-						AccessToken.getCurrentAccessToken().getToken(),
-						sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-						sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-						sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-						sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-				);
-				facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
-				facebookExchangeTokenTask.execute();
-			} else {
-				showOauthUserNameDialog(Constants.FACEBOOK);
-			}
+			checkEmailAvailableCompleteFacebook(emailAvailable);
 		} else if (provider.equals(Constants.GOOGLE_PLUS)) {
-			if (emailAvailable) {
-				exchangeGoogleAuthorizationCode();
-			} else {
-				showOauthUserNameDialog(Constants.GOOGLE_PLUS);
-			}
+			checkEmailAvailableCompleteGoogle(emailAvailable);
+		}
+	}
+
+	private void checkEmailAvailableCompleteFacebook(boolean emailAvailable) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (emailAvailable) {
+			FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(getActivity(),
+					AccessToken.getCurrentAccessToken().getToken(),
+					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+					sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+					sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+					sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+			);
+			facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
+			facebookExchangeTokenTask.execute();
+		} else {
+			showOauthUserNameDialog(Constants.FACEBOOK);
+		}
+	}
+
+	private void checkEmailAvailableCompleteGoogle(boolean emailAvailable) {
+		if (emailAvailable) {
+			exchangeGoogleAuthorizationCode();
+		} else {
+			showOauthUserNameDialog(Constants.GOOGLE_PLUS);
 		}
 	}
 

@@ -108,17 +108,12 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
+		if (Utils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}
 
-		if ((!success && exception != null) || context == null) {
-			showDialog(R.string.sign_in_error);
-			return;
-		}
-
-		if (!userRegistered) {
+		if (Utils.checkForSignInError(success, exception, context, userRegistered)) {
 			showDialog(R.string.sign_in_error);
 			return;
 		}

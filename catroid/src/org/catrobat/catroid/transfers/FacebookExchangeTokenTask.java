@@ -99,7 +99,7 @@ public class FacebookExchangeTokenTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
+		if (Utils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

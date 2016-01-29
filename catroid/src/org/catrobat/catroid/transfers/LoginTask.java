@@ -103,12 +103,12 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK) {
+		if (Utils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}
 
-		if ((!success && exception != null) || context == null || !userLoggedIn) {
+		if (Utils.checkForSignInError(success, exception, context, userLoggedIn)) {
 			showDialog(R.string.sign_in_error);
 			return;
 		}
