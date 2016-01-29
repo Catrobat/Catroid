@@ -103,6 +103,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	private String unpack;
 	private String unpackAndKeep;
 	private String backpack;
+	private String backpackAdd;
 	private String backpackTitle;
 
 	private List<Sprite> spriteList;
@@ -135,6 +136,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		unpack = solo.getString(R.string.unpacking);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
+		backpackAdd = solo.getString(R.string.backpack_add);
 
 		UiTestUtils.clearBackPack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -428,7 +430,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testBackpackSpriteContextMenu() {
-		clickOnContextMenuItem(SPRITE_NAME2, backpack);
+		clickOnContextMenuItem(SPRITE_NAME2, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up",
@@ -437,10 +439,10 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testBackpackSpriteDoubleContextMenu() {
-		clickOnContextMenuItem(SPRITE_NAME, backpack);
+		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
-		clickOnContextMenuItem(SPRITE_NAME2, backpack);
+		clickOnContextMenuItem(SPRITE_NAME2, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up",
@@ -450,7 +452,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testBackPackSpriteSimpleUnpackingContextMenu() {
-		clickOnContextMenuItem(SPRITE_NAME, backpack);
+		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Sprite wasn't backpacked!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
 
@@ -461,7 +463,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testBackPackSpriteSimpleUnpackingAndUnpackingAndKeepContextMenu() {
-		clickOnContextMenuItem(SPRITE_NAME, backpack);
+		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		clickOnContextMenuItem(SPRITE_NAME, unpackAndKeep);
@@ -485,7 +487,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertNotNull("Could not get Adapter", adapter);
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(SPRITE_NAME2, backpack);
+		clickOnContextMenuItem(SPRITE_NAME2, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 		deleteSprite(SPRITE_NAME2);
@@ -508,14 +510,14 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(SPRITE_NAME, solo.getString(R.string.backpack));
+		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(SPRITE_NAME, solo.getString(R.string.unpacking));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME_UNPACKED, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(SPRITE_NAME2, solo.getString(R.string.backpack));
+		clickOnContextMenuItem(SPRITE_NAME2, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(SPRITE_NAME2, solo.getString(R.string.unpacking));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -532,7 +534,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		SpriteAdapter adapter = getSpriteAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(SPRITE_NAME, backpack);
+		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME_BACKGROUND);
 		solo.goBack();
@@ -860,7 +862,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(continueMenu);
 		solo.sleep(TIME_TO_WAIT);
 
-		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, backpack);
+		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up",

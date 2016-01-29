@@ -534,7 +534,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		try {
 			Brick copiedBrick = brick.clone();
 
-			Script scriptList = null;
+			Script scriptList;
 			if (adapter.getUserBrick() != null) {
 				scriptList = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript();
 			} else {
@@ -673,9 +673,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		int indexOfNumber = completeTitle.indexOf(' ') + 1;
 		Spannable completeSpannedTitle = new SpannableString(completeTitle);
-		completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
-				indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		if (!completeTitle.equals(getString(R.string.backpack))) {
+			completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
+					indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
 
 		actionMode.setTitle(completeSpannedTitle);
 	}

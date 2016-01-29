@@ -25,8 +25,7 @@
 
     <item
         android:id="@+id/backpack"
-        android:icon="@drawable/backpack"
-        android:showAsAction="ifRoom"
+        android:showAsAction="never"
         android:visible="true"
         android:title="@string/backpack" />
 

@@ -988,7 +988,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
-		final List<CharSequence> items = new ArrayList<CharSequence>();
+		final List<CharSequence> items = new ArrayList<>();
 
 		if (brickList.get(itemPosition) instanceof ScriptBrick) {
 			int scriptIndex = getScriptIndexFromProject(itemPosition);
@@ -1010,7 +1010,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 		} else {
 			items.add(context.getText(R.string.brick_context_dialog_delete_script));
-			items.add(context.getText(R.string.backpack));
+			items.add(context.getText(R.string.backpack_add));
 		}
 		if (brickHasAFormula(brickList.get(itemPosition))) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
@@ -1056,7 +1056,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					notifyDataSetChanged();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))) {
 					clickedEditFormula(brickList.get(itemPosition), view);
-				} else if (clickedItemText.equals(context.getText(R.string.backpack))) {
+				} else if (clickedItemText.equals(context.getText(R.string.backpack_add))) {
 					int currentPosition = itemPosition;
 					checkedBricks.add(brickList.get(currentPosition));
 					currentPosition++;

@@ -118,6 +118,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private String unpack;
 	private String unpackAndKeep;
 	private String backpack;
+	private String backpackAdd;
 	private String backpackTitle;
 
 	public LookFragmentTest() {
@@ -183,6 +184,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		unpack = solo.getString(R.string.unpacking);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
+		backpackAdd = solo.getString(R.string.backpack_add);
 		backpackTitle = solo.getString(R.string.backpack_title);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_look_title);
 
@@ -266,7 +268,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
 
-		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up",
@@ -277,10 +279,10 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackpackLookDoubleContextMenu() {
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up",
@@ -292,7 +294,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackPackLookSimpleUnpackingContextMenu() {
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 
@@ -305,7 +307,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackPackLookSimpleUnpackingAndUnpackingAndKeepContextMenu() {
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		clickOnContextMenuItem(firstTestLookNamePacked, unpackAndKeep);
@@ -328,7 +330,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 		deleteLook(FIRST_TEST_LOOK_NAME);
@@ -349,14 +351,14 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack_add));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpacking));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack_add));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(secondTestLookNamePacked, solo.getString(R.string.unpacking));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -370,7 +372,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackPackAndUnPackFromDifferentProgrammes() {
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
@@ -392,7 +394,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		LookAdapter adapter = getLookAdapter();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpack);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 		solo.goBack();
