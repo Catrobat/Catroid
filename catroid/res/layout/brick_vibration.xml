@@ -52,20 +52,20 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_vibration_prototype_text_view_seconds"
+            android:id="@+id/brick_vibration_prototype_text_view"
             style="@style/BrickPrototypeTextView"
             android:layout_width="match_parent" >
         </TextView>
 
         <TextView
-            android:id="@+id/brick_vibration_edit_seconds_text"
+            android:id="@+id/brick_vibration_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
         </TextView>
 
         <TextView
-            android:id="@+id/brick_vibration_second_text_view"
+            android:id="@+id/brick_vibration_second_label"
             style="@style/BrickText.Multiple" >
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>

@@ -114,7 +114,7 @@ public class SetYBrick extends FormulaBrick {
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_textview);
+			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_label);
 			TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 			textY.setTextColor(textY.getTextColors().withAlpha(alphaValue));
 			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
