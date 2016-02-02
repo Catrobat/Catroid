@@ -30,6 +30,7 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -95,7 +96,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private NewSpriteDialog(DialogWizardStep wizardStep, Uri lookUri, String newObjectName,
-							ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter, LookData.LookDataType lookDataType) {
+			ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter, LookData.LookDataType lookDataType) {
 		this.requestedAction = requestedAction;
 		this.wizardStep = wizardStep;
 		this.lookUri = lookUri;
@@ -184,8 +185,15 @@ public class NewSpriteDialog extends DialogFragment {
 			imageDimensions[0] = imageDimensions[0] / 2;
 			imageDimensions[1] = imageDimensions[1] / 2;
 		}
+		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(lookUri.getPath(), imageDimensions[0],
+				imageDimensions[1], ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 
-		imageView.setImageBitmap(ImageEditing.getScaledBitmapFromPath(lookUri.getPath(), imageDimensions[0], imageDimensions[1], ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true));
+		if (bitmap == null) {
+			this.dismiss();
+			Utils.showErrorDialog(getActivity(), R.string.error_load_image_special_chars);
+		}
+
+		imageView.setImageBitmap(bitmap);
 
 		EditText editTextNewObject = (EditText) dialogView.findViewById(R.id.dialog_new_object_name_edit_text);
 		editTextNewObject.setHint(newObjectName);
@@ -227,6 +235,9 @@ public class NewSpriteDialog extends DialogFragment {
 			} catch (NullPointerException e) {
 				Utils.showErrorDialog(getActivity(), R.string.error_load_image);
 				Log.e(TAG, Log.getStackTraceString(e));
+			} catch (Exception e) {
+				Utils.showErrorDialog(getActivity(), R.string.error_load_image);
+				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		} else {
 			dismiss();
@@ -242,7 +253,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private Uri decodeUri(Uri uri) throws NullPointerException {
-		String[] filePathColumn = {MediaStore.Images.Media.DATA};
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
@@ -387,9 +398,6 @@ public class NewSpriteDialog extends DialogFragment {
 			return false;
 		}
 
-		Sprite sprite = new Sprite(newSpriteName);
-		projectManager.addSprite(sprite);
-
 		LookData lookData;
 
 		try {
@@ -414,21 +422,23 @@ public class NewSpriteDialog extends DialogFragment {
 			String imageFileName = newLookFile.getName();
 			Utils.rewriteImageFileForStage(getActivity(), newLookFile);
 
-			lookData = new LookData();
 			lookData.setLookFilename(imageFileName);
 			lookData.setLookName(newSpriteName);
 			lookData.setLookFilename(imageFileName);
 		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
 			Log.e(TAG, Log.getStackTraceString(ioException));
+			dismiss();
 			return false;
 		} catch (NullPointerException e) {
-			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
+			Utils.showErrorDialog(getActivity(), R.string.error_load_image_special_chars);
 			Log.e(TAG, "somebody might have selected an image and deleted it before it was added");
 			Log.e(TAG, Log.getStackTraceString(e));
+			dismiss();
 			return false;
 		}
-
+		Sprite sprite = new Sprite(newSpriteName);
+		projectManager.addSprite(sprite);
 		sprite.getLookDataList().add(lookData);
 
 		if (requestedAction == ActionAfterFinished.ACTION_UPDATE_SPINNER && spinnerAdapter != null) {
