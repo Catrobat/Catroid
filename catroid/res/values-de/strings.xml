@@ -243,7 +243,7 @@
   <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
   <string name="new_project_name">Programmname:</string>
   <string name="new_project_empty">Leeres Programm erstellen</string>
-  <string name="new_standard_drone_project">Create a drone project</string>
+  <string name="new_project_default_drone">Neues Drohnenprogramm erstellen</string>
   <string name="project_orientation_title">Ausrichtung:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
   <string name="new_sprite_dialog_title">Neues Objekt</string>
