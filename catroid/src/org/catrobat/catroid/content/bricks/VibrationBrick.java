@@ -49,16 +49,16 @@ public class VibrationBrick extends FormulaBrick {
 
 	private transient View prototypeView;
 
-	private VibrationBrick() {
+	public VibrationBrick() {
 		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS);
+	}
+
+	public VibrationBrick(float vibrateDurationInSeconds) {
+		initializeBrickFields(new Formula(vibrateDurationInSeconds));
 	}
 
 	public VibrationBrick(Formula vibrateDurationInSecondsFormula) {
 		initializeBrickFields(vibrateDurationInSecondsFormula);
-	}
-
-	public VibrationBrick(int vibrationDurationInMilliseconds) {
-		initializeBrickFields(new Formula(vibrationDurationInMilliseconds / 1000.0));
 	}
 
 	private void initializeBrickFields(Formula vibrateDurationInSecondsFormula) {
@@ -91,29 +91,30 @@ public class VibrationBrick extends FormulaBrick {
 			}
 		});
 
-		TextView textSeconds = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
-		TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_seconds_text);
-		getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
-				.setTextFieldId(R.id.brick_vibration_edit_seconds_text);
-		getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS).refreshTextField(view);
+		TextView textVibrate = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view);
+		TextView editVibrate = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
+		TextView secondTextVibrate = (TextView) view.findViewById(R.id.brick_vibration_second_label);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_vibration_second_text_view);
+		getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
+				.setTextFieldId(R.id.brick_vibration_edit_text);
+		getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS).refreshTextField(view);
 
 		if (getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS).isSingleNumberFormula()) {
 			try {
-				times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+				secondTextVibrate.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 			} catch (InterpretationException interpretationException) {
 				Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			}
 		} else {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+			secondTextVibrate.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		textSeconds.setVisibility(View.GONE);
-		editSeconds.setVisibility(View.VISIBLE);
+		textVibrate.setVisibility(View.GONE);
+		editVibrate.setVisibility(View.VISIBLE);
+		editVibrate.setOnClickListener(this);
 
 		return view;
 	}
@@ -121,11 +122,11 @@ public class VibrationBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
-		TextView textSeconds = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
-		textSeconds.setText(String.valueOf(BrickValues.VIBRATE_MILLISECONDS));
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_text_view);
-		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_MILLISECONDS)));
+		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view);
+		textVibrate.setText(String.valueOf(BrickValues.VIBRATE_SECONDS));
+		TextView secondTextVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_label);
+		secondTextVibrate.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_SECONDS)));
 		return prototypeView;
 	}
 
@@ -137,8 +138,8 @@ public class VibrationBrick extends FormulaBrick {
 			background.setAlpha(alphaValue);
 
 			TextView textVibrationLabel = (TextView) view.findViewById(R.id.brick_vibration_label);
-			TextView textVibrationSeconds = (TextView) view.findViewById(R.id.brick_vibration_second_text_view);
-			TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_seconds_text);
+			TextView textVibrationSeconds = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view);
+			TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
 
 			textVibrationLabel.setTextColor(textVibrationLabel.getTextColors().withAlpha(alphaValue));
 			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha(alphaValue));

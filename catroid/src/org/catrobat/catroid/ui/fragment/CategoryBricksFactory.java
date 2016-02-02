@@ -261,7 +261,7 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new ComeToFrontBrick());
 		}
 		if (BuildConfig.FEATURE_VIBRATION_BRICK_ENABLED) {
-			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
+			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 		}
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
