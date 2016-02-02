@@ -93,12 +93,12 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
-    <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
-    <string name="preference_title_drone_config_properties">Drone config properties</string>
+    <string name="preference_title_drone_config_properties">Drone configuration properties</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
@@ -715,7 +715,7 @@
     <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
     <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
-    <string name="preference_title_drone_properties_setting_description">The selective of drone config properties is program specific and can only be configured for opened programs!</string>
+    <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
     <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
     <string name="nxt_port_1">Port 1</string>
     <string name="nxt_port_2">Port 2</string>
@@ -742,7 +742,7 @@
     <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
     <string name="brick_drone_angle">Angle</string>
     <string name="brick_drone_set_config">Set config</string>
-    <string name="brick_drone_switch_camera">Switch camera</string>
+    <string name="brick_drone_switch_camera">Switch drone camera</string>
     <string name="brick_drone_set_altitude">Altitude limit</string>
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
