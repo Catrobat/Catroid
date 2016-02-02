@@ -81,7 +81,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean handleCorrectAddButton;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
-	private ArrayList<Integer> idList = new ArrayList<>();
 
 	private ProjectManager() {
 		this.comingFromScriptFragmentToSoundFragment = false;
@@ -115,15 +114,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void setHandleCorrectAddButton(boolean value) {
 		this.handleCorrectAddButton = value;
-	}
-
-	public int getNewId() {
-		int id = 0;
-		while (idList.contains(id)) {
-			id++;
-		}
-		idList.add(id);
-		return id;
 	}
 
 	public void uploadProject(String projectName, Activity activity) {
