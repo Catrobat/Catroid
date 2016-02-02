@@ -115,6 +115,8 @@ public class VibrationBrick extends FormulaBrick {
 		textSeconds.setVisibility(View.GONE);
 		editSeconds.setVisibility(View.VISIBLE);
 
+		editSeconds.setOnClickListener(this);
+
 		return view;
 	}
 
@@ -122,10 +124,10 @@ public class VibrationBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
 		TextView textSeconds = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
-		textSeconds.setText(String.valueOf(BrickValues.VIBRATE_MILLISECONDS));
+		textSeconds.setText(String.valueOf(BrickValues.DURATION));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_MILLISECONDS)));
+				Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
 		return prototypeView;
 	}
 
@@ -149,6 +151,18 @@ public class VibrationBrick extends FormulaBrick {
 			this.alphaValue = alphaValue;
 		}
 		return view;
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		switch (view.getId()) {
+			case R.id.brick_vibration_edit_seconds_text:
+				FormulaEditorFragment.showFragment(view, this, BrickField.VIBRATE_DURATION_IN_SECONDS);
+				break;
+		}
 	}
 
 	@Override
