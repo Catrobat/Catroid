@@ -29,8 +29,8 @@ import android.util.Log;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -42,7 +42,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
-public class LookData extends Image implements Serializable, Cloneable {
+public class LookData implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LookData.class.getSimpleName();
 
@@ -60,6 +60,9 @@ public class LookData extends Image implements Serializable, Cloneable {
 	private int id = ProjectManager.getInstance().getNewId();
 
 	public LookData() {
+	}
+
+	public void draw(Batch batch, float alpha) {
 	}
 
 	public static enum LookDataType {
@@ -236,10 +239,6 @@ public class LookData extends Image implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public void onDraw() {
-		//Nothing to do here
 	}
 
 	public int getRequiredResources() {

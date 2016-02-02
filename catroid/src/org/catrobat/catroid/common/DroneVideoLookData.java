@@ -41,11 +41,11 @@ import java.io.FileNotFoundException;
 
 public class DroneVideoLookData extends LookData {
 
-	private static final String TAG = LookData.class.getSimpleName();
+	private static final String TAG = DroneVideoLookData.class.getSimpleName();
 
 	private transient boolean firstStart = true;
 	private transient GLBGVideoSprite videoTexture;
-	private transient int[] videoSize = {0, 0};
+	private transient int[] videoSize = { 0, 0 };
 	private transient int[] defaultVideoTextureSize;
 	private transient boolean islandscapeMode = true;
 
@@ -85,9 +85,9 @@ public class DroneVideoLookData extends LookData {
 			// BUG: getHeight() should be 1200, but it is 1100, so we need an scaling factor of 1.1
 			virtualScreenHeight = Gdx.graphics.getHeight() * 1.1;
 
-			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) virtualScreenHeight};
-			Log.d(getClass().getSimpleName(), "virtualScreenWidth: " + virtualScreenWidth);
-			Log.d(getClass().getSimpleName(), "virtualScreenHeight: " + virtualScreenHeight);
+			defaultVideoTextureSize = new int[] { (int) virtualScreenWidth, (int) virtualScreenHeight };
+			Log.d(TAG, "virtualScreenWidth: " + virtualScreenWidth);
+			Log.d(TAG, "virtualScreenHeight: " + virtualScreenHeight);
 
 			// this block is not necessary maybe
 			//*************************************************
@@ -98,7 +98,7 @@ public class DroneVideoLookData extends LookData {
 			camera.update();
 			//*************************************************
 		} else {
-			defaultVideoTextureSize = new int[]{(int) virtualScreenWidth, (int) videoWidth};
+			defaultVideoTextureSize = new int[] { (int) virtualScreenWidth, (int) videoWidth };
 		}
 
 		if (pixmap == null) {
@@ -118,7 +118,6 @@ public class DroneVideoLookData extends LookData {
 		this.textureRegion = new TextureRegion(new Texture(getPixmap()));
 	}
 
-	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		if (firstStart) {
 			videoTexture = new GLBGVideoSprite();
@@ -134,7 +133,7 @@ public class DroneVideoLookData extends LookData {
 		videoTexture.onUpdateVideoTexture();
 
 		/*if (islandscapeMode) {
-			batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+			batch.drawDroneVideo(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 		}*/
 	}
 
@@ -144,7 +143,7 @@ public class DroneVideoLookData extends LookData {
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
 
-		setSize(1f, 1f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
+		//setSize(1f, 1f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
 	}
 
 	@Override
