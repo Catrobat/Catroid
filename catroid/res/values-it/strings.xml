@@ -36,6 +36,7 @@
   <string name="copy">Copiare</string>
   <string name="cut">Tagliare</string>
   <string name="move">Muovi</string>
+  <string name="backpack_add">Aggiungere allo zaino</string>
   <string name="backpack">Zaino</string>
   <string name="packing">Pack</string>
   <string name="unpacking">Scompatta</string>

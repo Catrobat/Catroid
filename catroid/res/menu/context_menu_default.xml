@@ -25,7 +25,7 @@
 
     <item
         android:id="@+id/context_menu_backpack"
-        android:title="@string/backpack"
+        android:title="@string/backpack_add"
         android:visible="true"/>
 	<item
         android:id="@+id/context_menu_unpacking"

@@ -37,6 +37,7 @@
     <string name="copy">Copy</string>
     <string name="cut">Cut</string>
     <string name="move">Move</string>
+    <string name="backpack_add">Add to backpack</string>
     <string name="backpack">Backpack</string>
     <string name="packing">Pack</string>
     <string name="unpacking">Unpacking</string>

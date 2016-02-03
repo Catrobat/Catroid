@@ -194,7 +194,7 @@ public class SpriteAdapter extends SpriteBaseAdapter implements ActionModeActivi
 
 	private void openBackPackMenuFromBackground() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		CharSequence[] items = new CharSequence[] { getContext().getString(R.string.backpack) };
+		CharSequence[] items = new CharSequence[] { getContext().getString(R.string.backpack_add) };
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
