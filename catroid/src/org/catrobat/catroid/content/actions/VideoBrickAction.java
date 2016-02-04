@@ -33,7 +33,6 @@ public class VideoBrickAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-
 		CameraManager.getInstance().updatePreview(state);
 	}
 

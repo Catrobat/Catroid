@@ -60,8 +60,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
-import org.catrobat.catroid.content.bricks.FlashOffBrick;
-import org.catrobat.catroid.content.bricks.FlashOnBrick;
+import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -235,11 +234,8 @@ public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream
 		brickInfo = new BrickInfo(IfOnEdgeBounceBrick.class.getSimpleName());
 		brickInfoMap.put("ifOnEdgeBounceBrick", brickInfo);
 
-		brickInfo = new BrickInfo(FlashOffBrick.class.getSimpleName());
-		brickInfoMap.put("ledOffBrick", brickInfo);
-
-		brickInfo = new BrickInfo(FlashOnBrick.class.getSimpleName());
-		brickInfoMap.put("ledOnBrick", brickInfo);
+		brickInfo = new BrickInfo(FlashBrick.class.getSimpleName());
+		brickInfoMap.put("flashBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LegoNxtMotorMoveBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.LEGO_NXT_SPEED);

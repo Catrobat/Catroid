@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -584,9 +585,15 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static FlashAction lights(boolean ledValue) {
+	public static FlashAction turnFlashOn() {
 		FlashAction action = action(FlashAction.class);
-		action.setFlashValue(ledValue);
+		action.turnFlashOn();
+		return action;
+	}
+
+	public static FlashAction turnFlashOff() {
+		FlashAction action = action(FlashAction.class);
+		action.turnFlashOff();
 		return action;
 	}
 

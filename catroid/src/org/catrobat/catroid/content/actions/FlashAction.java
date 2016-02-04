@@ -22,34 +22,30 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.utils.FlashUtil;
 
 public class FlashAction extends TemporalAction {
 
-	private boolean flashValue;
+	private static final int OFF = 0;
+	private static final int ON = 1;
+	private int turnFlash = OFF;
 
 	@Override
 	protected void update(float percent) {
-
-		if (!CameraManager.getInstance().isFacingBack() && !FlashUtil.isOn() && flashValue) {
-			Log.w("FlashError", "destry Stage because frontCamera is chosen and flashValue = " + flashValue);
-			CameraManager.getInstance().destroyStage();
-			return;
-		}
-
-		if (FlashUtil.isOn() && !flashValue) {
-			FlashUtil.flashOff();
-		} else if (!FlashUtil.isOn() && flashValue) {
+		if (turnFlash == ON) {
 			FlashUtil.flashOn();
+		} else {
+			FlashUtil.flashOff();
 		}
 	}
 
-	public void setFlashValue(boolean flashValue) {
-		this.flashValue = flashValue;
+	public void turnFlashOn() {
+		turnFlash = ON;
+	}
+
+	public void turnFlashOff() {
+		turnFlash = OFF;
 	}
 }

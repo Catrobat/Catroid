@@ -23,34 +23,40 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_flash_off_checkbox"
+        android:id="@+id/brick_flash_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_flash_off_layout"
-        style="@style/BrickContainer.Look.Small"
+        android:id="@+id/brick_flash_layout"
+        style="@style/BrickContainer.Look.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_led_off_label"
-            style="@style/BrickText.Multiple"
-            android:text="@string/brick_flash_off" >
-        </TextView>
+            android:id="@+id/brick_flash_prototype_text_view"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_flash" />
 
-    </org.catrobat.catroid.ui.BrickLayout>
+        <Spinner
+            android:id="@+id/brick_flash_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false" />
+    </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

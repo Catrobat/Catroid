@@ -60,8 +60,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
-import org.catrobat.catroid.content.bricks.FlashOffBrick;
-import org.catrobat.catroid.content.bricks.FlashOnBrick;
+import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -316,8 +315,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
 		if (BuildConfig.FEATURE_FLASH_BRICK_ENABLED) {
-			looksBrickList.add(new FlashOffBrick());
-			looksBrickList.add(new FlashOnBrick());
+			looksBrickList.add(new FlashBrick());
 		}
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
