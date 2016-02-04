@@ -600,14 +600,14 @@ public class ExtendedActions extends Actions {
 	public static ShowTextAction showText(Sprite sprite, Formula x, Formula y, String variableName) {
 		ShowTextAction action = action(ShowTextAction.class);
 		action.setPosition(x, y);
-		action.setText(variableName);
+		action.setVariableName(variableName);
 		action.setSprite(sprite);
 		return action;
 	}
 
-	public static HideTextAction hideText(Sprite sprite, String variableName) {
+	public static HideTextAction hideText(String variableName) {
 		HideTextAction action = action(HideTextAction.class);
-		action.setText(variableName);
+		action.setVariableName(variableName);
 		return action;
 	}
 

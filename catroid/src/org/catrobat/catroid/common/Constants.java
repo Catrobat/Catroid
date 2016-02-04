@@ -151,6 +151,7 @@ public final class Constants {
 	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
+	public static final String NO_VARIABLE_SELECTED = "No variable set";
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;
