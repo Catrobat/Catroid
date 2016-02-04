@@ -26,18 +26,22 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
 
+import com.robotium.solo.By;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.dialogs.LogInDialog;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private boolean containsSetting;
 	private boolean showWarning;
 	private SharedPreferences preferences;
+	private String saveToken;
 
 	public WebViewActivityTest() {
 		super(MainMenuActivity.class);
@@ -51,6 +55,9 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		containsSetting = preferences.contains(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING);
 		showWarning = preferences.getBoolean(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING, true);
 		preferences.edit().remove(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING).commit();
+
+		saveToken = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		preferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 	}
 
 	@Override
@@ -59,7 +66,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			preferences.edit().putBoolean(MainMenuActivity.SHARED_PREFERENCES_SHOW_BROWSER_WARNING, showWarning)
 					.commit();
 		}
-
+		preferences.edit().putString(Constants.TOKEN, saveToken).commit();
 		super.tearDown();
 	}
 
@@ -133,5 +140,26 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		});
 
 		assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
+	}
+
+	public void testWebViewExploreTokenLogIn() {
+		UiTestUtils.createValidUser(getActivity());
+		String webButtonText = solo.getString(R.string.main_menu_web);
+
+		solo.clickOnButton(webButtonText);
+		solo.waitForView(solo.getView(R.id.webView));
+		solo.sleep(2000);
+		solo.clickOnWebElement(By.className("img-avatar"));
+		assertTrue("User is not automatically logged in in webview", solo.searchText("My Profile"));
+
+		solo.goBackToActivity("MainMenuActivity");
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_logout));
+		solo.sleep(200);
+
+		solo.clickOnButton(webButtonText);
+		solo.waitForView(solo.getView(R.id.webView));
+		solo.sleep(2000);
+		solo.clickOnWebElement(By.className("img-avatar"));
+		assertTrue("User is not automatically logged out in webview", solo.searchText("Login"));
 	}
 }

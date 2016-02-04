@@ -210,6 +210,19 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
+		/* TOKEN LOGIN
+		if (Utils.isUserLoggedIn(this)) {
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+			String url = Constants.CATROBAT_TOKEN_LOGIN_URL + username + Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + token;
+			startWebViewActivity(url);
+		} else {
+			startWebViewActivity(Constants.BASE_URL_HTTPS);
+		}
+		*/
+
 		startWebViewActivity(Constants.BASE_URL_HTTPS);
 	}
 

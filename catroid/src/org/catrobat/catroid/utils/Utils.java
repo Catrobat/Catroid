@@ -62,8 +62,10 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.File;
@@ -604,8 +606,45 @@ public final class Utils {
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
-			sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
-			sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+			logoutUser(context);
 		}
+	}
+
+	public static void logoutUser(Context context) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		/* TOKEN LOGIN
+		if (isNetworkAvailable(context)) {
+			ServerCalls.getInstance().logoutCallToServer(userName);
+		}
+		*/
+
+		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+		sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+
+		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE).commit();
+
+		sharedPreferences.edit().putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN).commit();
+
+		WebViewActivity.clearCookies(context);
+	}
+
+	public static boolean isUserLoggedIn(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+		return tokenValid;
 	}
 }

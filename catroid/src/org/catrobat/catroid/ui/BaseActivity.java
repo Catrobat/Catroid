@@ -38,11 +38,13 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
+	private Menu baseMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class BaseActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		baseMenu = menu;
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -105,6 +108,9 @@ public class BaseActivity extends Activity {
 			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
 				aboutDialog.show(getFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				return true;
+			case R.id.menu_logout:
+				Utils.logoutUser(this);
 				return true;
 			default:
 				break;
@@ -152,5 +158,11 @@ public class BaseActivity extends Activity {
 
 	public void setTitleActionBar(String titleActionBar) {
 		this.titleActionBar = titleActionBar;
+	}
+
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem logout = baseMenu.findItem(R.id.menu_logout);
+		logout.setVisible(Utils.isUserLoggedIn(this));
+		return true;
 	}
 }
