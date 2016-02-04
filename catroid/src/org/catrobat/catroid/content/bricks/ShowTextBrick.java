@@ -87,7 +87,7 @@ public class ShowTextBrick extends UserVariableBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.SHOWTEXT);
+		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 	}
 
 	@Override
