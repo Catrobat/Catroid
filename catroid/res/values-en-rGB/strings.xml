@@ -332,7 +332,7 @@
   <string name="brick_next_look">Next look</string>
   <string name="brick_next_background">Next background</string>
   <string name="brick_flash_on">Turn flashlight ON</string>
-  <string name="brick_flash_off">Turn flashlight OFF</string>
+  <string name="brick_flash_off">off</string>
   <string name="brick_vibration">Vibrate for</string>
   <string name="brick_play_sound">Start sound</string>
   <string name="brick_stop_all_sounds">Stop all sounds</string>
