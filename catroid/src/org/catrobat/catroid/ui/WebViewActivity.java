@@ -286,7 +286,7 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	//taken from http://stackoverflow.com/a/28998241/
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({"deprecation", "NewApi"})
 	public static void clearCookies(Context context) {
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
 			CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(context);
