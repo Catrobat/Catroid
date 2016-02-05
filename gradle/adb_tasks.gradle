@@ -21,8 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 def getAdb() {
     def adbPath = "adb"
     if (System.properties['adbPath']) {
@@ -73,8 +71,6 @@ def createAdbInstallTask(variant) {
         executeShellCommand(command)
     }
 }
-
-
 
 android.applicationVariants.all { variant ->
     createAdbInstallTask(variant)

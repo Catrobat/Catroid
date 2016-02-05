@@ -610,6 +610,7 @@ public final class Utils {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);

@@ -148,10 +148,9 @@ public final class FaceDetectionHandler {
 			Camera camera = CameraManager.getInstance().getCamera();
 			possibleFaces = getMaxNumberOfFaces(camera);
 
-			if(!cameraReady) {
+			if (!cameraReady) {
 				CameraManager.getInstance().releaseCamera();
 			}
-
 		} catch (Exception exception) {
 			Log.e(TAG, "Camera unaccessable!", exception);
 		}
