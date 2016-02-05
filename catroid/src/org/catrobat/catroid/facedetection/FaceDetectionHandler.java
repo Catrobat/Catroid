@@ -140,14 +140,18 @@ public final class FaceDetectionHandler {
 	public static boolean isIcsFaceDetectionSupported() {
 		int possibleFaces = 0;
 		try {
-			if (!CameraManager.getInstance().isReady()) {
+			boolean cameraReady = CameraManager.getInstance().isReady();
+			if (!cameraReady) {
 				CameraManager.getInstance().startCamera();
 			}
 
 			Camera camera = CameraManager.getInstance().getCamera();
 			possibleFaces = getMaxNumberOfFaces(camera);
 
-			CameraManager.getInstance().releaseCamera();
+			if(!cameraReady) {
+				CameraManager.getInstance().releaseCamera();
+			}
+
 		} catch (Exception exception) {
 			Log.e(TAG, "Camera unaccessable!", exception);
 		}
