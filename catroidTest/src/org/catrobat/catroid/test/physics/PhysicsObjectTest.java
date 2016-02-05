@@ -92,7 +92,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	public void testDefaultProperties() {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 
-        assertEquals("Wrong initialization", PhysicsObject.Type.FIXED, PhysicsTestUtils.getType(physicsObject));
+		assertEquals("Wrong initialization", PhysicsObject.Type.FIXED, PhysicsTestUtils.getType(physicsObject));
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
 

@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.physics;
 
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -49,10 +48,7 @@ public class PhysicsCollisionTest extends InstrumentationTestCase {
 		String key1SubstringSprite2 = key1.substring(key1.length() - sprite2.getName().length(), key1.length());
 		String key2SubstringSprite1 = key2.substring(key1.length() - sprite1.getName().length(), key2.length());
 		String key2SubstringSprite2 = key2.substring(0, sprite2.getName().length());
-		Log.d("phill_test", key1SubstringSprite1);
-		Log.d("phill_test", key1SubstringSprite2);
-		Log.d("phill_test", key2SubstringSprite1);
-		Log.d("phill_test", key2SubstringSprite2);
+
 		assertEquals("sprite1 name not equal to key1 partition", sprite1.getName(), key1SubstringSprite1);
 		assertEquals("sprite2 name not equal to key1 partition", sprite2.getName(), key1SubstringSprite2);
 		assertEquals("sprite1 name not equal to key2 partition", sprite1.getName(), key2SubstringSprite1);

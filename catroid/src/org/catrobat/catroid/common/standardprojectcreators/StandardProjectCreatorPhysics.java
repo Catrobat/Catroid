@@ -51,8 +51,8 @@ import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -148,7 +148,7 @@ public class StandardProjectCreatorPhysics extends StandardProjectCreator {
 
 		// Ball
 		StartScript startScript = new StartScript();
-		startScript.addBrick(new SetGravityBrick(new Vector2(0.0f, -35.0f * (float) backgroundImageScaleVector.y)));
+		startScript.addBrick(new SetGravityBrick(new Vector2(0.0f, -35.0f * backgroundImageScaleVector.y)));
 		ball.addScript(startScript);
 
 		Script ballStartScript = createElement(context, projectName, ball, "physics_pinball",
@@ -180,7 +180,7 @@ public class StandardProjectCreatorPhysics extends StandardProjectCreator {
 		setPhysicsProperties(restart, startScriptRestart, PhysicsObject.Type.FIXED, 60.0f, 40.0f);
 		startScriptRestart.addBrick(new ComeToFrontBrick());
 
-		Script physicsCollisionScript = new CollisionScript(restartName + CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR + "Ball");
+		Script physicsCollisionScript = new CollisionScript(restartName + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + "Ball");
 		physicsCollisionScript.addBrick(new BroadcastBrick("reset_ball"));
 		physicsCollisionScript.addBrick(new PlaceAtBrick(0, 0));
 		restart.addScript(physicsCollisionScript);

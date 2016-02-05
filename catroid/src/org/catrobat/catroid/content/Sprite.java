@@ -438,4 +438,25 @@ public class Sprite implements Serializable, Cloneable {
 	public String toString() {
 		return name;
 	}
+
+	public void rename(String newSpriteName) {
+		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
+			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			for (Sprite currentSprite : spriteList) {
+				if ((currentSprite.getRequiredResources() & Brick.PHYSIC) > 0) {
+					currentSprite.updateCollisionBroadcastMessages(getName(), newSpriteName);
+				}
+			}
+		}
+		setName(newSpriteName);
+	}
+
+	public void updateCollisionBroadcastMessages(String oldCollisionObjectIdentifier, String newCollisionObjectIdentifier) {
+		for (int scriptIndex = 0; scriptIndex < getNumberOfScripts(); scriptIndex++) {
+			Script currentScript = getScript(scriptIndex);
+			if (currentScript instanceof CollisionScript) {
+				((CollisionScript) currentScript).updateBroadcastMessage(oldCollisionObjectIdentifier, newCollisionObjectIdentifier);
+			}
+		}
+	}
 }
