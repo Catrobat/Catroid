@@ -34,13 +34,10 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -286,7 +283,8 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	//taken from http://stackoverflow.com/a/28998241/
-	@SuppressWarnings({"deprecation", "NewApi"})
+	//@SuppressWarnings({"deprecation", "NewApi"})
+	/*
 	public static void clearCookies(Context context) {
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
 			CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(context);
@@ -301,4 +299,5 @@ public class WebViewActivity extends BaseActivity {
 			CookieManager.getInstance().flush();
 		}
 	}
+	*/
 }

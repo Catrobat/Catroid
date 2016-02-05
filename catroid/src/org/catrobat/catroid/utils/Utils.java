@@ -62,7 +62,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.web.ServerCalls;
@@ -620,6 +619,7 @@ public final class Utils {
 			ServerCalls.getInstance().logoutCallToServer(userName);
 		}
 		*/
+		//WebViewActivity.clearCookies(context);
 
 		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 		sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
@@ -636,8 +636,6 @@ public final class Utils {
 		sharedPreferences.edit().putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID).commit();
 		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE).commit();
 		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN).commit();
-
-		WebViewActivity.clearCookies(context);
 	}
 
 	public static boolean isUserLoggedIn(Context context) {
