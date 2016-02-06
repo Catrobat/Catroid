@@ -182,7 +182,7 @@ public final class StorageHandler {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private XStreamToSupportCatrobatLanguageVersion097AndBefore xstream;
+	private XStreamToSupportCatrobatLanguageVersion098AndBefore xstream;
 
 	private FileInputStream fileInputStream;
 
@@ -202,7 +202,7 @@ public final class StorageHandler {
 	}
 
 	private StorageHandler() throws IOException {
-		xstream = new XStreamToSupportCatrobatLanguageVersion097AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(DataContainer.class);

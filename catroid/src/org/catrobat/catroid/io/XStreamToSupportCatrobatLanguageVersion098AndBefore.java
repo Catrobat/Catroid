@@ -132,14 +132,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion097AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion098AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion097AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion098AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 

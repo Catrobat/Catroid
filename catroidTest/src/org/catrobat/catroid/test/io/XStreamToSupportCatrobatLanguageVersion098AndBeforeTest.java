@@ -36,7 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class XStreamToSupportCatrobatLanguageVersion097AndBeforeTest extends InstrumentationTestCase {
+public class XStreamToSupportCatrobatLanguageVersion098AndBeforeTest extends InstrumentationTestCase {
 
 	private static final String TAG = "XStreamTest";
 
