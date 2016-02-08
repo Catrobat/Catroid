@@ -31,6 +31,9 @@ public final class ScreenValues {
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
 
+	public static final int CAST_SCREEN_WIDTH = 1280;
+	public static final int CAST_SCREEN_HEIGHT = 720;
+
 	// Suppress default constructor for noninstantiability
 	private ScreenValues() {
 		throw new AssertionError();

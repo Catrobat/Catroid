@@ -44,6 +44,7 @@ public class XmlHeader implements Serializable {
 
 	private float catrobatLanguageVersion;
 	private boolean landscapeMode;
+	private boolean isCastProject = false;
 
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
@@ -190,4 +191,9 @@ public class XmlHeader implements Serializable {
 	public void setlandscapeMode(boolean landscapeMode) {
 		this.landscapeMode = landscapeMode;
 	}
+
+	public void setIsCastProject(boolean isCastProject) { this.isCastProject = isCastProject; }
+
+	public boolean isCastProject() { return isCastProject; }
+
 }

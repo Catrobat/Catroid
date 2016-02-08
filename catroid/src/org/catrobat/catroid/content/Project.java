@@ -58,7 +58,7 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<>();
 
-	public Project(Context context, String name, boolean landscapeMode) {
+	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
@@ -76,6 +76,11 @@ public class Project implements Serializable {
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
 
+		if (isCastProject) {
+			setChromecastFields();
+		}
+
+
 		MessageContainer.clear();
 
 		dataContainer = new DataContainer();
@@ -89,8 +94,18 @@ public class Project implements Serializable {
 		addSprite(background);
 	}
 
+	public Project(Context context, String name, boolean landscapeMode) {
+		this(context, name, landscapeMode, false);
+	}
+
 	public Project(Context context, String name) {
 		this(context, name, false);
+	}
+
+	public void setChromecastFields() {
+		xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth  = ScreenValues.CAST_SCREEN_WIDTH;
+		xmlHeader.setIsCastProject(true);
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
@@ -303,6 +318,10 @@ public class Project implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	public boolean isCastProject() {
+		return xmlHeader.isCastProject();
 	}
 
 	public boolean islandscapeMode() {

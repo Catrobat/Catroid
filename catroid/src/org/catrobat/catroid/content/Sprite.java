@@ -320,6 +320,18 @@ public class Sprite implements Serializable, Cloneable {
 		return cloneSprite;
 	}
 
+	public void createWhengamepadButtonScriptActionSequence(String action) {
+		ParallelAction whenParallelAction = ExtendedActions.parallel();
+		for (Script s : scriptList) {
+			if (s instanceof WhenGamepadButtonScript && (((WhenGamepadButtonScript) s).getAction().equalsIgnoreCase(action))) {
+				SequenceAction sequence = createActionSequence(s);
+				whenParallelAction.addAction(sequence);
+			}
+		}
+		look.setWhenParallelAction(whenParallelAction);
+		look.addAction(whenParallelAction);
+	}
+
 	public Sprite cloneForBackPack() {
 		//TODO: userbricks currently not supported
 		final Sprite cloneSprite = new Sprite();

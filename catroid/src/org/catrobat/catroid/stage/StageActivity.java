@@ -28,8 +28,12 @@ import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -43,6 +47,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
@@ -59,6 +64,32 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 
 	AndroidApplicationConfiguration configuration = null;
+
+	private void initGamepadListeners() {
+
+		View.OnTouchListener otl = new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				handleGamepadTouch((ImageButton) v, event);
+				return true;
+			}
+		};
+
+		ImageButton[] gamepadButtons = {
+
+				(ImageButton) findViewById(R.id.gamepadButtonA),
+				(ImageButton) findViewById(R.id.gamepadButtonB),
+				(ImageButton) findViewById(R.id.gamepadButtonUp),
+				(ImageButton) findViewById(R.id.gamepadButtonDown),
+				(ImageButton) findViewById(R.id.gamepadButtonLeft),
+				(ImageButton) findViewById(R.id.gamepadButtonRight)
+		};
+
+		for (ImageButton btn : gamepadButtons) {
+			btn.setOnTouchListener(otl);
+		}
+
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,6 +123,10 @@ public class StageActivity extends AndroidApplication {
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			initGamepadListeners();
+		}
 
 		CameraManager.getInstance().setStageActivity(this);
 	}
@@ -250,6 +285,61 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public int getLogLevel() {
 		return 0;
+	}
+
+	public void onPauseButtonPressed(View view) {
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		onBackPressed();
+	}
+
+	private void handleGamepadTouch(ImageButton button, MotionEvent event) {
+
+		if (event.getAction() != MotionEvent.ACTION_DOWN && event.getAction() != MotionEvent.ACTION_UP) {
+			// We only care about the event when a gamepad button is pressed and when a gamepad button is unpressed
+			return;
+		}
+
+		//CastManager castManager = CastManager.getInstance();
+
+		boolean isActionDown = (event.getAction() == MotionEvent.ACTION_DOWN);
+		String buttonPressedName;
+
+		switch (button.getId())
+		{
+			case R.id.gamepadButtonA:
+				buttonPressedName = getString(R.string.cast_gamepad_A);
+				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
+				//castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonB:
+				buttonPressedName = getString(R.string.cast_gamepad_B);
+				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
+				//castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonUp:
+				buttonPressedName = getString(R.string.cast_gamepad_up);
+				//castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonDown:
+				buttonPressedName = getString(R.string.cast_gamepad_down);
+				//castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonLeft:
+				buttonPressedName = getString(R.string.cast_gamepad_left);
+				//castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonRight:
+				buttonPressedName = getString(R.string.cast_gamepad_right);
+				//castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, isActionDown);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown button pressed");
+		}
+
+		if (isActionDown) {
+			stageListener.gamepadPressed(buttonPressedName);
+			button.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		}
 	}
 
 	//for running Asynchronous Tasks from the stage

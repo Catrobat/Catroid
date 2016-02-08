@@ -574,6 +574,11 @@
         <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_bluetooth</item>
     </style>
+
+    <style name="BrickCategoryText.Cast">
+        <item name="android:background">@drawable/brick_selection_background_chromecast</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_chromecast</item>
+    </style>
     
     <style name="userBrickDataTextBackground" >
  		<item name="android:background" >@drawable/brick_data_round_rect</item >

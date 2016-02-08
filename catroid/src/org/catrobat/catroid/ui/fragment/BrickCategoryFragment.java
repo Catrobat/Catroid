@@ -171,6 +171,10 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
 		}
 
+		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_chromecast, null));
+		}
+
 		adapter = new BrickCategoryAdapter(categories);
 		this.setListAdapter(adapter);
 	}

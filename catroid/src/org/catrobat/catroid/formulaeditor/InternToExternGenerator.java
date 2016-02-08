@@ -110,6 +110,19 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_Y_POSITION.name(),
 				R.string.formula_editor_sensor_face_y_position);
 
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_A_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_a_pressed);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_B_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_b_pressed);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_UP_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_up_pressed);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_DOWN_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_down_pressed);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_LEFT_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_left_pressed);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_RIGHT_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_right_pressed);
+
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_1.name(), R.string.formula_editor_sensor_lego_nxt_1);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_2.name(), R.string.formula_editor_sensor_lego_nxt_2);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_3.name(), R.string.formula_editor_sensor_lego_nxt_3);

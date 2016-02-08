@@ -130,6 +130,12 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position};
 
+	private static final int[] CHROMECAST_GAMEPAD_SENSOR_ITEMS = {R.string.formula_editor_sensor_gamepad_a_pressed,
+			R.string.formula_editor_sensor_gamepad_b_pressed, R.string.formula_editor_sensor_gamepad_up_pressed,
+			R.string.formula_editor_sensor_gamepad_down_pressed, R.string.formula_editor_sensor_gamepad_left_pressed,
+			R.string.formula_editor_sensor_gamepad_right_pressed
+	};
+
 	private String actionBarTitle;
 	private int[] itemsIds;
 
@@ -186,6 +192,10 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, CHROMECAST_GAMEPAD_SENSOR_ITEMS);
 			}
 
 			if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
