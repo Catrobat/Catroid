@@ -46,6 +46,7 @@ public class SettingsActivity extends PreferenceActivity {
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
+	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -107,6 +108,12 @@ public class SettingsActivity extends PreferenceActivity {
 			PreferenceScreen arduinoPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
 			arduinoPreference.setEnabled(false);
 			screen.removePreference(arduinoPreference);
+		}
+
+		if (!BuildConfig.FEATURE_CAST_ENABLED) {
+			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
+			globalCastPreference.setEnabled(false);
+			screen.removePreference(globalCastPreference);
 		}
 	}
 
@@ -229,6 +236,10 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
+	}
+
+	public static boolean isCastSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
 	}
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {

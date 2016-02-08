@@ -103,6 +103,9 @@
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+    <string name="preference_title_cast_feature_globally_enabled">Enable cast features</string>
+    <string name="preference_description_cast_feature_globally_enabled">Show cast button and allow cast project creation</string>
+
     <!--  -->
 
 
@@ -331,6 +334,7 @@
     <string name="new_project_default">Create example program</string>
     <string name="new_project_default_drone">Create example drone program</string>
     <string name="project_orientation_title">Orientation:</string>
+    <string name="project_select_screen_title">Screen:</string>
     <!--  -->
 
 
