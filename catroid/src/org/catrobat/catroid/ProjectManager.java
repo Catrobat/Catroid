@@ -292,10 +292,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone,
+									 boolean landscapeMode, boolean castEnabled)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
+		//TODO: Initialize cast project
 		if (empty) {
 			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
 		} else if (drone) {
@@ -310,7 +312,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone)
 			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, drone, false);
+		initializeNewProject(projectName, context, empty, drone, false, false);
 	}
 
 	public Project getCurrentProject() {

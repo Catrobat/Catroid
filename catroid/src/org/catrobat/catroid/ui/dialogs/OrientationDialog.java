@@ -52,8 +52,10 @@ public class OrientationDialog extends DialogFragment {
 	private Dialog orientationDialog;
 	private String projectName;
 	private RadioButton landscapeMode;
+	private RadioButton cast;
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
+	private boolean createCastProject = false;
 
 	private boolean openedFromProjectList = false;
 	private boolean createDroneProject = false;
@@ -61,9 +63,11 @@ public class OrientationDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+		boolean castEnabled = true;//SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
+		int title = castEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.project_orientation_title)
+				.setTitle(title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -92,15 +96,20 @@ public class OrientationDialog extends DialogFragment {
 			}
 		});
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
+		cast = (RadioButton) dialogView.findViewById(R.id.cast);
+
 
 		return orientationDialog;
 	}
 
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
+		createCastProject = cast.isChecked();
+
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,
+					createDroneProject, createLandscapeProject, createCastProject);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;

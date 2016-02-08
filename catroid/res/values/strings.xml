@@ -331,6 +331,7 @@
     <string name="new_project_default">Create example program</string>
     <string name="new_project_default_drone">Create example drone program</string>
     <string name="project_orientation_title">Orientation:</string>
+    <string name="project_select_screen_title">Screen:</string>
     <!--  -->
 
 

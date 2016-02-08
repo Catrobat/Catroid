@@ -93,6 +93,12 @@ public class Project implements Serializable {
 		this(context, name, false);
 	}
 
+	public void setChromecastFields() {
+		xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth  = ScreenValues.CAST_SCREEN_WIDTH;
+		xmlHeader.setIsCastProject(true);
+	}
+
 	private void ifLandscapeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
