@@ -453,8 +453,8 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		brickInfo = new BrickInfo(SetTextBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
 		brickInfo.addBrickFieldToMap("yDestination", BrickField.Y_DESTINATION);
-		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
-		brickInfoMap.put("glideToBrick", brickInfo);
+		brickInfo.addBrickFieldToMap("string", BrickField.STRING);
+		brickInfoMap.put("setTextBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ShowTextBrick.class.getSimpleName());
 		brickInfoMap.put("showTextBrick", brickInfo);
