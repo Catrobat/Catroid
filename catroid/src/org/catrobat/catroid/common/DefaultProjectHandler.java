@@ -550,16 +550,20 @@ public final class DefaultProjectHandler {
 		return createAndSaveDefaultProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode) {
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode, boolean isCastEnabled) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
-		Project emptyProject = new Project(context, projectName, landscapeMode);
+		Project emptyProject = new Project(context, projectName, landscapeMode, isCastEnabled);
 		emptyProject.setDeviceData(context);
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
 
 		return emptyProject;
+	}
+
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode) {
+		return createAndSaveEmptyProject(projectName, context, landscapeMode, false);
 	}
 
 	public static Project createAndSaveEmptyProject(String projectName, Context context) {

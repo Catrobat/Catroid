@@ -299,7 +299,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		//TODO: Initialize cast project
 		if (empty) {
-			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
+			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode, castEnabled);
 		} else if (drone) {
 			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(projectName, context, landscapeMode);
 		} else {

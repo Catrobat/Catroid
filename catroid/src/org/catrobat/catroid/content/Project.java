@@ -58,7 +58,7 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<>();
 
-	public Project(Context context, String name, boolean landscapeMode) {
+	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
@@ -76,6 +76,11 @@ public class Project implements Serializable {
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
 
+		if (isCastProject) {
+			setChromecastFields();
+		}
+
+
 		MessageContainer.clear();
 
 		dataContainer = new DataContainer();
@@ -87,6 +92,10 @@ public class Project implements Serializable {
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
 		addSprite(background);
+	}
+
+	public Project(Context context, String name, boolean landscapeMode) {
+		this(context, name, landscapeMode, false);
 	}
 
 	public Project(Context context, String name) {

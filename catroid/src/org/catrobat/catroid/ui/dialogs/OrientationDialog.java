@@ -39,6 +39,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class OrientationDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
-		boolean castEnabled = true;//SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
+		boolean castEnabled = SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
 		int title = castEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
@@ -97,6 +98,10 @@ public class OrientationDialog extends DialogFragment {
 		});
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
 		cast = (RadioButton) dialogView.findViewById(R.id.cast);
+
+		if (castEnabled) {
+			cast.setVisibility(View.VISIBLE);
+		}
 
 
 		return orientationDialog;
