@@ -421,6 +421,7 @@
     <string name="category_drone">ARDrone</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
+    <string name="category_cast">Cast</string>
     <!--  -->
 
     <!-- Motion bricks -->
@@ -492,6 +493,8 @@
     <string name="brick_when_started">When program started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
+    <string name="brick_when_gamepad_button" >When gamepad button</string >
+    <string name="brick_when_gamepad_button_pressed" >pressed</string >
 
     <plurals name="second_plural">
         <item quantity="one">"second "</item>
@@ -905,6 +908,12 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_down_pressed</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_left_pressed</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_right_pressed</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -1024,6 +1033,15 @@
     <string name="no_back_camera_available">No back facing camera available.</string>
     <string name="no_camera_available">Facedetection not available.</string>
     <string name="no_front_camera_available">No front facing camera available.</string>
+    <!-- -->
+
+    <!-- Cast strings -->
+    <string name="cast_gamepad_A">A</string>
+    <string name="cast_gamepad_B">B</string>
+    <string name="cast_gamepad_up">up</string>
+    <string name="cast_gamepad_down">down</string>
+    <string name="cast_gamepad_left">left</string>
+    <string name="cast_gamepad_right">right</string>
     <!-- -->
 
 </resources>

@@ -194,4 +194,6 @@ public class XmlHeader implements Serializable {
 
 	public void setIsCastProject(boolean isCastProject) { this.isCastProject = isCastProject; }
 
+	public boolean isCastProject() { return isCastProject; }
+
 }

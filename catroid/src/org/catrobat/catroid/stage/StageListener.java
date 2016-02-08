@@ -59,7 +59,9 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
@@ -663,6 +665,25 @@ public class StageListener implements ApplicationListener {
 	private void disposeStageButKeepActors() {
 		stage.unfocusAll();
 		batch.dispose();
+	}
+
+	public void gamepadPressed(String buttonType) {
+
+		for (Sprite sprite : sprites) {
+			if (hasSpriteGamepadScript(sprite)) {
+				sprite.createWhengamepadButtonScriptActionSequence(buttonType);
+			}
+		}
+	}
+
+	public static boolean hasSpriteGamepadScript(Sprite sprite) {
+
+		for (Script script : sprite.getScriptList()) {
+			if (script instanceof WhenGamepadButtonScript) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addActor(Actor actor) {

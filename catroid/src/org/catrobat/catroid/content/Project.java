@@ -320,6 +320,10 @@ public class Project implements Serializable {
 		return false;
 	}
 
+	public boolean isCastProject() {
+		return xmlHeader.isCastProject();
+	}
+
 	public boolean islandscapeMode() {
 		return xmlHeader.islandscapeMode();
 	}
