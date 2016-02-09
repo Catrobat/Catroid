@@ -172,7 +172,7 @@ public class Project implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
+		int resources = false ? Brick.CAST_REQUIRED : Brick.NO_RESOURCES;
 
 		for (Sprite sprite : spriteList) {
 			resources |= sprite.getRequiredResources();
