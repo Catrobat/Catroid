@@ -184,6 +184,7 @@ android {
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+        multiDexEnabled true // TODO: Investigate why this is needed
     }
 
     sourceSets {

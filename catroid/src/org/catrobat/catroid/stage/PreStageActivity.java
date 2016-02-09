@@ -39,6 +39,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -179,6 +180,20 @@ public class PreStageActivity extends BaseActivity {
 						});
 				AlertDialog alert = builder.create();
 				alert.show();
+			}
+		}
+
+		if ((requiredResources & Brick.CAST_REQUIRED) > 0) {
+
+			if (CastManager.getInstance().isConnected()) {
+				resourceInitialized();
+			} else {
+				if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+					ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
+				} else {
+					ToastUtil.showError(this, getString(R.string.cast_error_cast_bricks_in_no_cast_project));
+				}
+				resourceFailed();
 			}
 		}
 

@@ -51,5 +51,8 @@ public final class CastManager {
 		isGamepadButtonPressed.put(btn, b);
 	}
 
+	public boolean isConnected() {
+		return false;
+	}
 
 }

@@ -67,7 +67,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return CHROMECAST_REQUIRED;
+		return CAST_REQUIRED;
 	}
 
 	@Override

@@ -75,7 +75,7 @@ public class WhenGamepadButtonScript extends Script {
 
 	@Override
 	public int getRequiredResources() {
-		return Brick.CHROMECAST_REQUIRED | super.getRequiredResources();
+		return Brick.CAST_REQUIRED | super.getRequiredResources();
 	}
 
 	@Override
