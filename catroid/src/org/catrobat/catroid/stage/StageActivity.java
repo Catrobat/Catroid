@@ -42,6 +42,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -299,7 +300,7 @@ public class StageActivity extends AndroidApplication {
 			return;
 		}
 
-		//CastManager castManager = CastManager.getInstance();
+		CastManager castManager = CastManager.getInstance();
 
 		boolean isActionDown = (event.getAction() == MotionEvent.ACTION_DOWN);
 		String buttonPressedName;
@@ -309,28 +310,28 @@ public class StageActivity extends AndroidApplication {
 			case R.id.gamepadButtonA:
 				buttonPressedName = getString(R.string.cast_gamepad_A);
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
-				//castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, isActionDown);
+				castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonB:
 				buttonPressedName = getString(R.string.cast_gamepad_B);
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
-				//castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, isActionDown);
+				castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonUp:
 				buttonPressedName = getString(R.string.cast_gamepad_up);
-				//castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, isActionDown);
+				castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonDown:
 				buttonPressedName = getString(R.string.cast_gamepad_down);
-				//castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, isActionDown);
+				castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonLeft:
 				buttonPressedName = getString(R.string.cast_gamepad_left);
-				//castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, isActionDown);
+				castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonRight:
 				buttonPressedName = getString(R.string.cast_gamepad_right);
-				//castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, isActionDown);
+				castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, isActionDown);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown button pressed");
