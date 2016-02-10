@@ -128,6 +128,20 @@ public final class CastManager {
 		public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo info) {
 			// Add route to list of discovered routes
 			synchronized (this) {
+				if (routeInfos.contains(info)) {
+					return;
+				}
+
+				for (int i = 0; i < routeInfos.size(); i++) {
+					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
+					if ((routeInfo.getName() + routeInfo.getDescription()).equals(info.getName() + info.getDescription())) {
+						//TODO: The comparison here would fail if the user has two cast devices with same name and description
+						//      in the same network. There must be a better way to do this.
+						routeInfos.remove(i);
+						routeNames.remove(i);
+					}
+				}
+
 				routeInfos.add(info);
 				routeNames.add(info.getName() + " (" + info.getDescription() + ")");
 				if (castButton != null) {
@@ -143,14 +157,15 @@ public final class CastManager {
 			synchronized (this) {
 				for (int i = 0; i < routeInfos.size(); i++) {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
-					if (routeInfo.equals(info)) {
+					if ((routeInfo.getName() + routeInfo.getDescription()).equals(info.getName() + info.getDescription())) {
+						//TODO: The comparison here would fail if the user has two cast devices with same name and description
+						//      in the same network. There must be a better way to do this.
 						routeInfos.remove(i);
 						routeNames.remove(i);
 						if (castButton != null && routeInfos.size() == 0) {
 							castButton.setVisible(false);
 						}
 						//mAdapter.notifyDataSetChanged();
-						return;
 					}
 				}
 			}

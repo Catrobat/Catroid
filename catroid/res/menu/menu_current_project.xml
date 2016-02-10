@@ -24,6 +24,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/cast_button"
+        android:showAsAction="always"
+        android:title="Cast devices"
+        android:icon="@drawable/ic_cast_off_light"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/backpack"
         android:showAsAction="never"
         android:visible="false"
@@ -77,12 +84,5 @@
         android:showAsAction="never"
         android:title="@string/upload_button">
     </item>
-
-    <item
-        android:id="@+id/cast_button"
-        android:showAsAction="always"
-        android:title="Cast devices"
-        android:icon="@drawable/ic_cast_off_light"
-        android:visible="false"/>
 
 </menu>
