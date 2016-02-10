@@ -128,9 +128,6 @@ public final class CastManager {
 		public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo info) {
 			// Add route to list of discovered routes
 			synchronized (this) {
-				if (routeInfos.contains(info)) {
-					return;
-				}
 
 				for (int i = 0; i < routeInfos.size(); i++) {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
