@@ -92,6 +92,8 @@ public final class CastManager {
 					.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
 					.build(); //TODO: Does this need to be done once for the application lifetime or seperately for each activity?
 			callback = new MyMediaRouterCallback();
+			mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+
 		}
 	}
 
@@ -102,20 +104,6 @@ public final class CastManager {
 				castButton.setVisible(true);
 			}
 		}
-	}
-
-	public void addCallback() {
-		// This should only be called from onResume!
-		if (callback == null) {
-			throw new AssertionError("The callback has not been created yet. " +
-					                 "Make sure you've called the initializeCast method in onStart!");
-		}
-		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
-	}
-
-	public void removeCallback() {
-		// This should only be called from onPause
-		mediaRouter.removeCallback(callback);
 	}
 
 	public boolean isConnected() {
@@ -131,7 +119,7 @@ public final class CastManager {
 
 				for (int i = 0; i < routeInfos.size(); i++) {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
-					if ((routeInfo.getName() + routeInfo.getDescription()).equals(info.getName() + info.getDescription())) {
+					if (routeInfo.equals(routeInfo)) {
 						//TODO: The comparison here would fail if the user has two cast devices with same name and description
 						//      in the same network. There must be a better way to do this.
 						routeInfos.remove(i);

@@ -103,16 +103,7 @@ public class ProjectActivity extends BaseActivity {
 		super.onResume();
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			CastManager.getInstance().initializeCast(this);
-			CastManager.getInstance().addCallback();
 		}
-	}
-
-	@Override
-	protected void onPause() {
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-			CastManager.getInstance().removeCallback();
-		}
-		super.onPause();
 	}
 
 	@Override
