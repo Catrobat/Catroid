@@ -78,4 +78,11 @@
         android:title="@string/upload_button">
     </item>
 
+    <item
+        android:id="@+id/cast_button"
+        android:showAsAction="always"
+        android:title="Cast devices"
+        android:icon="@drawable/ic_cast_off_light"
+        android:visible="false"/>
+
 </menu>

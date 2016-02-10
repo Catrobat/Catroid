@@ -49,6 +49,7 @@ import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
@@ -77,6 +78,7 @@ public class ProjectActivity extends BaseActivity {
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,6 +90,29 @@ public class ProjectActivity extends BaseActivity {
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
 		}
+
+		Utils.loadProjectIfNeeded(this);
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().initializeCast(this);
+		}
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().initializeCast(this);
+			CastManager.getInstance().addCallback();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().removeCallback();
+		}
+		super.onPause();
 	}
 
 	@Override
@@ -133,12 +158,20 @@ public class ProjectActivity extends BaseActivity {
 			menu.findItem(R.id.unpacking).setVisible(false);
 			menu.findItem(R.id.unpacking_keep).setVisible(false);
 			menu.findItem(R.id.backpack).setVisible(true);
+			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
+			}
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			CastManager.getInstance().forDebuggingLogAllRouteNames();
+		}
+
 		switch (item.getItemId()) {
 			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
