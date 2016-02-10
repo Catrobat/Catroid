@@ -196,6 +196,10 @@ public class ProjectActivity extends BaseActivity {
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 				break;
+
+			case R.id.cast_button:
+				CastManager.getInstance().openDeviceSelectorDialog(this);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

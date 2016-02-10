@@ -28,12 +28,14 @@ import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -50,7 +52,13 @@ public final class CastManager {
 	private MediaRouteSelector mediaRouteSelector;
 	private MyMediaRouterCallback callback;
 	private ArrayList<String> routeNames = new ArrayList<String>();
+	private ArrayAdapter<String> deviceAdapter;
 	private CastDevice selectedDevice;
+
+	public ArrayList<MediaRouter.RouteInfo> getRouteInfos() {
+		return routeInfos;
+	}
+
 	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
 	private MenuItem castButton;
 	// END
@@ -86,15 +94,24 @@ public final class CastManager {
 
 	public void initializeCast(Activity activity) {
 
-		if (mediaRouter == null) {
-			mediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
-			mediaRouteSelector = new MediaRouteSelector.Builder()
-					.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
-					.build(); //TODO: Does this need to be done once for the application lifetime or seperately for each activity?
-			callback = new MyMediaRouterCallback();
-			mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
-
+		if (mediaRouter != null) {
+			return;
 		}
+		deviceAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, routeNames);
+		mediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
+		mediaRouteSelector = new MediaRouteSelector.Builder()
+				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
+				.build(); //TODO: Does this need to be done once for the application lifetime or seperately for each activity?
+		callback = new MyMediaRouterCallback();
+		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+
+
+	}
+
+	public void openDeviceSelectorDialog(Activity activity) {
+		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
+		SelectCastDialog dialog = new SelectCastDialog();
+		dialog.openDialog(activity, deviceAdapter);
 	}
 
 	public void setCastButton(MenuItem castButton) {
@@ -108,6 +125,10 @@ public final class CastManager {
 
 	public boolean isConnected() {
 		return (selectedDevice != null);
+	}
+
+	public void selectRoute(MediaRouter.RouteInfo routeInfo) {
+		mediaRouter.selectRoute(routeInfo);
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
@@ -132,7 +153,7 @@ public final class CastManager {
 				if (castButton != null) {
 					castButton.setVisible(true);
 				}
-				//mAdapter.notifyDataSetChanged();
+				deviceAdapter.notifyDataSetChanged();
 			}
 		}
 
@@ -150,7 +171,7 @@ public final class CastManager {
 						if (castButton != null && routeInfos.size() == 0) {
 							castButton.setVisible(false);
 						}
-						//mAdapter.notifyDataSetChanged();
+						deviceAdapter.notifyDataSetChanged();
 					}
 				}
 			}
