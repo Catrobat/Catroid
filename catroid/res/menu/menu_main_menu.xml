@@ -26,8 +26,8 @@
     <item
         android:id="@+id/cast_button"
         android:showAsAction="always"
-        android:title="Cast devices"
-        android:icon="@drawable/ic_cast_off_light"
+        android:title="@+id/cast_button_menu_item_title"
+        android:icon="@drawable/ic_cast_white_24dp"
         android:visible="false"/>
 
     <item

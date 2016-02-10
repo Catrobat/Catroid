@@ -24,7 +24,9 @@
 package org.catrobat.catroid.cast;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -72,6 +74,7 @@ public final class CastManager {
 		Drawable drawable = ContextCompat.getDrawable(initializingActivity, R.drawable.idle_screen_1);
 		castButton.setIcon(drawableId);
 		this.isConnected = isConnected;
+		initializingActivity.invalidateOptionsMenu();
 	}
 
 	public boolean isConnected() {
@@ -138,11 +141,28 @@ public final class CastManager {
 
 	}
 
-	public void openDeviceSelectorDialog() {
-		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
-		SelectCastDialog dialog = new SelectCastDialog();
+	public void openDeviceSelectorOrDisconnectDialog() {
 		synchronized (this) {
-			dialog.openDialog(initializingActivity, deviceAdapter);
+			if (isConnected) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(initializingActivity);
+				builder.setMessage("Stop casting?");
+				builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						mediaRouter.unselect(MediaRouter.UNSELECT_REASON_STOPPED);
+					}
+				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+
+					}
+				});
+				builder.create().show();
+			} else {
+				mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
+				SelectCastDialog dialog = new SelectCastDialog();
+				dialog.openDialog(initializingActivity, deviceAdapter);
+			}
 		}
 	}
 

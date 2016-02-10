@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -80,6 +79,8 @@ public class BaseActivity extends Activity {
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
+
+		invalidateOptionsMenu(); // TODO Any other way to ensure the cast button is presented correctly?
 	}
 
 	@Override
@@ -127,7 +128,7 @@ public class BaseActivity extends Activity {
 				Utils.logoutUser(this);
 				return true;
 			case R.id.cast_button:
-				CastManager.getInstance().openDeviceSelectorDialog();
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
 				break;
 			default:
 				break;
