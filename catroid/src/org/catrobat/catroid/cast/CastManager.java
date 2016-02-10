@@ -24,6 +24,8 @@
 package org.catrobat.catroid.cast;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
@@ -32,6 +34,8 @@ import android.widget.ArrayAdapter;
 
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
+import com.google.android.gms.cast.CastRemoteDisplayLocalService;
+import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -54,6 +58,27 @@ public final class CastManager {
 	private ArrayList<String> routeNames = new ArrayList<String>();
 	private ArrayAdapter<String> deviceAdapter;
 	private CastDevice selectedDevice;
+	private boolean isConnected = false;
+
+	private Activity initializingActivity;
+
+	public void setIsConnected(boolean isConnected) {
+		// Has to be called inside a sync block!
+
+		if (isConnected) {
+			castButton.setIcon(android.support.v7.mediarouter.R.drawable.ic_cast_on_light);
+		} else {
+			castButton.setIcon(android.support.v7.mediarouter.R.drawable.ic_cast_off_light);
+		}
+
+		this.isConnected = isConnected;
+	}
+
+	public boolean isConnected() {
+		synchronized (this) { //better to sync this where called
+			return isConnected;
+		}
+	}
 
 	public ArrayList<MediaRouter.RouteInfo> getRouteInfos() {
 		return routeInfos;
@@ -84,6 +109,7 @@ public final class CastManager {
 		}
 	}
 
+
 	public boolean isButtonPressed(Sensors btnSensor) {
 		return isGamepadButtonPressed.get(btnSensor);
 	}
@@ -93,6 +119,10 @@ public final class CastManager {
 	}
 
 	public void initializeCast(Activity activity) {
+
+		synchronized (this) {
+			initializingActivity = activity;
+		}
 
 		if (mediaRouter != null) {
 			return;
@@ -108,23 +138,23 @@ public final class CastManager {
 
 	}
 
-	public void openDeviceSelectorDialog(Activity activity) {
+	public void openDeviceSelectorDialog() {
 		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
 		SelectCastDialog dialog = new SelectCastDialog();
-		dialog.openDialog(activity, deviceAdapter);
+		synchronized (this) {
+			dialog.openDialog(initializingActivity, deviceAdapter);
+		}
 	}
 
 	public void setCastButton(MenuItem castButton) {
 		synchronized (this) { //TODO: necessary?
 			this.castButton = castButton;
 			if (routeNames.size() > 0) {
-				castButton.setVisible(true);
+				synchronized (this) {
+					castButton.setVisible(true);
+				}
 			}
 		}
-	}
-
-	public boolean isConnected() {
-		return (selectedDevice != null);
 	}
 
 	public void selectRoute(MediaRouter.RouteInfo routeInfo) {
@@ -180,12 +210,53 @@ public final class CastManager {
 
 		@Override
 		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
-			selectedDevice = CastDevice.getFromBundle(info.getExtras());
+			synchronized (this) {
+				selectedDevice = CastDevice.getFromBundle(info.getExtras());
+				startCastService(initializingActivity);
+			}
 		}
 
 		@Override
 		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
-			selectedDevice = null;
+			synchronized (this) {
+				setIsConnected(false);
+				selectedDevice = null;
+			}
+		}
+
+		public void startCastService(final Activity activity) {
+
+			Intent intent = new Intent(activity, activity.getClass());
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			PendingIntent notificationPendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
+
+			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService
+					.NotificationSettings.Builder()
+					.setNotificationPendingIntent(notificationPendingIntent).build();
+
+			CastRemoteDisplayLocalService.startService(activity, CastService.class,
+					Constants.REMOTE_DISPLAY_APP_ID, selectedDevice, settings,
+					new CastRemoteDisplayLocalService.Callbacks() {
+
+						@Override
+						public void onServiceCreated(CastRemoteDisplayLocalService castRemoteDisplayLocalService) {
+
+						}
+
+						@Override
+						public void onRemoteDisplaySessionStarted(
+								CastRemoteDisplayLocalService service) {
+						}
+
+						@Override
+						public void onRemoteDisplaySessionError(Status errorReason) {
+							synchronized (this) {
+								setIsConnected(false);
+								selectedDevice = null;
+								activity.finish();
+							}
+						}
+					});
 		}
 
 	}

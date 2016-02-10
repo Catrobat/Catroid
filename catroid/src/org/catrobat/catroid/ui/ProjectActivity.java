@@ -198,7 +198,7 @@ public class ProjectActivity extends BaseActivity {
 				break;
 
 			case R.id.cast_button:
-				CastManager.getInstance().openDeviceSelectorDialog(this);
+				CastManager.getInstance().openDeviceSelectorDialog();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
