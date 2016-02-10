@@ -26,6 +26,8 @@ package org.catrobat.catroid.cast;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
@@ -37,6 +39,7 @@ import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.common.api.Status;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
@@ -65,12 +68,9 @@ public final class CastManager {
 	public void setIsConnected(boolean isConnected) {
 		// Has to be called inside a sync block!
 
-		if (isConnected) {
-			castButton.setIcon(android.support.v7.mediarouter.R.drawable.ic_cast_on_light);
-		} else {
-			castButton.setIcon(android.support.v7.mediarouter.R.drawable.ic_cast_off_light);
-		}
-
+		int drawableId = isConnected ? R.drawable.ic_cast_connected_white_24dp : R.drawable.ic_cast_white_24dp;
+		Drawable drawable = ContextCompat.getDrawable(initializingActivity, R.drawable.idle_screen_1);
+		castButton.setIcon(drawableId);
 		this.isConnected = isConnected;
 	}
 
@@ -154,6 +154,7 @@ public final class CastManager {
 					castButton.setVisible(true);
 				}
 			}
+			setIsConnected(isConnected);
 		}
 	}
 

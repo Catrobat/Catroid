@@ -33,7 +33,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
@@ -51,6 +53,11 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
+
 	}
 
 	@Override
@@ -69,12 +76,19 @@ public class BaseActivity extends Activity {
 		if (getTitleActionBar() != null) {
 			getActionBar().setTitle(getTitleActionBar());
 		}
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		baseMenu = menu;
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -112,6 +126,9 @@ public class BaseActivity extends Activity {
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
 				return true;
+			case R.id.cast_button:
+				CastManager.getInstance().openDeviceSelectorDialog();
+				break;
 			default:
 				break;
 		}
