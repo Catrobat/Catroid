@@ -30,8 +30,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
-import org.catrobat.catroid.content.bricks.VideoBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -39,7 +39,7 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String videoOn;
 	private String videoOff;
@@ -48,7 +48,7 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 	private Project project;
 
-	public VideoBrickTest() {
+	public CameraBrickTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -227,8 +227,8 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		Sprite firstSprite = new Sprite("background");
 		Script testScript = new StartScript();
 
-		VideoBrick videoBrick = new VideoBrick();
-		testScript.addBrick(videoBrick);
+		CameraBrick cameraBrick = new CameraBrick();
+		testScript.addBrick(cameraBrick);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
@@ -247,8 +247,8 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		ChooseCameraBrick chooseBrick = new ChooseCameraBrick();
 		testScript.addBrick(chooseBrick);
 
-		VideoBrick videoBrick = new VideoBrick();
-		testScript.addBrick(videoBrick);
+		CameraBrick cameraBrick = new CameraBrick();
+		testScript.addBrick(cameraBrick);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
@@ -264,8 +264,8 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		Sprite firstSprite = new Sprite("background");
 		Script testScript = new StartScript();
 
-		VideoBrick videoBrick1 = new VideoBrick(1);
-		testScript.addBrick(videoBrick1);
+		CameraBrick cameraBrick1 = new CameraBrick(1);
+		testScript.addBrick(cameraBrick1);
 
 		WaitBrick wBrick1 = new WaitBrick(2000);
 		testScript.addBrick(wBrick1);
@@ -276,14 +276,14 @@ public class VideoBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		WaitBrick wBrick2 = new WaitBrick(2000);
 		testScript.addBrick(wBrick2);
 
-		VideoBrick videoBrick2 = new VideoBrick(0);
-		testScript.addBrick(videoBrick2);
+		CameraBrick cameraBrick2 = new CameraBrick(0);
+		testScript.addBrick(cameraBrick2);
 
 		WaitBrick wBrick3 = new WaitBrick(2000);
 		testScript.addBrick(wBrick3);
 
-		VideoBrick videoBrick3 = new VideoBrick(1);
-		testScript.addBrick(videoBrick3);
+		CameraBrick cameraBrick3 = new CameraBrick(1);
+		testScript.addBrick(cameraBrick3);
 
 		WaitBrick wBrick4 = new WaitBrick(2000);
 		testScript.addBrick(wBrick4);

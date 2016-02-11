@@ -357,9 +357,9 @@
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
   <string name="brick_next_look">Nächstes Aussehen</string>
   <string name="brick_next_background">Nächster Hintergrund</string>
-  <string name="brick_flash">Schalte Taschenlampe</string>
-  <string name="brick_flash_on">Schalte Blitz AN</string>
-  <string name="brick_flash_off">Schalte Blitz AUS</string>
+  <string name="brick_flash">Schalte Blitz</string>
+  <string name="brick_flash_on">ein</string>
+  <string name="brick_flash_off">aus</string>
   <string name="brick_vibration">Vibrieren für</string>
   <string name="brick_play_sound">Klang starten</string>
   <string name="brick_stop_all_sounds">Alle Klänge stoppen</string>
@@ -802,7 +802,7 @@
   <string name="warning">Warnung</string>
   <string name="abort">Abbruch</string>
   <string name="variable">Variable</string>
-  <string name="brick_video">Wechsle Kamera</string>
+  <string name="brick_video">Kamera</string>
   <string name="video_brick_camera_on">ein</string>
   <string name="video_brick_camera_off">aus</string>
   <string name="brick_choose_camera">Verwende Kamera</string>
