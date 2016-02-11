@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.merge.MergeManager;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -71,7 +72,6 @@ import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.UtilMerge;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -399,7 +399,10 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
 				break;
 			case R.string.merge_button:
-				UtilMerge.mergeProjectInCurrentProject(projectToEdit.projectName, this.getActivity());
+				String firstProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+				String secondProjectName = projectToEdit.projectName;
+
+				MergeManager.merge(firstProjectName, secondProjectName, getActivity(), adapter);
 				break;
 		}
 		return super.onContextItemSelected(item);

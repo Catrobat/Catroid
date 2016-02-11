@@ -278,4 +278,9 @@ public class SetVariableBrick extends UserVariableBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE);
 	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserVariableReference(into, from);
+	}
 }
