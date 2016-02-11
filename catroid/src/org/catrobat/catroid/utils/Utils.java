@@ -62,6 +62,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -614,12 +615,8 @@ public final class Utils {
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		/* TOKEN LOGIN
-		if (isNetworkAvailable(context)) {
-			ServerCalls.getInstance().logoutCallToServer(userName);
-		}
-		*/
+		LogoutTask loginTask = new LogoutTask(context, userName);
+		loginTask.execute();
 
 		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
 		sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
