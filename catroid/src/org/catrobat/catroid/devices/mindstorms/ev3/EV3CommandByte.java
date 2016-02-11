@@ -86,7 +86,7 @@ public class EV3CommandByte {
 		UI_READ_GET_VBATT(0x01),
 
 		INPUT_DEVICE_GET_FORMAT(0x02), INPUT_DEVICE_SETUP(0x09), INPUT_DEVICE_GET_RAW(0x0B),
-		INPUT_DEVICE_READY_RAW(0x1C), INPUT_DEVICE_READY_SI(0x1D);
+		INPUT_DEVICE_STOP_ALL(0x0D), INPUT_DEVICE_READY_RAW(0x1C), INPUT_DEVICE_READY_SI(0x1D);
 
 		private int commandByteCode;
 
@@ -131,7 +131,7 @@ public class EV3CommandByte {
 			return LOOKUP.get(memberToTest & 0xFF) != null;
 		}
 
-		public static EV3CommandOpCode getTypeByValue(byte value) {
+		public static EV3CommandOpCode getOpCodeByValue(byte value) {
 			return LOOKUP.get(value & 0xFF);
 		}
 	}

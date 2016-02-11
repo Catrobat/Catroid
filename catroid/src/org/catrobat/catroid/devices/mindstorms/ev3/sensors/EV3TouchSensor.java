@@ -25,8 +25,7 @@ package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 
-
-public class EV3TouchSensor extends EV3Sensor{
+public class EV3TouchSensor extends EV3Sensor {
 
 	public static final String TAG = EV3TouchSensor.class.getSimpleName();
 	private static final int DEFAULT_VALUE = 0;
@@ -39,10 +38,9 @@ public class EV3TouchSensor extends EV3Sensor{
 	@Override
 	public int getValue() {
 		int percent = getPercentValue();
-		if(percent > 50) {
+		if (percent > 50) {
 			return 1;
-		}
-		else {
+		} else {
 			return 0;
 		}
 	}

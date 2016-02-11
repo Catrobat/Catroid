@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Command;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -124,9 +125,10 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 				EV3CommandOpCode.OP_INPUT_DEVICE);
 		connection.incCommandCounter();
 
-		command.append((byte) 0x0D);
+		command.append(EV3CommandByte.EV3CommandByteCode.INPUT_DEVICE_STOP_ALL.getByte());
 
-		command.append((byte) -0x01); // TODO: fix
+		int chainLayer = -1; // all chain-layers
+		command.append(EV3CommandByte.EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
 
 		try {
 			connection.send(command);

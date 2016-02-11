@@ -101,6 +101,7 @@ public abstract class EV3Sensor implements MindstormsSensor {
 	}
 
 	protected void setMode(EV3SensorMode mode) {
+		int commandCount = connection.getCommandCounter();
 
 		EV3Command command = new EV3Command(connection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY,
 				1, 0, EV3CommandOpCode.OP_INPUT_READ_SI);
@@ -117,7 +118,11 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, samples);
 
 		try {
-			connection.sendAndReceive(command);
+			EV3Reply reply = new EV3Reply(connection.sendAndReceive(command));
+
+			if (!reply.isValid(commandCount)) {
+				throw new MindstormsException("Reply not valid!");
+			}
 		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
@@ -127,6 +132,7 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		if (connection != null && connection.isConnected()) {
 
 			setMode(sensorMode);
+			int commandCount = connection.getCommandCounter();
 
 			EV3Command command = new EV3Command(connection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY,
 					1, 0, EV3CommandOpCode.OP_INPUT_DEVICE);
@@ -148,8 +154,13 @@ public abstract class EV3Sensor implements MindstormsSensor {
 			command.append(EV3CommandVariableScope.PARAM_VARIABLE_SCOPE_GLOBAL, returnValueIndex);
 
 			try {
-				connection.sendAndReceive(command);
-				hasInit = true;
+				EV3Reply reply = new EV3Reply(connection.sendAndReceive(command));
+
+				if (!reply.isValid(commandCount)) {
+					throw new MindstormsException("Reply not valid!");
+				} else {
+					hasInit = true;
+				}
 			} catch (MindstormsException e) {
 				hasInit = false;
 				Log.e(TAG, e.getMessage());
@@ -194,7 +205,6 @@ public abstract class EV3Sensor implements MindstormsSensor {
 				Log.e(TAG, e.getMessage());
 			}
 		}
-
 		return percentValue;
 	}
 
@@ -235,7 +245,6 @@ public abstract class EV3Sensor implements MindstormsSensor {
 				Log.e(TAG, e.getMessage());
 			}
 		}
-
 		return rawValue;
 	}
 
