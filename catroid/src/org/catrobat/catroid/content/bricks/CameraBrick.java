@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class VideoBrick extends BrickBaseType {
+public class CameraBrick extends BrickBaseType {
 
 	private static final int OFF = 0;
 	private static final int ON = 1;
@@ -53,12 +53,12 @@ public class VideoBrick extends BrickBaseType {
 	private String[] spinnerValues;
 	private int spinnerSelectionID;
 
-	public VideoBrick() {
+	public CameraBrick() {
 		spinnerValues = new String[2];
 		spinnerSelectionID = ON;
 	}
 
-	public VideoBrick(int onOrOff) {
+	public CameraBrick(int onOrOff) {
 		spinnerValues = new String[2];
 		spinnerSelectionID = onOrOff;
 	}

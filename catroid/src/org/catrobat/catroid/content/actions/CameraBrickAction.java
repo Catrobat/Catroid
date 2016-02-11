@@ -27,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.camera.CameraManager;
 
-public class VideoBrickAction extends TemporalAction {
+public class CameraBrickAction extends TemporalAction {
 
 	CameraManager.CameraState state = CameraManager.CameraState.notUsed;
 
