@@ -125,7 +125,7 @@ public class StageActivity extends AndroidApplication {
 
 		stageAudioFocus = new StageAudioFocus(this);
 
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+		if (false && ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			initGamepadListeners();
 		}
 

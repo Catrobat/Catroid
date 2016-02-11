@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.media.MediaRouter;
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.cast.Cast;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 
@@ -36,6 +38,7 @@ public class SelectCastDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 synchronized (this) {
                     MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(which);
+                    CastManager.getInstance().addCallback();
                     CastManager.getInstance().selectRoute(routeInfo);
                 }
             }

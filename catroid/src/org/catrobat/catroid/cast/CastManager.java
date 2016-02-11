@@ -135,16 +135,23 @@ public final class CastManager {
 		mediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
 				.build(); //TODO: Does this need to be done once for the application lifetime or seperately for each activity?
-		callback = new MyMediaRouterCallback();
-		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
-
+		addCallback();
 
 	}
 
+	public void addCallback() {
+		callback = new MyMediaRouterCallback();
+		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+	}
+
 	public void openDeviceSelectorOrDisconnectDialog() {
+		openDeviceSelectorOrDisconnectDialog(initializingActivity);
+	}
+
+	public void openDeviceSelectorOrDisconnectDialog(Activity activity) {
 		synchronized (this) {
 			if (isConnected) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(initializingActivity);
+				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 				builder.setMessage("Stop casting?");
 				builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
@@ -161,7 +168,7 @@ public final class CastManager {
 			} else {
 				mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
 				SelectCastDialog dialog = new SelectCastDialog();
-				dialog.openDialog(initializingActivity, deviceAdapter);
+				dialog.openDialog(activity, deviceAdapter);
 			}
 		}
 	}
@@ -184,21 +191,18 @@ public final class CastManager {
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
 
+
 		@Override
 		public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo info) {
 			// Add route to list of discovered routes
 			synchronized (this) {
-
 				for (int i = 0; i < routeInfos.size(); i++) {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
-					if (routeInfo.equals(routeInfo)) {
-						//TODO: The comparison here would fail if the user has two cast devices with same name and description
-						//      in the same network. There must be a better way to do this.
+					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
 						routeNames.remove(i);
 					}
 				}
-
 				routeInfos.add(info);
 				routeNames.add(info.getName() + " (" + info.getDescription() + ")");
 				if (castButton != null) {
@@ -214,9 +218,7 @@ public final class CastManager {
 			synchronized (this) {
 				for (int i = 0; i < routeInfos.size(); i++) {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
-					if ((routeInfo.getName() + routeInfo.getDescription()).equals(info.getName() + info.getDescription())) {
-						//TODO: The comparison here would fail if the user has two cast devices with same name and description
-						//      in the same network. There must be a better way to do this.
+					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
 						routeNames.remove(i);
 						if (castButton != null && routeInfos.size() == 0) {
