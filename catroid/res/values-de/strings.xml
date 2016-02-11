@@ -227,9 +227,9 @@
   <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
   <string name="soundrecorder_recorded_filename">Aufnahme</string>
   <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
-  <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
-  <string name="no_flash_available">Kein Blitz vorhanden</string>
-  <string name="no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
   <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
   <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
@@ -810,7 +810,7 @@
   <string name="choose_camera_back">Back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">Keine Hauptkamera für Gesichtserkennung verfügbar.</string>
-  <string name="no_camera_available">Gesichtserkennung ist nicht verfügbar.</string>
-  <string name="no_front_camera_available">Keine vordere Gesichtserkennungskamera verfügbar.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>

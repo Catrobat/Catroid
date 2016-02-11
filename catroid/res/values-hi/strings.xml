@@ -226,9 +226,9 @@
   <string name="soundrecorder_error">ध्वनि रिकॉर्डिंग में विफल रहा</string>
   <string name="soundrecorder_recorded_filename">रिकॉर्ड</string>
   <string name="soundrecorder_text_view">रिकॉर्डिंग प्रारम्भ करने और रोकने के लिए उपरोक्त चिह्न को दबाए।</string>
-  <string name="text_to_speech_engine_not_installed">लिखे हुए को बोल में बदलने वाला इंजन स्थापित नहीं हैं!\nआप इसे स्थापित करना चाहते हैं?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">थरथारानेवाला कृत्य उपलब्ध नहीं है</string>
+  <string name="prestage_text_to_speech_engine_not_installed">लिखे हुए को बोल में बदलने वाला इंजन स्थापित नहीं हैं!\nआप इसे स्थापित करना चाहते हैं?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">थरथारानेवाला कृत्य उपलब्ध नहीं है</string>
   <string name="brick_context_dialog_move_brick">ईंट को स्थानांतरित करें</string>
   <string name="brick_context_dialog_show_source">स्रोत ईंट दिखाएँ</string>
   <string name="brick_context_dialog_delete_brick">ईंट को हटाएं</string>
@@ -812,7 +812,7 @@
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>

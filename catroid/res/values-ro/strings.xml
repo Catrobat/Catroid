@@ -225,9 +225,9 @@
   <string name="soundrecorder_error">Înregistrarea de sunet nu a reuşit</string>
   <string name="soundrecorder_recorded_filename">înregistrare</string>
   <string name="soundrecorder_text_view">Atingeţi pictograma de mai sus pentru a porni şi opri înregistrarea.</string>
-  <string name="text_to_speech_engine_not_installed">Motorul Text-spre-Voce nu e instalat!\nDoriți să-l instalaţi?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">Vibratorul nu este disponibil</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Motorul Text-spre-Voce nu e instalat!\nDoriți să-l instalaţi?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">Vibratorul nu este disponibil</string>
   <string name="brick_context_dialog_move_brick">Mută cărămidă</string>
   <string name="brick_context_dialog_show_source">Arată Cărămida Sursă</string>
   <string name="brick_context_dialog_delete_brick">Şterge caramida</string>
@@ -813,7 +813,7 @@
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>
