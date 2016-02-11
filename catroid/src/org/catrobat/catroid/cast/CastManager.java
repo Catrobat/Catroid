@@ -26,6 +26,7 @@ package org.catrobat.catroid.cast;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -33,9 +34,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
@@ -43,7 +51,9 @@ import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
 
 import java.util.ArrayList;
@@ -64,14 +74,22 @@ public final class CastManager {
 	private ArrayAdapter<String> deviceAdapter;
 	private CastDevice selectedDevice;
 	private boolean isConnected = false;
+	private GLSurfaceView20 stageViewDisplayedOnCast;
+
+	public void initializeGamepadActivity(AndroidApplication gamepadActivity) {
+		this.gamepadActivity = gamepadActivity;
+		initGamepadListeners();
+	}
+
+	AndroidApplication gamepadActivity;
 
 	private Activity initializingActivity;
+	private RelativeLayout remoteLayout;
 
 	public void setIsConnected(boolean isConnected) {
 		// Has to be called inside a sync block!
 
 		int drawableId = isConnected ? R.drawable.ic_cast_connected_white_24dp : R.drawable.ic_cast_white_24dp;
-		Drawable drawable = ContextCompat.getDrawable(initializingActivity, R.drawable.idle_screen_1);
 		castButton.setIcon(drawableId);
 		this.isConnected = isConnected;
 		initializingActivity.invalidateOptionsMenu();
@@ -112,9 +130,12 @@ public final class CastManager {
 		}
 	}
 
-
 	public boolean isButtonPressed(Sensors btnSensor) {
-		return isGamepadButtonPressed.get(btnSensor);
+		final boolean pressed;
+		synchronized (this) {
+			pressed = isGamepadButtonPressed.get(btnSensor);
+		}
+		return pressed;
 	}
 
 	public void setButtonPress(Sensors btn, boolean b) {
@@ -130,7 +151,7 @@ public final class CastManager {
 		if (mediaRouter != null) {
 			return;
 		}
-		deviceAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, routeNames);
+		deviceAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, routeNames);
 		mediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
 		mediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
@@ -146,6 +167,106 @@ public final class CastManager {
 
 	public void openDeviceSelectorOrDisconnectDialog() {
 		openDeviceSelectorOrDisconnectDialog(initializingActivity);
+	}
+
+	private void initGamepadListeners() {
+
+		View.OnClickListener pauseButtonListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				gamepadActivity.onBackPressed(); //TODO sync?
+			}
+		};
+
+		((ImageButton) gamepadActivity.findViewById(R.id.gamepadPauseButton)).setOnClickListener(pauseButtonListener);
+
+
+		View.OnTouchListener otl = new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				synchronized (this) {
+					handleGamepadTouch((ImageButton) v, event);
+				}
+				return true;
+			}
+		};
+
+		ImageButton[] gamepadButtons = {
+
+				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonA),
+				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonB),
+				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonUp),
+				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonDown),
+				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonLeft),
+				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonRight)
+		};
+
+		for (ImageButton btn : gamepadButtons) {
+			btn.setOnTouchListener(otl);
+		}
+
+	}
+
+	private void handleGamepadTouch(ImageButton button, MotionEvent event) {
+
+		if (event.getAction() != MotionEvent.ACTION_DOWN && event.getAction() != MotionEvent.ACTION_UP) {
+			// We only care about the event when a gamepad button is pressed and when a gamepad button is unpressed
+			return;
+		}
+
+		boolean isActionDown = (event.getAction() == MotionEvent.ACTION_DOWN);
+		String buttonPressedName;
+
+		switch (button.getId())
+		{
+			case R.id.gamepadButtonA:
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_A);
+				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
+				setButtonPress(Sensors.GAMEPAD_A_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonB:
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_B);
+				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
+				setButtonPress(Sensors.GAMEPAD_B_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonUp:
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_up);
+				setButtonPress(Sensors.GAMEPAD_UP_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonDown:
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_down);
+				setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonLeft:
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_left);
+				setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonRight:
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_right);
+				setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, isActionDown);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown button pressed");
+		}
+
+		if (isActionDown) {
+			((StageListener) gamepadActivity.getApplicationListener()).gamepadPressed(buttonPressedName);
+			button.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		}
+	}
+
+	public void addStageViewToLayout(GLSurfaceView20 stageView) {
+
+		stageViewDisplayedOnCast = stageView;
+		remoteLayout.removeAllViews();
+		remoteLayout.addView(stageViewDisplayedOnCast);
+
+		if (stageView != null && stageView.getClass().getName().equals(GLSurfaceView20.class.getName())) {
+			GLSurfaceView20 surfaceView = stageView;
+			surfaceView.surfaceChanged(surfaceView.getHolder(), 0, ScreenValues.CAST_SCREEN_WIDTH, ScreenValues.CAST_SCREEN_HEIGHT);
+		}
+
 	}
 
 	public void openDeviceSelectorOrDisconnectDialog(Activity activity) {
@@ -187,6 +308,16 @@ public final class CastManager {
 
 	public void selectRoute(MediaRouter.RouteInfo routeInfo) {
 		mediaRouter.selectRoute(routeInfo);
+	}
+
+	public void setRemoteLayout(RelativeLayout remoteLayout) {
+		this.remoteLayout = remoteLayout;
+	}
+
+	public void setRemoteLayoutToIdleScreen(Context context) {
+		remoteLayout.removeAllViews();
+		Drawable drawable = ContextCompat.getDrawable(context, R.drawable.idle_screen_1);
+		remoteLayout.setBackground(drawable);
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
@@ -242,9 +373,17 @@ public final class CastManager {
 		@Override
 		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
 			synchronized (this) {
-				setIsConnected(false);
-				selectedDevice = null;
+				onCastStop();
 			}
+		}
+
+		public void onCastStop() {
+			setIsConnected(false);
+			selectedDevice = null;
+			stageViewDisplayedOnCast = null;
+			gamepadActivity = null;
+			remoteLayout = null;
+
 		}
 
 		public void startCastService(final Activity activity) {
@@ -274,8 +413,7 @@ public final class CastManager {
 						@Override
 						public void onRemoteDisplaySessionError(Status errorReason) {
 							synchronized (this) {
-								setIsConnected(false);
-								selectedDevice = null;
+								onCastStop();
 								activity.finish();
 							}
 						}
