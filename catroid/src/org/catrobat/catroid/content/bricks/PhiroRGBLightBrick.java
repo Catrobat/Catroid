@@ -39,6 +39,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -334,5 +335,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
 		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }
