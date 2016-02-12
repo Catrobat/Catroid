@@ -249,6 +249,10 @@ public class StageActivity extends AndroidApplication {
 
 		CameraManager.getInstance().setToDefaultCamera();
 
+		synchronized (this) {
+			CastManager.getInstance().onStageDestroyed();
+		}
+
 		super.onDestroy();
 	}
 

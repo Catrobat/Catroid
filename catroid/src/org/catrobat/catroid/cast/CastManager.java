@@ -313,6 +313,11 @@ public final class CastManager {
         remoteLayout.setBackground(drawable);
     }
 
+    public void onStageDestroyed() {
+        //Must be synced
+        stageViewDisplayedOnCast = null;
+    }
+
     private class MyMediaRouterCallback extends MediaRouter.Callback {
 
         @Override
@@ -372,16 +377,14 @@ public final class CastManager {
         public void onCastStop() {
 
             // Needs to be called synchronized
-
             if (stageViewDisplayedOnCast != null) {
                 // Meaning that there is currently a stage being displayed on the remote screen
                 // TODO needs sync?
                 gamepadActivity.onBackPressed();
             }
-
+            onStageDestroyed();
             setIsConnected(false);
             selectedDevice = null;
-            stageViewDisplayedOnCast = null;
             gamepadActivity = null;
             remoteLayout = null;
             CastRemoteDisplayLocalService.stopService();
