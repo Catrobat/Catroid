@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -55,6 +57,10 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
 	private BrightnessContrastShader shader;
+	private int rotationMode = 1;
+	private float rotation = 90f;
+	private float realRotation = rotation;
+	private boolean isFlipped = false;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -64,6 +70,7 @@ public class Look extends Image {
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
 		addListeners();
+		rotation = getDirectionInUserInterfaceDimensionUnit();
 	}
 
 	protected void addListeners() {
@@ -294,7 +301,7 @@ public class Look extends Image {
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {
-		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
+		float direction = (rotation + DEGREE_UI_OFFSET) % 360;
 		if (direction < 0) {
 			direction += 360f;
 		}
@@ -303,12 +310,47 @@ public class Look extends Image {
 		return direction;
 	}
 
+	public float getRealDirectionInUserInterfaceDimensionUnit() {
+		return realRotation;
+	}
+
+	public void setRotationMode(int mode) {
+		rotationMode = mode;
+	}
+
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		setRotation((-degrees + DEGREE_UI_OFFSET) % 360);
+		float oldRotation = getDirectionInUserInterfaceDimensionUnit();
+		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
+		realRotation = degrees;
+		float newRotation = getDirectionInUserInterfaceDimensionUnit();
+
+		switch (rotationMode) {
+			case 0:
+				setRotation(0f);
+				if ((oldRotation < 0 && newRotation >= 0) || (oldRotation >= 0 && newRotation < 0)) {
+					lookData.getTextureRegion().flip(true, false);
+					isFlipped = true;
+				}
+				break;
+			case 1:
+				setRotation(rotation);
+				break;
+			case 2:
+				setRotation(0f);
+				break;
+		}
+	}
+
+	public boolean isFlipped() {
+		return isFlipped;
+	}
+
+	public void setFlipped(boolean status) {
+		isFlipped = status;
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation((getRotation() - changeDegrees) % 360);
+		setDirectionInUserInterfaceDimensionUnit((getDirectionInUserInterfaceDimensionUnit() + changeDegrees) % 360);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {

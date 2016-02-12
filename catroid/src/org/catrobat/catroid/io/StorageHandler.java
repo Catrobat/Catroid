@@ -116,6 +116,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -306,6 +307,7 @@ public final class StorageHandler {
 		xstream.alias("brick", SetBrightnessBrick.class);
 		xstream.alias("brick", SetTransparencyBrick.class);
 		xstream.alias("brick", SetLookBrick.class);
+		xstream.alias("brick", SetRotationStyleBrick.class);
 		xstream.alias("brick", SetSizeToBrick.class);
 		xstream.alias("brick", SetVariableBrick.class);
 		xstream.alias("brick", SetVolumeToBrick.class);
