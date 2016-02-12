@@ -52,6 +52,7 @@ import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
@@ -326,6 +327,8 @@ public class StageListener implements ApplicationListener {
 
 		if (firstStart) {
 			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+			BroadcastSequenceMap.clear();
+			BroadcastHandler.clearActionMaps();
 			int spriteSize = sprites.size();
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(whiteBackground);
