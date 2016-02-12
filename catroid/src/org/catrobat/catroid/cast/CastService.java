@@ -1,9 +1,7 @@
 package org.catrobat.catroid.cast;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.Display;
 import android.widget.RelativeLayout;
 
@@ -46,7 +44,7 @@ public class CastService extends CastRemoteDisplayLocalService {
         try {
             presentation.show();
         } catch (Exception ex) {
-            ToastUtil.showError(getApplicationContext(), getString(R.string.cast_error_not_connected_msg));
+            ToastUtil.showError(getApplicationContext(), getString(R.string.cast_error_not_connected_msg));//TODO When does this happen?
             dismissPresentation();
         }
     }
@@ -62,13 +60,14 @@ public class CastService extends CastRemoteDisplayLocalService {
             super.onCreate(savedInstanceState);
 
             RelativeLayout layout = new RelativeLayout(getApplication());
-            Drawable drawable = ContextCompat
-                    .getDrawable(getApplicationContext(), R.drawable.idle_screen_1);
-            layout.setBackground(drawable);
             setContentView(layout);
+
             synchronized (this) {
                 CastManager.getInstance().setIsConnected(true);
+                CastManager.getInstance().setRemoteLayout(layout);
+                CastManager.getInstance().setRemoteLayoutToIdleScreen(getApplicationContext());
             }
+
         }
     }
 }
