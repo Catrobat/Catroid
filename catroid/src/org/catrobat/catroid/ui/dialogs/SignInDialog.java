@@ -51,6 +51,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
@@ -432,21 +433,18 @@ public class SignInDialog extends DialogFragment implements
 	@Override
 	public void onFacebookLogInComplete() {
 		dismiss();
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.FACEBOOK);
-		uploadProjectDialog.setArguments(bundle);
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
 	}
 
 	@Override
 	public void onGoogleServerLogInComplete() {
 		dismiss();
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
-		uploadProjectDialog.setArguments(bundle);
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
 	}
 
 	@Override

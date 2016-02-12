@@ -125,6 +125,21 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	@Device
+	public void testRegisterNewUserFromMenu() throws Throwable {
+		setTestUrl();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+
+		navigateToMenuNativeRegistrationDialog();
+		fillNativeRegistrationDialog(getTestUserName(), true);
+
+		assertTrue("Not registered!", solo.searchText(solo.getString(R.string
+				.new_user_registered)));
+		assertFalse("Upload Dialog is shown.", solo.searchText(solo.getString(R.string
+				.upload_project_dialog_title)));
+	}
+
+	@Device
 	public void testRegisterWithValidTokenSaved() throws Throwable {
 		setTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -340,6 +355,27 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		fillNativeLoginDialog(testUser, testPassword);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+	}
+
+	@Device
+	public void testLoginFromMenuWithRegisteredUser() throws Throwable {
+		setTestUrl();
+
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
+		UiTestUtils.createValidUserWithCredentials(getActivity(), testUser, testPassword, testEmail);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+
+		navigateToMenuLoginDialog();
+		fillNativeLoginDialog(testUser, testPassword);
+
+		assertTrue("Not logged in!", solo.searchText(solo.getString(R.string
+				.user_logged_in)));
+
+		assertFalse("Upload Dialog is shown.", solo.searchText(solo.getString(R.string
+				.upload_project_dialog_title)));
 	}
 
 	@Device
@@ -669,8 +705,26 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForText(solo.getString(R.string.accountName));
 	}
 
+	private void navigateToMenuNativeRegistrationDialog() {
+		solo.sendKey(solo.MENU);
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_login));
+		solo.waitForText(signInDialogTitle);
+		solo.clickOnButton(register);
+		solo.waitForText(solo.getString(R.string.accountName));
+	}
+
 	private void navigateToNativeLoginDialog() {
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.waitForText(signInDialogTitle);
+		solo.clickOnButton(login);
+		solo.waitForDialogToOpen();
+		solo.sendKey(Solo.ENTER);
+		solo.waitForText(solo.getString(R.string.username));
+	}
+
+	private void navigateToMenuLoginDialog() {
+		solo.sendKey(solo.MENU);
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_login));
 		solo.waitForText(signInDialogTitle);
 		solo.clickOnButton(login);
 		solo.waitForDialogToOpen();

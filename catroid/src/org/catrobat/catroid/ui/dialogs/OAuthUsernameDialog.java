@@ -41,6 +41,7 @@ import android.widget.EditText;
 
 import com.facebook.AccessToken;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
@@ -156,8 +157,7 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 	@Override
 	public void onFacebookLogInComplete() {
 		dismiss();
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().signInFinished(getFragmentManager(), null);
 	}
 
 	@Override
@@ -176,7 +176,6 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 	@Override
 	public void onGoogleServerLogInComplete() {
 		dismiss();
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().signInFinished(getFragmentManager(), null);
 	}
 }
