@@ -375,6 +375,7 @@ public final class CastManager {
 
             if (stageViewDisplayedOnCast != null) {
                 // Meaning that there is currently a stage being displayed on the remote screen
+                // TODO needs sync?
                 gamepadActivity.onBackPressed();
             }
 
