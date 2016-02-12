@@ -132,14 +132,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion097AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion098AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion097AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion098AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -453,8 +453,8 @@ public class XStreamToSupportCatrobatLanguageVersion097AndBefore extends XStream
 		brickInfo = new BrickInfo(SetTextBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
 		brickInfo.addBrickFieldToMap("yDestination", BrickField.Y_DESTINATION);
-		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
-		brickInfoMap.put("glideToBrick", brickInfo);
+		brickInfo.addBrickFieldToMap("string", BrickField.STRING);
+		brickInfoMap.put("setTextBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ShowTextBrick.class.getSimpleName());
 		brickInfoMap.put("showTextBrick", brickInfo);
