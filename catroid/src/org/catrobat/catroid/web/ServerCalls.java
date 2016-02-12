@@ -630,6 +630,9 @@ public final class ServerCalls {
 			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
+			if (jsonObject.has(Constants.JSON_ERROR_CODE)) {
+				return jsonObject;
+			}
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 
 			return jsonObject;
