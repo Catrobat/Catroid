@@ -30,11 +30,18 @@ public class SelectCastDialog extends DialogFragment {
         show(activity.getFragmentManager(), dialog_tag);
     }
 
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        CastManager.getInstance().addCallback();
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(getString(R.string.cast_device_selector_dialog_title))
-                .setAdapter(deviceAdapter, new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.cast_device_selector_dialog_title));
+        builder.setAdapter(deviceAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 synchronized (this) {
                     MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(which);
