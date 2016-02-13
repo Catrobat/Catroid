@@ -68,6 +68,8 @@ public class LegoEv3MotorTurnAngleAction extends TemporalAction {
 		if (tmpAngle > POWER_DOWN_RAMP_DEGREES) {
 			step2Angle = tmpAngle - POWER_DOWN_RAMP_DEGREES;
 			step3Angle = POWER_DOWN_RAMP_DEGREES;
+		} else {
+			step2Angle = tmpAngle;
 		}
 
 		LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
