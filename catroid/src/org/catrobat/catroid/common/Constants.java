@@ -115,6 +115,8 @@ public final class Constants {
 	public static final String NO_FACEBOOK_LOCALE = "NO_FACEBOOK_LOCALE";
 	public static final String FACEBOOK_EMAIL = "FACEBOOK_EMAIL";
 	public static final String NO_FACEBOOK_EMAIL = "NO_FACEBOOK_EMAIL";
+	public static final String JSON_ERROR_CODE = "errorCode";
+	public static final int ERROR_CODE_FACEBOOK_SESSION_EXPIRED = 190;
 
 	public static final String GOOGLE_ID = "GOOGLE_ID";
 	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";
