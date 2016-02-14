@@ -266,7 +266,8 @@ public class SignInDialog extends DialogFragment implements
 			GoogleSignInAccount account = result.getSignInAccount();
 			onGoogleLogInComplete(account);
 		} else {
-			ToastUtil.showError(getActivity(), "There was a problem during Google+ Signin");
+			ToastUtil.showError(getActivity(), "There was a problem during Google+ Signin. Status: "
+					+ result.getStatus());
 		}
 	}
 
@@ -313,15 +314,14 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onCheckOAuthTokenComplete(Boolean tokenAvailable, String provider) {
-
 		if (provider.equals(Constants.FACEBOOK)) {
-			checkOAuthTokenFacebook(tokenAvailable);
+			checkOAuthTokenFacebookComplete(tokenAvailable);
 		} else if (provider.equals(Constants.GOOGLE_PLUS)) {
-			checkOAuthTokenGoogle(tokenAvailable);
+			checkOAuthTokenGoogleComplete(tokenAvailable);
 		}
 	}
 
-	private void checkOAuthTokenFacebook(boolean tokenAvailable) {
+	private void checkOAuthTokenFacebookComplete(boolean tokenAvailable) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (tokenAvailable) {
 			FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
@@ -340,7 +340,7 @@ public class SignInDialog extends DialogFragment implements
 		}
 	}
 
-	private void checkOAuthTokenGoogle(boolean tokenAvailable) {
+	private void checkOAuthTokenGoogleComplete(boolean tokenAvailable) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (tokenAvailable) {
 			GoogleLogInTask googleLogInTask = new GoogleLogInTask(getActivity(),
@@ -468,6 +468,7 @@ public class SignInDialog extends DialogFragment implements
 		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, id).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, name).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, locale).commit();
+
 		//if user has approved email permission, fb-email address is taken, else device email address
 		if (email != null) {
 			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, email).commit();
@@ -479,5 +480,11 @@ public class SignInDialog extends DialogFragment implements
 		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), id, Constants.FACEBOOK);
 		checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
 		checkOAuthTokenTask.execute();
+	}
+
+	@Override
+	public void forceSignIn() {
+		SignInDialog signInDialog = new SignInDialog();
+		signInDialog.show(getActivity().getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
 	}
 }
