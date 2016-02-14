@@ -31,12 +31,12 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class LogoutTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class LogoutLoginTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private SharedPreferences preferences;
 	private String saveToken;
 
-	public LogoutTest() {
+	public LogoutLoginTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -54,10 +54,12 @@ public class LogoutTest extends BaseActivityInstrumentationTestCase<MainMenuActi
 		super.tearDown();
 	}
 
-	public void testLogoutMenuItemVisibility() {
+	public void testMenuItemVisibility() {
 		solo.sendKey(solo.MENU);
 		assertFalse("Logout menu item visible although no user logged in yet", solo.searchText(solo.getString(R.string
 				.main_menu_logout)));
+		assertTrue("Login menu item not visible", solo.searchText(solo.getString(R.string
+				.main_menu_login)));
 
 		solo.goBack();
 		UiTestUtils.createValidUser(getActivity());
@@ -65,12 +67,17 @@ public class LogoutTest extends BaseActivityInstrumentationTestCase<MainMenuActi
 		solo.sendKey(solo.MENU);
 		assertTrue("Logout menu item not visible after user logged in", solo.searchText(solo.getString(R.string
 				.main_menu_logout)));
+		assertFalse("Login menu visible despite user beeing logged in", solo.searchText(solo.getString(R.string
+				.main_menu_login)));
 
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_logout));
-
+		solo.sleep(2000);
 		solo.sendKey(solo.MENU);
 		assertFalse("Logout menu item visible after user logged out", solo.searchText(solo.getString(R.string
 				.main_menu_logout)));
+
+		assertTrue("Login menu item not visible after user logged out", solo.searchText(solo.getString(R.string
+				.main_menu_login)));
 
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
