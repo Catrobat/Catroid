@@ -269,15 +269,22 @@ public final class CastManager {
 
     }
 
+    private boolean currentlyConnecting() {
+        return (!isConnected && selectedDevice != null);
+    }
+
     public void openDeviceSelectorOrDisconnectDialog(Activity activity) {
         synchronized (this) {
-            if (isConnected) {
+            if (isConnected || currentlyConnecting()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Stop casting?");
+                builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " " +
+                        selectedDevice.getFriendlyName() + "?");
                 builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mediaRouter.unselect(MediaRouter.UNSELECT_REASON_STOPPED);
+                        synchronized (this) {
+                            mediaRouter.unselect(MediaRouter.UNSELECT_REASON_STOPPED);
+                        }
                     }
                 }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
