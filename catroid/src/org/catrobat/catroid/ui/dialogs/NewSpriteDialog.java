@@ -33,7 +33,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -341,8 +340,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private void setupDroneVideoButton(View parentView) {
 		View droneVideoButton = parentView.findViewById(R.id.dialog_new_object_drone_video);
 		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_object_drone);
-		if (!PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("setting_parrot_airdrone_bricks",
-				true)) {
+		if (!SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
 			linearLayout2ndRow.setVisibility(View.GONE);
 			return;
 		}
