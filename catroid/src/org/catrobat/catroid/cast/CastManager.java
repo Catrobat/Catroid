@@ -29,6 +29,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.media.MediaRouteSelector;
@@ -92,6 +93,12 @@ public final class CastManager {
         castButton.setIcon(drawableId);
         this.isConnected = isConnected;
         initializingActivity.invalidateOptionsMenu();
+    }
+
+    public void startCastButtonAnimation() {
+        int drawableId = R.drawable.animation_cast_button_connecting;
+        castButton.setIcon(drawableId);
+        ((AnimationDrawable) castButton.getIcon()).start();
     }
 
     public boolean isConnected() {
@@ -262,15 +269,22 @@ public final class CastManager {
 
     }
 
+    private boolean currentlyConnecting() {
+        return (!isConnected && selectedDevice != null);
+    }
+
     public void openDeviceSelectorOrDisconnectDialog(Activity activity) {
         synchronized (this) {
-            if (isConnected) {
+            if (isConnected || currentlyConnecting()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Stop casting?");
+                builder.setMessage(activity.getString(R.string.cast_stop_casting_to) + " " +
+                        selectedDevice.getFriendlyName() + "?");
                 builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mediaRouter.unselect(MediaRouter.UNSELECT_REASON_STOPPED);
+                        synchronized (this) {
+                            mediaRouter.unselect(MediaRouter.UNSELECT_REASON_STOPPED);
+                        }
                     }
                 }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
