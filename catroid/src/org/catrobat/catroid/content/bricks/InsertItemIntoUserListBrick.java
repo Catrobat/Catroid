@@ -271,4 +271,9 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
 	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserListReference(into, from);
+	}
 }
