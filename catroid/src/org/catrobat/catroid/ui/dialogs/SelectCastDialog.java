@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.media.MediaRouter;
 import android.widget.ArrayAdapter;
@@ -43,9 +44,10 @@ public class SelectCastDialog extends DialogFragment {
         builder.setTitle(getString(R.string.cast_device_selector_dialog_title));
         builder.setAdapter(deviceAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                synchronized (this) {
+                synchronized (this) { //TODO Sync needed?
                     MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(which);
                     CastManager.getInstance().addCallback();
+                    CastManager.getInstance().startCastButtonAnimation();
                     CastManager.getInstance().selectRoute(routeInfo);
                 }
             }

@@ -29,6 +29,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.media.MediaRouteSelector;
@@ -92,6 +93,12 @@ public final class CastManager {
         castButton.setIcon(drawableId);
         this.isConnected = isConnected;
         initializingActivity.invalidateOptionsMenu();
+    }
+
+    public void startCastButtonAnimation() {
+        int drawableId = R.drawable.animation_cast_button_connecting;
+        castButton.setIcon(drawableId);
+        ((AnimationDrawable) castButton.getIcon()).start();
     }
 
     public boolean isConnected() {
