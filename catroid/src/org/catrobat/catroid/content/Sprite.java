@@ -427,8 +427,34 @@ public class Sprite implements Serializable, Cloneable {
 		return lookList;
 	}
 
+	public boolean existLookDataByName(LookData look) {
+		for (LookData lookdata : lookList) {
+			if (lookdata.getLookName().equals(look.getLookName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean existLookDataByFileName(LookData look) {
+		for (LookData lookdata : lookList) {
+			if (lookdata.getLookFileName().equals(look.getLookFileName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void addLookData(LookData data) {
+		lookList.add(data);
+	}
+
 	public void setLookDataList(List<LookData> list) {
 		lookList = list;
+	}
+
+	public List<SoundInfo> getSoundList() {
+		return soundList;
 	}
 
 	public void setSoundList(List<SoundInfo> list) {
@@ -458,10 +484,6 @@ public class Sprite implements Serializable, Cloneable {
 		return name;
 	}
 
-	public List<SoundInfo> getSoundList() {
-		return soundList;
-	}
-
 	public boolean containsLookData(LookData lookData) {
 		for (LookData lookOfSprite : lookList) {
 			if (lookOfSprite.equals(lookData)) {
@@ -469,5 +491,27 @@ public class Sprite implements Serializable, Cloneable {
 			}
 		}
 		return false;
+	}
+
+	public boolean existSoundInfoByName(SoundInfo sound) {
+		for (SoundInfo soundinfo : soundList) {
+			if (soundinfo.getTitle().equals(sound.getTitle())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean existSoundInfoByFileName(SoundInfo sound) {
+		for (SoundInfo soundinfo : soundList) {
+			if (soundinfo.getSoundFileName().equals(sound.getSoundFileName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void addSound(SoundInfo sound) {
+		soundList.add(sound);
 	}
 }

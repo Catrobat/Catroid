@@ -29,6 +29,7 @@ import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -109,4 +110,6 @@ public interface Brick extends Serializable, Cloneable {
 	void setAlpha(int alphaFull);
 
 	void enableAllViews(View view, boolean enable);
+
+	boolean isEqualBrick(Brick brick, Project mergeResult, Project current);
 }
