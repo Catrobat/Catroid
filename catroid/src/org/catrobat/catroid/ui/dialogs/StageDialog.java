@@ -115,8 +115,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	public void onContinuePressed() {
 
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-				!CastManager.getInstance().isConnected()) {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
@@ -127,8 +127,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	public void onRestartPressed() {
 
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-				!CastManager.getInstance().isConnected()) {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
@@ -140,8 +140,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	private void makeScreenshot() {
 
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-				!CastManager.getInstance().isConnected()) {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}

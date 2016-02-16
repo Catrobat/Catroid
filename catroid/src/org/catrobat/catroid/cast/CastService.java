@@ -1,3 +1,25 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2016 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.catrobat.catroid.cast;
 
 import android.content.Context;
@@ -13,61 +35,58 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 public class CastService extends CastRemoteDisplayLocalService {
 
-    private Display display;
-    private CastPresentation presentation;
+	private Display display;
+	private CastPresentation presentation;
 
+	@Override
+	public void onCreatePresentation(Display display) {
+		createPresentation(display);
+	}
 
-    @Override
-    public void onCreatePresentation(Display display) {
-        createPresentation(display);
-    }
+	@Override
+	public void onDismissPresentation() {
+		dismissPresentation();
+	}
 
-    @Override
-    public void onDismissPresentation() {
-        dismissPresentation();
-    }
+	private void dismissPresentation() {
+		if (presentation != null) {
+			presentation.dismiss();
+			presentation = null;
+		}
+	}
 
-    private void dismissPresentation() {
-        if (presentation != null) {
-            presentation.dismiss();
-            presentation = null;
-        }
-    }
+	public void createPresentation(Display display) {
+		if (display != null) {
+			this.display = display;
+		}
+		dismissPresentation();
+		presentation = new FirstScreenPresentation(this, this.display);
 
-    public void createPresentation(Display display) {
-        if (display != null) {
-            this.display = display;
-        }
-        dismissPresentation();
-        presentation = new FirstScreenPresentation(this, this.display);
+		try {
+			presentation.show();
+		} catch (Exception ex) {
+			ToastUtil.showError(getApplicationContext(), getString(R.string.cast_error_not_connected_msg));
+			//TODO When does this happen?
+			dismissPresentation();
+		}
+	}
 
-        try {
-            presentation.show();
-        } catch (Exception ex) {
-            ToastUtil.showError(getApplicationContext(), getString(R.string.cast_error_not_connected_msg));//TODO When does this happen?
-            dismissPresentation();
-        }
-    }
+	public class FirstScreenPresentation extends CastPresentation {
 
-    public class FirstScreenPresentation extends CastPresentation {
+		public FirstScreenPresentation(Context serviceContext, Display display) {
+			super(serviceContext, display);
+		}
 
-        public FirstScreenPresentation(Context serviceContext, Display display) {
-            super(serviceContext, display);
-        }
+		@Override
+		protected void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+			RelativeLayout layout = new RelativeLayout(getApplication());
+			setContentView(layout);
 
-            RelativeLayout layout = new RelativeLayout(getApplication());
-            setContentView(layout);
-
-            synchronized (this) {
-                CastManager.getInstance().setIsConnected(true);
-                CastManager.getInstance().setRemoteLayout(layout);
-                CastManager.getInstance().setRemoteLayoutToIdleScreen(getApplicationContext());
-            }
-
-        }
-    }
+			CastManager.getInstance().setIsConnected(true);
+			CastManager.getInstance().setRemoteLayout(layout);
+			CastManager.getInstance().setRemoteLayoutToIdleScreen(getApplicationContext());
+		}
+	}
 }

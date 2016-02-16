@@ -80,7 +80,6 @@ public class Project implements Serializable {
 			setChromecastFields();
 		}
 
-
 		MessageContainer.clear();
 
 		dataContainer = new DataContainer();

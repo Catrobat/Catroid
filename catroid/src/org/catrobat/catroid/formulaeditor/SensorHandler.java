@@ -336,8 +336,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case GAMEPAD_RIGHT_PRESSED:
 			case GAMEPAD_UP_PRESSED:
 				return CastManager.getInstance().isButtonPressed(sensor) ? 1.0 : 0.0;
-			default:
-				throw new IllegalArgumentException("Sensor not implemented");
 
 			case DRONE_BATTERY_STATUS:
 				return (double) dcs.getDroneNavData().batteryStatus;
@@ -392,6 +390,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return 0.0;
 				}
+
+			default:
+				throw new IllegalArgumentException("Sensor not implemented");
 		}
 		return 0d;
 	}

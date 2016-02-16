@@ -84,18 +84,15 @@ public class StageActivity extends AndroidApplication {
 		configuration = new AndroidApplicationConfiguration();
 		configuration.r = configuration.g = configuration.b = configuration.a = 8;
 
-
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if (!project.isCastProject()) {
 			initialize(stageListener, configuration);
 		} else {
 			//TODO maybe check again if connected?
-			synchronized (this) {
-				setContentView(R.layout.activity_stage_gamepad);
-				CastManager.getInstance().initializeGamepadActivity(this);
-				CastManager.getInstance()
-						.addStageViewToLayout((GLSurfaceView20) initializeForView(stageListener, configuration));
-			}
+			setContentView(R.layout.activity_stage_gamepad);
+			CastManager.getInstance().initializeGamepadActivity(this);
+			CastManager.getInstance()
+					.addStageViewToLayout((GLSurfaceView20) initializeForView(stageListener, configuration));
 		}
 
 		if (graphics.getView() instanceof SurfaceView) {
@@ -250,9 +247,7 @@ public class StageActivity extends AndroidApplication {
 
 		CameraManager.getInstance().setToDefaultCamera();
 
-		synchronized (this) {
-			CastManager.getInstance().onStageDestroyed();
-		}
+		CastManager.getInstance().onStageDestroyed();
 
 		super.onDestroy();
 	}

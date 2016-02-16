@@ -192,8 +192,11 @@ public class XmlHeader implements Serializable {
 		this.landscapeMode = landscapeMode;
 	}
 
-	public void setIsCastProject(boolean isCastProject) { this.isCastProject = isCastProject; }
+	public void setIsCastProject(boolean isCastProject) {
+		this.isCastProject = isCastProject;
+	}
 
-	public boolean isCastProject() { return isCastProject; }
-
+	public boolean isCastProject() {
+		return isCastProject;
+	}
 }

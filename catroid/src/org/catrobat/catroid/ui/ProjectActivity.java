@@ -232,9 +232,9 @@ public class ProjectActivity extends BaseActivity {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-		if (requestCode != RESULT_OK && SettingsActivity.isCastSharedPreferenceEnabled(this) &&
-				ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-				!CastManager.getInstance().isConnected()) {
+		if (requestCode != RESULT_OK && SettingsActivity.isCastSharedPreferenceEnabled(this)
+				&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
 
 			CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
 		}

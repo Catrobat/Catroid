@@ -288,8 +288,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone,
-									 boolean landscapeMode, boolean castEnabled)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode, boolean castEnabled)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
