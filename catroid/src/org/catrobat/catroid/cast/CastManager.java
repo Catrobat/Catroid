@@ -346,7 +346,7 @@ public final class CastManager {
                     }
                 }
                 routeInfos.add(info);
-                routeNames.add(info.getName() + " (" + info.getDescription() + ")");
+                routeNames.add(info.getName());
                 if (castButton != null) {
                     castButton.setVisible(true);
                 }
