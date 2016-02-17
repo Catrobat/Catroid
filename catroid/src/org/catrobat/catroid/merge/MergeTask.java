@@ -177,7 +177,7 @@ public class MergeTask {
 				spriteInto.addLookData(look);
 			} else if (spriteInto.existLookDataByName(look) && !spriteInto.existLookDataByFileName(look)) {
 				for (int i = 2; i < 100; i++) {
-					look.setLookName(look.getLookName() + "_" + String.valueOf(i));
+					look.setLookName(look.getLookName() + "_" + i);
 					if (!spriteInto.existLookDataByName(look)) {
 						break;
 					}

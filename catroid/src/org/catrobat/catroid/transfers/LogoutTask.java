@@ -30,8 +30,6 @@ import org.catrobat.catroid.web.ServerCalls;
 
 public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
 
-	private static final String TAG = LogoutTask.class.getSimpleName();
-
 	private Context context;
 	private String username;
 
@@ -55,10 +53,5 @@ public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
 		}
 		ServerCalls.getInstance().logout(username);
 		return true;
-	}
-
-	@Override
-	protected void onPostExecute(Boolean success) {
-		super.onPostExecute(success);
 	}
 }

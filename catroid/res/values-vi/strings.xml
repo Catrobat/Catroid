@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Ba lô</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Giải nén</string>
+  <string name="unpack">Giải nén</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">sao chép/bản sao</string>
   <string name="close">Đóng</string>

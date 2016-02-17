@@ -517,7 +517,7 @@ public class DataContainer implements Serializable {
 		return false;
 	}
 
-	private void addUserBrickVariableElements(int key, List<UserVariable> userVariables) {
+	public void addUserBrickVariableElements(int key, List<UserVariable> userVariables) {
 		List<UserVariable> allUserVariables = userBrickVariables.get(key);
 
 		if (allUserVariables == null) {

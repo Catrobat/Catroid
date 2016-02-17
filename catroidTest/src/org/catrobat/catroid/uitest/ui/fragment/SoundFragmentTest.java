@@ -159,7 +159,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
 		delete = solo.getString(R.string.delete);
 		copy = solo.getString(R.string.copy);
-		unpack = solo.getString(R.string.unpacking);
+		unpack = solo.getString(R.string.unpack);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
 		backpackAdd = solo.getString(R.string.backpack_add);
@@ -809,13 +809,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertNotNull("Could not get Adapter", adapter);
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(firstTestSoundNamePacked, solo.getString(R.string.unpacking));
+		clickOnContextMenuItem(firstTestSoundNamePacked, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(firstTestSoundNamePackedAndUnpacked, 0, TIME_TO_WAIT_BACKPACK));
 		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(secondTestSoundNamePacked, solo.getString(R.string.unpacking));
+		clickOnContextMenuItem(secondTestSoundNamePacked, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(secondTestSoundNamePackedAndUnpacked, 0, TIME_TO_WAIT_BACKPACK));

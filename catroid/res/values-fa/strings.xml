@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">کوله پشتی</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">باز کردن</string>
+  <string name="unpack">باز کردن</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">رونوشت کردن</string>
   <string name="close">بستن</string>

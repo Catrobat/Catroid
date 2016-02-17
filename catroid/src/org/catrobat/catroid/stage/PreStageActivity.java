@@ -340,7 +340,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	public synchronized void resourceFailed(int failedResource) {
-		Log.d(TAG, "resourceFailed: " + String.valueOf(failedResource));
+		Log.d(TAG, "resourceFailed: " + failedResource);
 		failedResources.add(failedResource);
 		resourceInitialized();
 	}

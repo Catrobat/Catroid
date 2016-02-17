@@ -39,7 +39,7 @@
   <string name="backpack_add">Zum Rucksack hinzufügen</string>
   <string name="backpack">Rucksack</string>
   <string name="packing">Einpacken</string>
-  <string name="unpacking">Auspacken</string>
+  <string name="unpack">Auspacken</string>
   <string name="unpack_keep">Auspacken und behalten</string>
   <string name="copy_addition">Kopie</string>
   <string name="close">Schließen</string>

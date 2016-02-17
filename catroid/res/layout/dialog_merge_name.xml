@@ -50,16 +50,6 @@
             android:inputType="text"
             android:maxLines="1"
             android:selectAllOnFocus="true" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/project_name_edittext"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" >
-
-        </LinearLayout >
     </RelativeLayout >
 
 </ScrollView>

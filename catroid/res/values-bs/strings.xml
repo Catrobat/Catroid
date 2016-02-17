@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Ruksak</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Raspakiravanje</string>
+  <string name="unpack">Raspakiravanje</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">kopiraj</string>
   <string name="close">Zatvoriti</string>

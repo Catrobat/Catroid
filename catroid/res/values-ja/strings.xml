@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">バックパック</string>
   <string name="packing">パック</string>
-  <string name="unpacking">開梱</string>
+  <string name="unpack">開梱</string>
   <string name="unpack_keep">解凍して残す</string>
   <string name="copy_addition">コピー</string>
   <string name="close">閉じる</string>

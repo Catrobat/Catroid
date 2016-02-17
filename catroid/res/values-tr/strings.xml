@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Sırt çantası</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Paket açılıyor</string>
+  <string name="unpack">Paket açılıyor</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">Kopyala</string>
   <string name="close">Kapat</string>

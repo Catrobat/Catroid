@@ -343,7 +343,7 @@ public class ScriptActivity extends BaseActivity {
 		} else if (numberOfItemsInBackpack == 0) {
 			currentFragment.startBackPackActionMode();
 		} else {
-			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpacking) };
+			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
 
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				@Override

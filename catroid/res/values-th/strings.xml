@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">กระเป๋าเป้</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">กำลังกางออก</string>
+  <string name="unpack">กำลังกางออก</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">คัดลอก</string>
   <string name="close">ปิด</string>
