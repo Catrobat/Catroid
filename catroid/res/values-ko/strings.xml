@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">배낭</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">압축 풀기</string>
+  <string name="unpack">압축 풀기</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">복사하기</string>
   <string name="close">닫기</string>

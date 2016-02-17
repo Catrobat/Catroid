@@ -186,7 +186,7 @@ public class ProjectActivity extends BaseActivity {
 			spritesListFragment.startBackPackActionMode();
 		} else {
 
-			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpacking) };
+			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -306,7 +306,7 @@ public class ProjectActivity extends BaseActivity {
 
 		if (actionMode.equals(getString(R.string.backpack))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_backpack_and_unpack));
-		} else if (actionMode.equals(getString(R.string.unpacking))) {
+		} else if (actionMode.equals(getString(R.string.unpack))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_unpack));
 		} else if (actionMode.equals(getString(R.string.delete))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_delete));

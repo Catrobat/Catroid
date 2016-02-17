@@ -29,7 +29,7 @@
 
     <item
         android:id="@+id/context_menu_unpacking"
-        android:title="@string/unpacking" />
+        android:title="@string/unpack" />
 
     <item
         android:id="@+id/context_menu_delete"

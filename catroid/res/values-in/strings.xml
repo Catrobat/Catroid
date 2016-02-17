@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Backpack</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Membongkar</string>
+  <string name="unpack">Membongkar</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">salinan</string>
   <string name="close">Tutup</string>

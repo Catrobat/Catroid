@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Ryggsäck</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Uppackning</string>
+  <string name="unpack">Uppackning</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">kopiera</string>
   <string name="close">Stäng</string>

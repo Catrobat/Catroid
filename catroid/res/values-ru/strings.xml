@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Запаковать</string>
   <string name="packing">Запаковать</string>
-  <string name="unpacking">Распаковать</string>
+  <string name="unpack">Распаковать</string>
   <string name="unpack_keep">Распаковать и оставить</string>
   <string name="copy_addition">копия</string>
   <string name="close">Закрыть</string>

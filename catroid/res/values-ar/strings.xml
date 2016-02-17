@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">حقيبة ظهر</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">تفريغ</string>
+  <string name="unpack">تفريغ</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">نسخ</string>
   <string name="close">إغلاق</string>

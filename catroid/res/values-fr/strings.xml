@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Sac à dos</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Décompression</string>
+  <string name="unpack">Décompression</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">copier</string>
   <string name="close">Fermer</string>

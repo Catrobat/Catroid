@@ -41,79 +41,79 @@ public class MergeTaskTest extends AndroidTestCase {
 	public void testSuccessWithSameScriptsAndGlobalValues() {
 		createProjectsWithSameScriptsAndGlobalValues();
 		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
-		assertTrue(merge.mergeProjects("merge"));
+		assertTrue("Error!", merge.mergeProjects("merge"));
 		Project mergeResult = StorageHandler.getInstance().loadProject("merge");
 
-		assertTrue(mergeResult.getDataContainer().getProjectVariables().size() == 1);
-		assertTrue(mergeResult.getDataContainer().getProjectLists().size() == 1);
+		assertTrue("Error!", mergeResult.getDataContainer().getProjectVariables().size() == 1);
+		assertTrue("Error!", mergeResult.getDataContainer().getProjectLists().size() == 1);
 
-		assertTrue(mergeResult.getSpriteList().size() == 3);
+		assertTrue("Error!", mergeResult.getSpriteList().size() == 3);
 		for (Sprite sprite : mergeResult.getSpriteList()) {
-			assertTrue(mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
-			assertTrue(mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
-			assertTrue(sprite.getScriptList().size() == 1);
-			assertTrue(sprite.getScript(0).getBrickList().size() == 2);
+			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
+			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
+			assertTrue("Error!", sprite.getScriptList().size() == 1);
+			assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		}
-		assertTrue(StorageHandler.getInstance().deleteProject("merge"));
+		assertTrue("Error!", StorageHandler.getInstance().deleteProject("merge"));
 	}
 
 	public void testSuccessWithSameScriptsAndSpriteValues() {
 		createProjectsWithSameScriptsAndSpriteValues();
 		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
-		assertTrue(merge.mergeProjects("merge"));
+		assertTrue("Error!", merge.mergeProjects("merge"));
 		Project mergeResult = StorageHandler.getInstance().loadProject("merge");
 
-		assertTrue(mergeResult.getDataContainer().getProjectVariables().size() == 0);
-		assertTrue(mergeResult.getDataContainer().getProjectLists().size() == 0);
+		assertTrue("Error!", mergeResult.getDataContainer().getProjectVariables().size() == 0);
+		assertTrue("Error!", mergeResult.getDataContainer().getProjectLists().size() == 0);
 
-		assertTrue(mergeResult.getSpriteList().size() == 3);
+		assertTrue("Error!", mergeResult.getSpriteList().size() == 3);
 		for (Sprite sprite : mergeResult.getSpriteList()) {
-			assertTrue(mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
-			assertTrue(mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
-			assertTrue(sprite.getScriptList().size() == 1);
-			assertTrue(sprite.getScript(0).getBrickList().size() == 2);
+			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+			assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
+			assertTrue("Error!", sprite.getScriptList().size() == 1);
+			assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
 		}
-		assertTrue(StorageHandler.getInstance().deleteProject("merge"));
+		assertTrue("Error!", StorageHandler.getInstance().deleteProject("merge"));
 	}
 
 	public void testSuccessWithDifferentScripts() {
 		createProjectWithDifferentScripts();
 
 		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
-		assertTrue(merge.mergeProjects("merge"));
+		assertTrue("Error!", merge.mergeProjects("merge"));
 		Project mergeResult = StorageHandler.getInstance().loadProject("merge");
 
-		assertTrue(mergeResult.getDataContainer().getProjectVariables().size() == 1);
-		assertTrue(mergeResult.getDataContainer().getProjectLists().size() == 1);
-		assertTrue(mergeResult.getSpriteList().size() == 3);
+		assertTrue("Error!", mergeResult.getDataContainer().getProjectVariables().size() == 1);
+		assertTrue("Error!", mergeResult.getDataContainer().getProjectLists().size() == 1);
+		assertTrue("Error!", mergeResult.getSpriteList().size() == 3);
 
 		Sprite sprite = mergeResult.getSpriteList().get(0);
-		assertTrue(mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
-		assertTrue(mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
-		assertTrue(sprite.getScriptList().size() == 2);
-		assertTrue(sprite.getScript(0).getBrickList().size() == 2);
-		assertTrue(sprite.getScript(1).getBrickList().size() == 2);
+		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
+		assertTrue("Error!", sprite.getScriptList().size() == 2);
+		assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
+		assertTrue("Error!", sprite.getScript(1).getBrickList().size() == 2);
 
 		sprite = mergeResult.getSpriteList().get(1);
-		assertTrue(mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
-		assertTrue(mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
-		assertTrue(sprite.getScriptList().size() == 2);
-		assertTrue(sprite.getScript(0).getBrickList().size() == 2);
-		assertTrue(sprite.getScript(1).getBrickList().size() == 2);
+		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 1);
+		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 1);
+		assertTrue("Error!", sprite.getScriptList().size() == 2);
+		assertTrue("Error!", sprite.getScript(0).getBrickList().size() == 2);
+		assertTrue("Error!", sprite.getScript(1).getBrickList().size() == 2);
 
 		sprite = mergeResult.getSpriteList().get(2);
-		assertTrue(mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
-		assertTrue(mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
-		assertTrue(sprite.getScriptList().size() == 0);
+		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateUserListListForSprite(sprite).size() == 0);
+		assertTrue("Error!", mergeResult.getDataContainer().getOrCreateVariableListForSprite(sprite).size() == 0);
+		assertTrue("Error!", sprite.getScriptList().size() == 0);
 
-		assertTrue(StorageHandler.getInstance().deleteProject("merge"));
+		assertTrue("Error!", StorageHandler.getInstance().deleteProject("merge"));
 	}
 
 	public void testMergeConflict() {
 		createProjectForMergeConflict();
 
 		MergeTask merge = new MergeTask(firstProject, secondProject, null, null);
-		assertFalse(merge.mergeProjects("merge"));
+		assertFalse("Error!", merge.mergeProjects("merge"));
 	}
 
 	private void createProjectsWithSameScriptsAndGlobalValues() {

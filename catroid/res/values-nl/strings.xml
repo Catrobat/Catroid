@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Rugzak</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Uitpakken</string>
+  <string name="unpack">Uitpakken</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">kopieer</string>
   <string name="close">Sluiten</string>

@@ -242,7 +242,7 @@ public class BackPackActivity extends BaseActivity {
 		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
 		TextView actionModeEmptyText = (TextView) dialogView.findViewById(R.id.dialog_action_mode_emtpy_text);
 
-		if (actionMode.equals(getString(R.string.unpacking))) {
+		if (actionMode.equals(getString(R.string.unpack))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_unpack));
 		} else if (actionMode.equals(getString(R.string.delete))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_delete));

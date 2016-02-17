@@ -101,11 +101,11 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			actionModeTitle = getString(R.string.unpacking);
+			actionModeTitle = getString(R.string.unpack);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
-			mode.setTitle(R.string.unpacking);
+			mode.setTitle(R.string.unpack);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
@@ -479,7 +479,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpacking));
+					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
 				} else if (actionModeCallback.equals(deleteModeCallBack)) {
 					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
 				}

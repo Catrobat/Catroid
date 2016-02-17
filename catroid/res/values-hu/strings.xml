@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Hátizsák</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Kibontás</string>
+  <string name="unpack">Kibontás</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">másolat</string>
   <string name="close">Bezárás</string>
