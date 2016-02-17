@@ -234,7 +234,7 @@ public final class CastManager {
 
 	public synchronized void addStageViewToLayout(GLSurfaceView20 stageView) {
 		stageViewDisplayedOnCast = stageView;
-        remoteLayout.setBackgroundColor(stageView.getResources().getColor(android.R.color.white));
+		remoteLayout.setBackgroundColor(stageView.getResources().getColor(android.R.color.white));
 		remoteLayout.removeAllViews();
 		remoteLayout.addView(stageViewDisplayedOnCast);
 		stageView.surfaceChanged(stageView.getHolder(), 0, ScreenValues.CAST_SCREEN_WIDTH, ScreenValues.CAST_SCREEN_HEIGHT);
@@ -292,7 +292,7 @@ public final class CastManager {
 	}
 
 	public synchronized void onStageDestroyed() {
-        setRemoteLayoutToIdleScreen(initializingActivity);
+		setRemoteLayoutToIdleScreen(initializingActivity);
 		stageViewDisplayedOnCast = null;
 	}
 
@@ -356,7 +356,7 @@ public final class CastManager {
 				// TODO needs sync?
 				gamepadActivity.onBackPressed();
 			}
-			onStageDestroyed();
+			stageViewDisplayedOnCast = null;
 			setIsConnected(false);
 			selectedDevice = null;
 			gamepadActivity = null;
