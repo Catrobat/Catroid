@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Ba lô</string>
   <string name="packing">Pack</string>
-  <string name="unpack">Giải nén</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">sao chép/bản sao</string>
   <string name="close">Đóng</string>
@@ -65,15 +65,15 @@
   <string name="name_exists">Tên đã tồn tại</string>
   <string name="no_name">Không tên</string>
   <string name="is_empty">is empty</string>
-  <string name="new_group">New Group</string>
-  <string name="my_group">My Group</string>
+  <string name="new_group">New group</string>
+  <string name="my_group">My group</string>
   <string name="name">Name:</string>
   <string name="nothing_to_copy">Nothing to copy</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
   <string name="nothing_to_unpack">Nothing to unpack</string>
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program background will be replaced</string>
+  <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="main_menu_new">Mới</string>
   <string name="main_menu_continue">Tiếp tục</string>
   <string name="main_menu_programs">Chương trình</string>
@@ -85,6 +85,8 @@
   <string name="main_menu_rate_app">Đánh giá chúng tôi!</string>
   <string name="main_menu_play_store_not_installed">Không tìm thấy ứng dụng trong Play Store</string>
   <string name="main_menu_logout">Đăng xuất</string>
+  <string name="main_menu_login">Đăng nhập</string>
+  <string name="logout_successful">Logout successful</string>
   <string name="preference_title">Cài đặt</string>
   <string name="preference_title_enable_quadcopter_bricks">Gạch ARDrone 2.0</string>
   <string name="preference_description_quadcopter_bricks">Cho phép để điều khiển máy bay mô hình ARDrone 2.0</string>
@@ -95,7 +97,7 @@
   <string name="preference_title_enable_phiro_bricks">Gạch Phiro</string>
   <string name="preference_description_phiro_bricks">Cho phép điều khiển một robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
-  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="dialog_new_object_pocketpaint">Vẽ hình ảnh</string>
   <string name="dialog_new_object_gallery">Chọn hình ảnh</string>
   <string name="dialog_new_object_camera">Chụp ảnh</string>
@@ -107,8 +109,10 @@
   <string name="dialog_terms_of_use_info">Để 
  được phép sử dụng Pocket Code và  các chương trình khác được cung cấp bởi dự án Catrobat, bạn phải đồng ý  với điều khoản sử dụng của chúng tôi và nghiêm chỉnh thực hiện chúng khi bạn sử dụng Pocket Code và các chương trình khác. Xin vui lòng xem các liên kết dưới đây để biết thêm thông tin  \n</string>
   <string name="dialog_terms_of_use_link_text">Điều khoản sử dụng</string>
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <string name="dialog_about_title">Về Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code là môi trường và thông dịch viên được  lập trình  
@@ -130,8 +134,8 @@
   <string name="sprite">Đối tượng</string>
   <string name="sprites">Các đối tượng</string>
   <string name="spritelist_background_headline">Nền</string>
-  <string name="dialog_confirm_delete_object_title">Delete this object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
+  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
   <string name="dialog_confirm_delete_object_message">Điều này không thể thực hiện!</string>
   <string name="select_all">Chọn tất cả</string>
   <string name="deselect_all">Deselect all</string>
@@ -144,13 +148,14 @@
   <string name="size">Kích cỡ:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
+        !</string>
   <string name="fragment_script_text_description">Bấm vào \"+\" để thêm kịch bản</string>
   <string name="dialog_confirm_delete_brick_title">Xóa gạch này?</string>
   <string name="dialog_confirm_delete_script_title">Xóa kịch bản này?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Xóa những viên gạch này?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
+  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Điều này không thể thực hiện!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">Xóa %d gạch</item>
@@ -172,8 +177,8 @@
   <string name="select_look_from_gallery">Chọn hình ảnh</string>
   <string name="select_look_from_camera">Chọn ảnh</string>
   <string name="look_measure">Đo lường:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
+  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Điều này không thể thực hiện!</string>
   <string name="lookname">tên giao diện:</string>
   <string name="fragment_sound_text_description">Bấm vào \"+\" để thêm âm thanh</string>
@@ -218,9 +223,20 @@
   <string name="soundrecorder_error">Ghi âm không thành công</string>
   <string name="soundrecorder_recorded_filename">ghi âm</string>
   <string name="soundrecorder_text_view">Bấm vào biểu tượng trên để bắt đầu và ngừng ghi âm.</string>
-  <string name="prestage_text_to_speech_engine_not_installed">Động cơ văn bản-tới-lời thoại không được cài đặt! \nDo bạn muốn cài đặt nó?</string>
-  <string name="prestage_no_flash_available">No flash LED available</string>
-  <string name="prestage_no_vibrator_available">Động cơ rung không có sẵn</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="brick_context_dialog_move_brick">Di chuyển gạch</string>
   <string name="brick_context_dialog_show_source">Hiển thị gạch nguồn</string>
   <string name="brick_context_dialog_delete_brick">Xóa gạch</string>
@@ -246,8 +262,8 @@
   <string name="new_project_description_dialog_hint">Mô tả của tôi</string>
   <string name="new_project_name">Tên chương trình</string>
   <string name="new_project_empty">Tạo chương trình trống</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Định hướng:</string>
   <string name="new_sprite_dialog_default_sprite_name">Đối tượng của tôi</string>
   <string name="new_sprite_dialog_title">Đối tượng mới</string>
@@ -274,8 +290,8 @@
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">Tên người dùng không nên là tên thật của bạn.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <string name="overwrite_text">Chương trình với cùng tên đã tồn tại!</string>
@@ -452,7 +468,7 @@
   <string name="notification_download_pending">Tải xuống đang diễn ra</string>
   <string name="notification_download_finished">Tải về thành công</string>
   <string name="notification_title_open">"Mở "</string>
-  <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
   <string name="project_rename">(Chương trình của bạn sẽ được đổi tên.)</string>
   <string name="size_of_project">Kích cỡ:</string>
   <string name="upload_button">Tải lên</string>
@@ -502,15 +518,15 @@
   <string name="notification_blueth_err">Bluetooth có thể không được kích hoạt, kết thúc</string>
   <string name="title_paired_devices">Thiết bị ghép nối</string>
   <string name="title_other_devices">Thiết bị mới</string>
-  <string name="searching_devices">Tìm kiếm thiết bị&#8230;</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Tìm kiếm thiết bị Bluetooth</string>
   <string name="select_device">Chọn thiết bị:</string>
   <string name="connecting_please_wait">Kết nối với thiết bị. \nVui lòng đợi&#8230;</string>
   <string name="bt_connection_failed">Kết nối với thiết bị thất bại!</string>
   <string name="none_found">Không có thiết bị liên kết được tìm thấy</string>
   <string name="none_paired">Không có thiết bị liên kết được tìm thấy</string>
-  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
-  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">đến</string>
   <string name="nxt_brick_motor_move">Thiết lập động cơ NXT</string>
   <string name="nxt_motor_speed_to">đến</string>
@@ -772,31 +788,25 @@
   <string name="recursive_user_brick_forbidden">Thêm UserBrick tới UserBrick không được phép!</string>
   <string name="brick_single">Gạch</string>
   <string name="brick_multiple">Gạch</string>
-  <string name="merge_button">Hợp nhất các dự án thành</string>
-  <string name="merge_conflict">Không thể kết hợp</string>
-  <string name="broadcast">Phát sóng</string>
-  <string name="project_list">Danh mục</string>
-  <string name="error_merge_duplicate_names">Để kết hợp cả hai dự án, xin vui lòng lưu ý rằng các yếu tố sau không thể sử dụng với cùng tên:</string>
-  <string name="error_merge_with_self">Cẩn thận! Dự án hiện tại và dự án được chọn là giống nhau!</string>
-  <string name="error_merge">Lỗi xuất hiện khi sát nhập dự án!</string>
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">được sáp nhập thành công vào</string>
-  <string name="error_different_resolutions1">Cẩn thận! Độ phân giải khác nhau được phát hiện.</string>
-  <string name="error_different_resolutions2">có độ phân giải</string>
-  <string name="error_different_resolutions3">Bằng cách sử dụng độ phân giải</string>
-  <string name="error_bricks_in_background">Cẩn thận! Nền không trống. Hình ảnh và các gạch trong đối tượng nền sẽ bị bỏ qua khi ghép.</string>
-  <string name="and">và</string>
   <string name="warning">Cảnh báo</string>
+  <string name="error_merge_with_self">Cẩn thận! Dự án hiện tại và dự án được chọn là giống nhau!</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Hủy bỏ</string>
-  <string name="variable">Biến</string>
+  <string name="merge_conflict">Không thể kết hợp</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
+  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
-  <string name="prestage_no_camera_available">Facedetection not available.</string>
-  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>
