@@ -29,6 +29,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -62,7 +63,7 @@ public class ShowTextActor extends Actor {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 
-		if (variableName.equals("No variable set")) {
+		if (variableName.equals(Constants.NO_VARIABLE_SELECTED)) {
 			font.draw(batch, variableName, posX, posY);
 		} else {
 			for (UserVariable variable : projectVariableList) {
@@ -74,13 +75,15 @@ public class ShowTextActor extends Actor {
 					break;
 				}
 			}
-			for (UserVariable variable : spriteVariableList) {
-				if (variable.getName().equals(variableName)) {
-					variableValue = variable.getValue().toString();
-					if (variable.getVisible()) {
-						font.draw(batch, variableValue, posX, posY);
+			if (spriteVariableList != null) {
+				for (UserVariable variable : spriteVariableList) {
+					if (variable.getName().equals(variableName)) {
+						variableValue = variable.getValue().toString();
+						if (variable.getVisible()) {
+							font.draw(batch, variableValue, posX, posY);
+						}
+						break;
 					}
-					break;
 				}
 			}
 		}
