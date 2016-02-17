@@ -63,6 +63,7 @@ public class OrientationDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 		boolean castEnabled = SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
 		int title = castEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
@@ -96,6 +97,7 @@ public class OrientationDialog extends DialogFragment {
 				});
 			}
 		});
+
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
 		cast = (RadioButton) dialogView.findViewById(R.id.cast);
 
@@ -103,14 +105,13 @@ public class OrientationDialog extends DialogFragment {
 			cast.setVisibility(View.VISIBLE);
 		}
 
-
 		return orientationDialog;
 	}
 
 	protected void handleOkButtonClick() {
+
 		createLandscapeProject = landscapeMode.isChecked();
 		createCastProject = cast.isChecked();
-
 
 		try {
 			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,

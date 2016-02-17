@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -117,7 +118,6 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@null"
-        android:onClick="onPauseButtonPressed"
         android:scaleType="fitXY"
         android:src="@drawable/gamepad_pause_button"
         android:layout_alignParentTop="true"

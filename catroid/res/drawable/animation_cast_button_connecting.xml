@@ -21,12 +21,10 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
 
-    <TextView
-        style="@style/BrickCategoryText.Cast"
-        android:text="@string/category_cast" >
-    </TextView>
-
-</LinearLayout>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item android:drawable="@drawable/ic_cast0_white_24dp" android:duration="500" />
+    <item android:drawable="@drawable/ic_cast1_white_24dp" android:duration="500" />
+    <item android:drawable="@drawable/ic_cast2_white_24dp" android:duration="500" />
+    <item android:drawable="@drawable/ic_cast1_white_24dp" android:duration="500" />
+</animation-list>

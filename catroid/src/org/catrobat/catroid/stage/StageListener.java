@@ -613,8 +613,8 @@ public class StageListener implements ApplicationListener {
 	private void initScreenMode() {
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+				screenshotWidth = project.isCastProject() ? ScreenValues.CAST_SCREEN_WIDTH : ScreenValues.SCREEN_WIDTH;
+				screenshotHeight = project.isCastProject() ? ScreenValues.CAST_SCREEN_HEIGHT : ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);

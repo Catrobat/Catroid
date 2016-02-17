@@ -24,6 +24,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/cast_button"
+        android:showAsAction="always"
+        android:title="@+id/cast_button_menu_item_title"
+        android:icon="@drawable/ic_cast_white_24dp"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/menu_rate_app"
         android:showAsAction="withText"
         android:title="@string/main_menu_rate_app" />

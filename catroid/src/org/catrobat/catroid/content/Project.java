@@ -80,7 +80,6 @@ public class Project implements Serializable {
 			setChromecastFields();
 		}
 
-
 		MessageContainer.clear();
 
 		dataContainer = new DataContainer();
@@ -172,7 +171,7 @@ public class Project implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
+		int resources = ProjectManager.getInstance().getCurrentProject().isCastProject() ? Brick.CAST_REQUIRED : Brick.NO_RESOURCES;
 
 		for (Sprite sprite : spriteList) {
 			resources |= sprite.getRequiredResources();

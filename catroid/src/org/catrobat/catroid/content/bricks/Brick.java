@@ -69,7 +69,7 @@ public interface Brick extends Serializable, Cloneable {
 	int BLUETOOTH_PHIRO = 0x400;
 	int CAMERA_BACK = 0x800;
 	int CAMERA_FRONT = 0x1000;
-	int CHROMECAST_REQUIRED = 0x2000;
+	int CAST_REQUIRED = 0x2000;
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 	int FACE_DETECTION = 0x10;

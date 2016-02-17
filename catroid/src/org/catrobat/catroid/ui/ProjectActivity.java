@@ -49,6 +49,7 @@ import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
@@ -229,6 +230,13 @@ public class ProjectActivity extends BaseActivity {
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
 			FaceDetectionHandler.stopFaceDetection();
+		}
+
+		if (requestCode != RESULT_OK && SettingsActivity.isCastSharedPreferenceEnabled(this)
+				&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+				&& !CastManager.getInstance().isConnected()) {
+
+			CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
 		}
 	}
 
