@@ -51,12 +51,12 @@
     <string name="loading_check_facebook_data">Facebook data is retrieved…</string>
     <string name="loading_check_email">E-Mail availability is checked on our server…</string>
     <string name="loading_check_oauth_token">OAuth token is checked on our server…</string>
-    <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server…</string>
-    <string name="loading_check_oauth_username">Username availability is checked on our server…</string>
-    <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server…</string>
-    <string name="loading_facebook_login">Facebook login is completed on our server…</string>
-    <string name="loading_google_exchange_code">Google+ code is exchanged on our server…</string>
-    <string name="loading_google_login">Google+ login is completed on our server…</string>
+    <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
+    <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
+    <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
+    <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
+    <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
+    <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
@@ -689,7 +689,7 @@
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
     <string name="title_paired_devices">Paired devices</string>
     <string name="title_other_devices">New devices</string>
-    <string name="searching_devices">Looking for devices &#8230;</string>
+    <string name="searching_devices">Looking for devices&#8230;</string>
     <string name="button_scan">Search Bluetooth devices</string>
     <string name="select_device">Select Device:</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>

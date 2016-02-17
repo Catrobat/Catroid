@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">放進背包</string>
   <string name="packing">Pack</string>
-  <string name="unpack">取出中</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">複製</string>
   <string name="close">關閉​​​</string>
@@ -65,15 +65,15 @@
   <string name="name_exists">名字已經存在</string>
   <string name="no_name">沒有名字</string>
   <string name="is_empty">is empty</string>
-  <string name="new_group">New Group</string>
-  <string name="my_group">My Group</string>
+  <string name="new_group">New group</string>
+  <string name="my_group">My group</string>
   <string name="name">Name:</string>
   <string name="nothing_to_copy">Nothing to copy</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
   <string name="nothing_to_unpack">Nothing to unpack</string>
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program background will be replaced</string>
+  <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="main_menu_new">建立新檔</string>
   <string name="main_menu_continue">繼續編輯</string>
   <string name="main_menu_programs">程式檔</string>
@@ -85,6 +85,8 @@
   <string name="main_menu_rate_app">評分</string>
   <string name="main_menu_play_store_not_installed">Play商店軟體未安裝</string>
   <string name="main_menu_logout">登出</string>
+  <string name="main_menu_login">登入</string>
+  <string name="logout_successful">Logout successful</string>
   <string name="preference_title">設定</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 程式塊</string>
   <string name="preference_description_quadcopter_bricks">控制 ARDrone 2.0 四軸飛行器</string>
@@ -106,8 +108,10 @@
   <string name="dialog_terms_of_use_title">使用條款</string>
   <string name="dialog_terms_of_use_info">為了能夠使用Pocket Code和 Catrobat 提供的其他軟體執行檔，您必須同意並嚴格遵守我們的使用條款，詳細說明請參閱下面的連結。 \n</string>
   <string name="dialog_terms_of_use_link_text">使用條款</string>
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <string name="dialog_about_title">關於 Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code 是在Android設備使用視覺化程式語言 Catrobat 的程式設計環境與直譯器。\n\n Pocket Code 原始程式碼是基於 GNU AGPL v3 的授權方式，詳情請參閱下列連結。 \n</string>
@@ -139,13 +143,14 @@
   <string name="size">大小:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
+        !</string>
   <string name="fragment_script_text_description">按下 \"+\" 增加腳本</string>
   <string name="dialog_confirm_delete_brick_title">刪除此程式塊?</string>
   <string name="dialog_confirm_delete_script_title">刪除此腳本?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">刪除這些程式塊?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
+  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">此操作無法復原</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">刪除 %d 個程式塊</item>
@@ -213,9 +218,20 @@
   <string name="soundrecorder_error">音效錄製失敗</string>
   <string name="soundrecorder_recorded_filename">錄音</string>
   <string name="soundrecorder_text_view">按上方圖示開始或停止錄音</string>
-  <string name="prestage_text_to_speech_engine_not_installed">文字轉語音系統未安裝! \n您想要安裝嗎?</string>
-  <string name="prestage_no_flash_available">No flash LED available</string>
-  <string name="prestage_no_vibrator_available">手機振動器無法使用</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="brick_context_dialog_move_brick">移動程式塊</string>
   <string name="brick_context_dialog_show_source">顯示原始程式塊</string>
   <string name="brick_context_dialog_delete_brick">刪除程式塊</string>
@@ -241,8 +257,8 @@
   <string name="new_project_description_dialog_hint">我的描述</string>
   <string name="new_project_name">程式檔名稱:</string>
   <string name="new_project_empty">建立空白程式檔</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">方向:</string>
   <string name="new_sprite_dialog_default_sprite_name">我的物件</string>
   <string name="new_sprite_dialog_title">建立新物件</string>
@@ -269,8 +285,8 @@
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <string name="overwrite_text">相同名稱的程式檔已經存在</string>
@@ -447,7 +463,7 @@
   <string name="notification_download_pending">下載進行中</string>
   <string name="notification_download_finished">下載成功</string>
   <string name="notification_title_open">"開啟 "</string>
-  <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
   <string name="project_rename">(你的程式檔將被更名)</string>
   <string name="size_of_project">大小:</string>
   <string name="upload_button">上傳</string>
@@ -497,7 +513,7 @@
   <string name="notification_blueth_err">無法啟動藍牙，關閉連結程序</string>
   <string name="title_paired_devices">配對裝置</string>
   <string name="title_other_devices">新裝置</string>
-  <string name="searching_devices">尋找裝置中...</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">搜尋藍牙設備</string>
   <string name="select_device">選擇設備:</string>
   <string name="connecting_please_wait">連接到你的設備,\n請等待...</string>
@@ -767,31 +783,25 @@
   <string name="recursive_user_brick_forbidden">在自訂程式塊中增加自訂程式塊還沒辦法使用!</string>
   <string name="brick_single">程式塊</string>
   <string name="brick_multiple">程式塊</string>
-  <string name="merge_button">合併</string>
-  <string name="merge_conflict">無法合併</string>
-  <string name="broadcast">送出訊息</string>
-  <string name="project_list">程式檔清單</string>
-  <string name="error_merge_duplicate_names">合併兩個程式檔時請注意, 下列元件不能使用相同名稱:</string>
-  <string name="error_merge_with_self">注意! 目前的程式檔與選擇的程式檔內容相同!</string>
-  <string name="error_merge">合併程式檔時出錯</string>
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">成功合併到</string>
-  <string name="error_different_resolutions1">注意! 檢測到不同解析度。</string>
-  <string name="error_different_resolutions2">解析度為</string>
-  <string name="error_different_resolutions3">使用解析度為</string>
-  <string name="error_bricks_in_background">注意! 背景裡不是空的, 在背景裡的影像及程式塊將被忽略。</string>
-  <string name="and">而且</string>
   <string name="warning">警告</string>
+  <string name="error_merge_with_self">注意! 目前的程式檔與選擇的程式檔內容相同!</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">放棄</string>
-  <string name="variable">變數</string>
+  <string name="merge_conflict">無法合併</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
+  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
-  <string name="prestage_no_camera_available">Facedetection not available.</string>
-  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>
