@@ -224,9 +224,9 @@ il faut
   <string name="soundrecorder_error">Enregistrement sonore échoué</string>
   <string name="soundrecorder_recorded_filename">enregistrer</string>
   <string name="soundrecorder_text_view">Appuyer sur l\'icône ci-dessus pour démarrer ou arrêter l\'enregistrement.</string>
-  <string name="text_to_speech_engine_not_installed">Le module Text-to-Speech n\'est pas installé !\nInstaller?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">Le vibreur n\'est pas disponible.</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Le module Text-to-Speech n\'est pas installé !\nInstaller?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">Le vibreur n\'est pas disponible.</string>
   <string name="brick_context_dialog_move_brick">Déplacer élément</string>
   <string name="brick_context_dialog_show_source">Afficher l\'élément source</string>
   <string name="brick_context_dialog_delete_brick">Supprimer élément</string>
@@ -807,7 +807,7 @@ il faut
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>

@@ -214,9 +214,9 @@
   <string name="soundrecorder_error">녹음 실패</string>
   <string name="soundrecorder_recorded_filename">녹음</string>
   <string name="soundrecorder_text_view">녹음을 시작하고 중지하려면 위의 아이콘을 터치합니다.</string>
-  <string name="text_to_speech_engine_not_installed">텍스트 음성 변환 엔진이 설치되어 있지 않습니다! \n 설치하겠습니까?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">진동장치를 사용할 수 없습니다</string>
+  <string name="prestage_text_to_speech_engine_not_installed">텍스트 음성 변환 엔진이 설치되어 있지 않습니다! \n 설치하겠습니까?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">진동장치를 사용할 수 없습니다</string>
   <string name="brick_context_dialog_move_brick">블록 이동</string>
   <string name="brick_context_dialog_show_source">소스 블록을 보여라</string>
   <string name="brick_context_dialog_delete_brick">블록 삭제</string>
@@ -792,7 +792,7 @@
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>

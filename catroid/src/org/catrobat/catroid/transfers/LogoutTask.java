@@ -20,27 +20,45 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.transfers;
 
-package org.catrobat.catroid.content.actions;
+import android.content.Context;
+import android.os.AsyncTask;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
 
-import org.catrobat.catroid.camera.CameraManager;
+public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
 
-public class VideoBrickAction extends TemporalAction {
+	private static final String TAG = LogoutTask.class.getSimpleName();
 
-	CameraManager.CameraState state = CameraManager.CameraState.notUsed;
+	private Context context;
+	private String username;
 
-	@Override
-	protected void update(float percent) {
-		CameraManager.getInstance().updatePreview(state);
+	public LogoutTask(Context activity, String username) {
+		this.context = activity;
+		this.username = username;
 	}
 
 	@Override
-	public void reset() {
+	protected void onPreExecute() {
+		super.onPreExecute();
+		if (context == null) {
+			return;
+		}
 	}
 
-	public void setCameraAction(CameraManager.CameraState newState) {
-		state = newState;
+	@Override
+	protected Boolean doInBackground(Void... arg0) {
+		if (!Utils.isNetworkAvailable(context)) {
+			return false;
+		}
+		ServerCalls.getInstance().logout(username);
+		return true;
+	}
+
+	@Override
+	protected void onPostExecute(Boolean success) {
+		super.onPostExecute(success);
 	}
 }

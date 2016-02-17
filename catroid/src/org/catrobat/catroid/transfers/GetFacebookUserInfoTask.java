@@ -50,6 +50,7 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 	private String name;
 	private String locale;
 	private String email;
+	private boolean facebookSessionExpired;
 
 	public GetFacebookUserInfoTask(Activity activity, String token, String facebookId) {
 		this.activity = activity;
@@ -84,6 +85,14 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 				return false;
 			}
 			try {
+				if (serverReponse.has(Constants.JSON_ERROR_CODE)) {
+					int errorCode = serverReponse.getInt(Constants.JSON_ERROR_CODE);
+					if (errorCode == Constants.ERROR_CODE_FACEBOOK_SESSION_EXPIRED) {
+						facebookSessionExpired = true;
+					} else {
+						exception = new WebconnectionException(WebconnectionException.ERROR_JSON, serverReponse.toString());
+					}
+				}
 				if (serverReponse.has(Constants.USERNAME)) {
 					name = serverReponse.getString(Constants.USERNAME);
 				}
@@ -124,7 +133,12 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 		}
 
 		if (onGetFacebookUserInfoTaskCompleteListener != null) {
-			onGetFacebookUserInfoTaskCompleteListener.onGetFacebookUserInfoTaskComplete(facebookId, name, locale, email);
+			if (facebookSessionExpired) {
+				onGetFacebookUserInfoTaskCompleteListener.forceSignIn();
+			} else {
+				onGetFacebookUserInfoTaskCompleteListener.onGetFacebookUserInfoTaskComplete(facebookId, name, locale,
+						email);
+			}
 		}
 	}
 
@@ -143,5 +157,6 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 
 	public interface OnGetFacebookUserInfoTaskCompleteListener {
 		void onGetFacebookUserInfoTaskComplete(String id, String name, String locale, String email);
+		void forceSignIn();
 	}
 }

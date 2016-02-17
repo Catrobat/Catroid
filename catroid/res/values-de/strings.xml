@@ -227,9 +227,9 @@
   <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
   <string name="soundrecorder_recorded_filename">Aufnahme</string>
   <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
-  <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
-  <string name="no_flash_available">Kein Blitz vorhanden</string>
-  <string name="no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
   <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
   <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
@@ -357,9 +357,9 @@
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
   <string name="brick_next_look">Nächstes Aussehen</string>
   <string name="brick_next_background">Nächster Hintergrund</string>
-  <string name="brick_flash">Schalte Taschenlampe</string>
-  <string name="brick_flash_on">Schalte Blitz AN</string>
-  <string name="brick_flash_off">Schalte Blitz AUS</string>
+  <string name="brick_flash">Schalte Blitz</string>
+  <string name="brick_flash_on">ein</string>
+  <string name="brick_flash_off">aus</string>
   <string name="brick_vibration">Vibrieren für</string>
   <string name="brick_play_sound">Klang starten</string>
   <string name="brick_stop_all_sounds">Alle Klänge stoppen</string>
@@ -802,7 +802,7 @@
   <string name="warning">Warnung</string>
   <string name="abort">Abbruch</string>
   <string name="variable">Variable</string>
-  <string name="brick_video">Wechsle Kamera</string>
+  <string name="brick_video">Kamera</string>
   <string name="video_brick_camera_on">ein</string>
   <string name="video_brick_camera_off">aus</string>
   <string name="brick_choose_camera">Verwende Kamera</string>
@@ -810,7 +810,7 @@
   <string name="choose_camera_back">Back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">Keine Hauptkamera für Gesichtserkennung verfügbar.</string>
-  <string name="no_camera_available">Gesichtserkennung ist nicht verfügbar.</string>
-  <string name="no_front_camera_available">Keine vordere Gesichtserkennungskamera verfügbar.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>

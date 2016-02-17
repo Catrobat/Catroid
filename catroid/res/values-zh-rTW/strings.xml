@@ -213,9 +213,9 @@
   <string name="soundrecorder_error">音效錄製失敗</string>
   <string name="soundrecorder_recorded_filename">錄音</string>
   <string name="soundrecorder_text_view">按上方圖示開始或停止錄音</string>
-  <string name="text_to_speech_engine_not_installed">文字轉語音系統未安裝! \n您想要安裝嗎?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">手機振動器無法使用</string>
+  <string name="prestage_text_to_speech_engine_not_installed">文字轉語音系統未安裝! \n您想要安裝嗎?</string>
+  <string name="prestage_no_flash_available">No flash LED available</string>
+  <string name="prestage_no_vibrator_available">手機振動器無法使用</string>
   <string name="brick_context_dialog_move_brick">移動程式塊</string>
   <string name="brick_context_dialog_show_source">顯示原始程式塊</string>
   <string name="brick_context_dialog_delete_brick">刪除程式塊</string>
@@ -791,7 +791,7 @@
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
+  <string name="prestage_no_back_camera_available">No back facing camera available.</string>
+  <string name="prestage_no_camera_available">Facedetection not available.</string>
+  <string name="prestage_no_front_camera_available">No front facing camera available.</string>
 </resources>

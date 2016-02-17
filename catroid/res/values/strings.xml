@@ -90,6 +90,8 @@
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_logout">Logout</string>
+    <string name="main_menu_login">Login</string>
+    <string name="logout_successful">Logout successful</string>
     <!--  -->
 
 
@@ -288,9 +290,21 @@
 
 
     <!-- PreStage activity -->
-    <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-    <string name="no_flash_available">No flash LED available</string>
-    <string name="no_vibrator_available">Vibrator not available</string>
+    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+
+    <string name="prestage_resource_not_available_title">Component not available</string>
+    <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are not available:\n\n</string>
+    <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+    <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+    <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+    <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+    <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+    <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+    <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+    <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+    <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+    <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
     <!--  -->
 
 
@@ -993,22 +1007,35 @@
     <string name="brick_multiple">Bricks</string>
 
     <!-- Merge strings -->
-    <string name="merge_button">Merge project into</string>
-    <string name="merge_conflict">Merging not possible</string>
-    <string name="broadcast">Broadcast</string>
-    <string name="project_list">List Item</string>
-    <string name="error_merge_duplicate_names">To merge both projects, please be aware, that following elements can not use the same name:</string>
-    <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
-    <string name="error_merge">An error occurred while merging projects!</string>
+    <string name="merge_button">Merge with</string>
+    <string name="name_merge_result">Enter Name for Result</string>
     <string name="merge_info">successfully merged into</string>
 
-    <string name="error_different_resolutions1">Caution! Different resolutions detected.</string>
-    <string name="error_different_resolutions2">has resolution</string>
-    <string name="error_different_resolutions3">Using resolution of</string>
-    <string name="error_bricks_in_background">Caution! The background is not empty. Images and bricks in the background object will be ignored by matching.</string>
-    <string name="and">and</string>
     <string name="warning">Warning</string>
+    <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+    <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
     <string name="abort">Abort</string>
+
+    <string name="merge_conflict">Merging not possible</string>
+
+    <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs.\n\nBe careful when
+        naming your variables. Variables that are used for a single object and for all objects can not have
+        the same name.\nIf two programs use the same variable names they cannot be merged.\n\nYou can try:\n
+        <string-array>
+            <item> &#8226; Use different variable names in one of the programs before merging</item>
+        </string-array>
+    </string>
+
+    <string name="merge_conflict_list">List \"%1$s\" is used in both programs.\n\nBe careful when naming your lists.
+        Lists that are used for a single object and for all objects can not have the same name.\nIf two programs
+        use the same list names they cannot be merged.\n\nYou can try:\n
+        <string-array>
+            <item> &#8226; Use different list names in one of the programs before merging</item>
+        </string-array>
+    </string>
+
+    <!-- -->
     <string name="variable">Variable</string>
 
 
@@ -1016,15 +1043,11 @@
     <string name="brick_video">Turn camera</string>
     <string name="video_brick_camera_on">on</string>
     <string name="video_brick_camera_off">off</string>
-
     <string name="brick_choose_camera">Use camera</string>
     <string name="choose_camera_front">front</string>
     <string name="choose_camera_back">back</string>
     <string name="error_flash_front_camera">"You can use the flash only with the back camera. Please add a \"Use
         camera\" brick and change to your device's back camera. "</string>
-    <string name="no_back_camera_available">No back facing camera available.</string>
-    <string name="no_camera_available">Facedetection not available.</string>
-    <string name="no_front_camera_available">No front facing camera available.</string>
     <!-- -->
 
 </resources>
