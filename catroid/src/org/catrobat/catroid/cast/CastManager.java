@@ -47,9 +47,10 @@ import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.common.api.Status;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -60,7 +61,6 @@ import java.util.EnumMap;
 
 public final class CastManager {
 
-	private static final String TAG = CastManager.class.getSimpleName();
 	private static final CastManager INSTANCE = new CastManager();
 	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
 	StageActivity gamepadActivity;
@@ -108,7 +108,6 @@ public final class CastManager {
 		castButton.setIcon(drawableId);
 		((AnimationDrawable) castButton.getIcon()).start();
 	}
-	// END
 
 	public synchronized boolean isConnected() {
 		return isConnected;
@@ -137,7 +136,7 @@ public final class CastManager {
 		mediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
 		mediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
-				.build(); //TODO: Does this need to be done once for the application lifetime or seperately for each activity?
+				.build();
 		addCallback();
 	}
 
@@ -234,10 +233,12 @@ public final class CastManager {
 
 	public synchronized void addStageViewToLayout(GLSurfaceView20 stageView) {
 		stageViewDisplayedOnCast = stageView;
-		remoteLayout.setBackgroundColor(stageView.getResources().getColor(android.R.color.white));
+		remoteLayout.setBackgroundColor(ContextCompat.getColor(initializingActivity, android.R.color.white));
 		remoteLayout.removeAllViews();
 		remoteLayout.addView(stageViewDisplayedOnCast);
-		stageView.surfaceChanged(stageView.getHolder(), 0, ScreenValues.CAST_SCREEN_WIDTH, ScreenValues.CAST_SCREEN_HEIGHT);
+		Project p = ProjectManager.getInstance().getCurrentProject();
+		stageView.surfaceChanged(stageView.getHolder(), 0, p.getXmlHeader().getVirtualScreenWidth(),
+				p.getXmlHeader().getVirtualScreenHeight());
 	}
 
 	private synchronized boolean currentlyConnecting() {
@@ -292,7 +293,9 @@ public final class CastManager {
 	}
 
 	public synchronized void onStageDestroyed() {
-		setRemoteLayoutToIdleScreen(initializingActivity);
+		if (isConnected) {
+			setRemoteLayoutToIdleScreen(initializingActivity);
+		}
 		stageViewDisplayedOnCast = null;
 	}
 
