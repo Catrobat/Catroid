@@ -1029,8 +1029,7 @@
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
 
     <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
-    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.
-    </string>
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
 
     <!-- Camera related strings -->
     <string name="brick_video">Turn camera</string>
