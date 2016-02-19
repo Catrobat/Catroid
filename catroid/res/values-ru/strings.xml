@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Запаковать</string>
   <string name="packing">Запаковать</string>
-  <string name="unpacking">Распаковать</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Распаковать и оставить</string>
   <string name="copy_addition">копия</string>
   <string name="close">Закрыть</string>
@@ -85,6 +85,8 @@
   <string name="main_menu_rate_app">Оцените нас!</string>
   <string name="main_menu_play_store_not_installed">Приложение Play Store не найдено</string>
   <string name="main_menu_logout">1 &amp;#x434;&amp;#x435;&amp;#x43D;&amp;#x44C; &amp;#x43D;&amp;#x430;&amp;#x437;&amp;#x430;&amp;#x434;</string>
+  <string name="main_menu_login">Вход</string>
+  <string name="logout_successful">Logout successful</string>
   <string name="preference_title">Настройки</string>
   <string name="preference_title_enable_quadcopter_bricks">Блоки ARDrone 2.0</string>
   <string name="preference_description_quadcopter_bricks">Разрешить управление ARDrone 2.0</string>
@@ -107,7 +109,9 @@
   <string name="dialog_terms_of_use_info">Для использования Pocket Code и других продуктов, предлагаемых в рамках проекта Catrobat вы должны принять условия Лицензионного Соглашения и строго следовать им при использовании Pocket Code и других продуктов. Точная формулировка лицензии по ссылке ниже.\n</string>
   <string name="dialog_terms_of_use_link_text">Лицензионное Соглашение</string>
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Условия использования Pocket Code</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Не напоминать мне снова.</string>
   <string name="dialog_about_title">О Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code - это среда программирования и интерпретатор визуального языка программирования Catroid для Android-устройств. \n\n Эта программа лицензированна по лицензии GNU AGPL v3. Подробнее о лицензии смотрите по ссылке ниже. \n</string>
@@ -225,9 +229,20 @@
   <string name="soundrecorder_error">Ошибка записи звука</string>
   <string name="soundrecorder_recorded_filename">Новая запись</string>
   <string name="soundrecorder_text_view">Нажмите на верхнюю иконку для начала или остановки записи.</string>
-  <string name="text_to_speech_engine_not_installed">Программа воспроизведения текста не установлена! \n Хотите установить ее?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">Вибрация недоступна</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="brick_context_dialog_move_brick">Переместить</string>
   <string name="brick_context_dialog_show_source">Показать исходный блок</string>
   <string name="brick_context_dialog_delete_brick">Удалить</string>
@@ -253,8 +268,8 @@
   <string name="new_project_description_dialog_hint">Описание</string>
   <string name="new_project_name">Название:</string>
   <string name="new_project_empty">Создать пустой проект</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Ориентация:</string>
   <string name="new_sprite_dialog_default_sprite_name">названиеобъекта</string>
   <string name="new_sprite_dialog_title">Название нового объекта</string>
@@ -281,8 +296,8 @@
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <string name="overwrite_text">Проект с таким названием уже существует!</string>
@@ -512,21 +527,22 @@
   <string name="error_drone_low_battery">Вставте заряженную батарею и повторите снова.</string>
   <string name="error_drone_wrong_platform_title">Нет поддержки ARDrone</string>
   <string name="error_drone_wrong_platform">Мы не можем запустить ARDrone проект на вашем устройстве.</string>
-  <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
-  <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
+  <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+  <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
+        project is not possible.</string>
   <string name="error_unknown_error">Обнаружена неизвестная ошибка.</string>
   <string name="notification_blueth_err">Bluetooth не мог быть подключен, закрывание сцены</string>
   <string name="title_paired_devices">Парные устройства</string>
   <string name="title_other_devices">Новые устройства</string>
-  <string name="searching_devices">Поиск устройств&#8230;</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Поиск bluetooth устрйств</string>
   <string name="select_device">Выберите устройство:</string>
   <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста&#8230;</string>
   <string name="bt_connection_failed">Подключение к устройству не удалось!</string>
   <string name="none_found">Нет найдено непарных устройств</string>
   <string name="none_paired">Нет найдено парных устройств</string>
-  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
-  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">к</string>
   <string name="nxt_brick_motor_move">Установить NXT мотор</string>
   <string name="nxt_motor_speed_to">к</string>
@@ -566,7 +582,7 @@
   <string name="nxt_port_4">Порт 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Не показывать это сообщение снова.</string>
   <string name="brick_drone_takeoff_land">Take off / Land</string>
-  <string name="brick_drone_play_led_animation">Play LED animation</string>
+  <string name="brick_drone_play_led_animation">Play flash animation</string>
   <string name="brick_drone_move_left">Влево</string>
   <string name="brick_drone_move_right">Двигатся вправо</string>
   <string name="brick_drone_move_forward">Вперед</string>
@@ -790,22 +806,19 @@
   <string name="recursive_user_brick_forbidden">Добавление пользовательского кирпича к пользовательскому кирпичу не разрешается на данный момент!</string>
   <string name="brick_single">Кирпич</string>
   <string name="brick_multiple">Кирпичи</string>
-  <string name="merge_button">Соединить проект в</string>
-  <string name="merge_conflict">Соединение не возможно</string>
-  <string name="broadcast">Вещать всем</string>
-  <string name="project_list">Элемент списка</string>
-  <string name="error_merge_duplicate_names">Чтобы объединить проекты, пожалуйста убедитесь в том что следующий элемент не использовал одинаковое имя:</string>
-  <string name="error_merge_with_self">Внимание! Текущий проект и выбранный проект одинаковы!</string>
-  <string name="error_merge">Обнаружена ошибка при соединении проектов!</string>
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">Успешно соединено в</string>
-  <string name="error_different_resolutions1">Внимание. Замечено разное разрешение.</string>
-  <string name="error_different_resolutions2">Имеет разрешение</string>
-  <string name="error_different_resolutions3">Использование разрешения</string>
-  <string name="error_bricks_in_background">Внимание! Фон не пуст. Изображения и кирпичи на фоне объекта будут игнорироватся путём сопоставления.</string>
-  <string name="and">И</string>
   <string name="warning">Внимание</string>
+  <string name="error_merge_with_self">Внимание! Текущий проект и выбранный проект одинаковы!</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Отменить</string>
-  <string name="variable">Переменная</string>
+  <string name="merge_conflict">Соединение не возможно</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <string name="brick_video">Повернуть камеру</string>
   <string name="video_brick_camera_on">Включить</string>
   <string name="video_brick_camera_off">Выключить</string>
@@ -813,7 +826,4 @@
   <string name="choose_camera_front">Напротив</string>
   <string name="choose_camera_back">Назад</string>
   <string name="error_flash_front_camera">Вы можете использовать фонарик  только с задней камерой. Пожалуйста добавте\"Использование камеры\" кирпичь и измените для вашей камеры</string>
-  <string name="no_back_camera_available">Задняя камера не доступна.</string>
-  <string name="no_camera_available">Распознавания лица не доступно.</string>
-  <string name="no_front_camera_available">Передняя камера не доступна.</string>
 </resources>

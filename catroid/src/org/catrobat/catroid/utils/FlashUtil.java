@@ -79,6 +79,7 @@ public final class FlashUtil {
 		currentFlashValue = false;
 		paused = false;
 		available = false;
+		startAgain = false;
 
 		if (CameraManager.getInstance().isReady()) {
 			paramsOff = null;

@@ -617,8 +617,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static VideoBrickAction updateCameraPreview(CameraManager.CameraState state) {
-		VideoBrickAction action = action(VideoBrickAction.class);
+	public static CameraBrickAction updateCameraPreview(CameraManager.CameraState state) {
+		CameraBrickAction action = action(CameraBrickAction.class);
 		action.setCameraAction(state);
 		return action;
 	}

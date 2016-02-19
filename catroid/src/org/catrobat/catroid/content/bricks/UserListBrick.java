@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.bricks;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
@@ -110,5 +111,50 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 				this.project = backPackedData.project;
 			}
 		}
+	}
+
+	protected void updateUserListReference(Project into, Project from) {
+		UserList list;
+
+		if (from.existProjectList(userList)) {
+			list = into.getProjectListWithName(userList.getName());
+
+			if (list == null) {
+				list = into.getDataContainer().addProjectUserList(userList.getName());
+			}
+		} else {
+			Sprite sprite = from.getSpriteByUserList(userList);
+			if (sprite == null || !from.existSpriteList(userList, sprite)) {
+				return;
+			}
+			list = into.getDataContainer().addSpriteListIfDontExist(userList.getName(),
+					into.getSpriteBySpriteName(sprite));
+		}
+
+		if (list != null) {
+			userList = list;
+		}
+	}
+
+	@Override
+	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+		if (!super.isEqualBrick(brick, mergeResult, current)) {
+			return false;
+		}
+
+		UserList first = this.getUserList();
+		UserList second = ((UserListBrick) brick).getUserList();
+		if (!first.getName().equals(second.getName())) {
+			return false;
+		}
+
+		boolean firstIsProjectVariable = mergeResult.getDataContainer().existProjectList(first);
+		boolean secondIsProjectVariable = current.getDataContainer().existProjectList(second);
+
+		if ((firstIsProjectVariable && secondIsProjectVariable)
+				|| (!firstIsProjectVariable && !secondIsProjectVariable)) {
+			return true;
+		}
+		return false;
 	}
 }

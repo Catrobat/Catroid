@@ -133,7 +133,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		backpackTitle = solo.getString(R.string.backpack_title);
 		delete = solo.getString(R.string.delete);
 		copy = solo.getString(R.string.copy);
-		unpack = solo.getString(R.string.unpacking);
+		unpack = solo.getString(R.string.unpack);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
 		backpackAdd = solo.getString(R.string.backpack_add);
@@ -512,14 +512,14 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertNotNull("Could not get Adapter", adapter);
 		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(SPRITE_NAME, solo.getString(R.string.unpacking));
+		clickOnContextMenuItem(SPRITE_NAME, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME_UNPACKED, 0, TIME_TO_WAIT));
 		clickOnContextMenuItem(SPRITE_NAME2, backpackAdd);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(SPRITE_NAME2, solo.getString(R.string.unpacking));
+		clickOnContextMenuItem(SPRITE_NAME2, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		solo.sleep(TIME_TO_WAIT_BACKPACK);

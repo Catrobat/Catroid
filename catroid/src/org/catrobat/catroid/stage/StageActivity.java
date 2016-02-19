@@ -115,7 +115,7 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus.releaseAudioFocus();
 		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
-
+		CameraManager.getInstance().pausePreview();
 		CameraManager.getInstance().releaseCamera();
 		VibratorUtil.pauseVibrator();
 		super.onPause();

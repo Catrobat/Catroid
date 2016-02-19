@@ -261,4 +261,9 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE_CHANGE);
 	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserVariableReference(into, from);
+	}
 }

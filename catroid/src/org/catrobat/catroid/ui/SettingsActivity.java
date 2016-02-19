@@ -26,7 +26,6 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -40,7 +39,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
 public class SettingsActivity extends PreferenceActivity {
 
-	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
+	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "setting_mindstorms_nxt_bricks";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
@@ -67,26 +66,14 @@ public class SettingsActivity extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 
 		setNXTSensors();
-		updateActionBar();
-
 		setDronePreferences();
 
-		CheckBoxPreference preference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
-		preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				boolean checked = Boolean.valueOf(newValue.toString());
-
-				enableARDroneBricks(getApplicationContext(), checked);
-				return true;
-			}
-		});
+		updateActionBar();
 
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
-			CheckBoxPreference legoNxtPreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
 			legoNxtPreference.setEnabled(false);
 			screen.removePreference(legoNxtPreference);
 		}
@@ -295,7 +282,7 @@ public class SettingsActivity extends PreferenceActivity {
 		editor.commit();
 	}
 
-	public static DroneConfigPreference.Preferences[] getDronePreferencMapping(Context context) {
+	public static DroneConfigPreference.Preferences[] getDronePreferenceMapping(Context context) {
 
 		final String[] dronePreferences =
 				new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
@@ -309,7 +296,7 @@ public class SettingsActivity extends PreferenceActivity {
 		return preferenceMapping;
 	}
 
-	public static DroneConfigPreference.Preferences getDronePreferencMapping(Context context, String
+	public static DroneConfigPreference.Preferences getDronePreferenceMapping(Context context, String
 			preferenceSetting) {
 		String preference = getSharedPreferences(context).getString(preferenceSetting, null);
 		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);

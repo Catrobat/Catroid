@@ -27,10 +27,10 @@
   <string name="cancel_button">Odustani</string>
   <string name="rename">Preimenovati</string>
   <string name="delete">Izbrisati</string>
-  <string name="menu_item_move_down">Move Down</string>
-  <string name="menu_item_move_up">Move Up</string>
-  <string name="menu_item_move_to_top">Move To Top</string>
-  <string name="menu_item_move_to_bottom">Move To Bottom</string>
+  <string name="menu_item_move_down">Move down</string>
+  <string name="menu_item_move_up">Move up</string>
+  <string name="menu_item_move_to_top">Move to top</string>
+  <string name="menu_item_move_to_bottom">Move to bottom</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>
   <string name="copy">Kopirati</string>
@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Ostava</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Otpakivanje</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">kopija</string>
   <string name="close">Zatvoriti</string>
@@ -65,15 +65,15 @@
   <string name="name_exists">Name already exists</string>
   <string name="no_name">No name</string>
   <string name="is_empty">is empty</string>
-  <string name="new_group">New Group</string>
-  <string name="my_group">My Group</string>
+  <string name="new_group">New group</string>
+  <string name="my_group">My group</string>
   <string name="name">Name:</string>
   <string name="nothing_to_copy">Nothing to copy</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
   <string name="nothing_to_unpack">Nothing to unpack</string>
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program background will be replaced</string>
+  <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="main_menu_new">Novi</string>
   <string name="main_menu_continue">Nastavi</string>
   <string name="main_menu_programs">Programi</string>
@@ -85,6 +85,8 @@
   <string name="main_menu_rate_app">Ocijenite nas!</string>
   <string name="main_menu_play_store_not_installed">Play Store aplikacija nije pronađena</string>
   <string name="main_menu_logout">Odjava</string>
+  <string name="main_menu_login">Prijava</string>
+  <string name="logout_successful">Logout successful</string>
   <string name="preference_title">Postavke</string>
   <string name="preference_title_enable_quadcopter_bricks">AR.Drone 2.0 blokovi</string>
   <string name="preference_description_quadcopter_bricks">Omogući kontrolu quadcoptera ARDrone 2.0</string>
@@ -93,9 +95,9 @@
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
   <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
-  <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
-  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="dialog_new_object_pocketpaint">Nacrtaj sliku</string>
   <string name="dialog_new_object_gallery">Odaberi sliku</string>
   <string name="dialog_new_object_camera">Napravi sliku</string>
@@ -109,15 +111,17 @@
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
   <string name="dialog_terms_of_use_link_text">Uvjeti korištenja</string>
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <string name="dialog_about_title">O Pocket Code-u</string>
   <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
         The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License. 
-        For the precise details of the license see the link below.\n</string>
+        For further details on the license see the link below.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code licenca</string>
   <string name="dialog_about_catrobat_link_text">O Catrobat-u</string>
   <string name="project_name">Program:</string>
@@ -132,8 +136,8 @@
   <string name="sprite">Objekt</string>
   <string name="sprites">Objekti</string>
   <string name="spritelist_background_headline">Pozadina</string>
-  <string name="dialog_confirm_delete_object_title">Delete this object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
+  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
   <string name="dialog_confirm_delete_object_message">Ovo se ne može povratiti!</string>
   <string name="select_all">Odaberi sve</string>
   <string name="deselect_all">Deselect all</string>
@@ -146,13 +150,14 @@
   <string name="size">Veličina:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
+        !</string>
   <string name="fragment_script_text_description">Pritisni \"+\" za dodavanje skripti</string>
   <string name="dialog_confirm_delete_brick_title">Izbrisati ovaj blok?</string>
   <string name="dialog_confirm_delete_script_title">Izbriši ovu skriptu?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Izbrisati ove blokove?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
+  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Ovo se ne može povratiti!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Izbriši 1 blok</item>
@@ -180,8 +185,8 @@
   <string name="select_look_from_gallery">Odaberi sliku</string>
   <string name="select_look_from_camera">Odaberi fotografiju</string>
   <string name="look_measure">Mjera:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
+  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Ovo se ne može povratiti!</string>
   <string name="lookname">Ime izgleda:</string>
   <string name="fragment_sound_text_description">Pritisni \"+\" za dodavanje zvukova</string>
@@ -198,8 +203,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Obrisati ove zvukove?</string>
   <string name="dialog_confirm_delete_sound_message">Ovo se ne može poništiti!</string>
   <string name="sound_name">ime zvuka:</string>
-  <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
+  <string name="new_sound_name">ime zvuka:</string>
+  <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">je otpakovan!
 
@@ -238,9 +243,20 @@ su otpakovani!</item>
   <string name="soundrecorder_error">Snimanje zvuka nije uspjelo</string>
   <string name="soundrecorder_recorded_filename">snimak</string>
   <string name="soundrecorder_text_view">Pritisni ikonu iznad za pokretanje i zaustavljanje snimanja.</string>
-  <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">Vibrator nije dostupan</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="brick_context_dialog_move_brick">Pomjeri blok</string>
   <string name="brick_context_dialog_show_source">Show Source Brick</string>
   <string name="brick_context_dialog_delete_brick">Izbriši blok</string>
@@ -256,7 +272,8 @@ su otpakovani!</item>
   <string name="add_look_choose_image">Odaberi sliku</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists!</string>
+  <string name="look_rename_overwrite">Look with this name already exists. Please choose a different one
+        !</string>
   <string name="add_look_drone_video">Drone Video</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
@@ -266,15 +283,15 @@ su otpakovani!</item>
   <string name="new_project_description_dialog_hint">Moj opis</string>
   <string name="new_project_name">Naziv programa:</string>
   <string name="new_project_empty">Započni novi projekt</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">Moj objekt</string>
   <string name="new_sprite_dialog_title">Novi objekt</string>
   <string name="spritename_already_exists">Naziv objekta već postoji</string>
   <string name="rename_sprite_dialog">Preimenuj objekt</string>
   <string name="spritename_invalid">Naziv objekta nije valjan</string>
-  <string name="no_spritename_entered">Please enter a object name.</string>
+  <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">Naziv objekta:</string>
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Korisničko ime:</string>
@@ -294,17 +311,17 @@ su otpakovani!</item>
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <string name="overwrite_text">Program s istim nazivom već postoji!</string>
   <string name="overwrite_replace">Zamjeni postojeći program</string>
   <string name="overwrite_rename">Preimenuj preuzeti program</string>
-  <string name="overwrite_replace_look">Replace existing look</string>
-  <string name="overwrite_rename_look">Rename downloaded look</string>
-  <string name="overwrite_replace_sound">Replace existing sound</string>
-  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_look">Replace existing Look</string>
+  <string name="overwrite_rename_look">Rename downloaded Look</string>
+  <string name="overwrite_replace_sound">Replace existing Sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded Sound</string>
   <string name="overwrite_replace_default">Replace existing media</string>
   <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Natrag</string>
@@ -480,7 +497,7 @@ su otpakovani!</item>
   <string name="notification_download_pending">Preuzimanje u tijeku</string>
   <string name="notification_download_finished">Uspješno preuzimanje</string>
   <string name="notification_title_open">"Otvori "</string>
-  <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
   <string name="project_rename">(Vaš program će biti preimenovan.)</string>
   <string name="size_of_project">Veličina:</string>
   <string name="upload_button">Upload</string>
@@ -495,7 +512,7 @@ su otpakovani!</item>
   <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
   <string name="drone_emergency_title">Emergency</string>
-  <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
+  <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
   <string name="error_project_exists">Program s istim nazivom već postoji.\nMolim Vas odaberite drugi naziv.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
@@ -530,15 +547,15 @@ su otpakovani!</item>
   <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
   <string name="title_paired_devices">Upareni uređaji</string>
   <string name="title_other_devices">Novi uređaji</string>
-  <string name="searching_devices">Looking for devices &#8230;</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Pretraga Bluetooth uređaja</string>
   <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Povzivanje s Vašim uređajem.\nMolim Vas pričekajte&#8230;</string>
   <string name="bt_connection_failed">Povezivanje s uređajem nije uspjelo!</string>
   <string name="none_found">No unpaired devices found</string>
   <string name="none_paired">Upareni uređaji nisu pronađeni</string>
-  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
-  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">za</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">za</string>
@@ -578,7 +595,7 @@ su otpakovani!</item>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
   <string name="brick_drone_takeoff_land">Take off / Land</string>
-  <string name="brick_drone_play_led_animation">Play LED animation</string>
+  <string name="brick_drone_play_led_animation">Play flash animation</string>
   <string name="brick_drone_move_left">Pomicati lijevo</string>
   <string name="brick_drone_move_right">Pomicati desno</string>
   <string name="brick_drone_move_forward">Pomjeriti naprijed</string>
@@ -790,7 +807,7 @@ su otpakovani!</item>
   <string name="edit_text">Uredi tekst</string>
   <string name="text_hint">Tekstualni blok</string>
   <string name="add_variable">Dodaj varijablu</string>
-  <string name="add_line_break">Add Line Break</string>
+  <string name="add_line_break">Add line break</string>
   <string name="edit_variable">Uredi varijablu</string>
   <string name="variable_hint">Ime varijable</string>
   <string name="brick_show_text_var">Show variable</string>
@@ -802,31 +819,25 @@ su otpakovani!</item>
   <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
   <string name="brick_single">Blok</string>
   <string name="brick_multiple">Blokovi</string>
-  <string name="merge_button">Merge project into</string>
-  <string name="merge_conflict">Merging not possible</string>
-  <string name="broadcast">Razglasi</string>
-  <string name="project_list">List Item</string>
-  <string name="error_merge_duplicate_names">To merge both projects, please be aware, that following elements can not use the same name:</string>
-  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
-  <string name="error_merge">An error occurred while merging projects!</string>
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">successfully merged into</string>
-  <string name="error_different_resolutions1">Caution! Different resolutions detected.</string>
-  <string name="error_different_resolutions2">has resolution</string>
-  <string name="error_different_resolutions3">Using resolution of</string>
-  <string name="error_bricks_in_background">Caution! The background is not empty. Images and bricks in the background object will be ignored by matching.</string>
-  <string name="and">and</string>
   <string name="warning">Warning</string>
+  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
-  <string name="variable">Variable</string>
+  <string name="merge_conflict">Merging not possible</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
+  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
 </resources>

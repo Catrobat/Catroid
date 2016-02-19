@@ -40,6 +40,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 
 import java.util.Arrays;
@@ -95,21 +97,19 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_list_item_parameter,
 			R.string.formula_editor_function_contains_parameter};
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
-			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
-			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness };
+	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_loudness };
+
+	private static final int[] ACCELERATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
+			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration};
+
+	private static final int[] INCLINATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_inclination,
+			R.string.formula_editor_sensor_y_inclination};
+
+	private static final int[] COMPASS_SENSOR_ITEMS = {R.string.formula_editor_sensor_compass_direction};
 
 	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
 			R.string.formula_editor_sensor_lego_nxt_4};
-
-	private static final int[] SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
-			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
-			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
-			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
-			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position};
 
 	private static final int[] SENSOR_ITEMS_DRONE = {R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
@@ -159,6 +159,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	@Override
 	public void onStart() {
 		super.onStart();
+
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
 		itemsIds = new int[]{};
@@ -174,7 +175,21 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 			Context context = this.getActivity().getApplicationContext();
 
-			itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
+			if (SensorHandler.getInstance(context).accelerationAvailable()) {
+				itemsIds = concatAll(itemsIds, ACCELERATION_SENSOR_ITEMS);
+			}
+
+			if (SensorHandler.getInstance(context).inclinationAvailable()) {
+				itemsIds = concatAll(itemsIds, INCLINATION_SENSOR_ITEMS);
+			}
+
+			if (SensorHandler.getInstance(context).compassAvailable()) {
+				itemsIds = concatAll(itemsIds, COMPASS_SENSOR_ITEMS);
+			}
+
+			if (CameraManager.getInstance().hasBackCamera() || CameraManager.getInstance().hasFrontCamera()) {
+				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
+			}
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
@@ -189,10 +204,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			}
 
 			if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
-				int[] array1and2 = new int[SENSOR_ITEMS.length + SENSOR_ITEMS_DRONE.length];
-				System.arraycopy(SENSOR_ITEMS, 0, array1and2, 0, SENSOR_ITEMS.length);
-				System.arraycopy(SENSOR_ITEMS_DRONE, 0, array1and2, SENSOR_ITEMS.length, SENSOR_ITEMS_DRONE.length);
-				itemsIds = array1and2;
+				itemsIds = concatAll(itemsIds, SENSOR_ITEMS_DRONE);
 			}
 		}
 

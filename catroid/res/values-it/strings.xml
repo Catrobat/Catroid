@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Zaino</string>
   <string name="packing">Impacchetta</string>
-  <string name="unpacking">Scompatta</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Spacchetta e mantieni</string>
   <string name="copy_addition">copiare</string>
   <string name="close">Chiudere</string>
@@ -85,6 +85,8 @@
   <string name="main_menu_rate_app">Valutaci!</string>
   <string name="main_menu_play_store_not_installed">Play Store app non trovato</string>
   <string name="main_menu_logout">Logout</string>
+  <string name="main_menu_login">Login</string>
+  <string name="logout_successful">Logout successful</string>
   <string name="preference_title">Impostazioni</string>
   <string name="preference_title_enable_quadcopter_bricks">Mattoncini per ARDrone 2.0</string>
   <string name="preference_description_quadcopter_bricks">Permettono di controllare i quadricotteri ARDrone 2.0</string>
@@ -221,9 +223,20 @@
   <string name="soundrecorder_error">Registrazione del suono non riuscita</string>
   <string name="soundrecorder_recorded_filename">registra</string>
   <string name="soundrecorder_text_view">Premere l\'icona qui sopra per avviare e interrompere la registrazione.</string>
-  <string name="text_to_speech_engine_not_installed">Motore di sintesi vocale non installato! \nVuoi installarlo?</string>
-  <string name="no_flash_available">Nessun flash LED disponibile</string>
-  <string name="no_vibrator_available">Vibrazione non disponibile</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="brick_context_dialog_move_brick">Sposta mattoncino</string>
   <string name="brick_context_dialog_show_source">Mostra codice sorgente del mattoncino</string>
   <string name="brick_context_dialog_delete_brick">Elimina mattoncino</string>
@@ -249,8 +262,8 @@
   <string name="new_project_description_dialog_hint">Mia descrizione</string>
   <string name="new_project_name">Nome del programma:</string>
   <string name="new_project_empty">Crea programma vuoto</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientazione:</string>
   <string name="new_sprite_dialog_default_sprite_name">Mio oggetto</string>
   <string name="new_sprite_dialog_title">Nuovo oggetto</string>
@@ -277,8 +290,8 @@
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <string name="overwrite_text">Esiste già un programma con lo stesso nome!</string>
@@ -509,7 +522,7 @@
   <string name="notification_blueth_err">Bluetooth potrebbe non essere abilitato, fase di chiusura</string>
   <string name="title_paired_devices">Dispositivi accoppiati</string>
   <string name="title_other_devices">Nuovi dispositivi</string>
-  <string name="searching_devices">Ricerca di dispositivi&#8230;</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Ricerca dispositivi Bluetooth</string>
   <string name="select_device">Seleziona il dispositivo:</string>
   <string name="connecting_please_wait">Connessione al tuo dispositivo. \nAttendere&#8230;</string>
@@ -780,22 +793,19 @@
   <string name="recursive_user_brick_forbidden">Non è ancora possibile aggiungere un mattoncino personalizzato ad un mattoncino personalizzato!</string>
   <string name="brick_single">Mattoncino</string>
   <string name="brick_multiple">Mattoncini</string>
-  <string name="merge_button">Unisci il progetto con</string>
-  <string name="merge_conflict">Unione non possibile</string>
-  <string name="broadcast">Invia evento</string>
-  <string name="project_list">Elemento della lista</string>
-  <string name="error_merge_duplicate_names">Unendo i due progetti fate attenzione che i seguenti elementi non possono usare lo stesso nome:</string>
-  <string name="error_merge_with_self">Attenzione! ll progetto attuale e il progetto selezionato sono gli stessi!</string>
-  <string name="error_merge">Si è verificato un errore durante l\'unione dei progetti!</string>
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">Unito con successo con</string>
-  <string name="error_different_resolutions1">Attenzione! Sono state rilevate risoluzioni differenti.</string>
-  <string name="error_different_resolutions2">ha risoluzione</string>
-  <string name="error_different_resolutions3">Usa la risoluzione di</string>
-  <string name="error_bricks_in_background">Attenzione! Lo sfondo non è vuoto. Immagini e mattoncini nell\'oggetto sfondo verranno ignorati se corrispondenti.</string>
-  <string name="and">e</string>
   <string name="warning">Attenzione</string>
+  <string name="error_merge_with_self">Attenzione! ll progetto attuale e il progetto selezionato sono gli stessi!</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abbandona</string>
-  <string name="variable">Variabile</string>
+  <string name="merge_conflict">Unione non possibile</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <string name="brick_video">Gira la videocamera</string>
   <string name="video_brick_camera_on">acceso</string>
   <string name="video_brick_camera_off">spento</string>
@@ -803,7 +813,4 @@
   <string name="choose_camera_front">anteriore</string>
   <string name="choose_camera_back">posteriore</string>
   <string name="error_flash_front_camera">\"È possibile usare il flash solo con la fotocamera posteriore. Aggiungi un mattoncino \"Usa fotocamera\" e imposta l\'uso della fotocamera posteriore.\"</string>
-  <string name="no_back_camera_available">Nessuna fotocamera posteriore disponibile.</string>
-  <string name="no_camera_available">Rilevamento dei volti non disponibile.</string>
-  <string name="no_front_camera_available">Nessuna fotocamera frontale disponibile.</string>
 </resources>

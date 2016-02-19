@@ -38,6 +38,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationTask;
@@ -116,11 +117,9 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 	@Override
 	public void onRegistrationComplete() {
 		dismiss();
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
-		uploadProjectDialog.setArguments(bundle);
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
 	}
 
 	private void handleRegisterButtonClick() {

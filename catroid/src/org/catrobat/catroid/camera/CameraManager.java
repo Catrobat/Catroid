@@ -167,7 +167,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	}
 
 	private boolean createCamera() {
-
 		if (camera != null) {
 			return false;
 		}
@@ -340,6 +339,10 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 	@Override
 	public void pausePreview() {
+		if (state == CameraState.previewRunning) {
+			wasRunning = true;
+		}
+
 		stopPreview();
 		state = CameraState.previewPaused;
 	}
@@ -376,10 +379,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 				|| state == CameraState.stopped
 				|| state == CameraState.notUsed) {
 			return;
-		}
-
-		if (state == CameraState.previewRunning) {
-			wasRunning = true;
 		}
 
 		Runnable r = new Runnable() {

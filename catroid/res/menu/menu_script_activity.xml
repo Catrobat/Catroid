@@ -39,7 +39,7 @@
         android:id="@+id/unpacking"
         android:showAsAction="never"
         android:visible="false"
-        android:title="@string/unpacking" />
+        android:title="@string/unpack" />
 
     <item
         android:id="@+id/copy"

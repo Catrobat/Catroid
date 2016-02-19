@@ -65,6 +65,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
+	private boolean compassAvailable = true;
+	private boolean accelerationAvailable = true;
+	private boolean inclinationAvailable = true;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -82,8 +85,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (useRotationVectorFallback) {
 			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+			if (accelerometerSensor == null) {
+				accelerationAvailable = false;
+				inclinationAvailable = false;
+			}
+			if (magneticFieldSensor == null) {
+				compassAvailable = false;
+			}
 		} else if (useLinearAccelerationFallback) {
 			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			if (accelerometerSensor == null) {
+				accelerationAvailable = false;
+			}
 		}
 
 		Log.d(TAG, "*** LINEAR_ACCELERATION SENSOR: " + linearAccelerationSensor);
@@ -92,8 +105,26 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		Log.d(TAG, "*** MAGNETIC_FIELD SENSOR: " + magneticFieldSensor);
 	}
 
-	public static void startSensorListener(Context context) {
+	public boolean compassAvailable() {
+		return this.compassAvailable;
+	}
 
+	public boolean accelerationAvailable() {
+		return this.accelerationAvailable;
+	}
+
+	public boolean inclinationAvailable() {
+		return this.inclinationAvailable;
+	}
+
+	public static SensorHandler getInstance(Context context) {
+		if (instance == null) {
+			instance = new SensorHandler(context);
+		}
+		return instance;
+	}
+
+	public static void startSensorListener(Context context) {
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}

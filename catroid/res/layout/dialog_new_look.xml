@@ -95,6 +95,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/dialog_new_look_drone"
             style="@style/DefaultDialog.Item"
             android:baselineAligned="false"
             android:orientation="horizontal"

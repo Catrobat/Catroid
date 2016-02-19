@@ -129,7 +129,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".stage.StageActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:label="@string/stage"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
