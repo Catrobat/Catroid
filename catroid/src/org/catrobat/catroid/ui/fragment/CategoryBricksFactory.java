@@ -185,7 +185,7 @@ public class CategoryBricksFactory {
 
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, "<", null);
+		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
