@@ -65,6 +65,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.Arrays;
@@ -154,15 +155,23 @@ public class SignInDialog extends DialogFragment implements
 		facebookLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
-				LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+				if (Utils.isNetworkAvailable(getActivity())) {
+					Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
+					LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+				} else {
+					ToastUtil.showError(getActivity(), "check connection");
+				}
 			}
 		});
 
 		gplusLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				handleGooglePlusLoginButtonClick(view);
+				if (Utils.isNetworkAvailable(getActivity())) {
+					handleGooglePlusLoginButtonClick(view);
+				} else {
+					ToastUtil.showError(getActivity(), "check connection");
+				}
 			}
 		});
 
