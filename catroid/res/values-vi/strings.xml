@@ -275,10 +275,10 @@
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Tên truy cập:</string>
   <string name="password">Mật khẩu:</string>
-  <string name="password_forgotten">Quên mật khẩu</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">Tài khoản mới đã được tạo</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">Lỗi đã xảy ra</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">Bằng cách đăng ký, bạn đồng ý với</string>
   <string name="register_pocketcode_terms_of_use_text">Điều khoản sử dụng</string>
   <string name="login">Đăng nhập</string>

@@ -280,10 +280,10 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Kullanıcı adı:</string>
   <string name="password">Şifre:</string>
-  <string name="password_forgotten">Parolami unuttum</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">Yeni bir hesap oluşturuldu</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">Hata oluştu</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">Kayıt olarak, bizim koşullarımızı kabul</string>
   <string name="register_pocketcode_terms_of_use_text">Kullanım koşulları</string>
   <string name="login">Oturum aç</string>

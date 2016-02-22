@@ -303,10 +303,10 @@
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">اسم المستخدم:</string>
   <string name="password">كلمة المرور:</string>
-  <string name="password_forgotten">نسيت كلمة السر</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">إنشاء حساب جديد</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">حدث خطأ</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">بالتسجيل، يمكنك الموافقة على موقعنا</string>
   <string name="register_pocketcode_terms_of_use_text">شروط الاستخدام</string>
   <string name="login">تسجيل الدخول</string>
