@@ -199,7 +199,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 
 		registerForContextMenu(listView);
 		listView.setLongClickable(false);
-		BottomBar.showBottomBar(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initClickListener() {
