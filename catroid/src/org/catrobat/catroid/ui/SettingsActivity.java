@@ -39,7 +39,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
 public class SettingsActivity extends PreferenceActivity {
 
-	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "setting_mindstorms_nxt_bricks";
+	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
