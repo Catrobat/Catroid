@@ -285,7 +285,7 @@ public class PreStageActivity extends BaseActivity {
 			switch ((int) resourceIter.next()) {
 				case Brick.SENSOR_ACCELERATION:
 					failedResourcesMessage = failedResourcesMessage + getString(R.string
-						.prestage_no_acceleration_sensor_available);
+							.prestage_no_acceleration_sensor_available);
 					break;
 				case Brick.SENSOR_INCLINATION:
 					failedResourcesMessage = failedResourcesMessage + getString(R.string
