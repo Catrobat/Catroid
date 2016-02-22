@@ -281,10 +281,10 @@
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Имя:</string>
   <string name="password">Пароль:</string>
-  <string name="password_forgotten">Пароль забыт</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">новый аккаунт создан</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">Произошла ошибка</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">Регистрируясь, вы соглашаетесь с нашим</string>
   <string name="register_pocketcode_terms_of_use_text">Лицензионным Соглашением</string>
   <string name="login">Вход</string>

@@ -283,10 +283,10 @@
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Numele:</string>
   <string name="password">Parola:</string>
-  <string name="password_forgotten">Parola este uitată</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">contul nou a fost creat</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">A avut loc o eroare</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">Prin înregistrare, sunteţi de acord cu ale noastre</string>
   <string name="register_pocketcode_terms_of_use_text">Termeni de utilizare</string>
   <string name="login">Intrare</string>

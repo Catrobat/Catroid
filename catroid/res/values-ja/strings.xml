@@ -39,7 +39,7 @@
   <string name="backpack_add">バックパックに追加</string>
   <string name="backpack">バックパック</string>
   <string name="packing">パック</string>
-  <string name="unpack">Unpack</string>
+  <string name="unpack">解凍</string>
   <string name="unpack_keep">解凍して残す</string>
   <string name="copy_addition">コピー</string>
   <string name="close">閉じる</string>
@@ -50,12 +50,12 @@
   <string name="loading_check_facebook_data">Facebook のデータを取得します&#8230;</string>
   <string name="loading_check_email">私たちのサーバーでメールの可用性をチェックします&#8230;</string>
   <string name="loading_check_oauth_token">私たちのサーバーで OAuth トークンをチェックします&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
-  <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
-  <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
-  <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
+  <string name="loading_check_facebook_token_validity">私たちのサーバーで Facebook トークンの有効性をチェックします&#8230;</string>
+  <string name="loading_check_oauth_username">私たちのサーバーでユーザー名の可用性をチェックします&#8230;</string>
+  <string name="loading_facebook_exchange_token">私たちのサーバーで Facebook トークンを交換します&#8230;</string>
+  <string name="loading_facebook_login">私たちのサーバーで Facebook のログインが完了しました&#8230;</string>
+  <string name="loading_google_exchange_code">私たちのサーバーで Google+ のコードを交換します&#8230;</string>
+  <string name="loading_google_login">私たちのサーバーで Google+ のログインが完了しました&#8230;</string>
   <string name="background">背景</string>
   <string name="stage">ステージ</string>
   <string name="ok">わかりました</string>
@@ -86,7 +86,7 @@
   <string name="main_menu_play_store_not_installed">プレイストア アプリが見つかりません</string>
   <string name="main_menu_logout">ログアウト</string>
   <string name="main_menu_login">ログイン</string>
-  <string name="logout_successful">Logout successful</string>
+  <string name="logout_successful">ログアウトしました</string>
   <string name="preference_title">設定</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 ブロック</string>
   <string name="preference_description_quadcopter_bricks">ARDrone 2.0 quadcopter を制御することができます</string>
@@ -217,20 +217,20 @@
   <string name="soundrecorder_error">録音に失敗しました</string>
   <string name="soundrecorder_recorded_filename">録音</string>
   <string name="soundrecorder_text_view">録音を開始しとか停止に、上記のアイコンを押します。</string>
-  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-  <string name="prestage_resource_not_available_title">Component not available</string>
-  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
-        components are unavailable:\n\n</string>
-  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
-  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
-  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
-  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
-  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
-  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
-  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
-  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
-  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
-  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="prestage_text_to_speech_engine_not_installed">音声合成エンジンがインストールされていません!\n今すぐインストールしますか?</string>
+  <string name="prestage_resource_not_available_title">コンポーネントは使用できません</string>
+  <string name="prestage_resource_not_available_text">このゲームは、お使いのデバイスで実行できません。
+次のコンポーネントが利用できません:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 フラッシュ\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 バイブレーション\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 加速度センサー\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 傾斜センサー\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 コンパス\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 音声合成エンジン\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 背面カメラ\n</string>
+  <string name="prestage_no_camera_available">\u2022 顔認識\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 前面カメラ\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 不明なコンポーネント\n</string>
   <string name="brick_context_dialog_move_brick">ブロックを移動します。</string>
   <string name="brick_context_dialog_show_source">ソース ブロックを表示</string>
   <string name="brick_context_dialog_delete_brick">ブロックを削除します。</string>
@@ -269,10 +269,10 @@
   <string name="sign_in_dialog_title">サインイン</string>
   <string name="username">ユーザー名:</string>
   <string name="password">パスワード:</string>
-  <string name="password_forgotten">パスワードを忘れました</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">新しいアカウントを作成</string>
   <string name="user_logged_in">ログインに成功しました</string>
-  <string name="register_error">エラーが生じた場合</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">登録により、同意します。</string>
   <string name="register_pocketcode_terms_of_use_text">利用規約</string>
   <string name="login">ログイン</string>
@@ -489,8 +489,8 @@
   <string name="error_load_project">プログラムの読み込み中にエラーが発生しました</string>
   <string name="error_screenshot_failed">発表方法を保存するときにエラーが発生しました</string>
   <string name="error_load_image">画像の読み込み中にエラーが発生しました</string>
-  <string name="error_load_image_special_chars">Cannot load image. Does the filename contain special
-        characters (e.g. $, %, &amp;, &#8230;)? </string>
+  <string name="error_load_image_special_chars">画像を読み込みできません。ファイル名に特殊文字が
+含まれていませんか (例えば $、%、&amp;、&#8230;)? </string>
   <string name="error_load_sound">サウンドをロード中にエラーが発生しました</string>
   <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
   <string name="error_project_compatability">プログラムは、このバージョンのポケット コードと互換性がありません。</string>
@@ -512,7 +512,7 @@
   <string name="notification_blueth_err">Bluetoothが有効にできませんでした、ステージをクロースします</string>
   <string name="title_paired_devices">デバイスの組み合わせ</string>
   <string name="title_other_devices">新しいデバイス</string>
-  <string name="searching_devices">Looking for devices&#8230;</string>
+  <string name="searching_devices">デバイスを検索しています&#8230;</string>
   <string name="button_scan">Bluetoothデバイスを検索</string>
   <string name="select_device">デバイスを選択してください:</string>
   <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
@@ -782,19 +782,19 @@
   <string name="recursive_user_brick_forbidden">まだ、ユーザーブロックをユーザーブロックに追加することはできません!</string>
   <string name="brick_single">ブロック</string>
   <string name="brick_multiple">ブロック</string>
-  <string name="merge_button">Merge with</string>
-  <string name="name_merge_result">Enter name for result</string>
+  <string name="merge_button">マージする</string>
+  <string name="name_merge_result">結果の名前を入力</string>
   <string name="merge_info">正常にマージしました</string>
   <string name="warning">警告</string>
   <string name="error_merge_with_self">注意! 現在のプロジェクトと選択したプロジェクトは同じです!</string>
-  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
-        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
+  <string name="error_different_resolutions">注意! 異なる解像度を検出しました。%1$s は解像度 %2$dx%3$d 、
+%4$s は解像度 %5$dx%6$d です。%1$s の解像度を使用します。</string>
   <string name="abort">中止</string>
   <string name="merge_conflict">マージできません</string>
-  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
-    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
-  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
-    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
+  <string name="merge_conflict_variable">変数 \"%1$s\" は両方のプログラムで使用されます。プログラムが同じ変数名を
+使用している場合は、結合できません。いずれかのプログラムで変数の名前を変更して、もう一度やり直してください。</string>
+  <string name="merge_conflict_list">リスト \"%1$s\" は両方のプログラムで使用されます。プログラムが同じ名前のリストを
+使用している場合は、結合できません。いずれかのプログラムでリストの名前を変更して、もう一度やり直してください。</string>
   <string name="brick_video">カメラを</string>
   <string name="video_brick_camera_on">オン</string>
   <string name="video_brick_camera_off">オフ</string>

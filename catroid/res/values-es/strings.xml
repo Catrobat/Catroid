@@ -279,10 +279,10 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Nombre de usuario:</string>
   <string name="password">Contraseña:</string>
-  <string name="password_forgotten">Contraseña olvidada</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">Nueva cuenta creada</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">Se produjo un error</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">Al registrarse, usted acepta nuestra</string>
   <string name="register_pocketcode_terms_of_use_text">Términos de uso</string>
   <string name="login">Login</string>

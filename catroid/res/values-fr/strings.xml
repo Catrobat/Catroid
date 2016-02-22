@@ -282,10 +282,10 @@ il faut
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Nom d\'utilisateur :</string>
   <string name="password">Mot de passe :</string>
-  <string name="password_forgotten">Mot de passe oublié</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">Nouveau compte créé</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">\"Une erreur s\'est produite\"</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">En t\'inscrivant, tu acceptes nos</string>
   <string name="register_pocketcode_terms_of_use_text">Conditions d\'utilisation</string>
   <string name="login">Se connecter</string>
