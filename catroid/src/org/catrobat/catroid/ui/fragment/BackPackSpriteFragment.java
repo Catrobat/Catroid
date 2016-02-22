@@ -275,7 +275,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.showBottomBar(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initClickListener() {

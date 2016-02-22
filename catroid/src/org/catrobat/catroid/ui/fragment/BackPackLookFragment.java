@@ -248,7 +248,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.showBottomBar(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initClickListener() {
