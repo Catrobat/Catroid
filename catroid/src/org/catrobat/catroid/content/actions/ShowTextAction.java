@@ -49,6 +49,7 @@ public class ShowTextAction extends TemporalAction {
 	private Formula endX;
 	private Formula endY;
 	private String variableName;
+	public static final String TAG = ShowTextAction.class.getSimpleName();
 
 	private Sprite sprite;
 	private ShowTextActor actor;
@@ -66,7 +67,6 @@ public class ShowTextAction extends TemporalAction {
 			Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
-
 			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 			ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0);
 
@@ -88,14 +88,16 @@ public class ShowTextAction extends TemporalAction {
 					break;
 				}
 			}
-			for (UserVariable variable : spriteVariableList) {
-				if (variable.getName().equals(variableName)) {
-					variable.setVisible(true);
-					break;
+			if (spriteVariableList != null) {
+				for (UserVariable variable : spriteVariableList) {
+					if (variable.getName().equals(variableName)) {
+						variable.setVisible(true);
+						break;
+					}
 				}
 			}
 		} catch (InterpretationException e) {
-			Log.d("ShowTextAction.java", "InterpretationException");
+			Log.d(TAG, "InterpretationException: " + e);
 		}
 	}
 

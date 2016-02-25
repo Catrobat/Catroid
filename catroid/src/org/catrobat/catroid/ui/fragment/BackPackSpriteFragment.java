@@ -127,9 +127,9 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.unpacking);
+			mode.setTitle(R.string.unpack);
 
-			actionModeTitle = getString(R.string.unpacking);
+			actionModeTitle = getString(R.string.unpack);
 			singleItemAppendixActionMode = getString(R.string.category_looks);
 			multipleItemAppendixActionMode = getString(R.string.looks);
 			addSelectAllActionModeButton(mode, menu);
@@ -275,7 +275,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.showBottomBar(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initClickListener() {
@@ -336,7 +336,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 					public void onClick(View view) {
 						for (int position = 0; position < adapter.getCount(); position++) {
 							if (adapter.getItem(position).isBackgroundSprite && actionModeTitle.equals(
-									getString(R.string.unpacking))) {
+									getString(R.string.unpack))) {
 								continue;
 							}
 							adapter.addCheckedSprite(position);
@@ -371,7 +371,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpacking));
+					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
 				} else if (actionModeCallback.equals(deleteModeCallBack)) {
 					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
 				}
@@ -488,7 +488,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 	@Override
 	public void onSpriteChecked() {
 		updateActionModeTitle();
-		if (actionModeTitle.equals(getString(R.string.unpacking))) {
+		if (actionModeTitle.equals(getString(R.string.unpack))) {
 			Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
 					adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCountWithBackgroundSprites());
 		} else {

@@ -40,6 +40,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -56,6 +58,7 @@ public class ShowTextBrick extends UserVariableBrick {
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
 	public String userVariableName;
+	public static final String TAG = ShowTextBrick.class.getSimpleName();
 
 	public ShowTextBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
@@ -185,29 +188,28 @@ public class ShowTextBrick extends UserVariableBrick {
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
 				adapterView = parent;
+				setUserVariableName(userVariable);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
-
-				userVariableName = "No variable set";
-				try {
-					userVariableName = userVariable.getName();
-				} catch (NullPointerException e) {
-					Log.d("ShowTextBrick.java", "NullPointerException");
-				}
+				setUserVariableName(userVariable);
 			}
 		});
 
-		userVariableName = "No variable set";
+		setUserVariableName(userVariable);
+
+		return view;
+	}
+
+	void setUserVariableName(UserVariable userVariable) {
+		userVariableName = Constants.NO_VARIABLE_SELECTED;
 		try {
 			userVariableName = userVariable.getName();
 		} catch (NullPointerException e) {
-			Log.d("ShowTextBrick.java", "NullPointerException");
+			Log.d(TAG, "Nothing selected yet.");
 		}
-
-		return view;
 	}
 
 	@Override
@@ -265,11 +267,15 @@ public class ShowTextBrick extends UserVariableBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		if (userVariableName == null) {
-			userVariableName = "No variable set";
+			userVariableName = Constants.NO_VARIABLE_SELECTED;
 		}
-
 		sequence.addAction(ExtendedActions.showText(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION), userVariableName));
 		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserVariableReference(into, from);
 	}
 }

@@ -630,6 +630,9 @@ public final class ServerCalls {
 			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
+			if (jsonObject.has(Constants.JSON_ERROR_CODE)) {
+				return jsonObject;
+			}
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 
 			return jsonObject;
@@ -828,12 +831,12 @@ public final class ServerCalls {
 		}
 	}
 
-	public void logoutCallToServer(String userName) {
+	public void logout(String userName) {
 		try {
 			String serverUrl = Constants.CATROBAT_TOKEN_LOGIN_URL + userName + Constants
 					.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + Constants.NO_TOKEN;
 			Log.v(TAG, "URL to use: " + serverUrl);
-			resultString = getRequest(serverUrl);
+			getRequest(serverUrl);
 		} catch (WebconnectionException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}

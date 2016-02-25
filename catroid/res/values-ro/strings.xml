@@ -27,10 +27,10 @@
   <string name="cancel_button">Anulare</string>
   <string name="rename">Redenumire</string>
   <string name="delete">Ștergere</string>
-  <string name="menu_item_move_down">Move Down</string>
-  <string name="menu_item_move_up">Move Up</string>
-  <string name="menu_item_move_to_top">Move To Top</string>
-  <string name="menu_item_move_to_bottom">Move To Bottom</string>
+  <string name="menu_item_move_down">Deplasare jos</string>
+  <string name="menu_item_move_up">Deplasare sus</string>
+  <string name="menu_item_move_to_top">Move to top</string>
+  <string name="menu_item_move_to_bottom">Move to bottom</string>
   <string name="yes">Da</string>
   <string name="no">Nu</string>
   <string name="copy">Copie</string>
@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Rucsac</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Despachetare</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">copie</string>
   <string name="close">Închidere</string>
@@ -65,15 +65,15 @@
   <string name="name_exists">Name already exists</string>
   <string name="no_name">No name</string>
   <string name="is_empty">is empty</string>
-  <string name="new_group">New Group</string>
-  <string name="my_group">My Group</string>
+  <string name="new_group">New group</string>
+  <string name="my_group">My group</string>
   <string name="name">Name:</string>
   <string name="nothing_to_copy">Nothing to copy</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
   <string name="nothing_to_unpack">Nothing to unpack</string>
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program background will be replaced</string>
+  <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="main_menu_new">Nou</string>
   <string name="main_menu_continue">Continuă</string>
   <string name="main_menu_programs">Programe</string>
@@ -85,6 +85,8 @@
   <string name="main_menu_rate_app">Oferă o evaluare!</string>
   <string name="main_menu_play_store_not_installed">Aplicația nu a fost găsită în Magazinul Play</string>
   <string name="main_menu_logout">1 zi &amp;#xEE;n urm&amp;#x103;</string>
+  <string name="main_menu_login">Intrare</string>
+  <string name="logout_successful">Logout successful</string>
   <string name="preference_title">Setări</string>
   <string name="preference_title_enable_quadcopter_bricks">Cărămizi ARDrone 2.0</string>
   <string name="preference_description_quadcopter_bricks">Permit să controlaţi quadcopter ARDrone 2.0</string>
@@ -93,9 +95,9 @@
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
   <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
-  <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
-  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="dialog_new_object_pocketpaint">Deseană imaginea</string>
   <string name="dialog_new_object_gallery">Selecteaza imaginea</string>
   <string name="dialog_new_object_camera">Fă poză</string>
@@ -106,8 +108,10 @@
   <string name="dialog_terms_of_use_title">Termeni de utilizare</string>
   <string name="dialog_terms_of_use_info">Pentru a fi permis să folosiți Pocket Code şi alte executabile oferite de proiectul Catrobat, trebuie să fiți de acord cu termenii de utilizare şi să le urmaţi strict atunci când utilizaţi Pocket Code şi alte executabile ale noastre. Vă rugăm să consultaţi link-ul de mai jos pentru formularea lor precisă.\n</string>
   <string name="dialog_terms_of_use_link_text">Termeni de utilizare</string>
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <string name="dialog_about_title">Despre Catroid</string>
   <string name="dialog_about_license_info">Pocket Code este un mediu de programare şi interpretator pentru dispozitive Android pentru limbajul de programare visual Catrobat.\n\nCodul sursă al Pocket Code este licenţiat sub licenţa GNU AGPL v3. Pentru detalii precise ale licenței vedeți linkul de mai jos.\n</string>
@@ -125,8 +129,8 @@
   <string name="sprite">obiect</string>
   <string name="sprites">Obiecte</string>
   <string name="spritelist_background_headline">Fundal</string>
-  <string name="dialog_confirm_delete_object_title">Delete this object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
+  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
   <string name="dialog_confirm_delete_object_message">Aceasta nu va fi reversibil!</string>
   <string name="select_all">Selectează tot</string>
   <string name="deselect_all">Deselect all</string>
@@ -139,13 +143,14 @@
   <string name="size">Mărimea proiectului:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
+        !</string>
   <string name="fragment_script_text_description">Atingeţi \"+\" pentru a adăuga scripturi</string>
   <string name="dialog_confirm_delete_brick_title">Doriți să ștergeți această cărămidă?</string>
   <string name="dialog_confirm_delete_script_title">Doriți să ștergeți acest script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Doriți să ștergeți aceste cărămizi?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
+  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Aceasta nu va fi reversibil!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Șterge o cărămidă</item>
@@ -173,8 +178,8 @@
   <string name="select_look_from_gallery">Selectează imaginea</string>
   <string name="select_look_from_camera">Selectează fotografia</string>
   <string name="look_measure">Măsură:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
+  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Aceasta nu va fi reversibil!</string>
   <string name="lookname">numele aspectului:</string>
   <string name="fragment_sound_text_description">Apasă ”+” pentru a adăuga Sunete</string>
@@ -191,8 +196,8 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Doriți să ștergeți aceste sunete?</string>
   <string name="dialog_confirm_delete_sound_message">Aceasta nu va fi reversibil!</string>
   <string name="sound_name">numele sunetului:</string>
-  <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
+  <string name="new_sound_name">numele sunetului:</string>
+  <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">a fost despachetat!</item>
     <item quantity="few">au fost despachetate!</item>
@@ -225,9 +230,20 @@
   <string name="soundrecorder_error">Înregistrarea de sunet nu a reuşit</string>
   <string name="soundrecorder_recorded_filename">înregistrare</string>
   <string name="soundrecorder_text_view">Atingeţi pictograma de mai sus pentru a porni şi opri înregistrarea.</string>
-  <string name="text_to_speech_engine_not_installed">Motorul Text-spre-Voce nu e instalat!\nDoriți să-l instalaţi?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">Vibratorul nu este disponibil</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="brick_context_dialog_move_brick">Mută cărămidă</string>
   <string name="brick_context_dialog_show_source">Arată Cărămida Sursă</string>
   <string name="brick_context_dialog_delete_brick">Şterge caramida</string>
@@ -243,7 +259,8 @@
   <string name="add_look_choose_image">Selecteaza imagine</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists!</string>
+  <string name="look_rename_overwrite">Look with this name already exists. Please choose a different one
+        !</string>
   <string name="add_look_drone_video">Drone Video</string>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
@@ -253,23 +270,23 @@
   <string name="new_project_description_dialog_hint">Descrierea mea</string>
   <string name="new_project_name">Numele programului:</string>
   <string name="new_project_empty">Creare program gol</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientation:</string>
   <string name="new_sprite_dialog_default_sprite_name">denumireaObiectului</string>
   <string name="new_sprite_dialog_title">Denumirea obiectului nou</string>
   <string name="spritename_already_exists">Această denumire de obiect deja există</string>
   <string name="rename_sprite_dialog">Redenumirea obiectului</string>
   <string name="spritename_invalid">Această denumire de obiect este nevalabilă</string>
-  <string name="no_spritename_entered">Please enter a object name.</string>
+  <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">Numele obiectului:</string>
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Numele:</string>
   <string name="password">Parola:</string>
-  <string name="password_forgotten">Parola este uitată</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">contul nou a fost creat</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">A avut loc o eroare</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">Prin înregistrare, sunteţi de acord cu ale noastre</string>
   <string name="register_pocketcode_terms_of_use_text">Termeni de utilizare</string>
   <string name="login">Intrare</string>
@@ -281,17 +298,17 @@
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <string name="overwrite_text">Program cu acelaşi nume există deja!</string>
   <string name="overwrite_replace">Înlocuiţi programul existent</string>
   <string name="overwrite_rename">Redenumiți programul descărcat</string>
-  <string name="overwrite_replace_look">Replace existing look</string>
-  <string name="overwrite_rename_look">Rename downloaded look</string>
-  <string name="overwrite_replace_sound">Replace existing sound</string>
-  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <string name="overwrite_replace_look">Replace existing Look</string>
+  <string name="overwrite_rename_look">Rename downloaded Look</string>
+  <string name="overwrite_replace_sound">Replace existing Sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded Sound</string>
   <string name="overwrite_replace_default">Replace existing media</string>
   <string name="overwrite_rename_default">Rename existing media</string>
   <string name="stage_dialog_back">Înapoi</string>
@@ -467,7 +484,7 @@
   <string name="notification_download_pending">Descărcare în curs</string>
   <string name="notification_download_finished">Descărcarea a avut loc cu succes</string>
   <string name="notification_title_open">"Deschide "</string>
-  <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
   <string name="project_rename">(proiectul Dumneavoastră va fi redenumit.)</string>
   <string name="size_of_project">Mărimea proiectului:</string>
   <string name="upload_button">Încărcare</string>
@@ -517,15 +534,15 @@
   <string name="notification_blueth_err">Bluetooth nu poate fi activat, închiderea scenei</string>
   <string name="title_paired_devices">Dispozitive îmeprecheate</string>
   <string name="title_other_devices">Dispozitive noi</string>
-  <string name="searching_devices">Looking for devices &#8230;</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Căutarea dispozitivelor bluetooth</string>
   <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Conecare la dispozitivul vostru.\nVă rugăm să așteptați&#8230;</string>
   <string name="bt_connection_failed">Conectarea la dispozitiv a eșuat!</string>
   <string name="none_found">Nu au fost găsite dispozitive neîmperecheate</string>
   <string name="none_paired">Nu au fost găsite dispozitive împerecheate</string>
-  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
-  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">la</string>
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">la</string>
@@ -789,31 +806,25 @@
   <string name="recursive_user_brick_forbidden">Adăugarea UserBrick la UserBrick nu este încă permis!</string>
   <string name="brick_single">Caramida</string>
   <string name="brick_multiple">Cărămizi</string>
-  <string name="merge_button">Merge project into</string>
-  <string name="merge_conflict">Merging not possible</string>
-  <string name="broadcast">Difuzează</string>
-  <string name="project_list">List Item</string>
-  <string name="error_merge_duplicate_names">To merge both projects, please be aware, that following elements can not use the same name:</string>
-  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
-  <string name="error_merge">An error occurred while merging projects!</string>
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">successfully merged into</string>
-  <string name="error_different_resolutions1">Caution! Different resolutions detected.</string>
-  <string name="error_different_resolutions2">has resolution</string>
-  <string name="error_different_resolutions3">Using resolution of</string>
-  <string name="error_bricks_in_background">Caution! The background is not empty. Images and bricks in the background object will be ignored by matching.</string>
-  <string name="and">and</string>
   <string name="warning">Warning</string>
+  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
-  <string name="variable">Variable</string>
+  <string name="merge_conflict">Merging not possible</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
+  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
 </resources>

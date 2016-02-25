@@ -67,7 +67,7 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_unpack_background, null);
 
 		confirmUnpackBackgroundDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.unpacking)
+				.setTitle(R.string.unpack)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

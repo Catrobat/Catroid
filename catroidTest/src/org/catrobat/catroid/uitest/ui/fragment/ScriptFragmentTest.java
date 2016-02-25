@@ -112,7 +112,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void setUp() throws Exception {
 		super.setUp();
 
-		unpack = solo.getString(R.string.unpacking);
+		unpack = solo.getString(R.string.unpack);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
 		backpackTitle = solo.getString(R.string.backpack_title);

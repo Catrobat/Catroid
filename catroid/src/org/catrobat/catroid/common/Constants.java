@@ -29,7 +29,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.97f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.98f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -115,6 +115,8 @@ public final class Constants {
 	public static final String NO_FACEBOOK_LOCALE = "NO_FACEBOOK_LOCALE";
 	public static final String FACEBOOK_EMAIL = "FACEBOOK_EMAIL";
 	public static final String NO_FACEBOOK_EMAIL = "NO_FACEBOOK_EMAIL";
+	public static final String JSON_ERROR_CODE = "errorCode";
+	public static final int ERROR_CODE_FACEBOOK_SESSION_EXPIRED = 190;
 
 	public static final String GOOGLE_ID = "GOOGLE_ID";
 	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";

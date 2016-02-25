@@ -39,7 +39,7 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">کوله پشتی</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">باز کردن</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
   <string name="copy_addition">رونوشت کردن</string>
   <string name="close">بستن</string>
@@ -65,15 +65,15 @@
   <string name="name_exists">این نام قبلا ذخیره شده</string>
   <string name="no_name">بدون نام</string>
   <string name="is_empty">is empty</string>
-  <string name="new_group">New Group</string>
-  <string name="my_group">My Group</string>
+  <string name="new_group">New group</string>
+  <string name="my_group">My group</string>
   <string name="name">Name:</string>
   <string name="nothing_to_copy">Nothing to copy</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
   <string name="nothing_to_unpack">Nothing to unpack</string>
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program background will be replaced</string>
+  <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="main_menu_new">جدید</string>
   <string name="main_menu_continue">ادامه</string>
   <string name="main_menu_programs">برنامه ها</string>
@@ -85,6 +85,8 @@
   <string name="main_menu_rate_app">بهمون امتیاز بده!</string>
   <string name="main_menu_play_store_not_installed">اپلیکیشن \"پلی استور\" پیدا نشد</string>
   <string name="main_menu_logout">خروج</string>
+  <string name="main_menu_login">ورود به سیستم</string>
+  <string name="logout_successful">Logout successful</string>
   <string name="preference_title">تنظیمات</string>
   <string name="preference_title_enable_quadcopter_bricks">آجرهای آردرون 2.0</string>
   <string name="preference_description_quadcopter_bricks">بهت اجازه می ده تا آردرون 2.0 را کنترل کنی</string>
@@ -95,7 +97,7 @@
   <string name="preference_title_enable_phiro_bricks">آجر Phiro</string>
   <string name="preference_description_phiro_bricks">اجازه ی کنترل یک آدم آهنی Phiro را می دهد.</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
-  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="dialog_new_object_pocketpaint">کشیدن تصویر</string>
   <string name="dialog_new_object_gallery">انتخاب تصویر</string>
   <string name="dialog_new_object_camera">عکس بگیر</string>
@@ -106,8 +108,10 @@
   <string name="dialog_terms_of_use_title">شرایط استفاده</string>
   <string name="dialog_terms_of_use_info">به منظور مجاز بودن به استفاده از \"پاکت کد\" و دیگر برنامه های اجرایی ارائه شده توسط پروژه \"کت ربات\"، باید با شرایط استفاده و سرویس موافقت کنی و هنگامی که \"پکت کد\" و دیگر برنامه های اجرایی ما را استفاده می کنی باید آنها را دقیقا دنبال کنی. برای فرمول بندی دقیقتر به لینک زیر نگاهی بنداز.\n</string>
   <string name="dialog_terms_of_use_link_text">شرایط استفاده</string>
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
   <string name="dialog_about_title">درباره \"پاکت کد\"</string>
   <string name="dialog_about_license_info">\"پاکت کد\" یک محیط برنامه نویسی و مترجم برای دستگاه های \"اندروید\" برای زبان برنامه نویسی دیداری \"کت ربات\" است.\n\n
@@ -141,13 +145,14 @@
   <string name="size">اندازه:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
+        !</string>
   <string name="fragment_script_text_description">برای اضافه کردن اسکریپت ها روی \"+\" ضربه بزن</string>
   <string name="dialog_confirm_delete_brick_title">این آجر را حذف کنم؟</string>
   <string name="dialog_confirm_delete_script_title">این اسکریپت را حذف کنم؟</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">این آجر ها را حذف کنم؟</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
+  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">این کار قابل برگشت نیست!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">حذف %d آجر</item>
@@ -169,8 +174,8 @@
   <string name="select_look_from_gallery">انتخاب تصویر</string>
   <string name="select_look_from_camera">انتخاب عکس</string>
   <string name="look_measure">اندازه:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
+  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">این کار قابل برگشت نیست!</string>
   <string name="lookname">نام نگاه:</string>
   <string name="fragment_sound_text_description">برای اضافه کردن صدا روی \"+\" ضربه بزن</string>
@@ -215,9 +220,20 @@
   <string name="soundrecorder_error">ضبط صدا انجام نشد</string>
   <string name="soundrecorder_recorded_filename">ضبط کردن</string>
   <string name="soundrecorder_text_view">برای شروع و توقف ضبط روی این آیکون ضربه بزن.</string>
-  <string name="text_to_speech_engine_not_installed">موتور تبدیل متن به گفتار نصب نشده!\nآیا می خواهی نصبش کنی؟</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">\"ویبراتور\" در دسترس نیست</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
   <string name="brick_context_dialog_move_brick">حرکت آجر</string>
   <string name="brick_context_dialog_show_source">نمایش منبع آجر</string>
   <string name="brick_context_dialog_delete_brick">حذف آجر</string>
@@ -243,8 +259,8 @@
   <string name="new_project_description_dialog_hint">توضیحات من</string>
   <string name="new_project_name">نام برنامه</string>
   <string name="new_project_empty">ایجاد برنامه ی خالی</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">جهت:</string>
   <string name="new_sprite_dialog_default_sprite_name">شی من</string>
   <string name="new_sprite_dialog_title">شی جدید</string>
@@ -256,10 +272,10 @@
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">نام کاربری:</string>
   <string name="password">رمز عبور:</string>
-  <string name="password_forgotten">کلمه عبور را فراموش کردی</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">حساب جدید ایجاد شد</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">خطا رخ داده است</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">با ثبت نام، تو با ما توافق کردی به</string>
   <string name="register_pocketcode_terms_of_use_text">شرایط استفاده</string>
   <string name="login">ورود به سیستم</string>
@@ -271,8 +287,8 @@
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">نام کاربری نباید نام واقعی ات باشد.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
   <string name="overwrite_text">برنامه با همین نام از قبل وجود دارد!</string>
@@ -449,7 +465,7 @@
   <string name="notification_download_pending">دانلود در جریان است</string>
   <string name="notification_download_finished">بارگيري با موفقیت انجام شد</string>
   <string name="notification_title_open">"باز کن"</string>
-  <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
   <string name="project_rename">(برنامه ات تغییر نام خواهد داد.)</string>
   <string name="size_of_project">اندازه:</string>
   <string name="upload_button">آپلود</string>
@@ -499,15 +515,15 @@
   <string name="notification_blueth_err">بلوتوث فعال نشده است، بسته شدن مرحله</string>
   <string name="title_paired_devices">دستگاه های متصل شده</string>
   <string name="title_other_devices">دستگاه های جدید</string>
-  <string name="searching_devices">در حال جستجوی دستگاه ها...</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">جستجوی دستگاه های بلوتوث</string>
   <string name="select_device">انتخاب دستگاه:</string>
   <string name="connecting_please_wait">در حال اتصال به دستگاه.\nلطفا صبر کن...</string>
   <string name="bt_connection_failed">عدم موفقیت در اتصال به دستگاه!</string>
   <string name="none_found">هیچ دستگاه جفت نشده ای یافت نشد</string>
   <string name="none_paired">هیچ دستگاهی یافت نشد</string>
-  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
-  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">به</string>
   <string name="nxt_brick_motor_move">تنظیم موتور NXT</string>
   <string name="nxt_motor_speed_to">به</string>
@@ -769,31 +785,25 @@
   <string name="recursive_user_brick_forbidden">اضافه کردن یک \"بلاک کاربر\" در \"بلاک کاربر\" هنوز مجاز نیست!</string>
   <string name="brick_single">آجر</string>
   <string name="brick_multiple">بلاک ها</string>
-  <string name="merge_button">ادغام پروژه به</string>
-  <string name="merge_conflict">ادغام ممکن نیست</string>
-  <string name="broadcast">انتشار</string>
-  <string name="project_list">لیست مورد</string>
-  <string name="error_merge_duplicate_names">برای ادغام هر دو پروژه، لطفا آگاه باش، که نمی توانی از نام مشترک برای عناصر متوالی استفاده کنی:</string>
-  <string name="error_merge_with_self">احتیاط! پروژه فعلی و پروژه ی انتخاب شده یکی هستند!</string>
-  <string name="error_merge">در حال ادغام پروژه خطایی رخ داده است!</string>
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">با موفقیت در هم ادغام شد</string>
-  <string name="error_different_resolutions1">احتیاط! وضوح های مختلفی تشخیص داده شد.</string>
-  <string name="error_different_resolutions2">دارای وضوح</string>
-  <string name="error_different_resolutions3">استفاده از وضوح</string>
-  <string name="error_bricks_in_background">احتیاط! پس زمینه خالی نیست. تصاویر و آجر در جسم پس زمینه با وصله کردن نادیده گرفته می شود.</string>
-  <string name="and">و</string>
   <string name="warning">هشدار</string>
+  <string name="error_merge_with_self">احتیاط! پروژه فعلی و پروژه ی انتخاب شده یکی هستند!</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">لغو</string>
-  <string name="variable">متغیر</string>
+  <string name="merge_conflict">ادغام ممکن نیست</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
+  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
 </resources>

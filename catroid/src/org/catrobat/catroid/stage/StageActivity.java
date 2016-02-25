@@ -86,7 +86,6 @@ public class StageActivity extends AndroidApplication {
 		if (graphics.getView() instanceof SurfaceView) {
 			SurfaceView glView = (SurfaceView) graphics.getView();
 			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-			glView.setZOrderOnTop(true);
 		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
@@ -115,7 +114,7 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus.releaseAudioFocus();
 		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
-
+		CameraManager.getInstance().pausePreview();
 		CameraManager.getInstance().releaseCamera();
 		VibratorUtil.pauseVibrator();
 		super.onPause();

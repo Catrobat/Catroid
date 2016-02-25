@@ -132,9 +132,9 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.unpacking);
+			mode.setTitle(R.string.unpack);
 
-			actionModeTitle = getString(R.string.unpacking);
+			actionModeTitle = getString(R.string.unpack);
 			singleItemAppendixActionMode = getString(R.string.category_looks);
 			multipleItemAppendixActionMode = getString(R.string.looks);
 			addSelectAllActionModeButton(mode, menu);
@@ -248,7 +248,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.showBottomBar(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initClickListener() {
@@ -313,7 +313,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpacking));
+					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
 				} else if (actionModeCallback.equals(deleteModeCallBack)) {
 					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
 				}

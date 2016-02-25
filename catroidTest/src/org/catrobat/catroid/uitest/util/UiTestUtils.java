@@ -1599,7 +1599,7 @@ public final class UiTestUtils {
 		} else if (overflowMenuItemName != null) {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 
-			if (overflowMenuItemName.equals(solo.getString(R.string.unpacking))
+			if (overflowMenuItemName.equals(solo.getString(R.string.unpack))
 					|| overflowMenuItemName.equals(solo.getString(R.string.unpack_keep))) {
 				solo.clickOnActionBarItem(menuItemId);
 			} else {
@@ -2325,8 +2325,8 @@ public final class UiTestUtils {
 		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
 		solo.waitForDialogToOpen();
 		solo.sleep(100);
-		solo.waitForText(solo.getString(R.string.unpacking));
-		solo.clickOnText(solo.getString(R.string.unpacking));
+		solo.waitForText(solo.getString(R.string.unpack));
+		solo.clickOnText(solo.getString(R.string.unpack));
 		solo.sleep(500);
 	}
 

@@ -199,7 +199,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 
 		registerForContextMenu(listView);
 		listView.setLongClickable(false);
-		BottomBar.showBottomBar(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initClickListener() {
@@ -259,7 +259,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpacking));
+					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
 				} else if (actionModeCallback.equals(deleteModeCallBack)) {
 					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
 				}
@@ -348,9 +348,9 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.unpacking);
+			mode.setTitle(R.string.unpack);
 
-			actionModeTitle = getString(R.string.unpacking);
+			actionModeTitle = getString(R.string.unpack);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
