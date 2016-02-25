@@ -49,6 +49,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
+	private static boolean areChoosersEnabled = false;
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -148,12 +149,13 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	private void setDronePreferences() {
-
-		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
-
 		final String[] dronePreferences = new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
 		for (String dronePreference : dronePreferences) {
 			ListPreference listPreference = (ListPreference) findPreference(dronePreference);
+
+			if (listPreference == null) {
+				continue;
+			}
 
 			switch (dronePreference) {
 				case DRONE_CONFIGS:
@@ -228,8 +230,6 @@ public class SettingsActivity extends PreferenceActivity {
 
 	private void setNXTSensors() {
 
-		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
-
 		final String[] sensorPreferences = new String[]{NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
@@ -252,7 +252,7 @@ public class SettingsActivity extends PreferenceActivity {
 		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
-	public static boolean isDroneSharedPreferenceEnabled(Context context) {
+	public static boolean isARDroneSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
 
@@ -374,14 +374,6 @@ public class SettingsActivity extends PreferenceActivity {
 		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
 	}
 
-	public static void enableARDroneBricks(Context context, Boolean newValue) {
-		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
-	}
-
-	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {
-		getSharedPreferences(context).edit().putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, newValue).commit();
-	}
-
 	public static void setLegoMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);
@@ -392,11 +384,6 @@ public class SettingsActivity extends PreferenceActivity {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
 		editor.commit();
-	}
-
-	public static boolean getMindstormsNXTSensorChooserEnabled(Context context) {
-		SharedPreferences preferences = getSharedPreferences(context);
-		return preferences.getBoolean("mindstorms_nxt_sensor_chooser_in_settings", false);
 	}
 
 	public static void disableLegoMindstormsSensorInfoDialog(Context context) {
@@ -412,5 +399,9 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void resetSharedPreferences(Context context) {
 		getSharedPreferences(context).edit().clear().commit();
+	}
+
+	public static void displayChoosers(boolean enable) {
+		areChoosersEnabled = enable;
 	}
 }

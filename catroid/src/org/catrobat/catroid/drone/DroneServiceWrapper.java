@@ -60,10 +60,10 @@ public final class DroneServiceWrapper {
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		boolean isDroneAvailable = (((requiredResources & Brick.ARDRONE_SUPPORT) > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED);
 		Log.d("DroneServiceWrapper", "drone pref enabled? " + isDroneSharedPreferenceEnabled());
-		return isDroneAvailable; // isDroneSharedPreferenceEnabled()
+		return isDroneAvailable; // isARDroneSharedPreferenceEnabled()
 	}
 
 	public static boolean isDroneSharedPreferenceEnabled() {
-		return SettingsActivity.isDroneSharedPreferenceEnabled(CatroidApplication.getAppContext());
+		return SettingsActivity.isARDroneSharedPreferenceEnabled(CatroidApplication.getAppContext());
 	}
 }

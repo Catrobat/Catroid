@@ -57,7 +57,6 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 import static org.catrobat.catroid.CatroidApplication.getAppContext;
-import static org.catrobat.catroid.ui.SettingsActivity.getDronePreferenceMapping;
 
 public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
 		DroneAvailabilityDelegate {
@@ -165,7 +164,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 						prestageStageActivity.getString(R.string.error_drone_low_battery));
 				return;
 			}
-			DroneConfigManager.getInstance().setDroneConfig(getDronePreferenceMapping(getAppContext()));
+			DroneConfigManager.getInstance().setDroneConfig(SettingsActivity.getDronePreferenceMapping(getAppContext()));
 			droneControlService.flatTrim();
 
 			prestageStageActivity.resourceInitialized();

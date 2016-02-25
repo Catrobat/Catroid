@@ -45,12 +45,12 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		TestUtils.deleteTestProjects();
 		UiTestUtils.prepareStageForTest();
 		ProjectManager.getInstance().initializeDroneProject(getActivity());
-		SettingsActivity.enableARDroneBricks(getActivity(), true);
+		SettingsActivity.setARDroneSharedPreference(getActivity(), true);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		SettingsActivity.setARDroneSharedPreference(getActivity(), false);
 		TestUtils.deleteTestProjects();
 		solo.finishOpenedActivities();
 		super.tearDown();
@@ -116,7 +116,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("No video selection available", solo.searchText(solo.getString(R.string.add_look_drone_video), true));
 		solo.goBack();
 
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		SettingsActivity.setARDroneSharedPreference(getActivity(), false);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Video selection still available", solo.searchText(solo.getString(R.string
@@ -150,7 +150,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Wrong Project was created! Should be the Drone Project!", solo.searchText(solo.getString(R.string
 				.default_drone_project_name)));
 
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		SettingsActivity.setARDroneSharedPreference(getActivity(), false);
 
 		solo.waitForText(solo.getString(R.string.default_drone_project_name));
 		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));

@@ -27,7 +27,6 @@ import android.util.Log;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -43,11 +42,10 @@ public class DroneVideoLookData extends LookData {
 
 	private static final String TAG = DroneVideoLookData.class.getSimpleName();
 
-	private transient boolean firstStart = true;
 	private transient GLBGVideoSprite videoTexture;
 	private transient int[] videoSize = { 0, 0 };
 	private transient int[] defaultVideoTextureSize;
-	private transient boolean islandscapeMode = true;
+	private transient boolean firstStart = true;
 
 	@Override
 	public DroneVideoLookData clone() {
@@ -77,26 +75,15 @@ public class DroneVideoLookData extends LookData {
 		double virtualScreenHeight = Gdx.graphics.getHeight();
 		double videoRatio = 64f / 36f;
 		double videoWidth = virtualScreenHeight / videoRatio;
-		islandscapeMode = ProjectManager.getInstance().getCurrentProject().islandscapeMode();
-		// Da im landscapeMode modus schon gedreht wurde, entfehlt somit eine weitere Drehung
+		boolean islandscapeMode = ProjectManager.getInstance().getCurrentProject().islandscapeMode();
 
 		if (islandscapeMode) {
 			//defaultVideoTextureSize = new int[]{(int) 10, (int) 10}; // it is a hack, but you don't need it anymore
 			// BUG: getHeight() should be 1200, but it is 1100, so we need an scaling factor of 1.1
 			virtualScreenHeight = Gdx.graphics.getHeight() * 1.1;
-
 			defaultVideoTextureSize = new int[] { (int) virtualScreenWidth, (int) virtualScreenHeight };
 			Log.d(TAG, "virtualScreenWidth: " + virtualScreenWidth);
 			Log.d(TAG, "virtualScreenHeight: " + virtualScreenHeight);
-
-			// this block is not necessary maybe
-			//*************************************************
-			OrthographicCamera camera = new OrthographicCamera();
-			camera.setToOrtho(false, (int) virtualScreenWidth, (int) virtualScreenHeight);
-			camera.viewportWidth = (float) virtualScreenHeight;
-			camera.viewportHeight = (float) virtualScreenWidth;
-			camera.update();
-			//*************************************************
 		} else {
 			defaultVideoTextureSize = new int[] { (int) virtualScreenWidth, (int) videoWidth };
 		}
@@ -106,9 +93,7 @@ public class DroneVideoLookData extends LookData {
 			pixmap.setColor(Color.BLUE);
 			pixmap.fill();
 			pixmap.setBlending(Pixmap.Blending.None);
-
-			//pixmap.setColor(0, 1, 0, 0.75f);
-			// make a nice picture here if you like
+			// make a picture if you need one
 		}
 		return pixmap;
 	}
@@ -138,12 +123,9 @@ public class DroneVideoLookData extends LookData {
 	}
 
 	private void onSurfaceChanged() {
-
 		videoSize[0] = videoTexture.imageWidth;
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
-
-		//setSize(1f, 1f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
 	}
 
 	@Override

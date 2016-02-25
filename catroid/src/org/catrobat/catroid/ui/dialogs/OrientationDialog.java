@@ -93,6 +93,10 @@ public class OrientationDialog extends DialogFragment {
 		});
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
 
+		if (createDroneProject) {
+			landscapeMode.setVisibility(View.INVISIBLE);
+		}
+
 		return orientationDialog;
 	}
 

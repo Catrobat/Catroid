@@ -52,13 +52,13 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 	protected void setUp() throws Exception {
 		TestUtils.deleteTestProjects();
 		DroneTestUtils.createDefaultDroneProject();
-		SettingsActivity.enableARDroneBricks(getActivity(), true);
+		SettingsActivity.setARDroneSharedPreference(getActivity(), true);
 		super.setUp();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SettingsActivity.enableARDroneBricks(getActivity(), false);
+		SettingsActivity.setARDroneSharedPreference(getActivity(), false);
 		TestUtils.deleteTestProjects();
 		solo.finishOpenedActivities();
 		super.tearDown();
@@ -77,7 +77,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 	}
 
 	public void testDroneConnectToDroneDialog() {
-		assertTrue("DroneBricks not activated!", SettingsActivity.isDroneSharedPreferenceEnabled(getActivity()));
+		assertTrue("DroneBricks not activated!", SettingsActivity.isARDroneSharedPreferenceEnabled(getActivity()));
 
 		ProjectManager.getInstance().initializeDefaultProject(getActivity());
 
@@ -262,7 +262,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		solo.goBack();
 		solo.goBack();
 
-		assertFalse("Drone preference should now be disable", SettingsActivity.isDroneSharedPreferenceEnabled(getActivity()));
+		assertFalse("Drone preference should now be disable", SettingsActivity.isARDroneSharedPreferenceEnabled(getActivity()));
 
 		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

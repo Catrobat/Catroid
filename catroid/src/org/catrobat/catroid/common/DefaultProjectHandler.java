@@ -101,6 +101,7 @@ public final class DefaultProjectHandler {
 		}
 
 		String backgroundName = context.getString(R.string.default_project_background_name);
+		String droneBackgroundName = context.getString(R.string.default_drone_project_background_name);
 
 		Project defaultDroneProject = new Project(context, projectName, landscapeMode);
 		defaultDroneProject.setDeviceData(context); // density anywhere here
@@ -114,6 +115,14 @@ public final class DefaultProjectHandler {
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.drone_project_background, context, true,
 				backgroundImageScaleFactor);
 
+		File droneVideoBackground = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.ic_video, context, true,
+				backgroundImageScaleFactor);
+
+		LookData droneVideoLookData = new DroneVideoLookData();
+		droneVideoLookData.setLookName(droneBackgroundName);
+		droneVideoLookData.setLookFilename(droneVideoBackground.getName());
+
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setLookName(backgroundName);
 		backgroundLookData.setLookFilename(backgroundFile.getName());
@@ -122,12 +131,18 @@ public final class DefaultProjectHandler {
 
 		// Background sprite
 		backgroundSprite.getLookDataList().add(backgroundLookData);
+		backgroundSprite.getLookDataList().add(droneVideoLookData);
 		Script backgroundStartScript = new StartScript();
 
 		SetLookBrick setLookBrick = new SetLookBrick();
-		setLookBrick.setLook(backgroundLookData);
-		backgroundStartScript.addBrick(setLookBrick);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(90f);
+		SetSizeToBrick setSizeBrick = new SetSizeToBrick(200.0);
 
+		setLookBrick.setLook(droneVideoLookData);
+
+		backgroundStartScript.addBrick(setLookBrick);
+		backgroundStartScript.addBrick(turnLeftBrick);
+		backgroundStartScript.addBrick(setSizeBrick);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		//Takeoff sprite
@@ -253,14 +268,16 @@ public final class DefaultProjectHandler {
 		defaultDroneProject.addSprite(createDroneSprite(emergencySpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, 200, 500, emergencyFile, 2000));
 
-		//Video Sprite 2 (with Look) + switch camera on tapped
-		String videoSpriteName = context.getString(R.string.add_look_drone_video);
+		/** Foreground video deactivated
+		 //Video Sprite 2 (with Look) + switch camera on tapped
+		 String videoSpriteName = context.getString(R.string.add_look_drone_video);
 
-		File videoFile = UtilFile.copyImageFromResourceIntoProject(projectName, videoSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.ic_video, context,
-				true, backgroundImageScaleFactor);
+		 File videoFile = UtilFile.copyImageFromResourceIntoProject(projectName, videoSpriteName
+		 + Constants.IMAGE_STANDARD_EXTENTION, R.drawable.ic_video, context,
+		 true, backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneVideoLookSprite(videoSpriteName, -200, 0, videoFile, context));
+		 defaultDroneProject.addSprite(createDroneVideoLookSprite(videoSpriteName, -200, 0, videoFile, context));
+		 */
 
 		//Led Sprite
 		//TODO Drone: add when PlayLedAnimationBrick works
@@ -285,6 +302,7 @@ public final class DefaultProjectHandler {
 		return createDroneSprite(spriteName, brickName, xPosition, yPosition, lookFile, timeInMilliseconds, 20);
 	}
 
+	/* commented out temporary
 	private static Sprite createDroneVideoLookSprite(String spriteName, int xPosition, int yPosition, File lookFile, Context context) {
 		Sprite sprite = new Sprite(spriteName);
 
@@ -313,6 +331,8 @@ public final class DefaultProjectHandler {
 
 		return sprite;
 	}
+
+	*/
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
 											int yPosition, File lookFile, int timeInMilliseconds, int powerInPercent) {
