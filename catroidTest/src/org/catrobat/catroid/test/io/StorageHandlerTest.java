@@ -40,11 +40,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
-import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-
-import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
