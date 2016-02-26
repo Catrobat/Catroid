@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,10 @@ package org.catrobat.catroid.transfers;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -53,6 +55,7 @@ public class ProjectUploadService extends IntentService {
 	private String projectName;
 	private String projectDescription;
 	private String token;
+	private String provider;
 	private String serverAnswer;
 	private boolean result;
 	public ResultReceiver receiver;
@@ -73,6 +76,7 @@ public class ProjectUploadService extends IntentService {
 		this.projectDescription = intent.getStringExtra("projectDescription");
 		this.token = intent.getStringExtra("token");
 		this.username = intent.getStringExtra("username");
+		this.provider = intent.getStringExtra("provider");
 		this.serverAnswer = "";
 		this.result = true;
 		this.notificationId = intent.getIntExtra("notificationId", 0);
@@ -118,11 +122,25 @@ public class ProjectUploadService extends IntentService {
 				return;
 			}
 
-			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-			String userEmail = UtilDeviceInfo.getUserEmail(this);
+			Context context = getApplicationContext();
+
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+
+			if (provider.equals(Constants.FACEBOOK)) {
+				userEmail = sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL);
+			} else if (provider.equals(Constants.GOOGLE_PLUS)) {
+				userEmail = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
+			} else if (provider.equals(Constants.NO_OAUTH_PROVIDER)) {
+				userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+			}
+
+			if (userEmail.equals(Constants.NO_EMAIL)) {
+				userEmail = UtilDeviceInfo.getUserEmail(this);
+			}
+
 			String language = UtilDeviceInfo.getUserLanguageCode();
 
-			Context context = getApplicationContext();
 			uploadBackupBundle.putString("projectName", projectName);
 			uploadBackupBundle.putString("projectDescription", projectDescription);
 			uploadBackupBundle.putString("projectPath", projectPath);
@@ -156,6 +174,9 @@ public class ProjectUploadService extends IntentService {
 		} else {
 			ToastUtil.showSuccess(this, R.string.notification_upload_finished);
 		}
+
+		Utils.invalidateLoginTokenIfUserRestricted(getApplicationContext());
+
 		super.onDestroy();
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import android.annotation.TargetApi;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
@@ -145,8 +143,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
 	}
 
-	// Not testable with Android 2.3, because solo is not able to enter new lines
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void testProjectDescriptionUploadProject() throws Throwable {
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
@@ -169,10 +165,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		int projectUploadNameNumberOfLines = editTextUploadName.getLineCount();
 		assertEquals("Project name field is not a text field", 1, projectUploadNameNumberOfLines);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			int projectUploadDescriptionNumberOfLines = editTextUploadDescription.getMaxLines();
-			assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
-		}
+		int projectUploadDescriptionNumberOfLines = editTextUploadDescription.getMaxLines();
+		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
 	}
 
 	private void createTestProject() {

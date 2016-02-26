@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@
     android:rotation="90" >
 
     <TextView
-        android:id="@+id/formula_editor_compute_dialog_textview_landscape"
+        android:id="@+id/formula_editor_compute_dialog_textview_landscape_mode"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:background="@color/white"

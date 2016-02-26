@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		ActivityInstrumentationTestCase2<T> {
 	protected Solo solo;
 
-	private static final String TAG = "BaseActivityInstrumentationTestCase";
+	private static final String TAG = "BaseActivityTestCase";
 	private Class clazz;
 	private SystemAnimations systemAnimations;
 	private static final String ZIPFILE_NAME = "testzip";

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,9 +45,9 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -55,7 +55,7 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DoubleClickOpensViewOnceTest extends TestSuite {
 	private static final int SOLO_WAIT_FOR_VIEW_TIMEOUT = 3000;
@@ -241,7 +241,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					activity.handleContinueButton();
 				}
-			}, R.id.main_menu_button_continue, R.id.fragment_sprites_list);
+			}, R.id.main_menu_button_continue, R.id.fragment_container);
 		}
 
 		public void testMainMenuButtonNew() {
@@ -268,7 +268,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					activity.handleUploadButton(null);
 				}
-			}, R.id.main_menu_button_upload, LoginRegisterDialog.DIALOG_FRAGMENT_TAG, true);
+			}, R.id.main_menu_button_upload, SignInDialog.DIALOG_FRAGMENT_TAG, true);
 		}
 	}
 
@@ -472,7 +472,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					fragment.handleAddButton();
 				}
-			}, R.id.script_fragment_container, ScriptFragment.TAG);
+			}, R.id.fragment_container, ScriptFragment.TAG);
 		}
 
 		public void testBrickAdapterOnItemClick() {
@@ -495,7 +495,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			solo.waitForFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 
 			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getSupportFragmentManager()
+			BrickCategoryFragment brickCategoryFragment = (BrickCategoryFragment) activity.getFragmentManager()
 					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
 			solo.sleep(250);
 			final OnItemClickListener onItemClickListener = brickCategoryFragment.getListView()
@@ -526,9 +526,9 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			UiTestUtils.createTestProject();
 
 			File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-					"catroid_sunglasses.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+					"catroid_sunglasses.png", RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
-			ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+			List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 			LookData lookData = new LookData();
 			lookData.setLookFilename(imageFile.getName());
 			lookData.setLookName(FIRST_TEST_LOOK_NAME);
@@ -552,7 +552,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					fragment.handleAddButton();
 				}
-			}, R.id.script_fragment_container, LookFragment.TAG);
+			}, R.id.fragment_container, LookFragment.TAG);
 		}
 	}
 }

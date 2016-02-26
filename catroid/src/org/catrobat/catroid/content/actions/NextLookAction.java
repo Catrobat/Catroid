@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class NextLookAction extends TemporalAction {
 
@@ -35,7 +35,7 @@ public class NextLookAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		final ArrayList<LookData> lookDataList = sprite.getLookDataList();
+		final List<LookData> lookDataList = sprite.getLookDataList();
 		int lookDataListSize = lookDataList.size();
 
 		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {

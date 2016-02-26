@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,10 +36,10 @@ public class DroneBrickTest extends InstrumentationTestCase {
 
 	public void testAllBrickResources() {
 		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
-			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, null, 0, 0);
+			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, 0, 0);
 			String brickName = brickFromFactory.getClass().getSimpleName();
 			Log.d(TAG, "brickName: " + brickName);
-			assertEquals("Resorce is wrong for brick: " + brickName, DRONE_RESOURCE,
+			assertEquals("Resource is wrong for brick: " + brickName, DRONE_RESOURCE,
 					brickFromFactory.getRequiredResources());
 		}
 	}

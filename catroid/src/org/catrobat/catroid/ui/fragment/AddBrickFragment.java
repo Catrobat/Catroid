@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,11 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,13 +36,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -47,12 +53,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -71,7 +71,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddBrickFragment extends SherlockListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
+public class AddBrickFragment extends ListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
@@ -201,14 +201,14 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setTitle(previousActionBarTitle);
 	}
 
@@ -358,7 +358,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 
 			unregisterForContextMenu(this.getListView());
 			BottomBar.hideBottomBar(getActivity());
@@ -388,7 +388,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -42,12 +43,14 @@ public interface Brick extends Serializable, Cloneable {
 		TRANSPARENCY_CHANGE, SIZE, SIZE_CHANGE, VOLUME, VOLUME_CHANGE, X_DESTINATION, Y_DESTINATION, STEPS,
 		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
 		VARIABLE_CHANGE, IF_CONDITION, TIMES_TO_REPEAT, VIBRATE_DURATION_IN_SECONDS, USER_BRICK, NOTE, SPEAK,
-		SHOWTEXT, HIDETEXT,
+		SHOWTEXT, HIDETEXT, STRING,
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
 
 		DRONE_TIME_TO_FLY_IN_SECONDS, LIST_ADD_ITEM, LIST_DELETE_ITEM, INSERT_ITEM_INTO_USERLIST_VALUE,
 		INSERT_ITEM_INTO_USERLIST_INDEX, REPLACE_ITEM_IN_USERLIST_VALUE, REPLACE_ITEM_IN_USERLIST_INDEX, DRONE_POWER_IN_PERCENT,
+
+		DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED_MAX, DRONE_ROTATION_MAX, DRONE_TILT_ANGLE,
 
 		PHIRO_SPEED, PHIRO_DURATION_IN_SECONDS, PHIRO_LIGHT_RED, PHIRO_LIGHT_GREEN, PHIRO_LIGHT_BLUE,
 		IF_PHIRO_SENSOR_CONDITION,
@@ -60,14 +63,18 @@ public interface Brick extends Serializable, Cloneable {
 	//	public static final int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
-	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
-	int ARDRONE_SUPPORT = 0x20;
-	int CAMERA_LED = 0x100;
-	int VIBRATOR = 0x200;
-	int BLUETOOTH_PHIRO = 0x400;
-
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 	int FACE_DETECTION = 0x10;
+	int ARDRONE_SUPPORT = 0x20;
+	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
+	int CAMERA_FLASH = 0x100;
+	int VIBRATOR = 0x200;
+	int BLUETOOTH_PHIRO = 0x400;
+	int CAMERA_BACK = 0x800;
+	int CAMERA_FRONT = 0x1000;
+	int SENSOR_ACCELERATION = 0x2000;
+	int SENSOR_INCLINATION = 0x4000;
+	int SENSOR_COMPASS = 0x8000;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 
@@ -103,4 +110,8 @@ public interface Brick extends Serializable, Cloneable {
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);
+
+	void enableAllViews(View view, boolean enable);
+
+	boolean isEqualBrick(Brick brick, Project mergeResult, Project current);
 }

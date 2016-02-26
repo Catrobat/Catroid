@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,22 +30,34 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.List;
+import java.util.Map;
 
 public class HideTextAction extends TemporalAction {
-	private String text;
+	private String variableName;
 
 	@Override
 	protected void begin() {
 		DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 		List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
 
-		for (UserVariable var : variableList) {
-			if (var.getName().equals(text)) {
-				var.setVisibility(false);
+		Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
+
+		for (UserVariable variable : variableList) {
+			if (variable.getName().equals(variableName)) {
+				variable.setVisible(false);
+				break;
+			}
+		}
+		for (UserVariable variable : spriteVariableList) {
+			if (variable.getName().equals(variableName)) {
+				variable.setVisible(false);
 				break;
 			}
 		}
@@ -53,17 +65,9 @@ public class HideTextAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-		List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
-
-		for (UserVariable var : variableList) {
-			if (var.getName().equals(text)) {
-				break;
-			}
-		}
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setVariableName(String variableName) {
+		this.variableName = variableName;
 	}
 }

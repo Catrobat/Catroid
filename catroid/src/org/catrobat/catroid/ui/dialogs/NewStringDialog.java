@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -36,12 +37,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-public class NewStringDialog extends SherlockDialogFragment {
+public class NewStringDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = NewStringDialog.class.getSimpleName();
 	private EditText newStringEditText;
@@ -55,7 +54,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		final ViewGroup root = (ViewGroup) getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
+		final ViewGroup root = (ViewGroup) getActivity().getFragmentManager().findFragmentByTag(
 				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG).getView().getRootView();
 		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_formulaeditor_string, root, false);
 
@@ -90,7 +89,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 	private void handleOkButton() {
 		String stringName = newStringEditText.getText().toString();
 
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addStringToActiveFormula(stringName);
