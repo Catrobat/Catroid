@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,17 +22,18 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.actionbarsherlock.app.ActionBar;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 
@@ -41,6 +42,7 @@ import java.util.concurrent.locks.Lock;
 public class ProgramMenuActivity extends BaseActivity {
 
 	public static final String FORWARD_TO_SCRIPT_ACTIVITY = "forwardToScriptActivity";
+
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
@@ -59,13 +61,16 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		BottomBar.hideAddButton(this);
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
-			String title = ProjectManager.getInstance().getCurrentSprite().getName();
-			actionBar.setTitle(title);
-			actionBar.setHomeButtonEnabled(true);
+			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+			if (sprite != null) {
+				String title = sprite.getName();
+				actionBar.setTitle(title);
+				actionBar.setHomeButtonEnabled(true);
+			}
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
 			finish();
@@ -85,8 +90,13 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
-			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+
+			Intent intent;
+			if (DroneServiceWrapper.checkARDroneAvailability()) {
+				intent = new Intent(ProgramMenuActivity.this, DroneStageActivity.class);
+			} else {
+				intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
+			}
 			startActivity(intent);
 		}
 	}

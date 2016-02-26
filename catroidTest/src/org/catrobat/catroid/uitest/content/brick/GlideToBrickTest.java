@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import android.os.Build;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -61,13 +60,6 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		double duration = 1.5;
 		int xPosition = 123;
 		int yPosition = 567;
-
-		// This is a hack. On my device and on Jenkins, the click on the first EditText could not be completed.
-		// Doing it manually here
-		// #2 Improved hack to have it working on newer devices too, still no solution or anything
-		if (Build.VERSION.SDK_INT < 15) {
-			solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
-		}
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_duration, duration);
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_x, xPosition);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.Spinner;
 
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
@@ -32,6 +34,8 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
 
 	protected UserList userList;
+
+	protected transient BackPackedData backPackedData;
 
 	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
 		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
@@ -65,5 +69,92 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	public UserList getUserList() {
+		return userList;
+	}
+
+	public void setUserList(UserList userList) {
+		this.userList = userList;
+	}
+
+	public BackPackedData getBackPackedData() {
+		return backPackedData;
+	}
+
+	public void setBackPackedData(Project project, UserList userList, Integer userListType) {
+		if (backPackedData == null) {
+			backPackedData = new BackPackedData();
+		}
+		this.backPackedData.project = project;
+		this.backPackedData.userList = userList;
+		this.backPackedData.userListType = userListType;
+	}
+
+	public void setBackPackedData(BackPackedData backPackedData) {
+		this.backPackedData = backPackedData;
+	}
+
+	public class BackPackedData {
+		public UserList userList;
+		public Integer userListType;
+		public Project project;
+
+		public BackPackedData() {
+		}
+
+		public BackPackedData(BackPackedData backPackedData) {
+			if (backPackedData != null) {
+				this.userList = backPackedData.userList;
+				this.userListType = backPackedData.userListType;
+				this.project = backPackedData.project;
+			}
+		}
+	}
+
+	protected void updateUserListReference(Project into, Project from) {
+		UserList list;
+
+		if (from.existProjectList(userList)) {
+			list = into.getProjectListWithName(userList.getName());
+
+			if (list == null) {
+				list = into.getDataContainer().addProjectUserList(userList.getName());
+			}
+		} else {
+			Sprite sprite = from.getSpriteByUserList(userList);
+			if (sprite == null || !from.existSpriteList(userList, sprite)) {
+				return;
+			}
+			list = into.getDataContainer().addSpriteListIfDontExist(userList.getName(),
+					into.getSpriteBySpriteName(sprite));
+		}
+
+		if (list != null) {
+			userList = list;
+		}
+	}
+
+	@Override
+	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+		if (!super.isEqualBrick(brick, mergeResult, current)) {
+			return false;
+		}
+
+		UserList first = this.getUserList();
+		UserList second = ((UserListBrick) brick).getUserList();
+		if (!first.getName().equals(second.getName())) {
+			return false;
+		}
+
+		boolean firstIsProjectVariable = mergeResult.getDataContainer().existProjectList(first);
+		boolean secondIsProjectVariable = current.getDataContainer().existProjectList(second);
+
+		if ((firstIsProjectVariable && secondIsProjectVariable)
+				|| (!firstIsProjectVariable && !secondIsProjectVariable)) {
+			return true;
+		}
+		return false;
 	}
 }

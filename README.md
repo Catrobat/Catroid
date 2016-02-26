@@ -7,8 +7,6 @@ Catrobat programs can be written by using the Catroid programming system on Andr
 
 For more information oriented towards developers please visit our [developers page](http://developer.catrobat.org/).
 
-Nightly builds can be found [here](http://files.catrob.at).
-
 # Issues #
 
 For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/secure/CreateIssue.jspa?pid=10402&issuetype=1). Before, please browse our currently open issues [here](https://jira.catrob.at/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+CAT+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC%2C+key+DESC&mode=hide).

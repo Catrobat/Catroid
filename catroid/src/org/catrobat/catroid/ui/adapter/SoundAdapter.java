@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,24 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.actionbarsherlock.view.ActionMode;
-
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BackPackActivity;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
+public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface {
 
 	private SoundFragment soundFragment;
 
-	public SoundAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
+	public SoundAdapter(final Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails) {
 		super(context, resource, textViewResourceId, items, showDetails);
 	}
@@ -77,17 +75,16 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 		soundFragment.clearCheckedSoundsAndEnableButtons();
 	}
 
-	public void onDestroyActionModeBackPack(ActionMode mode) {
+	public void onDestroyActionModeBackPack() {
 		Iterator<Integer> iterator = checkedSounds.iterator();
 		while (iterator.hasNext()) {
 			int position = iterator.next();
-			BackPackListManager.getInstance().addSoundToActionBarSoundInfoArrayList(soundInfoItems.get(position));
+			SoundController.getInstance().backPackSound(soundInfoItems.get(position), false);
 		}
 
 		if (!checkedSounds.isEmpty()) {
 			Intent intent = new Intent(soundFragment.getActivity(), BackPackActivity.class);
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
-			intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SOUNDS);
 			soundFragment.getActivity().startActivity(intent);
 		}
 
@@ -99,7 +96,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 	}
 
 	@Override
-	public ArrayList<SoundInfo> getSoundInfoItems() {
+	public List<SoundInfo> getSoundInfoItems() {
 		return soundInfoItems;
 	}
 }

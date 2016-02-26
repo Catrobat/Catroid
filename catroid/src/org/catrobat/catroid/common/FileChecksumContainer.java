@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,12 @@ public class FileChecksumContainer implements Serializable {
 		private String path;
 	}
 
-	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<String, FileInfo>();
+	private class BackPackFileInfo {
+		private String path;
+	}
+
+	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<>();
+	private Map<String, BackPackFileInfo> backPackChecksumFileInfoMap = new HashMap<>();
 
 	public boolean addChecksum(String checksum, String path) {
 		if (checksumFileInfoMap.containsKey(checksum)) {
@@ -52,8 +57,23 @@ public class FileChecksumContainer implements Serializable {
 		}
 	}
 
+	public boolean addChecksumBackPack(String checksum, String path) {
+		if (backPackChecksumFileInfoMap.containsKey(checksum)) {
+			return false;
+		} else {
+			BackPackFileInfo fileInfo = new BackPackFileInfo();
+			fileInfo.path = path;
+			backPackChecksumFileInfoMap.put(checksum, fileInfo);
+			return true;
+		}
+	}
+
 	public boolean containsChecksum(String checksum) {
 		return checksumFileInfoMap.containsKey(checksum);
+	}
+
+	public boolean containsChecksumBackPack(String checksum) {
+		return backPackChecksumFileInfoMap.containsKey(checksum);
 	}
 
 	public String getPath(String checksum) {

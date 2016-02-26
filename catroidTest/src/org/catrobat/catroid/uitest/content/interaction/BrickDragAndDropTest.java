@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.interaction;
 
-import android.os.Build;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,6 +33,7 @@ import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -66,6 +66,8 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
 
 		ListView view = UiTestUtils.getScriptListView(solo);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
+		solo.sleep(300);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
@@ -78,11 +80,6 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.sleep(500);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
-		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			// just to get focus and get the correct list
-			solo.clickOnText(currentSprite);
-		}
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
@@ -110,12 +107,6 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 			solo.goBack();
 		}
 
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			// just to get focus and get the correct list
-			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-			solo.clickOnText(currentSprite);
-		}
-
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 
 		//just to gain focus
@@ -130,11 +121,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.sleep(2000);
 		solo.drag(20, 20, 300, height - 20, 100);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			// just to get focus and get the correct list
-			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-			solo.clickOnText(currentSprite);
-		}
+
 		solo.sleep(2000);
 		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}

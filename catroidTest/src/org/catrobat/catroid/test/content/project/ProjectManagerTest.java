@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -89,15 +89,15 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		projectManager.initializeNewProject(projectNameOne, context, false, false);
+		projectManager.initializeNewProject(projectNameOne, context, false, false, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
 
 		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
-		assertEquals("New project has wrong number of sprites", 5, spriteCount);
+		assertEquals("New project has wrong number of sprites", 2, spriteCount);
 		Sprite catroid = projectManager.getCurrentProject().getSpriteList().get(1);
-		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
+		assertEquals("Catroid sprite has wrong number of scripts", 3, catroid.getNumberOfScripts());
 
 		Sprite sprite = new Sprite(spriteNameOne);
 		projectManager.addSprite(sprite);
@@ -147,7 +147,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		projectManager.initializeNewProject(projectNameOne, context, true, false);
+		projectManager.initializeNewProject(projectNameOne, context, true, false, false);
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull("no current project set", currentProject);
 

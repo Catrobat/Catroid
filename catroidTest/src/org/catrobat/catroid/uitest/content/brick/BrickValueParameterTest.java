@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -361,7 +361,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 			solo.scrollDownList(fragmentListView);
 		}
 		TextView ifLogicBeginView = (TextView) solo.getView(R.id.brick_if_begin_prototype_text_view);
-		int ifLogicBeginPrototypeValue = Integer.parseInt(ifLogicBeginView.getText().toString());
+		String ifLogicBeginPrototypeValue = ifLogicBeginView.getText().toString();
 		assertEquals("Value in If Begin is not correct", BrickValues.IF_CONDITION, ifLogicBeginPrototypeValue);
 
 		if (!solo.searchText(solo.getString(R.string.brick_repeat))) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -45,12 +45,10 @@
         android:id="@+id/bottom_bar"
         layout="@layout/bottom_bar" />
 
-    <fragment
-        android:id="@+id/fragment_sprites_list"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.SpritesListFragment"
-        tools:layout="@layout/fragment_sprites_list" />
+        android:layout_above="@id/bottom_bar" />
 
 </RelativeLayout>

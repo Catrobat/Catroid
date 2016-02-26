@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -33,11 +34,12 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -50,6 +52,7 @@ import java.util.List;
 
 public class HideTextBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
+	private static String tag = HideTextBrick.class.getSimpleName();
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
 	public String userVariableName;
@@ -61,7 +64,7 @@ public class HideTextBrick extends UserVariableBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.HIDETEXT);
+		FormulaEditorFragment.changeInputField(view, BrickField.HIDETEXT);
 	}
 
 	@Override
@@ -118,47 +121,36 @@ public class HideTextBrick extends UserVariableBrick {
 						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(HideTextBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
-
 				return false;
 			}
 		});
+
 		variableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(HideTextBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
 				adapterView = parent;
+				setUserVariableName(userVariable);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
-
-				userVariableName = "No variable set";
-				try {
-					userVariableName = userVariable.getName();
-				} catch (NullPointerException e) {
-					Log.d("HideTextBrick.java", "NullPointerException");
-				}
+				setUserVariableName(userVariable);
 			}
 		});
-
-		userVariableName = "No variable set";
-		try {
-			userVariableName = userVariable.getName();
-		} catch (NullPointerException e) {
-			Log.d("HideTextBrick.java", "NullPointerException");
-		}
+		setUserVariableName(userVariable);
 
 		return view;
 	}
@@ -185,19 +177,27 @@ public class HideTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		if (userVariableName == null) {
+			userVariableName = Constants.NO_VARIABLE_SELECTED;
 		}
+
+		sequence.addAction(ExtendedActions.hideText(userVariableName));
+		return null;
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (userVariableName == null) {
-			userVariableName = "No variable set";
-		}
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserVariableReference(into, from);
+	}
 
-		sequence.addAction(ExtendedActions.hideText(sprite, userVariableName));
-		return null;
+	void setUserVariableName(UserVariable userVariable) {
+		userVariableName = Constants.NO_VARIABLE_SELECTED;
+		try {
+			userVariableName = userVariable.getName();
+		} catch (NullPointerException e) {
+			Log.d(tag, "Nothing selected yet.");
+		}
 	}
 }
+

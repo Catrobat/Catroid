@@ -1,3 +1,6 @@
+oauth_config.xml
+sed_replace.txt
+
 # built application files
 *.apk
 *.ap_

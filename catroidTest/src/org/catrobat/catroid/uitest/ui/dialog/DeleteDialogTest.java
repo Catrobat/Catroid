@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
@@ -49,13 +49,13 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	private String lookName = "lookNametest";
 	private File imageFile;
 	private File imageFile2;
-	private ArrayList<LookData> lookDataList;
+	private List<LookData> lookDataList;
 
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
-	private ArrayList<SoundInfo> soundInfoList;
+	private List<SoundInfo> soundInfoList;
 
 	public DeleteDialogTest() {
 		super(MainMenuActivity.class);
@@ -90,11 +90,13 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(buttonCancelText);
+		solo.waitForDialogToClose();
 		int newCount = adapter.getCount();
 		assertEquals("The look number not ok after canceling the deletion", newCount, oldCount);
 
 		clickOnContextMenuItem(lookName, deleteLookText);
 		solo.clickOnButton(buttonOkText);
+		solo.waitForDialogToClose();
 
 		solo.sleep(500);
 		newCount = adapter.getCount();
@@ -121,12 +123,14 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(buttonCancelText);
+		solo.waitForDialogToClose();
 		int newCount = adapter.getCount();
 		assertEquals("The look number not ok after canceling the deletion", newCount, oldCount);
 
 		solo.clickLongOnText(soundName);
 		solo.clickOnText(deleteSoundText);
 		solo.clickOnButton(buttonOkText);
+		solo.waitForDialogToClose();
 
 		solo.sleep(500);
 		newCount = adapter.getCount();
@@ -136,9 +140,9 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	private void addLooksToProject() throws Exception {
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
-				RESOURCE_IMAGE2, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
@@ -162,13 +166,13 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
-				RESOURCE_SOUND, getActivity(), UiTestUtils.FileTypes.SOUND);
+				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
 		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
-				RESOURCE_SOUND2, getActivity(), UiTestUtils.FileTypes.SOUND);
+				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile2.getName());
 		soundInfo2.setTitle(soundName2);

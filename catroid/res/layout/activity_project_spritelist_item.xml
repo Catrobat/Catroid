@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,8 @@
         <RelativeLayout
             android:id="@+id/spritelist_item_background"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:longClickable="false">
 
             <ImageView
                 android:id="@+id/sprite_img"
@@ -60,14 +61,6 @@
 
             <include layout="@layout/activity_project_sprite_title_details_view" />
 
-            <ImageView
-                android:id="@+id/arrow_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="14dp"
-                android:src="@drawable/ic_arrow_right" />
         </RelativeLayout >
     </LinearLayout >
 

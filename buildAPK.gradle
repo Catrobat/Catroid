@@ -44,6 +44,7 @@ apply plugin: 'com.android.application'
 android {
     defaultConfig {
         buildConfigField "String", "START_PROJECT", "\"WHACK A MOLE\""
+        multiDexEnabled true
     }
 
     productFlavors {
@@ -169,7 +170,7 @@ def managePermissions() {
     if(!permissionsText.contains("ARDRONE_SUPPORT")){
         manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", " ")
     }
-    if((!permissionsText.contains("CAMERA_LED")) && (!permissionsText.contains("FACE_DETECTION"))){
+    if((!permissionsText.contains("CAMERA_FLASH")) && (!permissionsText.contains("FACE_DETECTION"))){
         manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", " ")
     }
     if(!permissionsText.contains("VIBRATOR")){
@@ -195,7 +196,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 3448;//3143; //debugging purpose only
+    def id = 824;//3143; //debugging purpose only
     def url = "";
     if (project.hasProperty("download")) {
         url = project["download"]

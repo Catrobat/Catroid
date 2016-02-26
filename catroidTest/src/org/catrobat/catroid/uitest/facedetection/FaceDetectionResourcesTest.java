@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -54,20 +53,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 
 	public FaceDetectionResourcesTest() {
 		super(MainMenuActivity.class);
-	}
-
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
-				this.getInstrumentation().getTargetContext(), true);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
-				this.getInstrumentation().getTargetContext(), false);
-		super.tearDown();
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -87,7 +72,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testResourceNotNeeded() throws Exception {
 		createProject(false);
 		UiTestUtils.prepareStageForTest();
@@ -101,7 +85,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testResourceChanged() throws Exception {
 		createProject(true);
 		UiTestUtils.prepareStageForTest();
@@ -128,7 +111,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.sleep(SLEEP_TIME);
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private void createProject(boolean faceDetection) {
 		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
 		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;

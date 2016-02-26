@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import com.parrot.freeflight.service.DroneControlService;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
@@ -35,6 +37,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
@@ -51,7 +54,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
 	private float signAccelerationZ = 0f;
-	private float[] gravity = new float[] { 0f, 0f, 0f };
+	private float[] gravity = new float[]{0f, 0f, 0f};
 	private boolean useLinearAccelerationFallback = false;
 	private boolean useRotationVectorFallback = false;
 	private float linearAccelerationX = 0f;
@@ -62,6 +65,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
+	private boolean compassAvailable = true;
+	private boolean accelerationAvailable = true;
+	private boolean inclinationAvailable = true;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -79,8 +85,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (useRotationVectorFallback) {
 			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+			if (accelerometerSensor == null) {
+				accelerationAvailable = false;
+				inclinationAvailable = false;
+			}
+			if (magneticFieldSensor == null) {
+				compassAvailable = false;
+			}
 		} else if (useLinearAccelerationFallback) {
 			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			if (accelerometerSensor == null) {
+				accelerationAvailable = false;
+			}
 		}
 
 		Log.d(TAG, "*** LINEAR_ACCELERATION SENSOR: " + linearAccelerationSensor);
@@ -89,8 +105,26 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		Log.d(TAG, "*** MAGNETIC_FIELD SENSOR: " + magneticFieldSensor);
 	}
 
-	public static void startSensorListener(Context context) {
+	public boolean compassAvailable() {
+		return this.compassAvailable;
+	}
 
+	public boolean accelerationAvailable() {
+		return this.accelerationAvailable;
+	}
+
+	public boolean inclinationAvailable() {
+		return this.inclinationAvailable;
+	}
+
+	public static SensorHandler getInstance(Context context) {
+		if (instance == null) {
+			instance = new SensorHandler(context);
+		}
+		return instance;
+	}
+
+	public static void startSensorListener(Context context) {
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
@@ -152,19 +186,20 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
+		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		Double sensorValue;
 		float[] rotationMatrixOut = new float[16];
 		switch (sensor) {
 
 			case X_ACCELERATION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) (-instance.linearAccelerationY);
 				} else {
 					return (double) instance.linearAccelerationX;
 				}
 
 			case Y_ACCELERATION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) instance.linearAccelerationX;
 				} else {
 					return (double) instance.linearAccelerationY;
@@ -179,7 +214,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
 				}
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 							.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 					android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -192,7 +227,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case X_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationX;
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance
 								.accelerationXYZ[1]));
 					} else {
@@ -213,7 +248,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 							correctedInclinationX = (90 + rawInclinationX);
 						}
 					}
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						correctedInclinationX = -correctedInclinationX;
 					}
 					return (double) correctedInclinationX;
@@ -221,7 +256,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -234,7 +269,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case Y_INCLINATION:
 				if (instance.useRotationVectorFallback) {
 					float rawInclinationY;
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
 					} else {
 						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[1]));
@@ -258,7 +293,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					orientations = new float[3];
 					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 							instance.rotationVector);
-					if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
 								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
 						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
@@ -287,13 +322,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) (-instance.facePositionY);
 				} else {
 					return (double) instance.facePositionX;
 				}
 			case FACE_Y_POSITION:
-				if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 					return (double) instance.facePositionX;
 				} else {
 					return (double) instance.facePositionY;
@@ -323,6 +358,60 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
+
+			case DRONE_BATTERY_STATUS:
+				return (double) dcs.getDroneNavData().batteryStatus;
+
+			case DRONE_EMERGENCY_STATE:
+				return (double) dcs.getDroneNavData().emergencyState;
+
+			case DRONE_USB_REMAINING_TIME:
+				return (double) dcs.getDroneNavData().usbRemainingTime;
+
+			case DRONE_NUM_FRAMES:
+				return (double) dcs.getDroneNavData().numFrames;
+
+			case DRONE_RECORDING:
+				if (dcs.getDroneNavData().recording) {
+					return 1d;
+				} else {
+					return 0d;
+				}
+
+			case DRONE_FLYING:
+				if (dcs.getDroneNavData().flying) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_INITIALIZED:
+				if (dcs.getDroneNavData().initialized) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_USB_ACTIVE:
+				if (dcs.getDroneNavData().usbActive) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_CAMERA_READY:
+				if (dcs.getDroneNavData().cameraReady) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_RECORD_READY:
+				if (dcs.getDroneNavData().recordReady) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
 		}
 		return 0d;
 	}

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,41 +21,42 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                style="@style/DefaultDialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="0dp" >
 
-    <TextView
-        android:id="@+id/dialog_terms_of_use_text_view_info"
-        style="@style/DefaultDialog.Item"
-        android:layout_marginTop="@dimen/dialog_item_margin"
-        android:gravity="center|bottom"
-        android:paddingBottom="0dp"
-        android:text="@string/dialog_terms_of_use_info"
-        android:textColor="@color/spritelist_details_text_color" />
+<ScrollView style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
 
-    <TextView
-        android:id="@+id/dialog_terms_of_use_text_view_url"
-        style="@style/DefaultDialog.Item"
-        android:layout_below="@id/dialog_terms_of_use_text_view_info"
-        android:gravity="center|bottom"
-        android:minHeight="0dp"
-        android:textColorLink="#E68B00"
-        android:textSize="20sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <CheckBox
-        android:id="@+id/dialog_terms_of_use_check_box_agree_permanently"
-        style="@style/DefaultDialog.Item"
-        android:layout_below="@+id/dialog_terms_of_use_text_view_url"
-        android:text="@string/dialog_terms_of_use_agree_permanent"
-        android:gravity="center"
-        android:minHeight="0dp"
-        android:textColor="@color/spritelist_details_text_color"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        <TextView
+            android:id="@+id/dialog_terms_of_use_text_view_info"
+            style="@style/DefaultDialog.Item"
+            android:layout_marginTop="@dimen/dialog_item_margin"
+            android:gravity="center|bottom"
+            android:paddingBottom="0dp"
+            android:textColor="@color/spritelist_details_text_color" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/dialog_terms_of_use_text_view_url"
+            style="@style/DefaultDialog.Item"
+            android:layout_below="@id/dialog_terms_of_use_text_view_info"
+            android:gravity="center|bottom"
+            android:minHeight="0dp"
+            android:textColorLink="@color/terms_of_use_text_color"
+            android:textSize="20sp" />
+
+       <CheckBox
+           android:id="@+id/dialog_terms_of_use_check_box_agree_permanently"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/dialog_terms_of_use_text_view_url"
+           android:textColor="@color/spritelist_details_text_color"
+           android:visibility="gone" />
+    </RelativeLayout>
+
+</ScrollView>
