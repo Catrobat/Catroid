@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -267,6 +268,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!STANDALONE_MODE) {
 			setMainMenuButtonContinueText();
 			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		}
+		else {
+			FlashUtil.initializeFlash();
 		}
 		/*setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);*/
