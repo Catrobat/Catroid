@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,32 +35,32 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class RaspiSendDigitalValueAction extends TemporalAction {
 
+	private static final String TAG = RaspiSendDigitalValueAction.class.getSimpleName();
+
 	private Formula pinNumber;
 	private Formula pinValue;
 	private Sprite sprite;
 	private int pin;
 	private boolean value;
 
-	private boolean restart = false;
-
 	@Override
 	protected void begin() {
 		Integer pinNumberInterpretation;
-		Boolean pinValueInterpretation;
+		boolean pinValueInterpretation;
 
 		try {
 			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
 		} catch (InterpretationException interpretationException) {
 			pinNumberInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
+			Log.d(TAG, "Formula interpretation for this specific Brick failed.",
 					interpretationException);
 		}
 
 		try {
-			pinValueInterpretation = pinValue == null ? Boolean.valueOf(false) : pinValue.interpretBoolean(sprite);
+			pinValueInterpretation = pinValue == null ? false : pinValue.interpretBoolean(sprite);
 		} catch (InterpretationException interpretationException) {
 			pinValueInterpretation = false;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
+			Log.d(TAG, "Formula interpretation for this specific Brick failed.",
 					interpretationException);
 		}
 
@@ -73,10 +73,10 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 
 		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 		try {
-			Log.d(getClass().getSimpleName(), "RPi set " + pin + " to " + value);
+			Log.d(TAG, "RPi set " + pin + " to " + value);
 			connection.setPin(pin, value);
 		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), "RPi: exception during setPin: " + e);
+			Log.e(TAG, "RPi: exception during setPin: " + e);
 		}
 	}
 

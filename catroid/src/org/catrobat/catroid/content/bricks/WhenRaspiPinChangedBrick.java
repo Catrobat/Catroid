@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 
 	private RaspiInterruptScript script;
 
-	private String pinString = Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE);
+	private String pinString = Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER);
 	private String eventString = BrickValues.RASPI_PRESSED_EVENT;
 
 	public WhenRaspiPinChangedBrick(RaspiInterruptScript script) {
@@ -138,7 +138,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
 		pinSpinner.setSelection(messageAdapter2.getPosition(pinString), true);
 	}
 
@@ -163,7 +162,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-
 			}
 		});
 		valueSpinner.setSelection(valueAdapter.getPosition(getProtocolStringFromLanguageSpecificSpinnerSelection(eventString, context)), true);
@@ -181,14 +179,14 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 	private String getProtocolStringFromLanguageSpecificSpinnerSelection(String spinnerSelection, Context context) {
 		if (spinnerSelection.equals(context.getString(R.string.brick_raspi_pressed_text))) {
 			return BrickValues.RASPI_PRESSED_EVENT;
-		} else { //if (spinnerSelection.equals(context.getString(R.string.brick_raspi_released_text)))
-			return BrickValues.RASPI_RELEASED_EVENT; // TODO maybe move to constants instead of brickvalues
+		} else {
+			return BrickValues.RASPI_RELEASED_EVENT;
 		}
 	}
 
 	@Override
 	public Brick clone() {
-		return new WhenRaspiPinChangedBrick(null);
+		return new WhenRaspiPinChangedBrick(script);
 	}
 
 	@Override
@@ -202,9 +200,7 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-
 		if (view != null) {
-
 			View layout = view.findViewById(R.id.brick_raspi_when_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);

@@ -395,7 +395,7 @@ public class FormulaElement implements Serializable {
 			case RASPIDIGITAL:
 				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 				int pin = doubleValueOfLeftChild.intValue();
-				// TODO check if pin is valid
+				// TODO check if pin is
 				try {
 					return connection.getPin(pin) ? 1d : 0d;
 				} catch (Exception e) {

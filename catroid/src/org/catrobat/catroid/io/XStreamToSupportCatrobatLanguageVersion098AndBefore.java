@@ -91,6 +91,9 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -294,6 +297,21 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("pwmPinNumber", BrickField.ARDUINO_ANALOG_PIN_NUMBER);
 		brickInfo.addBrickFieldToMap("pwmPinValue", BrickField.ARDUINO_ANALOG_PIN_VALUE);
 		brickInfoMap.put("arduinoSendPWMValueBrick", brickInfo);
+
+		brickInfo = new BrickInfo(RaspiSendDigitalValueBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.RASPI_DIGITAL_PIN_NUMBER);
+		brickInfo.addBrickFieldToMap("digitalPinValue", BrickField.RASPI_DIGITAL_PIN_VALUE);
+		brickInfoMap.put("raspiSendDigitalValueBrick", brickInfo);
+
+		brickInfo = new BrickInfo(RaspiPwmBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.RASPI_DIGITAL_PIN_NUMBER);
+		brickInfo.addBrickFieldToMap("pwmFrequency", BrickField.RASPI_PWM_FREQUENCY);
+		brickInfo.addBrickFieldToMap("pwmPercentage", BrickField.RASPI_PWM_PERCENTAGE);
+		brickInfoMap.put("raspiPwmBrick", brickInfo);
+
+		brickInfo = new BrickInfo(RaspiIfLogicBeginBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.IF_CONDITION);
+		brickInfoMap.put("raspiIfLogicBeginBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);

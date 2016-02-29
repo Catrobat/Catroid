@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,8 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class RaspiIfLogicAction extends Action {
 
+	private static final String TAG = RaspiIfLogicAction.class.getSimpleName();
+
 	private Sprite sprite;
 	private Action ifAction;
 	private Action elseAction;
@@ -53,7 +55,7 @@ public class RaspiIfLogicAction extends Action {
 			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
 		} catch (InterpretationException interpretationException) {
 			pinNumberInterpretation = 0;
-			Log.e(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
+			Log.e(TAG, "Formula interpretation for this specific Brick failed.",
 					interpretationException);
 		}
 		this.pin = pinNumberInterpretation;
@@ -76,10 +78,10 @@ public class RaspiIfLogicAction extends Action {
 	protected boolean readIfConditionValue() {
 		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 		try {
-			Log.d(getClass().getSimpleName(), "RPi get " + pin);
+			Log.d(TAG, "RPi get " + pin);
 			return connection.getPin(pin);
 		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+			Log.e(TAG, "RPi: exception during getPin: " + e);
 		}
 		return false;
 	}

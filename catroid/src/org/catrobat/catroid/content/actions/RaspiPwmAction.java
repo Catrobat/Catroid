@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,8 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class RaspiPwmAction extends TemporalAction {
 
+	private static final String TAG = RaspiPwmAction.class.getSimpleName();
+
 	private Formula pinNumberFormula;
 	private Formula pwmFrequencyFormula;
 	private Formula pwmPercentageFormula;
@@ -51,7 +53,7 @@ public class RaspiPwmAction extends TemporalAction {
 			pinInterpretation = pinNumberFormula == null ? Integer.valueOf(0) : pinNumberFormula.interpretInteger(sprite);
 		} catch (InterpretationException interpretationException) {
 			pinInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed. (pin)",
+			Log.d(TAG, "Formula interpretation for this specific Brick failed. (pin)",
 					interpretationException);
 		}
 
@@ -60,7 +62,7 @@ public class RaspiPwmAction extends TemporalAction {
 					.interpretDouble(sprite);
 		} catch (InterpretationException interpretationException) {
 			frequencyInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed. (frequency)",
+			Log.d(TAG, "Formula interpretation for this specific Brick failed. (frequency)",
 					interpretationException);
 		}
 
@@ -69,7 +71,7 @@ public class RaspiPwmAction extends TemporalAction {
 					.interpretDouble(sprite);
 		} catch (InterpretationException interpretationException) {
 			percentageInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed. (percentage)",
+			Log.d(TAG, "Formula interpretation for this specific Brick failed. (percentage)",
 					interpretationException);
 		}
 	}
@@ -79,11 +81,11 @@ public class RaspiPwmAction extends TemporalAction {
 
 		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 		try {
-			Log.d(getClass().getSimpleName(), "RPi pwm pin=" + pinInterpretation + ", " + percentageInterpretation +
-					"%, " + frequencyInterpretation + "Hz");
+			Log.d(TAG, "RPi pwm pin=" + pinInterpretation + ", " + percentageInterpretation
+					+ "%, " + frequencyInterpretation + "Hz");
 			connection.setPWM(pinInterpretation, frequencyInterpretation, percentageInterpretation);
 		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), "RPi: exception during setPwm: " + e);
+			Log.e(TAG, "RPi: exception during setPwm: " + e);
 		}
 	}
 

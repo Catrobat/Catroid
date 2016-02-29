@@ -34,6 +34,7 @@
     <!-- Symbols -->
     <string name="degree_symbol" translatable="false" >°</string >
     <string name="percent_symbol" translatable="false" >%</string >
+    <string name="hertz_symbol" translatable="false" >㎐</string>
     <!--  -->
 
     <!-- Numbers -->
@@ -52,6 +53,7 @@
 
     <string name="about_link_template" translatable="false" >&lt;a href="%1$s">%2$s&lt;/a></string >
     <string name="terms_of_use_link_template" translatable="false" >&lt;a href="%1$s">%2$s&lt;/a></string >
+    <string name="preference_raspi_help_link">https://confluence.catrob.at/display/CATARDUINO/RaspberryPi+GPIO+Tutorial%3A+LEDs+and+buttons</string>
 
     <!-- Settings, some overridden in values-v14 -->
     <string name="scrolling_cache_enabled" >false</string >
