@@ -43,13 +43,16 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
@@ -187,6 +190,10 @@ public class PreStageActivity extends BaseActivity {
 		if (requiredResources == Brick.NO_RESOURCES) {
 			startStage();
 		}
+
+		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
+			connectRaspberrySocket();
+		}
 	}
 
 	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
@@ -195,6 +202,18 @@ public class PreStageActivity extends BaseActivity {
 		if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE)
 				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
 			resourceInitialized();
+		}
+	}
+
+	private void connectRaspberrySocket() {
+		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
+		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+
+		if (RaspberryPiService.getInstance().connect(host, port)) {
+			resourceInitialized();
+		} else {
+			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			resourceFailed();
 		}
 	}
 
@@ -248,6 +267,8 @@ public class PreStageActivity extends BaseActivity {
 		if (FaceDetectionHandler.isFaceDetectionRunning()) {
 			FaceDetectionHandler.stopFaceDetection();
 		}
+
+		RaspberryPiService.getInstance().disconnect();
 	}
 
 	//all resources that should not have to be reinitialized every stage start

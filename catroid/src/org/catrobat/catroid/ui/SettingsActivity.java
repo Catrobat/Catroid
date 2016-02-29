@@ -26,9 +26,12 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
@@ -44,6 +47,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
+	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
 
@@ -57,6 +61,12 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String DRONE_VERTICAL_SPEED = "setting_drone_vertical_speed";
 	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
 	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
+
+	public static final String RASPI_SETTINGS_SCREEN = "settings_raspberry_screen";
+	public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
+	public static final String RASPI_HOST = "setting_raspi_host_preference";
+	public static final String RASPI_PORT = "setting_raspi_port_preference";
+	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -91,10 +101,50 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
-			PreferenceScreen arduinoPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
+			CheckBoxPreference arduinoPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
 			arduinoPreference.setEnabled(false);
 			screen.removePreference(arduinoPreference);
 		}
+
+		if (!BuildConfig.FEATURE_RASPI_ENABLED) {
+			PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(RASPI_SETTINGS_SCREEN);
+			raspiPreference.setEnabled(false);
+			screen.removePreference(raspiPreference);
+		} else {
+			setUpRaspiPreferences();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setUpRaspiPreferences() {
+		CheckBoxPreference raspiCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+		final PreferenceCategory rpiConnectionSettings = (PreferenceCategory) findPreference(RASPI_CONNECTION_SETTINGS_CATEGORY);
+		rpiConnectionSettings.setEnabled(raspiCheckBoxPreference.isChecked());
+
+		raspiCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				rpiConnectionSettings.setEnabled((Boolean) isChecked);
+				return true;
+			}
+		});
+
+		final EditTextPreference host = (EditTextPreference) findPreference(RASPI_HOST);
+		host.setSummary(host.getText());
+		host.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				host.setSummary(newValue.toString());
+				return true;
+			}
+		});
+
+		final EditTextPreference port = (EditTextPreference) findPreference(RASPI_PORT);
+		port.setSummary(port.getText());
+		port.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				port.setSummary(newValue.toString());
+				return true;
+			}
+		});
 	}
 
 	private void setDronePreferences() {
@@ -230,8 +280,18 @@ public class SettingsActivity extends PreferenceActivity {
 		editor.commit();
 	}
 
+	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value);
+		editor.commit();
+	}
+
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
+	}
+
+	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
@@ -258,6 +318,18 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		return sensorMapping;
+	}
+
+	public static String getRaspiHost(Context context) {
+		return getSharedPreferences(context).getString(RASPI_HOST, null);
+	}
+
+	public static int getRaspiPort(Context context) {
+		return Integer.parseInt(getSharedPreferences(context).getString(RASPI_PORT, null));
+	}
+
+	public static String getRaspiRevision(Context context) {
+		return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
 	}
 
 	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {
