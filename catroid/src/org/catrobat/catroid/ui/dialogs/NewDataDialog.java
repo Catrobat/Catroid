@@ -57,6 +57,7 @@ public class NewDataDialog extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_data_catroid";
 	Spinner spinnerToUpdate;
 	DialogType dialogType = DialogType.SHOW_LIST_CHECKBOX;
+	private int spinnerPositionIfCancel;
 
 	public static enum DialogType {
 		SHOW_LIST_CHECKBOX, USER_LIST, USER_VARIABLE
@@ -89,6 +90,7 @@ public class NewDataDialog extends DialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 		userListDialogListenerListFinishNewUserListDialog(null);
+		spinnerToUpdate.setSelection(spinnerPositionIfCancel);
 	}
 
 	@Override
@@ -310,5 +312,9 @@ public class NewDataDialog extends DialogFragment {
 			return false;
 		}
 		return true;
+	}
+
+	public void setUserVariableIfCancel(int spinnerPositionIfCancel) {
+		this.spinnerPositionIfCancel = spinnerPositionIfCancel;
 	}
 }
