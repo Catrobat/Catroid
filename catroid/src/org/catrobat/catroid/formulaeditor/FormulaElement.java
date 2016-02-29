@@ -31,6 +31,8 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
+import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -388,6 +390,16 @@ public class FormulaElement implements Serializable {
 						return 0d;
 					}
 					return arduinoAnalog.getAnalogArduinoPin(doubleValueOfLeftChild.intValue());
+				}
+				break;
+			case RASPIDIGITAL:
+				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
+				int pin = doubleValueOfLeftChild.intValue();
+				// TODO check if pin is
+				try {
+					return connection.getPin(pin) ? 1d : 0d;
+				} catch (Exception e) {
+					Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
 				}
 				break;
 			case LIST_ITEM:
@@ -911,6 +923,9 @@ public class FormulaElement implements Serializable {
 				case ARDUINOANALOG:
 				case ARDUINODIGITAL:
 					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
+					break;
+				case RASPIDIGITAL:
+					resources |= Brick.SOCKET_RASPI;
 					break;
 			}
 		}
