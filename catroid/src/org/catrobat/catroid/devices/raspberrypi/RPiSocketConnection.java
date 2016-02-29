@@ -41,7 +41,6 @@ import java.util.ArrayList;
 public class RPiSocketConnection {
 
 	private static final String TAG = AsyncRPiTaskRunner.class.getSimpleName();
-	
 	private Socket clientSocket;
 	private String rpiVersion;
 	private String host;

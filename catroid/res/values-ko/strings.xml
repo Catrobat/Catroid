@@ -22,7 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="app_name">포켓 코드</string>
   <string name="cancel_button">취소</string>
   <string name="rename">이름 바꾸기</string>
@@ -789,7 +789,7 @@
   <string name="merge_info">추출 성공</string>
   <string name="warning">경고</string>
   <string name="error_merge_with_self">주의! 현재 프로그램과 선택 프로그램이 같습니다!</string>
-  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
         and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">중지</string>
   <string name="merge_conflict">프로그램으로 추출하기가 불가능</string>

@@ -22,7 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Cancelar</string>
   <string name="rename">Renomear</string>
@@ -803,7 +803,7 @@
   <string name="merge_info">projetos mesclados com sucesso</string>
   <string name="warning">Atenção</string>
   <string name="error_merge_with_self">Atenção! O projeto atual e projeto selecionado são os mesmos!</string>
-  <string name="error_different_resolutions">Cuidado! Diferentes resoluções detectadas. %1$s tem resolução %2$dx%3$d
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Cuidado! Diferentes resoluções detectadas. %1$s tem resolução %2$dx%3$d
         e %4$s tem resolução %5$dx%6$d. Usando resolução de %1$s.</string>
   <string name="abort">Abortar</string>
   <string name="merge_conflict">Não foi possível mesclar</string>
