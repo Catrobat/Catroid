@@ -35,7 +35,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;

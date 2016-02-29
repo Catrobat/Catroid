@@ -70,7 +70,6 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-
 		RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 		try {
 			Log.d(TAG, "RPi set " + pin + " to " + value);

@@ -22,7 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Abbrechen</string>
   <string name="rename">Umbenennen</string>
@@ -802,7 +802,7 @@
   <string name="merge_info">erfolgreich kopiert in</string>
   <string name="warning">Warnung</string>
   <string name="error_merge_with_self">Achtung! Aktuelles Projekt und ausgewähltes Projekt sind dieselben!</string>
-  <string name="error_different_resolutions">Vorsicht! Verschiedene Auflösungen erkannt. %1$s hat %2$dx%3$d Auflösung und %4$s Auflösung %5$dx%6$d. Auflösung von %1$s verwendet.</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Vorsicht! Verschiedene Auflösungen erkannt. %1$s hat %2$dx%3$d Auflösung und %4$s Auflösung %5$dx%6$d. Auflösung von %1$s verwendet.</string>
   <string name="abort">Abbruch</string>
   <string name="merge_conflict">Zusammenfügen nicht möglich</string>
   <string name="merge_conflict_variable">Variable \"%1$s\" wird in beiden Programmen verwendet. Wenn Programme den gleichen Variablennamen verwenden, können nicht sie zusammengeführt werden. Bitte benenne die Variable in einem der Programme um und versuche es erneut.</string>

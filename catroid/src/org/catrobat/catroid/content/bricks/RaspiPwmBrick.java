@@ -207,6 +207,5 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 	@Override
 	public void updateReferenceAfterMerge(Project into, Project from) {
-
 	}
 }

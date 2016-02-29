@@ -22,7 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="app_name">ポケット\nコード</string>
   <string name="cancel_button">キャンセル</string>
   <string name="rename">名前の変更</string>
@@ -787,7 +787,7 @@
   <string name="merge_info">正常にマージしました</string>
   <string name="warning">警告</string>
   <string name="error_merge_with_self">注意! 現在のプロジェクトと選択したプロジェクトは同じです!</string>
-  <string name="error_different_resolutions">注意! 異なる解像度を検出しました。%1$s は解像度 %2$dx%3$d 、
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">注意! 異なる解像度を検出しました。%1$s は解像度 %2$dx%3$d 、
 %4$s は解像度 %5$dx%6$d です。%1$s の解像度を使用します。</string>
   <string name="abort">中止</string>
   <string name="merge_conflict">マージできません</string>

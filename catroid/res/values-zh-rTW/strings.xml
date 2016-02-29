@@ -22,7 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="app_name">Pocket Code 口袋編碼</string>
   <string name="cancel_button">取消</string>
   <string name="rename">更名</string>
@@ -788,7 +788,7 @@
   <string name="merge_info">成功合併到</string>
   <string name="warning">警告</string>
   <string name="error_merge_with_self">注意! 目前的程式檔與選擇的程式檔內容相同!</string>
-  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
         and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">放棄</string>
   <string name="merge_conflict">無法合併</string>
