@@ -194,7 +194,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 				"spinnerAdapterWrapper");
 
 		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, objectName, Uri.fromFile(lookFile),
-				ActionAfterFinished.ACTION_UPDATE_SPINNER, spinner, LookData.LookDataType.IMAGE);
+				ActionAfterFinished.ACTION_UPDATE_SPINNER, spinner);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		UiTestUtils.hidePocketPaintDialog(solo);

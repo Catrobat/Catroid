@@ -2113,16 +2113,18 @@ public final class UiTestUtils {
 		return lookFile;
 	}
 
-	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri, ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner, LookData.LookDataType lookDataType) {
-		if (!(solo.getCurrentActivity() instanceof FragmentActivity)) {
-			fail("Current activity is not a FragmentActivity");
-		}
+	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
+			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
+		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, spinner, false);
+	}
 
+	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
+			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner, boolean isDroneVideo) {
 		if (actionToPerform == null) {
 			actionToPerform = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		}
 
-		FragmentManager fragmentManager = ((FragmentActivity) solo.getCurrentActivity()).getFragmentManager();
+		FragmentManager fragmentManager = solo.getCurrentActivity().getFragmentManager();
 
 		NewSpriteDialog dialog;
 
@@ -2130,9 +2132,10 @@ public final class UiTestUtils {
 		try {
 			Constructor<NewSpriteDialog> constructor = NewSpriteDialog.class.getDeclaredConstructor(
 					NewSpriteDialog.DialogWizardStep.class, Uri.class, String.class, ActionAfterFinished.class,
-					SpinnerAdapterWrapper.class, LookData.LookDataType.class);
+					SpinnerAdapterWrapper.class, boolean.class);
 			constructor.setAccessible(true);
-			dialog = constructor.newInstance(NewSpriteDialog.DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner, lookDataType);
+			dialog = constructor.newInstance(NewSpriteDialog.DialogWizardStep.STEP_2, uri, spriteName,
+					actionToPerform, spinner, isDroneVideo);
 		} catch (Exception e) {
 			fail("Reflection failure. For more information please use Log.e output");
 			Log.e(TAG, "Reflection failure.", e);
@@ -2151,12 +2154,17 @@ public final class UiTestUtils {
 	}
 
 	public static void addNewSprite(Solo solo, String spriteName, File file, ActionAfterFinished actionToPerform) {
+		addNewSprite(solo, spriteName, file, actionToPerform, false);
+	}
+
+	public static void addNewSprite(Solo solo, String spriteName, File file, ActionAfterFinished actionToPerform,
+			boolean isDroneVideo) {
 		if (actionToPerform == null) {
 			actionToPerform = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		}
 
 		Uri uri = Uri.fromFile(file);
-		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, null, LookData.LookDataType.IMAGE);
+		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, null, isDroneVideo);
 
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForDialogToClose();

@@ -93,7 +93,7 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 
 		//Add sprite which already exists
 		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(lookFile),
-				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null, LookData.LookDataType.IMAGE);
+				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String errorMessageText = solo.getString(R.string.spritename_already_exists);
