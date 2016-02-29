@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
 
 import android.util.SparseArray;
@@ -30,17 +29,18 @@ import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class GridRowTestDataFactory {
+public final class GridRowTestDataFactory {
+
+	private GridRowTestDataFactory() {
+	}
 
 	public static GridRow createGridRowWithOnePosition() {
 
 		SparseArray<List<GridRowPosition>> gridRowPositionSparseArray = new SparseArray<>();
 
-		List <GridRowPosition> gridRowPositionList = new ArrayList<>();
+		List<GridRowPosition> gridRowPositionList = new ArrayList<>();
 		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
 		gridRowPositionSparseArray.put(0, gridRowPositionList);
 
@@ -51,7 +51,7 @@ public class GridRowTestDataFactory {
 
 		SparseArray<List<GridRowPosition>> gridRowPositionSparseArray = new SparseArray<>();
 
-		List <GridRowPosition> gridRowPositionList = new ArrayList<>();
+		List<GridRowPosition> gridRowPositionList = new ArrayList<>();
 
 		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
 		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
@@ -64,7 +64,7 @@ public class GridRowTestDataFactory {
 
 		SparseArray<List<GridRowPosition>> gridRowPositionSparseArray = new SparseArray<>();
 
-		List <GridRowPosition> gridRowPositionList = new ArrayList<>();
+		List<GridRowPosition> gridRowPositionList = new ArrayList<>();
 
 		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
 		gridRowPositionList.add(GridRowPositionTestDataFactory.createGridRowPositionWithOffset());
