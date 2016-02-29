@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.SetColorToBrick;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class SetColorBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
-	private SetColorToBrick setColorBrick;
+	private SetColorBrick setColorBrick;
 
 	public SetColorBrickTest() {
 		super(ScriptActivity.class);
@@ -74,7 +74,6 @@ public class SetColorBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_set_color)));
 
 		int newColor = 3;
-
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.brick_set_color_edit_text, newColor, Brick.BrickField.COLOR, setColorBrick);
 	}
@@ -83,7 +82,7 @@ public class SetColorBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		setColorBrick = new SetColorToBrick(0);
+		setColorBrick = new SetColorBrick(0f);
 		script.addBrick(setColorBrick);
 
 		sprite.addScript(script);

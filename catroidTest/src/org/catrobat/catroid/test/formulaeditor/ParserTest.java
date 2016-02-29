@@ -41,7 +41,7 @@ public class ParserTest extends AndroidTestCase {
 	private static final float LOOK_Y_POSITION = 23.4f;
 	private static final float LOOK_X_POSITION = 5.6f;
 	private static final float LOOK_BRIGHTNESS = 70f;
-	private static final int LOOK_COLOR = 0;
+	private static final float LOOK_COLOR = 0f;
 	private static final float LOOK_SCALE = 90.3f;
 	private static final float LOOK_ROTATION = 30.7f;
 	private static final int LOOK_ZPOSITION = 3;

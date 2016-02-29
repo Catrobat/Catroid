@@ -50,7 +50,7 @@ import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetColorToBrick;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -136,10 +136,10 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new SetTransparencyBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TRANSPARENCY);
 
-		brick = new SetColorToBrick(BRICK_FORMULA_VALUE);
+		brick = new SetColorBrick((float) BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.COLOR);
 
-		brick = new ChangeColorByNBrick(BRICK_FORMULA_VALUE);
+		brick = new ChangeColorByNBrick((float) BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.COLOR_CHANGE);
 
 		brick = new SetSizeToBrick(BRICK_FORMULA_VALUE);

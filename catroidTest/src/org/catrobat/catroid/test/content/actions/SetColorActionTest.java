@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,14 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SetColorToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class SetColorToTest extends InstrumentationTestCase {
+public class SetColorActionTest extends InstrumentationTestCase {
 
-	private static final int COLOR = 100;
+	private static final float COLOR = 100.0f;
 	private Formula color = new Formula(COLOR);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
@@ -45,21 +45,21 @@ public class SetColorToTest extends InstrumentationTestCase {
 
 	public void testColorEffect() {
 		assertEquals("Unexpected initial color value", (int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
-		ExtendedActions.setColorTo(sprite, color).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, color).act(1.0f);
 		assertEquals("Incorrect color value after SetColorTo executed", COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
-		ExtendedActions.setColorTo(sprite, color);
+		sprite.getActionFactory().createSetColorAction(sprite, color);
 	}
 
 	public void testValueAboveMax() {
-		final int highColor = 1000;
+		final float highColor = 1000;
 
 		assertEquals("Unexpected initial color value", (int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
-		ExtendedActions.setColorTo(sprite, new Formula(highColor)).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new Formula(highColor)).act(1.0f);
 		assertEquals("Incorrect color value after SetColorTo executed", (highColor % 200), sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetColorToAction action = ExtendedActions.setColorTo(null, color);
+		Action action = sprite.getActionFactory().createSetColorAction(null, color);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetColorToBrick with null Sprite did not cause a NullPointerException to be thrown");
@@ -69,23 +69,23 @@ public class SetColorToTest extends InstrumentationTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		ExtendedActions.setColorTo(sprite, new Formula(String.valueOf(COLOR))).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new Formula(String.valueOf(COLOR))).act(1.0f);
 		assertEquals("Incorrect sprite color value after SetColorToBrick executed",
 				COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setColorTo(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals("Incorrect sprite color value after SetBrightnessBrick executed",
 				COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		ExtendedActions.setColorTo(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite color value after SetColorTo executed",
 				0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.setBrightness(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite color value after SetColor executed",
 				0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 	}

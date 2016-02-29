@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,7 +74,6 @@ public class ChangeColorByNBrickTest extends BaseActivityInstrumentationTestCase
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_color)));
 
 		int newColor = 3;
-
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.brick_change_color_by_edit_text, newColor, Brick.BrickField.COLOR_CHANGE, colorBrick);
 	}
@@ -83,7 +82,7 @@ public class ChangeColorByNBrickTest extends BaseActivityInstrumentationTestCase
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		colorBrick = new ChangeColorByNBrick(25);
+		colorBrick = new ChangeColorByNBrick(25.0f);
 		script.addBrick(colorBrick);
 
 		sprite.addScript(script);
