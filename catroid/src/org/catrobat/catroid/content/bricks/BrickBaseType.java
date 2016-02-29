@@ -171,4 +171,7 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) { }
 }
