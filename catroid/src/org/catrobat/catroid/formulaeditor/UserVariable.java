@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ public class UserVariable implements Serializable {
 
 	private String name;
 	private transient Object value;
-	private boolean visibility = true;
+	private boolean visible = true;
 
 	public UserVariable(String name) {
 		this.name = name;
@@ -57,11 +57,11 @@ public class UserVariable implements Serializable {
 		this.name = name;
 	}
 
-	public boolean getVisibility() {
-		return visibility;
+	public boolean getVisible() {
+		return visible;
 	}
 
-	public void setVisibility(boolean visibility) {
-		this.visibility = visibility;
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 }

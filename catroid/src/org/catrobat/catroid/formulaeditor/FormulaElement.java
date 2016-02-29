@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -917,6 +917,21 @@ public class FormulaElement implements Serializable {
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);
 			switch (sensor) {
+				case X_ACCELERATION:
+				case Y_ACCELERATION:
+				case Z_ACCELERATION:
+					resources |= Brick.SENSOR_ACCELERATION;
+					break;
+
+				case X_INCLINATION:
+				case Y_INCLINATION:
+					resources |= Brick.SENSOR_INCLINATION;
+					break;
+
+				case COMPASS_DIRECTION:
+					resources |= Brick.SENSOR_COMPASS;
+					break;
+
 				case FACE_DETECTED:
 				case FACE_SIZE:
 				case FACE_X_POSITION:
@@ -939,6 +954,20 @@ public class FormulaElement implements Serializable {
 				case PHIRO_BOTTOM_RIGHT:
 					resources |= Brick.BLUETOOTH_PHIRO;
 					break;
+
+				case DRONE_BATTERY_STATUS:
+				case DRONE_CAMERA_READY:
+				case DRONE_EMERGENCY_STATE:
+				case DRONE_FLYING:
+				case DRONE_INITIALIZED:
+				case DRONE_NUM_FRAMES:
+				case DRONE_RECORD_READY:
+				case DRONE_RECORDING:
+				case DRONE_USB_ACTIVE:
+				case DRONE_USB_REMAINING_TIME:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
+
 				default:
 			}
 		}

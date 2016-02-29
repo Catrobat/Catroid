@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,36 +39,42 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.facebook.AccessToken;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.transfers.LogoutTask;
+import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -126,6 +132,21 @@ public final class Utils {
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+
+	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
+		return !success && exception != null && exception.getStatusCode() == WebconnectionException
+				.ERROR_NETWORK;
+	}
+
+	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
+			boolean userSignedIn) {
+		return (!success && exception != null) || context == null || !userSignedIn;
+	}
+
+	public static boolean checkForNetworkError(WebconnectionException exception) {
+		return exception != null && exception.getStatusCode() == WebconnectionException
+				.ERROR_NETWORK;
 	}
 
 	/**
@@ -198,7 +219,7 @@ public final class Utils {
 		MenuItem item = menu.findItem(R.id.select_all);
 		View view = item.getActionView();
 		if (view.getId() == R.id.select_all) {
-			View selectAllView = inflater.inflate(R.layout.action_mode_select_all, null);
+			View selectAllView = View.inflate(inflater.getContext(), R.layout.action_mode_select_all, null);
 			item.setActionView(selectAllView);
 			return selectAllView;
 		}
@@ -366,28 +387,61 @@ public final class Utils {
 		return newName;
 	}
 
-	public static String getUniqueLookName(String name) {
-		return searchForNonExistingLookName(name, 0);
+	public static String getUniqueLookName(LookData lookData, boolean forBackPack) {
+		return searchForNonExistingLookName(lookData, 0, forBackPack);
 	}
 
-	private static String searchForNonExistingLookName(String name, int nextNumber) {
+	private static String searchForNonExistingLookName(LookData originalLookData, int nextNumber, boolean
+			forBackPack) {
 		String newName;
-		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		if (nextNumber == 0) {
-			newName = name;
+		List<LookData> lookDataList;
+		if (forBackPack) {
+			lookDataList = BackPackListManager.getInstance().getAllBackPackedLooks();
 		} else {
-			newName = name + nextNumber;
+			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		}
+
+		if (nextNumber == 0) {
+			newName = originalLookData.getLookName();
+		} else {
+			newName = originalLookData.getLookName() + nextNumber;
 		}
 		for (LookData lookData : lookDataList) {
 			if (lookData.getLookName().equals(newName)) {
-				return searchForNonExistingLookName(name, ++nextNumber);
+				return searchForNonExistingLookName(originalLookData, ++nextNumber, forBackPack);
 			}
 		}
 		return newName;
 	}
 
-	public static String getUniqueSoundName(String title) {
-		return searchForNonExistingSoundTitle(title, 0);
+	public static String getUniqueSpriteName(Sprite sprite) {
+		return searchForNonExistingSpriteName(sprite, 0);
+	}
+
+	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
+		String newName;
+		List<Sprite> spriteList;
+		if (!sprite.isBackpackSprite) {
+			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
+		} else {
+			spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		}
+
+		if (nextNumber == 0) {
+			newName = sprite.getName();
+		} else {
+			newName = sprite.getName() + nextNumber;
+		}
+		for (Sprite spriteListItem : spriteList) {
+			if (spriteListItem.getName().equals(newName)) {
+				return searchForNonExistingSpriteName(sprite, ++nextNumber);
+			}
+		}
+		return newName;
+	}
+
+	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
+		return searchForNonExistingSoundTitle(soundInfo, 0, forBackPack);
 	}
 
 	public static Project findValidProject() {
@@ -403,18 +457,28 @@ public final class Utils {
 		return loadableProject;
 	}
 
-	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
+	private static String searchForNonExistingSoundTitle(SoundInfo soundInfo, int nextNumber, boolean forBackPack) {
 		// search for sounds with the same title
-		String newTitle;
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		if (nextNumber == 0) {
-			newTitle = title;
+		String newTitle = "";
+		List<SoundInfo> soundInfoList;
+		if (forBackPack) {
+			soundInfoList = BackPackListManager.getInstance().getAllBackPackedSounds();
 		} else {
-			newTitle = title + nextNumber;
+			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		}
-		for (SoundInfo soundInfo : soundInfoList) {
-			if (soundInfo.getTitle().equals(newTitle)) {
-				return searchForNonExistingSoundTitle(title, ++nextNumber);
+
+		if (nextNumber == 0) {
+			if (soundInfo != null) {
+				newTitle = soundInfo.getTitle();
+			}
+		} else {
+			if (soundInfo != null) {
+				newTitle = soundInfo.getTitle() + nextNumber;
+			}
+		}
+		for (SoundInfo soundInfoFromList : soundInfoList) {
+			if (soundInfoFromList.getTitle().equals(newTitle)) {
+				return searchForNonExistingSoundTitle(soundInfo, ++nextNumber, forBackPack);
 			}
 		}
 		return newTitle;
@@ -444,9 +508,9 @@ public final class Utils {
 			pixmap = Utils.getPixmapFromFile(lookFile);
 
 			if (pixmap == null) {
+				Log.e(TAG, "error_load_image rewriteImageFileForStage");
 				Utils.showErrorDialog(context, R.string.error_load_image);
-				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
-				Log.d("testitest", "path: " + lookFile.getAbsolutePath());
+				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath(), false);
 				throw new IOException("Pixmap could not be fixed");
 			}
 		}
@@ -462,7 +526,7 @@ public final class Utils {
 
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
-			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
+			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
 					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");
@@ -544,8 +608,45 @@ public final class Utils {
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
-			sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
-			sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+			logoutUser(context);
 		}
+	}
+
+	@SuppressWarnings("unused")
+	public static void logoutUser(Context context) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+		LogoutTask logoutTask = new LogoutTask(context, userName);
+		logoutTask.execute();
+
+		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
+		sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+
+		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID).commit();
+		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE).commit();
+		AccessToken.setCurrentAccessToken(null);
+
+		sharedPreferences.edit().putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE).commit();
+		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN).commit();
+
+		WebViewActivity.clearCookies(context);
+
+		ToastUtil.showSuccess(context, R.string.logout_successful);
+	}
+
+	public static boolean isUserLoggedIn(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+		return tokenValid;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -202,11 +201,7 @@ public class Formula implements Serializable {
 	@SuppressWarnings("deprecation")
 	public void highlightTextField(View brickView) {
 		Drawable highlightBackground;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed_android4);
-		} else {
-			highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed);
-		}
+		highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed_android4);
 
 		TextView formulaTextField = (TextView) brickView.findViewById(formulaTextFieldId);
 

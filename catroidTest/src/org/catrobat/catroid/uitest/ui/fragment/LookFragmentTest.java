@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.robotium.solo.By;
 import com.robotium.solo.Solo;
+import com.robotium.solo.WebElement;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -43,13 +44,18 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.BackPackLookAdapter;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -60,6 +66,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -75,11 +82,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int ACTION_MODE_RENAME = 2;
 
 	private static final int TIME_TO_WAIT = 400;
+	private static final int TIME_TO_WAIT_BACKPACK = 1000;
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
 	private static final String THIRD_TEST_LOOK_NAME = "lookNameTest3";
-
+	private static final String SPRITE_NAME = "cat";
+	private static final String SECOND_SPRITE_NAME = "second_sprite";
+	private static String firstTestLookNamePacked;
+	private static String secondTestLookNamePacked;
+	private String firstTestLookNamePackedAndUnpacked;
+	private String secondTestLookNamePackedAndUnpacked;
 	private String copy;
 	private String rename;
 	private String renameDialogTitle;
@@ -95,12 +108,18 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private File imageFileJpg;
 	private File paintroidImageFile;
 
-	private ArrayList<LookData> lookDataList;
+	private List<LookData> lookDataList;
 
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;
 
 	private ProjectManager projectManager;
+
+	private String unpack;
+	private String unpackAndKeep;
+	private String backpack;
+	private String backpackAdd;
+	private String backpackTitle;
 
 	public LookFragmentTest() {
 		super(MainMenuActivity.class);
@@ -109,21 +128,30 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.createTestProject(UiTestUtils.PROJECTNAME1);
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
 
 		projectManager = ProjectManager.getInstance();
+
+		firstTestLookNamePacked = FIRST_TEST_LOOK_NAME;
+		firstTestLookNamePackedAndUnpacked = FIRST_TEST_LOOK_NAME + "1";
+		secondTestLookNamePacked = SECOND_TEST_LOOK_NAME;
+		secondTestLookNamePackedAndUnpacked = SECOND_TEST_LOOK_NAME + "1";
+
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
+		//Bitmap bm = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), RESOURCE_IMAGE);
+
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
-				RESOURCE_IMAGE2, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.jpg",
-				RESOURCE_IMAGE3, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				RESOURCE_IMAGE3, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, getActivity());
+				org.catrobat.catroid.test.R.drawable.catroid_banzai, getInstrumentation().getContext());
 
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
@@ -153,17 +181,28 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
+		unpack = solo.getString(R.string.unpack);
+		unpackAndKeep = solo.getString(R.string.unpack_keep);
+		backpack = solo.getString(R.string.backpack);
+		backpackAdd = solo.getString(R.string.backpack_add);
+		backpackTitle = solo.getString(R.string.backpack_title);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_look_title);
 
 		if (getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
 			solo.sleep(TIME_TO_WAIT);
 		}
+
+		BackPackListManager.getInstance().clearBackPackLooks();
+		StorageHandler.getInstance().clearBackPackLookDirectory();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		paintroidImageFile.delete();
+		if (paintroidImageFile != null && paintroidImageFile.exists()) {
+			paintroidImageFile.delete();
+		}
+
 		super.tearDown();
 	}
 
@@ -223,6 +262,451 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Entry to add look from gallery not visible", solo.searchText(addLookFromGalleryText));
 		assertTrue("Entry to add look from paintroid not visible", solo.searchText(addLookFromPaintroidText));
 		assertTrue("Entry to add look from library not visible", solo.searchText(addLookFromMediaLibraryText));
+	}
+
+	public void testBackpackLookContextMenu() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("BackPack title didn't show up",
+				solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackpackLookDoubleContextMenu() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("BackPack title didn't show up",
+				solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackLookSimpleUnpackingContextMenu() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+
+		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackLookSimpleUnpackingAndUnpackingAndKeepContextMenu() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		clickOnContextMenuItem(firstTestLookNamePacked, unpackAndKeep);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
+		deleteLook(firstTestLookNamePackedAndUnpacked);
+		solo.sleep(200);
+		UiTestUtils.openBackPack(solo, getActivity());
+
+		assertTrue("Look wasn't kept in backpack!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		assertFalse("Backpack isn't empty!", solo.searchText(unpack));
+	}
+
+	public void testBackPackLookSimpleUnpackingAndDelete() {
+		LookAdapter adapter = getLookAdapter();
+		int oldCount = adapter.getCount();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+		deleteLook(FIRST_TEST_LOOK_NAME);
+		solo.sleep(50);
+		UiTestUtils.openBackPack(solo, getActivity());
+
+		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 0, TIME_TO_WAIT));
+
+		int newCount = adapter.getCount();
+		assertEquals("Counts have to be equal", oldCount, newCount);
+	}
+
+	public void testBackPackLookMultipleUnpacking() {
+		LookAdapter adapter = getLookAdapter();
+		int oldCount = adapter.getCount();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack_add));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack_add));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(secondTestLookNamePacked, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Look wasn't unpacked!", solo.waitForText(secondTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
+		int newCount = adapter.getCount();
+		assertEquals("There are looks missing", oldCount + 2, newCount);
+	}
+
+	public void testBackPackAndUnPackFromDifferentProgrammes() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 3000));
+	}
+
+	public void testBackPackAndUnPackFromDifferentSprites() {
+		UiTestUtils.createTestProjectWithTwoSprites(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		lookDataList.add(lookData);
+		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+
+		LookAdapter adapter = getLookAdapter();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.clickOnText(SECOND_SPRITE_NAME);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.clickOnText(solo.getString(R.string.look));
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
+		solo.waitForDialogToClose(1000);
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackActionModeCheckingAndTitle() {
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		int timeToWaitForTitle = 300;
+
+		String look = solo.getString(R.string.look);
+		String looks = solo.getString(R.string.looks);
+
+		assertFalse("Look should not be displayed in title", solo.waitForText(look, 3, 300, false, true));
+
+		// Check if checkboxes are visible
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+
+		int expectedNumberOfSelectedLooks = 1;
+		String expectedTitle = backpack + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 2;
+		expectedTitle = backpack + " " + expectedNumberOfSelectedLooks + " " + looks;
+
+		// Check if multiple-selection is possible
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 1;
+		expectedTitle = backpack + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedTitle = backpack;
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+	}
+
+	public void testBackPackActionModeIfNothingSelected() {
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		int expectedNumberOfLooks = lookDataList.size();
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		solo.goBack();
+		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+	}
+
+	public void testBackPackActionModeIfSomethingSelectedAndPressingBack() {
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.goBack();
+
+		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
+		assertFalse("Backpack was opened, but shouldn't be!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackSelectAll() {
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		solo.waitForActivity("ScriptActivity");
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("Backpack didn't appear", solo.waitForText(backpackTitle));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackLookDeleteContextMenu() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+
+		BackPackLookAdapter adapter = getBackPackLookAdapter();
+		int oldCount = adapter.getCount();
+		List<LookData> backPackLookDataList = BackPackListManager.getInstance().getBackPackedLooks();
+		String pathOfFirstBackPackedLook = backPackLookDataList.get(0).getAbsolutePath();
+		String pathOfSecondBackPackedLook = backPackLookDataList.get(1).getAbsolutePath();
+		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfFirstBackPackedLook));
+		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfSecondBackPackedLook));
+
+		clickOnContextMenuItem(firstTestLookNamePacked, delete);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		int newCount = adapter.getCount();
+		solo.sleep(500);
+
+		assertEquals("Not all looks were backpacked", 2, oldCount);
+		assertEquals("Look wasn't deleted in backpack", 1, newCount);
+		assertEquals("Count of the backpack lookDataList is not correct", newCount, backPackLookDataList.size());
+		assertFalse("Backpack look file exists, but shouldn't", UiTestUtils.fileExists(pathOfFirstBackPackedLook));
+		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfSecondBackPackedLook));
+	}
+
+	public void testBackPackLookDeleteActionMode() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+
+		BackPackLookAdapter adapter = getBackPackLookAdapter();
+		int oldCount = adapter.getCount();
+		List<LookData> backPackLookDataList = BackPackListManager.getInstance().getBackPackedLooks();
+		String pathOfFirstBackPackedLook = backPackLookDataList.get(0).getAbsolutePath();
+		String pathOfSecondBackPackedLook = backPackLookDataList.get(1).getAbsolutePath();
+		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfFirstBackPackedLook));
+		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfSecondBackPackedLook));
+
+		UiTestUtils.deleteAllItems(solo, getActivity());
+
+		int newCount = adapter.getCount();
+		solo.sleep(500);
+		assertTrue("No backpack is emtpy text appeared", solo.searchText(backpack));
+		assertTrue("No backpack is emtpy text appeared", solo.searchText(solo.getString(R.string.is_empty)));
+
+		assertEquals("Not all looks were backpacked", 2, oldCount);
+		assertEquals("Look wasn't deleted in backpack", 0, newCount);
+		assertEquals("Count of the backpack lookDataList is not correct", newCount, backPackLookDataList.size());
+		assertFalse("Backpack look file exists, but shouldn't", UiTestUtils.fileExists(pathOfFirstBackPackedLook));
+		assertFalse("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfSecondBackPackedLook));
+	}
+
+	public void testBackPackLookActionModeDifferentProgrammes() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+
+		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForActivity(ScriptActivity.class);
+		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
+		UiTestUtils.deleteAllItems(solo, getActivity());
+		assertFalse("Look wasn't deleted!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
+		assertFalse("Look wasn't deleted!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
+
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		UiTestUtils.clickOnText(solo, selectAll);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.waitForActivity(ScriptActivity.class);
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
+
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		assertFalse("Backpack items were not cleared!", solo.waitForText(unpack, 1, 1000));
+	}
+
+	public void testBackPackDeleteActionModeCheckingAndTitle() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		int timeToWaitForTitle = 300;
+
+		String look = solo.getString(R.string.look);
+		String looks = solo.getString(R.string.looks);
+
+		assertFalse("Look should not be displayed in title", solo.waitForText(look, 3, 300, false, true));
+
+		// Check if checkboxes are visible
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+
+		int expectedNumberOfSelectedLooks = 1;
+		String expectedTitle = delete + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 2;
+		expectedTitle = delete + " " + expectedNumberOfSelectedLooks + " " + looks;
+
+		// Check if multiple-selection is possible
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 1;
+		expectedTitle = delete + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedTitle = delete;
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+	}
+
+	public void testBackPackDeleteActionModeIfNothingSelected() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		int expectedNumberOfLooks = BackPackListManager.getInstance().getBackPackedLooks().size();
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		solo.goBack();
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+	}
+
+	public void testBackPackDeleteActionModeIfSomethingSelectedAndPressingBack() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.goBack();
+
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackDeleteSelectAll() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		solo.waitForActivity("BackPackActivity");
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertFalse("Look wasn't deleted!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertFalse("Look wasn't deleted!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("No empty bg found!", solo.waitForText(solo.getString(R.string.is_empty), 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackShowAndHideDetails() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		int timeToWait = 300;
+
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
+		solo.clickOnMenuItem(solo.getString(R.string.show_details));
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
+
+		// Test if showDetails is remembered after pressing back
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.openBackPack(solo, getActivity());
+		solo.waitForActivity(BackPackActivity.class.getSimpleName());
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
+
+		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
 	public void testCopyLookContextMenu() {
@@ -396,8 +880,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(200);
+
+		ArrayList<WebElement> webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getClassName().contains("program mediafile-")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.waitForFragmentByTag(LookFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 		int numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
@@ -410,8 +903,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(200);
+
+		webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getClassName().contains("program mediafile-")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.sleep(TIME_TO_WAIT);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForFragmentByTag(LookFragment.TAG);
@@ -427,13 +929,23 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
-		solo.waitForWebElement(By.className("program"));
-		solo.clickOnWebElement(By.className("program"));
+		solo.waitForWebElement(By.className("programs"));
+		solo.sleep(200);
+
+		webElements = solo.getCurrentWebElements();
+		for (WebElement webElement : webElements) {
+			if (webElement.getClassName().contains("program mediafile-")) {
+				solo.clickOnWebElement(webElement);
+				break;
+			}
+		}
+
 		solo.waitForDialogToOpen();
 		solo.clickOnView(solo.getView(R.id.dialog_overwrite_media_radio_rename));
 		UiTestUtils.enterText(solo, 0, "testMedia");
 		solo.sleep(TIME_TO_WAIT);
 		solo.clickOnView(solo.getView(Button.class, 3));
+		solo.waitForDialogToClose();
 		solo.waitForFragmentByTag(LookFragment.TAG);
 		solo.sleep(TIME_TO_WAIT);
 		numberLooksAfter = ProjectManager.getInstance().getCurrentSprite().getLookDataList().size();
@@ -765,7 +1277,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testEditImageWhichIsAlreadyUsed() {
 		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				"catroid_sunglasses2.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				"catroid_sunglasses2.png", RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		LookData lookDataToAdd = new LookData();
 		lookDataToAdd.setLookFilename(tempImageFile.getName());
@@ -803,7 +1315,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		final String assertMessageText = "Look not renamed correctly";
 
 		String defaultLookName = solo.getString(R.string.default_look_name);
-		String newLookName = defaultLookName;
+		String newLookName;
 		String copyAdditionString = solo.getString(R.string.copy_addition);
 
 		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
@@ -841,7 +1353,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String fileName = defaultLookName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
-					RESOURCE_IMAGE2, getActivity());
+					RESOURCE_IMAGE2, getInstrumentation().getContext());
 		} catch (IOException e) {
 			Log.e(TAG, "Image was not created", e);
 			fail("Image was not created");
@@ -868,7 +1380,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		fileName = defaultLookName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
-					RESOURCE_IMAGE, getActivity());
+					RESOURCE_IMAGE, getInstrumentation().getContext());
 		} catch (IOException e) {
 			Log.e(TAG, "Image was not created", e);
 			fail("Image was not created");
@@ -1441,7 +1953,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		);
 	}
 
-	public void testBottombarElementsVisibilty() {
+	public void testBottombarElementsVisibility() {
 		assertTrue("Bottombar is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
 		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == View.VISIBLE);
 		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
@@ -1487,6 +1999,71 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnCheckBox(solo, 0);
 		UiTestUtils.clickOnCheckBox(solo, 1);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		solo.goBack();
+	}
+
+	public void testEmptyActionModeDialogs() {
+		lookDataList.clear();
+		UiTestUtils.createEmptyProject();
+
+		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		solo.waitForDialogToOpen();
+		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
+				.nothing_to_backpack_and_unpack)));
+		solo.clickOnButton(0);
+		solo.waitForDialogToClose();
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.waitForDialogToOpen();
+		assertTrue("Nothing to delete dialog not shown", solo.waitForText(solo.getString(R.string
+				.nothing_to_delete)));
+		solo.clickOnButton(0);
+		solo.waitForDialogToClose();
+
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		solo.waitForDialogToOpen();
+		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
+				.nothing_to_copy)));
+		solo.clickOnButton(0);
+		solo.waitForDialogToClose();
+
+		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		solo.waitForDialogToOpen();
+		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
+				.nothing_to_rename)));
+	}
+
+	public void testEmptyActionModeDialogsInBackPack() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		UiTestUtils.deleteAllItems(solo, getActivity());
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.waitForDialogToOpen();
+		assertTrue("Nothing to delete dialog not shown", solo.waitForText(solo.getString(R.string
+				.nothing_to_delete)));
+		solo.clickOnButton(0);
+		solo.waitForDialogToClose();
+
+		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
+		solo.waitForDialogToOpen();
+		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
+				.nothing_to_unpack)));
+
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		solo.waitForDialogToOpen();
+		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
+				.nothing_to_unpack)));
+	}
+
+	public void testOpenBackPackWhenScriptListEmptyButSomethingInBackPack() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+
+		solo.goBack();
+		UiTestUtils.deleteAllItems(solo, getActivity());
+
+		UiTestUtils.openActionMode(solo, backpack, R.id.backpack, getActivity());
+		solo.waitForActivity(BackPackActivity.class);
+		assertTrue("Backpack wasn't opened", solo.waitForText(backpackTitle));
 	}
 
 	private int[] getDisplayedMeasure() {
@@ -1534,6 +2111,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_to_top));
 	}
 
+	private BackPackLookFragment getBackPackLookFragment() {
+		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
+		return (BackPackLookFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
+	}
+
 	private LookFragment getLookFragment() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		return (LookFragment) activity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
@@ -1541,6 +2123,10 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	private LookAdapter getLookAdapter() {
 		return (LookAdapter) getLookFragment().getListAdapter();
+	}
+
+	private BackPackLookAdapter getBackPackLookAdapter() {
+		return (BackPackLookAdapter) getBackPackLookFragment().getListAdapter();
 	}
 
 	private void checkVisibilityOfViews(int imageVisibility, int lookNameVisibility, int lookDetailsVisibility,
@@ -1572,9 +2158,13 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	private void clickOnContextMenuItem(String lookName, String menuItemName) {
+		int match = 1;
+		if (menuItemName.equals(unpack)) {
+			match = 2;
+		}
 		solo.clickLongOnText(lookName);
 		solo.waitForText(menuItemName);
-		solo.clickOnText(menuItemName);
+		solo.clickOnText(menuItemName, match);
 	}
 
 	private String getLookName(int lookIndex) {
@@ -1642,5 +2232,13 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void checkIfNumberOfLooksIsEqual(int expectedNumber) {
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		assertEquals("Number of looks is not as expected", expectedNumber, lookDataList.size());
+	}
+
+	private void deleteLook(String lookName) {
+		clickOnContextMenuItem(lookName, delete);
+		solo.waitForDialogToOpen();
+		solo.waitForText(solo.getString(R.string.yes));
+		solo.clickOnText(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 	}
 }

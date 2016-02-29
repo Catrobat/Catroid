@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,14 @@
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-
 	<item
+        android:id="@+id/context_menu_unpacking_keep"
+        android:title="@string/unpack_keep" />
+
+    <item
         android:id="@+id/context_menu_unpacking"
         android:title="@string/unpack" />
+
     <item
         android:id="@+id/context_menu_delete"
         android:title="@string/delete" />

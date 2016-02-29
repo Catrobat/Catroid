@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,11 +22,13 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.net.Uri;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -55,8 +57,6 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	private final String spriteName1 = "cat1";
 	private final String spriteName2 = "cat2";
-	private final String newSpriteName1 = "cat3";
-	private final String newSpriteName2 = "cat4";
 
 	public PointToBrickTest() {
 		super(MainMenuActivity.class);
@@ -68,7 +68,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		createProject();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 	}
 
 	@Override
@@ -80,6 +80,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testPointToBrickTest() throws InterruptedException {
+		solo.sleep(500);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -103,6 +104,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.waitForFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG, 5000));
 		solo.goBack();
 
+		String newSpriteName1 = "cat3";
 		createNewObjectWithinBrick(newSpriteName1, R.string.no);
 		assertEquals("In wrong sprite", spriteName1, ProjectManager.getInstance().getCurrentSprite().getName());
 
@@ -117,6 +119,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Wrong selection", newSpriteName1, ((Spinner) solo.getView(R.id.brick_point_to_spinner))
 				.getSelectedItem().toString());
 
+		String newSpriteName2 = "cat4";
 		createNewObjectWithinBrick(newSpriteName2, R.string.yes);
 		assertEquals("In wrong sprite", newSpriteName2, ProjectManager.getInstance().getCurrentSprite().getName());
 
@@ -190,8 +193,8 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		SpinnerAdapterWrapper spinner = (SpinnerAdapterWrapper) Reflection.getPrivateField(pointToBrick,
 				"spinnerAdapterWrapper");
 
-		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, objectName, lookFile,
-				ActionAfterFinished.ACTION_UPDATE_SPINNER, spinner);
+		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, objectName, Uri.fromFile(lookFile),
+				ActionAfterFinished.ACTION_UPDATE_SPINNER, spinner, LookData.LookDataType.IMAGE);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		UiTestUtils.hidePocketPaintDialog(solo);

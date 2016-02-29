@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -34,12 +35,13 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -56,6 +58,7 @@ public class ShowTextBrick extends UserVariableBrick {
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
 	public String userVariableName;
+	public static final String TAG = ShowTextBrick.class.getSimpleName();
 
 	public ShowTextBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
@@ -87,7 +90,7 @@ public class ShowTextBrick extends UserVariableBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.SHOWTEXT);
+		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 	}
 
 	@Override
@@ -166,8 +169,7 @@ public class ShowTextBrick extends UserVariableBrick {
 						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(ShowTextBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
+					dialog.show(((Activity) view.getContext()).getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
 
@@ -180,35 +182,34 @@ public class ShowTextBrick extends UserVariableBrick {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(ShowTextBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
 				adapterView = parent;
+				setUserVariableName(userVariable);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
-
-				userVariableName = "No variable set";
-				try {
-					userVariableName = userVariable.getName();
-				} catch (NullPointerException e) {
-					Log.d("ShowTextBrick.java", "NullPointerException");
-				}
+				setUserVariableName(userVariable);
 			}
 		});
 
-		userVariableName = "No variable set";
+		setUserVariableName(userVariable);
+
+		return view;
+	}
+
+	void setUserVariableName(UserVariable userVariable) {
+		userVariableName = Constants.NO_VARIABLE_SELECTED;
 		try {
 			userVariableName = userVariable.getName();
 		} catch (NullPointerException e) {
-			Log.d("ShowTextBrick.java", "NullPointerException");
+			Log.d(TAG, "Nothing selected yet.");
 		}
-
-		return view;
 	}
 
 	@Override
@@ -266,11 +267,15 @@ public class ShowTextBrick extends UserVariableBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		if (userVariableName == null) {
-			userVariableName = "No variable set";
+			userVariableName = Constants.NO_VARIABLE_SELECTED;
 		}
-
 		sequence.addAction(ExtendedActions.showText(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION), userVariableName));
 		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserVariableReference(into, from);
 	}
 }

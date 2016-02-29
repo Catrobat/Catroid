@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,8 +33,8 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -45,7 +45,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -54,13 +53,12 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TAG = ProjectUpAndDownloadTest.class.getSimpleName();
 
-	private static final String TEST_FILE_DOWNLOAD_URL = ServerCalls.BASE_URL_TEST_HTTP + "catroid/download/";
+	private static final String TEST_FILE_DOWNLOAD_URL = ServerCalls.BASE_URL_TEST_HTTPS + "catroid/download/";
 	private static final int LONG_TEST_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 	private final String testProject = UiTestUtils.PROJECTNAME1;
 	private final String newTestProject = UiTestUtils.PROJECTNAME2;
@@ -128,7 +126,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		setServerURLToTestUrl();
 
 		UiTestUtils.createTestProject(testProject);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.sleep(1000);
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -165,7 +163,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		setServerURLToTestUrl();
 
 		UiTestUtils.createTestProject(testProject);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.sleep(1000);
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -312,7 +310,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		int numberMediaFiles = 5;
 		String soundName = "testSound";
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberMediaFiles; number++) {
 			File soundFile = UiTestUtils.saveFileToProject(projectName,
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
@@ -376,7 +374,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				solo.searchText(solo.getString(R.string.error_upload_default_project)));
 	}
 
-	@Device
 	public void testUploadModifiedStandardProject() throws Throwable {
 		deleteOldAndCreateAndSaveCleanStandardProject();
 
@@ -386,14 +383,14 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.waitForText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		solo.waitForText(solo.getString(R.string.default_project_sprites_mole_name) + " 1");
-		solo.clickOnText(solo.getString(R.string.default_project_sprites_mole_name) + " 1");
+		solo.waitForText(solo.getString(R.string.default_project_sprites_bird_name));
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_bird_name));
 
 		solo.waitForText(solo.getString(R.string.looks));
 		solo.clickOnButton(solo.getString(R.string.looks));
 
 		String deleteLookText = solo.getString(R.string.delete);
-		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_mole_whacked));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_bird_name));
 		solo.waitForText(deleteLookText);
 		solo.clickOnText(deleteLookText);
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -422,7 +419,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		int numberOfMediaFilesToExtentDownloadTime = 5;
 		String soundName = "testSound";
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberOfMediaFilesToExtentDownloadTime; number++) {
 			File soundFile = UiTestUtils.saveFileToProject(projectName,
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
@@ -474,7 +471,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				ProjectManager.getInstance().loadProject(standardProjectName, getActivity());
 				ProjectManager.getInstance().deleteCurrentProject(null);
 			}
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 			ProjectManager.getInstance().setProject(standardProject);
 		} catch (ProjectException projectException) {

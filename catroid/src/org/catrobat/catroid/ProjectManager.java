@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,22 @@
  */
 package org.catrobat.catroid;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.facebook.AccessToken;
+
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -51,19 +55,20 @@ import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.transfers.CheckFacebookServerTokenValidityTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
+public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
@@ -75,6 +80,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleCorrectAddButton;
+	private boolean showUploadDialog = false;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -84,49 +90,48 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.handleCorrectAddButton = false;
 	}
 
-	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
-		this.comingFromScriptFragmentToSoundFragment = value;
+	public static ProjectManager getInstance() {
+		return INSTANCE;
 	}
 
 	public boolean getComingFromScriptFragmentToSoundFragment() {
 		return this.comingFromScriptFragmentToSoundFragment;
 	}
 
-	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
-		this.comingFromScriptFragmentToLooksFragment = value;
+	public void setComingFromScriptFragmentToSoundFragment(boolean value) {
+		this.comingFromScriptFragmentToSoundFragment = value;
 	}
 
 	public boolean getComingFromScriptFragmentToLooksFragment() {
 		return this.comingFromScriptFragmentToLooksFragment;
 	}
 
-	public void setHandleCorrectAddButton(boolean value) {
-		this.handleCorrectAddButton = value;
+	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
+		this.comingFromScriptFragmentToLooksFragment = value;
 	}
 
 	public boolean getHandleCorrectAddButton() {
 		return this.handleCorrectAddButton;
 	}
 
-	public static ProjectManager getInstance() {
-		return INSTANCE;
+	public void setHandleCorrectAddButton(boolean value) {
+		this.handleCorrectAddButton = value;
 	}
 
-	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
+	public void uploadProject(String projectName, Activity activity) {
 		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(fragmentActivity, projectName, false, false);
+			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, false, false);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
 		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog(fragmentActivity);
+		if (!Utils.isUserLoggedIn(activity)) {
+			showSignInDialog(activity, true);
 		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(fragmentActivity, token, username);
+			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
 		}
@@ -147,7 +152,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project = Utils.findValidProject();
 				if (project == null) {
 					try {
-						project = StandardProjectHandler.createAndSaveStandardProject(context);
+						project = DefaultProjectHandler.createAndSaveDefaultProject(context);
 						MessageContainer.clearBackup();
 					} catch (IOException ioException) {
 						Log.e(TAG, "Cannot load project.", ioException);
@@ -191,6 +196,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.96f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.96f) {
+				project.setCatrobatLanguageVersion(0.97f);
+			}
+			if (project.getCatrobatLanguageVersion() == 0.97f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here
@@ -215,8 +223,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
 			}
 
-			if ((resources & Brick.FACE_DETECTION) > 0) {
-				SettingsActivity.setFaceDetectionSharedPreferenceEnabled(context, true);
+			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
 			}
 		}
 	}
@@ -259,7 +267,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			project = StandardProjectHandler.createAndSaveStandardProject(context);
+			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
 
 			currentSprite = null;
 			currentScript = null;
@@ -274,7 +282,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public boolean initializeDroneProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			project = StandardProjectHandler.createAndSaveStandardDroneProject(context);
+			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(context);
 
 			currentSprite = null;
 			currentScript = null;
@@ -286,30 +294,32 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape);
+			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
+		} else if (drone) {
+			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(projectName, context, landscapeMode);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
+			project = DefaultProjectHandler.createAndSaveDefaultProject(projectName, context, landscapeMode);
 		}
 
 		currentSprite = null;
 		currentScript = null;
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone)
 			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, false);
+		initializeNewProject(projectName, context, empty, drone, false);
 	}
 
 	public Project getCurrentProject() {
 		return project;
 	}
 
-	public boolean isCurrentProjectLandscape() {
+	public boolean isCurrentProjectLandscapeMode() {
 		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
 
@@ -467,19 +477,65 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	@Override
-	public void onTokenNotValid(FragmentActivity fragmentActivity) {
-		showLoginRegisterDialog(fragmentActivity);
+	public void onTokenNotValid(Activity activity) {
+		showSignInDialog(activity, true);
 	}
 
 	@Override
-	public void onCheckTokenSuccess(FragmentActivity fragmentActivity) {
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(fragmentActivity.getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+	public void onCheckTokenSuccess(Activity activity) {
+		if (AccessToken.getCurrentAccessToken() != null) {
+			CheckFacebookServerTokenValidityTask checkFacebookServerTokenValidityTask = new
+					CheckFacebookServerTokenValidityTask(activity, AccessToken.getCurrentAccessToken().getUserId());
+			checkFacebookServerTokenValidityTask.setOnCheckFacebookServerTokenValidityCompleteListener(this);
+			checkFacebookServerTokenValidityTask.execute();
+		} else {
+			ProjectManager.getInstance().showUploadProjectDialog(activity.getFragmentManager(), null);
+		}
 	}
 
-	private void showLoginRegisterDialog(FragmentActivity fragmentActivity) {
-		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(fragmentActivity.getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	@Override
+	public void onCheckFacebookServerTokenValidityComplete(Boolean requestNewToken, Activity activity) {
+		if (requestNewToken) {
+			triggerFacebookTokenRefreshOnServer(activity);
+		} else {
+			ProjectManager.getInstance().showUploadProjectDialog(activity.getFragmentManager(), null);
+		}
+	}
+
+	private void triggerFacebookTokenRefreshOnServer(Activity activity) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, true);
+		FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(activity,
+				AccessToken.getCurrentAccessToken().getToken(),
+				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
+				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
+				sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
+				sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
+		);
+		facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
+		facebookExchangeTokenTask.execute();
+	}
+
+	public void showSignInDialog(Activity activity, Boolean showUploadDialogWhenDone) {
+		showUploadDialog = showUploadDialogWhenDone;
+		SignInDialog signInDialog = new SignInDialog();
+		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void showUploadProjectDialog(FragmentManager fragmentManager, Bundle bundle) {
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		if (bundle != null) {
+			uploadProjectDialog.setArguments(bundle);
+		}
+		uploadProjectDialog.show(fragmentManager, UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void signInFinished(FragmentManager fragmentManager, Bundle bundle) {
+		if (showUploadDialog) {
+			showUploadProjectDialog(fragmentManager, bundle);
+		} else {
+			showUploadDialog = true;
+		}
 	}
 
 	@Override
@@ -584,6 +640,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifSensorBeginList.remove(phiroSensorBrick);
 			}
 		}
+	}
+
+	@Override
+	public void onFacebookExchangeTokenComplete(Activity fragmentActivity) {
+		Log.d(TAG, "Facebook token refreshed on server");
+		ProjectManager.getInstance().showUploadProjectDialog(fragmentActivity.getFragmentManager(), null);
 	}
 
 	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {

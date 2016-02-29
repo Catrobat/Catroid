@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/DefaultDialog"
-            android:paddingBottom="0dp" >
+            android:paddingBottom="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,8 +99,6 @@
             style="@style/DefaultDialog.EditText"
             android:hint="@string/new_project_description_dialog_hint"
             android:inputType="textMultiLine"
-            android:lines="2"
-            android:maxLines="2"
             android:minLines="1"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="vertical"

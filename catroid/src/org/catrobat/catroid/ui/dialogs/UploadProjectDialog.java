@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -34,7 +35,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -57,6 +57,8 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 
 public class UploadProjectDialog extends DialogFragment {
+
+	private String openAuthProvider = Constants.NO_OAUTH_PROVIDER;
 
 	private class UploadReceiver extends ResultReceiver {
 
@@ -105,6 +107,11 @@ public class UploadProjectDialog extends DialogFragment {
 		projectDescriptionField = (EditText) dialogView.findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) dialogView.findViewById(R.id.project_upload_name);
 		sizeOfProject = (TextView) dialogView.findViewById(R.id.dialog_upload_size_of_project);
+
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			openAuthProvider = bundle.getString(Constants.CURRENT_OAUTH_PROVIDER);
+		}
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.upload_project_dialog_title)
@@ -256,6 +263,7 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("projectPath", projectPath);
 		uploadIntent.putExtra("username", username);
 		uploadIntent.putExtra("token", token);
+		uploadIntent.putExtra("provider", openAuthProvider);
 
 		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
 				uploadName);
@@ -268,5 +276,4 @@ public class UploadProjectDialog extends DialogFragment {
 		Utils.invalidateLoginTokenIfUserRestricted(getActivity());
 		dismiss();
 	}
-
 }

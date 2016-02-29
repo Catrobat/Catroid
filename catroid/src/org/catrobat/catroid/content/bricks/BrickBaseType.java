@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,17 +25,19 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
-public class BrickBaseType implements Brick {
+public abstract class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
 	protected transient View view;
@@ -44,6 +46,14 @@ public class BrickBaseType implements Brick {
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
+
+	@Override
+	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+		if (this.getClass().equals(brick.getClass())) {
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public boolean isChecked() {
@@ -107,33 +117,8 @@ public class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		return null;
-	}
-
-	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		return (Brick) super.clone();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		return null;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return null;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		return null;
 	}
 
 	@Override
@@ -151,4 +136,39 @@ public class BrickBaseType implements Brick {
 	public void setAlpha(int newAlpha) {
 		alphaValue = newAlpha;
 	}
+
+	@Override
+	public void enableAllViews(View recursiveView, boolean enable) {
+		View viewToDisable = recursiveView == null ? view : recursiveView;
+
+		if (viewToDisable != null) {
+			if (!(viewToDisable instanceof CheckBox)) {
+				viewToDisable.setEnabled(enable);
+			}
+			if (viewToDisable instanceof ViewGroup) {
+				ViewGroup viewGroup = (ViewGroup) viewToDisable;
+				for (int i = 0; i < viewGroup.getChildCount(); i++) {
+					View child = viewGroup.getChildAt(i);
+					enableAllViews(child, enable);
+				}
+			}
+		}
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
+	@Override
+	public abstract View getViewWithAlpha(int alphaValue);
+
+	@Override
+	public abstract View getView(Context context, int brickId, BaseAdapter adapter);
+
+	@Override
+	public abstract View getPrototypeView(Context context);
+
+	@Override
+	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 }

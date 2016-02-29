@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
@@ -65,7 +65,7 @@ public final class DownloadUtil {
 		return INSTANCE;
 	}
 
-	public void prepareDownloadAndStartIfPossible(FragmentActivity activity, String url) {
+	public void prepareDownloadAndStartIfPossible(Activity activity, String url) {
 		String programName = getProjectNameFromUrl(url);
 		if (programName == null) {
 			return;
@@ -80,13 +80,13 @@ public final class DownloadUtil {
 			renameDialog.setProgramName(programName);
 			renameDialog.setURL(url);
 
-			renameDialog.show(activity.getSupportFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
+			renameDialog.show(activity.getFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
 		} else {
 			startDownload(activity, url, programName);
 		}
 	}
 
-	public void prepareMediaDownloadAndStartIfPossible(FragmentActivity activity, String url, String mediaType,
+	public void prepareMediaDownloadAndStartIfPossible(Activity activity, String url, String mediaType,
 			String mediaName, String filePath, String callingActivity) {
 		if (mediaName == null) {
 			return;
@@ -121,7 +121,7 @@ public final class DownloadUtil {
 			renameMediaDialog.setCallingActivity(callingActivity);
 			renameMediaDialog.setWebViewActivity(webViewActivity);
 
-			renameMediaDialog.show(activity.getSupportFragmentManager(), OverwriteRenameMediaDialog.DIALOG_FRAGMENT_TAG);
+			renameMediaDialog.show(activity.getFragmentManager(), OverwriteRenameMediaDialog.DIALOG_FRAGMENT_TAG);
 		} else {
 			startMediaDownload(activity, url, mediaName, filePath);
 		}
