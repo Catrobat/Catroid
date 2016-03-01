@@ -467,7 +467,6 @@ public final class StorageHandler {
 			writer.write(projectXml);
 			writer.flush();
 
-
 			File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
 			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
 
@@ -508,7 +507,6 @@ public final class StorageHandler {
 		BufferedWriter writer = null;
 		String permissionFileContent = "";
 		File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
-
 
 		if ((ressources & Brick.TEXT_TO_SPEECH) > 0) {
 			permissionFileContent += "TEXT_TO_SPEECH\n";
