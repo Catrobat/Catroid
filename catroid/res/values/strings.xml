@@ -760,6 +760,7 @@
     <string name="nxt_sensor_light">NXT light sensor</string>
     <string name="nxt_sensor_light_active">NXT light sensor active</string>
     <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
+    <string name="nxt_sensor_not_found">Sensor not found!</string>
 
     <string name="lego_nxt_sensor_config_info_title">NXT Sensor Configuration</string>
     <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
@@ -772,6 +773,8 @@
     <string name="nxt_port_3">Port 3</string>
     <string name="nxt_port_4">Port 4</string>
     <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
+    <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
+    <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
     <!--  -->
 
 
@@ -952,6 +955,11 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+    <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+    <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+    <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+    <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
