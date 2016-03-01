@@ -1026,7 +1026,7 @@
     <string name="edit_variable">Edit variable</string>
     <string name="variable_hint">Variable name</string>
     <string name="brick_show_text_var">Show variable</string>
-    <string name="brick_show_text_pos">"at  "</string>
+    <string name="brick_show_text_pos">"at "</string>
     <string name="brick_hide_text_var">Hide variable</string>
     <!-- -->
 
