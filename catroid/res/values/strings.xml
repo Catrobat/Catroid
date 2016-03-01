@@ -207,15 +207,15 @@
     <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
 
     <plurals name="number_of_bricks_to_delete">
-        <item quantity="one">Delete 1 Brick</item>
+        <item quantity="one">Delete %d Brick</item>
         <item quantity="other">Delete %d Bricks</item>
     </plurals>
     <plurals name="number_of_bricks_to_copy">
-        <item quantity="one">Copy 1 Brick</item>
+        <item quantity="one">Copy %d Brick</item>
         <item quantity="other">Copy %d Bricks</item>
     </plurals>
     <plurals name="number_of_bricks_to_backpack">
-        <item quantity="one">Backpack 1 Brick</item>
+        <item quantity="one">Backpack %d Brick</item>
         <item quantity="other">Backpack %d Bricks</item>
     </plurals>
     <!--  -->
