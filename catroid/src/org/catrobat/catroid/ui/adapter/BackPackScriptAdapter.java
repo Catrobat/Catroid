@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -201,7 +202,7 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 			for (Script script : scripts) {
 				numberOfBricks += script.getBrickList().size() + 1;
 			}
-			holder.scriptGroupNumberOfBricksValue.setText(numberOfBricks.toString());
+			holder.scriptGroupNumberOfBricksValue.setText(String.format(Locale.getDefault(), numberOfBricks.toString()));
 			holder.scriptGroupDetailsLinearLayout.setVisibility(TextView.VISIBLE);
 		} else {
 			holder.scriptGroupDetailsLinearLayout.setVisibility(TextView.GONE);
