@@ -44,9 +44,11 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
 
-		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_disable_show_dialog);
+		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id
+				.lego_nxt_sensor_config_info_disable_show_dialog);
 
 		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(this.getActivity());
 		String[] sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);
