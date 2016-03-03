@@ -32,7 +32,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -68,7 +67,6 @@ public final class BackPackScriptController {
 			backpackedSprite) {
 		Iterator<Brick> iterator = checkedBricks.iterator();
 		List<Script> scriptsToAdd = new ArrayList<>();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		while (iterator.hasNext()) {
 			Brick currentBrick = iterator.next();
 			if (currentBrick instanceof ScriptBrick) {
@@ -76,39 +74,7 @@ public final class BackPackScriptController {
 				Script scriptToAdd = ((ScriptBrick) currentBrick).getScriptSafe().copyScriptForSprite(
 						ProjectManager.getInstance().getCurrentSprite(), null);
 				for (Brick brickOfScript : scriptToAdd.getBrickList()) {
-					if (brickOfScript instanceof SetLookBrick) {
-						SetLookBrick brick = (SetLookBrick) brickOfScript;
-						LookData backPackedLookData = LookController.getInstance().backPackLook(brick.getLook(), true);
-						brick.setLook(backPackedLookData);
-						if (backpackedSprite != null && !backpackedSprite.getLookDataList().contains(backPackedLookData)) {
-							backpackedSprite.getLookDataList().add(backPackedLookData);
-						}
-					} else if (brickOfScript instanceof PlaySoundBrick) {
-						PlaySoundBrick brick = (PlaySoundBrick) brickOfScript;
-						SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackSound(brick.getSound(), true);
-						brick.setSoundInfo(backPackedSoundInfo);
-						if (backpackedSprite != null && !backpackedSprite.getSoundList().contains(backPackedSoundInfo)) {
-							backpackedSprite.getSoundList().add(backPackedSoundInfo);
-						}
-					} else if (brickOfScript instanceof UserVariableBrick) {
-						UserVariableBrick brick = (UserVariableBrick) brickOfScript;
-						Integer type = currentProject.getDataContainer()
-								.getTypeOfUserVariable(brick.getUserVariable().getName(), ProjectManager
-										.getInstance().getCurrentSprite());
-						brick.setBackPackedData(currentProject, brick.getUserVariable(), type);
-					} else if (brickOfScript instanceof UserListBrick) {
-						UserListBrick brick = (UserListBrick) brickOfScript;
-						Integer type = currentProject.getDataContainer()
-								.getTypeOfUserList(brick.getUserList().getName(), ProjectManager
-										.getInstance().getCurrentSprite());
-						brick.setBackPackedData(currentProject, brick.getUserList(), type);
-					} else if (brickOfScript instanceof PointToBrick) {
-						Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-						PointToBrick brick = (PointToBrick) brickOfScript;
-						Sprite backPackedSprite = BackPackSpriteController.getInstance().backpack(brick.getPointedObject(), true);
-						brick.setPointedObject(backPackedSprite);
-						ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
-					}
+					brickOfScript.storeDataForBackPack(backpackedSprite);
 				}
 				scriptsToAdd.add(scriptToAdd);
 			}

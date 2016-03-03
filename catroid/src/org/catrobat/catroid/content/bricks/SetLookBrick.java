@@ -48,6 +48,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
 
@@ -351,5 +352,14 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	public void onLookDataListChangedAfterNew(LookData lookData) {
 		look = lookData;
 		oldSelectedLook = lookData;
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		LookData backPackedLookData = LookController.getInstance().backPackLook(this.getLook(), true);
+		this.setLook(backPackedLookData);
+		if (sprite != null && !sprite.getLookDataList().contains(backPackedLookData)) {
+			sprite.getLookDataList().add(backPackedLookData);
+		}
 	}
 }

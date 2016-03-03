@@ -263,7 +263,10 @@ public class SetVariableBrick extends UserVariableBrick {
 	public SetVariableBrick copyBrickForSprite(Sprite sprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		SetVariableBrick copyBrick = clone();
-		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
+		if (this.userVariable != null) {
+			copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
+		}
+
 		return copyBrick;
 	}
 

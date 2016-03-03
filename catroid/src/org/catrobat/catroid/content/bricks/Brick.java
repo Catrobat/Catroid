@@ -117,4 +117,6 @@ public interface Brick extends Serializable, Cloneable {
 	void enableAllViews(View view, boolean enable);
 
 	boolean isEqualBrick(Brick brick, Project mergeResult, Project current);
+
+	void storeDataForBackPack(Sprite sprite);
 }
