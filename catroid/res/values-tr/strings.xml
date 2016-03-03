@@ -443,7 +443,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_set_variable">Değişkeni düzenle</string>
   <string name="brick_change_variable">Değişkeni değiştir</string>
   <string name="brick_variable_spinner_create_new_variable">Yeni&#8230;</string>
-  <string name="brick_note_default_value">"Buraya yorum ekle..."</string>
+  <string name="brick_note_default_value">"buraya yorum ekle&#8230;"</string>
   <string name="brick_broadcast_default_value">"mesaj 1"</string>
   <string name="brick_add_item_to_userlist_add">Add</string>
   <string name="brick_add_item_to_userlist">to list</string>
