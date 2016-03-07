@@ -77,6 +77,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				//opening the device's WIFI for the user to connect to the drone's WIFI.
 				startActivity(new Intent("android.settings.WIFI_SETTINGS"));
 				wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				wifiManager.setWifiEnabled(true);
 				//dhcpInfo has the information of the device to drone network
 				dhcpInfo = wifiManager.getDhcpInfo();
 
