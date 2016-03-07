@@ -44,8 +44,9 @@
     <!--&lt;!&ndash; drone &ndash;&gt;-->
     <uses-feature android:name="android.hardware.wifi" android:required="false"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" android:required="true"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" android:required="true" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <!-- drone permissions end -->
 

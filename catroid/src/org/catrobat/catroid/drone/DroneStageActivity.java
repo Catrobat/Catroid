@@ -24,8 +24,12 @@
 package org.catrobat.catroid.drone;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -47,6 +51,8 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	private DroneBatteryChangedReceiver droneBatteryReceiver;
 	private DroneEmergencyChangeReceiver droneEmergencyReceiver;
 	private boolean droneBatteryMessageShown = false;
+	private WifiManager wifiManager;
+	private DhcpInfo dhcpInfo;
 
 	private enum EmergencyMethod {
 		NOTHING,
@@ -67,6 +73,14 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
 			} catch (RuntimeException runtimeException) {
 				Log.e(TAG, "Failure during drone service startup", runtimeException);
+
+				//opening the device's WIFI for the user to connect to the drone's WIFI.
+				startActivity(new Intent("android.settings.WIFI_SETTINGS"));
+				wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				//dhcpInfo has the information of the device to drone network
+				dhcpInfo = wifiManager.getDhcpInfo();
+
+
 				ToastUtil.showError(this, R.string.error_no_drone_connected);
 				this.finish();
 			}
