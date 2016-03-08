@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,21 +44,21 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		super(ScriptActivity.class);
 	}
 
-/*	@Override
+	@Override
 	protected void setUp() throws Exception {
-		createProject();
+	/*	createProject();
 		SensorTestServerConnection.connectToArduinoServer();
 		setActivityInitialTouchMode(false);
 		SensorTestServerConnection.closeConnection();
-		super.setUp();
+		super.setUp();*/
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		SensorTestServerConnection.closeConnection();
+	/*	SensorTestServerConnection.closeConnection();
 		setActivityInitialTouchMode(true);
-		super.tearDown();
-	}*/
+		super.tearDown();*/
+	}
 
 	@Device
 	public void testVibrationBrick() {

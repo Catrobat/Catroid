@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,8 @@ public class PhiroImpl implements Phiro {
 	private static final UUID PHIRO_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private static final String TAG = PhiroImpl.class.getSimpleName();
 
+	private static final int MIN_VALUE = 0;
+	private static final int MAX_VALUE = 255;
 	private static final int PIN_SPEAKER_OUT = 3;
 
 	private static final int PIN_RGB_RED_RIGHT = 4;
@@ -59,13 +61,13 @@ public class PhiroImpl implements Phiro {
 	private static final int PIN_RGB_GREEN_LEFT = 8;
 	private static final int PIN_RGB_BLUE_LEFT = 9;
 
-	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
-	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
+	private static final int PIN_LEFT_MOTOR_SPEED = 10;
+	private static final int PIN_LEFT_MOTOR_FORWARD_BACKWARD = 11;
 
-	private static final int PIN_RIGHT_MOTOR_FORWARD = 12;
-	private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;
+	private static final int PIN_RIGHT_MOTOR_SPEED = 12;
+	private static final int PIN_RIGHT_MOTOR_FORWARD_BACKWARD = 2;
 
-	private static final int MIN_PWM_PIN = 3;
+	private static final int MIN_PWM_PIN = 2;
 	private static final int MAX_PWM_PIN = 13;
 
 	public static final int PIN_SENSOR_SIDE_RIGHT = 0;
@@ -102,40 +104,44 @@ public class PhiroImpl implements Phiro {
 	private class StopPlayToneTask extends TimerTask {
 		@Override
 		public void run() {
-			sendAnalogFirmataMessage(PIN_SPEAKER_OUT, 0);
+			sendAnalogFirmataMessage(PIN_SPEAKER_OUT, MIN_VALUE);
 		}
 	}
 
 	@Override
 	public void moveLeftMotorForward(int speedInPercent) {
-		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_FORWARD, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_SPEED, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_FORWARD_BACKWARD, MIN_VALUE);
 	}
 
 	@Override
 	public void moveLeftMotorBackward(int speedInPercent) {
-		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_BACKWARD, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_SPEED, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_FORWARD_BACKWARD, MAX_VALUE);
 	}
 
 	@Override
 	public void moveRightMotorForward(int speedInPercent) {
-		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_FORWARD, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_SPEED, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_FORWARD_BACKWARD, MAX_VALUE);
+		sendAnalogFirmataMessage(MAX_PWM_PIN, MAX_VALUE);
 	}
 
 	@Override
 	public void moveRightMotorBackward(int speedInPercent) {
-		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_BACKWARD, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_SPEED, percentToSpeed(speedInPercent));
+		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_FORWARD_BACKWARD, MIN_VALUE);
+		sendAnalogFirmataMessage(MAX_PWM_PIN, MIN_VALUE);
 	}
 
 	@Override
 	public void stopLeftMotor() {
-		moveLeftMotorForward(0);
-		moveLeftMotorBackward(0);
+		moveLeftMotorForward(MIN_VALUE);
 	}
 
 	@Override
 	public void stopRightMotor() {
-		moveRightMotorForward(0);
-		moveRightMotorBackward(0);
+		moveRightMotorForward(MIN_VALUE);
 	}
 
 	@Override
@@ -168,22 +174,22 @@ public class PhiroImpl implements Phiro {
 
 	private int percentToSpeed(int percent) {
 		if (percent <= 0) {
-			return 0;
+			return MIN_VALUE;
 		}
 		if (percent >= 100) {
-			return 255;
+			return MAX_VALUE;
 		}
 
 		return (int) (percent * 2.55);
 	}
 
 	private int checkRBGValue(int rgbValue) {
-		if (rgbValue > 255) {
-			return 255;
+		if (rgbValue > MAX_VALUE) {
+			return MAX_VALUE;
 		}
 
-		if (rgbValue < 0) {
-			return 0;
+		if (rgbValue < MIN_VALUE) {
+			return MIN_VALUE;
 		}
 
 		return rgbValue;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,12 +47,11 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private ArrayList<NfcTagData> tagDataList;
+	private List<NfcTagData> tagDataList;
 
 	private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
 	private static final String FIRST_TEST_TAG_ID = "111111";
@@ -66,7 +65,7 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	private String soundName = "testSound";
 	private File soundFile;
-	private ArrayList<SoundInfo> soundInfoList;
+	private List<SoundInfo> soundInfoList;
 
 	public WhenNfcBrickTest() {
 		super(MainMenuActivity.class);

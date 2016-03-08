@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,8 @@
  */
 package org.catrobat.catroid.bluetoothtestserver;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 public class GUI extends javax.swing.JFrame {
 

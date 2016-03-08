@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,11 +29,13 @@ import android.util.Log;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -45,16 +47,45 @@ public class LookData implements Serializable, Cloneable {
 	private static final String TAG = LookData.class.getSimpleName();
 
 	@XStreamAsAttribute
-	private String name;
-	private String fileName;
-	private transient Bitmap thumbnailBitmap;
-	private transient Integer width;
-	private transient Integer height;
-	private static final transient int THUMBNAIL_WIDTH = 150;
-	private static final transient int THUMBNAIL_HEIGHT = 150;
-	private transient Pixmap pixmap = null;
-	private transient Pixmap originalPixmap = null;
-	private transient TextureRegion region = null;
+	protected String name;
+	protected String fileName;
+	protected transient Bitmap thumbnailBitmap;
+	protected transient Integer width;
+	protected transient Integer height;
+	protected static final transient int THUMBNAIL_WIDTH = 150;
+	protected static final transient int THUMBNAIL_HEIGHT = 150;
+	protected transient Pixmap pixmap = null;
+	protected transient Pixmap originalPixmap = null;
+	protected transient TextureRegion textureRegion = null;
+
+	public LookData() {
+	}
+
+	public void draw(Batch batch, float alpha) {
+	}
+
+	public transient boolean isBackpackLookData = false;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof LookData)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		LookData lookData = (LookData) obj;
+		if (lookData.fileName.equals(this.fileName) && lookData.name.equals(this.name)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode() + fileName.hashCode() + super.hashCode();
+	}
 
 	@Override
 	public LookData clone() {
@@ -63,6 +94,7 @@ public class LookData implements Serializable, Cloneable {
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
+		cloneLookData.isBackpackLookData = false;
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
 		} catch (FileNotFoundException fileNotFoundexception) {
@@ -75,18 +107,18 @@ public class LookData implements Serializable, Cloneable {
 	public void resetLookData() {
 		pixmap = null;
 		originalPixmap = null;
-		region = null;
+		textureRegion = null;
 	}
 
 	public TextureRegion getTextureRegion() {
-		if (region == null) {
-			region = new TextureRegion(new Texture(getPixmap()));
+		if (textureRegion == null) {
+			textureRegion = new TextureRegion(new Texture(getPixmap()));
 		}
-		return region;
+		return textureRegion;
 	}
 
 	public void setTextureRegion() {
-		this.region = new TextureRegion(new Texture(getPixmap()));
+		this.textureRegion = new TextureRegion(new Texture(getPixmap()));
 	}
 
 	public Pixmap getPixmap() {
@@ -114,12 +146,21 @@ public class LookData implements Serializable, Cloneable {
 		return originalPixmap;
 	}
 
-	public LookData() {
-	}
-
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathToImageDirectory(), fileName);
+			if (isBackpackLookData) {
+				return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
+			} else {
+				return Utils.buildPath(getPathToImageDirectory(), fileName);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	public String getAbsolutePathBackPack() {
+		if (fileName != null) {
+			return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
 		} else {
 			return null;
 		}
@@ -148,9 +189,14 @@ public class LookData implements Serializable, Cloneable {
 		return fileName.substring(0, 32);
 	}
 
-	private String getPathToImageDirectory() {
+	protected String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Constants.IMAGE_DIRECTORY);
+	}
+
+	private String getPathToBackPackImageDirectory() {
+		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {
@@ -178,5 +224,9 @@ public class LookData implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public int getRequiredResources() {
+		return Brick.NO_RESOURCES;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,11 +43,13 @@ import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.List;
+import java.util.Map;
 
 public class ShowTextAction extends TemporalAction {
 	private Formula endX;
 	private Formula endY;
-	private String text;
+	private String variableName;
+	public static final String TAG = ShowTextAction.class.getSimpleName();
 
 	private Sprite sprite;
 	private ShowTextActor actor;
@@ -58,32 +60,44 @@ public class ShowTextAction extends TemporalAction {
 			int x = endX.interpretInteger(sprite);
 			int y = endY.interpretInteger(sprite);
 
-			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-			List<UserVariable> variableList = userVariableContainer.getProjectVariables();
+			DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject()
+					.getDataContainer();
+			List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
 
+			Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 			ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0);
 
 			for (Actor actor : stageActors) {
 				if (actor.getClass().equals(showTextActor.getClass())) {
 					ShowTextActor textActor = (ShowTextActor) actor;
-					if (textActor.getLinkedVariableName().equals(text)) {
+					if (textActor.getLinkedVariableName().equals(variableName)) {
 						actor.remove();
 					}
 				}
 			}
 
-			actor = new ShowTextActor(text, x, y);
+			actor = new ShowTextActor(variableName, x, y);
 			StageActivity.stageListener.addActor(actor);
 
 			for (UserVariable userVariable : variableList) {
-				if (userVariable.getName().equals(text)) {
-					userVariable.setVisibility(true);
+				if (userVariable.getName().equals(variableName)) {
+					userVariable.setVisible(true);
 					break;
 				}
 			}
+			if (spriteVariableList != null) {
+				for (UserVariable variable : spriteVariableList) {
+					if (variable.getName().equals(variableName)) {
+						variable.setVisible(true);
+						break;
+					}
+				}
+			}
 		} catch (InterpretationException e) {
-			Log.d("ShowTextAction.java", "InterpretationException");
+			Log.d(TAG, "InterpretationException: " + e);
 		}
 	}
 
@@ -109,7 +123,7 @@ public class ShowTextAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setVariableName(String variableName) {
+		this.variableName = variableName;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -77,7 +77,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private NfcTagData tagData2;
 	private NfcTagData tagData3;
 
-	private ArrayList<NfcTagData> tagDataList;
+	private List<NfcTagData> tagDataList;
 
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;
@@ -594,7 +594,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickInList(2);
 		solo.sleep(TIME_TO_WAIT);
 
-		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		List<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
 		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
 
 		UiTestUtils.acceptAndCloseActionMode(solo);

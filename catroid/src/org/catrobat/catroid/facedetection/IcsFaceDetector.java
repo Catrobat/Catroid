@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,21 +22,16 @@
  */
 package org.catrobat.catroid.facedetection;
 
-import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
-import android.os.Build;
-import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class IcsFaceDetector extends FaceDetector implements FaceDetectionListener {
 
-	private static final String TAG = IcsFaceDetector.class.getSimpleName();
 	private boolean running = false;
 
 	public IcsFaceDetector() {
@@ -47,18 +42,19 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (running) {
 			return true;
 		}
+
+		if (!CameraManager.getInstance().isReady()) {
+			CameraManager.getInstance().startCamera();
+		}
+
 		Camera camera = CameraManager.getInstance().getCamera();
 		if (camera == null) {
 			return false;
 		}
 		camera.setFaceDetectionListener(this);
-		running = CameraManager.getInstance().startCamera();
-		try {
-			camera.startFaceDetection();
-		} catch (RuntimeException error) {
-			Log.e(TAG, "Starting face detection has failed!", error);
-		}
-		return running;
+		camera.startFaceDetection();
+
+		return running = true;
 	}
 
 	@Override
@@ -67,7 +63,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			return;
 		}
 		running = false;
-		CameraManager.getInstance().releaseCamera();
+		CameraManager.getInstance().getCamera().stopFaceDetection();
 	}
 
 	@Override

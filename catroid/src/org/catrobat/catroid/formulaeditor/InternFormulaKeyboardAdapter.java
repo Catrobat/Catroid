@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -141,6 +141,11 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_arduino_read_pin_value_analog:
 				return buildSingleParameterFunction(Functions.ARDUINOANALOG, InternTokenType.NUMBER, "0");
 
+			//RaspberryPi
+
+			case R.string.formula_editor_function_raspi_read_pin_value_digital:
+				return buildSingleParameterFunction(Functions.RASPIDIGITAL, InternTokenType.NUMBER, "0");
+
 			//SENSOR
 
 			case R.string.formula_editor_sensor_x_acceleration:
@@ -186,6 +191,28 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.NXT_SENSOR_3);
 			case R.string.formula_editor_sensor_lego_nxt_4:
 				return buildSensor(Sensors.NXT_SENSOR_4);
+
+			//DRONE SENSOR
+			case R.string.formula_editor_sensor_drone_battery_status:
+				return buildSensor(Sensors.DRONE_BATTERY_STATUS);
+			case R.string.formula_editor_sensor_drone_emergency_state:
+				return buildSensor(Sensors.DRONE_EMERGENCY_STATE);
+			case R.string.formula_editor_sensor_drone_flying:
+				return buildSensor(Sensors.DRONE_FLYING);
+			case R.string.formula_editor_sensor_drone_initialized:
+				return buildSensor(Sensors.DRONE_INITIALIZED);
+			case R.string.formula_editor_sensor_drone_usb_active:
+				return buildSensor(Sensors.DRONE_USB_ACTIVE);
+			case R.string.formula_editor_sensor_drone_usb_remaining_time:
+				return buildSensor(Sensors.DRONE_USB_REMAINING_TIME);
+			case R.string.formula_editor_sensor_drone_camera_ready:
+				return buildSensor(Sensors.DRONE_CAMERA_READY);
+			case R.string.formula_editor_sensor_drone_record_ready:
+				return buildSensor(Sensors.DRONE_RECORD_READY);
+			case R.string.formula_editor_sensor_drone_recording:
+				return buildSensor(Sensors.DRONE_RECORDING);
+			case R.string.formula_editor_sensor_drone_num_frames:
+				return buildSensor(Sensors.DRONE_NUM_FRAMES);
 
 			//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:

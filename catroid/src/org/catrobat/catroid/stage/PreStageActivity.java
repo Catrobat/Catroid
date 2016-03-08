@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +36,7 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -47,30 +46,34 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class PreStageActivity extends BaseActivity {
 
 	private static final String TAG = PreStageActivity.class.getSimpleName();
-
-	//public static final int REQUEST_NFC_ADAPTER = 10000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
-
 	private int requiredResourceCounter;
+	private Set<Integer> failedResources;
 
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
@@ -92,6 +95,33 @@ public class PreStageActivity extends BaseActivity {
 
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
+		failedResources = new HashSet<>();
+
+		SensorHandler sensorHandler = SensorHandler.getInstance(getApplicationContext());
+
+		if ((requiredResources & Brick.SENSOR_ACCELERATION) > 0) {
+			if (sensorHandler.accelerationAvailable()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.SENSOR_ACCELERATION);
+			}
+		}
+
+		if ((requiredResources & Brick.SENSOR_INCLINATION) > 0) {
+			if (sensorHandler.inclinationAvailable()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.SENSOR_INCLINATION);
+			}
+		}
+
+		if ((requiredResources & Brick.SENSOR_COMPASS) > 0) {
+			if (sensorHandler.compassAvailable()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.SENSOR_COMPASS);
+			}
+		}
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -111,50 +141,54 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.ARDUINO);
 		}
 
-		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
-			droneInitializer = getDroneInitializer();
-			droneInitializer.initialise();
+		if (DroneServiceWrapper.checkARDroneAvailability()) {
+			CatroidApplication.loadNativeLibs();
+			if (CatroidApplication.parrotLibrariesLoaded) {
+				droneInitializer = getDroneInitialiser();
+				droneInitializer.initialise();
+			}
 		}
 
-		FaceDetectionHandler.resetFaceDedection();
-		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
-			boolean success = FaceDetectionHandler.startFaceDetection(this);
-			if (success) {
+		if ((requiredResources & Brick.CAMERA_BACK) > 0) {
+			if (CameraManager.getInstance().hasBackCamera()) {
 				resourceInitialized();
 			} else {
-				resourceFailed();
+				resourceFailed(Brick.CAMERA_BACK);
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_LED) > 0) {
-			if (!CameraManager.getInstance().isFacingBack()) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
-						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								ledInitialize();
-							}
-						});
-				AlertDialog alert = builder.create();
-				alert.show();
+		if ((requiredResources & Brick.CAMERA_FRONT) > 0) {
+			if (CameraManager.getInstance().hasFrontCamera()) {
+				resourceInitialized();
 			} else {
-				ledInitialize();
+				resourceFailed(Brick.CAMERA_FRONT);
 			}
+		}
+
+		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
+			flashInitialize();
 		}
 
 		if ((requiredResources & Brick.VIBRATOR) > 0) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			if (vibrator != null) {
-				requiredResourceCounter--;
 				VibratorUtil.setContext(this.getBaseContext());
 				VibratorUtil.activateVibratorThread();
+				resourceInitialized();
 			} else {
-				ToastUtil.showError(PreStageActivity.this, R.string.no_vibrator_available);
-				resourceFailed();
+				resourceFailed(Brick.VIBRATOR);
 			}
 		}
 
+		FaceDetectionHandler.resetFaceDedection();
+		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+			boolean success = FaceDetectionHandler.startFaceDetection();
+			if (success) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.FACE_DETECTION);
+			}
+		}
 		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
 			if ((requiredResources & Brick.FACE_DETECTION) > 0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -175,6 +209,10 @@ public class PreStageActivity extends BaseActivity {
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
+
+		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
+			connectRaspberrySocket();
+		}
 	}
 
 	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
@@ -186,68 +224,45 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
-	public DroneInitializer getDroneInitializer() {
+	private void connectRaspberrySocket() {
+		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
+		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+
+		if (RaspberryPiService.getInstance().connect(host, port)) {
+			resourceInitialized();
+		} else {
+			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			resourceFailed();
+		}
+	}
+
+	public DroneInitializer getDroneInitialiser() {
 		if (droneInitializer == null) {
-			droneInitializer = new DroneInitializer(this, returnToActivityIntent);
+			droneInitializer = new DroneInitializer(this);
 		}
 		return droneInitializer;
 	}
 
-	protected boolean hasFlash() {
-		boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-		boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-
-		if (!hasCamera || !hasLed) {
-			return false;
-		}
-
-		Camera camera = CameraManager.getInstance().getCamera();
-
-		try {
-			if (camera == null) {
-				camera = CameraManager.getInstance().getCamera();
-			}
-		} catch (Exception exception) {
-			Log.e(TAG, "failed to open Camera", exception);
-		}
-
-		if (camera == null) {
-			return false;
-		}
-
-		Camera.Parameters parameters = camera.getParameters();
-
-		if (parameters.getFlashMode() == null) {
-			return false;
-		}
-
-		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-		if (supportedFlashModes == null || supportedFlashModes.isEmpty()
-				|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
-			return false;
-		}
-
-		return true;
-	}
-
 	@Override
 	public void onResume() {
-		super.onResume();
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityResume();
 		}
 
-		if (requiredResourceCounter == 0) {
+		super.onResume();
+		if (requiredResourceCounter == 0 && failedResources.isEmpty()) {
+			Log.d(TAG, "onResume()");
 			finish();
 		}
 	}
 
 	@Override
 	protected void onPause() {
-		super.onPause();
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityPause();
 		}
+
+		super.onPause();
 	}
 
 	@Override
@@ -271,6 +286,8 @@ public class PreStageActivity extends BaseActivity {
 		if (FaceDetectionHandler.isFaceDetectionRunning()) {
 			FaceDetectionHandler.stopFaceDetection();
 		}
+
+		RaspberryPiService.getInstance().disconnect();
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -279,8 +296,8 @@ public class PreStageActivity extends BaseActivity {
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
 
 		deleteSpeechFiles();
-		if (LedUtil.isActive()) {
-			LedUtil.destroy();
+		if (FlashUtil.isAvailable()) {
+			FlashUtil.destroy();
 		}
 		if (VibratorUtil.isActive()) {
 			VibratorUtil.destroy();
@@ -301,12 +318,82 @@ public class PreStageActivity extends BaseActivity {
 		finish();
 	}
 
+	public void showResourceFailedErrorDialog() {
+		String failedResourcesMessage = getString(R.string.prestage_resource_not_available_text);
+		Iterator resourceIter = failedResources.iterator();
+		while (resourceIter.hasNext()) {
+			switch ((int) resourceIter.next()) {
+				case Brick.SENSOR_ACCELERATION:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_acceleration_sensor_available);
+					break;
+				case Brick.SENSOR_INCLINATION:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_inclination_sensor_available);
+					break;
+				case Brick.SENSOR_COMPASS:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_compass_sensor_available);
+					break;
+				case Brick.TEXT_TO_SPEECH:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_text_to_speech_error);
+					break;
+				case Brick.CAMERA_BACK:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_back_camera_available);
+					break;
+				case Brick.CAMERA_FRONT:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_front_camera_available);
+					break;
+				case Brick.CAMERA_FLASH:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_flash_available);
+					break;
+				case Brick.VIBRATOR:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_vibrator_available);
+					break;
+				case Brick.FACE_DETECTION:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_camera_available);
+					break;
+				default:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_default_resource_not_available);
+					break;
+			}
+		}
+
+		AlertDialog.Builder failedResourceAlertBuilder = new AlertDialog.Builder(this);
+		failedResourceAlertBuilder.setTitle(R.string.prestage_resource_not_available_title);
+		failedResourceAlertBuilder.setMessage(failedResourcesMessage).setCancelable(false)
+				.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						resourceFailed();
+					}
+				});
+		AlertDialog alert = failedResourceAlertBuilder.create();
+		alert.show();
+	}
+
+	public synchronized void resourceFailed(int failedResource) {
+		Log.d(TAG, "resourceFailed: " + failedResource);
+		failedResources.add(failedResource);
+		resourceInitialized();
+	}
+
 	public synchronized void resourceInitialized() {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
-			Log.d(TAG, "Start Stage");
-
-			startStage();
+			if (failedResources.isEmpty()) {
+				Log.d(TAG, "Start Stage");
+				startStage();
+			} else {
+				showResourceFailedErrorDialog();
+			}
 		}
 	}
 
@@ -342,8 +429,7 @@ public class PreStageActivity extends BaseActivity {
 							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
-								ToastUtil.showError(PreStageActivity.this, "Error occurred while initializing Text-To-Speech engine");
-								resourceFailed();
+								resourceFailed(Brick.TEXT_TO_SPEECH);
 							}
 						}
 					});
@@ -355,7 +441,7 @@ public class PreStageActivity extends BaseActivity {
 					}
 				} else {
 					AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
-					builder.setMessage(R.string.text_to_speech_engine_not_installed).setCancelable(false)
+					builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed).setCancelable(false)
 							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
@@ -383,7 +469,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
-			HashMap<String, String> speakParameter) {
+									HashMap<String, String> speakParameter) {
 		if (text == null) {
 			text = "";
 		}
@@ -397,13 +483,13 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
-	private void ledInitialize() {
-		if (hasFlash()) {
+	private void flashInitialize() {
+		if (CameraManager.getInstance().hasFlash()) {
+			CameraManager.getInstance().setToBackCamera();
+			FlashUtil.initializeFlash();
 			resourceInitialized();
-			LedUtil.activateLedThread();
 		} else {
-			ToastUtil.showError(PreStageActivity.this, R.string.no_flash_led_available);
-			resourceFailed();
+			resourceFailed(Brick.CAMERA_FLASH);
 		}
 	}
 
@@ -425,3 +511,4 @@ public class PreStageActivity extends BaseActivity {
 		resourceInitialized();
 	}
 }
+

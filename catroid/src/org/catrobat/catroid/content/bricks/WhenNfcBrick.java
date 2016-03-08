@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,8 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
@@ -47,6 +49,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
+
+import java.util.List;
 
 public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTagDataListChangedAfterNewListener {
 	protected WhenNfcScript whenNfcScript;
@@ -58,7 +62,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 
 	public WhenNfcBrick() {
 		this.oldSelectedNfcTag = null;
-		//TODO: nfcTag needs to be initialized (?)
 		this.nfcTag = null;
 		this.whenNfcScript = new WhenNfcScript();
 		this.whenNfcScript.setMatchAll(true);
@@ -134,9 +137,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
 
-		//nfcSpinner.setFocusableInTouchMode(false);
-		//nfcSpinner.setFocusable(false);
-
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			nfcSpinner.setClickable(true);
 			nfcSpinner.setEnabled(true);
@@ -145,7 +145,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 			nfcSpinner.setEnabled(false);
 		}
 
-		//nfcSpinner.setAdapter(NfcTagContainer.getMessageAdapter(context));
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
 
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
@@ -155,8 +154,7 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedTag = nfcSpinner.getSelectedItem().toString(); //context.getString(R.string
-				// .brick_when_nfc_default_all);
+				String selectedTag = nfcSpinner.getSelectedItem().toString();
 				Log.d("WhenNfcBrick", "onItemSelected(): " + selectedTag);
 
 				if (position == 0) {
@@ -179,7 +177,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 							break;
 						}
 					}
-					//whenNfcScript.getNfcTag().setNfcTagName(selectedTag);
 					whenNfcScript.setMatchAll(false);
 					oldSelectedNfcTag = nfcTag;
 					adapterView = parent;
@@ -197,13 +194,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		/*
-		int position = 1;
-		if (whenNfcScript != null && whenNfcScript.getTagName() != null) {
-			position = NfcTagContainer.getPositionOfMessageInAdapter(spinner.getContext(), whenNfcScript.getTagName());
-		}
-		spinner.setSelection(position, true);
-		*/
 		if (ProjectManager.getInstance().getCurrentSprite().getNfcTagList().contains(nfcTag)) {
 			Log.d("setSpinnerSelection", "nfcTag found: " + nfcTag.getNfcTagName());
 			oldSelectedNfcTag = nfcTag;
@@ -226,11 +216,9 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-
 		if (view != null) {
 
 			View layout = view.findViewById(R.id.brick_when_nfc_layout);
-			//setCheckboxView(R.id.brick_when_nfc_checkbox);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -253,7 +241,6 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 		NfcTagData dummyNfcTagData = new NfcTagData();
 		dummyNfcTagData.setNfcTagName(context.getString(R.string.new_broadcast_message));
 		arrayAdapter.add(dummyNfcTagData);
-		//TODO: rework all
 		dummyNfcTagData = new NfcTagData();
 		dummyNfcTagData.setNfcTagName(context.getString(R.string.brick_when_nfc_default_all));
 		arrayAdapter.add(dummyNfcTagData);
@@ -389,6 +376,11 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 	public void onNfcTagDataListChangedAfterNew(NfcTagData nfcTagData) {
 		oldSelectedNfcTag = nfcTagData;
 		setNfcTag(nfcTagData);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		return null;
 	}
 
 	public NfcTagData getNfcTag() {

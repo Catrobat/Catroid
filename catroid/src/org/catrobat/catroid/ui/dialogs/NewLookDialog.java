@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,17 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 
@@ -54,16 +54,17 @@ public class NewLookDialog extends DialogFragment {
 			throw new RuntimeException("This dialog (NewLookDialog) can only be called by the LookFragment.");
 		}
 		this.fragment = (LookFragment) fragment;
-		show(fragment.getActivity().getSupportFragmentManager(), TAG);
+		show(fragment.getActivity().getFragmentManager(), TAG);
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_look, null);
+		View dialogView = View.inflate(getActivity(), R.layout.dialog_new_look, null);
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
 		setupMediaLibraryButton(dialogView);
+		setupDroneVideoButton(dialogView);
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -141,6 +142,25 @@ public class NewLookDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				fragment.addLookMediaLibrary();
+				NewLookDialog.this.dismiss();
+			}
+		});
+	}
+
+	private void setupDroneVideoButton(View parentView) {
+		View droneVideoButton = parentView.findViewById(R.id.dialog_new_look_drone_video);
+		View droneDialogItem = parentView.findViewById(R.id.dialog_new_look_drone);
+
+		if (!SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+			droneVideoButton.setVisibility(View.GONE);
+			droneDialogItem.setVisibility(View.GONE);
+			return;
+		}
+		droneDialogItem.setVisibility(View.VISIBLE);
+		droneVideoButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				fragment.addLookDroneVideo();
 				NewLookDialog.this.dismiss();
 			}
 		});

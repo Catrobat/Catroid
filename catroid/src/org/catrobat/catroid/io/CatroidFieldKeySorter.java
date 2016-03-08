@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -141,8 +141,12 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[8] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("newUserBrickNext")) {
 				fieldKeyOrder[9] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
+			} else if (fieldKey.getFieldName().equals("isBackpackSprite")) {
 				fieldKeyOrder[10] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("isBackgroundSprite")) {
+				fieldKeyOrder[11] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
+				fieldKeyOrder[12] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

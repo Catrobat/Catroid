@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,7 +70,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 				PackageManager.GET_ACTIVITIES);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 
@@ -133,7 +133,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class);
-		solo.clickOnText(solo.getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_look);
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 

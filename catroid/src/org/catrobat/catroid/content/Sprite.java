@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,8 +38,11 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -52,37 +55,52 @@ public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
 
-	public transient Look look;
+	public transient Look look = new Look(this);
 	public transient boolean isPaused;
 
 	@XStreamAsAttribute
 	private String name;
-	private List<Script> scriptList;
-	private ArrayList<LookData> lookList;
-	private ArrayList<SoundInfo> soundList;
-	private ArrayList<NfcTagData> nfcTagList;
-	private ArrayList<UserBrick> userBricks;
+	private List<Script> scriptList = new ArrayList<>();
+	private List<LookData> lookList = new ArrayList<>();
+	private List<SoundInfo> soundList = new ArrayList<>();
+	private List<UserBrick> userBricks = new ArrayList<>();
+	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private transient int newUserBrickNext = 1;
+	public transient boolean isBackpackSprite = false;
+	public transient boolean isBackgroundSprite = false;
 
 	public Sprite(String name) {
 		this.name = name;
-		scriptList = new ArrayList<Script>();
-		lookList = new ArrayList<LookData>();
-		soundList = new ArrayList<SoundInfo>();
-		nfcTagList = new ArrayList<NfcTagData>();
-		init();
 	}
 
 	public Sprite() {
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Sprite)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		Sprite sprite = (Sprite) obj;
+		if (sprite.name.equals(this.name)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode() * TAG.hashCode();
+	}
+
 	private Object readResolve() {
 		//filling FileChecksumContainer:
-		if (soundList != null && lookList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-			if (container == null) {
-				ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-			}
 			for (SoundInfo soundInfo : soundList) {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
@@ -90,32 +108,60 @@ public class Sprite implements Serializable, Cloneable {
 				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 			}
 		}
-		init();
 		return this;
-	}
-
-	private void init() {
-		look = new Look(this);
-		isPaused = false;
-		if (soundList == null) {
-			soundList = new ArrayList<SoundInfo>();
-		}
-		if (lookList == null) {
-			lookList = new ArrayList<LookData>();
-		}
-		if (scriptList == null) {
-			scriptList = new ArrayList<Script>();
-		}
-		if (nfcTagList == null) {
-			nfcTagList = new ArrayList<NfcTagData>();
-		}
-		if (userBricks == null) {
-			userBricks = new ArrayList<UserBrick>();
-		}
 	}
 
 	public List<Script> getScriptList() {
 		return scriptList;
+	}
+
+	public List<Brick> getListWithAllBricks() {
+		List<Brick> allBricks = new ArrayList<>();
+		for (Script script : scriptList) {
+			allBricks.add(script.getScriptBrick());
+			allBricks.addAll(script.getBrickList());
+		}
+		return allBricks;
+	}
+
+	public List<Brick> getAllBricks() {
+		List<Brick> result = new ArrayList<>();
+		for (Script script : scriptList) {
+			for (Brick brick : script.getBrickList()) {
+				result.add(brick);
+			}
+		}
+		return result;
+	}
+
+	public List<SetLookBrick> getSetLookBricks() {
+		List<SetLookBrick> result = new ArrayList<>();
+		for (Brick brick : getAllBricks()) {
+			if (brick instanceof SetLookBrick) {
+				result.add((SetLookBrick) brick);
+			}
+		}
+		return result;
+	}
+
+	public List<PlaySoundBrick> getPlaySoundBricks() {
+		List<PlaySoundBrick> result = new ArrayList<>();
+		for (Brick brick : getAllBricks()) {
+			if (brick instanceof PlaySoundBrick) {
+				result.add((PlaySoundBrick) brick);
+			}
+		}
+		return result;
+	}
+
+	public List<WhenNfcBrick> getNfcBrickList() {
+		List<WhenNfcBrick> result = new ArrayList<>();
+		for (Brick brick : getAllBricks()) {
+			if (brick instanceof WhenNfcBrick) {
+				result.add((WhenNfcBrick) brick);
+			}
+		}
+		return result;
 	}
 
 	public void resetSprite() {
@@ -139,7 +185,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public UserBrick addUserBrick(UserBrick brick) {
 		if (userBricks == null) {
-			userBricks = new ArrayList<UserBrick>();
+			userBricks = new ArrayList<>();
 		}
 		userBricks.add(brick);
 		return brick;
@@ -147,7 +193,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public List<UserBrick> getUserBrickList() {
 		if (userBricks == null) {
-			userBricks = new ArrayList<UserBrick>();
+			userBricks = new ArrayList<>();
 		}
 		return userBricks;
 	}
@@ -207,6 +253,7 @@ public class Sprite implements Serializable, Cloneable {
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
 		cloneSprite.setName(this.getName());
+		cloneSprite.isBackpackSprite = false;
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {
@@ -219,18 +266,18 @@ public class Sprite implements Serializable, Cloneable {
 			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
 		}
 
-		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
+		List<LookData> cloneLookList = new ArrayList<>();
 		for (LookData element : this.lookList) {
 			cloneLookList.add(element.clone());
 		}
 		cloneSprite.lookList = cloneLookList;
 
-		ArrayList<SoundInfo> cloneSoundList = new ArrayList<SoundInfo>();
+		List<SoundInfo> cloneSoundList = new ArrayList<>();
 		for (SoundInfo element : this.soundList) {
 			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
 		}
 		cloneSprite.soundList = cloneSoundList;
-		ArrayList<UserBrick> cloneUserBrickList = new ArrayList<UserBrick>();
+		List<UserBrick> cloneUserBrickList = new ArrayList<>();
 
 		for (UserBrick original : userBricks) {
 			int originalId = original.getUserBrickId();
@@ -252,7 +299,7 @@ public class Sprite implements Serializable, Cloneable {
 			deepClone.getDefinitionBrick().setUserScript((StartScript) newScript);
 		}
 
-		ArrayList<NfcTagData> cloneNfcTagList = new ArrayList<NfcTagData>();
+		List<NfcTagData> cloneNfcTagList = new ArrayList<NfcTagData>();
 		for (NfcTagData element : this.nfcTagList) {
 			cloneNfcTagList.add(element.clone());
 		}
@@ -283,8 +330,6 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.userBricks = cloneUserBrickList;
 		cloneSprite.newUserBrickNext = this.newUserBrickNext;
 
-		cloneSprite.init();
-
 		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
 		try {
 			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
@@ -292,6 +337,13 @@ public class Sprite implements Serializable, Cloneable {
 			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
 
+		return cloneSprite;
+	}
+
+	public Sprite cloneForBackPack() {
+		//TODO: userbricks currently not supported
+		final Sprite cloneSprite = new Sprite();
+		cloneSprite.setName(this.getName());
 		return cloneSprite;
 	}
 
@@ -408,19 +460,41 @@ public class Sprite implements Serializable, Cloneable {
 		return scriptList.remove(script);
 	}
 
-	public ArrayList<LookData> getLookDataList() {
+	public List<LookData> getLookDataList() {
 		return lookList;
 	}
 
-	public void setLookDataList(ArrayList<LookData> list) {
+	public boolean existLookDataByName(LookData look) {
+		for (LookData lookdata : lookList) {
+			if (lookdata.getLookName().equals(look.getLookName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean existLookDataByFileName(LookData look) {
+		for (LookData lookdata : lookList) {
+			if (lookdata.getLookFileName().equals(look.getLookFileName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void addLookData(LookData data) {
+		lookList.add(data);
+	}
+
+	public void setLookDataList(List<LookData> list) {
 		lookList = list;
 	}
 
-	public ArrayList<SoundInfo> getSoundList() {
+	public List<SoundInfo> getSoundList() {
 		return soundList;
 	}
 
-	public void setSoundList(ArrayList<SoundInfo> list) {
+	public void setSoundList(List<SoundInfo> list) {
 		soundList = list;
 	}
 
@@ -430,14 +504,19 @@ public class Sprite implements Serializable, Cloneable {
 		for (Script script : scriptList) {
 			resources |= script.getRequiredResources();
 		}
+
+		for (LookData lookData : getLookDataList()) {
+			resources |= lookData.getRequiredResources();
+		}
+
 		return resources;
 	}
 
-	public ArrayList<NfcTagData> getNfcTagList() {
+	public List<NfcTagData> getNfcTagList() {
 		return nfcTagList;
 	}
 
-	public void setNfcTagList(ArrayList<NfcTagData> list) {
+	public void setNfcTagList(List<NfcTagData> list) {
 		nfcTagList = list;
 	}
 
@@ -448,5 +527,36 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public boolean containsLookData(LookData lookData) {
+		for (LookData lookOfSprite : lookList) {
+			if (lookOfSprite.equals(lookData)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean existSoundInfoByName(SoundInfo sound) {
+		for (SoundInfo soundInfo : soundList) {
+			if (soundInfo.getTitle().equals(sound.getTitle())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean existSoundInfoByFileName(SoundInfo sound) {
+		for (SoundInfo soundInfo : soundList) {
+			if (soundInfo.getSoundFileName().equals(sound.getSoundFileName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void addSound(SoundInfo sound) {
+		soundList.add(sound);
 	}
 }

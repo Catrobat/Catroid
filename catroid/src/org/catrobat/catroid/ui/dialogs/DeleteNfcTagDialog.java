@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,18 +23,18 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.ui.ScriptActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteNfcTagDialog extends DialogFragment {
 
@@ -74,8 +74,7 @@ public class DeleteNfcTagDialog extends DialogFragment {
 	}
 
 	private void handleDeleteNfcTag(int position) {
-		ArrayList<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		//StorageHandler.getInstance().deleteFile(nfcTagDataList.get(position).getAbsolutePath());
+		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		nfcTagDataList.remove(position);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));

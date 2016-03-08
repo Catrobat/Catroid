@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,10 +40,12 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,9 +57,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -76,8 +75,8 @@ import org.catrobat.catroid.ui.dialogs.RenameNfcTagDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBaseAdapter.OnNfcTagEditListener, Dialog.OnKeyListener {
 
@@ -102,7 +101,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	private View selectAllActionModeButton;
 
 	private NfcTagBaseAdapter adapter;
-	private ArrayList<NfcTagData> nfcTagDataList;
+	private List<NfcTagData> nfcTagDataList;
 	private NfcTagData selectedNfcTag;
 
 	private boolean isRenameActionMode;
@@ -345,7 +344,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	@Override
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
@@ -355,7 +354,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			actionMode = getActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
@@ -365,7 +364,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
@@ -429,7 +428,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		menu.setHeaderTitle(selectedNfcTag.getNfcTagName());
 		adapter.addCheckedItem(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		menu.findItem(R.id.context_menu_backpack).setVisible(false);
@@ -594,7 +593,8 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
+				menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -626,7 +626,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -660,7 +660,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -693,7 +693,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -838,7 +838,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		this.selectedNfcTag = selectedNfcTagData;
 	}
 
-	public ArrayList<NfcTagData> getNfcTagDataList() {
+	public List<NfcTagData> getNfcTagDataList() {
 		return nfcTagDataList;
 	}
 

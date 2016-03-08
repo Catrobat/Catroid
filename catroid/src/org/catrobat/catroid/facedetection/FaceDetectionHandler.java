@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.facedetection;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.hardware.Camera;
-import android.os.Build;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
@@ -55,13 +52,14 @@ public final class FaceDetectionHandler {
 		return running;
 	}
 
-	public static boolean startFaceDetection(Context context) {
+	public static boolean startFaceDetection() {
 		if (running) {
 			return true;
 		}
-		if (context != null) {
-			CameraManager.getInstance().updateCameraID(context);
+		if (!CameraManager.getInstance().hasBackCamera() && !CameraManager.getInstance().hasFrontCamera()) {
+			return false;
 		}
+
 		if (faceDetector == null) {
 			createFaceDetector();
 			if (faceDetector == null) {
@@ -107,7 +105,7 @@ public final class FaceDetectionHandler {
 		if (!paused) {
 			return;
 		}
-		startFaceDetection(null);
+		startFaceDetection();
 		paused = false;
 	}
 
@@ -140,22 +138,26 @@ public final class FaceDetectionHandler {
 	}
 
 	public static boolean isIcsFaceDetectionSupported() {
-		int currentApi = android.os.Build.VERSION.SDK_INT;
-		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			return false;
-		}
 		int possibleFaces = 0;
 		try {
+			boolean cameraReady = CameraManager.getInstance().isReady();
+			if (!cameraReady) {
+				CameraManager.getInstance().startCamera();
+			}
+
 			Camera camera = CameraManager.getInstance().getCamera();
-			possibleFaces = getNumberOfCameras(camera);
+			possibleFaces = getMaxNumberOfFaces(camera);
+
+			if (!cameraReady) {
+				CameraManager.getInstance().releaseCamera();
+			}
 		} catch (Exception exception) {
 			Log.e(TAG, "Camera unaccessable!", exception);
 		}
 		return possibleFaces > 0;
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	private static int getNumberOfCameras(Camera camera) {
+	private static int getMaxNumberOfFaces(Camera camera) {
 		if (camera != null && camera.getParameters() != null) {
 			return camera.getParameters().getMaxNumDetectedFaces();
 		}

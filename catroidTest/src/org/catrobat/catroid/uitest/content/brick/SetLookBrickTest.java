@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_LOOK = org.catrobat.catroid.test.R.raw.icon;
@@ -56,7 +56,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	private String lookName2 = "testLook2";
 	private File lookFile;
 	private File lookFile2;
-	private ArrayList<LookData> lookDataList;
+	private List<LookData> lookDataList;
 	private String testFile = "testFile";
 
 	private File paintroidImageFile;
@@ -70,7 +70,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		super.setUp();
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/" + testFile + ".png",
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, getActivity());
+				org.catrobat.catroid.test.R.drawable.catroid_banzai, getInstrumentation().getContext());
 
 		createProject();
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,97 +22,36 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.controller.BackPackSpriteController;
+import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
-public class SpriteAdapter extends ArrayAdapter<Sprite> {
+public class SpriteAdapter extends SpriteBaseAdapter implements ActionModeActivityAdapterInterface {
 
-	private static LayoutInflater inflater = null;
-	private Context context;
-	private int selectMode;
-	private boolean showDetails;
-	private Set<Integer> checkedSprites = new TreeSet<Integer>();
-	private OnSpriteEditListener onSpriteEditListener;
+	SpritesListFragment spritesListFragment;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.context = context;
-		selectMode = ListView.CHOICE_MODE_NONE;
-		showDetails = false;
-	}
-
-	public void setOnSpriteEditListener(OnSpriteEditListener listener) {
-		onSpriteEditListener = listener;
-	}
-
-	private static class ViewHolder {
-		private RelativeLayout background;
-		private CheckBox checkbox;
-		private TextView text;
-		private LinearLayout backgroundHeadline;
-		private LinearLayout objectsHeadline;
-		private ImageView image;
-		private TextView scripts;
-		private TextView bricks;
-		private TextView looks;
-		private TextView sounds;
-		//TODO: adapt for nfc ?
-		private View details;
-		private ImageView arrow;
-	}
-
-	public int getAmountOfCheckedSprites() {
-		return checkedSprites.size();
-	}
-
-	public Set<Integer> getCheckedSprites() {
-		return checkedSprites;
-	}
-
-	public void addCheckedSprite(int position) {
-		checkedSprites.add(position);
-	}
-
-	public void clearCheckedSprites() {
-		checkedSprites.clear();
-	}
-
-	public void setSelectMode(int selectMode) {
-		this.selectMode = selectMode;
-	}
-
-	public int getSelectMode() {
-		return selectMode;
-	}
-
-	public void setShowDetails(boolean showDetails) {
-		this.showDetails = showDetails;
-	}
-
-	public boolean getShowDetails() {
-		return showDetails;
 	}
 
 	@Override
@@ -133,19 +72,20 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.looks = (TextView) spriteView.findViewById(R.id.textView_number_of_looks);
 			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
 			holder.details = spriteView.findViewById(R.id.project_activity_sprite_details);
-			holder.arrow = (ImageView) spriteView.findViewById(R.id.arrow_right);
 			spriteView.setTag(holder);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
 		}
 
-		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		handleHolderViews(position, holder);
+
+		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
-						clearCheckedSprites();
+						clearCheckedItems();
 					}
 					checkedSprites.add(position);
 				} else {
@@ -179,17 +119,14 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.image.setImageBitmap(firstLookData.getThumbnailBitmap());
 		}
 
-		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts) + " "
-				+ sprite.getNumberOfScripts());
+		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts).concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
 
-		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks) + " "
-				+ (sprite.getNumberOfBricks() + sprite.getNumberOfScripts()));
+		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks).concat(" ").concat(Integer
+				.toString(sprite.getNumberOfBricks())).concat(Integer.toString(sprite.getNumberOfScripts())));
 
-		holder.looks.setText(context.getResources().getString(R.string.number_of_looks) + " "
-				+ sprite.getLookDataList().size());
+		holder.looks.setText(context.getResources().getString(R.string.number_of_looks).concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
 
-		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds) + " "
-				+ sprite.getSoundList().size());
+		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds).concat(" ").concat(Integer.toString(sprite.getSoundList().size())));
 
 		if (!showDetails) {
 			holder.details.setVisibility(View.GONE);
@@ -197,40 +134,43 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.details.setVisibility(View.VISIBLE);
 		}
 
-		if (position == 0) {
+		if (position == 0 && !spritesListFragment.isBackPackActionMode()) {
 			holder.backgroundHeadline.setVisibility(View.VISIBLE);
 			holder.objectsHeadline.setVisibility(View.VISIBLE);
 			holder.checkbox.setVisibility(View.GONE);
-			holder.arrow.setVisibility(View.VISIBLE);
 			if (selectMode == ListView.CHOICE_MODE_NONE) {
 				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 			} else {
-				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.button_background);
 			}
+
+			holder.background.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View view) {
+					openBackPackMenuFromBackground();
+					return selectMode != ListView.CHOICE_MODE_NONE;
+				}
+			});
 		} else {
 			if (selectMode != ListView.CHOICE_MODE_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.arrow.setVisibility(View.GONE);
 				holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
 			} else {
 				holder.background.setBackgroundResource(R.drawable.button_background_selector);
 				holder.checkbox.setVisibility(View.GONE);
-				holder.arrow.setVisibility(View.VISIBLE);
 				holder.checkbox.setChecked(false);
-				clearCheckedSprites();
+				clearCheckedItems();
 			}
 			holder.backgroundHeadline.setVisibility(View.GONE);
 			holder.objectsHeadline.setVisibility(View.GONE);
+
+			holder.background.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View view) {
+					return selectMode != ListView.CHOICE_MODE_NONE || position == 0;
+				}
+			});
 		}
-
-		holder.background.setOnLongClickListener(new OnLongClickListener() {
-
-			@Override
-			public boolean onLongClick(View view) {
-				return selectMode != ListView.CHOICE_MODE_NONE || position == 0;
-			}
-		});
 
 		holder.background.setOnClickListener(new OnClickListener() {
 
@@ -249,9 +189,29 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		return spriteView;
 	}
 
-	public interface OnSpriteEditListener {
-		void onSpriteChecked();
+	private void openBackPackMenuFromBackground() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		CharSequence[] items = new CharSequence[] { getContext().getString(R.string.backpack_add) };
+		builder.setItems(items, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if (which == 0) {
+					BackPackSpriteController.getInstance().backpack(getItem(0), false);
+					spritesListFragment.switchToBackPack();
+				}
+				dialog.dismiss();
+			}
+		});
+		String title = getContext().getString(R.string.background);
+		if (ProjectManager.getInstance().getCurrentSprite() != null) {
+			title = ProjectManager.getInstance().getCurrentSprite().getName();
+		}
+		builder.setTitle(title);
+		builder.setCancelable(true);
+		builder.show();
+	}
 
-		void onSpriteEdit(int position);
+	public void setSpritesListFragment(SpritesListFragment spritesListFragment) {
+		this.spritesListFragment = spritesListFragment;
 	}
 }
