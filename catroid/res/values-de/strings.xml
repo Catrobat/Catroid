@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT Bausteine</string>
   <string name="preference_description_mindstorms_nxt_bricks">Erlaube Steuerung von Lego Mindstorms NXT Robotern</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensoren</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
   <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>
   <string name="preference_title_enable_arduino_bricks">Arduino Bausteine</string>
@@ -655,6 +656,7 @@
   <string name="preference_disable_nxt_info_dialog">Info Dialog deaktivieren</string>
   <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Programmes werden programmspezfifische NXT Einstellungen nicht mehr angezeigt.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Die Zuweisung von NXT Sensoren zu deren Port ist programmspezifisch und können nur für geöffnete Programme konfiguriert werden!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">Das geöffnete Programm beinhaltet Lego Mindstorms NXT Bausteine oder Sensoren. Bitte schließe die Sensoren wie folgt an den Roboter an damit das Programm einwandfrei funktioniert</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>

@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Gạch Lego Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Cho phép điều khiển robot Lego Mindstorms NXT</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT cảm biến</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Gạch Phiro</string>
   <string name="preference_description_phiro_bricks">Cho phép điều khiển một robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
@@ -647,6 +648,7 @@
   <string name="preference_disable_nxt_info_dialog">Vô hiệu hóa thông tin thoại</string>
   <string name="preference_disable_nxt_info_dialog_description">Chương trình cài đặt NXT không được hiển thị khi mở chương trình.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Bản đồ của NXT cảm biến vào các cổng là một chương trình cụ thể và chỉ có thể được thực hiện cho các chương trình đã mở!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">Chương trình hiện nay sử dụng gạch Lego Mindstorms NXT hoặc cảm biến. Để thực hiện đúng chức năng xin vui lòng kết nối các bộ cảm biến với các robot như sau</string>
   <string name="nxt_port_1">Cổng 1</string>
   <string name="nxt_port_2">Cổng 2</string>

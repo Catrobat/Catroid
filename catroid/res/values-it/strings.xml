@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Mattoncini Lego Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Permette il controllo dei robot Lego Mindstorms NXT</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensori Lego NXT</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Mattoncini Phiro</string>
   <string name="preference_description_phiro_bricks">Permette il controllo di un robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Mattoncini per Arduino</string>
@@ -649,6 +650,7 @@
   <string name="preference_disable_nxt_info_dialog">Disattiva finestra di dialogo</string>
   <string name="preference_disable_nxt_info_dialog_description">Le impostazioni specifiche per l\'NXT non vengono mostrare quando si apre un programma.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">La mappatura dei sensori NXT  alle porte è specifico per ogni il programma e può essere configurata solo per i programmi aperti!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">Il programma attuale utilizza mattoncini Lego Mindstorms NXT o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
   <string name="nxt_port_1">Porta 1</string>
   <string name="nxt_port_2">Porta 2</string>

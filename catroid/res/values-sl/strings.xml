@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">kocke Lego Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Omogoči nadzor Lego Mindstorms robotov</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT senzorji</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Omogoči nadzor Phiro robotov</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
@@ -675,6 +676,7 @@
   <string name="preference_disable_nxt_info_dialog">Onemogoči Info dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Posebne NXT nastavitve programa niso prikazane, ko odprete program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Povezovanje senzorjev NXT z vrati je odvisno od programa in se določa le v odprtih programih!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">Trenutni program uporablja Lego Mindstorms NXT kocke ali senzorje. Za pravilno delovanje povežite senzorje robota takole</string>
   <string name="nxt_port_1">Vrata 1</string>
   <string name="nxt_port_2">Vrata 2</string>

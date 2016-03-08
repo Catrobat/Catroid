@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Bloque de LEGO Mindstroms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Permiten controlar los robots de Lego Mindstorms</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensores LEGO NXT</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bloques</string>
   <string name="preference_description_phiro_bricks">Permite controlar un robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
@@ -655,6 +656,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="preference_disable_nxt_info_dialog">Desactivar el cuadro de diálogo información</string>
   <string name="preference_disable_nxt_info_dialog_description">Los ajustes específicos de NXT programa no aparecen al abrir un programa.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">El mapeo de pde los sensores NXT a puertos es de programa específico y sólo se puede configurar para abrir programas!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">El programa actual utiliza bloques de Lego Mindstorms NXT o sensores. Para un funcionamiento correcto por favor conectar los sensores al robot como os habrán dicho</string>
   <string name="nxt_port_1">Puerto 1</string>
   <string name="nxt_port_2">Puerto 2</string>

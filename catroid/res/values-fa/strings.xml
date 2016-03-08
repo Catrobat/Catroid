@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">لگو طوفان ذهنی آجرهای NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">اجازه کنترل کردن آدم آهنی های لگو طوفان ذهنی NXT را بده</string>
   <string name="preference_title_mindstorms_nxt_sensors">حسگرهای لگو NXT</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">آجر Phiro</string>
   <string name="preference_description_phiro_bricks">اجازه ی کنترل یک آدم آهنی Phiro را می دهد.</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
@@ -644,6 +645,7 @@
   <string name="preference_disable_nxt_info_dialog">غیر فعال کردن اطلاعات گفت و گو</string>
   <string name="preference_disable_nxt_info_dialog_description">هنگام باز کردن برنامه، تنظیمات  خاص برنامه NXT نمایش داده نمی شوند.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">تخصیص حسگرهای NXT به پورت ها برنامه ی خاصی است و فقط می تواند برای برنامه های باز پیکربندی شود!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">برنامه فعلی از آجرهای طوفان ذهنی لگو NXT یا حسگرها استفاده می کند. لطفا برای عملکرد بهتر حسگرها را با ربات به شرح زیر اتصال بده</string>
   <string name="nxt_port_1">پورت 1</string>
   <string name="nxt_port_2">پورت 2</string>

@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">レゴ マインドストーム NXT ブロック</string>
   <string name="preference_description_mindstorms_nxt_bricks">レゴ マインドストーム NXT ロボットを制御することができます</string>
   <string name="preference_title_mindstorms_nxt_sensors">レゴ NXT センサー</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro ブロック</string>
   <string name="preference_description_phiro_bricks">Phiro ロボットを制御することができます</string>
   <string name="preference_title_enable_arduino_bricks">Arduino ブロック</string>
@@ -641,6 +642,7 @@
   <string name="preference_disable_nxt_info_dialog">情報ダイアログを無効にする</string>
   <string name="preference_disable_nxt_info_dialog_description">プログラムを開いたとき、プログラムで指定した NXT 設定は表示されません。</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT センサーのポートへのマッピングはプログラムで指定し、開かれたプログラムに対してのみ設定することができます!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">現在のプログラムは、レゴ マインドストーム NXT ブロックやセンサーを使用します。正しく動作するように、次のとおりセンサーをロボットに接続してください</string>
   <string name="nxt_port_1">ポート 1</string>
   <string name="nxt_port_2">ポート 2</string>

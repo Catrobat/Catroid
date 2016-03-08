@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">樂高 Mindstorms NXT 程式塊</string>
   <string name="preference_description_mindstorms_nxt_bricks">控制 樂高 Mindstorms NXT 機器人</string>
   <string name="preference_title_mindstorms_nxt_sensors">樂高 NXT 感應器</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro 程式塊</string>
   <string name="preference_description_phiro_bricks">控制 Phiro 機器人</string>
   <string name="preference_title_enable_arduino_bricks">Arduino 程式塊</string>
@@ -642,6 +643,7 @@
   <string name="preference_disable_nxt_info_dialog">取消NXT資訊顯示</string>
   <string name="preference_disable_nxt_info_dialog_description">開啟程式檔時不顯示程式指定的NXT設定資訊。</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">樂高NXT感應器與埠的對應由程式檔中指定, 而且只能在開啟的程式檔中做設定。</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">目前的程式檔使用樂高NXT程式塊或感應器, 為了確保功能正常請依照下列方式連接感應器與機器人。</string>
   <string name="nxt_port_1">埠1</string>
   <string name="nxt_port_2">埠2</string>

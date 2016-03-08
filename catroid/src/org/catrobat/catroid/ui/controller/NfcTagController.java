@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,7 +59,7 @@ public final class NfcTagController {
 		return INSTANCE;
 	}
 
-	public void updateNfcTagLogic(Context context, final int position, final NfcTagViewHolder holder,
+	public void updateNfcTagLogic(final int position, final NfcTagViewHolder holder,
 			final NfcTagBaseAdapter nfcTagAdapter) {
 		final NfcTagData nfcTagData = nfcTagAdapter.getNfcTagDataItems().get(position);
 
@@ -71,7 +70,6 @@ public final class NfcTagController {
 		holder.titleTextView.setText(nfcTagData.getNfcTagName());
 
 		handleCheckboxes(position, holder, nfcTagAdapter);
-		//handleNfcTagData(holder, nfcTagData, nfcTagAdapter, position, context);
 		handleDetails(nfcTagAdapter, holder, nfcTagData);
 		setClickListener(nfcTagAdapter, holder);
 	}
@@ -98,11 +96,7 @@ public final class NfcTagController {
 			holder.nfcTagDetailsLinearLayout.setVisibility(TextView.GONE);
 		}
 	}
-	/*
-	private void handleNfcTagData(NfcTagViewHolder holder, NfcTagData nfcTagData, NfcTagBaseAdapter nfcTagAdapter,
-								 int position, Context context) {
-	}
-	*/
+
 	private void handleCheckboxes(final int position, NfcTagViewHolder holder, final NfcTagBaseAdapter nfcTagAdapter) {
 		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -143,7 +137,6 @@ public final class NfcTagController {
 	}
 
 	public NfcTagData copyNfcTag(NfcTagData selectedNfcTagData, List<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
-
 		return updateNfcTagAdapter(selectedNfcTagData.getNfcTagName(), selectedNfcTagData.getNfcTagUid(), nfcTagDataList,
 				adapter);
 	}
@@ -172,9 +165,7 @@ public final class NfcTagController {
 		}
 	}
 
-	public NfcTagData updateNfcTagAdapter(String name, String uid, List<NfcTagData> nfcTagDataList,
-										NfcTagBaseAdapter adapter) {
-
+	public NfcTagData updateNfcTagAdapter(String name, String uid, List<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
 		name = Utils.getUniqueNfcTagName(name);
 
 		NfcTagData newNfcTagData = new NfcTagData();
