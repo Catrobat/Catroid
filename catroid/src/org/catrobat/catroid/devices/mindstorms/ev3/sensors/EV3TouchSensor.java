@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,31 +24,26 @@
 package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
-import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
-public class EV3SensorFactory {
 
-	private MindstormsConnection connection;
+public class EV3TouchSensor extends EV3Sensor{
 
-	public EV3SensorFactory(MindstormsConnection connection) {
-		this.connection = connection;
+	public static final String TAG = EV3TouchSensor.class.getSimpleName();
+	private static final int DEFAULT_VALUE = 0;
+
+	public EV3TouchSensor(int port, MindstormsConnection connection) {
+		super(port, EV3SensorType.EV3_TOUCH, EV3SensorMode.MODE0, connection);
+		lastValidValue = DEFAULT_VALUE;
 	}
 
-	public EV3Sensor create(EV3Sensor.Sensor sensorType, int port) {
-
-		switch (sensorType) {
-			case INFRARED:
-				return new EV3InfraredSensor(port, connection);
-			case COLOR:
-				return new EV3ColorSensor(port, connection, EV3SensorMode.MODE2);
-			case COLOR_AMBIENT:
-				return new EV3ColorSensor(port, connection, EV3SensorMode.MODE0);
-			case COLOR_REFLECT:
-				return new EV3ColorSensor(port, connection, EV3SensorMode.MODE1);
-			case TOUCH:
-				return new EV3TouchSensor(port, connection);
-			default:
-				throw new MindstormsException("No valid sensor found!"); // Should never occur
+	@Override
+	public int getValue() {
+		int percent = getPercentValue();
+		if(percent > 50) {
+			return 1;
+		}
+		else {
+			return 0;
 		}
 	}
 }
