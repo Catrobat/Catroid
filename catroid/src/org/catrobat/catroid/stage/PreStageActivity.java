@@ -189,7 +189,6 @@ public class PreStageActivity extends BaseActivity {
 				resourceFailed(Brick.FACE_DETECTION);
 			}
 		}
-		
 		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
 			if ((requiredResources & Brick.FACE_DETECTION) > 0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);

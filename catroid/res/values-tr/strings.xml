@@ -96,10 +96,11 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
   <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -218,6 +219,20 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="sound_name">ses adı:</string>
   <string name="new_sound_name">ses adı:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">Bunlar açılmıştı!</item>
     <item quantity="other">Bunlar açılmıştı!</item>
@@ -264,6 +279,10 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Tuğlayı taşı</string>
   <string name="brick_context_dialog_show_source">Kaynak tuğla göster</string>
@@ -351,6 +370,9 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="new_broadcast_message">Yeni&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Yeni mesaj</string>
   <string name="dialog_new_broadcast_message_name">mesaj:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">Yeni&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">Kategoriler</string>
   <string name="category_motion">Hareket</string>
@@ -421,6 +443,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_when_started">Program başladığında</string>
   <string name="brick_when">Dokunduğunuz zaman</string>
   <string name="brick_wait">Bekle</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"saniyeler\""</item>
     <item quantity="other">"saniyeler\""</item>
@@ -443,7 +466,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_set_variable">Değişkeni düzenle</string>
   <string name="brick_change_variable">Değişkeni değiştir</string>
   <string name="brick_variable_spinner_create_new_variable">Yeni&#8230;</string>
-  <string name="brick_note_default_value">"buraya yorum ekle&#8230;"</string>
+  <string name="brick_note_default_value">"Buraya yorum ekle..."</string>
   <string name="brick_broadcast_default_value">"mesaj 1"</string>
   <string name="brick_add_item_to_userlist_add">Add</string>
   <string name="brick_add_item_to_userlist">to list</string>
@@ -633,7 +656,6 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>

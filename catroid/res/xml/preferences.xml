@@ -64,7 +64,42 @@
     <PreferenceScreen
         android:key="setting_parrot_ar_drone_bricks"
         android:summary="@string/preference_description_quadcopter_bricks"
-        android:title="@string/preference_title_enable_quadcopter_bricks" />
+        android:title="@string/preference_title_enable_quadcopter_bricks" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_parrot_ar_drone_bricks"
+            android:summary="@string/preference_description_quadcopter_bricks"
+            android:title="@string/preference_title_enable_quadcopter_bricks" />
+
+
+        <PreferenceCategory android:title="@string/preference_title_drone_config_properties">
+            <Preference android:summary="@string/preference_title_drone_properties_setting_description" />
+
+            <ListPreference android:key="setting_drone_basic_configs"
+                android:title="@string/brick_drone_set_config"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_altitude_limit"
+                android:title="@string/brick_drone_set_altitude"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_vertical_speed"
+                android:title="@string/brick_drone_set_vertical_speed"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_rotation_speed"
+                android:title="@string/brick_drone_set_rotation_speed"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_drone_tilt_angle"
+                android:title="@string/brick_drone_set_tilt_limit"
+                android:defaultValue="SECOND"
+                android:summary="%s"/>
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
      <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_arduino_bricks"

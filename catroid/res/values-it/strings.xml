@@ -40,7 +40,7 @@
   <string name="backpack_add">Aggiungi allo zaino</string>
   <string name="backpack">Zaino</string>
   <string name="packing">Impacchetta</string>
-  <string name="unpack">Scompatta</string>
+  <string name="unpack">Spacchetta</string>
   <string name="unpack_keep">Spacchetta e mantieni</string>
   <string name="copy_addition">copiare</string>
   <string name="close">Chiudere</string>
@@ -96,18 +96,19 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Mattoncini Lego Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Permette il controllo dei robot Lego Mindstorms NXT</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensori Lego NXT</string>
-  <string name="preference_title_drone_config_properties">Configurazione del drone</string>
   <string name="preference_title_enable_phiro_bricks">Mattoncini Phiro</string>
   <string name="preference_description_phiro_bricks">Permette il controllo di un robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Mattoncini per Arduino</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Mattoncini che permettono di controllare Arduino</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
-  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
-  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
-  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
-  <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_title_enable_raspi_bricks">Mattoncini per Raspberry Pi</string>
+  <string name="preference_description_raspi_bricks">Permettono di controllare i computer Raspberry Pi</string>
+  <string name="preference_raspi_enable_bricks">Abilita mattoncini per Raspberry Pi</string>
+  <string name="preference_raspi_help">Aiuto / Guida introduttiva</string>
+  <string name="preference_raspi_help_summary">Ottieni informazioni su come configurare le impostazioni di connessione</string>
+  <string name="preference_raspi_host">Indirizzo IP/Host per Raspberry Pi</string>
+  <string name="preference_raspi_port">Porta Raspberry Pi</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Disegna Immagine</string>
   <string name="dialog_new_object_gallery">Selezionare immagine</string>
@@ -170,16 +171,16 @@
   <string name="dialog_confirm_delete_multiple_script_groups_title">Eliminare questi gruppi?</string>
   <string name="dialog_confirm_delete_brick_message">Questa azione non può essere annullata!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete %d Brick</item>
-    <item quantity="other">Delete %d Bricks</item>
+    <item quantity="one">Elimina %d mattoncino</item>
+    <item quantity="other">Elimina %d mattoncini</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d Brick</item>
-    <item quantity="other">Copy %d Bricks</item>
+    <item quantity="one">Copia %d mattoncino</item>
+    <item quantity="other">Copia %d mattoncini</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d Brick</item>
-    <item quantity="other">Backpack %d Bricks</item>
+    <item quantity="one">Metti nello zaino %d mattoncino</item>
+    <item quantity="other">Metti nello zaino %d mattoncini</item>
   </plurals>
   <!-- Look fragment -->
   <string name="fragment_look_text_description">Fare clic su \"+\" per creare un nuovo aspetto</string>
@@ -214,6 +215,20 @@
   <string name="sound_name">nome del suono:</string>
   <string name="new_sound_name">Nome del suono:</string>
   <string name="rename_sound_overwrite">Esiste un suono con lo stesso nome!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">è stata spacchettata!</item>
     <item quantity="other">sono stati spacchettati!</item>
@@ -259,6 +274,10 @@
   <string name="prestage_no_camera_available">\u2022 Rilevazione volti\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Fotocamera frontale\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Componente sconosciuto\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Sposta mattoncino</string>
   <string name="brick_context_dialog_show_source">Mostra codice sorgente del mattoncino</string>
@@ -345,6 +364,9 @@
   <string name="new_broadcast_message">Nuovo&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nuovo messaggio</string>
   <string name="dialog_new_broadcast_message_name">Messaggio:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">Nuovo&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">Categorie</string>
   <string name="category_motion">Movimento</string>
@@ -415,6 +437,7 @@
   <string name="brick_when_started">Quando il programma inizia</string>
   <string name="brick_when">Quando premuto</string>
   <string name="brick_wait">Attendi</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"secondo "</item>
     <item quantity="other">"secondi "</item>
@@ -583,18 +606,18 @@
   <string name="brick_arduino_select_analog_value">Imposta PIN modulazione di larghezza di impulso (PWM)</string>
   <string name="brick_arduino_set_pin_value_to">a</string>
   <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+  <string name="brick_raspi_select_digital_value">Imposta Pin Rasperry Pi</string>
   <string name="brick_raspi_set_pin_value_to">a</string>
-  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+  <string name="brick_raspi_if_begin">Se pin Raspberry Pi</string>
   <string name="brick_raspi_if_begin_second_part">è vero allora</string>
-  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-  <string name="brick_raspi_when_equals">changes to</string>
-  <string name="brick_raspi_pressed_text">High</string>
-  <string name="brick_raspi_released_text">Low</string>
-  <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+  <string name="brick_raspi_when_begin">Quando Pin Rasperry Pi</string>
+  <string name="brick_raspi_when_equals">cambia di</string>
+  <string name="brick_raspi_pressed_text">Alto</string>
+  <string name="brick_raspi_released_text">Basso</string>
+  <string name="brick_raspi_set_pwm">Imposta pin PWM Raspberry Pi</string>
   <!-- Raspi Settings -->
-  <string name="raspi_settings_title_name">Raspberry Pi Settings</string>
-  <string name="raspi_settings_gpio_version">GPIO Version</string>
+  <string name="raspi_settings_title_name">Impostazioni Raspberry Pi</string>
+  <string name="raspi_settings_gpio_version">Versione GPIO</string>
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Imposta motore NXT</string>
   <string name="nxt_motor_speed_to">a</string>
@@ -626,7 +649,6 @@
   <string name="preference_disable_nxt_info_dialog">Disattiva finestra di dialogo</string>
   <string name="preference_disable_nxt_info_dialog_description">Le impostazioni specifiche per l\'NXT non vengono mostrare quando si apre un programma.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">La mappatura dei sensori NXT  alle porte è specifico per ogni il programma e può essere configurata solo per i programmi aperti!</string>
-  <string name="preference_title_drone_properties_setting_description">La selezione delle proprietà di configurazione del drone sono specifiche per ogni programma e possono essere configurate solo per i programmi aperti!</string>
   <string name="lego_nxt_sensor_config_info_text">Il programma attuale utilizza mattoncini Lego Mindstorms NXT o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
   <string name="nxt_port_1">Porta 1</string>
   <string name="nxt_port_2">Porta 2</string>
@@ -846,8 +868,8 @@
   <string name="formula_editor_sensor_face_size">dimensione_volto</string>
   <string name="formula_editor_sensor_face_x_position">posizione_x_volto</string>
   <string name="formula_editor_sensor_face_y_position">posizione_y_volto</string>
-  <string name="formula_editor_function_number_of_items">number_of_items</string>
-  <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+  <string name="formula_editor_function_number_of_items">numero_di_elementi</string>
+  <string name="formula_editor_function_number_of_items_parameter">(*nome _lista*)</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
     <item quantity="one">Elemento selezionato!</item>
     <item quantity="other">Elementi selezionati!</item>
@@ -863,7 +885,7 @@
   <string name="edit_variable">Modifica Variabile</string>
   <string name="variable_hint">Nome della Variabile</string>
   <string name="brick_show_text_var">Visualizza la variabile</string>
-  <string name="brick_show_text_pos">"at "</string>
+  <string name="brick_show_text_pos">"a "</string>
   <string name="brick_hide_text_var">Nascondere la variabile</string>
   <!-- User Bricks strings -->
   <string name="define">definisci</string>
@@ -878,8 +900,7 @@
   <string name="merge_info">Unito con successo con</string>
   <string name="warning">Attenzione</string>
   <string name="error_merge_with_self">Attenzione! ll progetto attuale e il progetto selezionato sono gli stessi!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
-        has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Attenzione! Sono state rilevate diverse risoluzioni. %1$s ha una risoluzione di %2$dx%3$d mentre %4$s ha una risoluzione di %5$dx%6$d. Si userà la risoluzione di %1$s.</string>
   <string name="abort">Abbandona</string>
   <string name="merge_conflict">Unione non possibile</string>
   <string name="merge_conflict_variable">La variabile \"%1$s\" è definita in entrambi i programmi. Se fanno uso delle stesse variabili non possono essere uniti. Rinomina la variabile in uno dei due e riprova.</string>

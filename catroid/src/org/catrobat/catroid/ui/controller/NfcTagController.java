@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,9 @@
 package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
@@ -43,15 +43,13 @@ import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.SortedSet;
 
 public final class NfcTagController {
 	public static final String BUNDLE_ARGUMENTS_SELECTED_NFCTAG = "selected_nfctag";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsNfcTags";
-	//public static final int ID_LOADER_MEDIA_IMAGE = 1;
-	//public static final int REQUEST_SELECT_NFC = 0;
 
 	private static final NfcTagController INSTANCE = new NfcTagController();
 
@@ -144,25 +142,25 @@ public final class NfcTagController {
 		}
 	}
 
-	public NfcTagData copyNfcTag(NfcTagData selectedNfcTagData, ArrayList<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
+	public NfcTagData copyNfcTag(NfcTagData selectedNfcTagData, List<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
 
 		return updateNfcTagAdapter(selectedNfcTagData.getNfcTagName(), selectedNfcTagData.getNfcTagUid(), nfcTagDataList,
 				adapter);
 	}
 
-	public void copyNfcTag(int position, ArrayList<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
+	public void copyNfcTag(int position, List<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
 		NfcTagData nfcTagData = nfcTagDataList.get(position);
 		NfcTagController.getInstance().updateNfcTagAdapter(nfcTagData.getNfcTagName(), nfcTagData.getNfcTagUid(),
 				nfcTagDataList, adapter);
 	}
 
-	private void deleteNfcTag(int position, ArrayList<NfcTagData> nfcTagDataList, Activity activity) {
+	private void deleteNfcTag(int position, List<NfcTagData> nfcTagDataList, Activity activity) {
 		nfcTagDataList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setNfcTagList(nfcTagDataList);
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_NFCTAG_DELETED));
 	}
 
-	public void deleteCheckedNfcTags(Activity activity, NfcTagBaseAdapter adapter, ArrayList<NfcTagData> nfcTagDataList) {
+	public void deleteCheckedNfcTags(Activity activity, NfcTagBaseAdapter adapter, List<NfcTagData> nfcTagDataList) {
 		SortedSet<Integer> checkedNfcTags = adapter.getCheckedItems();
 		Iterator<Integer> iterator = checkedNfcTags.iterator();
 		NfcTagController.getInstance().stopScanAndUpdateList(nfcTagDataList, adapter);
@@ -174,7 +172,7 @@ public final class NfcTagController {
 		}
 	}
 
-	public NfcTagData updateNfcTagAdapter(String name, String uid, ArrayList<NfcTagData> nfcTagDataList,
+	public NfcTagData updateNfcTagAdapter(String name, String uid, List<NfcTagData> nfcTagDataList,
 										NfcTagBaseAdapter adapter) {
 
 		name = Utils.getUniqueNfcTagName(name);
@@ -188,7 +186,7 @@ public final class NfcTagController {
 		return newNfcTagData;
 	}
 
-	public void stopScanAndUpdateList(ArrayList<NfcTagData> nfcTagDataList,
+	public void stopScanAndUpdateList(List<NfcTagData> nfcTagDataList,
 			NfcTagBaseAdapter adapter) {
 		adapter.notifyDataSetChanged();
 	}
@@ -197,9 +195,9 @@ public final class NfcTagController {
 		ScriptActivity scriptActivity = (ScriptActivity) nfcTagFragment.getActivity();
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
-		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = scriptActivity.getFragmentManager().beginTransaction();
 		fragmentTransaction.hide(nfcTagFragment);
-		fragmentTransaction.show(scriptActivity.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		fragmentTransaction.show(scriptActivity.getFragmentManager().findFragmentByTag(ScriptFragment.TAG));
 		fragmentTransaction.commit();
 
 		scriptActivity.setIsNfcTagFragmentFromWhenNfcBrickNewFalse();

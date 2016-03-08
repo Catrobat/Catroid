@@ -65,16 +65,16 @@
   <string name="undo">Membatalkan</string>
   <string name="name_exists">Nama telah digunakan</string>
   <string name="no_name">Tanpa nama</string>
-  <string name="is_empty">is empty</string>
-  <string name="new_group">New group</string>
-  <string name="my_group">My group</string>
-  <string name="name">Name:</string>
-  <string name="nothing_to_copy">Nothing to copy</string>
+  <string name="is_empty">kosong</string>
+  <string name="new_group">Grup baru</string>
+  <string name="my_group">Grup Saya</string>
+  <string name="name">Nama:</string>
+  <string name="nothing_to_copy">Tidak ada yang disalin!</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
   <string name="nothing_to_unpack">Nothing to unpack</string>
-  <string name="nothing_to_delete">Nothing to delete</string>
-  <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program\'s background will be replaced</string>
+  <string name="nothing_to_delete">Tidak ada yang dihapus</string>
+  <string name="nothing_to_rename">Tidak ada penggantian nama</string>
+  <string name="unpack_background">Latar belakang program akan diganti</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Baru</string>
   <string name="main_menu_continue">Lanjutkan</string>
@@ -96,10 +96,11 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
   <string name="preference_description_mindstorms_nxt_bricks">Memungkinkan untuk mengontrol robot Lego Mindstorms NXT</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensor Lego NXT</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Memungkinkan untuk mengontrol robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -125,7 +126,7 @@
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
         AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
         use for Pocket Code.</string>
-  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Jangan ingatkan saya lagi.</string>
   <!-- About Dialog -->
   <string name="dialog_about_title">Tentang Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code adalah lingkungan pemrograman dan penerjemah untuk perangkat Android untuk bahasa pemrograman visual Catrobat.\n\n kode sumber Pocket Code terutama berlisensi di bawah lisensi GNU AGPL v3.          Untuk rincian lengkap dari lisensi Lihat link di bawah. \n</string>
@@ -144,11 +145,11 @@
   <string name="sprite">Objek</string>
   <string name="sprites">Objek</string>
   <string name="spritelist_background_headline">Latar belakang</string>
-  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
+  <string name="dialog_confirm_delete_object_title">Hapus objek ini?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Hapus objek-objek ini?</string>
   <string name="dialog_confirm_delete_object_message">Perintah ini tidak dapat dibatalkan!</string>
   <string name="select_all">Pilih Semua</string>
-  <string name="deselect_all">Deselect all</string>
+  <string name="deselect_all">Batalkan semua</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Copy</string>
   <!-- Script activity -->
@@ -167,8 +168,8 @@
   <string name="dialog_confirm_delete_brick_title">Hapus brick ini?</string>
   <string name="dialog_confirm_delete_script_title">Hapus script ini?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Hapus brick ini?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+  <string name="dialog_confirm_delete_script_group_title">Hapus Group ini</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Hapus Group-Group ini</string>
   <string name="dialog_confirm_delete_brick_message">Perintah ini tidak dapat dibatalkan!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">Delete %d Bricks</item>
@@ -191,7 +192,7 @@
   <string name="select_look_from_gallery">Pilih gambar</string>
   <string name="select_look_from_camera">Pilih foto</string>
   <string name="look_measure">Ukur:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
+  <string name="dialog_confirm_delete_look_title">Hapus tampilan ini?</string>
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Perintah ini tidak dapat dibatalkan!</string>
   <string name="lookname">Nama tampilan:</string>
@@ -212,6 +213,20 @@
   <string name="sound_name">judul musik:</string>
   <string name="new_sound_name">Judul musik:</string>
   <string name="rename_sound_overwrite">Musik dengan nama tersebut sudah terdaftar!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="other">sudah dibuka!</item>
   </plurals>
@@ -255,6 +270,10 @@
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Pindahkan Brick</string>
   <string name="brick_context_dialog_show_source">Tampilkan sumber Brick</string>
@@ -266,8 +285,8 @@
   <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
   <string name="brick_context_dialog_delete_script">Delete Script</string>
   <!-- New look dialog -->
-  <string name="new_look_dialog_title">Add Look</string>
-  <string name="add_look_from_camera">Take picture</string>
+  <string name="new_look_dialog_title">Tambahkan tampilan</string>
+  <string name="add_look_from_camera">Ambil gambar</string>
   <string name="add_look_draw_new_image">Draw image</string>
   <string name="add_look_choose_image">Pilih gambar</string>
   <string name="add_look_media_library">Media Library</string>
@@ -276,55 +295,55 @@
         !</string>
   <string name="add_look_drone_video">Drone Video</string>
   <!-- New Sound dialog -->
-  <string name="new_sound_dialog_title">Add Sound</string>
-  <string name="add_sound_from_recorder">Record Sound</string>
-  <string name="add_sound_choose_file">Select File</string>
+  <string name="new_sound_dialog_title">Tambahkan suara</string>
+  <string name="add_sound_from_recorder">Rekam suara</string>
+  <string name="add_sound_choose_file">Pilih file</string>
   <!-- New project dialog -->
-  <string name="new_project_dialog_title">New Program</string>
+  <string name="new_project_dialog_title">Program Baru</string>
   <string name="new_project_dialog_hint">Program saya</string>
   <string name="new_project_description_dialog_hint">Deskripsi saya</string>
   <string name="new_project_name">Nama program:</string>
   <string name="new_project_empty">Buat program kosong</string>
-  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default">Buat Program contoh </string>
   <string name="new_project_default_drone">Create example Drone Program</string>
-  <string name="project_orientation_title">Orientation:</string>
+  <string name="project_orientation_title">Orientasi:</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Objek saya</string>
   <string name="new_sprite_dialog_title">Objek baru</string>
   <string name="spritename_already_exists">Nama objek ini sudah ada</string>
   <string name="rename_sprite_dialog">Mengubah nama objek</string>
   <string name="spritename_invalid">Nama objek ini tidak valid</string>
-  <string name="no_spritename_entered">Please enter an object name.</string>
+  <string name="no_spritename_entered">Masukkan nama objek.</string>
   <string name="sprite_name">Nama objek:</string>
   <!-- Sign In dialogs -->
-  <string name="sign_in_dialog_title">Sign In</string>
+  <string name="sign_in_dialog_title">Masuk</string>
   <string name="username">Nama pengguna:</string>
   <string name="password">Kata sandi:</string>
-  <string name="password_forgotten">Password forgotten?</string>
+  <string name="password_forgotten">Lupa sandi?</string>
   <string name="new_user_registered">Account baru telah dibuat</string>
-  <string name="user_logged_in">Successfully logged in</string>
+  <string name="user_logged_in">Berhasil masuk</string>
   <string name="register_error">Invalid login</string>
   <string name="register_terms">Dengan mendaftar, Anda setuju dengan</string>
   <string name="register_pocketcode_terms_of_use_text">Persyaratan penggunaan</string>
   <string name="login">Login</string>
-  <string name="register">Register</string>
-  <string name="or">OR</string>
-  <string name="password_confirm">Confirm Password</string>
-  <string name="accountName">E-Mail</string>
-  <string name="signin_thanks">Thank you for signing up to Pocket Code!</string>
-  <string name="signin_choose_username">Please choose your username:</string>
-  <string name="signin_choose_username_empty">Please enter a username</string>
-  <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
-  <string name="show_password">Show Password</string>
-  <string name="register_password_mismatch">Passwords do not match</string>
+  <string name="register">Daftar</string>
+  <string name="or">ATAU</string>
+  <string name="password_confirm">Konfirmasi kata sandi</string>
+  <string name="accountName">E-mail</string>
+  <string name="signin_thanks">Terima kasih telah mendaftar pada Pocket Code!</string>
+  <string name="signin_choose_username">Silakan pilih Nama Pengguna anda:</string>
+  <string name="signin_choose_username_empty">Silahkan masukan nama pengguna anda</string>
+  <string name="signin_choose_username_hint">Nama pengguna tidak boleh nama asli anda.</string>
+  <string name="oauth_username_taken">Nama pengguna ini sudah ada. Harap pilih yang lain.</string>
+  <string name="show_password">Tampilkan kata sandi</string>
+  <string name="register_password_mismatch">Kata sandi tidak cocok</string>
   <string name="sign_in_error">Error during Sign In</string>
   <!-- OverwriteRenameDialog Strings -->
   <string name="overwrite_text">Program dengan nama yang sama sudah ada!</string>
   <string name="overwrite_replace">Menggantikan program yang ada</string>
   <string name="overwrite_rename">Mengubah nama program unduhan</string>
   <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace existing Look</string>
+  <string name="overwrite_replace_look">Ganti tampilan sekarang </string>
   <string name="overwrite_rename_look">Rename downloaded Look</string>
   <string name="overwrite_replace_sound">Replace existing Sound</string>
   <string name="overwrite_rename_sound">Rename downloaded Sound</string>
@@ -342,6 +361,9 @@
   <string name="new_broadcast_message">Baru&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Pesan baru</string>
   <string name="dialog_new_broadcast_message_name">pesan:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">Baru&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">Kategori</string>
   <string name="category_motion">Gerak</string>
@@ -410,6 +432,7 @@
   <string name="brick_when_started">Saat program dimulai</string>
   <string name="brick_when">Saat diketuk</string>
   <string name="brick_wait">Tunggu</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="other">"detik "</item>
   </plurals>
@@ -621,7 +644,6 @@
   <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is program specific and can only be configured for opened programs!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">The current program uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>

@@ -394,7 +394,7 @@ public final class Utils {
 
 	private static String searchForNonExistingNfcTagName(String name, int nextNumber) {
 		String newName;
-		ArrayList<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		if (nextNumber == 0) {
 			newName = name;
 		} else {

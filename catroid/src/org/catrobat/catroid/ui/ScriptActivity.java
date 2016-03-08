@@ -735,7 +735,7 @@ public class ScriptActivity extends BaseActivity {
 				fragmentTransaction.addToBackStack(NfcTagFragment.TAG);
 				if (nfcTagFragment == null) {
 					nfcTagFragment = new NfcTagFragment();
-					fragmentTransaction.add(R.id.script_fragment_container, nfcTagFragment, NfcTagFragment.TAG);
+					fragmentTransaction.add(R.id.fragment_container, nfcTagFragment, NfcTagFragment.TAG);
 				} else {
 					fragmentTransaction.show(nfcTagFragment);
 				}

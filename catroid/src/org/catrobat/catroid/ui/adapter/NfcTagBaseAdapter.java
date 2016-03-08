@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,13 +29,13 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.common.NfcTagData;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class NfcTagBaseAdapter extends ArrayAdapter<NfcTagData> implements ScriptActivityAdapterInterface {
+public class NfcTagBaseAdapter extends ArrayAdapter<NfcTagData> implements ActionModeActivityAdapterInterface {
 
-	protected ArrayList<NfcTagData> nfcTagDataItems;
+	protected List<NfcTagData> nfcTagDataItems;
 	protected Context context;
 
 	private OnNfcTagEditListener onNfcTagEditListener;
@@ -48,7 +48,7 @@ public class NfcTagBaseAdapter extends ArrayAdapter<NfcTagData> implements Scrip
 		super(context, currentPlayingposition);
 	}
 
-	public NfcTagBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<NfcTagData> items,
+	public NfcTagBaseAdapter(final Context context, int resource, int textViewResourceId, List<NfcTagData> items,
 			boolean showDetails) {
 		super(context, resource, textViewResourceId, items);
 		this.context = context;
@@ -95,7 +95,7 @@ public class NfcTagBaseAdapter extends ArrayAdapter<NfcTagData> implements Scrip
 		return checkedNfcTags;
 	}
 
-	public ArrayList<NfcTagData> getNfcTagDataItems() {
+	public List<NfcTagData> getNfcTagDataItems() {
 		return nfcTagDataItems;
 	}
 

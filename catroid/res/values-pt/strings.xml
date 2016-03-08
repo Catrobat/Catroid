@@ -96,10 +96,11 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Blocos de Lego Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Permite controlar os robôs Lego Mindstorm NXT</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensores Lego NXT</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Blocos Phiro</string>
   <string name="preference_description_phiro_bricks">Permite controlar um robô Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Blocos Arduino</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Permite controlar blocos Arduino</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -215,6 +216,20 @@
   <string name="sound_name">nome do som:</string>
   <string name="new_sound_name">Nome do áudio:</string>
   <string name="rename_sound_overwrite">Um áudio com o mesmo nome já existe!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">foi descompactado!</item>
     <item quantity="other">foram descompactados!</item>
@@ -261,6 +276,10 @@
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Mover blocos</string>
   <string name="brick_context_dialog_show_source">Mostrar Bloco Fonte</string>
@@ -347,6 +366,9 @@
   <string name="new_broadcast_message">Novo&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nova mensagem</string>
   <string name="dialog_new_broadcast_message_name">mensagem:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">Novo&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">Categorias</string>
   <string name="category_motion">Movimento</string>
@@ -417,6 +439,7 @@
   <string name="brick_when_started">Quando o programa iniciou</string>
   <string name="brick_when">Quando tocado</string>
   <string name="brick_wait">Aguarde</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"segundo "</item>
     <item quantity="other">"segundos "</item>
@@ -629,7 +652,6 @@
   <string name="preference_disable_nxt_info_dialog">Desabilitar caixa de diálogo</string>
   <string name="preference_disable_nxt_info_dialog_description">Configurações específicas de programa do NXT não são mostradas ao abrir um programa.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">O mapeamento dos sensores NXT a portas é específico do programa e só pode ser configurado para programas abertos!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">O programa atual usa blocos de Lego Mindstorms NXT ou sensores. Para uma funcionalidade adequada, conecte os sensores ao robô como a seguir</string>
   <string name="nxt_port_1">Porta 1</string>
   <string name="nxt_port_2">Porto 2</string>

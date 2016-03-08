@@ -96,10 +96,11 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Bloque de LEGO Mindstroms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Permiten controlar los robots de Lego Mindstorms</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensores LEGO NXT</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bloques</string>
   <string name="preference_description_phiro_bricks">Permite controlar un robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -218,6 +219,20 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="sound_name">nombre del sonido:</string>
   <string name="new_sound_name">Nombre de sonido:</string>
   <string name="rename_sound_overwrite">Sonido con el mismo nombre ya existe!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">ha sido descomprimido!</item>
     <item quantity="other">han sido descomprimidos!</item>
@@ -264,6 +279,10 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Mover el Bloque</string>
   <string name="brick_context_dialog_show_source">Ver la fuente del Bloque</string>
@@ -350,6 +369,9 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="new_broadcast_message">Nuevo&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Mensaje nuevo</string>
   <string name="dialog_new_broadcast_message_name">Mensaje:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">Nuevo&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">Categorías</string>
   <string name="category_motion">Movimiento</string>
@@ -420,6 +442,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_when_started">Cuando comience el programa</string>
   <string name="brick_when">Cuando pulse</string>
   <string name="brick_wait">Espere</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"segundo"</item>
     <item quantity="other">"segundos"</item>
@@ -632,7 +655,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="preference_disable_nxt_info_dialog">Desactivar el cuadro de diálogo información</string>
   <string name="preference_disable_nxt_info_dialog_description">Los ajustes específicos de NXT programa no aparecen al abrir un programa.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">El mapeo de pde los sensores NXT a puertos es de programa específico y sólo se puede configurar para abrir programas!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">El programa actual utiliza bloques de Lego Mindstorms NXT o sensores. Para un funcionamiento correcto por favor conectar los sensores al robot como os habrán dicho</string>
   <string name="nxt_port_1">Puerto 1</string>
   <string name="nxt_port_2">Puerto 2</string>

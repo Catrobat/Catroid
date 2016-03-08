@@ -96,10 +96,11 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">樂高 Mindstorms NXT 程式塊</string>
   <string name="preference_description_mindstorms_nxt_bricks">控制 樂高 Mindstorms NXT 機器人</string>
   <string name="preference_title_mindstorms_nxt_sensors">樂高 NXT 感應器</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro 程式塊</string>
   <string name="preference_description_phiro_bricks">控制 Phiro 機器人</string>
   <string name="preference_title_enable_arduino_bricks">Arduino 程式塊</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">控制 Arduino 程式塊</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -212,6 +213,20 @@
   <string name="sound_name">音效名稱:</string>
   <string name="new_sound_name">新音效名稱:</string>
   <string name="rename_sound_overwrite">相同名稱的音效已經存在!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="other">已取出!</item>
   </plurals>
@@ -255,6 +270,10 @@
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">移動程式塊</string>
   <string name="brick_context_dialog_show_source">顯示原始程式塊</string>
@@ -341,6 +360,9 @@
   <string name="new_broadcast_message">新增&#8230;</string>
   <string name="dialog_new_broadcast_message_title">新訊息</string>
   <string name="dialog_new_broadcast_message_name">訊息標題:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">新增&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">程式塊分類</string>
   <string name="category_motion">動作</string>
@@ -409,6 +431,7 @@
   <string name="brick_when_started">當程式開始時</string>
   <string name="brick_when">當物件被按時</string>
   <string name="brick_wait">等待</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="other">"秒 "</item>
   </plurals>
@@ -619,7 +642,6 @@
   <string name="preference_disable_nxt_info_dialog">取消NXT資訊顯示</string>
   <string name="preference_disable_nxt_info_dialog_description">開啟程式檔時不顯示程式指定的NXT設定資訊。</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">樂高NXT感應器與埠的對應由程式檔中指定, 而且只能在開啟的程式檔中做設定。</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">目前的程式檔使用樂高NXT程式塊或感應器, 為了確保功能正常請依照下列方式連接感應器與機器人。</string>
   <string name="nxt_port_1">埠1</string>
   <string name="nxt_port_2">埠2</string>

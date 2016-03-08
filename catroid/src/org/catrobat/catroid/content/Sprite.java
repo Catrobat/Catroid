@@ -153,7 +153,7 @@ public class Sprite implements Serializable, Cloneable {
 		}
 		return result;
 	}
-	
+
 	public List<WhenNfcBrick> getNfcBrickList() {
 		List<WhenNfcBrick> result = new ArrayList<>();
 		for (Brick brick : getAllBricks()) {
@@ -299,7 +299,7 @@ public class Sprite implements Serializable, Cloneable {
 			deepClone.getDefinitionBrick().setUserScript((StartScript) newScript);
 		}
 
-		ArrayList<NfcTagData> cloneNfcTagList = new ArrayList<NfcTagData>();
+		List<NfcTagData> cloneNfcTagList = new ArrayList<NfcTagData>();
 		for (NfcTagData element : this.nfcTagList) {
 			cloneNfcTagList.add(element.clone());
 		}
@@ -512,11 +512,11 @@ public class Sprite implements Serializable, Cloneable {
 		return resources;
 	}
 
-	public ArrayList<NfcTagData> getNfcTagList() {
+	public List<NfcTagData> getNfcTagList() {
 		return nfcTagList;
 	}
 
-	public void setNfcTagList(ArrayList<NfcTagData> list) {
+	public void setNfcTagList(List<NfcTagData> list) {
 		nfcTagList = list;
 	}
 
