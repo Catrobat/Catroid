@@ -26,8 +26,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -186,8 +189,24 @@ public class PreStageActivity extends BaseActivity {
 				resourceFailed(Brick.FACE_DETECTION);
 			}
 		}
+		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
+			if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.nfc_facedetection_support)).setCancelable(false)
+						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								nfcInitialize();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+			} else {
+				nfcInitialize();
+			}
+		}
 
-		if (requiredResources == Brick.NO_RESOURCES) {
+		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
 
@@ -472,6 +491,24 @@ public class PreStageActivity extends BaseActivity {
 		} else {
 			resourceFailed(Brick.CAMERA_FLASH);
 		}
+	}
+
+	private void nfcInitialize() {
+		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
+		if (adapter != null && !adapter.isEnabled()) {
+			ToastUtil.showError(PreStageActivity.this, R.string.nfc_not_activated);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+				startActivity(intent);
+			}
+		} else if (adapter == null) {
+			ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
+			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
+		}
+		resourceInitialized();
 	}
 }
 

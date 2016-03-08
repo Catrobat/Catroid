@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.Instrumentation;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -33,8 +34,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -133,6 +138,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
@@ -209,6 +215,7 @@ public final class UiTestUtils {
 	public static final int SCRIPTS_INDEX = 0;
 	public static final int LOOKS_INDEX = 1;
 	public static final int SOUNDS_INDEX = 2;
+	public static final int NFCTAGS_INDEX = 3;
 
 	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<>();
 
@@ -225,6 +232,7 @@ public final class UiTestUtils {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_nfctags);
 	}
 
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
@@ -644,6 +652,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_drone_turn_right_magneto, R.string.category_drone);
 
 		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
+		brickCategoryMap.put(R.string.brick_when_nfc, R.string.category_control);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -1907,6 +1916,27 @@ public final class UiTestUtils {
 		solo.sleep(200);
 	}
 
+	public static void getIntoNfcTagsFromMainMenu(Solo solo) {
+		getIntoNfcTagsFromMainMenu(solo, 0, false);
+	}
+
+	public static void getIntoNfcTagsFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoNfcTagsFromMainMenu(solo, 0, isBackground);
+	}
+
+	public static void getIntoNfcTagsFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
+		String textToClickOn = "";
+
+		textToClickOn = solo.getString(R.string.nfctags);
+
+		solo.clickOnText(textToClickOn);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+	}
+
 	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
 		getIntoScriptActivityFromMainMenu(solo, 0);
 	}
@@ -2199,6 +2229,46 @@ public final class UiTestUtils {
 	public static boolean searchExactText(Solo solo, String text, boolean onlyVisible) {
 		String regularExpressionForExactClick = "^" + java.util.regex.Pattern.quote(text) + "$";
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
+	}
+
+	public static void fakeNfcTag(Solo solo, String uid, NdefMessage ndefMessage, Tag tag) {
+		Class activityCls = solo.getCurrentActivity().getClass();
+		Context packageContext = solo.getCurrentActivity();
+
+		PendingIntent pendingIntent = PendingIntent.getActivity(packageContext, 0,
+				new Intent(packageContext, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+		String intentAction = NfcAdapter.ACTION_TAG_DISCOVERED;
+		byte[] tagId = uid.getBytes();
+
+		Intent intent = new Intent();
+		intent.setAction(intentAction);
+		if (tag != null) {
+			intent.putExtra(NfcAdapter.EXTRA_TAG, tag);
+		}
+		intent.putExtra(NfcAdapter.EXTRA_ID, tagId);
+		if (ndefMessage != null) {
+			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] { ndefMessage });
+			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intentAction)) {
+				Uri uri = ndefMessage.getRecords()[0].toUri();
+				String mime = ndefMessage.getRecords()[0].toMimeType();
+				if (uri != null) {
+					intent.setData(uri);
+				} else {
+					intent.setType(mime);
+				}
+			}
+		}
+
+		try {
+			pendingIntent.send(packageContext, Activity.RESULT_OK, intent);
+		} catch (PendingIntent.CanceledException e) {
+			Log.d("fakeNfcTag", e.getMessage());
+		}
+	}
+
+	public static void enableNfcBricks(Context context) {
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(SettingsActivity.SETTINGS_SHOW_NFC_BRICKS, true).commit();
 	}
 
 	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {

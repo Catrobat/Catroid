@@ -100,6 +100,8 @@
   <string name="preference_title_enable_phiro_bricks">Блоки Phiro</string>
   <string name="preference_description_phiro_bricks">Разрешение упраление роботом Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Блоки Arduino</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Разрешитт использовать блоки Arduino</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -217,6 +219,20 @@
   <string name="sound_name">имя звука:</string>
   <string name="new_sound_name">Название звука:</string>
   <string name="rename_sound_overwrite">Звук с таким именем уже существует!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">Было роспаковано!</item>
     <item quantity="few">Распаковано!</item>
@@ -266,6 +282,10 @@
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Переместить</string>
   <string name="brick_context_dialog_show_source">Показать исходный блок</string>
@@ -352,6 +372,9 @@
   <string name="new_broadcast_message">новое&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Новый сигнал</string>
   <string name="dialog_new_broadcast_message_name">сигнал:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">новое&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">Категории</string>
   <string name="category_motion">Движение</string>
@@ -424,9 +447,10 @@
   <string name="brick_when_started">При старте</string>
   <string name="brick_when">Когда</string>
   <string name="brick_wait">Ждать</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"секунда "</item>
-    <item quantity="few">секунды </item>
+    <item quantity="few">"секунды "</item>
     <item quantity="other">"секунды"</item>
   </plurals>
   <string name="brick_broadcast_receive">Когда я получу</string>

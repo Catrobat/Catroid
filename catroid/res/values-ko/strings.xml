@@ -100,6 +100,8 @@
   <string name="preference_title_enable_phiro_bricks">Phiro 블록</string>
   <string name="preference_description_phiro_bricks">Phiro 로봇 제어 허용하기</string>
   <string name="preference_title_enable_arduino_bricks">아두이노 블록</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">아두이노 제어 가능 허용하기</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
   <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
@@ -213,6 +215,20 @@
   <string name="sound_name">소리 이름:</string>
   <string name="new_sound_name">소리 이름:</string>
   <string name="rename_sound_overwrite">이미 같은 이름의 소리파일이 있습니다!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="other">해제되었습니다!</item>
   </plurals>
@@ -256,6 +272,10 @@
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">블록 이동</string>
   <string name="brick_context_dialog_show_source">소스 블록을 보여라</string>
@@ -342,6 +362,9 @@
   <string name="new_broadcast_message">새로운</string>
   <string name="dialog_new_broadcast_message_title">새 메시지</string>
   <string name="dialog_new_broadcast_message_name">메시지:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">새로운</string>
+  <string name="brick_when_nfc_default_all">all</string>
   <!-- Brick categories -->
   <string name="categories">카테고리</string>
   <string name="category_motion">동작</string>
@@ -410,6 +433,7 @@
   <string name="brick_when_started">프로그램을 시작할 때</string>
   <string name="brick_when">터치할 때</string>
   <string name="brick_wait">기다리기</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="other">"초"</item>
   </plurals>

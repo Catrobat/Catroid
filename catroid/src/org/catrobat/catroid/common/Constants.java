@@ -71,6 +71,7 @@ public final class Constants {
 	public static final String CAMERA_FLASH = "CAMERA_FLASH";
 	public static final String VIBRATOR = "VIBRATOR";
 	public static final String FACE_DETECTION = "FACE_DETECTION";
+	public static final String NFC = "NFC";
 
 	public static final int NO_POSITION = -1;
 

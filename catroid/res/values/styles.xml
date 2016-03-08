@@ -312,7 +312,7 @@
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_red_3h</item >
     </style >
-    
+
     <style name="BrickContainer.UserBrick" ></style >
 
     <style name="BrickCategoryText.Data">
@@ -499,6 +499,16 @@
         <item name="android:textColor" >@color/sound_fragment_text_detail_color</item >
         <item name="android:textSize" >14sp</item >
     </style >
+
+    <style name="nfctag_fragment_main" parent="fragment_basic_style">
+        <item name="android:textColor">@color/nfctag_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="nfctag_fragment_detail" parent="fragment_basic_style">
+        <item name="android:textColor">@color/nfctag_fragment_text_detail_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     
     <style name="NoBackgroundStyle" >
 
