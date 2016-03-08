@@ -37,14 +37,16 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.StageActivity;
 */
+
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+
 /*
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 */
-import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 /*
 import org.catrobat.catroid.test.util.Reflection;
 import org.catrobat.catroid.uitest.util.SensorTestServerConnection;

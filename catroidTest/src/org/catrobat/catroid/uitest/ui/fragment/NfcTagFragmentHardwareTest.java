@@ -28,14 +28,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScreenValues;
 */
+
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+
 /*
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 */
-import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 /*
 import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;

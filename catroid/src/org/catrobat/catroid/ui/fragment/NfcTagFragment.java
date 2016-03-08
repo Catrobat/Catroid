@@ -801,7 +801,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 
 		NfcTagController controller = NfcTagController.getInstance();
-		controller.updateNfcTagLogic(getActivity(), position, holder, adapter);
+		controller.updateNfcTagLogic(position, holder, adapter);
 		return convertView;
 	}
 

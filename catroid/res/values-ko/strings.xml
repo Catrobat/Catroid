@@ -96,6 +96,7 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">레고 마인드스톰 NXT 블록</string>
   <string name="preference_description_mindstorms_nxt_bricks">레고 마인드스톰 NXT 로봇 제어 가능 허용하기</string>
   <string name="preference_title_mindstorms_nxt_sensors">레고 NXT 센서</string>
+  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro 블록</string>
   <string name="preference_description_phiro_bricks">Phiro 로봇 제어 허용하기</string>
   <string name="preference_title_enable_arduino_bricks">아두이노 블록</string>
@@ -643,6 +644,7 @@
   <string name="preference_disable_nxt_info_dialog">정보 대화 상자를 사용 안함</string>
   <string name="preference_disable_nxt_info_dialog_description">프로그램 특정 NXT 설정을 프로그램을 열 때 표시되지 않습니다.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT 센서와 포트의 설정은 특정하며 열린 프로그램에 대해서만 구성할 수 있습니다!</string>
+  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
   <string name="lego_nxt_sensor_config_info_text">현재 프로그램은 레고 마인드 스톰 NXT 블록 또는 센서를 사용합니다. 적절한 기능을 하려면 센서를 로봇에 다음과 같이 연결하세요</string>
   <string name="nxt_port_1">포트 1</string>
   <string name="nxt_port_2">포트 2</string>
