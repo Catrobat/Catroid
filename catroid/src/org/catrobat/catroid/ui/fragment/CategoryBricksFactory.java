@@ -112,6 +112,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -199,6 +200,10 @@ public class CategoryBricksFactory {
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
+		}
+
+		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new WhenNfcBrick());
 		}
 
 		return controlBrickList;
