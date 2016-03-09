@@ -45,6 +45,8 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -299,16 +301,20 @@ public class NewDataDialog extends DialogFragment {
 	}
 
 	private boolean isListNameValid(String name) {
-		if (ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.getUserList(name, ProjectManager.getInstance().getCurrentSprite()) != null) {
+		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentData.existProjectListWithName(name) || currentData.existSpriteListByName(name, currentSprite)) {
 			return false;
 		}
 		return true;
 	}
 
 	private boolean isVariableNameValid(String name) {
-		if (ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.getUserVariable(name, ProjectManager.getInstance().getCurrentSprite()) != null) {
+		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentData.existProjectVariableWithName(name) || currentData.existSpriteVariableByName(name, currentSprite)) {
 			return false;
 		}
 		return true;
