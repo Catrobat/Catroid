@@ -154,6 +154,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 		Spinner pointToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_physics_object_type_spinner);
 		pointToSpinner.setFocusableInTouchMode(false);
 		pointToSpinner.setFocusable(false);
+		pointToSpinner.setEnabled(false);
 		SpinnerAdapter objectTypeSpinnerAdapter = createAdapter(context);
 		pointToSpinner.setAdapter(objectTypeSpinnerAdapter);
 		pointToSpinner.setSelection(PhysicsObject.Type.DYNAMIC.ordinal());

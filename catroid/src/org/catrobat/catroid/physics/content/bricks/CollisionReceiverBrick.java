@@ -179,6 +179,7 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
 		broadcastReceiverSpinner.setFocusableInTouchMode(false);
 		broadcastReceiverSpinner.setFocusable(false);
+		broadcastReceiverSpinner.setEnabled(false);
 		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);
 		broadcastReceiverSpinner.setAdapter(collisionReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);
