@@ -389,15 +389,15 @@
     <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
     <string name="brick_set_physics_object_type_fixed">Fixed</string>
     <string name="brick_set_physics_object_type_no">No</string>
-    <string name="brick_set_mass">Set mass to</string>
+    <string name="brick_set_mass">"Set mass to "</string>
     <string name="brick_set_mass_unit">kg</string>
-    <string name="brick_set_gravity_to">Set gravity to</string>
+    <string name="brick_set_gravity_to">"Set gravity to "</string>
     <string name="brick_set_gravity_unit">step/s²</string>
-    <string name="brick_set_velocity_to">Set velocity to</string>
+    <string name="brick_set_velocity_to">"Set velocity to "</string>
     <string name="brick_set_velocity_unit">step/s</string>
     <string name="brick_turn_speed_unit">degrees/s</string>
-    <string name="brick_set_friction">Set friction to</string>
-    <string name="brick_set_bounce_factor">Set bounce factor to</string>
+    <string name="brick_set_friction">"Set friction to "</string>
+    <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
 
     <!-- Looks bricks -->
     <string name="brick_set_look">Switch to look</string>
