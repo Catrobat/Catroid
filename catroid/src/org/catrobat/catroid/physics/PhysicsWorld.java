@@ -79,7 +79,7 @@ public class PhysicsWorld {
 	private int stabilizingSteCounter = 0;
 	private PhysicsBoundaryBox boundaryBox;
 
-	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
+	private PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
 	public PhysicsWorld() {
 		this(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
@@ -140,7 +140,7 @@ public class PhysicsWorld {
 	public void changeLook(PhysicsObject physicsObject, Look look) {
 		Shape[] shapes = null;
 		if (look.getLookData() != null && look.getLookData().getLookFileName() != null) {
-			shapes = physicsShapeBuilder.getShape(look.getLookData(),
+			shapes = physicsShapeBuilder.getScaledShapes(look.getLookData(),
 					look.getSizeInUserInterfaceDimensionUnit() / 100f);
 		}
 		physicsObject.setShape(shapes);
