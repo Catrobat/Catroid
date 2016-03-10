@@ -502,7 +502,6 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
 	}
 
-
 	public void testDefaultTypeOfSprites() {
 		TestUtils.deleteTestProjects();
 		Project project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
