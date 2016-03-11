@@ -234,6 +234,15 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	public void handleKeyEvent(int resource, String name) {
+		if (name.equals("LONG PRESS DELETE")) {
+			while (internFormula.getExternCursorPosition() > 1) {
+				internFormula.handleKeyInput(resource, context, name);
+				history.push(internFormula.getInternFormulaState());
+				String resultingText = updateTextAndCursorFromInternFormula();
+				setSelection(absoluteCursorPosition);
+				formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+			}
+		}
 		internFormula.handleKeyInput(resource, context, name);
 		history.push(internFormula.getInternFormulaState());
 		String resultingText = updateTextAndCursorFromInternFormula();
