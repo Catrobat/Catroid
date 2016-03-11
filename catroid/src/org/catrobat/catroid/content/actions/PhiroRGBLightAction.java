@@ -37,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class PhiroRGBLightAction extends TemporalAction {
+	private static final String TAG = PhiroRGBLightAction.class.getSimpleName();
 	private static final int MIN_VALUE = 0;
 	private static final int MAX_VALUE = 255;
 
@@ -65,7 +66,7 @@ public class PhiroRGBLightAction extends TemporalAction {
 			phiro.setLeftRGBLightColor(redValue, greenValue, blueValue);
 			phiro.setRightRGBLightColor(redValue, greenValue, blueValue);
 		} else {
-			Log.d("Phiro", "Error: EyeEnum:" + eyeEnum);
+			Log.d(TAG, "Error: EyeEnum:" + eyeEnum);
 		}
 	}
 

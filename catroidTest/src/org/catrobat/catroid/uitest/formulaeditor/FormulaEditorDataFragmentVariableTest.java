@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-
+	private static final String TAG = FormulaEditorDataFragmentVariableTest.class.getSimpleName();
 	private static final double SET_USERVARIABLE_TO_BRICK_VALUE = 10d;
 	private static final String USER_VARIABLE_NAME_UNDERLINE_PREFIX = "_userVar1";
 	private Project project;
@@ -266,7 +266,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
 		itemString = QUOTE + itemString + QUOTE;
-		Log.i("info", "editText: " + text.getText().toString());
+		Log.i(TAG, "editText: " + text.getText().toString());
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
