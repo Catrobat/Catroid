@@ -488,7 +488,8 @@ public final class UiTestUtils {
 		}
 
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
+				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')
+						.replace(" ", "")), 0.01f);
 	}
 
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField,
