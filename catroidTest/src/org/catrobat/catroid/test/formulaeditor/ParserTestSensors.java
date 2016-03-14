@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -202,7 +202,8 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		SimulatedSensorManager simulatedSensorManager = new SimulatedSensorManager();
 		Reflection.setPrivateField(sensorHandler, "sensorManager", simulatedSensorManager);
 
-		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "accelerometerSensor");
+		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(sensorHandler,
+				"linearAccelerationSensor");
 		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "rotationVectorSensor");
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
 
@@ -222,9 +223,9 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 		float expectedLoudness = (Float) Reflection.getPrivateField(sensorHandler, "loudness");
 
-		float expectedXAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionX");
-		float expectedYAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionY");
-		float expectedZAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAcceleartionZ");
+		float expectedXAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationX");
+		float expectedYAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationY");
+		float expectedZAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationZ");
 
 		float[] rotationMatrix = new float[16];
 		float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");

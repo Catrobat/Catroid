@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
@@ -35,6 +36,8 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
@@ -53,21 +56,26 @@ public class Project implements Serializable {
 
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
-
 	@XStreamAlias("objectList")
-	private List<Sprite> spriteList = new ArrayList<Sprite>();
+	private List<Sprite> spriteList = new ArrayList<>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
+	@XStreamAlias("settings")
+	private List<Setting> settings = new ArrayList<>();
 
 	private transient PhysicsWorld physicsWorld;
-	@XStreamAlias("settings")
-	private List<Setting> settings = new ArrayList<Setting>();
 
-	public Project(Context context, String name) {
+	public Project(Context context, String name, boolean landscapeMode) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
-		ifLandscapeSwitchWidthAndHeight();
+		xmlHeader.setlandscapeMode(landscapeMode);
+
+		if (landscapeMode) {
+			ifPortraitSwitchWidthAndHeight();
+		} else {
+			ifLandscapeSwitchWidthAndHeight();
+		}
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			Utils.updateScreenWidthAndHeight(context);
 		}
@@ -87,8 +95,20 @@ public class Project implements Serializable {
 		addSprite(background);
 	}
 
+	public Project(Context context, String name) {
+		this(context, name, false);
+	}
+
 	private void ifLandscapeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
+		}
+	}
+
+	private void ifPortraitSwitchWidthAndHeight() {
+		if (ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 			ScreenValues.SCREEN_WIDTH = tmp;
@@ -290,11 +310,109 @@ public class Project implements Serializable {
 		}
 	}
 
-	public boolean checkIfPhiroProProject() {
-		return xmlHeader.isPhiroProProject();
+	public boolean containsSpriteBySpriteName(Sprite searchedSprite) {
+		for (Sprite sprite : spriteList) {
+			if (searchedSprite.getName().equals(sprite.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public void setIsPhiroProProject(boolean isPhiroProProject) {
-		xmlHeader.setPhiroProProject(isPhiroProProject);
+	public UserVariable getProjectVariableWithName(String name) {
+		for (UserVariable variable : dataContainer.getProjectVariables()) {
+			if (name.equals(variable.getName())) {
+				return variable;
+			}
+		}
+		return null;
+	}
+
+	public UserList getProjectListWithName(String name) {
+		for (UserList list : dataContainer.getProjectLists()) {
+			if (name.equals(list.getName())) {
+				return list;
+			}
+		}
+		return null;
+	}
+
+	public boolean existProjectVariable(UserVariable variable) {
+		return dataContainer.existProjectVariable(variable);
+	}
+
+	public boolean existSpriteVariable(UserVariable variable, Sprite sprite) {
+		if (!spriteList.contains(sprite)) {
+			return false;
+		}
+		return dataContainer.existSpriteVariable(variable, sprite);
+	}
+
+	public boolean existProjectList(UserList list) {
+		return dataContainer.existProjectList(list);
+	}
+
+	public boolean existSpriteList(UserList list, Sprite sprite) {
+		if (!spriteList.contains(sprite)) {
+			return false;
+		}
+		return dataContainer.existSpriteList(list, sprite);
+	}
+
+	public Sprite getSpriteByUserVariable(UserVariable variable) {
+		Sprite spriteByUserVariable = null;
+		for (Sprite sprite : spriteList) {
+			if (dataContainer.existSpriteVariable(variable, sprite)) {
+				spriteByUserVariable = sprite;
+				break;
+			}
+		}
+		return spriteByUserVariable;
+	}
+
+	public Sprite getSpriteByUserList(UserList list) {
+		Sprite spriteByUserList = null;
+		for (Sprite sprite : spriteList) {
+			if (dataContainer.existSpriteList(list, sprite)) {
+				spriteByUserList = sprite;
+				break;
+			}
+		}
+		return spriteByUserList;
+	}
+
+	public Sprite getSpriteBySpriteName(Sprite searchedSprite) {
+		Sprite spriteBySpriteName = null;
+		for (Sprite sprite : spriteList) {
+			if (searchedSprite.getName().equals(sprite.getName())) {
+				spriteBySpriteName = sprite;
+				break;
+			}
+		}
+		return spriteBySpriteName;
+	}
+
+	public boolean isBackgroundSprite(Sprite sprite) {
+		if (spriteList.indexOf(sprite) == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public void replaceBackgroundSprite(Sprite unpackedSprite) {
+		spriteList.set(0, unpackedSprite);
+	}
+
+	public boolean containsSprite(Sprite selectedSprite) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			if (sprite.equals(selectedSprite)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean islandscapeMode() {
+		return xmlHeader.islandscapeMode();
 	}
 }

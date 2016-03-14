@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -84,8 +83,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 		}
 
 		if (view == null) {
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.brick_loop_end, null);
+			view = View.inflate(context, R.layout.brick_loop_end, null);
 			view = getViewWithAlpha(alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
 
@@ -121,7 +119,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -168,8 +166,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
+		return View.inflate(context, R.layout.brick_loop_end_no_puzzle, null);
 	}
 
 	@Override

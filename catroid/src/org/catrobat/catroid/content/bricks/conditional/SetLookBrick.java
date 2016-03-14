@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
 
@@ -76,8 +77,13 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	public Brick copyBrickForSprite(Sprite sprite) {
 		SetLookBrick copyBrick = (SetLookBrick) clone();
 
+		if (look != null && look.isBackpackLookData) {
+			copyBrick.look = look;
+			return copyBrick;
+		}
+
 		for (LookData data : sprite.getLookDataList()) {
-			if (data.getAbsolutePath().equals(look.getAbsolutePath())) {
+			if (look != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
 				copyBrick.look = data;
 				break;
 			}
@@ -171,7 +177,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -212,7 +218,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		SetLookBrick clonedBrick = new SetLookBrick();
 		clonedBrick.setLook(look);
 		return clonedBrick;
-		//test
 	}
 
 	@Override
@@ -349,5 +354,14 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	public void onLookDataListChangedAfterNew(LookData lookData) {
 		look = lookData;
 		oldSelectedLook = lookData;
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		LookData backPackedLookData = LookController.getInstance().backPackLook(this.getLook(), true);
+		this.setLook(backPackedLookData);
+		if (sprite != null && !sprite.getLookDataList().contains(backPackedLookData)) {
+			sprite.getLookDataList().add(backPackedLookData);
+		}
 	}
 }

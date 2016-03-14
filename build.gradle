@@ -1,11 +1,32 @@
-import java.util.regex.Pattern
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2016 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.1'
+        classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
@@ -26,22 +47,45 @@ apply from: 'gradle/intellij_config_tasks.gradle'
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
+android {
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
+        }
+        release {
+            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+        }
+    }
+}
+
 ext {
     projectVersion = "0.9"
-    featuresEnabled = [
-            "lego_nxt"                          : true,
-            "phiro"                             : true,
-            "led_brick"                         : false,
-            "vibration_brick"                   : false,
-            "backpack"                          : false,
-            "parrot_ar_drone"                   : false,
-            "apk_generator"                     : false,
-            "computer_vision_enhancement"       : true,
-            "formula_editor_lists"              : true,
-            "physics_engine_collision_filtering": false,
-            "time_capsule"                      : false,
-            "userbricks"                        : false
-    ]
 }
 
 configurations {
@@ -50,8 +94,6 @@ configurations {
 }
 
 dependencies {
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3.1'
@@ -67,6 +109,9 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
+    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -74,7 +119,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
-	checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
+    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
 task copyAndroidNatives() {
@@ -127,19 +172,18 @@ def getCurrentGitBranch() {
     }
 }
 
-
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.0'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 23
+        versionCode 28
         println "VersionCode is " + versionCode
-        versionName "0.9.16"
+        versionName "0.9.21"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
@@ -149,6 +193,7 @@ android {
             buildConfigField "String", "BUILD_TYPE_${build_type.toUpperCase()}", "\"${build_type}\""
         }
     }
+
     sourceSets {
         main {
             manifest.srcFile 'catroid/AndroidManifest.xml'
@@ -162,6 +207,7 @@ android {
         }
 
         androidTest {
+            manifest.srcFile 'catroidTest/AndroidManifest.xml'
             java.srcDirs = ['catroidTest/src']
             resources.srcDirs = ['catroidTest/src']
             aidl.srcDirs = ['catroidTest/src']
@@ -183,12 +229,9 @@ android {
         }
     }
     lintOptions {
-        // define ignores like a specific res-folder in our lint.xml file
+        // specific ignores should be defined via lint.xml file, all general ignores should be added here
         lintConfig file('config/lint.xml')
-
-        // all general ignores should be added in this place
         // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
-        // OldTargetApi should be reviewed - consider updating target API to 20
         // RtlSymmetry/RtlHardcoded should be reviewed
         // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
         // IconMissingDensityFolder - currently no xxxhdpi icons available
@@ -197,12 +240,13 @@ android {
         ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
                 'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
                 'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
-                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation'
+                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation'
 
         textReport true
         xmlReport true
-        htmlReport false
+        htmlReport true
         xmlOutput file("build/reports/lint.xml")
+        htmlOutput file("build/reports/lint.html")
     }
 }
 
@@ -227,52 +271,6 @@ if (project.hasProperty('jenkins')) {
                 }
                 manifestOutputFile.write(generatedContent)
             }
-
         }
     }
-}
-
-task featuresToBuildconfig << {
-    println "Activated Features:"
-    for (feature in featuresEnabled) {
-        def name = feature.key
-        def value = feature.value
-        if (project.hasProperty("allFeatures_enabled"))
-            value = project["allFeatures_enabled"]
-        if (project.hasProperty("${name}_enabled"))
-            value = project["${name}_enabled"]
-
-        if (!(value.toString().equals("true") || value.toString().equals("false")))
-            throw new IllegalArgumentException("Wrong Argument! Usage:\ne.g. -PallFeatures_enabled=true -Pparrot_ar_drone_enabled=false")
-
-        if (value.toString().equals("true")) {
-            println "- " + name
-        }
-        android.defaultConfig.buildConfigField "boolean", "FEATURE_${name.toUpperCase()}_ENABLED", "${value}"
-    }
-    println ""
-}
-
-task testManifestHack << {
-    def origManifest = file('catroidTest/AndroidManifest.xml')
-    def generatedManifest = file("build/intermediates/manifests/test/debug/AndroidManifest.xml")
-    def origContent = origManifest.getText()
-    def generatedContent = generatedManifest.getText()
-    def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
-    def matcher = pattern.matcher(origContent)
-    matcher.find()
-    origContent = matcher.group()
-    generatedContent = pattern.matcher(generatedContent).replaceAll(origContent)
-    generatedManifest.write(generatedContent)
-}
-
-gradle.projectsEvaluated {
-    generateDebugTestBuildConfig.dependsOn testManifestHack
-}
-
-preBuild.dependsOn featuresToBuildconfig
-
-def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
-if (signing_config_file.exists()) {
-    apply from: signing_config_file.absolutePath
 }

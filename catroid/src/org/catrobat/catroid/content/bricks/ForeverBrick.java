@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -101,7 +101,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 			TextView ifForeverLabel = (TextView) view.findViewById(R.id.brick_forever_label);
 			ifForeverLabel.setTextColor(ifForeverLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

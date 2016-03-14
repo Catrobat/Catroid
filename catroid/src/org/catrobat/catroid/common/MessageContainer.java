@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,8 +40,8 @@ public final class MessageContainer {
 	private static Map<String, List<BroadcastScript>> receiverMap = new HashMap<>();
 	private static Map<String, List<BroadcastScript>> backupReceiverMap = null;
 	private static ArrayAdapter<String> messageAdapter = null;
-
 	private static Map<String, List<CollisionScript>> collisionReceiverMap = new HashMap<>();
+	private static int hiddenEntries = 0;
 
 	// Suppress default constructor for noninstantiability
 	private MessageContainer() {
@@ -50,6 +50,7 @@ public final class MessageContainer {
 
 	public static void clear() {
 		receiverMap.clear();
+		hiddenEntries = 0;
 		messageAdapter = null;
 	}
 
@@ -76,7 +77,11 @@ public final class MessageContainer {
 		if (!PhysicsCollision.isCollisionBroadcastMessage(message)) {
 			if (!receiverMap.containsKey(message)) {
 				receiverMap.put(message, new ArrayList<BroadcastScript>());
-				addMessageToAdapter(message);
+				if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
+					hiddenEntries++;
+				} else {
+					addMessageToAdapter(message);
+				}
 			}
 		} else {
 			if (!collisionReceiverMap.containsKey(message)) {
@@ -125,10 +130,13 @@ public final class MessageContainer {
 			messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			messageAdapter.add(context.getString(R.string.new_broadcast_message));
-			if (receiverMap.isEmpty()) {
+			if (receiverMap.size() == hiddenEntries) {
 				addMessage(context.getString(R.string.brick_broadcast_default_value));
 			} else {
 				for (String message : receiverMap.keySet()) {
+					if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
+						continue;
+					}
 					addMessageToAdapter(message);
 				}
 			}
@@ -151,6 +159,7 @@ public final class MessageContainer {
 		messageAdapter = null;
 		receiverMap = new HashMap<>();
 		collisionReceiverMap = new HashMap<>();
+		hiddenEntries = 0;
 
 		for (String message : usedMessages) {
 			addMessage(message);

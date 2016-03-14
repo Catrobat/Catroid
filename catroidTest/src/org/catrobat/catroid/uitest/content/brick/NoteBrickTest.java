@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,7 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_note_edit_text, TEST_STRING, Brick.BrickField.NOTE, noteBrick);
 		try {
-			String note = (noteBrick.getFormulaWithBrickField(Brick.BrickField.NOTE)).interpretString(sprite);
+			String note = noteBrick.getFormulaWithBrickField(Brick.BrickField.NOTE).interpretString(sprite);
 			assertEquals("Wrong text in field.", TEST_STRING, note);
 		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
@@ -85,7 +85,7 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_note_edit_text, "", Brick.BrickField.NOTE, noteBrick);
 		try {
-			String note = (noteBrick.getFormulaWithBrickField(Brick.BrickField.NOTE)).interpretString(sprite);
+			String note = noteBrick.getFormulaWithBrickField(Brick.BrickField.NOTE).interpretString(sprite);
 			assertEquals("Wrong text in field.", "", note);
 		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");

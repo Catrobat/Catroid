@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,9 +43,9 @@ import com.robotium.solo.Solo;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
@@ -104,7 +104,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		Log.v(TAG, "setUp");
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 
 		// disable show details when activated
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -161,7 +161,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				PackageManager.GET_ACTIVITIES);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 
@@ -181,16 +181,16 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testDeleteSprite() {
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
 		}
 
 		Project activeProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
+		List<LookData> catroidLookList = activeProject.getSpriteList().get(1).getLookDataList();
 
-		String defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
+		String defaultSpriteName = solo.getString(R.string.default_project_sprites_bird_name);
 		String delete = solo.getString(R.string.delete);
 		String yes = solo.getString(R.string.yes);
 
@@ -230,7 +230,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		//unzip = true;
 		//saveProjectsToZip();
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -246,9 +246,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Program name not shown in 5 secs!", solo.waitForText(defaultProjectName, 0, 5000));
 		UiTestUtils.clickOnTextInList(solo, defaultProjectName);
 
-		String backgroundName = solo.getString(R.string.default_project_backgroundname);
+		String backgroundName = solo.getString(R.string.default_project_background_name);
+
 		assertTrue("Program does not open within 5 secs!", solo.waitForText(backgroundName));
-		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
+
+		UiTestUtils.addNewSprite(solo, "testSprite", lookFile, null);
 		solo.goBack();
 
 		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -266,11 +268,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
+	@Device
 	public void testDeleteStandardProject() {
 		//unzip = true;
 		//saveProjectsToZip();
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -287,8 +290,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
-		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
+		solo.waitForFragmentById(R.id.fragment_sprites_list_backpack_text_heading);
+		UiTestUtils.addNewSprite(solo, "testSprite", lookFile, null);
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
@@ -299,6 +302,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String yes = solo.getString(R.string.yes);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
 		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
 
 		solo.waitForText(standardProjectName);
@@ -307,6 +311,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
 		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
 
 		if (!solo.waitForView(ListView.class, 0, 5000)) {
@@ -617,6 +622,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
+	@Device
 	public void testDeleteAllProjects() {
 		//unzip = true;
 		//saveProjectsToZip();
@@ -633,7 +639,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		//delete default project if exists:
 		if (UiTestUtils.longClickOnTextInList(solo, defaultProjectName)) {
 			solo.clickOnText(buttonDeleteText);
-
 			solo.waitForText(yes);
 			solo.clickOnText(yes);
 			assertTrue("delete dialog not closed in time", solo.waitForDialogToClose(5000));
@@ -646,6 +651,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(buttonDeleteText);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
 		assertTrue("delete dialog not closed in time", solo.waitForText(UiTestUtils.PROJECTNAME1));
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
@@ -666,6 +672,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(buttonDeleteText);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
+		solo.waitForDialogToClose();
+
 		assertTrue("delete dialog not closed in time", solo.waitForText(defaultProjectName));
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
@@ -677,6 +685,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
+	@Device
 	public void testDeleteManyProjects() {
 		for (int count = 0; count < 10; count++) {
 			UiTestUtils.createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count);
@@ -691,22 +700,26 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(200);
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Select All is still shown", solo.waitForText(deselectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
-		solo.sleep(200);
+		solo.sleep(500);
 
 		for (int count = 0; count < 10; count++) {
 			assertFalse("Project not deleted",
 					solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count, 0, 200));
 		}
 
+		solo.waitForText(solo.getString(R.string.default_project_name));
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
+	@Device
 	public void testDeleteProjectsWithSpecialChars() {
 		createProjectsWithSpecialChars();
 
@@ -728,11 +741,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(200);
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
 
 		solo.sleep(200);
 
@@ -744,6 +759,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
 		assertFalse("Project just two dots not deleted",
 				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
+
+		solo.sleep(200);
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
@@ -884,7 +901,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		//unzip = true;
 		//saveProjectsToZip();
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -919,12 +936,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String copy = solo.getString(R.string.copy);
 
 		createProjects();
-		solo.sleep(400);
-
+		solo.waitForActivity("MainMenuActivity");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		solo.sleep(200);
 
 		assertFalse("Project is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
 				R.id.delete, delete, UiTestUtils.PROJECTNAME1));
@@ -1256,7 +1271,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown", solo.searchText((errorMessageProjectExists)));
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.goBack();
 	}
 
@@ -1356,12 +1371,18 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCloseText = solo.getString(R.string.close);
 
-		UiTestUtils.waitForText(solo, buttonMyProjectsText);
+		solo.waitForActivity("MainMenuActivity");
 		solo.clickOnButton(buttonMyProjectsText);
+
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
+
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
+
+		solo.clickOnButton(buttonOkText);
 
 		EditText addNewProjectEditText = solo.getEditText(0);
 		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
@@ -1372,11 +1393,18 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonOkText);
 
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
+
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+
 		solo.clickOnButton(buttonCloseText);
 
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.PROJECTNAME2);
+		solo.clickOnButton(buttonOkText);
+
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+
 		solo.clickOnButton(buttonOkText);
 
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
@@ -1390,6 +1418,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("not in MainMenuActivity after goBack from ProjectActivity", MainMenuActivity.class);
 		solo.clickOnButton(buttonMyProjectsText);
+
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added",
 				solo.searchText(UiTestUtils.PROJECTNAME2, 1, true));
 	}
@@ -1402,16 +1431,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.sleep(200);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(200);
+
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
+
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.clickOnButton(buttonOkText);
 
-		solo.sleep(200);
-		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
-		solo.sleep(100);
-		solo.clickOnButton(buttonCloseText);
-		solo.sleep(100);
-		solo.clickOnButton(buttonOkText);
 		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(buttonCloseText);
 	}
@@ -1491,7 +1517,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(actionSetDescriptionText);
 
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
-		assertTrue("description is not shown in edittext", solo.searchText((lorem)));
+		assertTrue("description is not shown in edittext", solo.searchText(lorem));
 
 		try {
 			ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity());
@@ -1507,8 +1533,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyCurrentProject() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1516,9 +1540,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
-		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
+		UiTestUtils.addNewSprite(solo, "testSprite", lookFile, null);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -1535,7 +1559,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(UiTestUtils.COPIED_PROJECT_NAME);
 
 		Project oldProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> lookDataListOldProject = oldProject.getSpriteList().get(1).getLookDataList();
+		List<LookData> lookDataListOldProject = oldProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataOldProject = lookDataListOldProject.get(0);
 		String oldChecksum = lookDataOldProject.getChecksum();
 
@@ -1544,7 +1568,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("click on project '" + UiTestUtils.COPIED_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.COPIED_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		assertTrue("project " + UiTestUtils.COPIED_PROJECT_NAME + " was not added",
 				solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, 1, true));
@@ -1553,7 +1577,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("The sprite name should be: 'testSprite'", solo.searchText("testSprite", 1, false));
 
 		Project copiedProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> lookDataListCopiedProject = copiedProject.getSpriteList().get(1).getLookDataList();
+		List<LookData> lookDataListCopiedProject = copiedProject.getSpriteList().get(1).getLookDataList();
 		LookData lookDataCopiedProject = lookDataListCopiedProject.get(0);
 		String copiedLookChecksum = lookDataCopiedProject.getChecksum();
 
@@ -1563,8 +1587,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProject() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1612,8 +1634,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProjectMixedCase() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1626,15 +1646,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown", solo.searchText((errorMessageProjectExists)));
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
 	public void testCopyProjectNoName() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1654,7 +1672,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProjectJustSpecialCharacters() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1675,7 +1692,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProjectJustSpecialCharactersTwo() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1695,7 +1711,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProjectWithNormalAndSpecialCharacters() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1715,7 +1730,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProjectWithNormalAndSpecialCharactersTwo() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1735,7 +1749,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProjectJustDot() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1755,7 +1768,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCopyProjectJustDots() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1766,7 +1778,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clearEditText(0);
 		solo.enterText(0, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(200);
 		assertTrue("Did not copy the selected project to two dots",
 				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME, true));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
@@ -1775,7 +1786,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testBottombarElementsVisibilty() {
 		UiTestUtils.createEmptyProject();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1793,12 +1803,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		createStandardProgramIfNeeded();
 
 		String longProjectName = "veryveryveryverylongprojectname";
-		UiTestUtils.waitForText(solo, solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity("MainMenuActivity");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
+		assertTrue("error dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 
 		EditText addNewProjectEditText = solo.getEditText(0);
 		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
@@ -1806,8 +1817,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
 
 		solo.enterText(0, longProjectName);
-		solo.waitForDialogToOpen(2000);
 		solo.clickOnButton(solo.getString(R.string.ok));
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(solo.getString(R.string.ok));
+
 		solo.waitForText(solo.getString(R.string.sprites));
 		solo.goBack();
 
@@ -1880,6 +1894,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		assertFalse("Select All is shown", solo.searchText(selectAll));
@@ -1888,21 +1903,38 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is not shown", solo.searchText(selectAll));
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Deselect All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is shown", solo.searchText(deselectAll));
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+			}
+		}
 
 		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is shown", solo.searchText(deselectAll));
 
 		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is shown", solo.searchText(deselectAll));
+
+		UiTestUtils.clickOnText(solo, deselectAll);
+		assertTrue("Select All is shown", solo.searchText(selectAll));
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (checkBox.isShown()) {
+				assertFalse("CheckBox is Checked!", checkBox.isChecked());
+			}
+		}
 	}
 
 	public void testDeletingProjectAndVerifySettings() {
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-			StandardProjectHandler.createAndSaveStandardProject("test", getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject("test", getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -1962,7 +1994,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_5, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
 		backgroundGreen = new LookData();
 		backgroundGreen.setLookFilename(imageFile1.getName());
@@ -2083,9 +2115,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectManager.setCurrentSprite(testSprite);
 
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				IMAGE_RESOURCE_1, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName("testname");
@@ -2127,9 +2159,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectManager.setCurrentSprite(testSprite);
 
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, "catroid_sunglasses.png",
-				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				IMAGE_RESOURCE_1, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName("testname");
@@ -2161,7 +2193,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		if (UtilFile.getProjectNames(rootDirectory).isEmpty()) {
 			Log.v(TAG, "projectlist empty - creating standard project");
 			try {
-				StandardProjectHandler.createAndSaveStandardProject(getActivity());
+				DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 			} catch (IOException e) {
 				Log.e(TAG, "Standard Project not created", e);
 				fail("Standard Project could not be not created");

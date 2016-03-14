@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,14 +22,18 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
@@ -38,10 +42,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -61,7 +61,7 @@ import org.catrobat.catroid.ui.dialogs.UserBrickEditElementDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserBrickDataEditorFragment extends SherlockFragment implements OnKeyListener,
+public class UserBrickDataEditorFragment extends Fragment implements OnKeyListener,
 		DragAndDropBrickLayoutListener, UserBrickEditElementDialog.DialogListener, LineBreakListener {
 
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
@@ -82,19 +82,18 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
+		getActivity().getActionBar().setTitle(getString(R.string.brick_data_editor_title));
 
 		currentBrick = (UserScriptDefinitionBrick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 	}
 
 	public static void showFragment(View view, UserScriptDefinitionBrick brick) {
-		SherlockFragmentActivity activity;
-		activity = (SherlockFragmentActivity) view.getContext();
+		Activity activity = (Activity) view.getContext();
 
 		UserBrickDataEditorFragment dataEditorFragment = (UserBrickDataEditorFragment) activity
-				.getSupportFragmentManager().findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);
+				.getFragmentManager().findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);
 
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		FragmentManager fragmentManager = activity.getFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
 		fragTransaction.addToBackStack(null);
@@ -105,7 +104,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 			bundle.putSerializable(BRICK_BUNDLE_ARGUMENT, brick);
 			dataEditorFragment.setArguments(bundle);
 
-			fragTransaction.add(R.id.script_fragment_container, dataEditorFragment, BRICK_DATA_EDITOR_FRAGMENT_TAG);
+			fragTransaction.add(R.id.fragment_container, dataEditorFragment, BRICK_DATA_EDITOR_FRAGMENT_TAG);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(dataEditorFragment);
 			BottomBar.hideBottomBar(activity);
@@ -119,9 +118,9 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	}
 
 	private void onUserDismiss() {
-		SherlockFragmentActivity activity = getSherlockActivity();
+		Activity activity = getActivity();
 
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		FragmentManager fragmentManager = activity.getFragmentManager();
 		fragmentManager.popBackStack();
 
 		if (activity instanceof ScriptActivity) {
@@ -223,7 +222,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog(fragmentView);
 		dialog.addDialogListener(this);
-		dialog.show(getActivity().getSupportFragmentManager(),
+		dialog.show(getActivity().getFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);
 
 		UserBrickEditElementDialog.setTakenVariables(takenVariables);
@@ -238,12 +237,11 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	public void onFinishDialog(CharSequence text, boolean editMode) {
 		UserScriptDefinitionBrickElement element = currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(indexOfCurrentlyEditedElement);
 		if (element != null) {
-			String emptyString = ("").toString(); //TODO: change to "" ?
 			if (text != null) {
 				String oldString = element.name;
 				String newString = text.toString();
 				currentBrick.renameUIElement(oldString, newString, getActivity());
-			} else if (element.name.toString().equals(emptyString)) {
+			} else if (element.name.toString().isEmpty()) {
 				currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().remove(element);
 			}
 		}
@@ -345,10 +343,9 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 			menu.getItem(index).setVisible(false);
 		}
 
-		getSherlockActivity().getSupportActionBar().setNavigationMode(
-				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
+		getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
+		getActivity().getActionBar().setTitle(getString(R.string.brick_data_editor_title));
 
 		super.onPrepareOptionsMenu(menu);
 	}

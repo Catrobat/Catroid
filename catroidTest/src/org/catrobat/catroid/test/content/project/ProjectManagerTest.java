@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -89,19 +89,16 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		// initializeNewProject
-		projectManager.initializeNewProject(projectNameOne, context, false);
+		projectManager.initializeNewProject(projectNameOne, context, false, false, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
 
-		// verify that new project is default project (see StorageHandler.createDefaultProject)
 		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
-		assertEquals("New project has wrong number of sprites", 5, spriteCount);
+		assertEquals("New project has wrong number of sprites", 2, spriteCount);
 		Sprite catroid = projectManager.getCurrentProject().getSpriteList().get(1);
-		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
+		assertEquals("Catroid sprite has wrong number of scripts", 3, catroid.getNumberOfScripts());
 
-		// add sprite
 		Sprite sprite = new Sprite(spriteNameOne);
 		projectManager.addSprite(sprite);
 		projectManager.setCurrentSprite(sprite);
@@ -110,14 +107,12 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, projectManager.getCurrentSprite()
 				.getName());
 
-		// add script
 		Script startScript = new StartScript();
 		projectManager.addScript(startScript);
 		projectManager.setCurrentScript(startScript);
 
 		assertNotNull("no current script set", projectManager.getCurrentScript());
 
-		// loadProject
 		try {
 			ProjectManager.getInstance().loadProject(projectNameOne, context);
 			assertTrue("Load project worked correctly", true);
@@ -130,19 +125,16 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
-		// addSprite
 		Sprite sprite2 = new Sprite(spriteNameTwo);
 		projectManager.addSprite(sprite2);
 		assertTrue("Sprite not in current Project", projectManager.getCurrentProject().getSpriteList()
 				.contains(sprite2));
 
-		// addScript
 		projectManager.setCurrentSprite(sprite2);
 		Script script2 = new StartScript();
 		projectManager.addScript(script2);
 		assertTrue("Script not in current Sprite", projectManager.getCurrentSprite().getScriptIndex(script2) != -1);
 
-		// addBrick
 		projectManager.setCurrentScript(script2);
 		SetLookBrick setLookBrick = new SetLookBrick();
 		projectManager.getCurrentScript().addBrick(setLookBrick);
@@ -155,7 +147,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Context context = getInstrumentation().getContext().createPackageContext(
 				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
-		projectManager.initializeNewProject(projectNameOne, context, true);
+		projectManager.initializeNewProject(projectNameOne, context, true, false, false);
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull("no current project set", currentProject);
 
@@ -268,15 +260,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(xPosition, yPosition);
 
-		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
 		testScript.addBrick(setSizeToBrick);
 		testScript.addBrick(comeToFrontBrick);
 
-		otherScript.addBrick(placeAtBrick); // secondSprite
+		otherScript.addBrick(placeAtBrick);
 		otherScript.setPaused(true);
-		// -------------------------------
 
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
@@ -56,8 +57,13 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dialog_formulaeditor_compute);
-		computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
+		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+			setContentView(R.layout.dialog_formulaeditor_compute_landscape);
+			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview_landscape_mode);
+		} else {
+			setContentView(R.layout.dialog_formulaeditor_compute);
+			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
+		}
 		showFormulaResult();
 	}
 
@@ -70,12 +76,22 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		}
 		int resources = formula.getRequiredResources();
 		if ((resources & Brick.FACE_DETECTION) > 0) {
-			FaceDetectionHandler.startFaceDetection(getContext());
+			FaceDetectionHandler.startFaceDetection();
 		}
 
 		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			btService.connectDevice(BluetoothDevice.LEGO_NXT, this.getContext());
+		}
+
+		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			btService.connectDevice(BluetoothDevice.ARDUINO, this.getContext());
+		}
+
+		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			btService.connectDevice(BluetoothDevice.PHIRO, this.getContext());
 		}
 	}
 
@@ -110,14 +126,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		switch (event.sensor.getType()) {
-			case Sensor.TYPE_LINEAR_ACCELERATION:
-				showFormulaResult();
-				break;
-			case Sensor.TYPE_ROTATION_VECTOR:
-				showFormulaResult();
-				break;
-		}
+		showFormulaResult();
 	}
 
 	private void setDialogTextView(final String newString) {

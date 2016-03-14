@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -174,7 +174,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			View layout = view.findViewById(R.id.brick_broadcast_receive_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}
@@ -201,7 +201,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 			@Override
 			protected boolean handleOkButton() {
-				String newMessage = (input.getText().toString()).trim();
+				String newMessage = input.getText().toString().trim();
 				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();
 					return false;
@@ -231,7 +231,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			}
 		};
 
-		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
+		editDialog.show(((Activity) context).getFragmentManager(), "dialog_broadcast_brick");
 	}
 
 	@Override

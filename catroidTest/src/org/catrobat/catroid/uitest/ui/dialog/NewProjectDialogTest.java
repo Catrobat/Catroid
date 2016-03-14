@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
@@ -33,7 +30,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -49,22 +45,13 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 	private String testingProjectWithNormalAndSpecialChars = UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2;
 	private String testingProjectJustOneDot = UiTestUtils.JUST_ONE_DOT_PROJECT_NAME;
 	private String testingProjectJustTwoDots = UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME;
-	private SharedPreferences preferences;
 
 	public NewProjectDialogTest() {
 		super(MainMenuActivity.class);
 	}
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		preferences.edit().remove(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT).commit();
-	}
-
-	@Override
 	protected void tearDown() throws Exception {
-		preferences.edit().remove(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT).commit();
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(testingProjectJustSpecialChars)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(testingProjectJustSpecialChars2)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(testingProjectWithNormalAndSpecialChars)));
@@ -81,6 +68,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProject, testingproject);
 		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingproject!", UiTestUtils.PROJECTNAME1, ProjectManager.getInstance().getCurrentProject().getName());
 	}
@@ -92,6 +82,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProjectOne = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectOne, testingProjectJustSpecialChars);
+		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustSpecialChars!", UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
@@ -105,6 +98,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		EditText newProjectTwo = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectTwo, testingProjectJustSpecialChars2);
 		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustSpecialChars2!", UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2, ProjectManager.getInstance().getCurrentProject().getName());
 	}
@@ -116,6 +112,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProjectThree = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectThree, testingProjectWithNormalAndSpecialChars);
+		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectWithNormalAndSpecialChars!", UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2, ProjectManager.getInstance().getCurrentProject().getName());
@@ -129,6 +128,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		EditText newProjectOne = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectOne, testingProjectJustOneDot);
 		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustOneDot!", UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
 	}
@@ -140,6 +142,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProjectTwo = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectTwo, testingProjectJustTwoDots);
+		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustTwoDots!", UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
@@ -197,8 +202,10 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testCreateEmptyProject() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
-		solo.clickOnCheckBox(0);
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		UiTestUtils.waitForText(solo, solo.getString(R.string.background));
@@ -208,20 +215,5 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Just background object should exist", 1, project.getSpriteList().size());
 		assertEquals("Just background object should exist", solo.getString(R.string.background), project
 				.getSpriteList().get(0).getName());
-
-		assertTrue("Checkbox state should be saved",
-				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
-
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
-
-		CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
-		assertTrue("Checkbox should be checked", emptyProjectCheckBox.isChecked());
-
-		solo.clickOnCheckBox(0);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
-		assertTrue("Checkbox state should not be saved when canceling dialog",
-				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
 	}
 }

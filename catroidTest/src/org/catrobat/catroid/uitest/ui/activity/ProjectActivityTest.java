@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -39,9 +40,9 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
@@ -116,7 +117,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		super.setUp();
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
-		lookFile = UiTestUtils.setUpLookFile(solo);
+		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 
 		projectManager = ProjectManager.getInstance();
 		spriteList = projectManager.getCurrentProject().getSpriteList();
@@ -129,7 +130,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sprite_dialog);
 		delete = solo.getString(R.string.delete);
-		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name) + " 1";
+		defaultSpriteName = solo.getString(R.string.default_project_sprites_bird_name);
 	}
 
 	@Override
@@ -171,7 +172,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 		solo.clickLongOnText(defaultSpriteName);
 		solo.sleep(200);
+
 		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.clickLongOnText(defaultSpriteName);
 		Sprite copiedSprite = project.getSpriteList().get(2);
@@ -274,7 +277,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			UtilFile.deleteDirectory(directory);
 		}
 		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
 		} catch (IOException e) {
 			Log.e(TAG, "Standard Project not created", e);
 			fail("Standard Project not created");
@@ -299,7 +302,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	}
 
 	public void testCopySprite() {
-		defaultSpriteName = solo.getString(R.string.default_project_sprites_mole_name);
+		defaultSpriteName = solo.getString(R.string.default_project_sprites_bird_name);
 		UiTestUtils.createProjectForCopySprite(UiTestUtils.PROJECTNAME1, getActivity());
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -390,6 +393,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
@@ -397,7 +401,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 			}
 		}
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -412,8 +416,12 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		enterTextAndCloseDialog(sometext);
 
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		String spriteBackgroundLabel = solo.getString(R.string.background);
 		assertTrue("Wrong name for background sprite!", solo.searchText(spriteBackgroundLabel));
@@ -432,7 +440,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Sprite is not in current Project", projectManager.spriteExists(spriteToCheckName));
 
 		final String addedSpriteName = "addedTestSprite";
-		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile, null);
 
 		spriteList = projectManager.getCurrentProject().getSpriteList();
 
@@ -461,9 +469,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				solo.searchText("cat", 0, false));
 
 		String addedSpriteName = "addedTestSprite";
-		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile, null);
 
 		solo.waitForText(addedSpriteName, 1, 2000);
+
 		assertTrue("Sprite '" + addedSpriteName + "' was not found - List did not move to last added sprite",
 				solo.searchText(addedSpriteName, 0, false));
 	}
@@ -472,7 +481,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
@@ -483,7 +492,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				PackageManager.GET_ACTIVITIES);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 
@@ -575,7 +584,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int expectedLineCount = 1;
 		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
 
-		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile, null);
 
 		TextView textView = solo.getText(4);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
@@ -586,7 +595,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		String addedTestSpriteName = "addedTestSprite";
 
-		UiTestUtils.addNewSprite(solo, addedTestSpriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, addedTestSpriteName, lookFile, null);
 
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(addedTestSpriteName));
 	}
@@ -596,11 +605,11 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		String spriteName = "spriteError";
 
-		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile, null);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
 
 		// Add sprite which already exists
-		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, lookFile,
+		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(lookFile),
 				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
@@ -747,7 +756,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.goBack();
 
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		checkVisibilityOfViews(detailsView, true);
 
@@ -980,6 +989,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(selectAll);
@@ -991,7 +1001,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			}
 		}
 
-		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		assertTrue("Deselect All is not shown", solo.waitForText(deselectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		String yes = solo.getString(R.string.yes);
@@ -1237,8 +1247,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		assertTrue("Details " + assertMessageAffix, detailsView.getVisibility() == visibility);
 	}
 
-	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
-			boolean secondCheckboxExpectedChecked) {
+	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked, boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
 		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(2);
@@ -1307,12 +1316,12 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	private int checkNumberOfElements(Sprite firstSprite, Sprite copiedSprite) {
 
-		ArrayList<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
-		ArrayList<SoundInfo> firstSoundList = firstSprite.getSoundList();
+		List<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
+		List<SoundInfo> firstSoundList = firstSprite.getSoundList();
 		assertEquals("The number of sounds differs!", firstSoundList.size(), copiedSoundList.size());
 
-		ArrayList<LookData> copiedCustomeList = copiedSprite.getLookDataList();
-		ArrayList<LookData> firstCustomeList = firstSprite.getLookDataList();
+		List<LookData> copiedCustomeList = copiedSprite.getLookDataList();
+		List<LookData> firstCustomeList = firstSprite.getLookDataList();
 		assertEquals("The number of customes differs!", firstCustomeList.size(), copiedCustomeList.size());
 
 		assertEquals("The first sprite is NOT copied!", copiedSprite.getName(),

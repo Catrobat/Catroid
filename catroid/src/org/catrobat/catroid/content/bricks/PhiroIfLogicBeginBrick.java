@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -160,7 +160,7 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
 			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -227,8 +227,8 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = sprite.getActionFactory().createSequence();
-		SequenceAction elseAction = sprite.getActionFactory().createSequence();
+		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
 		Action action = sprite.getActionFactory().createPhiroSendSelectedSensorAction(sprite, sensorSpinnerPosition,
 				ifAction, elseAction);
 		sequence.addAction(action);

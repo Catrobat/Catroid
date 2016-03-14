@@ -28,14 +28,18 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
+import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
+import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
+import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
 import org.catrobat.catroid.content.actions.ChangeTransparencyByNAction;
@@ -43,9 +47,11 @@ import org.catrobat.catroid.content.actions.ChangeVariableAction;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ChangeXByNAction;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
+import org.catrobat.catroid.content.actions.ChooseCameraAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
+import org.catrobat.catroid.content.actions.DroneEmergencyAction;
 import org.catrobat.catroid.content.actions.DroneFlipAction;
 import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
 import org.catrobat.catroid.content.actions.DroneMoveDownAction;
@@ -54,16 +60,18 @@ import org.catrobat.catroid.content.actions.DroneMoveLeftAction;
 import org.catrobat.catroid.content.actions.DroneMoveRightAction;
 import org.catrobat.catroid.content.actions.DroneMoveUpAction;
 import org.catrobat.catroid.content.actions.DronePlayLedAnimationAction;
-import org.catrobat.catroid.content.actions.DroneTakeoffAction;
+import org.catrobat.catroid.content.actions.DroneSwitchCameraAction;
+import org.catrobat.catroid.content.actions.DroneTakeoffAndLandAction;
 import org.catrobat.catroid.content.actions.DroneTurnLeftAction;
 import org.catrobat.catroid.content.actions.DroneTurnLeftWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
+import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.HideAction;
+import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
-import org.catrobat.catroid.content.actions.LedAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
@@ -79,17 +87,22 @@ import org.catrobat.catroid.content.actions.PhiroSensorAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
+import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
+import org.catrobat.catroid.content.actions.RaspiPwmAction;
+import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetVariableAction;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowAction;
+import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
@@ -114,20 +127,26 @@ import org.catrobat.catroid.physics.PhysicsObject;
 
 public class ActionFactory extends Actions {
 
-	public Action createWaitAction(Sprite sprite, Formula delay) {
-		WaitAction action = action(WaitAction.class);
-		action.setSprite(sprite);
-		action.setDelay(delay);
-		return action;
-	}
-
-	public Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
+	public static Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent();
 		event.setSenderSprite(sprite);
 		event.setBroadcastMessage(broadcastMessage);
 		event.setType(BroadcastType.broadcast);
 		action.setBroadcastEvent(event);
+		return action;
+	}
+
+	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
+		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
+		action.setEvent(event);
+		return action;
+	}
+
+	public Action createWaitAction(Sprite sprite, Formula delay) {
+		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
 		return action;
 	}
 
@@ -139,12 +158,6 @@ public class ActionFactory extends Actions {
 		event.setRun(false);
 		event.setType(BroadcastType.broadcastWait);
 		action.setBroadcastEvent(event);
-		return action;
-	}
-
-	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
-		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
-		action.setEvent(event);
 		return action;
 	}
 
@@ -507,7 +520,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public RepeatAction createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
+	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
@@ -515,14 +528,14 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public WaitAction createDelayAction(Sprite sprite, Formula delay) {
+	public Action createDelayAction(Sprite sprite, Formula delay) {
 		WaitAction action = Actions.action(WaitAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
 		return action;
 	}
 
-	public RepeatAction createForeverAction(Sprite sprite, SequenceAction foreverSequence) {
+	public Action createForeverAction(Sprite sprite, SequenceAction foreverSequence) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
@@ -536,7 +549,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public SequenceAction createSequence() {
+	public Action createSequence() {
 		return Actions.sequence();
 	}
 
@@ -572,15 +585,11 @@ public class ActionFactory extends Actions {
 		throw new RuntimeException("No physics action available in non-physics sprite!");
 	}
 
-	public static TemporalAction droneTakeOff() {
-		return action(DroneTakeoffAction.class);
+	public Action createDroneTakeOffAndLandAction() {
+		return action(DroneTakeoffAndLandAction.class);
 	}
 
-	public static TemporalAction droneLand() {
-		return action(DroneTakeoffAction.class);
-	}
-
-	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneMoveUpAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneMoveUpAction action = action(DroneMoveUpAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -588,7 +597,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneMoveDown(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneMoveDownAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneMoveDownAction action = action(DroneMoveDownAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -596,7 +605,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneMoveLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneMoveLeftAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneMoveLeftAction action = action(DroneMoveLeftAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -604,7 +613,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneMoveRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneMoveRightAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneMoveRightAction action = action(DroneMoveRightAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -612,7 +621,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneMoveForward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneMoveForwardAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneMoveForwardAction action = action(DroneMoveForwardAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -620,7 +629,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneMoveBackward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneMoveBackwardAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneMoveBackwardAction action = action(DroneMoveBackwardAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -628,7 +637,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneTurnRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneTurnRightAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneTurnRightAction action = action(DroneTurnRightAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -636,7 +645,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneTurnLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneTurnLeftAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneTurnLeftAction action = action(DroneTurnLeftAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -644,7 +653,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneTurnLeftMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneTurnLeftMagnetoAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneTurnLeftWithMagnetometerAction action = action(DroneTurnLeftWithMagnetometerAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -652,7 +661,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneTurnRightMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public Action createDroneTurnRightMagnetoAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
 		DroneTurnRightWithMagnetometerAction action = action(DroneTurnRightWithMagnetometerAction.class);
 		action.setSprite(sprite);
 		action.setDelay(seconds);
@@ -660,24 +669,128 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static TemporalAction dronePlayLedAnimation() {
+	public Action createDronePlayLedAnimationAction() {
 		return action(DronePlayLedAnimationAction.class);
 	}
 
-	public static TemporalAction droneFlip() {
+	public Action createDroneFlipAction() {
 		return action(DroneFlipAction.class);
 	}
 
-	public static LedAction lights(boolean ledValue) {
-		LedAction action = action(LedAction.class);
-		action.setLedValue(ledValue);
+	public Action createDroneSwitchCameraAction() {
+		return action(DroneSwitchCameraAction.class);
+	}
+
+	public Action createDroneGoEmergencyAction() {
+		return action(DroneEmergencyAction.class);
+	}
+
+	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {
+		SetTextAction action = action(SetTextAction.class);
+
+		action.setPosition(x, y);
+		action.setText(text);
+		action.setDuration(5);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public static VibrateAction vibrate(Sprite sprite, Formula duration) {
+	public Action createShowTextAction(Sprite sprite, Formula x, Formula y, String variableName) {
+		ShowTextAction action = action(ShowTextAction.class);
+		action.setPosition(x, y);
+		action.setVariableName(variableName);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createHideTextAction(String variableName) {
+		HideTextAction action = action(HideTextAction.class);
+		action.setVariableName(variableName);
+		return action;
+	}
+
+	public Action createTurnFlashOnAction() {
+		FlashAction action = action(FlashAction.class);
+		action.turnFlashOn();
+		return action;
+	}
+
+	public Action createTurnFlashOffAction() {
+		FlashAction action = action(FlashAction.class);
+		action.turnFlashOff();
+		return action;
+	}
+
+	public Action createVibrateAction(Sprite sprite, Formula duration) {
 		VibrateAction action = action(VibrateAction.class);
 		action.setSprite(sprite);
 		action.setDuration(duration);
+		return action;
+	}
+
+	public Action createUpdateCameraPreviewAction(CameraManager.CameraState state) {
+		CameraBrickAction action = action(CameraBrickAction.class);
+		action.setCameraAction(state);
+		return action;
+	}
+
+	public Action createSetFrontCameraAction() {
+		ChooseCameraAction action = action(ChooseCameraAction.class);
+		action.setFrontCamera();
+		return action;
+	}
+
+	public Action createSetBackCameraAction() {
+		ChooseCameraAction action = action(ChooseCameraAction.class);
+		action.setBackCamera();
+		return action;
+	}
+
+	public Action createSendDigitalArduinoValueAction(Sprite sprite, Formula pinNumber,
+			Formula
+			pinValue) {
+		ArduinoSendDigitalValueAction action = action(ArduinoSendDigitalValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public Action createSendPWMArduinoValueAction(Sprite sprite, Formula pinNumber, Formula
+			pinValue) {
+		ArduinoSendPWMValueAction action = action(ArduinoSendPWMValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public Action createSendDigitalRaspiValueAction(Sprite sprite, Formula pinNumber,
+			Formula pinValue) {
+		RaspiSendDigitalValueAction action = action(RaspiSendDigitalValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public Action createSendRaspiPwmValueAction(Sprite sprite, Formula pinNumber, Formula
+			pwmFrequency, Formula pwmPercentage) {
+		RaspiPwmAction action = action(RaspiPwmAction.class);
+		action.setSprite(sprite);
+		action.setPinNumberFormula(pinNumber);
+		action.setPwmFrequencyFormula(pwmFrequency);
+		action.setPwmPercentageFormula(pwmPercentage);
+		return action;
+	}
+
+	public Action createRaspiIfLogicActionAction(Sprite sprite, Formula pinNumber, Action ifAction,
+			Action elseAction) {
+		RaspiIfLogicAction action = action(RaspiIfLogicAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setIfAction(ifAction);
+		action.setElseAction(elseAction);
 		return action;
 	}
 }

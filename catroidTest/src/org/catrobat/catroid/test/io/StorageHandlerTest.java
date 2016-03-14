@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,8 +30,8 @@ import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -69,6 +69,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
@@ -78,7 +79,6 @@ import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private final StorageHandler storageHandler;
-	private Project currentProject;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
@@ -89,14 +89,15 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	@Override
-	public void setUp() {
-		TestUtils.deleteTestProjects();
-		currentProject = ProjectManager.getInstance().getCurrentProject();
+	public void setUp() throws Exception {
+		DefaultProjectHandler.createAndSaveDefaultProject(getContext());
+		super.setUp();
+//		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setProject(currentProject);
+//		ProjectManager.getInstance().setProject(currentProject);
 		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
@@ -186,7 +187,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testDefaultProject() throws IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		Project project = StandardProjectHandler.createAndSaveStandardProject(projectName, getContext());
+		Project project = DefaultProjectHandler.createAndSaveDefaultProject(projectName, getContext());
 		projectManager.setProject(project);
 		//Project project = StandardProjectHandler.createAndSaveStandardProject(getContext());
 		//project.setName(projectName);
@@ -202,7 +203,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		//test if images are existing:
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
+		List<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
 		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundLookList.size());
 
 		String imagePath = backgroundLookList.get(0).getAbsolutePath();
@@ -217,7 +218,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 					.getSpriteList().get(i + 1).getScript(1).getBrickList().size());
 
 			//test if images are existing:
-			ArrayList<LookData> catroidLookList = currentProject.getSpriteList().get(i + 1).getLookDataList();
+			List<LookData> catroidLookList = currentProject.getSpriteList().get(i + 1).getLookDataList();
 			assertEquals("wrong number of pictures in catroid sprite", 3, catroidLookList.size());
 
 			imagePath = catroidLookList.get(0).getAbsolutePath();
@@ -345,7 +346,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
 
-		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[]{
 				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
 		};
@@ -420,7 +421,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		LegoNxtMotorMoveBrick motorBrick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
 				Sensors.FACE_SIZE.name(), null)));
-		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, firstSprite,
+		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK,
 				DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
 
 		testScript.addBrick(hideBrick);

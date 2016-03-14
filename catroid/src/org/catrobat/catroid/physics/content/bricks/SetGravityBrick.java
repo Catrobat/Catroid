@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -175,5 +176,9 @@ public class SetGravityBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X),
 				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y)));
 		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

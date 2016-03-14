@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ import com.robotium.solo.Solo;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -112,6 +112,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
@@ -166,6 +169,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -183,6 +189,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -200,6 +209,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -217,6 +229,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -234,6 +249,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -251,6 +269,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
@@ -269,7 +290,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				PackageManager.GET_ACTIVITIES);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
 		assertEquals(MainMenuActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
@@ -293,7 +314,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("MyProjectsActivity not shown", solo.waitForActivity(MyProjectsActivity.class.getSimpleName()));
 		solo.clickOnText(testProject2);
 		assertTrue("ProjectActivity not shown", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
-		assertTrue("SpritesListFragment not shown", solo.waitForFragmentById(R.id.fragment_sprites_list));
+		assertTrue("SpritesListFragment not shown", solo.waitForFragmentById(R.id.fragment_container));
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -417,11 +438,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		Project standardProject = null;
 
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 		} catch (IOException e) {
-			Log.e(TAG, "Could not create standard project", e);
-			fail("Could not create standard project");
+			fail("Could not create standard project " + standardProjectName);
+			Log.e(TAG, "Could not create standard Project: " + Log.getStackTraceString(e));
 		}
 
 		if (standardProject == null) {
@@ -437,11 +458,13 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
-		assertEquals("Number of bricks in background sprite was wrong", 3, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong", 7, backgroundSprite.getNumberOfBricks());
 		startingScript.addBrick(new SetLookBrick());
 		startingScript.addBrick(new SetLookBrick());
 		startingScript.addBrick(new SetLookBrick());
-		assertEquals("Number of bricks in background sprite was wrong", 6, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong after adding three new bricks", 10,
+				backgroundSprite
+				.getNumberOfBricks());
 		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
 		ProjectManager.getInstance().setCurrentScript(startingScript);
 		StorageHandler.getInstance().saveProject(standardProject);
@@ -462,8 +485,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		ProjectManager.getInstance().setProject(null);
 		solo.getCurrentActivity().startActivity(intent);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_backgroundname));
-		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 6,
+		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_background_name));
+		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 10,
 				ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
@@ -475,7 +498,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, testProject);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -488,7 +511,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		solo.clickOnText(testProject2, 1, true);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -505,7 +528,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustSpecialChars);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -519,7 +542,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameWithNormalAndSpecialChars2);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -537,7 +560,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustOneDot);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -553,7 +576,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnExactText(solo, projectNameJustTwoDots);
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());

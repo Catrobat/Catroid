@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,9 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity("MyProjectsActivity");
 		solo.assertCurrentActivity("Expected MyProjectsActivity activity", "MyProjectsActivity");
+
 		assertTrue("Cannot find project", solo.searchText(testProject));
+
 		solo.clickOnText(testProject);
 
 		solo.clickLongOnText(cat);
@@ -74,7 +76,9 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity("MyProjectsActivity");
 		solo.assertCurrentActivity("Expected MyProjectsActivity activity", "MyProjectsActivity");
+
 		assertTrue("Cannot find project", solo.searchText(testProject));
+
 		solo.clickOnText(testProject);
 
 		solo.clickLongOnText(cat);
@@ -82,6 +86,7 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		solo.clearEditText(0);
 		solo.enterText(0, catMixedCase);
 		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
 
 		ListView spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spriteList.getItemAtPosition(1)).getName();

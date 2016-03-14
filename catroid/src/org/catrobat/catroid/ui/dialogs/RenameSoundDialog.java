@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,8 +29,8 @@ import android.text.TextWatcher;
 import android.widget.Button;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class RenameSoundDialog extends TextDialog {
@@ -67,7 +67,9 @@ public class RenameSoundDialog extends TextDialog {
 		}
 
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
-			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
+			SoundInfo soundInfo = new SoundInfo();
+			soundInfo.setTitle(newSoundTitle);
+			newSoundTitle = Utils.getUniqueSoundName(soundInfo, false);
 		} else {
 			Utils.showErrorDialog(getActivity(), R.string.soundname_invalid);
 		}
@@ -95,7 +97,6 @@ public class RenameSoundDialog extends TextDialog {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					ToastUtil.showError(getActivity(), R.string.notification_invalid_text_entered);
 					buttonPositive.setEnabled(false);
 				} else {
 					buttonPositive.setEnabled(true);

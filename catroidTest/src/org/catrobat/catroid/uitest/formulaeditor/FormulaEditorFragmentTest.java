@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -441,13 +441,13 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		}
 	}
 
-	public void testIfLandscapeOrientationIsDeactivated() {
+	public void testIflandscapeModeOrientationIsDeactivated() {
 
 		solo.clickOnView(solo.getView(X_POS_EDIT_TEXT_RID));
 
 		int orientation = getActivity().getRequestedOrientation();
 
-		assertTrue("Landscape Orientation isn't deactivated", orientation == Solo.PORTRAIT);
+		assertTrue("landscapeMode Orientation isn't deactivated", orientation == Solo.PORTRAIT);
 	}
 
 	public void testGoBackAndEditTextSwitches() {

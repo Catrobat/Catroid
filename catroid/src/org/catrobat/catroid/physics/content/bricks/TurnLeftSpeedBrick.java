@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -146,5 +147,9 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createTurnLeftSpeedAction(sprite,
 				getFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED)));
 		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

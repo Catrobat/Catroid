@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,10 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +51,7 @@ public class NewSoundDialog extends DialogFragment {
 			throw new RuntimeException("This dialog (NewSoundDialog) can only be called by the SoundFragment.");
 		}
 		this.fragment = (SoundFragment) fragment;
-		show(fragment.getActivity().getSupportFragmentManager(), TAG);
+		show(fragment.getActivity().getFragmentManager(), TAG);
 	}
 
 	@Override
@@ -60,6 +60,7 @@ public class NewSoundDialog extends DialogFragment {
 				.inflate(R.layout.dialog_new_sound, (ViewGroup) getView(), false);
 		setupRecordButton(dialogView);
 		setupGalleryButton(dialogView);
+		setupMediaLibraryButton(dialogView);
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -106,6 +107,18 @@ public class NewSoundDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				fragment.addSoundChooseFile();
+				NewSoundDialog.this.dismiss();
+			}
+		});
+	}
+
+	private void setupMediaLibraryButton(View parentView) {
+		View mediaLibraryButton = parentView.findViewById(R.id.dialog_new_sound_media_library);
+
+		mediaLibraryButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				fragment.addSoundMediaLibrary();
 				NewSoundDialog.this.dismiss();
 			}
 		});

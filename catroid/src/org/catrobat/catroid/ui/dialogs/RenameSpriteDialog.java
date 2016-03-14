@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ public class RenameSpriteDialog extends TextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String newSpriteName = (input.getText().toString()).trim();
+		String newSpriteName = input.getText().toString().trim();
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {

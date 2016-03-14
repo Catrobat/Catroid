@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -53,6 +52,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 
@@ -64,6 +64,7 @@ public class PointToBrick extends BrickBaseType {
 	public static final String EXTRA_NEW_SPRITE_NAME = "EXTRA_NEW_SPRITE_NAME";
 
 	private static final long serialVersionUID = 1L;
+
 	private Sprite pointedObject;
 	private transient String oldSelectedObject;
 	private transient AdapterView<?> adapterView;
@@ -94,8 +95,7 @@ public class PointToBrick extends BrickBaseType {
 			return view;
 		}
 
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.brick_point_to, null);
+		view = View.inflate(context, R.layout.brick_point_to, null);
 		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_point_to_checkbox);
@@ -183,8 +183,7 @@ public class PointToBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_point_to, null);
+		View view = View.inflate(context, R.layout.brick_point_to, null);
 		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		pointToSpinner.setFocusableInTouchMode(false);
 		pointToSpinner.setFocusable(false);
@@ -353,7 +352,7 @@ public class PointToBrick extends BrickBaseType {
 
 		protected void showNewSpriteDialog() {
 			NewSpriteDialog dialog = new NewSpriteDialog(this);
-			dialog.show(((ScriptActivity) context).getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(((ScriptActivity) context).getFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 		}
 
 		public void refreshSpinnerAfterNewSprite(final Context context, final String newSpriteName) {
@@ -400,5 +399,21 @@ public class PointToBrick extends BrickBaseType {
 		public void updateSpinner() {
 			setSpinnerSelection(spinner);
 		}
+	}
+
+	public Sprite getPointedObject() {
+		return pointedObject;
+	}
+
+	public void setPointedObject(Sprite pointedObject) {
+		this.pointedObject = pointedObject;
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
+		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpack(getPointedObject(), true);
+		setPointedObject(backPackedSprite);
+		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 }

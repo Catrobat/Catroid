@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,8 +75,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.main_menu_new));
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, "testNXTAllBricksAvailable");
+
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnText(solo.getString(R.string.ok));
+
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.waitForText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForText(solo.getString(R.string.scripts));
@@ -253,8 +258,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.main_menu_new));
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, "testNXTSensorsAvailable");
+
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnText(solo.getString(R.string.ok));
+
+		solo.waitForText(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.ok));
+
 		solo.waitForText(solo.getString(R.string.background));
 		solo.clickOnText(solo.getString(R.string.background));
 		solo.waitForText(solo.getString(R.string.scripts));

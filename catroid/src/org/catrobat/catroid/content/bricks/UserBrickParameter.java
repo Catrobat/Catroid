@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -70,8 +71,18 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		return null;
+	}
+
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		return parent.getView(context, brickId, adapter);
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		return null;
 	}
 
 	@Override
@@ -86,6 +97,10 @@ public class UserBrickParameter extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.USER_BRICK);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,24 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+
+    <string-array name="raspi_version_spinner_names">
+        <item>RaspberryPi Model A</item>
+        <item>RaspberryPi Model B</item>
+        <item>RaspberryPi Model A+</item>
+        <item>RaspberryPi Model B+</item>
+        <item>RaspberryPi 2</item>
+        <item>RaspberryPi Zero</item>
+    </string-array>
+
+    <string-array name="raspi_version_spinner_revisions">
+        <item>0007</item>
+        <item>0004</item>
+        <item>0012</item>
+        <item>0013</item>
+        <item>a01041</item>
+        <item>TODO</item>
+    </string-array>
 
     <!-- Mindroid motors spinner -->
     <string-array name="nxt_motor_chooser" >
@@ -45,6 +63,46 @@
         <item>@string/nxt_sensor_light_active</item>
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
+
+    <!-- Drone settings spinner-->
+    <string-array name="drone_setting_default_config" >
+        <item >@string/drone_config_indoor_with_hull</item >
+        <item >@string/drone_config_indoor_without_hull</item >
+        <item >@string/drone_config_outdoor_with_hull</item >
+        <item >@string/drone_config_outdoor_without_hull</item >
+    </string-array >
+
+    <!-- Drone altitude preferences spinner-->
+    <string-array name="drone_altitude_spinner_items" >
+        <item >@string/drone_set_altitude_max_3m</item >
+        <item >@string/drone_set_altitude_max_5m</item >
+        <item >@string/drone_set_altitude_max_10m</item >
+        <item >@string/drone_set_altitude_max_100m</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_vertical_speed_items" >
+        <item >@string/drone_set_vertical_min</item >
+        <item >@string/drone_set_vertical_indoor</item >
+        <item >@string/drone_set_vertical_outdoor</item >
+        <item >@string/drone_set_vertical_max</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_rotation_speed_items" >
+        <item >@string/drone_set_rotation_min</item >
+        <item >@string/drone_set_rotation_indoor</item >
+        <item >@string/drone_set_rotation_outdoor</item >
+        <item >@string/drone_set_rotation_max</item >
+    </string-array >
+
+    <!-- Drone tilt preferences spinner-->
+    <string-array name="drone_max_tilt_angle_items" >
+        <item >@string/drone_set_tilt_min</item >
+        <item >@string/drone_set_tilt_indoor</item >
+        <item >@string/drone_set_tilt_outdoor</item >
+        <item >@string/drone_set_tilt_max</item >
+    </string-array >
 
     <!-- User Brick UI Data Editor Fragment -->
     <string-array name="data_editor_buttons" >

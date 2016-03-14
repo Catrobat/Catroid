@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
 
@@ -71,9 +72,16 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		PlaySoundBrick copyBrick = (PlaySoundBrick) clone();
+
+		if (sound != null && sound.isBackpackSoundInfo) {
+			copyBrick.sound = sound;
+			return copyBrick;
+		}
+
 		for (SoundInfo soundInfo : sprite.getSoundList()) {
-			if (soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
+			if (sound != null && soundInfo != null && soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
 				copyBrick.sound = soundInfo;
+				break;
 			}
 		}
 		return copyBrick;
@@ -144,7 +152,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -225,6 +233,10 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 				spinner.setSelection(0, true);
 			}
 		}
+	}
+
+	public SoundInfo getSound() {
+		return sound;
 	}
 
 	private void setOnSoundInfoListChangedAfterNewListener(Context context) {
@@ -336,5 +348,14 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo) {
 		sound = soundInfo;
 		oldSelectedSound = soundInfo;
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackSound(this.getSound(), true);
+		this.setSoundInfo(backPackedSoundInfo);
+		if (sprite != null && !sprite.getSoundList().contains(backPackedSoundInfo)) {
+			sprite.getSoundList().add(backPackedSoundInfo);
+		}
 	}
 }

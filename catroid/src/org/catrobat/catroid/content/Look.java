@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 
 import java.util.ArrayList;
@@ -62,6 +63,10 @@ public class Look extends Image {
 		setScale(1f, 1f);
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
+		addListeners();
+	}
+
+	protected void addListeners() {
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -149,6 +154,11 @@ public class Look extends Image {
 		} else {
 			super.setVisible(true);
 		}
+
+		if (lookData instanceof DroneVideoLookData && lookData != null) {
+			lookData.draw(batch, alpha);
+		}
+
 		if (isVisible() && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
 		}
@@ -166,7 +176,8 @@ public class Look extends Image {
 			iterator.remove();
 		}
 
-		for (int i = 0, n = actions.size; i < n; i++) {
+		int n = actions.size;
+		for (int i = 0; i < n; i++) {
 			Action action = actions.get(i);
 			if (action.act(delta)) {
 				finishedCount++;
@@ -376,15 +387,15 @@ public class Look extends Image {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
 	}
 
-	private boolean isAngleInCatroidIntervall(float catroidAngle) {
+	private boolean isAngleInCatroidInterval(float catroidAngle) {
 		return (catroidAngle > -180 && catroidAngle <= 180);
 	}
 
 	private float breakDownCatroidAngle(float catroidAngle) { //TODO[physics]: add method
 		catroidAngle = catroidAngle % 360;
-		if (catroidAngle >= 0 && !isAngleInCatroidIntervall(catroidAngle)) {
+		if (catroidAngle >= 0 && !isAngleInCatroidInterval(catroidAngle)) {
 			return catroidAngle - 360;
-		} else if (catroidAngle < 0 && !isAngleInCatroidIntervall(catroidAngle)) {
+		} else if (catroidAngle < 0 && !isAngleInCatroidInterval(catroidAngle)) {
 			return catroidAngle + 360;
 		}
 		return catroidAngle;
@@ -400,11 +411,11 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
-	private void doHandleBroadcastEvent(String broadcastMessage) {
+	protected void doHandleBroadcastEvent(String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
 	}
 
-	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
 	}
 

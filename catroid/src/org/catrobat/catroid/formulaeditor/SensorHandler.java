@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,54 +28,111 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import com.parrot.freeflight.service.DroneControlService;
+
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
+	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
+	private static BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 	private SensorManagerInterface sensorManager = null;
+	private Sensor linearAccelerationSensor = null;
 	private Sensor accelerometerSensor = null;
+	private Sensor magneticFieldSensor = null;
 	private Sensor rotationVectorSensor = null;
 	private float[] rotationMatrix = new float[16];
 	private float[] rotationVector = new float[3];
-	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
-
-	private float linearAcceleartionX = 0f;
-	private float linearAcceleartionY = 0f;
-	private float linearAcceleartionZ = 0f;
-
+	private float[] accelerationXYZ = new float[3];
+	private float signAccelerationZ = 0f;
+	private float[] gravity = new float[]{0f, 0f, 0f};
+	private boolean useLinearAccelerationFallback = false;
+	private boolean useRotationVectorFallback = false;
+	private float linearAccelerationX = 0f;
+	private float linearAccelerationY = 0f;
+	private float linearAccelerationZ = 0f;
 	private float loudness = 0f;
 	private float faceDetected = 0f;
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
-
-	private static BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+	private boolean compassAvailable = true;
+	private boolean accelerationAvailable = true;
+	private boolean inclinationAvailable = true;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
 				(android.hardware.SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
-		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		linearAccelerationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		if (linearAccelerationSensor == null) {
+			useLinearAccelerationFallback = true;
+		}
+
 		rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+		if (rotationVectorSensor == null) {
+			useRotationVectorFallback = true;
+		}
+
+		if (useRotationVectorFallback) {
+			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+			if (accelerometerSensor == null) {
+				accelerationAvailable = false;
+				inclinationAvailable = false;
+			}
+			if (magneticFieldSensor == null) {
+				compassAvailable = false;
+			}
+		} else if (useLinearAccelerationFallback) {
+			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			if (accelerometerSensor == null) {
+				accelerationAvailable = false;
+			}
+		}
+
+		Log.d(TAG, "*** LINEAR_ACCELERATION SENSOR: " + linearAccelerationSensor);
+		Log.d(TAG, "*** ACCELEROMETER SENSOR: " + accelerometerSensor);
+		Log.d(TAG, "*** ROTATION_VECTOR SENSOR: " + rotationVectorSensor);
+		Log.d(TAG, "*** MAGNETIC_FIELD SENSOR: " + magneticFieldSensor);
+	}
+
+	public boolean compassAvailable() {
+		return this.compassAvailable;
+	}
+
+	public boolean accelerationAvailable() {
+		return this.accelerationAvailable;
+	}
+
+	public boolean inclinationAvailable() {
+		return this.inclinationAvailable;
+	}
+
+	public static SensorHandler getInstance(Context context) {
+		if (instance == null) {
+			instance = new SensorHandler(context);
+		}
+		return instance;
 	}
 
 	public static void startSensorListener(Context context) {
-
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
 		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
-		instance.sensorManager.registerListener(instance, instance.accelerometerSensor,
-				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
-		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
-				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+
+		instance.registerListener(instance);
+
 		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
 		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
@@ -85,10 +142,26 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance == null) {
 			return;
 		}
-		instance.sensorManager.registerListener(listener, instance.accelerometerSensor,
-				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
-		instance.sensorManager.registerListener(listener, instance.rotationVectorSensor,
-				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+
+		if (!instance.useLinearAccelerationFallback) {
+			instance.sensorManager.registerListener(listener, instance.linearAccelerationSensor,
+					android.hardware.SensorManager.SENSOR_DELAY_GAME);
+		}
+
+		if (!instance.useRotationVectorFallback) {
+			instance.sensorManager.registerListener(listener, instance.rotationVectorSensor,
+					android.hardware.SensorManager.SENSOR_DELAY_GAME);
+		}
+
+		if (instance.useLinearAccelerationFallback || instance.useRotationVectorFallback) {
+			instance.sensorManager.registerListener(listener, instance.accelerometerSensor,
+					android.hardware.SensorManager.SENSOR_DELAY_GAME);
+		}
+
+		if (instance.useRotationVectorFallback && instance.magneticFieldSensor != null) {
+			instance.sensorManager.registerListener(listener, instance.magneticFieldSensor,
+					android.hardware.SensorManager.SENSOR_DELAY_GAME);
+		}
 	}
 
 	public static void unregisterListener(SensorEventListener listener) {
@@ -113,54 +186,135 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
+		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		Double sensorValue;
+		float[] rotationMatrixOut = new float[16];
 		switch (sensor) {
 
 			case X_ACCELERATION:
-				return (double) instance.linearAcceleartionX;
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					return (double) (-instance.linearAccelerationY);
+				} else {
+					return (double) instance.linearAccelerationX;
+				}
 
 			case Y_ACCELERATION:
-				return (double) instance.linearAcceleartionY;
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					return (double) instance.linearAccelerationX;
+				} else {
+					return (double) instance.linearAccelerationY;
+				}
 
 			case Z_ACCELERATION:
-				return (double) instance.linearAcceleartionZ;
+				return (double) instance.linearAccelerationZ;
 
 			case COMPASS_DIRECTION:
 				float[] orientations = new float[3];
-				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
-						instance.rotationVector);
-				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+				if (!instance.useRotationVectorFallback) {
+					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+							instance.rotationVector);
+				}
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+							.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+					android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+				} else {
+					android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+				}
 				sensorValue = (double) orientations[0];
 				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 
 			case X_INCLINATION:
-
-				orientations = new float[3];
-				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
-						instance.rotationVector);
-				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-				sensorValue = (double) orientations[2];
-				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
-
-			case Y_INCLINATION:
-				orientations = new float[3];
-				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
-						instance.rotationVector);
-				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-
-				float xInclinationUsedToExtendRangeOfRoll = orientations[2] * RADIAN_TO_DEGREE_CONST * -1f;
-
-				sensorValue = (double) orientations[1];
-
-				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
-					return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
-				} else {
-					float uncorrectedYInclination = sensorValue.floatValue() * RADIAN_TO_DEGREE_CONST * -1f;
-
-					if (uncorrectedYInclination > 0f) {
-						return (double) 180f - uncorrectedYInclination;
+				if (instance.useRotationVectorFallback) {
+					float rawInclinationX;
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance
+								.accelerationXYZ[1]));
 					} else {
-						return (double) -180f - uncorrectedYInclination;
+						rawInclinationX = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
+					}
+					float correctedInclinationX = 0;
+
+					if (rawInclinationX >= 90 && rawInclinationX <= 180) {
+						if (instance.signAccelerationZ > 0) {
+							correctedInclinationX = -(rawInclinationX - 90);
+						} else {
+							correctedInclinationX = -(180 + (90 - rawInclinationX));
+						}
+					} else if (rawInclinationX >= 0 && rawInclinationX < 90) {
+						if (instance.signAccelerationZ > 0) {
+							correctedInclinationX = (90 - rawInclinationX);
+						} else {
+							correctedInclinationX = (90 + rawInclinationX);
+						}
+					}
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+						correctedInclinationX = -correctedInclinationX;
+					}
+					return (double) correctedInclinationX;
+				} else {
+					orientations = new float[3];
+					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+							instance.rotationVector);
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+					} else {
+						android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+					}
+					sensorValue = (double) orientations[2];
+					return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
+				}
+			case Y_INCLINATION:
+				if (instance.useRotationVectorFallback) {
+					float rawInclinationY;
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[0]));
+					} else {
+						rawInclinationY = RADIAN_TO_DEGREE_CONST * (float) (Math.acos(instance.accelerationXYZ[1]));
+					}
+					float correctedInclinationY = 0;
+					if (rawInclinationY >= 90 && rawInclinationY <= 180) {
+						if (instance.signAccelerationZ > 0) {
+							correctedInclinationY = -(rawInclinationY - 90);
+						} else {
+							correctedInclinationY = -(180 + (90 - rawInclinationY));
+						}
+					} else if (rawInclinationY >= 0 && rawInclinationY < 90) {
+						if (instance.signAccelerationZ > 0) {
+							correctedInclinationY = (90 - rawInclinationY);
+						} else {
+							correctedInclinationY = (90 + rawInclinationY);
+						}
+					}
+					return (double) correctedInclinationY;
+				} else {
+					orientations = new float[3];
+					android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
+							instance.rotationVector);
+					if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+						android.hardware.SensorManager.remapCoordinateSystem(instance.rotationMatrix, android.hardware.SensorManager
+								.AXIS_Y, android.hardware.SensorManager.AXIS_MINUS_X, rotationMatrixOut);
+						android.hardware.SensorManager.getOrientation(rotationMatrixOut, orientations);
+					} else {
+						android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
+					}
+
+					float xInclinationUsedToExtendRangeOfRoll = orientations[2] * RADIAN_TO_DEGREE_CONST * -1f;
+
+					sensorValue = (double) orientations[1];
+
+					if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
+						return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
+					} else {
+						float uncorrectedYInclination = sensorValue.floatValue() * RADIAN_TO_DEGREE_CONST * -1f;
+
+						if (uncorrectedYInclination > 0f) {
+							return (double) 180f - uncorrectedYInclination;
+						} else {
+							return (double) -180f - uncorrectedYInclination;
+						}
 					}
 				}
 			case FACE_DETECTED:
@@ -168,10 +322,17 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:
-				return (double) instance.facePositionX;
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					return (double) (-instance.facePositionY);
+				} else {
+					return (double) instance.facePositionX;
+				}
 			case FACE_Y_POSITION:
-				return (double) instance.facePositionY;
-
+				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+					return (double) instance.facePositionX;
+				} else {
+					return (double) instance.facePositionY;
+				}
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
 
@@ -197,8 +358,71 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
+
+			case DRONE_BATTERY_STATUS:
+				return (double) dcs.getDroneNavData().batteryStatus;
+
+			case DRONE_EMERGENCY_STATE:
+				return (double) dcs.getDroneNavData().emergencyState;
+
+			case DRONE_USB_REMAINING_TIME:
+				return (double) dcs.getDroneNavData().usbRemainingTime;
+
+			case DRONE_NUM_FRAMES:
+				return (double) dcs.getDroneNavData().numFrames;
+
+			case DRONE_RECORDING:
+				if (dcs.getDroneNavData().recording) {
+					return 1d;
+				} else {
+					return 0d;
+				}
+
+			case DRONE_FLYING:
+				if (dcs.getDroneNavData().flying) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_INITIALIZED:
+				if (dcs.getDroneNavData().initialized) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_USB_ACTIVE:
+				if (dcs.getDroneNavData().usbActive) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_CAMERA_READY:
+				if (dcs.getDroneNavData().cameraReady) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
+
+			case DRONE_RECORD_READY:
+				if (dcs.getDroneNavData().recordReady) {
+					return 1.0;
+				} else {
+					return 0.0;
+				}
 		}
 		return 0d;
+	}
+
+	public static void clearFaceDetectionValues() {
+		if (instance != null) {
+			instance.faceDetected = 0f;
+			instance.faceSize = 0f;
+			instance.facePositionX = 0f;
+			instance.facePositionY = 0f;
+		}
 	}
 
 	@Override
@@ -208,10 +432,29 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		switch (event.sensor.getType()) {
+			case Sensor.TYPE_MAGNETIC_FIELD:
+				float[] tempMagneticFieldXYZ = event.values.clone();
+				float[] tempInclinationMatrix = new float[9];
+				android.hardware.SensorManager.getRotationMatrix(rotationMatrix, tempInclinationMatrix, accelerationXYZ,
+						tempMagneticFieldXYZ);    //http://goo.gl/wo6QK5
+				break;
+			case Sensor.TYPE_ACCELEROMETER:
+				accelerationXYZ = event.values.clone();
+				if (useLinearAccelerationFallback) {
+					determinePseudoLinearAcceleration(accelerationXYZ.clone());
+				}
+				double normOfG = Math.sqrt(accelerationXYZ[0] * accelerationXYZ[0]
+						+ accelerationXYZ[1] * accelerationXYZ[1]
+						+ accelerationXYZ[2] * accelerationXYZ[2]);
+				accelerationXYZ[0] = (float) (accelerationXYZ[0] / normOfG);
+				accelerationXYZ[1] = (float) (accelerationXYZ[1] / normOfG);
+				accelerationXYZ[2] = (float) (accelerationXYZ[2] / normOfG);
+				signAccelerationZ = Math.signum(event.values[2]);
+				break;
 			case Sensor.TYPE_LINEAR_ACCELERATION:
-				linearAcceleartionX = event.values[0];
-				linearAcceleartionY = event.values[1];
-				linearAcceleartionZ = event.values[2];
+				linearAccelerationX = event.values[0];
+				linearAccelerationY = event.values[1];
+				linearAccelerationZ = event.values[2];
 				break;
 			case Sensor.TYPE_ROTATION_VECTOR:
 				rotationVector[0] = event.values[0];
@@ -221,6 +464,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			default:
 				Log.v(TAG, "Unhandled sensor type: " + event.sensor.getType());
 		}
+	}
+
+	private void determinePseudoLinearAcceleration(float[] input) {
+		float alpha = 0.8f;
+
+		gravity[0] = alpha * gravity[0] + ((1 - alpha) * input[0]);
+		gravity[1] = alpha * gravity[1] + ((1 - alpha) * input[1]);
+		gravity[2] = alpha * gravity[2] + ((1 - alpha) * input[2]);
+
+		linearAccelerationX = -1f * (input[0] - gravity[0]);
+		linearAccelerationY = -1f * (input[1] - gravity[1]);
+		linearAccelerationZ = -1f * (input[2] - gravity[2]);
 	}
 
 	@Override
@@ -243,15 +498,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);
-		}
-	}
-
-	public static void clearFaceDetectionValues() {
-		if (instance != null) {
-			instance.faceDetected = 0f;
-			instance.faceSize = 0f;
-			instance.facePositionX = 0f;
-			instance.facePositionY = 0f;
 		}
 	}
 }

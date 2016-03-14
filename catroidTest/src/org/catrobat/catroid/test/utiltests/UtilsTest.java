@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,9 +27,9 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -183,7 +183,7 @@ public class UtilsTest extends AndroidTestCase {
 		ScreenValues.SCREEN_HEIGHT = 800;
 
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(NEW_PROGRAM_NAME, getContext());
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(NEW_PROGRAM_NAME, getContext());
 		} catch (IOException | IllegalArgumentException e) {
 			Log.e(TAG, "error creating standard project", e);
 			fail("error creating standard project");
@@ -296,7 +296,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void removeScriptAndCompareToStandardProject() {
-		Script catroidScript = standardProject.getSpriteList().get(1).getScript(1);
+		Script catroidScript = standardProject.getSpriteList().get(1).getScript(2);
 		Sprite sprite = standardProject.getSpriteList().get(1);
 		sprite.removeScript(catroidScript);
 		assertFalse("Failed to recognize that the project is not standard after removing a script",
@@ -307,7 +307,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void removeSpriteAndCompareToStandardProject() {
-		Sprite catroidSprite = standardProject.getSpriteList().get(4);
+		Sprite catroidSprite = standardProject.getSpriteList().get(1);
 		int lastIndex = standardProject.getSpriteList().size() - 1;
 		List<Sprite> spriteList = standardProject.getSpriteList();
 		spriteList.remove(lastIndex);

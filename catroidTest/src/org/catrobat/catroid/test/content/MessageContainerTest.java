@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -147,7 +147,8 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		project2.addSprite(sprite2);
 
-		StorageHandler.getInstance().saveProject(project2);
+		boolean result = StorageHandler.getInstance().saveProject(project2);
+		assertTrue("error on saving project", result);
 	}
 
 	@SuppressWarnings("unchecked")

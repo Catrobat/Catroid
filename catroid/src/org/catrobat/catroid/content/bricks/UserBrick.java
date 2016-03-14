@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -216,7 +216,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			}
 		}
 
-		this.alphaValue = (alphaValue);
+		this.alphaValue = alphaValue;
 		return view;
 	}
 
@@ -321,7 +321,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
 
 		ActionFactory actionFactory = sprite.getActionFactory();
-		SequenceAction userSequence = actionFactory.createSequence();
+		SequenceAction userSequence = (SequenceAction) actionFactory.createSequence();
 		definitionBrick.getScriptSafe().run(sprite, userSequence);
 		returnActionList.add(userSequence);
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence));

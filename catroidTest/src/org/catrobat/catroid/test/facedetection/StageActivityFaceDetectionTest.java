@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ public class StageActivityFaceDetectionTest extends BaseActivityUnitTestCase<Sta
 	}
 
 	public void testFaceDetectionInStageActivityLifecycle() throws InterruptedException {
-		assertTrue("Face detection did not start!", FaceDetectionHandler.startFaceDetection(getActivity()));
+		assertTrue("Face detection did not start!", FaceDetectionHandler.startFaceDetection());
 
 		Activity dial = startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:42"))
 				.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), null, null);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.enableNfcBricks(getActivity().getApplicationContext());
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -69,7 +70,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 				PackageManager.GET_ACTIVITIES);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 
@@ -91,6 +92,11 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound);
 
 		checkMainMenuButton();
+
+		UiTestUtils.getIntoNfcTagsFromMainMenu(solo);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
+
+		checkMainMenuButton();
 	}
 
 	public void testPlayProgramButton() {
@@ -110,6 +116,11 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkplayProgramButton();
+
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.NFCTAGS_INDEX);
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
+
+		checkplayProgramButton();
 	}
 
 	public void testOverflowMenuItemSettings() {
@@ -122,7 +133,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class);
-		solo.clickOnText(solo.getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_look);
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
@@ -132,6 +143,14 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForActivity(ProgramMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.sounds));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound);
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
+
+		checkSettingsAndGoBack();
+
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnText(solo.getString(R.string.nfctags));
+		UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();
@@ -160,11 +179,13 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
 
+		solo.sleep(500); //StageActivity doesn't seem to handle fast use of goBack
 		solo.goBack();
+		solo.sleep(500);
 		solo.goBack();
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
+		solo.assertCurrentActivity("Not in ScriptActivity", ScriptActivity.class);
 	}
 
 	private void checkMainMenuButton() {

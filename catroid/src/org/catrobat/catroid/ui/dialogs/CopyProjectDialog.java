@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import org.catrobat.catroid.R;
@@ -37,7 +36,6 @@ public class CopyProjectDialog extends TextDialog {
 
 	private String oldProjectName;
 	private ProjectsListFragment parentFragment;
-	ProgressDialog progressDialog;
 
 	public CopyProjectDialog() {
 	}
@@ -63,7 +61,7 @@ public class CopyProjectDialog extends TextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String newProjectName = (input.getText().toString()).trim();
+		String newProjectName = input.getText().toString().trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
 			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,25 +26,22 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.view.ActionMode;
-
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.BackPackActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
-public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
+public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface {
 
 	private BackPackSoundFragment backPackSoundFragment;
 
-	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
+	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails, BackPackSoundFragment backPackSoundFragment) {
-
 		super(context, resource, textViewResourceId, items, showDetails);
-
 		this.backPackSoundFragment = backPackSoundFragment;
 	}
 
@@ -56,13 +53,20 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActi
 		return this.backPackSoundFragment.getView(position, convertView);
 	}
 
-	public void onDestroyActionModeUnpacking(ActionMode mode) {
-		Iterator<Integer> iterator = checkedSounds.iterator();
-		while (iterator.hasNext()) {
-			int position = iterator.next();
-			SoundController.getInstance().copySound(soundInfoItems.get(position),
-					BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
+	public void onDestroyActionModeUnpacking() {
+		List<SoundInfo> soundsToUnpack = new ArrayList<>();
+		for (Integer checkedPosition : checkedSounds) {
+			soundsToUnpack.add(getItem(checkedPosition));
 		}
+		for (SoundInfo soundInfo : soundsToUnpack) {
+			SoundController.getInstance().unpack(soundInfo, backPackSoundFragment.isDeleteUnpackedItems(), false);
+		}
+
+		boolean returnToScriptActivity = checkedSounds.size() > 0;
 		backPackSoundFragment.clearCheckedSoundsAndEnableButtons();
+
+		if (returnToScriptActivity) {
+			((BackPackActivity) backPackSoundFragment.getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
+		}
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,10 @@
  */
 package org.catrobat.catroid.io;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -33,31 +35,39 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -65,16 +75,19 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
-import org.catrobat.catroid.content.bricks.LedOffBrick;
-import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -90,10 +103,14 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -104,6 +121,7 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeSizeByNBrick;
@@ -159,6 +177,9 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -178,12 +199,15 @@ public final class StorageHandler {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private XStreamToSupportCatrobatLanguageVersion095AndBefore xstream;
+	private XStreamToSupportCatrobatLanguageVersion098AndBefore xstream;
 
-	private File backPackSoundDirectory;
 	private FileInputStream fileInputStream;
 
+	private File backPackSoundDirectory;
+	private File backPackImageDirectory;
+
 	private Lock loadSaveLock = new ReentrantLock();
+
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
@@ -193,8 +217,9 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
+
 	private StorageHandler() throws IOException {
-		xstream = new XStreamToSupportCatrobatLanguageVersion095AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(DataContainer.class);
@@ -240,7 +265,9 @@ public final class StorageHandler {
 
 	private void setXstreamAliases() {
 		xstream.alias("look", LookData.class);
+		xstream.alias("droneLook", DroneVideoLookData.class);
 		xstream.alias("sound", SoundInfo.class);
+		xstream.alias("nfcTag", NfcTagData.class);
 		xstream.alias("userVariable", UserVariable.class);
 		xstream.alias("userList", UserList.class);
 
@@ -249,7 +276,9 @@ public final class StorageHandler {
 
 		xstream.alias("script", StartScript.class);
 		xstream.alias("script", WhenScript.class);
+		xstream.alias("script", WhenNfcScript.class);
 		xstream.alias("script", BroadcastScript.class);
+		xstream.alias("script", RaspiInterruptScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
@@ -269,13 +298,15 @@ public final class StorageHandler {
 		xstream.alias("brick", GlideToBrick.class);
 		xstream.alias("brick", GoNStepsBackBrick.class);
 		xstream.alias("brick", HideBrick.class);
+		xstream.alias("brick", HideTextBrick.class);
 		xstream.alias("brick", IfLogicBeginBrick.class);
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
-		xstream.alias("brick", LedOffBrick.class);
-		xstream.alias("brick", LedOnBrick.class);
+		xstream.alias("brick", FlashBrick.class);
+		xstream.alias("brick", ChooseCameraBrick.class);
+		xstream.alias("brick", CameraBrick.class);
 		xstream.alias("brick", LegoNxtMotorMoveBrick.class);
 		xstream.alias("brick", LegoNxtMotorStopBrick.class);
 		xstream.alias("brick", LegoNxtMotorTurnAngleBrick.class);
@@ -301,6 +332,7 @@ public final class StorageHandler {
 		xstream.alias("brick", SetXBrick.class);
 		xstream.alias("brick", SetYBrick.class);
 		xstream.alias("brick", ShowBrick.class);
+		xstream.alias("brick", ShowTextBrick.class);
 		xstream.alias("brick", SpeakBrick.class);
 		xstream.alias("brick", StopAllSoundsBrick.class);
 		xstream.alias("brick", TurnLeftBrick.class);
@@ -312,16 +344,21 @@ public final class StorageHandler {
 		xstream.alias("brick", WhenBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
 
+		xstream.alias("brick", WhenNfcBrick.class);
+
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
-		xstream.alias("brick", DroneTakeOffBrick.class);
-		xstream.alias("brick", DroneLandBrick.class);
+		xstream.alias("brick", DroneTakeOffLandBrick.class);
 		xstream.alias("brick", DroneMoveForwardBrick.class);
 		xstream.alias("brick", DroneMoveBackwardBrick.class);
 		xstream.alias("brick", DroneMoveUpBrick.class);
 		xstream.alias("brick", DroneMoveDownBrick.class);
 		xstream.alias("brick", DroneMoveLeftBrick.class);
 		xstream.alias("brick", DroneMoveRightBrick.class);
+		xstream.alias("brick", DroneTurnLeftBrick.class);
+		xstream.alias("brick", DroneTurnRightBrick.class);
+		xstream.alias("brick", DroneSwitchCameraBrick.class);
+		xstream.alias("brick", DroneEmergencyBrick.class);
 
 		xstream.alias("brick", PhiroMotorMoveBackwardBrick.class);
 		xstream.alias("brick", PhiroMotorMoveForwardBrick.class);
@@ -329,6 +366,13 @@ public final class StorageHandler {
 		xstream.alias("brick", PhiroPlayToneBrick.class);
 		xstream.alias("brick", PhiroRGBLightBrick.class);
 		xstream.alias("brick", PhiroIfLogicBeginBrick.class);
+
+		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
+		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);
+
+		xstream.alias("brick", RaspiSendDigitalValueBrick.class);
+		xstream.alias("brick", RaspiIfLogicBeginBrick.class);
+		xstream.alias("brick", RaspiPwmBrick.class);
 
 		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
@@ -363,12 +407,15 @@ public final class StorageHandler {
 		}
 	}
 
-	public File getBackPackSoundDirectory() {
-		return backPackSoundDirectory;
-	}
-
 	public Project loadProject(String projectName) {
-		codeFileSanityCheck(projectName);
+		File file = new File(DEFAULT_ROOT);
+		if (!file.exists()) {
+			Log.d(TAG, "Directory does not exist!");
+			return null;
+		}
+
+		boolean result = codeFileSanityCheck(projectName);
+		assertTrue(result);
 
 		Log.d(TAG, "loadProject " + projectName);
 
@@ -379,8 +426,11 @@ public final class StorageHandler {
 			fileInputStream = new FileInputStream(projectCodeFile);
 			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
 			return project;
-		} catch (Exception exception) {
-			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
+		} catch (FileNotFoundException e) {
+			Log.d(TAG, "Could not load project!");
+			deleteDirectory(file);
+			Log.d(TAG, "loadProject: directory is deleted and "
+					+ "default project should be restored!");
 			return null;
 		} finally {
 			if (fileInputStream != null) {
@@ -429,6 +479,10 @@ public final class StorageHandler {
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 
+			if (tmpCodeFile == null || currentCodeFile == null) {
+				Log.d(TAG, "tmpCodeFile or currentCodeFile is null!");
+				return false;
+			}
 			if (currentCodeFile.exists()) {
 				try {
 					String oldProjectXml = Files.toString(currentCodeFile, Charsets.UTF_8);
@@ -441,6 +495,7 @@ public final class StorageHandler {
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
 				} catch (Exception exception) {
 					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
+					fail("Opening old project " + currentCodeFile.getName() + " failed.");
 					return false;
 				}
 			}
@@ -486,7 +541,7 @@ public final class StorageHandler {
 		}
 	}
 
-	public void codeFileSanityCheck(String projectName) {
+	public boolean codeFileSanityCheck(String projectName) {
 		loadSaveLock.lock();
 
 		try {
@@ -499,9 +554,10 @@ public final class StorageHandler {
 
 					if (!tmpCodeFile.delete()) {
 						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
+//						fail("Could not delete " + tmpCodeFile.getName());
 					}
-
-					return;
+//					fail("TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
+					return false;
 				}
 
 				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP
@@ -509,6 +565,8 @@ public final class StorageHandler {
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
+//					fail("Could not rename " + tmpCodeFile.getName());
+					return false;
 				}
 			}
 		} catch (Exception exception) {
@@ -516,6 +574,7 @@ public final class StorageHandler {
 		} finally {
 			loadSaveLock.unlock();
 		}
+		return true;
 	}
 
 	private void createProjectDataStructure(File projectDirectory) throws IOException {
@@ -547,7 +606,7 @@ public final class StorageHandler {
 		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 
-		File backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
+		backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
 		backPackImageDirectory.mkdir();
 
 		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
@@ -555,16 +614,32 @@ public final class StorageHandler {
 	}
 
 	public void clearBackPackSoundDirectory() {
-		try {
-			if (backPackSoundDirectory.listFiles().length > 1) {
-				for (File node : backPackSoundDirectory.listFiles()) {
-					if (!(node.getName().equals(".nomedia"))) {
-						node.delete();
-					}
+		if (backPackSoundDirectory == null) {
+			Log.d(TAG, "Backpack sound directory not created yet - probably project was never saved before");
+			return;
+		}
+		File[] backPackFiles = backPackSoundDirectory.listFiles();
+		if (backPackFiles != null && backPackFiles.length > 1) {
+			for (File node : backPackSoundDirectory.listFiles()) {
+				if (!(node.getName().equals(".nomedia"))) {
+					node.delete();
 				}
 			}
-		} catch (NullPointerException nullPointerException) {
-			Log.e(TAG, Log.getStackTraceString(nullPointerException));
+		}
+	}
+
+	public void clearBackPackLookDirectory() {
+		if (backPackImageDirectory == null) {
+			Log.d(TAG, "Backpack image directory not created yet - probably project was never saved before");
+			return;
+		}
+		File[] backPackFiles = backPackImageDirectory.listFiles();
+		if (backPackFiles != null && backPackFiles.length > 1) {
+			for (File node : backPackImageDirectory.listFiles()) {
+				if (!(node.getName().equals(".nomedia"))) {
+					node.delete();
+				}
+			}
 		}
 	}
 
@@ -572,17 +647,10 @@ public final class StorageHandler {
 		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
 	}
 
-	public boolean deleteProject(Project project) {
-		if (project != null) {
-			return deleteProject(project.getName());
-		}
-		return false;
-	}
-
 	public boolean projectExists(String projectName) {
 		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
-			if ((projectNameIterator.equals(projectName))) {
+			if (projectNameIterator.equals(projectName)) {
 				return true;
 			}
 		}
@@ -610,22 +678,93 @@ public final class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
-	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException, IllegalArgumentException {
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo, String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
 
-		String path = selectedSoundInfo.getAbsolutePath();
+		if (selectedSoundInfo == null) {
+			return null;
+		}
+		String inputFilePath = selectedSoundInfo.getAbsolutePath();
 
-		File inputFile = new File(path);
+		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			throw new IllegalArgumentException("file " + path + " doesn`t exist or can`t be read");
+			if (copyFromBackpack) {
+				return null;
+			}
+			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+		} else {
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
+		}
 
-		File outputFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY, currentProject
-				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
-
+		File outputFile = new File(outputFilePath);
 		return copyFileAddCheckSum(outputFile, inputFile);
+	}
+
+	public File copyImageBackPack(LookData selectedLookData, String newName, boolean copyFromBackpack)
+			throws IOException {
+
+		String inputFilePath = selectedLookData.getAbsolutePath();
+
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			if (copyFromBackpack) {
+				return null;
+			}
+			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
+
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), IMAGE_DIRECTORY,
+					inputFileChecksum + "_" + newName + fileFormat);
+		} else {
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY,
+					inputFileChecksum + "_" + newName + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
+		}
+
+		File outputFile = new File(outputFilePath);
+		return copyFileAddCheckSum(outputFile, inputFile);
+	}
+
+	public File copyImageFromResourceToCatroid(Activity activity, int imageId, String defaultImageName) throws IOException {
+		Bitmap newImage = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(), imageId);
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		return createImageFromBitmap(projectName, newImage, defaultImageName);
+	}
+
+	public File createImageFromBitmap(String currentProjectName, Bitmap inputImage, String newName) throws IOException {
+
+		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
+
+		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
+
+		if (!outputFileDirectory.exists()) {
+			outputFileDirectory.mkdirs();
+		}
+
+		File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), newName));
+
+		return createFileFromBitmap(outputFile, inputImage, imageDirectory);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
@@ -637,8 +776,7 @@ public final class StorageHandler {
 			return null;
 		}
 
-		int[] imageDimensions = new int[2];
-		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
+		int[] imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
@@ -697,6 +835,25 @@ public final class StorageHandler {
 		}
 	}
 
+	private File createFileFromBitmap(File outputFile, Bitmap inputImage, File imageDirectory) throws IOException {
+		saveBitmapToImageFile(outputFile, inputImage);
+
+		String checksumCompressedFile = Utils.md5Checksum(outputFile);
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+		String newFilePath = buildPath(imageDirectory.getAbsolutePath(),
+				checksumCompressedFile + "_" + outputFile.getName());
+
+		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
+
+			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
+		}
+
+		File compressedFile = new File(newFilePath);
+		outputFile.renameTo(compressedFile);
+
+		return compressedFile;
+	}
+
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
@@ -724,16 +881,20 @@ public final class StorageHandler {
 		return compressedFile;
 	}
 
-	public void deleteFile(String filepath) {
+	public void deleteFile(String filepath, boolean isBackPackFile) {
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		try {
-			if (container.decrementUsage(filepath)) {
+			if (isBackPackFile) {
 				File toDelete = new File(filepath);
+				Log.d("LookController", "delete" + toDelete);
+				toDelete.delete();
+			} else if (container.decrementUsage(filepath)) {
+				File toDelete = new File(filepath);
+				Log.d("LookController", "delete" + toDelete);
 				toDelete.delete();
 			}
 		} catch (FileNotFoundException fileNotFoundException) {
 			Log.e(TAG, Log.getStackTraceString(fileNotFoundException));
-			//deleteFile(filepath);
 		}
 	}
 
@@ -810,14 +971,17 @@ public final class StorageHandler {
 		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
 			permissionsSet.add(Constants.BLUETOOTH_PHIRO_PRO);
 		}
-		if ((resources & Brick.CAMERA_LED) > 0) {
-			permissionsSet.add(Constants.CAMERA_LED);
+		if ((resources & Brick.CAMERA_FLASH) > 0) {
+			permissionsSet.add(Constants.CAMERA_FLASH);
 		}
 		if ((resources & Brick.VIBRATOR) > 0) {
 			permissionsSet.add(Constants.VIBRATOR);
 		}
 		if ((resources & Brick.FACE_DETECTION) > 0) {
 			permissionsSet.add(Constants.FACE_DETECTION);
+		}
+		if ((resources & Brick.NFC_ADAPTER) > 0) {
+			permissionsSet.add(Constants.NFC);
 		}
 		return permissionsSet;
 	}
@@ -854,5 +1018,22 @@ public final class StorageHandler {
 			return false;
 		}
 		return true;
+	}
+
+	public static boolean deleteDirectory(File path) {
+		if (path.exists()) {
+			File[] files = path.listFiles();
+			if (files == null) {
+				return true;
+			}
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					deleteDirectory(files[i]);
+				} else {
+					files[i].delete();
+				}
+			}
+		}
+		return path.delete();
 	}
 }
