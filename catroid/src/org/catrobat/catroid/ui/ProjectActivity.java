@@ -93,6 +93,7 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		SettingsActivity.displayChoosers(true);
 
 		String programName = getString(R.string.app_name);
 		Bundle bundle = getIntent().getExtras();
@@ -114,8 +115,6 @@ public class ProjectActivity extends BaseActivity {
 		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 		updateFragment(fragmentTransaction);
 		fragmentTransaction.commit();
-
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
 	}
 
 	@Override

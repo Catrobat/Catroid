@@ -123,7 +123,7 @@ public class NewSpriteDialog extends DialogFragment {
 		setupCameraButton(dialogView);
 		setupMediaLibraryButton(dialogView);
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+		if (SettingsActivity.isARDroneSharedPreferenceEnabled(getActivity())) {
 			setupDroneVideoButton(dialogView);
 		}
 
@@ -263,6 +263,7 @@ public class NewSpriteDialog extends DialogFragment {
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
 		cursor.moveToFirst();
+
 		int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
 		Uri decodedUri = Uri.parse(cursor.getString(columnIndex));
 		cursor.close();

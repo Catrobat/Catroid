@@ -604,6 +604,7 @@
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
+    <string name="default_drone_project_background_name">Drone Video</string>
 
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
     <string name="default_drone_project_sprites_rotate">Rotate</string>

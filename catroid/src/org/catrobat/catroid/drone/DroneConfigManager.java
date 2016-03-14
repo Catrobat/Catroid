@@ -50,10 +50,6 @@ public final class DroneConfigManager {
 	}
 
 	public void setDroneConfig(DroneConfigPreference.Preferences[] preferences) {
-		for (DroneConfigPreference.Preferences preference : preferences) {
-			Log.d("onDroneReady config", "Drone = " + preference);
-		}
-
 		setBasicConfig(preferences[0].getPreferenceCode());
 		setAltitude(preferences[1].getPreferenceCode());
 		setVerticalSpeed(preferences[2].getPreferenceCode());

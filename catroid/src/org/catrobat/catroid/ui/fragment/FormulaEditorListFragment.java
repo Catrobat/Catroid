@@ -105,11 +105,11 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	private static final int[] INCLINATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination };
 
-	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction};
+	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction };
 
 	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
-			R.string.formula_editor_sensor_lego_nxt_4};
+			R.string.formula_editor_sensor_lego_nxt_4 };
 
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
@@ -163,7 +163,6 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		super.onStart();
 
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
-
 		itemsIds = new int[]{};
 
 		if (tag.equals(OBJECT_TAG)) {
@@ -205,7 +204,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
 			}
 
-			if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
+			if (SettingsActivity.isARDroneSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, SENSOR_ITEMS_DRONE);
 			}
 
