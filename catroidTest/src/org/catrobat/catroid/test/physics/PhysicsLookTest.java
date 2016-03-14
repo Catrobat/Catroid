@@ -42,6 +42,7 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
+import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeScaleUtils;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -98,7 +99,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 	}
 
 	public void testShapeComputationOfLook() {
-		PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
+		PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
@@ -108,9 +109,10 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
-		Shape[] shapes = physicsShapeBuilder.getShape(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
+		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
 
 		assertTrue("shapes are 0", shapes.length > 0);
+		physicsShapeBuilder.reset();
 	}
 
 	public void testPositionAndAngle() {
@@ -190,11 +192,12 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 			}
 		}
 
+		float[] accuracyLevels = (float[]) Reflection.getPrivateField(PhysicsShapeBuilder.class, "ACCURACY_LEVELS");
 		float testScaleFactor = 1.1f;
-		if (PhysicsShapeBuilder.ACCURACY_LEVELS.length > 1) {
-			for (int i = 0; i < PhysicsShapeBuilder.ACCURACY_LEVELS.length - 1; i++) {
-				if (Math.abs(PhysicsShapeBuilder.ACCURACY_LEVELS[i] - 1.0f) < 0.05) {
-					testScaleFactor = (PhysicsShapeBuilder.ACCURACY_LEVELS[i] + PhysicsShapeBuilder.ACCURACY_LEVELS[i + 1]);
+		if (accuracyLevels.length > 1) {
+			for (int i = 0; i < accuracyLevels.length - 1; i++) {
+				if (Math.abs(accuracyLevels[i] - 1.0f) < 0.05) {
+					testScaleFactor = (accuracyLevels[i] + accuracyLevels[i + 1]);
 					testScaleFactor /= 2.0f;
 					testScaleFactor -= 0.025f;
 				}
@@ -223,8 +226,19 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 					for (int idx = 0; idx < vertexCount; idx++) {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(idx, vertex);
-						assertEquals("vertex x-value is not the expected", PhysicsShapeBuilder.scaleCoordinate(vertexXQueue.poll(), testScaleFactor), vertex.x);
-						assertEquals("vertex x-value is not the expected", PhysicsShapeBuilder.scaleCoordinate(vertexYQueue.poll(), testScaleFactor), vertex.y);
+
+						Object[] objectsX = { vertexXQueue.poll(), testScaleFactor };
+						Reflection.ParameterList parameterListX = new Reflection.ParameterList(objectsX);
+						float scaledX = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
+								parameterListX);
+
+						Object[] objectsY = { vertexYQueue.poll(), testScaleFactor };
+						Reflection.ParameterList parameterListY = new Reflection.ParameterList(objectsY);
+						float scaledY = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
+								parameterListY);
+
+						assertEquals("vertex x-value is not the expected", scaledX, vertex.x);
+						assertEquals("vertex x-value is not the expected", scaledY, vertex.y);
 						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					break;

@@ -41,14 +41,12 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 
-/**
- * TODO: Write Test cases.
- */
 public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 	private static final String TAG = PhysicsShapeBuilderTest.class.getSimpleName();
@@ -58,10 +56,12 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private PhysicsLook physicsLook;
 	private Project project;
 	private File projectFile;
-	private String simpleSingleConvexPolygonFileName;
 	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
-
 	private File simpleSingleConvexPolygonFile;
+
+	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
+	private File complexSingleConvexPolygonFile;
+
 	private Sprite sprite;
 
 	static {
@@ -78,22 +78,26 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-		physicsShapeBuilder = new PhysicsShapeBuilder();
+		physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		simpleSingleConvexPolygonFileName = PhysicsTestUtils
+		String simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");
-
 		simpleSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
 				simpleSingleConvexPolygonFileName, SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
+		String complexSingleConvexPolygonFileName = PhysicsTestUtils
+				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
+		complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
+						.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
 		sprite = new Sprite("TestSprite");
 
-		physicsShapeBuilder = new PhysicsShapeBuilder();
 		physicsLook = new PhysicsLook(sprite, physicsWorld);
 	}
 
@@ -102,6 +106,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
 		}
+		physicsShapeBuilder.reset();
 		projectFile = null;
 		super.tearDown();
 	}
@@ -110,21 +115,41 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		LookData lookData = PhysicsTestUtils.generateLookData(simpleSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);
 
-		Shape[] shapes = physicsShapeBuilder.getShape(lookData,
+		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData,
 				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
 
 		int expectedPolynoms = 1;
 		int[] expectedVertices = { 4 };
-		checkBuildedShapes(shapes, expectedPolynoms, expectedVertices);
+		checkBuiltShapes(shapes, expectedPolynoms, expectedVertices);
 	}
 
-	private void checkBuildedShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {
+	public void testDifferentAccuracySettings() {
+		LookData lookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
+		physicsLook.setLookData(lookData);
+
+		float[] accuracyLevels = (float[]) Reflection.getPrivateField(PhysicsShapeBuilder.class, "ACCURACY_LEVELS");
+
+		Shape[] lowerAccuracyShapes = physicsShapeBuilder.getScaledShapes(lookData, accuracyLevels[0]);
+		Shape[] lowestAccuracyShapes = lowerAccuracyShapes;
+		Shape[] highestAccuracyShapes = null;
+		for (int accuracyIdx = 1; accuracyIdx < accuracyLevels.length; accuracyIdx++) {
+			Shape[] higherAccuracyShapes = physicsShapeBuilder.getScaledShapes(lookData, accuracyLevels[accuracyIdx]);
+			assertTrue("lower accuracy must have less or equal shapes than higher accuracy", lowerAccuracyShapes
+					.length <= higherAccuracyShapes.length);
+			lowerAccuracyShapes = higherAccuracyShapes;
+			highestAccuracyShapes = higherAccuracyShapes;
+		}
+		assertTrue("lower accuracy must have less shapes than higher accuracy", lowestAccuracyShapes.length <
+				highestAccuracyShapes.length);
+	}
+
+	private void checkBuiltShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {
 		boolean debug = false;
 
-		assertNotNull("shapes should not be null", shapes);
+		assertNotNull("Shapes should not be null", shapes);
 
 		if (!debug) {
-			assertEquals("polynomCount is not correct", expectedPolynomCount, shapes.length);
+			assertEquals("Polynom count is not correct", expectedPolynomCount, shapes.length);
 		}
 		if (!debug) {
 			assertEquals("The array expectedVertices must have length of expectedPolynomCount", expectedPolynomCount,
