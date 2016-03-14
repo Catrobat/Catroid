@@ -132,7 +132,7 @@ public class SetFrictionBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_friction, null);
 		TextView textFriction = (TextView) prototypeView.findViewById(R.id.brick_set_friction_prototype_text_view);
-		textFriction.setText(String.valueOf(BrickValues.PHYSIC_FRICTION));
+		textFriction.setText(String.valueOf(BrickValues.PHYSIC_FRICTION * 100));
 		return prototypeView;
 	}
 
