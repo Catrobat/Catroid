@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -207,7 +207,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 					return false;
 				}
 
-				if (newMessage.contains(CollisionReceiverBrick.COLLISION_MESSAGE_CONNECTOR)) {
+				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
 					Utils.showErrorDialog(getActivity(), R.string.brick_broadcast_invalid_symbol);
 					return false;
 				}

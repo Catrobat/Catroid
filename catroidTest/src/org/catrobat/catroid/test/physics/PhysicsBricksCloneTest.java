@@ -96,8 +96,8 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 			fail("clone of CollisionReceiverBrick not supported");
 		}
 
-		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "receiveScript");
-		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "receiveScript");
+		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "collisionScript");
+		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "collisionScript");
 
 		String scriptReceiveMessage = brickReceiverScript.getBroadcastMessage();
 		String clonedReceiveMessage = clonedBrickReceiverScript.getBroadcastMessage();

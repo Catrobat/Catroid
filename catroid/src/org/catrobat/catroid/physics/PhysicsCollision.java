@@ -34,18 +34,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PhysicsCollision implements ContactListener {
-	//private static final String TAG = PhysicsCollision.class.getSimpleName();
+
+	public static final String COLLISION_MESSAGE_ESCAPE_CHAR = "\0";
+	public static final String COLLISION_MESSAGE_CONNECTOR = "<" + COLLISION_MESSAGE_ESCAPE_CHAR
+			+ "-" + COLLISION_MESSAGE_ESCAPE_CHAR + ">";
+	public static final String COLLISION_WITH_ANYTHING_IDENTIFIER = COLLISION_MESSAGE_ESCAPE_CHAR
+			+ "ANYTHING" + COLLISION_MESSAGE_ESCAPE_CHAR;
+
 	private PhysicsWorld physicsWorld;
 
 	public PhysicsCollision(PhysicsWorld physicsWorld) {
 		this.physicsWorld = physicsWorld;
 	}
 
-	Map<String, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = new HashMap<String, PhysicsCollisionBroadcast>();
+	private Map<String, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = new HashMap<>();
+
+	public static String generateBroadcastMessage(String collisionObjectOneIdentifier, String
+			collisionObjectTwoIdentifier) {
+		return collisionObjectOneIdentifier + COLLISION_MESSAGE_CONNECTOR + collisionObjectTwoIdentifier;
+	}
+
+	public static boolean isCollisionBroadcastMessage(String message) {
+		if (message == null) {
+			return false;
+		}
+		return message.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
+	}
 
 	private static String generateKey(Sprite sprite1, Sprite sprite2) {
-		String key = sprite1.getName().concat(sprite2.getName());
-		return key;
+		return sprite1.getName() + COLLISION_MESSAGE_CONNECTOR + sprite2.getName();
 	}
 
 	private void registerContact(Sprite sprite1, Sprite sprite2) {

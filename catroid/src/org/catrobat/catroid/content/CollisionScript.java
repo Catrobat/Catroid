@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 
 import java.util.List;
@@ -34,6 +35,20 @@ public class CollisionScript extends BroadcastScript {
 
 	public CollisionScript(String broadcastMessage) {
 		super(broadcastMessage);
+	}
+
+	public CollisionObjectIdentifier splitBroadcastMessage() {
+		String broadcastMessage = getBroadcastMessage();
+		if (broadcastMessage == null) {
+			return new CollisionObjectIdentifier("", "");
+		}
+
+		String[] collisionObjectIdentifierArray = broadcastMessage.split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
+		if (collisionObjectIdentifierArray.length != 2) {
+			return new CollisionObjectIdentifier("", "");
+		}
+
+		return new CollisionObjectIdentifier(collisionObjectIdentifierArray[0], collisionObjectIdentifierArray[1]);
 	}
 
 	@Override
@@ -50,5 +65,43 @@ public class CollisionScript extends BroadcastScript {
 
 		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 		return cloneScript;
+	}
+
+	public void updateBroadcastMessage(String oldCollisionObjectIdentifier, String newCollisionObjectIdentifier) {
+		CollisionObjectIdentifier collisionObjectIdentifier = splitBroadcastMessage();
+		if (collisionObjectIdentifier.getCollisionObjectOneIdentifier().equals(oldCollisionObjectIdentifier)) {
+			// update first object identifier
+			String collisionObjectTwoIdentifier = collisionObjectIdentifier.getCollisionObjectTwoIdentifier();
+			setAndReturnBroadcastMessage(newCollisionObjectIdentifier, collisionObjectTwoIdentifier);
+		} else if (collisionObjectIdentifier.getCollisionObjectTwoIdentifier().equals(oldCollisionObjectIdentifier)) {
+			// update second object identifier
+			String collisionObjectOneIdentifier = collisionObjectIdentifier.getCollisionObjectOneIdentifier();
+			setAndReturnBroadcastMessage(collisionObjectOneIdentifier, newCollisionObjectIdentifier);
+		}
+	}
+
+	public String setAndReturnBroadcastMessage(String collisionObjectOneIdentifier, String collisionObjectTwoIdentifier) {
+		String collisionBroadcastMessage = PhysicsCollision.generateBroadcastMessage(collisionObjectOneIdentifier,
+				collisionObjectTwoIdentifier);
+		setBroadcastMessage(collisionBroadcastMessage);
+		return collisionBroadcastMessage;
+	}
+
+	public class CollisionObjectIdentifier {
+		private String collisionObjectOneIdentifier;
+		private String collisionObjectTwoIdentifier;
+
+		public CollisionObjectIdentifier(String collisionObjectOneIdentifier, String collisionObjectTwoIdentifier) {
+			this.collisionObjectOneIdentifier = collisionObjectOneIdentifier;
+			this.collisionObjectTwoIdentifier = collisionObjectTwoIdentifier;
+		}
+
+		public String getCollisionObjectTwoIdentifier() {
+			return collisionObjectTwoIdentifier;
+		}
+
+		public String getCollisionObjectOneIdentifier() {
+			return collisionObjectOneIdentifier;
+		}
 	}
 }

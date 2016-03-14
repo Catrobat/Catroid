@@ -424,8 +424,13 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void copySprite() {
 		Sprite copiedSprite = spriteToEdit.clone();
+		String oldName = copiedSprite.getName();
+
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
+		String newName = copiedSprite.getName();
+
+		copiedSprite.updateCollisionBroadcastMessages(oldName, newName);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -561,7 +566,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
-				spriteToEdit.setName(newSpriteName);
+				spriteToEdit.rename(newSpriteName);
 			}
 		}
 	}
