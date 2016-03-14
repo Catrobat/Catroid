@@ -81,6 +81,25 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
         }
+        physics {
+            applicationIdSuffix '.physics'
+            versionNameSuffix '-PHYSICS'
+            signingConfig signingConfigs.debug
+            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+        }
     }
 }
 
@@ -217,15 +236,6 @@ android {
             if (file('testexclusions.txt').exists()) {
                 java.exclude file('testexclusions.txt').readLines()
             }
-        }
-    }
-    buildTypes {
-        physics {
-            applicationIdSuffix '.physics'
-            versionNameSuffix '-PHYSICS'
-            // NB: If you want to use the default debug key for a (non-debug)
-            // build type, you need to specify it:
-            signingConfig signingConfigs.debug
         }
     }
     lintOptions {

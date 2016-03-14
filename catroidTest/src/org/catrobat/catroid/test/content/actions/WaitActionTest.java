@@ -37,7 +37,7 @@ public class WaitActionTest extends AndroidTestCase {
 	public void testWait() throws InterruptedException {
 		float waitOneSecond = 1.0f;
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = factory.createDelayAction(null, new Formula(waitOneSecond));
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(waitOneSecond));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -51,7 +51,7 @@ public class WaitActionTest extends AndroidTestCase {
 		float waitOneSecond = 1.0f;
 
 		ActionFactory factory = testSprite.getActionFactory();
-		WaitAction action = factory.createDelayAction(testSprite, new Formula(waitOneSecond));
+		WaitAction action = (WaitAction) factory.createDelayAction(testSprite, new Formula(waitOneSecond));
 		testSprite.look.addAction(action);
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
@@ -68,14 +68,14 @@ public class WaitActionTest extends AndroidTestCase {
 
 	public void testBrickWithStringFormula() {
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = factory.createDelayAction(null, new Formula(String.valueOf(VALUE)));
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(String.valueOf(VALUE)));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
 		assertTrue("Unexpected waited time!", (action.getTime() - VALUE) > 0.5f);
 
-		action = factory.createDelayAction(null, new Formula(NOT_NUMERICAL_STRING));
+		action = (WaitAction) factory.createDelayAction(null, new Formula(NOT_NUMERICAL_STRING));
 		currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -85,7 +85,7 @@ public class WaitActionTest extends AndroidTestCase {
 
 	public void testNullFormula() {
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = factory.createDelayAction(null, null);
+		WaitAction action = (WaitAction) factory.createDelayAction(null, null);
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -95,7 +95,7 @@ public class WaitActionTest extends AndroidTestCase {
 
 	public void testNotANumberFormula() {
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = factory.createDelayAction(null, new Formula(Double.NaN));
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(Double.NaN));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;

@@ -110,17 +110,20 @@ public class NextLookActionTest extends InstrumentationTestCase {
 
 		LookData lookData1 = new LookData();
 		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage2");
+		lookData1.setLookName("testImage1");
+		lookData1.setLookFilename("testImage1");
 		sprite.getLookDataList().add(lookData1);
 
 		LookData lookData2 = new LookData();
 		lookData2.setLookFilename(testImage.getName());
 		lookData2.setLookName("testImage");
+		lookData2.setLookFilename("testImage2");
 		sprite.getLookDataList().add(lookData2);
 
 		LookData lookData3 = new LookData();
 		lookData3.setLookFilename(testImage.getName());
 		lookData3.setLookName("testImage");
+		lookData3.setLookFilename("testImage3");
 		sprite.getLookDataList().add(lookData3);
 
 		ActionFactory factory = sprite.getActionFactory();

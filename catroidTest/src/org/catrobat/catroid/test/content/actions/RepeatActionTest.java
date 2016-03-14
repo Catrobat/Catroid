@@ -175,7 +175,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 
 		ActionFactory factory = testSprite.getActionFactory();
-		SequenceAction sequence = factory.createSequence();
+		SequenceAction sequence = (SequenceAction) factory.createSequence();
 		repeatBrick.addActionToSequence(testSprite, sequence);
 
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
@@ -192,8 +192,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final float decoyDeltaY = -150f;
 		final float expectedDeltaY = 150f;
 
-		final RepeatAction repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, new Formula(0),
-				testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(decoyDeltaY)));
+		final RepeatAction repeatAction = (RepeatAction) testSprite.getActionFactory().createRepeatAction(testSprite,
+				new Formula(0),	testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(decoyDeltaY)));
 		repeatAction.act(1f);
 
 		testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(expectedDeltaY)).act(1f);

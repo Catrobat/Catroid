@@ -67,40 +67,6 @@ public class DefaultProjectHandlerTest extends AndroidTestCase {
 				.ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
 	}
 
-	public void testCreateDefaultProject() throws IOException {
-		ScreenValues.SCREEN_WIDTH = BACKGROUNDIMAGE_WIDTH;
-		ScreenValues.SCREEN_HEIGHT = BACKGROUNDIMAGE_HEIGHT;
-
-		Project testProject = DefaultProjectHandler.createAndSaveDefaultProject(TEST_PROJECT_NAME, getContext());
-
-		assertEquals("The Project has the wrong name.", TEST_PROJECT_NAME, testProject.getName());
-		assertEquals("wrong number of sprites.", 5, testProject.getSpriteList().size());
-
-		int backgroundSpriteIndex = 0;
-		int backgroundLookDataIndex = 0;
-		int catroidSpriteIndex = 1;
-		LookData backgroundLookData = testProject.getSpriteList().get(backgroundSpriteIndex).getLookDataList()
-				.get(backgroundLookDataIndex);
-		assertEquals("wrong size of background image", ScreenValues.SCREEN_WIDTH, backgroundLookData.getMeasure()[0]);
-		assertEquals("wrong size of background image", ScreenValues.SCREEN_HEIGHT, backgroundLookData.getMeasure()[1]);
-		assertEquals("wrong number of scripts in the Catroid sprite", 2,
-				testProject.getSpriteList().get(catroidSpriteIndex).getNumberOfScripts());
-
-		int catroidOnTouchScriptIndex = 1;
-		Script whenScript = testProject.getSpriteList().get(catroidSpriteIndex).getScript(catroidOnTouchScriptIndex);
-		assertTrue("not a when script", whenScript instanceof WhenScript);
-		assertEquals("wrong number of bricks in the touch script", 4, whenScript.getBrickList().size());
-
-		for (catroidSpriteIndex = 1; catroidSpriteIndex <= 4; catroidSpriteIndex++) {
-			for (int moleNumber = 0; moleNumber < 3; ++moleNumber) {
-				LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
-						.get(moleNumber);
-				assertEquals("wrong size of mole image", 720, catLookData.getMeasure()[0]);
-				assertEquals("wrong size of mole image", 542, catLookData.getMeasure()[1]);
-			}
-		}
-	}
-
 	public void testCreateScaledDefaultProject() throws IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		projectManager.setProject(DefaultProjectHandler.createAndSaveDefaultProject(TEST_PROJECT_NAME, getContext()));

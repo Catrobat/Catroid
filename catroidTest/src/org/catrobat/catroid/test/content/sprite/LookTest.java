@@ -120,16 +120,6 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong alpha value!", y - height / 2, look.getY());
 	}
 
-	public void testAngleInCatroidIntervall() {
-		float[] angles = { -360.0f, -180.0f, -179.5f, -90.0f, 0.0f, 90.0f, 180.0f, 180.5f, 360.0f };
-		boolean[] expectedResults = { false, false, true, true, true, true, true, false, false };
-		for (int index = 0; index < angles.length; index++) {
-			ParameterList params = new ParameterList(angles[index]);
-			boolean result = (Boolean) Reflection.invokeMethod(look, "isAngleInCatroidIntervall", params);
-			assertEquals("wrong result for angle " + angles[index], expectedResults[index], result);
-		}
-	}
-
 	private float convertNegativeZeroToPosigiveZero(float value) {
 		if (value == 0.0f) {
 			return 0.0f;
