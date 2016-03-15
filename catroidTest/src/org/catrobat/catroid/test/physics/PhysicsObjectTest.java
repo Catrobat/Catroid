@@ -36,7 +36,10 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
@@ -213,7 +216,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 		float rectangleSize = 10.0f;
 		physicsObject
-				.setShape(new Shape[]{PhysicsTestUtils.createRectanglePolygonShape(rectangleSize, rectangleSize)});
+				.setShape(new Shape[] { PhysicsTestUtils.createRectanglePolygonShape(rectangleSize, rectangleSize) });
 
 		float mass = 128.0f;
 		physicsObject.setMass(mass);
@@ -287,7 +290,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	public void testSetDensity() {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			physicsObject.setShape(new Shape[]{new PolygonShape(), new PolygonShape()});
+			physicsObject.setShape(new Shape[] { new PolygonShape(), new PolygonShape() });
 
 			float[] densityValues = {0.123f, -0.765f, 24.32f};
 			assertFalse("Without any fixtures the correctness won't be tested.", PhysicsTestUtils
@@ -339,7 +342,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		float[] masses = {PhysicsObject.MIN_MASS, 1.0f, 24.0f};
 
 		physicsObject
-				.setShape(new Shape[]{PhysicsTestUtils.createRectanglePolygonShape(rectangleSize, rectangleSize)});
+				.setShape(new Shape[] { PhysicsTestUtils.createRectanglePolygonShape(rectangleSize, rectangleSize) });
 		for (float mass : masses) {
 			physicsObject.setMass(mass);
 			float actualDensity = body.getMass() / (rectangleSize * rectangleSize);
@@ -351,7 +354,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	public void testSetFriction() {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			physicsObject.setShape(new Shape[]{new PolygonShape(), new PolygonShape()});
+			physicsObject.setShape(new Shape[] { new PolygonShape(), new PolygonShape() });
 			float[] frictionValues = {0.123f, -0.765f, 0.32f};
 
 			assertFalse("Without any fixtures the correctness won't be tested.", PhysicsTestUtils
@@ -497,6 +500,25 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		assertFalse("If on edge bounce hasn't been set correctly",
 				(Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));
 		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
+	}
+
+	public void testDefaultTypeOfSprites() {
+		TestUtils.deleteTestProjects();
+		Project project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite backgroundSprite = project.getSpriteList().get(0);
+		Sprite sprite = new Sprite("new");
+		project.addSprite(sprite);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		PhysicsObject physicsObjectBackground = physicsWorld.getPhysicsObject(backgroundSprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		assertEquals("Wrong physics object type at background sprite.", PhysicsObject.Type.NONE, PhysicsTestUtils
+				.getType(physicsObjectBackground));
+		assertEquals("Wrong physics object type at normal sprite", PhysicsObject.Type.FIXED, PhysicsTestUtils.getType
+				(physicsObject));
+
+		TestUtils.deleteTestProjects();
 	}
 
 	/*
