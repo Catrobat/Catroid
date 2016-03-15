@@ -181,7 +181,7 @@ public abstract class Script implements Serializable {
 
 	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
-			//Log.i("bt", brick.REQUIRED_RESSOURCES + "");
+			//Log.i(TAG, brick.REQUIRED_RESSOURCES + "");
 			if (brick.getClass() == type) {
 				return true;
 			}

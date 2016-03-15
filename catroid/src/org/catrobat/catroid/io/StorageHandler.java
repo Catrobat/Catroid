@@ -862,11 +862,11 @@ public final class StorageHandler {
 		try {
 			if (isBackPackFile) {
 				File toDelete = new File(filepath);
-				Log.d("LookController", "delete" + toDelete);
+				Log.d(TAG, "delete" + toDelete);
 				toDelete.delete();
 			} else if (container.decrementUsage(filepath)) {
 				File toDelete = new File(filepath);
-				Log.d("LookController", "delete" + toDelete);
+				Log.d(TAG, "delete" + toDelete);
 				toDelete.delete();
 			}
 		} catch (FileNotFoundException fileNotFoundException) {

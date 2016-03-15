@@ -135,7 +135,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		try {
 			Utils.loadProjectIfNeeded(getActivity());
 		} catch (ClassCastException exception) {
-			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
+			Log.e(TAG, getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 	}
 
@@ -463,7 +463,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		projectManager.setCurrentSprite(copiedSprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
-		Log.d("Sprite copied", copiedSprite.toString());
+		Log.d(TAG, copiedSprite.toString());
 	}
 
 	@Override

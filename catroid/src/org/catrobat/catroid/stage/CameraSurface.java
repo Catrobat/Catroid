@@ -32,6 +32,7 @@ import android.view.SurfaceView;
 import org.catrobat.catroid.camera.CameraManager;
 
 public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback {
+	private static final String TAG = CameraSurface.class.getSimpleName();
 
 	private Camera camera = null;
 
@@ -65,8 +66,8 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 					camera.startPreview();
 				}
 			} catch (Exception e) {
-				Log.e("CameraSurface", "Error at surfaceChanged");
-				Log.e("CameraSurface", e.getMessage());
+				Log.e(TAG, "Error at surfaceChanged");
+				Log.e(TAG, e.getMessage());
 			}
 		}
 	}

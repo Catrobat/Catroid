@@ -575,7 +575,7 @@ public final class UiTestUtils {
 	}
 
 	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
-		Log.v("debug", "Solo.Enter clickEnterClose");
+		Log.v(TAG, "Solo.Enter clickEnterClose");
 		solo.enterText(editText, value);
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnButton(buttonIndex);
@@ -1860,7 +1860,7 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoSpritesFromMainMenu(Solo solo) {
-		Log.d("UiTestUtils", "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
+		Log.d(TAG, "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.sleep(300);
 
 		String continueString = solo.getString(R.string.main_menu_continue);
@@ -2080,7 +2080,7 @@ public final class UiTestUtils {
 				}
 			});
 		} catch (Throwable throwable) {
-			Log.e("CATROID", throwable.getMessage());
+			Log.e(TAG, throwable.getMessage());
 		}
 		solo.sleep(500);
 	}

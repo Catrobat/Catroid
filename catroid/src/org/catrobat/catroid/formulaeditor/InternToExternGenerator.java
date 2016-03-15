@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InternToExternGenerator {
+	private static final String TAG = InternToExternGenerator.class.getSimpleName();
 
 	private String generatedExternFormulaString;
 	private ExternInternRepresentationMapping generatedExternInternRepresentationMapping;
@@ -156,7 +157,7 @@ public class InternToExternGenerator {
 	}
 
 	public void generateExternStringAndMapping(List<InternToken> internTokenFormula) {
-		Log.i("info", "generateExternStringAndMapping:enter");
+		Log.i(TAG, "generateExternStringAndMapping:enter");
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
