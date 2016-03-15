@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -115,8 +116,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			setContentView(R.layout.activity_main_menu_splashscreen);
 			unzipProgramme();
 		} else {
-
-
 			setContentView(R.layout.activity_main_menu);
 
 			final ActionBar actionBar = getActionBar();
@@ -156,9 +155,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			e.printStackTrace();
 		}
 
-		File destination = new File(Constants.DEFAULT_ROOT + "/" +
-				STANDALONE_PROJECT_NAME);
-		if ( unpackedDirectory.isDirectory() ) {
+		File destination = new File(Constants.DEFAULT_ROOT + "/"
+				+ STANDALONE_PROJECT_NAME);
+		if (unpackedDirectory.isDirectory()) {
 			unpackedDirectory.renameTo(destination);
 		}
 
@@ -267,6 +266,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!STANDALONE_MODE) {
 			setMainMenuButtonContinueText();
 			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		} else {
+			FlashUtil.initializeFlash();
 		}
 		/*setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);*/
