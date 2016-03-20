@@ -470,7 +470,7 @@ il faut
   <string name="brick_change_variable">Modifier la variable</string>
   <string name="brick_variable_spinner_create_new_variable">Nouveau&#8230;</string>
   <string name="brick_note_default_value">"ajoutez un commentaire ici…"</string>
-  <string name="brick_broadcast_default_value">"message 1"</string>
+  <string name="brick_broadcast_default_value">"New message"</string>
   <string name="brick_add_item_to_userlist_add">Ajouter</string>
   <string name="brick_add_item_to_userlist">à la liste</string>
   <string name="brick_delete_item_from_userlist_delete">Supprimer l\'élément de la liste</string>
