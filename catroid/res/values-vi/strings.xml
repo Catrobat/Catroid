@@ -312,6 +312,7 @@
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Định hướng:</string>
+ <string name="creating_project_title">Creating Project</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Đối tượng của tôi</string>
   <string name="new_sprite_dialog_title">Đối tượng mới</string>

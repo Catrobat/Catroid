@@ -308,6 +308,7 @@
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">방향:</string>
+  <string name="creating_project_title">Creating Project</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">내 스프라이트</string>
   <string name="new_sprite_dialog_title">새 스프라이트 이름</string>

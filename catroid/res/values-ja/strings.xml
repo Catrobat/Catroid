@@ -306,6 +306,7 @@
   <string name="new_project_default">サンプル プログラムを作成</string>
   <string name="new_project_default_drone">サンプル ドローン プログラムを作成</string>
   <string name="project_orientation_title">向き:</string>
+  <string name="creating_project_title">プログラムの作成</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">私のオブジェクト</string>
   <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>

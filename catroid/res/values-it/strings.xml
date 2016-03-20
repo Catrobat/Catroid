@@ -311,6 +311,7 @@
   <string name="new_project_default">Crea un programma di esempio</string>
   <string name="new_project_default_drone">Crea un programma di esempio per Drone</string>
   <string name="project_orientation_title">Orientazione:</string>
+  <string name="creating_project_title">Creating Project</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mio oggetto</string>
   <string name="new_sprite_dialog_title">Nuovo oggetto</string>

@@ -136,7 +136,7 @@
   <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
-        The source code of Pocket Code is mainly licensed under the GNU AGPL v3 Licence. 
+        The source code of Pocket Code is mainly licensed under the GNU AGPL v3 Licence.
         For the precise details of the licence see the link below.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code Licence</string>
   <string name="dialog_about_catrobat_link_text">About Catrobat</string>
@@ -321,6 +321,7 @@
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientation:</string>
+  <string name="creating_project_title">Creating Project</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">My Object</string>
   <string name="new_sprite_dialog_title">New Object</string>
