@@ -70,6 +70,8 @@ import org.catrobat.catroid.web.WebconnectionException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -775,4 +777,19 @@ public final class Utils {
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
 	}
+
+	public static void copyStream(InputStream is, OutputStream os) {
+		try {
+			final int bufferSize = 2048;
+			final byte[] bytes = new byte[bufferSize];
+			while (true) {
+				int count = is.read(bytes, 0, bufferSize);
+				if (count == -1) {
+					break;
+				}
+				os.write(bytes, 0, count);
+			}
+		} catch(Exception exception) {}
+	}
+
 }

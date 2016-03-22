@@ -30,6 +30,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -361,7 +362,14 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testRateAppMenuExists() {
 		solo.sendKey(Solo.MENU);
 		assertTrue("App rating menu not found in overflow menu!",
-				solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+                solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+		solo.goBack();
+	}
+
+	public void testScratchConverterMenuExists() {
+		solo.sendKey(Solo.MENU);
+        assertTrue("Scratch Converter menu item not found in overflow menu!",
+                solo.searchText(solo.getString(R.string.preference_title_scratch_converter)));
 		solo.goBack();
 	}
 

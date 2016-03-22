@@ -24,20 +24,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_rate_app"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_rate_app" />
+        android:id="@+id/context_menu_convert"
+        android:title="@string/convert" />
     <item
-        android:id="@+id/menu_terms_of_use"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_terms_of_use" />
-    <item
-        android:id="@+id/menu_about"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_about_pocketcode" />
-    <item
-        android:id="@+id/menu_scratch_converter"
-        android:showAsAction="withText"
-        android:title="@string/preference_title_scratch_converter" />
+        android:id="@+id/context_menu_show_description"
+        android:title="@string/show_description" />
 
 </menu>

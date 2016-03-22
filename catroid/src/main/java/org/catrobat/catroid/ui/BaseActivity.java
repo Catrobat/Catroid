@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
@@ -96,6 +97,10 @@ public abstract class BaseActivity extends Activity {
 			case R.id.settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
 				startActivity(settingsIntent);
+				break;
+			case R.id.menu_scratch_converter:
+				Intent scratchConverterIntent = new Intent(this, ScratchConverterActivity.class);
+				startActivity(scratchConverterIntent);
 				break;
 			case R.id.menu_rate_app:
 				launchMarket();
@@ -171,6 +176,10 @@ public abstract class BaseActivity extends Activity {
 		MenuItem login = baseMenu.findItem(R.id.menu_login);
 		logout.setVisible(Utils.isUserLoggedIn(this));
 		login.setVisible(!Utils.isUserLoggedIn(this));
+
+		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
+			baseMenu.removeItem(R.id.menu_scratch_converter);
+		}
 		return true;
 	}
 }
