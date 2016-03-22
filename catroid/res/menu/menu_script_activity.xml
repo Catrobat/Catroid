@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,19 +21,25 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/backpack"
         android:showAsAction="never"
-        android:visible="false"
+        android:visible="true"
         android:title="@string/backpack" />
-  
-     <item
+
+    <item
+        android:id="@+id/unpacking_keep"
+        android:showAsAction="never"
+        android:visible="false"
+        android:title="@string/unpack_keep" />
+
+    <item
         android:id="@+id/unpacking"
         android:showAsAction="never"
         android:visible="false"
-        android:title="@string/unpacking" />
+        android:title="@string/unpack" />
 
     <item
         android:id="@+id/copy"

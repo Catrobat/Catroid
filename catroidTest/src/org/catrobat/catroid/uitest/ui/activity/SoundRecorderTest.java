@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.os.Build;
 
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
@@ -45,7 +44,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -78,7 +77,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 				PackageManager.GET_ACTIVITIES);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 
@@ -156,14 +155,9 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 		// String soundRecorderText = solo.getString(R.string.soundrecorder_name);
 		String soundRecorderText = solo.getString(R.string.add_sound_from_recorder);
 
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			solo.waitForText(soundRecorderText);
-			assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
-			solo.clickOnText(soundRecorderText);
-		} else {
-			//TODO: implement test for clicking into new Storage Access Framework
-			throw new UnsupportedOperationException("Missing support for API > 19. Click into Storage Access Framework not yet implemented!");
-		}
+		solo.waitForText(soundRecorderText);
+		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
+		solo.clickOnText(soundRecorderText);
 	}
 
 	private void assertSoundRecording(int recordNumber) {
@@ -179,7 +173,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 			recordTitle += (recordNumber - 1);
 		}
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("wrong number of items in the list ", recordNumber, soundInfoList.size());
 		SoundInfo lastAddedSoundInfo = soundInfoList.get(soundInfoList.size() - 1);
 		assertEquals("recorded sound not found in project", recordTitle, lastAddedSoundInfo.getTitle());

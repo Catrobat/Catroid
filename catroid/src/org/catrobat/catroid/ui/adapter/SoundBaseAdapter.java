@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,12 +31,13 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
+public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ActionModeActivityAdapterInterface {
 
-	protected ArrayList<SoundInfo> soundInfoItems;
+	protected List<SoundInfo> soundInfoItems;
 
 	protected Context context;
 	protected OnSoundEditListener onSoundEditListener;
@@ -46,7 +47,7 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 	protected static long currentPlayingBase;
 	protected boolean showDetails;
 
-	protected SortedSet<Integer> checkedSounds = new TreeSet<Integer>();
+	protected SortedSet<Integer> checkedSounds = new TreeSet<>();
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
@@ -54,7 +55,7 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 		super(context, currentPlayingposition);
 	}
 
-	public SoundBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
+	public SoundBaseAdapter(final Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails) {
 		super(context, resource, textViewResourceId, items);
 		this.context = context;
@@ -63,7 +64,7 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 		this.selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
-	public ArrayList<SoundInfo> getSoundInfoItems() {
+	public List<SoundInfo> getSoundInfoItems() {
 		return soundInfoItems;
 	}
 
@@ -83,6 +84,12 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 	public void addCheckedItem(int position) {
 		checkedSounds.add(position);
+	}
+
+	public void addCheckedItemIfNotExists(int position) {
+		if (!checkedSounds.contains(position)) {
+			checkedSounds.add(position);
+		}
 	}
 
 	@Override
@@ -141,10 +148,6 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 	public SortedSet<Integer> getCheckedSounds() {
 		return checkedSounds;
-	}
-
-	public void setCheckedSounds(SortedSet<Integer> checkedSounds) {
-		this.checkedSounds = checkedSounds;
 	}
 
 	public int getCurrentPlayingPosition() {

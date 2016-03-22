@@ -28,16 +28,16 @@ import android.widget.Button;
 
 import com.robotium.solo.Solo;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 // CHECKSTYLE DISABLE MethodNameCheck FOR 1000 LINES
 public class MainMenuSteps extends AndroidTestCase {

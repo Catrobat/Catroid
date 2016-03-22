@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
@@ -208,7 +209,7 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static LegoNxtMotorMoveAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorMoveBrick.Motor motorEnum,
-			Formula speed) {
+															Formula speed) {
 		LegoNxtMotorMoveAction action = action(LegoNxtMotorMoveAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -223,7 +224,7 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(Sprite sprite,
-			LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+																	LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -239,8 +240,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroPlayToneAction phiroPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum,
-			Formula duration) {
+	public static PhiroPlayToneAction phiroPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum, Formula duration) {
 		PhiroPlayToneAction action = action(PhiroPlayToneAction.class);
 		action.setSelectedTone(toneEnum);
 		action.setSprite(sprite);
@@ -248,8 +248,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroMotorMoveForwardAction phiroMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum,
-			Formula speed) {
+	public static PhiroMotorMoveForwardAction phiroMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum, Formula speed) {
 		PhiroMotorMoveForwardAction action = action(PhiroMotorMoveForwardAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -258,7 +257,7 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static PhiroMotorMoveBackwardAction phiroMotorMoveBackwardAction(Sprite sprite, PhiroMotorMoveBackwardBrick.Motor motorEnum,
-			Formula speed) {
+																			Formula speed) {
 		PhiroMotorMoveBackwardAction action = action(PhiroMotorMoveBackwardAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -266,8 +265,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroRGBLightAction phiroRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye,
-			Formula red, Formula green, Formula blue) {
+	public static PhiroRGBLightAction phiroRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye, Formula red, Formula green, Formula blue) {
 		PhiroRGBLightAction action = action(PhiroRGBLightAction.class);
 		action.setSprite(sprite);
 		action.setEyeEnum(eye);
@@ -289,6 +287,49 @@ public class ExtendedActions extends Actions {
 	public static PhiroMotorStopAction phiroMotorStopAction(PhiroMotorStopBrick.Motor motorEnum) {
 		PhiroMotorStopAction action = action(PhiroMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
+		return action;
+	}
+
+	public static ArduinoSendDigitalValueAction sendDigitalArduinoValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+		ArduinoSendDigitalValueAction action = action(ArduinoSendDigitalValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public static ArduinoSendPWMValueAction sendPWMArduinoValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+		ArduinoSendPWMValueAction action = action(ArduinoSendPWMValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public static RaspiSendDigitalValueAction sendDigitalRaspiValue(Sprite sprite, Formula pinNumber, Formula pinValue) {
+		RaspiSendDigitalValueAction action = action(RaspiSendDigitalValueAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public static RaspiPwmAction sendRaspiPwmValue(Sprite sprite, Formula pinNumber, Formula
+			pwmFrequency, Formula pwmPercentage) {
+		RaspiPwmAction action = action(RaspiPwmAction.class);
+		action.setSprite(sprite);
+		action.setPinNumberFormula(pinNumber);
+		action.setPwmFrequencyFormula(pwmFrequency);
+		action.setPwmPercentageFormula(pwmPercentage);
+		return action;
+	}
+
+	public static RaspiIfLogicAction raspiIfLogicAction(Sprite sprite, Formula pinNumber, Action ifAction, Action elseAction) {
+		RaspiIfLogicAction action = action(RaspiIfLogicAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setIfAction(ifAction);
+		action.setElseAction(elseAction);
 		return action;
 	}
 
@@ -494,12 +535,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static TemporalAction droneTakeOff() {
-		return action(DroneTakeoffAction.class);
-	}
-
-	public static TemporalAction droneLand() {
-		return action(DroneTakeoffAction.class);
+	public static TemporalAction droneTakeOffAndLand() {
+		return action(DroneTakeoffAndLandAction.class);
 	}
 
 	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
@@ -582,6 +619,10 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static TemporalAction droneSwitchCamera() {
+		return action(DroneSwitchCameraAction.class);
+	}
+
 	public static TemporalAction dronePlayLedAnimation() {
 		return action(DronePlayLedAnimationAction.class);
 	}
@@ -590,9 +631,39 @@ public class ExtendedActions extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
-	public static LedAction lights(boolean ledValue) {
-		LedAction action = action(LedAction.class);
-		action.setLedValue(ledValue);
+	public static TemporalAction droneGoEmergency() {
+		return action(DroneEmergencyAction.class);
+	}
+
+	public static TemporalAction droneSetAltitudeAction(Sprite sprite, Formula altitude, Formula vertical, Formula rotation, Formula tilt) {
+		DroneSetAltitudeAction action = action(DroneSetAltitudeAction.class);
+		action.setSprite(sprite);
+		action.setAltitude(altitude);
+		action.setVerticalSpeed(vertical);
+		action.setRotationSpeed(rotation);
+		action.setTiltAngle(tilt);
+		return action;
+	}
+
+	public static TemporalAction setText(Sprite sprite, Formula x, Formula y, Formula text) {
+		SetTextAction action = action(SetTextAction.class);
+
+		action.setPosition(x, y);
+		action.setText(text);
+		action.setDuration(5);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public static FlashAction turnFlashOn() {
+		FlashAction action = action(FlashAction.class);
+		action.turnFlashOn();
+		return action;
+	}
+
+	public static FlashAction turnFlashOff() {
+		FlashAction action = action(FlashAction.class);
+		action.turnFlashOff();
 		return action;
 	}
 
@@ -600,6 +671,38 @@ public class ExtendedActions extends Actions {
 		VibrateAction action = action(VibrateAction.class);
 		action.setSprite(sprite);
 		action.setDuration(duration);
+		return action;
+	}
+
+	public static ShowTextAction showText(Sprite sprite, Formula x, Formula y, String variableName) {
+		ShowTextAction action = action(ShowTextAction.class);
+		action.setPosition(x, y);
+		action.setVariableName(variableName);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public static HideTextAction hideText(String variableName) {
+		HideTextAction action = action(HideTextAction.class);
+		action.setVariableName(variableName);
+		return action;
+	}
+
+	public static CameraBrickAction updateCameraPreview(CameraManager.CameraState state) {
+		CameraBrickAction action = action(CameraBrickAction.class);
+		action.setCameraAction(state);
+		return action;
+	}
+
+	public static ChooseCameraAction setFrontCamera() {
+		ChooseCameraAction action = action(ChooseCameraAction.class);
+		action.setFrontCamera();
+		return action;
+	}
+
+	public static ChooseCameraAction setBackCamera() {
+		ChooseCameraAction action = action(ChooseCameraAction.class);
+		action.setBackCamera();
 		return action;
 	}
 }

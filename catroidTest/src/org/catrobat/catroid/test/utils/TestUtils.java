@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,15 +36,20 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -313,5 +318,56 @@ public final class TestUtils {
 		SharedPreferences.Editor edit = preferences.edit();
 		edit.remove(key);
 		edit.commit();
+	}
+
+	public static Project createProjectWithGlobalValues(String name, String spriteName, String valueName, Context context) {
+		Project project = new Project(context, name);
+
+		project.getDataContainer().addProjectUserList(valueName);
+		project.getDataContainer().addProjectUserVariable(valueName);
+
+		Sprite sprite = new Sprite(spriteName);
+		Script script = new StartScript();
+
+		SetVariableBrick variableBrick = new SetVariableBrick(new Formula(1), project.getProjectVariableWithName(valueName));
+		AddItemToUserListBrick listBrick = new AddItemToUserListBrick(new Formula(1), project.getProjectListWithName(valueName));
+
+		script.addBrick(variableBrick);
+		script.addBrick(listBrick);
+		sprite.addScript(script);
+		project.getSpriteList().get(0).addScript(script);
+		project.addSprite(sprite);
+
+		return project;
+	}
+
+	public static Project createProjectWithSpriteValues(String name, String spriteName, String valueName, Context context) {
+		Project project = new Project(context, name);
+
+		Sprite sprite = new Sprite(spriteName);
+
+		UserList firstList = project.getDataContainer().addSpriteUserListToSprite(project.getSpriteList().get(0), valueName);
+		UserList secondList = project.getDataContainer().addSpriteUserListToSprite(sprite, valueName);
+		UserVariable firstVariable = project.getDataContainer().addSpriteUserVariableToSprite(project.getSpriteList().get(0), valueName);
+		UserVariable secondVariable = project.getDataContainer().addSpriteUserVariableToSprite(sprite, valueName);
+
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+
+		SetVariableBrick firstVariableBrick = new SetVariableBrick(new Formula(1), firstVariable);
+		SetVariableBrick secondVariableBrick = new SetVariableBrick(new Formula(1), secondVariable);
+		AddItemToUserListBrick firstListBrick = new AddItemToUserListBrick(new Formula(1), firstList);
+		AddItemToUserListBrick secondListBrick = new AddItemToUserListBrick(new Formula(1), secondList);
+
+		firstScript.addBrick(firstVariableBrick);
+		firstScript.addBrick(firstListBrick);
+		secondScript.addBrick(secondVariableBrick);
+		secondScript.addBrick(secondListBrick);
+
+		sprite.addScript(secondScript);
+		project.getSpriteList().get(0).addScript(firstScript);
+		project.addSprite(sprite);
+
+		return project;
 	}
 }

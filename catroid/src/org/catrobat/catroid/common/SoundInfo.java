@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,31 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private String fileName;
 	public transient boolean isPlaying;
 
+	public transient boolean isBackpackSoundInfo;
+
 	public SoundInfo() {
+		isBackpackSoundInfo = false;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof SoundInfo)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		SoundInfo soundInfo = (SoundInfo) obj;
+		if (soundInfo.fileName.equals(this.fileName) && soundInfo.name.equals(this.name)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode() + fileName.hashCode() + super.hashCode();
 	}
 
 	@Override
@@ -50,6 +74,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 		cloneSoundInfo.name = this.name;
 		cloneSoundInfo.fileName = this.fileName;
+		cloneSoundInfo.isBackpackSoundInfo = false;
 
 		return cloneSoundInfo;
 	}
@@ -75,21 +100,17 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathToSoundDirectory(), fileName);
+			if (isBackpackSoundInfo) {
+				return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
+			} else {
+				return Utils.buildPath(getPathToSoundDirectory(), fileName);
+			}
 		} else {
 			return null;
 		}
 	}
 
 	public String getAbsolutePathBackPack() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToBackPackDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getAbsolutePathBackPackSound() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
 		} else {
@@ -125,16 +146,9 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 				Constants.SOUND_DIRECTORY);
 	}
 
-	private String getPathToBackPackDirectory() {
-		Log.d("TAG", "getPathToBackPackDirectory() called!");
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				Constants.BACKPACK_DIRECTORY);
-	}
-
 	private String getPathToBackPackSoundDirectory() {
-		Log.d("TAG", "getPathToBackPackSoundDirectory() called!");
-		return Utils.buildPath(Utils.buildProjectPath(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY + "/"
-				+ Constants.BACKPACK_SOUND_DIRECTORY));
+		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_SOUND_DIRECTORY);
 	}
 
 	@Override
@@ -145,5 +159,9 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public boolean isBackpackSoundInfo() {
+		return isBackpackSoundInfo;
 	}
 }

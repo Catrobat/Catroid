@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,17 +22,16 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.ActionBar;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -46,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public class BrickCategoryFragment extends SherlockListFragment {
+public class BrickCategoryFragment extends ListFragment {
 
 	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
 
@@ -76,7 +75,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		View rootView = inflater.inflate(R.layout.fragment_brick_categories, container, false);
 
 		setUpActionBar();
-		BottomBar.hideBottomBar(getSherlockActivity());
+		BottomBar.hideBottomBar(getActivity());
 		setupBrickCategories();
 
 		return rootView;
@@ -103,21 +102,23 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		BottomBar.hideBottomBar(getSherlockActivity());
+		BottomBar.hideBottomBar(getActivity());
 		setupBrickCategories();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		BottomBar.showBottomBar(getSherlockActivity());
-		BottomBar.showPlayButton(getSherlockActivity());
+		BottomBar.showBottomBar(getActivity());
+		BottomBar.showPlayButton(getActivity());
 	}
 
 	@Override
 	public void onDestroy() {
 		resetActionBar();
 		super.onDestroy();
+		BottomBar.showBottomBar(getActivity());
+		BottomBar.showPlayButton(getActivity());
 	}
 
 	@Override
@@ -128,7 +129,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 
 		this.previousActionBarTitle = actionBar.getTitle();
@@ -136,13 +137,13 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(this.previousActionBarTitle);
 	}
 
 	private void setupBrickCategories() {
-		LayoutInflater inflater = getSherlockActivity().getLayoutInflater();
+		LayoutInflater inflater = getActivity().getLayoutInflater();
 		List<View> categories = new ArrayList<View>();
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
@@ -162,12 +163,20 @@ public class BrickCategoryFragment extends SherlockListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_phiro, null));
+		}
+
+		if (SettingsActivity.isArduinoSharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
+		}
+
+		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
 		}
 
 		adapter = new BrickCategoryAdapter(categories);

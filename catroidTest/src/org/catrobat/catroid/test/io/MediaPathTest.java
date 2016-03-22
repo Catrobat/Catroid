@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -198,11 +198,11 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testDecrementUsage() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
-		storageHandler.deleteFile(testImageCopy.getAbsolutePath());
+		storageHandler.deleteFile(testImageCopy.getAbsolutePath(), false);
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		assertTrue("checksum not in project although file should exist",
 				container.containsChecksum(Utils.md5Checksum(testImageCopy)));
-		storageHandler.deleteFile(testImageCopy2.getAbsolutePath());
+		storageHandler.deleteFile(testImageCopy2.getAbsolutePath(), false);
 		assertFalse("checksum in project although file should not exist",
 				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
 
@@ -212,7 +212,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, filesImage.length);
 
-		storageHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caught (this is expected behavior)
+		storageHandler.deleteFile(testImageCopy.getAbsolutePath(), false); //there a FileNotFoundException is thrown and caught (this is expected behavior)
 	}
 
 	public void testContainerOnLoadProject() throws IOException {

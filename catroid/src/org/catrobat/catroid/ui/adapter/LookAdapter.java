@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,19 +23,23 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.ui.BackPackActivity;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class LookAdapter extends LookBaseAdapter implements ScriptActivityAdapterInterface {
+public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAdapterInterface {
 
 	private LookFragment lookFragment;
 
-	public LookAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
+	public LookAdapter(final Context context, int resource, int textViewResourceId, List<LookData> items,
 			boolean showDetails) {
 		super(context, resource, textViewResourceId, items, showDetails);
 	}
@@ -47,6 +51,22 @@ public class LookAdapter extends LookBaseAdapter implements ScriptActivityAdapte
 			return convertView;
 		}
 		return lookFragment.getView(position, convertView);
+	}
+
+	public void onDestroyActionModeBackPack() {
+		Iterator<Integer> iterator = checkedLookPositions.iterator();
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			LookController.getInstance().backPackLook(lookDataItems.get(position), false);
+		}
+
+		if (!checkedLookPositions.isEmpty()) {
+			Intent intent = new Intent(lookFragment.getActivity(), BackPackActivity.class);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
+			lookFragment.getActivity().startActivity(intent);
+		}
+
+		lookFragment.clearCheckedLooksAndEnableButtons();
 	}
 
 	public void setLookFragment(LookFragment lookFragment) {

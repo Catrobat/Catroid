@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
@@ -43,7 +41,6 @@ public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCas
 	}
 
 	// Not testable with Android 2.3, because solo is not able to enter new lines
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void testMultiLineProjectDescription() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project uploadProject = new Project(getActivity(), testProject);
@@ -66,9 +63,7 @@ public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCas
 		assertEquals("Project description field should only have one line without some input", 1,
 				projectDescriptionNumberOfLines);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			projectDescriptionNumberOfLines = description.getMaxLines();
-			assertEquals("Project description field is not multiline", 3, projectDescriptionNumberOfLines);
-		}
+		projectDescriptionNumberOfLines = description.getMaxLines();
+		assertEquals("Project description field is not multiline", 3, projectDescriptionNumberOfLines);
 	}
 }

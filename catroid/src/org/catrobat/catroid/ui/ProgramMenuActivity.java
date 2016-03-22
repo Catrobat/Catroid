@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,17 +22,21 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.actionbarsherlock.app.ActionBar;
-
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 
@@ -41,6 +45,7 @@ import java.util.concurrent.locks.Lock;
 public class ProgramMenuActivity extends BaseActivity {
 
 	public static final String FORWARD_TO_SCRIPT_ACTIVITY = "forwardToScriptActivity";
+
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
@@ -59,13 +64,16 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		BottomBar.hideAddButton(this);
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
-			String title = ProjectManager.getInstance().getCurrentSprite().getName();
-			actionBar.setTitle(title);
-			actionBar.setHomeButtonEnabled(true);
+			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+			if (sprite != null) {
+				String title = sprite.getName();
+				actionBar.setTitle(title);
+				actionBar.setHomeButtonEnabled(true);
+			}
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
 			finish();
@@ -80,13 +88,26 @@ public class ProgramMenuActivity extends BaseActivity {
 		} else {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
 		}
+
+		//Hide NFC if option is not set
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
+			((Button) findViewById(R.id.program_menu_button_nfctags)).setVisibility(View.VISIBLE);
+		} else {
+			((Button) findViewById(R.id.program_menu_button_nfctags)).setVisibility(View.INVISIBLE);
+		}
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
-			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+
+			Intent intent;
+			if (DroneServiceWrapper.checkARDroneAvailability()) {
+				intent = new Intent(ProgramMenuActivity.this, DroneStageActivity.class);
+			} else {
+				intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
+			}
 			startActivity(intent);
 		}
 	}
@@ -110,6 +131,13 @@ public class ProgramMenuActivity extends BaseActivity {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
+	}
+
+	public void handleNfcTagsButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		startScriptActivity(ScriptActivity.FRAGMENT_NFCTAGS);
 	}
 
 	public void handlePlayButton(View view) {

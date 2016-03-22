@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <!-- Symbols -->
     <string name="degree_symbol" translatable="false" >°</string >
     <string name="percent_symbol" translatable="false" >%</string >
+    <string name="hertz_symbol" translatable="false" >㎐</string>
     <!--  -->
 
     <!-- Numbers -->
@@ -52,13 +53,13 @@
 
     <string name="about_link_template" translatable="false" >&lt;a href="%1$s">%2$s&lt;/a></string >
     <string name="terms_of_use_link_template" translatable="false" >&lt;a href="%1$s">%2$s&lt;/a></string >
+    <string name="preference_raspi_help_link">https://confluence.catrob.at/display/CATARDUINO/RaspberryPi+GPIO+Tutorial%3A+LEDs+and+buttons</string>
 
     <!-- Settings, some overridden in values-v14 -->
     <string name="scrolling_cache_enabled" >false</string >
     <string name="animation_cache_enabled" >false</string >
     <!--  -->
-    
-    <string name="preference_key_use_face_detection" translatable="false">setting_use_face_detection</string>
-    <string name="preference_key_select_camera" translatable="false">setting_select_camera</string>
+
+    <string name="facebook_app_id" translatable="false">1602051133371458</string>
 
 </resources>

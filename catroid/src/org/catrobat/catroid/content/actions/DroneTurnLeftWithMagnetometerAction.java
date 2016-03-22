@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,21 +22,12 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 public class DroneTurnLeftWithMagnetometerAction extends DroneMoveAction {
-
-	private boolean isCalled = false;
 
 	@Override
 	protected void begin() {
 		super.begin();
 		super.setCommandAndYawEnabled(true);
-		if (!isCalled) {
-			//			super.getDroneService().setMagnetoEnabled(true);
-			//			super.getDroneService().calibrateMagneto();
-			Log.d(getClass().getSimpleName(), "isCalled");
-		}
 	}
 
 	@Override
@@ -48,6 +39,5 @@ public class DroneTurnLeftWithMagnetometerAction extends DroneMoveAction {
 	@Override
 	protected void moveEnd() {
 		super.setCommandAndYawEnabled(false);
-		isCalled = true;
 	}
 }

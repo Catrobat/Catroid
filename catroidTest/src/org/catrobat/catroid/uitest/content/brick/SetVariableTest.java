@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.util.ArrayList;
 
 public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = SetVariableTest.class.getSimpleName();
 
 	private static final int MAX_ITERATIONS = 10;
 	private Project project;
@@ -276,7 +277,7 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 					solo.clickOnText(solo.getString(R.string.formula_editor_dialog_for_this_sprite_only));
 				}
 			}
-			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
+			Log.i(TAG, "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
 			solo.clickOnButton(solo.getString(R.string.ok));
 			solo.waitForText(solo.getString(R.string.formula_editor_data), 0, 1000);

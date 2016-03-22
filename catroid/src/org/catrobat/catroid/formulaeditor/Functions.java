@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import android.util.Log;
 public enum Functions {
 
 	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, FLOOR, CEIL, MAX, MIN, TRUE, FALSE, LENGTH,
-	LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS;
+	LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS, ARDUINOANALOG, ARDUINODIGITAL, RASPIDIGITAL;
 
 	private static final String TAG = Functions.class.getSimpleName();
 

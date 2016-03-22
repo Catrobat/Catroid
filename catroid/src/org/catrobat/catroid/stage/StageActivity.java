@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,16 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -33,35 +40,38 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
-import org.catrobat.catroid.utils.LedUtil;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
-	private boolean resizePossible;
-	private StageDialog stageDialog;
-
-	private DroneConnection droneConnection = null;
-
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
 	private StageAudioFocus stageAudioFocus;
+	private PendingIntent pendingIntent;
+	private NfcAdapter nfcAdapter;
+	private StageDialog stageDialog;
+	private boolean resizePossible;
+
+	AndroidApplicationConfiguration configuration = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate()");
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
+		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -69,27 +79,43 @@ public class StageActivity extends AndroidApplication {
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		if (getIntent().getBooleanExtra(DroneInitializer.INIT_DRONE_STRING_EXTRA, false)) {
-			droneConnection = new DroneConnection(this);
-		}
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
-		initialize(stageListener, new AndroidApplicationConfiguration());
-		if (droneConnection != null) {
-			try {
-				droneConnection.initialise();
-			} catch (RuntimeException runtimeException) {
-				Log.e(TAG, "Failure during drone service startup", runtimeException);
-				ToastUtil.showError(this, R.string.error_no_drone_connected);
-				this.finish();
-			}
+		// need we this here?
+		configuration = new AndroidApplicationConfiguration();
+		configuration.r = configuration.g = configuration.b = configuration.a = 8;
+
+		initialize(stageListener, configuration);
+
+		if (graphics.getView() instanceof SurfaceView) {
+			SurfaceView glView = (SurfaceView) graphics.getView();
+			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+		}
+
+		pendingIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+		nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+		Log.d(TAG, "onCreate()");
+
+		if (nfcAdapter == null) {
+			Log.d(TAG, "could not get nfc adapter :(");
 		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);
+
+		CameraManager.getInstance().setStageActivity(this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		Log.d(TAG, "processIntent");
+		NfcHandler.processIntent(intent);
 	}
 
 	@Override
@@ -107,54 +133,74 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
+		if (nfcAdapter != null) {
+			try {
+				nfcAdapter.disableForegroundDispatch(this);
+			} catch (IllegalStateException illegalStateException) {
+				Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
+			}
+		}
 		SensorHandler.stopSensorListeners();
-		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
-		LedUtil.pauseLed();
+		FlashUtil.pauseFlash();
+		FaceDetectionHandler.pauseFaceDetection();
+		CameraManager.getInstance().pausePreview();
+		CameraManager.getInstance().releaseCamera();
 		VibratorUtil.pauseVibrator();
 		super.onPause();
-
-		if (droneConnection != null) {
-			droneConnection.pause();
-		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
 	}
 
 	@Override
 	public void onResume() {
-		SensorHandler.startSensorListener(this);
-		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
-		LedUtil.resumeLed();
-		VibratorUtil.resumeVibrator();
-		super.onResume();
 
-		if (droneConnection != null) {
-			droneConnection.start();
+		FaceDetectionHandler.resumeFaceDetection();
+		FlashUtil.resumeFlash();
+		CameraManager.getInstance().resumePreviewAsync();
+
+		VibratorUtil.resumeVibrator();
+		SensorHandler.startSensorListener(this);
+		if (nfcAdapter != null) {
+			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		}
+
+		super.onResume();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
 
 	public void pause() {
+		if (nfcAdapter != null) {
+			nfcAdapter.disableForegroundDispatch(this);
+		}
+
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
-		LedUtil.pauseLed();
+		FlashUtil.pauseFlash();
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
+
+		CameraManager.getInstance().pausePreviewAsync();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
 	}
 
 	public void resume() {
 		stageListener.menuResume();
-		LedUtil.resumeLed();
+		FlashUtil.resumeFlash();
 		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
-		FaceDetectionHandler.startFaceDetection(this);
+		FaceDetectionHandler.resumeFaceDetection();
+
+		CameraManager.getInstance().resumePreviewAsync();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+
+		if (nfcAdapter != null) {
+			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		}
 	}
 
 	public boolean getResizePossible() {
@@ -165,7 +211,7 @@ public class StageActivity extends AndroidApplication {
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
-			ifLandscapeSwitchWidthAndHeight();
+			iflandscapeModeSwitchWidthAndHeight();
 		} else {
 			ifPortraitSwitchWidthAndHeight();
 		}
@@ -199,7 +245,7 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
-	private void ifLandscapeSwitchWidthAndHeight() {
+	private void iflandscapeModeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
@@ -217,15 +263,16 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
-		if (droneConnection != null) {
-			droneConnection.destroy();
-		}
-
+		Log.d(TAG, "onDestroy()");
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
-
-		Log.d(TAG, "Destroy");
-		LedUtil.destroy();
+		FlashUtil.destroy();
 		VibratorUtil.destroy();
+		FaceDetectionHandler.stopFaceDetection();
+		CameraManager.getInstance().stopPreviewAsync();
+		CameraManager.getInstance().releaseCamera();
+
+		CameraManager.getInstance().setToDefaultCamera();
+
 		super.onDestroy();
 	}
 
@@ -242,5 +289,38 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public int getLogLevel() {
 		return 0;
+	}
+
+	//for running Asynchronous Tasks from the stage
+	public void post(Runnable r) {
+		handler.post(r);
+	}
+
+	public void destroy() {
+		stageListener.finish();
+		manageLoadAndFinish();
+
+		final AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+		builder.setMessage(R.string.error_flash_front_camera).setCancelable(false)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+						onDestroy();
+						exit();
+					}
+				});
+
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					AlertDialog dialog = builder.create();
+					dialog.show();
+				} catch (Exception e) {
+					Log.e(TAG, "Error while showing dialog. " + e.getMessage());
+				}
+			}
+		});
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ public final class SensorTestServerConnection {
 	private static final String ARDUINO_SERVER_IP = "129.27.202.103"; //NOPMD
 	private static final int SERVER_PORT = 6789;
 
+	private static final int NFC_EMULATE = 0;
 	private static final int GET_VIBRATION_VALUE_ID = 1;
 	private static final int GET_LIGHT_VALUE_ID = 2;
 	private static final int CALIBRATE_VIBRATION_SENSOR_ID = 3;
@@ -83,6 +84,38 @@ public final class SensorTestServerConnection {
 		clientSocket = null;
 		sendToServer = null;
 		receiveFromServer = null;
+	}
+
+	public static void emulateNfcTag(boolean writable, String tagId, String ndefMsg) {
+		try {
+			String response = "";
+			Thread.sleep(NETWORK_DELAY_MS);
+			connectToArduinoServer();
+			Log.d(TAG, "requesting sensor value: ");
+
+			String command = "";
+
+			command += Integer.toHexString(NFC_EMULATE);
+			command += writable ? '1' : '0';
+			command += tagId;
+			command += 2 * ndefMsg.length();
+			command += ndefMsg;
+
+			Log.d(TAG, "emulateNfcTag() - command: " + command);
+
+			sendToServer.writeBytes(command);
+			sendToServer.flush();
+			Thread.sleep(NETWORK_DELAY_MS);
+			response = receiveFromServer.readLine();
+			Log.d(TAG, "response received! " + response);
+
+			//assertTrue("Emulation timed out!", response.contains("TIMEDOUT"));
+			clientSocket.close();
+		} catch (IOException ioException) {
+			Log.e(TAG, "Data exchange failed! Check server connection!");
+		} catch (InterruptedException e) {
+			Log.w(TAG, "InterruptedException", e);
+		}
 	}
 
 	public static void checkLightSensorValue(int expected) {

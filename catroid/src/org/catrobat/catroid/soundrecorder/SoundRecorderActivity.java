@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -123,7 +123,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			Uri uri = soundRecorder.getPath();
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
-			Log.e("CATROID", "Error recording sound.", e);
+			Log.e(TAG, "Error recording sound.", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 			setResult(Activity.RESULT_CANCELED);
 		}

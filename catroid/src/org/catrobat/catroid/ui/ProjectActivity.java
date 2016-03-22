@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,41 +22,67 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
 public class ProjectActivity extends BaseActivity {
 
+	private static final String TAG = ProjectActivity.class.getSimpleName();
+
 	private SpritesListFragment spritesListFragment;
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private CallbackManager callbackManager;
+	private SignInDialog signInDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		initializeFacebookSdk();
+
 		setContentView(R.layout.activity_project);
 
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
@@ -68,20 +94,26 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
-		String programName;
+		String programName = getString(R.string.app_name);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			programName = bundle.getString(Constants.PROJECTNAME_TO_LOAD);
 		} else {
-			programName = ProjectManager.getInstance().getCurrentProject().getName();
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			if (project != null) {
+				programName = project.getName();
+			}
 		}
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		setTitleActionBar(programName);
 
-		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
-				R.id.fragment_sprites_list);
+		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
+				R.id.fragment_container);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		updateFragment(fragmentTransaction);
+		fragmentTransaction.commit();
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
 		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
@@ -97,8 +129,11 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && !spritesListFragment.isLoading) {
-			getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		if (spritesListFragment != null) {
+			getMenuInflater().inflate(R.menu.menu_current_project, menu);
+			menu.findItem(R.id.unpacking).setVisible(false);
+			menu.findItem(R.id.unpacking_keep).setVisible(false);
+			menu.findItem(R.id.backpack).setVisible(true);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -108,6 +143,10 @@ public class ProjectActivity extends BaseActivity {
 		switch (item.getItemId()) {
 			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
+				break;
+
+			case R.id.backpack:
+				showBackPackChooser();
 				break;
 
 			case R.id.copy:
@@ -138,14 +177,55 @@ public class ProjectActivity extends BaseActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void showBackPackChooser() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		CharSequence[] items;
+		int numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedSprites().size();
+
+		if (numberOfItemsInBackpack == 0) {
+			spritesListFragment.startBackPackActionMode();
+		} else {
+
+			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (which == 0) {
+						spritesListFragment.startBackPackActionMode();
+					} else if (which == 1) {
+						openBackPack();
+					}
+					dialog.dismiss();
+				}
+			});
+			builder.setTitle(R.string.backpack_title);
+			builder.setCancelable(true);
+			builder.show();
+		}
+	}
+
+	private void openBackPack() {
+		Intent intent = new Intent(this, BackPackActivity.class);
+		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SPRITES);
+		startActivity(intent);
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		callbackManager.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
-			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
-			startActivity(intent);
+			Intent intent;
+			if (data != null) {
+				if (DroneServiceWrapper.checkARDroneAvailability()) {
+					intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
+				} else {
+					intent = new Intent(ProjectActivity.this, StageActivity.class);
+				}
+				startActivity(intent);
+			}
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();
@@ -161,6 +241,20 @@ public class ProjectActivity extends BaseActivity {
 		}
 	}
 
+	private void updateFragment(FragmentTransaction fragmentTransaction) {
+		boolean fragmentExists = true;
+		if (spritesListFragment == null) {
+			spritesListFragment = new SpritesListFragment();
+			fragmentExists = false;
+		}
+
+		if (fragmentExists) {
+			fragmentTransaction.show(spritesListFragment);
+		} else {
+			fragmentTransaction.add(R.id.fragment_container, spritesListFragment, SpritesListFragment.TAG);
+		}
+	}
+
 	public void handleCheckBoxClick(View view) {
 		spritesListFragment.handleCheckBoxClick(view);
 	}
@@ -169,13 +263,13 @@ public class ProjectActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-		Fragment previousFragment = getSupportFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		Fragment previousFragment = getFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 		if (previousFragment != null) {
 			fragmentTransaction.remove(previousFragment);
 		}
 
-		DialogFragment newFragment = new NewSpriteDialog();
+		NewSpriteDialog newFragment = new NewSpriteDialog();
 		newFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -194,7 +288,7 @@ public class ProjectActivity extends BaseActivity {
 		if (spritesListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
 			SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
-			adapter.clearCheckedSprites();
+			adapter.clearCheckedItems();
 		}
 
 		return super.dispatchKeyEvent(event);
@@ -204,5 +298,72 @@ public class ProjectActivity extends BaseActivity {
 		spritesListFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+	}
+
+	public void showEmptyActionModeDialog(String actionMode) {
+		@SuppressLint("InflateParams")
+		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
+		TextView actionModeEmptyText = (TextView) dialogView.findViewById(R.id.dialog_action_mode_emtpy_text);
+
+		if (actionMode.equals(getString(R.string.backpack))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_backpack_and_unpack));
+		} else if (actionMode.equals(getString(R.string.unpack))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_unpack));
+		} else if (actionMode.equals(getString(R.string.delete))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_delete));
+		} else if (actionMode.equals(getString(R.string.copy))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_copy));
+		} else if (actionMode.equals(getString(R.string.rename))) {
+			actionModeEmptyText.setText(getString(R.string.nothing_to_rename));
+		}
+
+		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
+				.setTitle(actionMode)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).create();
+
+		actionModeEmptyDialog.setCanceledOnTouchOutside(true);
+		actionModeEmptyDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		actionModeEmptyDialog.show();
+	}
+
+	public SpritesListFragment getSpritesListFragment() {
+		return spritesListFragment;
+	}
+
+	public void initializeFacebookSdk() {
+		FacebookSdk.sdkInitialize(getApplicationContext());
+		callbackManager = CallbackManager.Factory.create();
+
+		LoginManager.getInstance().registerCallback(callbackManager,
+				new FacebookCallback<LoginResult>() {
+					@Override
+					public void onSuccess(LoginResult loginResult) {
+						Log.d(TAG, loginResult.toString());
+						AccessToken accessToken = loginResult.getAccessToken();
+						GetFacebookUserInfoTask getFacebookUserInfoTask = new GetFacebookUserInfoTask(ProjectActivity.this,
+								accessToken.getToken(), accessToken.getUserId());
+						getFacebookUserInfoTask.setOnGetFacebookUserInfoTaskCompleteListener(signInDialog);
+						getFacebookUserInfoTask.execute();
+					}
+
+					@Override
+					public void onCancel() {
+						Log.d(TAG, "cancel");
+					}
+
+					@Override
+					public void onError(FacebookException exception) {
+						ToastUtil.showError(ProjectActivity.this, exception.getMessage());
+						Log.d(TAG, exception.getMessage());
+					}
+				});
+	}
+
+	public void setSignInDialog(SignInDialog signInDialog) {
+		this.signInDialog = signInDialog;
 	}
 }

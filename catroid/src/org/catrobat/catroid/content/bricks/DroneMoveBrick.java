@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public abstract class DroneMoveBrick extends FormulaBrick {
+	private static final String TAG = DroneMoveBrick.class.getSimpleName();
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
@@ -76,8 +77,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	public void setTimeToWait(Formula timeToWaitInSeconds) {
 		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, timeToWaitInSeconds);
 	}
-
-	protected abstract String getBrickLabel(View view);
 
 	@Override
 	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
@@ -116,7 +115,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 			} catch (InterpretationException interpretationException) {
-				Log.d("DroneMoveBrick", "Formula interpretation for this specific Brick failed.", interpretationException);
+				Log.d(TAG, "Formula interpretation for this specific Brick failed.", interpretationException);
 			}
 		} else {
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -155,9 +154,10 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
 		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+
+		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
-		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
 		return prototypeView;
 	}
 
@@ -222,4 +222,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 	}
+
+	protected abstract String getBrickLabel(View view);
 }

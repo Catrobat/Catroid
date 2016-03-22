@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.support.v4.app.NotificationCompat;
 
 public class NotificationData {
 
-	private NotificationCompat.Builder notificationBuilder;
+	private Notification.Builder notificationBuilder;
 	private PendingIntent pendingIntent;
 
 	private int notificationIcon;
@@ -96,11 +96,11 @@ public class NotificationData {
 		this.notificationTextDone = newTextDone;
 	}
 
-	public NotificationCompat.Builder getNotificationBuilder() {
+	public Notification.Builder getNotificationBuilder() {
 		return notificationBuilder;
 	}
 
-	public NotificationData setNotificationBuilder(NotificationCompat.Builder notificationBuilder) {
+	public NotificationData setNotificationBuilder(Notification.Builder notificationBuilder) {
 		this.notificationBuilder = notificationBuilder;
 		return this;
 	}

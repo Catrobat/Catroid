@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,10 +25,10 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +51,12 @@ public class OrientationDialog extends DialogFragment {
 
 	private Dialog orientationDialog;
 	private String projectName;
-	private RadioButton landscape;
-	private boolean shouldBeEmpty;
-	private boolean shouldBeLandscape = false;
+	private RadioButton landscapeMode;
+	private boolean createEmptyProject;
+	private boolean createLandscapeProject = false;
 
 	private boolean openedFromProjectList = false;
+	private boolean createDroneProject = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -90,16 +91,16 @@ public class OrientationDialog extends DialogFragment {
 				});
 			}
 		});
-		landscape = (RadioButton) dialogView.findViewById(R.id.landscape);
+		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);
 
 		return orientationDialog;
 	}
 
 	protected void handleOkButtonClick() {
-		shouldBeLandscape = landscape.isChecked();
+		createLandscapeProject = landscapeMode.isChecked();
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
@@ -135,7 +136,11 @@ public class OrientationDialog extends DialogFragment {
 		this.projectName = projectName;
 	}
 
-	public void setShouldBeEmpty(boolean shouldBeEmpty) {
-		this.shouldBeEmpty = shouldBeEmpty;
+	public void setCreateEmptyProject(boolean isChecked) {
+		this.createEmptyProject = isChecked;
+	}
+
+	public void setCreateDroneProject(boolean isChecked) {
+		createDroneProject = isChecked;
 	}
 }

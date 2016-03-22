@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -77,12 +77,18 @@ public class ProgressResponseBody extends ResponseBody {
 	private Source source(Source source) {
 		return new ForwardingSource(source) {
 			long totalBytesRead = 0L;
+			long lastProgess = -1L;
 
 			@Override
 			public long read(Buffer sink, long byteCount) throws IOException {
 				long bytesRead = super.read(sink, byteCount);
 				totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-				sendUpdateIntent((100 * totalBytesRead) / contentLength(), bytesRead == -1);
+				long progress = (100 * totalBytesRead) / contentLength();
+				boolean endOfFile = bytesRead == -1;
+				if (progress > lastProgess || endOfFile) {
+					sendUpdateIntent(progress, endOfFile);
+					lastProgess = progress;
+				}
 				return bytesRead;
 			}
 		};

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -309,7 +309,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "Bluetooth activation activity returned");
+		Log.i(TAG, "Bluetooth activation activity returned");
 
 		switch (resultCode) {
 			case Activity.RESULT_OK:

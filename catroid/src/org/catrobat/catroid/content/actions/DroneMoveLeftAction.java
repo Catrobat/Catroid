@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,13 +26,17 @@ public class DroneMoveLeftAction extends DroneMoveAction {
 
 	@Override
 	protected void move() {
-		super.setCommandAndYawEnabled(true);
-		super.getDroneService().moveLeft(super.getPowerNormalized());
+		if (getDroneService() != null) {
+			super.setCommandAndYawEnabled(true);
+			super.getDroneService().moveLeft(super.getPowerNormalized());
+		}
 	}
 
 	@Override
 	protected void moveEnd() {
-		super.setCommandAndYawEnabled(false);
-		super.getDroneService().moveLeft(DRONE_MOVE_SPEED_STOP);
+		if (getDroneService() != null) {
+			super.setCommandAndYawEnabled(false);
+			super.getDroneService().moveLeft(DRONE_MOVE_SPEED_STOP);
+		}
 	}
 }
