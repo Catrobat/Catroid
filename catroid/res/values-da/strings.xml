@@ -28,10 +28,6 @@
   <string name="cancel_button">Slet</string>
   <string name="rename">Omdøb</string>
   <string name="delete">Slet</string>
-  <string name="menu_item_move_down">Flyt ned</string>
-  <string name="menu_item_move_up">Flyt op</string>
-  <string name="menu_item_move_to_top">Move to top</string>
-  <string name="menu_item_move_to_bottom">Move to bottom</string>
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
   <string name="copy">Kopiér</string>

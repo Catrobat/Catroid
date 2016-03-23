@@ -28,10 +28,6 @@
   <string name="cancel_button">Odustani</string>
   <string name="rename">Preimenovati</string>
   <string name="delete">Obrisati</string>
-  <string name="menu_item_move_down">Pomakni Dolje</string>
-  <string name="menu_item_move_up">Pomakni Gore</string>
-  <string name="menu_item_move_to_top">Pomakni Na Početak</string>
-  <string name="menu_item_move_to_bottom">Pomakni na Kraj</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>
   <string name="copy">Kopirati</string>

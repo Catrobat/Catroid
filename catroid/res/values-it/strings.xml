@@ -28,10 +28,6 @@
   <string name="cancel_button">Annulla</string>
   <string name="rename">Rinomina</string>
   <string name="delete">Eliminare</string>
-  <string name="menu_item_move_down">Spostare in Basso</string>
-  <string name="menu_item_move_up">Spostare in Alto</string>
-  <string name="menu_item_move_to_top">Sposta in cima</string>
-  <string name="menu_item_move_to_bottom">Sposta in fondo</string>
   <string name="yes">Sì</string>
   <string name="no">No</string>
   <string name="copy">Copiare</string>

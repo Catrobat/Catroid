@@ -46,6 +46,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -832,108 +833,52 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 
-	public void testMoveTagUp() {
-		moveTagUp(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropUp() {
+		for (int i = 0; i < 2; i++) {
+			addNFCTagWithName("TestNFC" + i);
+		}
+
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.clickOnText(solo.getString(R.string.nfctags));
 
-		assertEquals("Tag didn't move up (testMoveTagUp 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move up (testMoveTagUp 2)", FIRST_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move up (testMoveTagUp 3)", THIRD_TEST_TAG_NAME, getTagName(2));
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(2).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(3).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(1) - 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(2).getNfcTagName(), "TestNFC1");
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(3).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC0");
 	}
 
-	public void testMoveTagDown() {
-		moveTagDown(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropDown() {
+		for (int i = 0; i < 2; i++) {
+			addNFCTagWithName("TestNFC" + i);
+		}
+
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.clickOnText(solo.getString(R.string.nfctags));
 
-		assertEquals("Tag didn't move down (testMoveTagDown 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move down (testMoveTagDown 2)", FIRST_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move down (testMoveTagDown 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(2).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(3).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
 
-	public void testMoveTagToBottom() {
-		moveTagToBottom(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
 
-		assertEquals("Tag didn't move bottom (testMoveTagToBottom 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move bottom (testMoveTagToBottom 2)", THIRD_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move bottom (testMoveTagToBottom 3)", FIRST_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagToTop() {
-		moveTagToTop(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag didn't move top (testMoveTagToTop 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move top (testMoveTagToTop 2)", FIRST_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move top (testMoveTagToTop 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagUpFirstEntry() {
-		moveTagUp(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagUpFirstEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagUpFirstEntry 2)", SECOND_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagUpFirstEntry 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagDownLastEntry() {
-		moveTagDown(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagDownLastEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagDownLastEntry 2)", THIRD_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagDownLastEntry 3)", SECOND_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagToTopFirstEntry() {
-		moveTagToTop(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagToTopFirstEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagToTopFirstEntry 2)", SECOND_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagToTopFirstEntry 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagToBottomLastEntry() {
-		moveTagToBottom(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagToBottomLastEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagToBottomLastEntry 2)", THIRD_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagToBottomLastEntry 3)", SECOND_TEST_TAG_NAME, getTagName(2));
-	}
-
-	private void moveTagDown(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_down));
-	}
-
-	private void moveTagUp(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveTagToBottom(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveTagToTop(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_to_top));
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(2).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(3).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
 	}
 
 	private void renameTag(String tagToRename, String newTagName) {
@@ -1052,5 +997,11 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private void checkIfNumberOfTagsIsEqual(int expectedNumber) {
 		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 		assertEquals("Number of looks is not as expected", expectedNumber, tagDataList.size());
+	}
+
+	private void addNFCTagWithName(String tagName) {
+		NfcTagData tagDataToAdd = tagData.clone();
+		tagDataToAdd.setNfcTagName(tagName);
+		tagDataList.add(tagDataToAdd);
 	}
 }

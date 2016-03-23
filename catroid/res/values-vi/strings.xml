@@ -28,10 +28,6 @@
   <string name="cancel_button">Hủy bỏ</string>
   <string name="rename">Đổi Tên</string>
   <string name="delete">Xóa</string>
-  <string name="menu_item_move_down">Chuyển xuống dưới</string>
-  <string name="menu_item_move_up">Chuyển lên trên</string>
-  <string name="menu_item_move_to_top">Chuyển đến đầu trang</string>
-  <string name="menu_item_move_to_bottom">Chuyển đến cuối trang</string>
   <string name="yes">Có</string>
   <string name="no">Không</string>
   <string name="copy">Sao chép</string>

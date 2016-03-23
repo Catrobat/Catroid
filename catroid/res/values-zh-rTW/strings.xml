@@ -28,10 +28,6 @@
   <string name="cancel_button">取消</string>
   <string name="rename">更名</string>
   <string name="delete">刪除</string>
-  <string name="menu_item_move_down">下移</string>
-  <string name="menu_item_move_up">上移</string>
-  <string name="menu_item_move_to_top">移到頂端</string>
-  <string name="menu_item_move_to_bottom">移到底部</string>
   <string name="yes">是</string>
   <string name="no">否</string>
   <string name="copy">複製</string>

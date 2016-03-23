@@ -39,6 +39,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -122,6 +123,16 @@ public final class LookController {
 					} else if (lookAdapter.getOnLookEditListener() != null) {
 						lookAdapter.getOnLookEditListener().onLookEdit(view);
 					}
+				}
+			});
+			holder.lookElement.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					if (event.getAction() == MotionEvent.ACTION_UP) {
+						Intent intent = new Intent(ScriptActivity.ACTION_LOOK_TOUCH_ACTION_UP);
+						lookAdapter.getContext().sendBroadcast(intent);
+					}
+					return false;
 				}
 			});
 		} else {

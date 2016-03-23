@@ -161,7 +161,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_sprites_list, container, false);
+		return inflater.inflate(R.layout.fragment_back_pack_sprites_list, container, false);
 	}
 
 	@Override

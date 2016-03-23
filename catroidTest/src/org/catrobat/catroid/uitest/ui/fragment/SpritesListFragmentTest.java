@@ -232,108 +232,77 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Deselect All is not shown", solo.searchText(deselectAll, 1, false, true));
 	}
 
-	public void testMoveSpriteUp() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteUp(SPRITE_NAME2);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropUp() {
+		for (int i = 0; i < 2; i++) {
+			addSpriteWithName("TestSprite" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		assertEquals("Sprite didn't move up (testMoveSpriteUp 1)", SPRITE_NAME2, getSpriteName(1));
-		assertEquals("Sprite didn't move up (testMoveSpriteUp 2)", SPRITE_NAME, getSpriteName(2));
-		project.removeSprite(sprite2);
+		List<Sprite> list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
+		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List before DragAndDropTest", list.get(3).getName(), "TestSprite0");
+		assertEquals("Wrong List before DragAndDropTest", list.get(4).getName(), "TestSprite1");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(0) - 100, 20);
+
+		list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
+		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List after DragAndDropTest", list.get(3).getName(), "TestSprite1");
+		assertEquals("Wrong List after DragAndDropTest", list.get(4).getName(), "TestSprite0");
 	}
 
-	public void testMoveSpriteDown() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteDown(SPRITE_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropDown() {
+		for (int i = 0; i < 2; i++) {
+			addSpriteWithName("TestSprite" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		assertEquals("Sprite didn't move down (testMoveSpriteDown 1)", SPRITE_NAME2, getSpriteName(1));
-		assertEquals("Sprite didn't move down (testMoveSpriteDown 2)", SPRITE_NAME, getSpriteName(2));
-		project.removeSprite(sprite2);
+		List<Sprite> list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
+		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List before DragAndDropTest", list.get(3).getName(), "TestSprite0");
+		assertEquals("Wrong List before DragAndDropTest", list.get(4).getName(), "TestSprite1");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
+
+		list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME);
+		assertEquals("Wrong List after DragAndDropTest", list.get(3).getName(), "TestSprite0");
+		assertEquals("Wrong List after DragAndDropTest", list.get(4).getName(), "TestSprite1");
 	}
 
-	public void testMoveSpriteToBottom() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteToBottom(SPRITE_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+	public void testDragAndDropWithBackground() {
+		List<Sprite> list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 
-		assertEquals("Sprite didn't move bottom (testMoveSpriteToBottom 1)", SPRITE_NAME2, getSpriteName(1));
-		assertEquals("Sprite didn't move bottom (testMoveSpriteToBottom 2)", SPRITE_NAME, getSpriteName(2));
-		project.removeSprite(sprite2);
-	}
+		assertEquals("Wrong List before DragAndDropTest", list.get(0).getName(), SPRITE_NAME_BACKGROUND);
+		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
+		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
 
-	public void testMoveSpriteToTop() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteToTop(SPRITE_NAME2);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(0), 10, yPositionList.get(2) + 100, 20);
 
-		assertEquals("Sprite didn't move top (testMoveSpriteToTop 1)", SPRITE_NAME2, getSpriteName(1));
-		assertEquals("Sprite didn't move top (testMoveSpriteToTop 2)", SPRITE_NAME, getSpriteName(2));
-		project.removeSprite(sprite2);
-	}
+		solo.waitForText(solo.getString(R.string.backpack_add));
 
-	public void testMoveSpriteUpFirstEntry() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteUp(SPRITE_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickInList(0);
 
-		assertEquals("Sprite moved (testMoveSpriteUpFirstEntry 1)", SPRITE_NAME, getSpriteName(1));
-		assertEquals("Sprite moved (testMoveSpriteUpFirstEntry 2)", SPRITE_NAME2, getSpriteName(2));
-		project.removeSprite(sprite2);
-	}
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(2), 10, 20, 20);
 
-	public void testMoveSpriteDownLastEntry() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteDown(SPRITE_NAME2);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-
-		assertEquals("Sprite moved (testMoveSpriteDownLastEntry 1)", SPRITE_NAME, getSpriteName(1));
-		assertEquals("Sprite moved (testMoveSpriteDownLastEntry 2)", SPRITE_NAME2, getSpriteName(2));
-		project.removeSprite(sprite2);
-	}
-
-	public void testMoveSpriteToTopFirstEntry() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteToTop(SPRITE_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-
-		assertEquals("Sprite moved (testMoveSpriteToTopFirstEntry 1)", SPRITE_NAME, getSpriteName(1));
-		assertEquals("Sprite moved (testMoveSpriteToTopFirstEntry 2)", SPRITE_NAME2, getSpriteName(2));
-		project.removeSprite(sprite2);
-	}
-
-	public void testMoveSpriteToBottomLastEntry() {
-		project.addSprite(sprite2);
-		solo.sleep(TIME_TO_WAIT);
-		moveSpriteToBottom(SPRITE_NAME2);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-
-		assertEquals("Sprite moved (testMoveSpriteToBottomLastEntry 1)", SPRITE_NAME, getSpriteName(1));
-		assertEquals("Sprite moved (testMoveSpriteToBottomLastEntry 2)", SPRITE_NAME2, getSpriteName(2));
-		project.removeSprite(sprite2);
+		assertEquals("Wrong List before DragAndDropTest", list.get(0).getName(), SPRITE_NAME_BACKGROUND);
+		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME);
 	}
 
 	public void testEmptyActionModeDialogs() {
@@ -1133,19 +1102,9 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Number of sprites is not as expected", expectedNumber, spriteList.size());
 	}
 
-	private void moveSpriteDown(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_down));
-	}
-
-	private void moveSpriteUp(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveSpriteToBottom(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveSpriteToTop(String spriteToMove) {
-		clickOnContextMenuItem(spriteToMove, solo.getString(R.string.menu_item_move_to_top));
+	private void addSpriteWithName(String spriteName) {
+		Sprite spriteToAdd = sprite.clone();
+		spriteToAdd.setName(spriteName);
+		ProjectManager.getInstance().getCurrentProject().addSprite(spriteToAdd);
 	}
 }

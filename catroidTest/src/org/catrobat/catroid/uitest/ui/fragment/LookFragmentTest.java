@@ -819,84 +819,52 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
 	}
 
-	public void testMoveLookUp() {
-		moveLookUp(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropDown() {
+		for (int i = 0; i < 3; i++) {
+			addLookWithName("TestLook" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
-		assertEquals("Look didn't move up (testMoveLookUp 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move up (testMoveLookUp 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(1).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook0");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(3).getLookName(), "TestLook1");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook2");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(1).getLookName(), "TestLook0");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook1");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(3).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook2");
 	}
 
-	public void testMoveLookDown() {
-		moveLookDown(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropUp() {
+		for (int i = 0; i < 3; i++) {
+			addLookWithName("TestLook" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
-		assertEquals("Look didn't move down (testMoveLookDown 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move down (testMoveLookDown 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
-	}
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(1).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook0");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(3).getLookName(), "TestLook1");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook2");
 
-	public void testMoveLookToBottom() {
-		moveLookToBottom(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(1) - 100, 20);
 
-		assertEquals("Look didn't move bottom (testMoveLookToBottom 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move bottom (testMoveLookToBottom 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookToTop() {
-		moveLookToTop(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look didn't move top (testMoveLookToTop 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move top (testMoveLookToTop 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookUpFirstEntry() {
-		moveLookUp(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookUpFirstEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookUpFirstEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookDownLastEntry() {
-		moveLookDown(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookDownLastEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookDownLastEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookToTopFirstEntry() {
-		moveLookToTop(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookToTopFirstEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookToTopFirstEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookToBottomLastEntry() {
-		moveLookToBottom(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookToBottomLastEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookToBottomLastEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(1).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook2");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(3).getLookName(), "TestLook0");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook1");
 	}
 
 	public void testShowAndHideDetails() {
@@ -2143,22 +2111,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sendKey(Solo.ENTER);
 	}
 
-	private void moveLookDown(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_down));
-	}
-
-	private void moveLookUp(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveLookToBottom(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveLookToTop(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_to_top));
-	}
-
 	private BackPackLookFragment getBackPackLookFragment() {
 		BackPackActivity activity = (BackPackActivity) solo.getCurrentActivity();
 		return (BackPackLookFragment) activity.getFragment(BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
@@ -2288,5 +2240,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
+	}
+
+	private void addLookWithName(String lookName) {
+		LookData lookDataToAdd = lookData.clone();
+		lookDataToAdd.setLookName(lookName);
+		lookDataList.add(lookDataToAdd);
 	}
 }
