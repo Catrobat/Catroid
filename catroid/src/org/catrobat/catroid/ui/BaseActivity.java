@@ -124,6 +124,10 @@ public class BaseActivity extends Activity {
 
 	// Taken from http://stackoverflow.com/a/11270668
 	private void launchMarket() {
+		if (!Utils.isNetworkAvailable(this, true)) {
+			return;
+		}
+
 		Uri uri = Uri.parse("market://details?id=" + getPackageName());
 		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {

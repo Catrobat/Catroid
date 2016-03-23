@@ -160,7 +160,7 @@ public class SignInDialog extends DialogFragment implements
 					Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
 					LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
 				} else {
-					ToastUtil.showError(getActivity(), "check connection");
+					Utils.isNetworkAvailable(getActivity(), true);
 				}
 			}
 		});
@@ -171,7 +171,7 @@ public class SignInDialog extends DialogFragment implements
 				if (Utils.isNetworkAvailable(getActivity())) {
 					handleGooglePlusLoginButtonClick(view);
 				} else {
-					ToastUtil.showError(getActivity(), "check connection");
+					Utils.isNetworkAvailable(getActivity(), true);
 				}
 			}
 		});
@@ -243,12 +243,20 @@ public class SignInDialog extends DialogFragment implements
 	}
 
 	private void handleLoginButtonClick() {
+		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+			return;
+		}
+
 		LogInDialog logInDialog = new LogInDialog();
 		logInDialog.show(getActivity().getFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
 	}
 
 	private void handleRegisterButtonClick() {
+		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+			return;
+		}
+
 		RegistrationDialog registrationDialog = new RegistrationDialog();
 		registrationDialog.show(getActivity().getFragmentManager(), RegistrationDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
