@@ -69,7 +69,7 @@
           <option name="USE_CUSTOM_SETTINGS" value="true" />
         </AndroidXmlCodeStyleSettings>
         <JavaCodeStyleSettings>
-          <option name="BLANK_LINES_AROUND_INITIALIZER" value="0" />
+          <option name="BLANK_LINES_AROUND_INITIALIZER" value="1" />
         </JavaCodeStyleSettings>
         <XML>
           <option name="XML_KEEP_WHITESPACES" value="true" />
