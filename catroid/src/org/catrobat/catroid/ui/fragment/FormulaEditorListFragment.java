@@ -62,8 +62,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_object_transparency, R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
 			R.string.formula_editor_object_layer, R.string.formula_editor_object_x_velocity,
-			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity,
-			R.string.formula_editor_object_layer };
+			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity};
 
 	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
