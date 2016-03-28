@@ -34,7 +34,7 @@ public class FlickrManager {
     private static final int FLICKR_GET_SIZES_ID = 2;
     private static final int NUMBER_OF_PHOTOS = 20;
 
-    //API key can be modified here
+    //API key can be modified here  
     private static final String APIKEY_SEARCH_STRING = "&api_key="+ BuildConfig.FLICKR_API_KEY;
 
     private static final String TAGS_STRING = "&tags=";
