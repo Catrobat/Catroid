@@ -181,6 +181,7 @@ android {
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+        buildConfigField "String", "FLICKR_API_KEY", FlickrApiKey
     }
 
     sourceSets {
