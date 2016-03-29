@@ -69,7 +69,6 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	private BroadcastReceiver droneStateReceiver = null;
 	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
-
 	private static final String TAG = DroneInitializer.class.getSimpleName();
 
 	private PreStageActivity prestageStageActivity;
@@ -196,6 +195,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			showUnCancellableErrorDialog(prestageStageActivity,
 					prestageStageActivity.getString(R.string.error_no_drone_connected_title),
 					prestageStageActivity.getString(R.string.error_no_drone_connected));
+
 		}
 	}
 

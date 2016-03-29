@@ -19,6 +19,7 @@ datasources.xml
 dataSources.ids
 .idea/libraries
 .idea/dictionaries
+.idea/misc.xml
 !.idea/.name
 !.idea/codeStyleSettings.xml
 !.idea/compiler.xml
@@ -58,3 +59,7 @@ Thumbs.db
 # Gradle
 .gradle/
 build/
+
+#iml files
+catroidSourceTest/catroidSourceTest.iml
+Catroid.iml
