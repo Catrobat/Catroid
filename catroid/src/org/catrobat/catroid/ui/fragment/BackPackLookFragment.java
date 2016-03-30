@@ -393,7 +393,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		holder.lookElement.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					selectedLookPosition = position;
 					listView.showContextMenuForChild(view);
 				}

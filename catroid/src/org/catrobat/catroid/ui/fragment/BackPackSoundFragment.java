@@ -333,7 +333,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		holder.soundFragmentButtonLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					selectedSoundPosition = position;
 					listView.showContextMenuForChild(v);
 				}
