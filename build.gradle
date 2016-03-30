@@ -24,14 +24,10 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0'
-        //classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
-        //workaround for bug in sdkmanager sdk when working with gradle 2.0.0:
-        //see http://stackoverflow.com/questions/33881984/errorcause-com-android-sdklib-repository-fullrevision
-        classpath 'com.github.JakeWharton:sdk-manager-plugin:220bf7a88a7072df3ed16dc8466fb144f2817070'
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
     }
 }
 
@@ -128,25 +124,6 @@ dependencies {
     checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
-task copyAndroidNatives() {
-    file("catroid/jniLibs/armeabi/").mkdirs();
-    file("catroid/jniLibs/armeabi-v7a/").mkdirs();
-    file("catroid/jniLibs/x86/").mkdirs();
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
-        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
-        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
-        if(outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
-            }
-        }
-    }
-}
-
 def getBuildNumberParameter = { ->
     def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
     return code
@@ -240,30 +217,5 @@ android {
         htmlReport true
         xmlOutput file("build/reports/lint.xml")
         htmlOutput file("build/reports/lint.html")
-    }
-}
-
-if (project.hasProperty('jenkins')) {
-    project.android.dexOptions.preDexLibraries = false
-//    android.buildTypes.each { type ->
-//        if (type.name == "debug") {
-//            type.packageNameSuffix = ".jenkinsdebug"
-//            type.versionNameSuffix = "-jenkins-$type.name"
-//        }
-//    }
-} else {
-    //not a jenkins build, remove animation scale permission
-    android.applicationVariants.all { variant ->
-        println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
-        variant.outputs.each { output ->
-            output.processManifest.doLast {
-                def generatedContent = manifestOutputFile.getText()
-                generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
-                if (generatedContent.contains('SET_ANIMATION_SCALE')) {
-                    throw new RuntimeException("Error in removing animation scale permission!")
-                }
-                manifestOutputFile.write(generatedContent)
-            }
-        }
     }
 }
