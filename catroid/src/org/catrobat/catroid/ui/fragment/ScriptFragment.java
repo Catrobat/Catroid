@@ -106,6 +106,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private boolean deleteScriptFromContextMenu = false;
 
+	private boolean backpackMenuIsVisible = true;
+
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -242,7 +244,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.unpacking).setVisible(false);
 		menu.findItem(R.id.unpacking_keep).setVisible(false);
-		menu.findItem(R.id.backpack).setVisible(true);
+		menu.findItem(R.id.backpack).setVisible(backpackMenuIsVisible);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -320,6 +322,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
+		backpackMenuIsVisible = true;
 		int firstVisibleBrick = listView.getFirstVisiblePosition();
 		int lastVisibleBrick = listView.getLastVisiblePosition();
 		int position = ((1 + lastVisibleBrick - firstVisibleBrick) / 2);
@@ -448,6 +451,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+
+		backpackMenuIsVisible = false;
 
 		// addButtonHandler != null when the user brick category is open in the AddBrickFragment
 		if (AddBrickFragment.addButtonHandler != null) {
@@ -704,5 +709,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				adapter.updateProjectBrickList();
 			}
 		}
+	}
+
+	public void setBackpackMenuIsVisible(boolean backpackMenuIsVisible) {
+		this.backpackMenuIsVisible = backpackMenuIsVisible;
 	}
 }
