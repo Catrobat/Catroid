@@ -170,6 +170,7 @@ public class ProjectActivity extends BaseActivity {
 				break;
 
 			case R.id.upload:
+				Log.d("Lausi", "ProjectActivity: onOptionsItemSelected");
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 				break;
 		}
