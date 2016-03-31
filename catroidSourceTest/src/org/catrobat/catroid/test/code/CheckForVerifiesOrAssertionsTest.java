@@ -44,7 +44,7 @@ public class CheckForVerifiesOrAssertionsTest extends TestCase {
 			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java", "TestFaceDetector.java", "DroneTestUtils.java", "SystemAnimations.java",
 			"ObservedInputStream.java", "ObservedOutputStream.java", "LocalConnectionProxy.java", "BluetoothConnectionProxy.java", "DeviceModel.java",
 			"BluetoothLogger.java", "ModelRunner.java", "ConnectionDataLogger.java", "MindstormsNXTTestModel.java",
-			"FirmataMessage.java" };
+			"MindstormsEV3TestModel.java", "FirmataMessage.java" };
 
 	private boolean fileHasVerifiesOrAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));

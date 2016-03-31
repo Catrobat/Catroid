@@ -63,6 +63,47 @@
         <item>@string/nxt_sensor_light_active</item>
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
+    <string-array name="ev3_sensor_chooser">
+        <item>@string/ev3_no_sensor</item>
+        <item>@string/ev3_sensor_touch</item>
+        <item>@string/ev3_sensor_color</item>
+        <item>@string/ev3_sensor_color_ambient</item>
+        <item>@string/ev3_sensor_color_reflected</item>
+        <item>@string/ev3_sensor_infrared</item>
+    </string-array>
+    <string-array name="ev3_motor_chooser" >
+        <item >@string/ev3_motor_a</item >
+        <item >@string/ev3_motor_b</item >
+        <item >@string/ev3_motor_c</item >
+        <item >@string/ev3_motor_d</item >
+        <item >@string/ev3_motor_b_and_c</item >
+    </string-array >
+    <string-array name="ev3_stop_motor_chooser" >
+        <item >@string/ev3_motor_a</item >
+        <item >@string/ev3_motor_b</item >
+        <item >@string/ev3_motor_c</item >
+        <item >@string/ev3_motor_d</item >
+        <item >@string/ev3_motor_b_and_c</item >
+        <item >@string/ev3_motor_all</item >
+    </string-array >
+    <string-array name="ev3_single_motor_chooser" >
+        <item >@string/ev3_motor_a</item >
+        <item >@string/ev3_motor_b</item >
+        <item >@string/ev3_motor_c</item >
+        <item >@string/ev3_motor_d</item >
+    </string-array >
+    <string-array name="ev3_led_status_chooser" >
+        <item >@string/ev3_led_status_off</item>
+        <item >@string/ev3_led_status_green</item>
+        <item >@string/ev3_led_status_red</item>
+        <item >@string/ev3_led_status_orange</item>
+        <item >@string/ev3_led_status_green_flashing</item>
+        <item >@string/ev3_led_status_red_flashing</item>
+        <item >@string/ev3_led_status_orange_flashing</item>
+        <item >@string/ev3_led_status_green_pulse</item>
+        <item >@string/ev3_led_status_red_pulse</item>
+        <item >@string/ev3_led_status_orange_pulse</item>
+    </string-array>
 
     <!-- Drone settings spinner-->
     <string-array name="drone_setting_default_config" >

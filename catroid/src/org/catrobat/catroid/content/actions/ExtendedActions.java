@@ -33,6 +33,10 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -161,6 +165,46 @@ public class ExtendedActions extends Actions {
 	public static IfOnEdgeBounceAction ifOnEdgeBounce(Sprite sprite) {
 		IfOnEdgeBounceAction action = action(IfOnEdgeBounceAction.class);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public static LegoEv3SingleMotorMoveAction legoEv3SingleMotorMove(Sprite sprite,
+			LegoEv3SingleMotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
+		LegoEv3SingleMotorMoveAction action = action(LegoEv3SingleMotorMoveAction.class);
+		action.setSprite(sprite);
+		action.setMotorEnum(motorEnum);
+		action.setPower(power);
+		action.setPeriod(period);
+		return action;
+	}
+
+	public static LegoEv3MotorStopAction legoEv3MotorStop(LegoEv3MotorStopBrick.Motor motorEnum) {
+		LegoEv3MotorStopAction action = action(LegoEv3MotorStopAction.class);
+		action.setMotorEnum(motorEnum);
+		return action;
+	}
+
+	public static LegoEv3SetLedAction legoEv3SetLed(LegoEv3SetLedBrick.LedStatus ledStatusEnum) {
+		LegoEv3SetLedAction action = action(LegoEv3SetLedAction.class);
+		action.setLedStatusEnum(ledStatusEnum);
+		return action;
+	}
+
+	public static LegoEv3PlayToneAction legoEv3PlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds/*, Formula volumeInPercent*/) {
+		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
+		action.setHertz(hertz);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(durationInSeconds);
+//		action.setVolumeInPercent(volumeInPercent);
+		return action;
+	}
+
+	public static LegoEv3MotorTurnAngleAction legoEv3MotorTurnAngle(Sprite sprite,
+			LegoEv3MotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+		LegoEv3MotorTurnAngleAction action = action(LegoEv3MotorTurnAngleAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setDegrees(degrees);
 		return action;
 	}
 

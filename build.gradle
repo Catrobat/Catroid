@@ -51,6 +51,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
@@ -67,6 +68,7 @@ android {
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"

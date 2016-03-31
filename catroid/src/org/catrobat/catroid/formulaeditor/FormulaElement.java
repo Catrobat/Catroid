@@ -961,6 +961,13 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.BLUETOOTH_LEGO_NXT;
 					break;
 
+				case EV3_SENSOR_1:
+				case EV3_SENSOR_2:
+				case EV3_SENSOR_3:
+				case EV3_SENSOR_4:
+					resources |= Brick.BLUETOOTH_LEGO_EV3;
+					break;
+
 				case PHIRO_FRONT_LEFT:
 				case PHIRO_FRONT_RIGHT:
 				case PHIRO_SIDE_LEFT:
