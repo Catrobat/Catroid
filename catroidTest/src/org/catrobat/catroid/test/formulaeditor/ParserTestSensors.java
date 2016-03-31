@@ -167,116 +167,120 @@ public class ParserTestSensors extends InstrumentationTestCase {
 	public void testSensors() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 
-		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
-		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(formula);
-		startScript1.addBrick(xAccelerationBrick);
+		try {
+			Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
+			ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(formula);
+			startScript1.addBrick(xAccelerationBrick);
 
-		Formula formula1 = createFormulaWithSensor(Sensors.Y_ACCELERATION);
-		ChangeSizeByNBrick yAccelerationBrick = new ChangeSizeByNBrick(formula1);
-		startScript1.addBrick(yAccelerationBrick);
+			Formula formula1 = createFormulaWithSensor(Sensors.Y_ACCELERATION);
+			ChangeSizeByNBrick yAccelerationBrick = new ChangeSizeByNBrick(formula1);
+			startScript1.addBrick(yAccelerationBrick);
 
-		Formula formula2 = createFormulaWithSensor(Sensors.Z_ACCELERATION);
-		ChangeSizeByNBrick zAccelerationBrick = new ChangeSizeByNBrick(formula2);
-		startScript1.addBrick(zAccelerationBrick);
+			Formula formula2 = createFormulaWithSensor(Sensors.Z_ACCELERATION);
+			ChangeSizeByNBrick zAccelerationBrick = new ChangeSizeByNBrick(formula2);
+			startScript1.addBrick(zAccelerationBrick);
 
-		Formula formula3 = createFormulaWithSensor(Sensors.COMPASS_DIRECTION);
-		ChangeSizeByNBrick compassDirectionBrick = new ChangeSizeByNBrick(formula3);
-		startScript1.addBrick(compassDirectionBrick);
+			Formula formula3 = createFormulaWithSensor(Sensors.COMPASS_DIRECTION);
+			ChangeSizeByNBrick compassDirectionBrick = new ChangeSizeByNBrick(formula3);
+			startScript1.addBrick(compassDirectionBrick);
 
-		Formula formula4 = createFormulaWithSensor(Sensors.X_INCLINATION);
-		ChangeSizeByNBrick xInclincationBrick = new ChangeSizeByNBrick(formula4);
-		startScript1.addBrick(xInclincationBrick);
+			Formula formula4 = createFormulaWithSensor(Sensors.X_INCLINATION);
+			ChangeSizeByNBrick xInclincationBrick = new ChangeSizeByNBrick(formula4);
+			startScript1.addBrick(xInclincationBrick);
 
-		Formula formula5 = createFormulaWithSensor(Sensors.Y_INCLINATION);
-		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(formula5);
-		startScript1.addBrick(yInclinationBrick);
+			Formula formula5 = createFormulaWithSensor(Sensors.Y_INCLINATION);
+			ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(formula5);
+			startScript1.addBrick(yInclinationBrick);
 
-		Formula formula6 = createFormulaWithSensor(Sensors.LOUDNESS);
-		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(formula6);
-		startScript1.addBrick(loudnessBrick);
+			Formula formula6 = createFormulaWithSensor(Sensors.LOUDNESS);
+			ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(formula6);
+			startScript1.addBrick(loudnessBrick);
 
-		//For initialization
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		SensorHandler.stopSensorListeners();
+			//For initialization
+			SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+			SensorHandler.stopSensorListeners();
 
-		SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");
-		SimulatedSensorManager simulatedSensorManager = new SimulatedSensorManager();
-		Reflection.setPrivateField(sensorHandler, "sensorManager", simulatedSensorManager);
+			SensorHandler sensorHandler = (SensorHandler) Reflection.getPrivateField(SensorHandler.class, "instance");
+			SimulatedSensorManager simulatedSensorManager = new SimulatedSensorManager();
+			Reflection.setPrivateField(sensorHandler, "sensorManager", simulatedSensorManager);
 
-		Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(sensorHandler,
-				"linearAccelerationSensor");
-		Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "rotationVectorSensor");
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+			Sensor accelerometerSensor = (Sensor) Reflection.getPrivateField(sensorHandler,
+					"linearAccelerationSensor");
+			Sensor rotationVectorSensor = (Sensor) Reflection.getPrivateField(sensorHandler, "rotationVectorSensor");
+			SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
 
-		long startTime = System.currentTimeMillis();
+			long startTime = System.currentTimeMillis();
 
-		while (simulatedSensorManager.getLatestSensorEvent(accelerometerSensor) == null
-				|| simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor) == null
-				|| !checkValidRotationValues(simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor))
-				|| simulatedSensorManager.getLatestCustomSensorEvent(Sensors.LOUDNESS) == null) {
+			while (simulatedSensorManager.getLatestSensorEvent(accelerometerSensor) == null
+					|| simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor) == null
+					|| !checkValidRotationValues(simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor))
+					|| simulatedSensorManager.getLatestCustomSensorEvent(Sensors.LOUDNESS) == null) {
 
-			simulatedSensorManager.sendGeneratedSensorValues();
+				simulatedSensorManager.sendGeneratedSensorValues();
 
-			if (startTime < System.currentTimeMillis() - 10000) {
-				fail("SensorEvent generation Timeout. Check Sensor Simulation!");
+				if (startTime < System.currentTimeMillis() - 10000) {
+					fail("SensorEvent generation Timeout. Check Sensor Simulation!");
+				}
 			}
-		}
 
-		float expectedLoudness = (Float) Reflection.getPrivateField(sensorHandler, "loudness");
+			float expectedLoudness = (Float) Reflection.getPrivateField(sensorHandler, "loudness");
 
-		float expectedXAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationX");
-		float expectedYAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationY");
-		float expectedZAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationZ");
+			float expectedXAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationX");
+			float expectedYAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationY");
+			float expectedZAcceleration = (Float) Reflection.getPrivateField(sensorHandler, "linearAccelerationZ");
 
-		float[] rotationMatrix = new float[16];
-		float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");
-		float[] orientations = new float[3];
+			float[] rotationMatrix = new float[16];
+			float[] rotationVector = (float[]) Reflection.getPrivateField(sensorHandler, "rotationVector");
+			float[] orientations = new float[3];
 
-		android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
-		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
+			android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
+			android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 
-		double expectedCompassDirection = (double) orientations[0] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
-		double expectedXInclination = (double) orientations[2] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
-		double expectedYInclination;
+			double expectedCompassDirection = (double) orientations[0] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
+			double expectedXInclination = (double) orientations[2] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
+			double expectedYInclination;
 
-		float xInclinationUsedToExtendRangeOfRoll = orientations[2] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
+			float xInclinationUsedToExtendRangeOfRoll = orientations[2] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 
-		Double sensorValue = (double) orientations[1];
+			Double sensorValue = (double) orientations[1];
 
-		if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
-			expectedYInclination = sensorValue * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
-		} else {
-			float uncorrectedYInclination = sensorValue.floatValue() * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
-
-			if (uncorrectedYInclination > 0f) {
-				expectedYInclination = 180f - uncorrectedYInclination;
+			if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
+				expectedYInclination = sensorValue * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 			} else {
-				expectedYInclination = -180f - uncorrectedYInclination;
+				float uncorrectedYInclination = sensorValue.floatValue() * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
+
+				if (uncorrectedYInclination > 0f) {
+					expectedYInclination = 180f - uncorrectedYInclination;
+				} else {
+					expectedYInclination = -180f - uncorrectedYInclination;
+				}
 			}
+
+			assertEquals(
+					"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
+					expectedXAcceleration, interpretFormula(formula), delta);
+			assertEquals(
+					"Unexpected sensor value for acceleration in y direction(= in portrait mode, from bottom to upper side of screen surface, in m/s^2)",
+					expectedYAcceleration, interpretFormula(formula1), delta);
+			assertEquals(
+					"Unexpected sensor value for acceleration in z direction(= in portrait mode, from screen surface orthogonally upwards away from screen, in m/s^2)",
+					expectedZAcceleration, interpretFormula(formula2), delta);
+			assertEquals(
+					"Unexpected sensor value for compass direction (= in portrait mode, deviation of screen-down-to-up-side (= positive y axis direction) from magnetic north in degrees, with z axis (pointing to sky) serving as rotation axis; positive direction = counter-clockwise turn seen from above; this is the angle between magnetic north and the device's y axis as it is displayed on a compass. For example, if the device's y axis points towards the magnetic north this value is 0, and if the device's y axis is pointing south this value is approaching 180 or -180. When the y axis is pointing west this value is 90 and when it is pointing east this value is -90)",
+					expectedCompassDirection, interpretFormula(formula3), delta);
+			assertEquals(
+					"Unexpected sensor value for x inclination (= in portrait mode, deviation from screen-left-to-right-side (= x axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of x inclination = right border of screen pulled towards user, left border away = positive side of x axis gets lifted up)",
+					expectedXInclination, interpretFormula(formula4), delta);
+			assertEquals(
+					"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
+					expectedYInclination, interpretFormula(formula5), delta);
+			assertEquals("Unexpected sensor value for loudness", expectedLoudness, interpretFormula(formula6),
+					delta);
+
+			SensorHandler.stopSensorListeners();
+		} catch (Exception e) {
+			assertTrue(e.getMessage(),false);
 		}
-
-		assertEquals(
-				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
-				expectedXAcceleration, interpretFormula(formula), delta);
-		assertEquals(
-				"Unexpected sensor value for acceleration in y direction(= in portrait mode, from bottom to upper side of screen surface, in m/s^2)",
-				expectedYAcceleration, interpretFormula(formula1), delta);
-		assertEquals(
-				"Unexpected sensor value for acceleration in z direction(= in portrait mode, from screen surface orthogonally upwards away from screen, in m/s^2)",
-				expectedZAcceleration, interpretFormula(formula2), delta);
-		assertEquals(
-				"Unexpected sensor value for compass direction (= in portrait mode, deviation of screen-down-to-up-side (= positive y axis direction) from magnetic north in degrees, with z axis (pointing to sky) serving as rotation axis; positive direction = counter-clockwise turn seen from above; this is the angle between magnetic north and the device's y axis as it is displayed on a compass. For example, if the device's y axis points towards the magnetic north this value is 0, and if the device's y axis is pointing south this value is approaching 180 or -180. When the y axis is pointing west this value is 90 and when it is pointing east this value is -90)",
-				expectedCompassDirection, interpretFormula(formula3), delta);
-		assertEquals(
-				"Unexpected sensor value for x inclination (= in portrait mode, deviation from screen-left-to-right-side (= x axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of x inclination = right border of screen pulled towards user, left border away = positive side of x axis gets lifted up)",
-				expectedXInclination, interpretFormula(formula4), delta);
-		assertEquals(
-				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
-				expectedYInclination, interpretFormula(formula5), delta);
-		assertEquals("Unexpected sensor value for loudness", expectedLoudness, interpretFormula(formula6),
-				delta);
-
-		SensorHandler.stopSensorListeners();
 	}
 
 	public void testMicRelease() {
