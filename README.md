@@ -21,6 +21,8 @@ If you want to implement a new feature, please ask about the details in JIRA or 
 
 Let's start to set up the working environment using the instructions in our  [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)!
 
+Also make sure to read our guidelines for [creating a pull request](https://github.com/Catrobat/Catroid/wiki/Creating-a-pull-request)
+
 
 # Resources and links #
 * [Google Play Store Download](https://play.google.com/store/apps/details?id=org.catrobat.catroid)
