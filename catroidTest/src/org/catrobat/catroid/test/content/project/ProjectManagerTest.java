@@ -208,7 +208,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		TestUtils.createTestProjectWithWrongIfClauseReferences();
 
-		projectManager.checkNestingBrickReferences(true);
+		projectManager.checkNestingBrickReferences(true, false);
 
 		List<Brick> newBrickList = projectManager.getCurrentProject().getSpriteList().get(0).getScript(0)
 				.getBrickList();

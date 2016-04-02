@@ -149,6 +149,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		externalSoundFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/externalSoundFile.mp3",
 				RESOURCE_SOUND, getActivity());
 
+		UiTestUtils.clearBackPackJson();
 		UiTestUtils.getIntoSoundsFromMainMenu(solo);
 
 		firstTestSoundNamePacked = FIRST_TEST_SOUND_NAME;

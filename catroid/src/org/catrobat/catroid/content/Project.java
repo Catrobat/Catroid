@@ -90,6 +90,7 @@ public class Project implements Serializable {
 			return;
 		}
 		Sprite background = new Sprite(context.getString(R.string.background));
+		background.isBackgroundObject = true;
 		background.look.setZIndex(0);
 		addSprite(background);
 	}
@@ -389,7 +390,7 @@ public class Project implements Serializable {
 		return spriteBySpriteName;
 	}
 
-	public boolean isBackgroundSprite(Sprite sprite) {
+	public boolean isBackgroundObject(Sprite sprite) {
 		if (spriteList.indexOf(sprite) == 0) {
 			return true;
 		}

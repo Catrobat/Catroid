@@ -70,6 +70,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
@@ -183,6 +184,10 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		}
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
+		}
+
+		if (BackPackListManager.getInstance().isBackpackEmpty()) {
+			BackPackListManager.getInstance().loadBackpack();
 		}
 
 		StorageHandler.getInstance().fillChecksumContainer();

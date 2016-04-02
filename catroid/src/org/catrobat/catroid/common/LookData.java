@@ -57,14 +57,13 @@ public class LookData implements Serializable, Cloneable {
 	protected transient Pixmap pixmap = null;
 	protected transient Pixmap originalPixmap = null;
 	protected transient TextureRegion textureRegion = null;
+	public transient boolean isBackpackLookData = false;
 
 	public LookData() {
 	}
 
 	public void draw(Batch batch, float alpha) {
 	}
-
-	public transient boolean isBackpackLookData = false;
 
 	@Override
 	public boolean equals(Object obj) {

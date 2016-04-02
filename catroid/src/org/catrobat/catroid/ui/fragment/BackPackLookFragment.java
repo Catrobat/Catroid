@@ -442,6 +442,8 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
+		BackPackListManager.getInstance().saveBackpack();
+
 		if (lookDeletedReceiver != null) {
 			getActivity().unregisterReceiver(lookDeletedReceiver);
 		}

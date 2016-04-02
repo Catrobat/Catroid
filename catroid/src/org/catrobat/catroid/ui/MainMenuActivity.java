@@ -52,7 +52,6 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -103,11 +102,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		if (loadExternalProjectUri != null) {
 			loadProgramFromExternalSource(loadExternalProjectUri);
-		}
-
-		if (!BackPackListManager.getInstance().isBackpackFlag()) {
-			BackPackListManager.getInstance().clearBackPackSounds();
-			BackPackListManager.getInstance().clearBackPackLooks();
 		}
 	}
 

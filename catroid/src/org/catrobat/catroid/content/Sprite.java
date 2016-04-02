@@ -61,14 +61,17 @@ public class Sprite implements Serializable, Cloneable {
 
 	@XStreamAsAttribute
 	private String name;
+	@XStreamAsAttribute
+	public boolean isBackgroundObject = false;
+
 	private List<Script> scriptList = new ArrayList<>();
 	private List<LookData> lookList = new ArrayList<>();
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
+
 	private transient int newUserBrickNext = 1;
-	public transient boolean isBackpackSprite = false;
-	public transient boolean isBackgroundSprite = false;
+	public transient boolean isBackpackObject = false;
 
 	private transient ActionFactory actionFactory = new ActionFactory();
 
@@ -270,7 +273,7 @@ public class Sprite implements Serializable, Cloneable {
 		final Sprite cloneSprite = new Sprite();
 
 		cloneSprite.setName(this.getName());
-		cloneSprite.isBackpackSprite = false;
+		cloneSprite.isBackpackObject = false;
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {

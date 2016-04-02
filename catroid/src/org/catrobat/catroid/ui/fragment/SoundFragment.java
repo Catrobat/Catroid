@@ -226,6 +226,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			return;
 		}
 
+		if (BackPackListManager.getInstance().isBackpackEmpty()) {
+			BackPackListManager.getInstance().loadBackpack();
+		}
+
 		if (soundRenamedReceiver == null) {
 			soundRenamedReceiver = new SoundRenamedReceiver();
 		}
