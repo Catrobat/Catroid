@@ -80,8 +80,9 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
 			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
-			R.string.formula_editor_function_length, R.string.formula_editor_function_number_of_items, R.string.formula_editor_function_letter,
-			R.string.formula_editor_function_join, R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
+			R.string.formula_editor_function_length, R.string.formula_editor_function_number_of_items,
+			R.string.formula_editor_function_letter, R.string.formula_editor_function_join,
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
 
 	private static final int[] FUNCTIONS_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
