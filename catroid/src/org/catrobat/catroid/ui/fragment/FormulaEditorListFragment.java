@@ -98,43 +98,60 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_list_item_parameter,
 			R.string.formula_editor_function_contains_parameter};
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness };
+	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_loudness};
 
-	private static final int[] ACCELERATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
-			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration };
+	private static final int[] ACCELERATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
+			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration};
 
-	private static final int[] INCLINATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination };
+	private static final int[] INCLINATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_inclination,
+			R.string.formula_editor_sensor_y_inclination};
 
-	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction};
+	private static final int[] COMPASS_SENSOR_ITEMS = {R.string.formula_editor_sensor_compass_direction};
 
-	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
+	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
 			R.string.formula_editor_sensor_lego_nxt_4};
 
-	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
+	private static final int[] SENSOR_ITEMS_DRONE = {R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
 			R.string.formula_editor_sensor_drone_usb_remaining_time, R.string.formula_editor_sensor_drone_camera_ready,
 			R.string.formula_editor_sensor_drone_record_ready, R.string.formula_editor_sensor_drone_recording,
-			R.string.formula_editor_sensor_drone_num_frames };
+			R.string.formula_editor_sensor_drone_num_frames};
 
-	private static final int[] PHIRO_SENSOR_ITEMS = { R.string.formula_editor_phiro_sensor_front_left,
+	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
 			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
-			R.string.formula_editor_phiro_sensor_bottom_right };
+			R.string.formula_editor_phiro_sensor_bottom_right};
 
-	private static final int[] ARDUINO_SENSOR_ITEMS = { R.string.formula_editor_function_arduino_read_pin_value_analog,
-			R.string.formula_editor_function_arduino_read_pin_value_digital };
+	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
+			R.string.formula_editor_function_arduino_read_pin_value_digital};
 
-	private static final int[] FACE_DETECTION_SENSOR_ITEMS = { R.string.formula_editor_sensor_face_detected,
+	private static final int[] FACE_DETECTION_SENSOR_ITEMS = {R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
-			R.string.formula_editor_sensor_face_y_position };
+			R.string.formula_editor_sensor_face_y_position};
 
-	private static final int[] RASPBERRY_SENSOR_ITEMS = { R.string.formula_editor_function_raspi_read_pin_value_digital };
+	private static final int[] RASPBERRY_SENSOR_ITEMS = {R.string.formula_editor_function_raspi_read_pin_value_digital};
 
 	private String actionBarTitle;
 	private int[] itemsIds;
+
+	public FormulaEditorListFragment() {
+	}
+
+	private static int[] concatAll(int[] first, int[]... rest) {
+		int totalLength = first.length;
+		for (int[] array : rest) {
+			totalLength += array.length;
+		}
+		int[] result = Arrays.copyOf(first, totalLength);
+		int offset = first.length;
+		for (int[] array : rest) {
+			System.arraycopy(array, 0, result, offset, array.length);
+			offset += array.length;
+		}
+		return result;
+	}
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
@@ -146,9 +163,6 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		}
 		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
-	}
-
-	public FormulaEditorListFragment() {
 	}
 
 	@Override
@@ -225,20 +239,6 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.fragment_formula_editor_list_item, items);
 		setListAdapter(arrayAdapter);
-	}
-
-	private static int[] concatAll(int[] first, int[]... rest) {
-		int totalLength = first.length;
-		for (int[] array : rest) {
-			totalLength += array.length;
-		}
-		int[] result = Arrays.copyOf(first, totalLength);
-		int offset = first.length;
-		for (int[] array : rest) {
-			System.arraycopy(array, 0, result, offset, array.length);
-			offset += array.length;
-		}
-		return result;
 	}
 
 	@Override
