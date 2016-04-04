@@ -35,7 +35,6 @@ import java.util.LinkedList;
 public class PhysicsLook extends Look {
 
 	public static final float SCALE_FACTOR_ACCURACY = 10000.0f;
-	public static final float MINIMUM_PHYSICS_OBJECT_SIZE = 8.0f;
 
 	private final PhysicsObject physicsObject;
 	private final PhysicsObjectStateHandler physicsObjectStateHandler = new PhysicsObjectStateHandler();
@@ -47,7 +46,7 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
-		updateTransparency(percent, false);
+		super.setTransparencyInUserInterfaceDimensionUnit(percent);
 		updatePhysicsObjectState(true);
 	}
 
@@ -160,13 +159,8 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
-	public boolean isVisible() {
-		return super.isVisible() && !physicsObjectStateHandler.isInvisible();
-	}
-
-	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
+	public void setLookVisible(boolean visible) {
+		super.setLookVisible(visible);
 		physicsObjectStateHandler.update(true);
 	}
 
@@ -197,20 +191,16 @@ public class PhysicsLook extends Look {
 	}
 
 	private class PhysicsObjectStateHandler {
-		//private final String TAG = PhysicsObjectStateHandler.class.getSimpleName();
 
-		private LinkedList<PhysicsObjectStateCondition> invisibleConditions = new LinkedList<PhysicsObjectStateCondition>();
-		private LinkedList<PhysicsObjectStateCondition> hangupConditions = new LinkedList<PhysicsObjectStateCondition>();
-		private LinkedList<PhysicsObjectStateCondition> nonCollidingConditions = new LinkedList<PhysicsObjectStateCondition>();
-		private LinkedList<PhysicsObjectStateCondition> fixConditions = new LinkedList<PhysicsObjectStateCondition>();
+		private LinkedList<PhysicsObjectStateCondition> hangupConditions = new LinkedList<>();
+		private LinkedList<PhysicsObjectStateCondition> nonCollidingConditions = new LinkedList<>();
+		private LinkedList<PhysicsObjectStateCondition> fixConditions = new LinkedList<>();
 
-		private PhysicsObjectStateCondition sizeCondition;
 		private PhysicsObjectStateCondition positionCondition;
 		private PhysicsObjectStateCondition visibleCondition;
 		private PhysicsObjectStateCondition transparencyCondition;
 		private PhysicsObjectStateCondition glideToCondition;
 
-		private boolean invisible = false;
 		private boolean glideToIsActive = false;
 		private boolean hangedUp = false;
 		private boolean fixed = false;
@@ -221,8 +211,6 @@ public class PhysicsLook extends Look {
 			positionCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
-					//Log.d(TAG, "PhysicsWorld.activeArea.x: " + PhysicsWorld.activeArea.x);
-					//Log.d(TAG, "PhysicsWorld.activeArea.y: " + PhysicsWorld.activeArea.y);
 					return isOutsideActiveArea();
 				}
 
@@ -241,19 +229,10 @@ public class PhysicsLook extends Look {
 				}
 			};
 
-			sizeCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					Vector2 dimensions = physicsObject.getBoundaryBoxDimensions();
-					return dimensions.x < MINIMUM_PHYSICS_OBJECT_SIZE || dimensions.y < MINIMUM_PHYSICS_OBJECT_SIZE;
-				}
-			};
-
 			visibleCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
-					//Log.d(TAG, "visibleCondition:"+!isVisible);
-					return !isVisible();
+					return !isLookVisible();
 				}
 			};
 
@@ -273,9 +252,6 @@ public class PhysicsLook extends Look {
 				}
 			};
 
-			invisibleConditions.add(transparencyCondition);
-			invisibleConditions.add(sizeCondition);
-
 			hangupConditions.add(transparencyCondition);
 			hangupConditions.add(positionCondition);
 			hangupConditions.add(visibleCondition);
@@ -286,28 +262,6 @@ public class PhysicsLook extends Look {
 			nonCollidingConditions.add(visibleCondition);
 
 			fixConditions.add(glideToCondition);
-		}
-
-		private boolean checkInvisible() {
-			if (!PhysicsLook.super.isVisible()) {
-				invisible = true;
-				return invisible;
-			}
-			boolean shouldBeInvisible = false;
-			for (PhysicsObjectStateCondition invisibleCondition : invisibleConditions) {
-				if (invisibleCondition.isTrue()) {
-					shouldBeInvisible = true;
-					break;
-				}
-			}
-			boolean setVisible = invisible && !shouldBeInvisible;
-			boolean setInvisible = !invisible && shouldBeInvisible;
-			if (setVisible) {
-				invisible = false;
-			} else if (setInvisible) {
-				invisible = true;
-			}
-			return shouldBeInvisible;
 		}
 
 		private boolean checkHangup(boolean record) {
@@ -321,10 +275,8 @@ public class PhysicsLook extends Look {
 			boolean deactivateHangup = hangedUp && !shouldBeHangedUp;
 			boolean activateHangup = !hangedUp && shouldBeHangedUp;
 			if (deactivateHangup) {
-				//Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(record));
 				physicsObject.deactivateHangup(record);
 			} else if (activateHangup) {
-				//Log.d(TAG, "HangupState.hangedUp = true");
 				physicsObject.activateHangup();
 			}
 			hangedUp = shouldBeHangedUp;
@@ -342,10 +294,8 @@ public class PhysicsLook extends Look {
 			boolean deactivateNonColliding = nonColliding && !shouldBeNonColliding;
 			boolean activateNonColliding = !nonColliding && shouldBeNonColliding;
 			if (deactivateNonColliding) {
-				//Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(record));
 				physicsObject.deactivateNonColliding(record, false);
 			} else if (activateNonColliding) {
-				//Log.d(TAG, "HangupState.hangedUp = true");
 				physicsObject.activateNonColliding(false);
 			}
 			nonColliding = shouldBeNonColliding;
@@ -363,10 +313,8 @@ public class PhysicsLook extends Look {
 			boolean deactivateFix = fixed && !shouldBeFixed;
 			boolean activateFix = !fixed && shouldBeFixed;
 			if (deactivateFix) {
-				//Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(record));
 				physicsObject.deactivateFixed(record);
 			} else if (activateFix) {
-				//Log.d(TAG, "HangupState.hangedUp = true");
 				physicsObject.activateFixed();
 			}
 			fixed = shouldBeFixed;
@@ -374,7 +322,6 @@ public class PhysicsLook extends Look {
 		}
 
 		public void update(boolean record) {
-			checkInvisible();
 			checkHangup(record);
 			checkNonColliding(record);
 			checkFixed(record);
@@ -390,14 +337,6 @@ public class PhysicsLook extends Look {
 		public void deactivateGlideTo() {
 			glideToIsActive = false;
 			updatePhysicsObjectState(true);
-		}
-
-		public boolean isInvisible() {
-			return this.invisible;
-		}
-
-		public void setInvisible() {
-			this.invisible = invisible;
 		}
 
 		public boolean isHangedUp() {

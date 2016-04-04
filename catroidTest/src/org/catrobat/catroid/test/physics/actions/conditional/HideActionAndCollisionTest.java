@@ -38,14 +38,17 @@ public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
 	}
 
 	public void testNoCollisionAfterHide() {
-		sprite.look.setVisible(false);
+		Action action = sprite.getActionFactory().createHideAction(sprite);
+		action.act(1.0f);
 		simulateFullCollision();
 		assertFalse("PhysicObjects shouldn't collide because sprite2 is invisible", collisionDetected());
 	}
 
 	public void testCollisionAfterHide() {
-		sprite.look.setVisible(false);
-		sprite.look.setVisible(true);
+		Action action = sprite.getActionFactory().createHideAction(sprite);
+		action.act(1.0f);
+		action = sprite.getActionFactory().createShowAction(sprite);
+		action.act(1.0f);
 		simulateFullCollision();
 		assertTrue("PhysicObjects should collide because sprite2 is visible", collisionDetected());
 	}
@@ -53,7 +56,7 @@ public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
 	public void testHide() {
 		Action action = sprite.getActionFactory().createHideAction(sprite);
 		action.act(1.0f);
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.isVisible());
+		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.isLookVisible());
 	}
 
 	public void testNullSprite() {

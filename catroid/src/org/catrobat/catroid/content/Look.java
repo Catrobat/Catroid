@@ -45,6 +45,7 @@ import java.util.Iterator;
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
+	protected boolean lookVisible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -96,6 +97,14 @@ public class Look extends Image {
 		});
 	}
 
+	public boolean isLookVisible() {
+		return lookVisible;
+	}
+
+	public void setLookVisible(boolean lookVisible) {
+		this.lookVisible = lookVisible;
+	}
+
 	public static boolean actionsToRestartContains(Action action) {
 		return Look.actionsToRestart.contains(action);
 	}
@@ -109,7 +118,7 @@ public class Look extends Image {
 
 		cloneLook.alpha = this.alpha;
 		cloneLook.brightness = this.brightness;
-		cloneLook.setVisible(isVisible());
+		cloneLook.setLookVisible(isLookVisible());
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
@@ -120,7 +129,7 @@ public class Look extends Image {
 		if (sprite.isPaused) {
 			return true;
 		}
-		if (!isVisible()) {
+		if (!isLookVisible()) {
 			return false;
 		}
 
@@ -159,7 +168,7 @@ public class Look extends Image {
 			lookData.draw(batch, alpha);
 		}
 
-		if (isVisible() && this.getDrawable() != null) {
+		if (isLookVisible() && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
 		}
 	}
@@ -344,20 +353,14 @@ public class Look extends Image {
 	}
 
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
-		updateTransparency(percent, true);
-	}
-
-	protected void updateTransparency(float percent, boolean updateVisibility) {
-		if (percent < 0f) {
-			percent = 0f;
-			if (updateVisibility) {
-				setVisible(true);
+		if (percent < 100.0f) {
+			if (percent < 0f) {
+				percent = 0f;
 			}
-		} else if (percent >= 100f) {
+			setVisible(true);
+		} else {
 			percent = 100f;
-			if (updateVisibility) {
-				setVisible(false);
-			}
+			setVisible(false);
 		}
 
 		alpha = (100f - percent) / 100f;

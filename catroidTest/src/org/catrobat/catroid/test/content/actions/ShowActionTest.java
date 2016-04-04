@@ -33,13 +33,13 @@ public class ShowActionTest extends AndroidTestCase {
 
 	public void testShow() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.look.setVisible(false);
-		assertFalse("Sprite is still visible after calling hide", sprite.look.isVisible());
+		sprite.look.setLookVisible(false);
+		assertFalse("Sprite is still visible after calling hide", sprite.look.isLookVisible());
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createShowAction(sprite);
 		action.act(1.0f);
-		assertTrue("Sprite is not visible after ShowBrick executed", sprite.look.isVisible());
+		assertTrue("Sprite is not visible after ShowBrick executed", sprite.look.isLookVisible());
 	}
 
 	public void testNullSprite() {
