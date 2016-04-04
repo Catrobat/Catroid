@@ -43,12 +43,15 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.conditional.HideBrick;
 import org.catrobat.catroid.content.bricks.conditional.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -82,7 +85,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		String backgroundName = context.getString(R.string.default_project_background_name);
 
 		Project defaultPhysicsProject = new Project(context, projectName);
-		defaultPhysicsProject.setDeviceData(context); // density anywhere here
+		defaultPhysicsProject.setDeviceData(context);
 		StorageHandler.getInstance().saveProject(defaultPhysicsProject);
 		ProjectManager.getInstance().setProject(defaultPhysicsProject);
 
@@ -92,9 +95,8 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 				R.drawable.physics_background_480_800, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background_portrait, context, true,
-				backgroundImageScaleFactor
-		);
+							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.physics_background_480_800, context, true,
+					backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setLookName(backgroundName);
@@ -103,13 +105,6 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		// Background sprite
 		Sprite backgroundSprite = defaultPhysicsProject.getSpriteList().get(0);
 		backgroundSprite.getLookDataList().add(backgroundLookData);
-		Script backgroundStartScript = new StartScript();
-
-		SetLookBrick setLookBrick = new SetLookBrick();
-		setLookBrick.setLook(backgroundLookData);
-		backgroundStartScript.addBrick(setLookBrick);
-
-		backgroundSprite.addScript(backgroundStartScript);
 
 		Sprite ball = new Sprite("Ball");
 		Sprite leftButton = new Sprite("Left button");
@@ -125,13 +120,9 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 
 		Sprite middleBouncer = new Sprite("Cat head bouncer");
 		Sprite leftHardBouncer = new Sprite("Left hard bouncer");
-		Sprite leftHardBouncerBouncer = new Sprite("Left hard bouncer bouncer");
 		Sprite rightHardBouncer = new Sprite("Right hard bouncer");
-		Sprite rightHardBouncerBouncer = new Sprite("Right hard bouncer bouncer");
 
-		Sprite leftVerticalWall = new Sprite("Left vertical wall");
 		Sprite leftBottomWall = new Sprite("Left bottom wall");
-		Sprite rightVerticalWall = new Sprite("Right vertical wall");
 		Sprite rightBottomWall = new Sprite("Right bottom wall");
 
 		String restartName = "Restart Game";
@@ -141,10 +132,6 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		final String rightButtonPressed = "Right button pressed";
 
 		final float armMovingSpeed = 500.0f;
-
-		// Background
-		createElement(context, projectName, backgroundSprite, "physics_background_480_800",
-				R.drawable.physics_background_480_800, new Vector2(), Float.NaN);
 
 		// Ball
 		StartScript startScript = new StartScript();
@@ -158,20 +145,20 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 
 		Brick foreverBrick = new ForeverBrick();
 		Brick ifOnEdgeBounceBrick = new IfOnEdgeBounceBrick();
+		Brick foreverEndBrick = new LoopEndBrick();
 
 		ballStartScript.addBrick(foreverBrick);
 		ballStartScript.addBrick(ifOnEdgeBounceBrick);
+		ballStartScript.addBrick(foreverEndBrick);
 
 		Script receiveResetBallScript = new BroadcastScript("reset_ball");
-		receiveResetBallScript.addBrick(new PlaceAtBrick(new Formula(2000 * backgroundImageScaleVector.x),
-				new Formula(2000 * backgroundImageScaleVector.y)));
-		receiveResetBallScript.addBrick(new SetPhysicsObjectTypeBrick(PhysicsObject.Type.FIXED));
+		receiveResetBallScript.addBrick(new HideBrick());
 		ball.addScript(receiveResetBallScript);
 
 		Script receiveStartBallScript = new BroadcastScript("start_ball");
 		receiveStartBallScript.addBrick(new PlaceAtBrick(new Formula(0),
 				new Formula(380.0f * backgroundImageScaleVector.y)));
-		receiveStartBallScript.addBrick(new SetPhysicsObjectTypeBrick(PhysicsObject.Type.DYNAMIC));
+		receiveStartBallScript.addBrick(new ShowBrick());
 		ball.addScript(receiveStartBallScript);
 
 		// Restart View
@@ -206,14 +193,6 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		setPhysicsProperties(rightArm, rightArmStartScript, PhysicsObject.Type.FIXED, 50.0f, -1.0f);
 		createMovingArm(rightArm, rightButtonPressed, -armMovingSpeed);
 
-		// Lower walls
-		/*Script leftVerticalWallStartScript = createElement(context, projectName, leftVerticalWall, "physics_vertical_wall", R.drawable.physics_vertical_wall,
-				new Vector2(-232.0f, -160.0f), 82f);
-		setPhysicsProperties(leftVerticalWall, leftVerticalWallStartScript, PhysicsObject.Type.FIXED, 5.0f, -1.0f);
-		Script rightVerticalWallStartScript = createElement(context, projectName, rightVerticalWall, "physics_vertical_wall",
-				R.drawable.physics_vertical_wall, new Vector2(232.0f, -160.0f), -82f);
-		setPhysicsProperties(rightVerticalWall, rightVerticalWallStartScript, PhysicsObject.Type.FIXED, 5.0f, -1.0f);*/
-		//
 		Script leftBottomWallStartScript = createElement(context, projectName, leftBottomWall, "physics_wall_left", R.drawable.physics_wall_left,
 				new Vector2(-180.0f, -220.0f), Float.NaN, 65f);
 		setPhysicsProperties(leftBottomWall, leftBottomWallStartScript, PhysicsObject.Type.FIXED, 5.0f, -1.0f);
@@ -225,18 +204,10 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		Script leftHardBouncerStartScript = createElement(context, projectName, leftHardBouncer, "physics_left_hard_bouncer",
 				R.drawable.physics_left_hard_bouncer, new Vector2(-140.0f, -130.0f), Float.NaN);
 		setPhysicsProperties(leftHardBouncer, leftHardBouncerStartScript, PhysicsObject.Type.FIXED, 10.0f, -1.0f);
-		/*Script leftHardBouncerBouncerStartScript = createElement(context, projectName, leftHardBouncerBouncer, "physics_left_light_bouncer",
-				R.drawable.physics_left_light_bouncer, new Vector2(-129.0f, -163.0f), Float.NaN);
-		setPhysicsProperties(leftHardBouncerBouncer, leftHardBouncerBouncerStartScript, PhysicsObject.Type.FIXED,
-				124.0f, -1.0f);*/
 
 		Script rightHardBouncerStartScript = createElement(context, projectName, rightHardBouncer, "physics_right_hard_bouncer",
 				R.drawable.physics_right_hard_bouncer, new Vector2(140.0f, -130.0f), Float.NaN);
 		setPhysicsProperties(rightHardBouncer, rightHardBouncerStartScript, PhysicsObject.Type.FIXED, 10.0f, -1.0f);
-		/*Script rightHardBouncerBouncerStartScript = createElement(context, projectName, rightHardBouncerBouncer, "physics_right_light_bouncer",
-				R.drawable.physics_right_light_bouncer, new Vector2(129.0f, -163.0f), Float.NaN);
-		setPhysicsProperties(rightHardBouncerBouncer, rightHardBouncerBouncerStartScript, PhysicsObject.Type.FIXED,
-				124.0f, -1.0f);*/
 
 		// Lower circle bouncers
 		Vector2[] lowerBouncersPositions = { new Vector2(-100.0f, 0.0f),
@@ -268,13 +239,9 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		defaultPhysicsProject.addSprite(leftArm);
 		defaultPhysicsProject.addSprite(rightArm);
 		defaultPhysicsProject.addSprite(middleBouncer);
-		defaultPhysicsProject.addSprite(leftHardBouncerBouncer);
 		defaultPhysicsProject.addSprite(leftHardBouncer);
-		defaultPhysicsProject.addSprite(rightHardBouncerBouncer);
 		defaultPhysicsProject.addSprite(rightHardBouncer);
-		defaultPhysicsProject.addSprite(leftVerticalWall);
 		defaultPhysicsProject.addSprite(leftBottomWall);
-		defaultPhysicsProject.addSprite(rightVerticalWall);
 		defaultPhysicsProject.addSprite(rightBottomWall);
 		defaultPhysicsProject.addSprite(restart);
 
@@ -305,15 +272,14 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		List<LookData> looks = sprite.getLookDataList();
 		looks.add(lookData);
 
-		SetLookBrick lookBrick = new SetLookBrick();
-		lookBrick.setLook(lookData);
-
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(scale);
-
 		Script startScript = new StartScript();
+
 		startScript.addBrick(new PlaceAtBrick(new Formula(position.x * backgroundImageScaleVector.x), new Formula(position.y * backgroundImageScaleVector.y)));
-		startScript.addBrick(lookBrick);
-		startScript.addBrick(setSizeToBrick);
+
+		if (scale != 100f) {
+			SetSizeToBrick setSizeToBrick = new SetSizeToBrick(scale);
+			startScript.addBrick(setSizeToBrick);
+		}
 
 		if (!Float.isNaN(angle)) {
 			PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(new Formula(angle));
