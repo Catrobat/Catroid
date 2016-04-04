@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
@@ -113,6 +114,28 @@ public class Project implements Serializable {
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 			ScreenValues.SCREEN_WIDTH = tmp;
 		}
+	}
+
+	public List<PointToBrick> getPointToBricks() {
+		List<PointToBrick> result = new ArrayList<>();
+		for (Sprite sprite : spriteList) {
+			for (Brick brick : sprite.getAllBricks()) {
+				if (brick instanceof PointToBrick) {
+					result.add((PointToBrick) brick);
+				}
+			}
+		}
+
+		return result;
+	}
+
+	public int getSpritePositionById(Sprite sprite) {
+		for (int pos = 0; pos < spriteList.size(); pos++) {
+			if (spriteList.get(pos).getId() == sprite.getId()) {
+				return pos;
+			}
+		}
+		return 0;
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -412,8 +435,10 @@ public class Project implements Serializable {
 		return false;
 	}
 
-	public void replaceBackgroundSprite(Sprite unpackedSprite) {
+	public Sprite replaceBackgroundSprite(Sprite unpackedSprite) {
+		Sprite currentBackground = spriteList.get(0);
 		spriteList.set(0, unpackedSprite);
+		return currentBackground;
 	}
 
 	public boolean containsSprite(Sprite selectedSprite) {

@@ -58,9 +58,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.SoundInfoHistory;
+import org.catrobat.catroid.content.commands.SoundCommands;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -71,6 +74,9 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BackPackSoundFragment extends BackPackActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -237,7 +243,19 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	}
 
 	private void contextMenuUnpacking(boolean delete) {
+		List<SoundInfo> before = new ArrayList<>();
+		before.addAll(ProjectManager.getInstance().getCurrentSprite().getSoundList());
 		SoundController.getInstance().unpack(selectedSoundInfoBackPack, delete, false);
+		List<SoundInfo> after = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		if (before.size() < after.size()) {
+			ArrayList<SoundInfo> toAdd = new ArrayList<>();
+			for (int i = before.size(); i < after.size(); i++) {
+				toAdd.add(after.get(i));
+			}
+			SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(toAdd, null, null);
+			SoundInfoHistory.getInstance(ProjectManager.getInstance().getCurrentSprite()).add(command);
+		}
+
 		String textForUnPacking = getResources().getQuantityString(R.plurals.unpacking_items_plural, 1);
 		ToastUtil.showSuccess(getActivity(), selectedSoundInfoBackPack.getTitle() + " " + textForUnPacking);
 		((BackPackActivity) getActivity()).returnToScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);

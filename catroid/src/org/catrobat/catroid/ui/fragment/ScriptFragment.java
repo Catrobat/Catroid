@@ -495,6 +495,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
+	public void startUndoActionMode() {
+		//currently not implemented
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		//currently not implemented
+	}
+
+	@Override
 	public boolean getActionModeActive() {
 		return actionModeActive;
 	}
@@ -512,9 +522,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	protected void showDeleteDialog() {
-
-		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
-		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

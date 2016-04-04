@@ -335,6 +335,14 @@ public class ScriptActivity extends BaseActivity {
 					currentFragment.startDeleteActionMode();
 				}
 				break;
+
+			case R.id.menu_undo:
+				currentFragment.startUndoActionMode();
+				break;
+
+			case R.id.menu_redo:
+				currentFragment.startRedoActionMode();
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

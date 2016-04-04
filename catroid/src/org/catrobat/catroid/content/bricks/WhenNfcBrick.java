@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
+import org.catrobat.catroid.utils.IdPool;
 
 import java.util.List;
 
@@ -58,6 +59,7 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 	private transient NfcTagData nfcTag;
 	private transient NfcTagData oldSelectedNfcTag;
 	private static final long serialVersionUID = 1L;
+	private transient int id = IdPool.getInstance().getNewId();
 	private transient AdapterView<?> adapterView;
 
 	public WhenNfcBrick() {
@@ -397,5 +399,9 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 
 	public void setWhenNfcScript(WhenNfcScript whenNfcScript) {
 		this.whenNfcScript = whenNfcScript;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

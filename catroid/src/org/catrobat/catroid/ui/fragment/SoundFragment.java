@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
@@ -64,6 +63,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.SoundInfoHistory;
+import org.catrobat.catroid.content.commands.Command;
+import org.catrobat.catroid.content.commands.SoundCommands;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
@@ -78,10 +80,10 @@ import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -173,6 +175,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 
 		((DynamicListView) getListView()).setDataList(soundInfoList);
+		((DynamicListView) getListView()).setDataType(DynamicListView.SOUND_LIST);
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
 				R.id.fragment_sound_item_title_text_view, soundInfoList, false);
@@ -198,6 +201,27 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			StorageHandler.getInstance().clearBackPackSoundDirectory();
 		}
 
+		MenuItem undo = menu.findItem(R.id.menu_undo);
+		if (!getHistory().isUndoable()) {
+			undo.setIcon(R.drawable.icon_undo_disabled);
+			undo.setEnabled(false);
+		} else {
+			undo.setIcon(R.drawable.icon_undo);
+			undo.setEnabled(true);
+		}
+
+		MenuItem redo = menu.findItem(R.id.menu_redo);
+		if (!getHistory().isRedoable()) {
+			redo.setIcon(R.drawable.icon_redo_disabled);
+			redo.setEnabled(false);
+		} else {
+			redo.setIcon(R.drawable.icon_redo);
+			redo.setEnabled(true);
+		}
+
+		menu.findItem(R.id.menu_undo).setVisible(true);
+		menu.findItem(R.id.menu_redo).setVisible(true);
+
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -211,6 +235,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onStart() {
 		super.onStart();
 		mediaPlayer = new MediaPlayer();
+		updatePlayersInCommands(mediaPlayer, adapter);
 	}
 
 	@Override
@@ -264,6 +289,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
+
+		updatePlayersInCommands(mediaPlayer, adapter);
+		getActivity().invalidateOptionsMenu();
+
 		if (!this.isHidden()) {
 			setHandleAddbutton();
 			handleAddButtonFromNew();
@@ -361,6 +390,30 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	@Override
+	public void startUndoActionMode() {
+		try {
+			getHistory().undo();
+		} catch (Exception exception) {
+			ToastUtil.showError(getActivity(), getString(R.string.error_undo));
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		adapter.notifyDataSetChanged();
+		getActivity().invalidateOptionsMenu();
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		try {
+			getHistory().redo();
+		} catch (Exception exception) {
+			ToastUtil.showError(getActivity(), getString(R.string.error_redo));
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		adapter.notifyDataSetChanged();
+		getActivity().invalidateOptionsMenu();
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		startActionMode(renameModeCallBack, true);
 	}
@@ -414,7 +467,15 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 					break;
 				case SoundController.REQUEST_MEDIA_LIBRARY:
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
+					int sizeBeforeAdd = soundInfoList.size();
 					SoundController.getInstance().addSoundFromMediaLibrary(filePath, getActivity(), soundInfoList, this);
+					if (soundInfoList.size() > sizeBeforeAdd) {
+						ArrayList<SoundInfo> soundInfos = new ArrayList<>();
+						soundInfos.add(soundInfoList.get(soundInfoList.size() - 1));
+						SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(soundInfos, mediaPlayer, adapter);
+						getHistory().add(command);
+						getActivity().invalidateOptionsMenu();
+					}
 			}
 			isResultHandled = true;
 		}
@@ -632,8 +693,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	protected void showDeleteDialog() {
-		DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(selectedSoundPosition);
-		deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void setSelectedSoundInfo(SoundInfo selectedSoundInfo) {
@@ -656,7 +715,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
 
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
-					selectedSoundInfo.setTitle(newSoundTitle);
+					SoundCommands.RenameSoundCommand command = new SoundCommands.RenameSoundCommand(selectedSoundInfo, newSoundTitle);
+					command.execute();
+					getHistory().add(command);
+					getActivity().invalidateOptionsMenu();
 					adapter.notifyDataSetChanged();
 				}
 			}
@@ -829,47 +891,20 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			if (adapter.getAmountOfCheckedItems() == 0) {
 				clearCheckedSoundsAndEnableButtons();
 			} else {
-				showConfirmDeleteDialog();
+				deleteSounds();
 			}
 		}
 	};
 
-	private void showConfirmDeleteDialog() {
-		int titleId;
-		if (adapter.getAmountOfCheckedItems() == 1) {
-			titleId = R.string.dialog_confirm_delete_sound_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_sounds_title;
-		}
+	private void deleteSounds() {
+		ArrayList<SoundInfo> soundsToDelete = new ArrayList<>();
+		soundsToDelete.addAll(adapter.getCheckedSoundInfos());
 
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_sound_message);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				adapter.addCheckedItemIfNotExists(selectedSoundPosition);
-				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
-				clearCheckedSoundsAndEnableButtons();
-			}
-		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				clearCheckedSoundsAndEnableButtons();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
+		SoundCommands.DeleteSoundCommand command = new SoundCommands.DeleteSoundCommand(adapter, mediaPlayer, soundsToDelete);
+		command.execute();
+		getHistory().add(command);
+		getActivity().invalidateOptionsMenu();
+		clearCheckedSoundsAndEnableButtons();
 	}
 
 	public void clearCheckedSoundsAndEnableButtons() {
@@ -882,6 +917,14 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		registerForContextMenu(listView);
 		BottomBar.showBottomBar(getActivity());
+	}
+
+	public MediaPlayer getPlayer() {
+		return mediaPlayer;
+	}
+
+	public SoundBaseAdapter getAdapter() {
+		return adapter;
 	}
 
 	@Override
@@ -969,6 +1012,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
 				SoundInfo newSoundInfo = SoundController.getInstance().updateSoundAdapter(soundTitle, fileName,
 						soundInfoList, SoundFragment.this);
+				ArrayList<SoundInfo> sounds = new ArrayList<>();
+				sounds.add(newSoundInfo);
+				SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(sounds, mediaPlayer, adapter);
+				getHistory().add(command);
+				getActivity().invalidateOptionsMenu();
 
 				if (soundInfoListChangedAfterNewListener != null) {
 					soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
@@ -994,6 +1042,30 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				}
 			} else {
 				Utils.showErrorDialog(getActivity(), R.string.error_load_sound);
+			}
+		}
+	}
+
+	private SoundInfoHistory getHistory() {
+		return SoundInfoHistory.getInstance(ProjectManager.getInstance().getCurrentSprite());
+	}
+
+	private void updatePlayersInCommands(MediaPlayer player, SoundBaseAdapter adapter) {
+		for (Command command : getHistory().getUndoStack()) {
+			if (command instanceof SoundCommands.DeleteSoundCommand) {
+				((SoundCommands.DeleteSoundCommand) command).updatePlayerAndAdapter(player, adapter);
+			}
+			if (command instanceof SoundCommands.AddSoundCommand) {
+				((SoundCommands.AddSoundCommand) command).updateMediaPlayer(player);
+			}
+		}
+
+		for (Command command : getHistory().getRedoStack()) {
+			if (command instanceof SoundCommands.DeleteSoundCommand) {
+				((SoundCommands.DeleteSoundCommand) command).updatePlayerAndAdapter(player, adapter);
+			}
+			if (command instanceof SoundCommands.AddSoundCommand) {
+				((SoundCommands.AddSoundCommand) command).updateMediaPlayer(player);
 			}
 		}
 	}

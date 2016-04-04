@@ -22,11 +22,9 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -49,12 +47,11 @@ import android.widget.ListView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SpriteHistory;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.content.commands.SpriteCommands;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
@@ -70,7 +67,6 @@ import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -113,6 +109,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		setHasOptionsMenu(true);
 
 		programName = getActivity().getIntent().getStringExtra(Constants.PROJECTNAME_TO_LOAD);
 	}
@@ -222,6 +219,9 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+		getActivity().invalidateOptionsMenu();
+
+		SpriteHistory.applyChanges();
 	}
 
 	@Override
@@ -362,12 +362,41 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		//handled in ProjectActivity
 	}
 
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		MenuItem undo = menu.findItem(R.id.menu_undo);
+		if (undo != null) {
+			if (!getHistory().isUndoable()) {
+				undo.setIcon(R.drawable.icon_undo_disabled);
+				undo.setEnabled(false);
+			} else {
+				undo.setIcon(R.drawable.icon_undo);
+				undo.setEnabled(true);
+			}
+			menu.findItem(R.id.menu_undo).setVisible(true);
+		}
+
+		MenuItem redo = menu.findItem(R.id.menu_redo);
+		if (redo != null) {
+			if (!getHistory().isRedoable()) {
+				redo.setIcon(R.drawable.icon_redo_disabled);
+				redo.setEnabled(false);
+			} else {
+				redo.setIcon(R.drawable.icon_redo);
+				redo.setEnabled(true);
+			}
+			menu.findItem(R.id.menu_redo).setVisible(true);
+		}
+
+		super.onPrepareOptionsMenu(menu);
+	}
+
 	public void handleCheckBoxClick(View view) {
 		int position = getListView().getPositionForView(view);
 		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.sprite_checkbox)).isChecked());
 	}
 
-	public void copySprite() {
+	public Sprite copySprite() {
 		Sprite copiedSprite = spriteToEdit.clone();
 		String oldName = copiedSprite.getName();
 
@@ -384,6 +413,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 		Log.d(TAG, copiedSprite.toString());
+		return copiedSprite;
 	}
 
 	@Override
@@ -396,57 +426,16 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	protected void showDeleteDialog() {
 	}
 
-	private void showConfirmDeleteDialog() {
-		int titleId;
-		if (spriteAdapter.getAmountOfCheckedItems() == 1) {
-			titleId = R.string.dialog_confirm_delete_object_title;
-		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_objects_title;
+	private void deleteSprites() {
+		if (spriteAdapter.getCheckedItems().isEmpty()) {
+			clearCheckedSpritesAndEnableButtons();
+			return;
 		}
-
-		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-		builder.setTitle(titleId);
-		builder.setMessage(R.string.dialog_confirm_delete_object_message);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				deleteCheckedSprites();
-				clearCheckedSpritesAndEnableButtons();
-			}
-		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-				clearCheckedSpritesAndEnableButtons();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
-	}
-
-	public void deleteSprite() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
-
-		deleteSpriteFiles();
-		dataContainer.cleanVariableListForSprite(spriteToEdit);
-		dataContainer.cleanUserListForSprite(spriteToEdit);
-
-		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-			projectManager.setCurrentSprite(null);
-		}
-		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-	}
-
-	private void deleteCheckedSprites() {
-		int numDeleted = 0;
-		for (int position : spriteAdapter.getCheckedItems()) {
-			spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
-			deleteSprite();
-			numDeleted++;
-		}
+		SpriteCommands.DeleteSpriteCommand command = new SpriteCommands.DeleteSpriteCommand(spriteAdapter.getCheckedSprites());
+		command.execute();
+		getHistory().add(command);
+		getActivity().invalidateOptionsMenu();
+		clearCheckedSpritesAndEnableButtons();
 	}
 
 	private void clearCheckedSpritesAndEnableButtons() {
@@ -519,7 +508,10 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
-				spriteToEdit.rename(newSpriteName);
+				SpriteCommands.RenameSpriteCommand command = new SpriteCommands.RenameSpriteCommand(spriteToEdit, newSpriteName);
+				command.execute();
+				getHistory().add(command);
+				getActivity().invalidateOptionsMenu();
 			}
 		}
 	}
@@ -528,6 +520,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_CHANGED)) {
+				getActivity().invalidateOptionsMenu();
 				spriteAdapter.notifyDataSetChanged();
 				final ListView listView = getListView();
 				listView.post(new Runnable() {
@@ -590,7 +583,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 			if (spriteAdapter.getAmountOfCheckedItems() == 0) {
 				clearCheckedSpritesAndEnableButtons();
 			} else {
-				showConfirmDeleteDialog();
+				deleteSprites();
 			}
 		}
 	};
@@ -660,10 +653,18 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+			if (spriteAdapter.getCheckedItems().isEmpty()) {
+				clearCheckedSpritesAndEnableButtons();
+				return;
+			}
+			ArrayList<Sprite> sprites = new ArrayList<>();
 			for (int position : spriteAdapter.getCheckedItems()) {
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
-				copySprite();
+				sprites.add(copySprite());
 			}
+			SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(sprites, null, null);
+			getHistory().add(command);
+			getActivity().invalidateOptionsMenu();
 			clearCheckedSpritesAndEnableButtons();
 		}
 	};
@@ -731,10 +732,24 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		isBackPackActionMode = false;
 	}
 
+	@Override
+	public void startUndoActionMode() {
+		getHistory().undo();
+		spriteAdapter.notifyDataSetChanged();
+		getActivity().invalidateOptionsMenu();
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		getHistory().redo();
+		spriteAdapter.notifyDataSetChanged();
+		getActivity().invalidateOptionsMenu();
+	}
+
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		((DynamicListView) getListView()).setDataList(spriteList);
-		((DynamicListView) getListView()).isForSpriteList();
+		((DynamicListView) getListView()).setDataType(DynamicListView.SPRITE_LIST);
 		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item,
 				R.id.project_activity_sprite_title, spriteList);
 		spriteAdapter.setSpritesListFragment(this);
@@ -744,16 +759,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		getListView().setTextFilterEnabled(true);
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);
-	}
-
-	private void deleteSpriteFiles() {
-		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
-			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), false);
-		}
-
-		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
-			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), false);
-		}
 	}
 
 	@Override
@@ -808,5 +813,10 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 			}
 		}
 		return newName;
+	}
+
+	private SpriteHistory getHistory() {
+		SpriteHistory.projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		return SpriteHistory.getInstance();
 	}
 }

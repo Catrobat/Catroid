@@ -36,6 +36,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.utils.IdPool;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -57,6 +58,7 @@ public class LookData implements Serializable, Cloneable {
 	protected transient Pixmap pixmap = null;
 	protected transient Pixmap originalPixmap = null;
 	protected transient TextureRegion textureRegion = null;
+	private transient int id = IdPool.getInstance().getNewId();
 	public transient boolean isBackpackLookData = false;
 
 	public LookData() {
@@ -107,6 +109,14 @@ public class LookData implements Serializable, Cloneable {
 		pixmap = null;
 		originalPixmap = null;
 		textureRegion = null;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public TextureRegion getTextureRegion() {

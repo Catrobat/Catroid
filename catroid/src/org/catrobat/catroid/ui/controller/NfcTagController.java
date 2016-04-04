@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.view.MotionEvent;
@@ -33,7 +32,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.ui.NfcTagViewHolder;
@@ -43,9 +41,7 @@ import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 
 public final class NfcTagController {
 	public static final String BUNDLE_ARGUMENTS_SELECTED_NFCTAG = "selected_nfctag";
@@ -157,24 +153,6 @@ public final class NfcTagController {
 		NfcTagData nfcTagData = nfcTagDataList.get(position);
 		return NfcTagController.getInstance().updateNfcTagAdapter(nfcTagData.getNfcTagName(), nfcTagData.getNfcTagUid(),
 				nfcTagDataList, adapter);
-	}
-
-	private void deleteNfcTag(int position, List<NfcTagData> nfcTagDataList, Activity activity) {
-		nfcTagDataList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setNfcTagList(nfcTagDataList);
-		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_NFCTAG_DELETED));
-	}
-
-	public void deleteCheckedNfcTags(Activity activity, NfcTagBaseAdapter adapter, List<NfcTagData> nfcTagDataList) {
-		SortedSet<Integer> checkedNfcTags = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedNfcTags.iterator();
-		NfcTagController.getInstance().stopScanAndUpdateList(nfcTagDataList, adapter);
-		int numberDeleted = 0;
-		while (iterator.hasNext()) {
-			int position = iterator.next();
-			deleteNfcTag(position - numberDeleted, nfcTagDataList, activity);
-			++numberDeleted;
-		}
 	}
 
 	public NfcTagData updateNfcTagAdapter(String name, String uid, List<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {

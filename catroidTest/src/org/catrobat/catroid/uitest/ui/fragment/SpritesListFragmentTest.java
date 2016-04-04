@@ -24,20 +24,24 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.robotium.solo.By;
+import com.robotium.solo.Solo;
 import com.robotium.solo.WebElement;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -61,6 +65,7 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -236,7 +241,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Deselect All is not shown", solo.searchText(deselectAll, 1, false, true));
 	}
 
-	public void testDragAndDropUp() {
+	public void testDragAndDropUpWithUndoRedo() {
 		for (int i = 0; i < 2; i++) {
 			addSpriteWithName("TestSprite" + i);
 		}
@@ -255,6 +260,20 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(0) - 100, 20);
 
 		list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
+		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List after DragAndDropTest", list.get(3).getName(), "TestSprite1");
+		assertEquals("Wrong List after DragAndDropTest", list.get(4).getName(), "TestSprite0");
+
+		undo();
+
+		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
+		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List before DragAndDropTest", list.get(3).getName(), "TestSprite0");
+		assertEquals("Wrong List before DragAndDropTest", list.get(4).getName(), "TestSprite1");
+
+		redo();
 
 		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
 		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
@@ -281,6 +300,20 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
 
 		list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME);
+		assertEquals("Wrong List after DragAndDropTest", list.get(3).getName(), "TestSprite0");
+		assertEquals("Wrong List after DragAndDropTest", list.get(4).getName(), "TestSprite1");
+
+		undo();
+
+		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
+		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
+		assertEquals("Wrong List before DragAndDropTest", list.get(3).getName(), "TestSprite0");
+		assertEquals("Wrong List before DragAndDropTest", list.get(4).getName(), "TestSprite1");
+
+		redo();
 
 		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME2);
 		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME);
@@ -410,6 +443,208 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		}
 	}
 
+	public void testUndoRedoActionModesNoItemsSelected() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Delete)", solo.getView(R.id.menu_undo).isEnabled());
+
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Copy)", solo.getView(R.id.menu_undo).isEnabled());
+
+		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Rename)", solo.getView(R.id.menu_undo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceDelete() {
+		deleteSprite(SPRITE_NAME);
+		assertEquals("sprite was not deleted!", 2, getCurrentNumberOfSprites());
+		undo();
+		assertTrue("sprite was not restored!", solo.waitForText(SPRITE_NAME));
+		redo();
+		assertEquals("sprite was not deleted again!", 2, getCurrentNumberOfSprites());
+
+		deleteSprite(SPRITE_NAME2);
+		assertEquals("Second sprite was not deleted!", 1, getCurrentNumberOfSprites());
+		undo();
+		assertTrue("sprite was not restored!", solo.waitForText(SPRITE_NAME2));
+		undo();
+		assertTrue("sprite was not restored!", solo.waitForText(SPRITE_NAME));
+		redo();
+		assertEquals("First sprite was not deleted again!", 2, getCurrentNumberOfSprites());
+		deleteSprite(SPRITE_NAME2);
+		assertEquals("First sprite was not deleted again!", 1, getCurrentNumberOfSprites());
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceCopy() {
+		copySprite(SPRITE_NAME);
+		assertEquals("sprite was not copied!", 4, getCurrentNumberOfSprites());
+		undo();
+		assertEquals("Copied sprite has not been undone!", 3, getCurrentNumberOfSprites());
+		redo();
+		assertEquals("sprite was not copied again!", 4, getCurrentNumberOfSprites());
+
+		copySprite(SPRITE_NAME2);
+		assertEquals("Second sprite was not copied!", 5, getCurrentNumberOfSprites());
+		undo();
+		assertEquals("Second sprite copy was not undone!", 4, getCurrentNumberOfSprites());
+		undo();
+		assertEquals("First sprite copy was not undone!", 3, getCurrentNumberOfSprites());
+		redo();
+		assertEquals("First sprite was not copied again!", 4, getCurrentNumberOfSprites());
+		copySprite(SPRITE_NAME2);
+		assertEquals("Second sprite was not copied!", 5, getCurrentNumberOfSprites());
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceRename() {
+		String renameNameFirst = "test1";
+		String renameNameSecond = "test2";
+		renameSprite(SPRITE_NAME, renameNameFirst);
+		assertTrue("sprite was not renamed!", searchForSprite(renameNameFirst));
+		assertFalse("sprite " + SPRITE_NAME + " should not be in list!", searchForSprite(SPRITE_NAME));
+
+		undo();
+		assertTrue("sprite " + SPRITE_NAME + " should be in list after undo!", searchForSprite(SPRITE_NAME));
+		assertFalse("sprite " + renameNameFirst + " should not be in list after undo!", searchForSprite(renameNameFirst));
+
+		redo();
+		assertTrue("sprite was not renamed after redo!", searchForSprite(renameNameFirst));
+		assertFalse("sprite " + SPRITE_NAME + " should not be in list after redo!", searchForSprite(SPRITE_NAME));
+
+		renameSprite(SPRITE_NAME2, renameNameSecond);
+		assertTrue("Second sprite was not renamed!", searchForSprite(renameNameSecond));
+		assertFalse("sprite " + SPRITE_NAME2 + " should not be in list!", searchForSprite(SPRITE_NAME2));
+
+		undo();
+		assertTrue("Second sprite was not undone!", searchForSprite(SPRITE_NAME2));
+		assertFalse("sprite " + renameNameSecond + " should not be in list!", searchForSprite(renameNameSecond));
+
+		undo();
+		assertTrue("sprite " + SPRITE_NAME + " should be in list after undo!", searchForSprite(SPRITE_NAME));
+		assertFalse("sprite " + renameNameFirst + " should not be in list after undo!", searchForSprite(renameNameFirst));
+
+		redo();
+		assertTrue("sprite was not renamed after redo!", searchForSprite(renameNameFirst));
+		assertFalse("sprite " + SPRITE_NAME + " should not be in list after redo!", searchForSprite(SPRITE_NAME));
+
+		renameSprite(SPRITE_NAME2, renameNameSecond);
+		assertTrue("Second sprite was not renamed!", searchForSprite(renameNameSecond));
+		assertFalse("sprite " + SPRITE_NAME2 + " should not be in list!", searchForSprite(SPRITE_NAME2));
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceMixedCase() {
+		copySprite(SPRITE_NAME);
+		List<Sprite> currentList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		String copySpriteNameFirst = currentList.get(currentList.size() - 1).getName();
+		assertEquals("sprite was not copied!", 4, getCurrentNumberOfSprites());
+
+		deleteSprite(copySpriteNameFirst);
+		assertEquals("copied sprite was not deleted!", 3, getCurrentNumberOfSprites());
+
+		undo();
+		assertEquals("undo of delete copied sprite was not done!", 4, getCurrentNumberOfSprites());
+
+		undo();
+		assertEquals("undo of copy sprite was not done!", 3, getCurrentNumberOfSprites());
+
+		redo();
+		assertEquals("redo of copy sprite was not done!", 4, getCurrentNumberOfSprites());
+
+		redo();
+		assertEquals("redo of delete copied sprite was not done!", 3, getCurrentNumberOfSprites());
+	}
+
+	public void testUndoRedoSequenceWithUndoRedoInSoundsAndLooks() {
+		String birdName = solo.getString(R.string.default_project_sprites_bird_name);
+		solo.goBack();
+		if (UiTestUtils.deleteOldAndCreateAndSaveCleanStandardProject(getActivity(), getInstrumentation()) == null) {
+			fail("StandardProject Not created!");
+		}
+		Sprite bird = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(3);
+
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(birdName);
+		solo.clickOnText(solo.getString(R.string.looks));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_bird_name_wing_up));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.sleep(TIME_TO_WAIT);
+		assertEquals("Look was not deleted!", 1, getLookCountFromSprite(bird));
+		undo();
+		assertEquals("Look was not restored!", 2, getLookCountFromSprite(bird));
+		redo();
+		assertEquals("Look was not deleted again!", 1, getLookCountFromSprite(bird));
+		solo.goBack();
+		solo.goBack();
+		deleteSprite(birdName);
+		assertEquals("Sprite was not deleted!", 3, getCurrentNumberOfSprites());
+		undo();
+		assertEquals("Sprite was not restored!", 4, getCurrentNumberOfSprites());
+		solo.clickOnText(birdName);
+		solo.clickOnText(solo.getString(R.string.looks));
+		solo.sleep(TIME_TO_WAIT);
+		assertTrue("Undo should be visible!", solo.getView(R.id.menu_undo).isEnabled());
+		undo();
+		assertEquals("Look was not restored! 2", 2, getLookCountFromSprite(bird));
+		redo();
+		assertEquals("Look was not deleted again! 2", 1, getLookCountFromSprite(bird));
+		solo.goBack();
+
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_tweet_1));
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.sleep(TIME_TO_WAIT);
+		assertEquals("Sound was not deleted!", 1, getSoundCountFromSprite(bird));
+		undo();
+		assertEquals("Sound deletion was not undone!", 2, getSoundCountFromSprite(bird));
+		redo();
+		assertEquals("Sound deletion was not redone!", 1, getSoundCountFromSprite(bird));
+		solo.goBack();
+		solo.goBack();
+		redo();
+		assertEquals("Sprite was not deleted again!", 3, getCurrentNumberOfSprites());
+		undo();
+		assertEquals("Sprite deletion was not undone!", 4, getCurrentNumberOfSprites());
+		solo.clickOnText(birdName);
+		solo.clickOnText(solo.getString(R.string.sounds));
+		undo();
+		assertEquals("Sound deletion was not undone! 2", 2, getSoundCountFromSprite(bird));
+		redo();
+		assertEquals("Sound deletion was not redone! 2", 1, getSoundCountFromSprite(bird));
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		try {
+			ProjectManager.getInstance().deleteCurrentProject(getActivity());
+		} catch (IOException exception) {
+			Log.e("SpritesListFragmentTest", Log.getStackTraceString(exception));
+			fail("Could not delete Standard Project!");
+		}
+	}
+
+	public void testCorrectUpdateOfPointToBrickOnRedoUndo() {
+		PointToBrick pointToBrick = new PointToBrick();
+		pointToBrick.setSprite(sprite2);
+		Script script = project.getSpriteList().get(0).getScript(0);
+		script.addBrick(pointToBrick);
+		deleteSprite(sprite2.getName());
+		solo.clickOnText("cat");
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("PointToBrick should not point to " + sprite2.getName(), solo.waitForText(sprite2.getName()));
+		solo.goBack();
+		solo.goBack();
+
+		undo();
+		assertTrue("PointToBrick should point to " + sprite2.getName(), pointToBrick.getSprite().equals(sprite2));
+	}
+
 	public void testBackpackSpriteContextMenu() {
 		packSingleItem(SPRITE_NAME2, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -511,6 +746,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 	public void testBackPackBackgroundSprite() {
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 
 		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
 
@@ -520,8 +756,10 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
+		//Should not be renamed to Background, but renamed to the same name as the packed sprite (which in a normal
+		// project should always be background when isBackgroundObject is true
 		assertTrue("Background sprite was not unpacked or renamed to background",
-				solo.waitForText(solo.getString(R.string.background)));
+				solo.waitForText(SPRITE_NAME_BACKGROUND));
 	}
 
 	public void testBackPackActionModeCheckingAndTitle() {
@@ -1153,6 +1391,50 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		Sprite spriteToAdd = sprite.clone();
 		spriteToAdd.setName(spriteName);
 		ProjectManager.getInstance().getCurrentProject().addSprite(spriteToAdd);
+	}
+
+	private void undo() {
+		solo.clickOnActionBarItem(R.id.menu_undo);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void redo() {
+		solo.clickOnActionBarItem(R.id.menu_redo);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void copySprite(String spriteName) {
+		clickOnActionModeSingleItem(spriteName, R.string.copy);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private boolean searchForSprite(String spriteName) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			if (sprite.getName().compareTo(spriteName) == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void renameSprite(String oldName, String newName) {
+		solo.clickLongOnText(oldName);
+		solo.clickOnText(solo.getString(R.string.rename));
+		UiTestUtils.enterText(solo, 0, newName);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private int getCurrentNumberOfSprites() {
+		return ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
+	}
+
+	private int getLookCountFromSprite(Sprite sprite) {
+		return sprite.getLookDataList().size();
+	}
+
+	private int getSoundCountFromSprite(Sprite sprite) {
+		return sprite.getSoundList().size();
 	}
 
 	private void setServerURLToTestUrl() throws Throwable {

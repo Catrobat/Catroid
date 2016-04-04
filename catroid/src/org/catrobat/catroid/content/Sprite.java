@@ -38,13 +38,17 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.utils.IdPool;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,6 +69,9 @@ public class Sprite implements Serializable, Cloneable {
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
+
+	private transient int id = IdPool.getInstance().getNewId();
+
 	private transient ActionFactory actionFactory = new ActionFactory();
 
 	public Sprite(String name) {
@@ -90,6 +97,14 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public int hashCode() {
 		return super.hashCode() * TAG.hashCode();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	private Object readResolve() {
@@ -153,6 +168,26 @@ public class Sprite implements Serializable, Cloneable {
 		return result;
 	}
 
+	public List<PointToBrick> getPointToBricks() {
+		List<PointToBrick> result = new ArrayList<>();
+		for (Brick brick : getAllBricks()) {
+			if (brick instanceof PointToBrick) {
+				result.add((PointToBrick) brick);
+			}
+		}
+		return result;
+	}
+
+	public List<WhenNfcBrick> getNfcBrickList() {
+		List<WhenNfcBrick> result = new ArrayList<>();
+		for (Brick brick : getListWithAllBricks()) {
+			if (brick instanceof WhenNfcBrick) {
+				result.add((WhenNfcBrick) brick);
+			}
+		}
+		return result;
+	}
+
 	public void resetSprite() {
 		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
 			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
@@ -190,6 +225,17 @@ public class Sprite implements Serializable, Cloneable {
 			userBricks = new ArrayList<>();
 		}
 		return userBricks;
+	}
+
+	public List<SetLookBrick> getSetLookBricks() {
+		List<SetLookBrick> setLookBricks = new ArrayList<>();
+		for (Brick brick : getListWithAllBricks()) {
+			if (brick instanceof SetLookBrick) {
+				setLookBricks.add((SetLookBrick) brick);
+			}
+		}
+
+		return setLookBricks;
 	}
 
 	public List<UserBrick> getUserBricksByDefinitionBrick(UserScriptDefinitionBrick definitionBrick, boolean scriptBricks, boolean prototypeBricks) {
@@ -536,6 +582,15 @@ public class Sprite implements Serializable, Cloneable {
 		lookList = list;
 	}
 
+	public int getLookPositionById(LookData look) {
+		for (int pos = 0; pos < lookList.size(); pos++) {
+			if (lookList.get(pos).getId() == look.getId()) {
+				return pos;
+			}
+		}
+		return 0;
+	}
+
 	public boolean existLookDataByName(LookData look) {
 		for (LookData lookdata : lookList) {
 			if (lookdata.getLookName().equals(look.getLookName())) {
@@ -562,6 +617,15 @@ public class Sprite implements Serializable, Cloneable {
 		return soundList;
 	}
 
+	public int getSoundPositionById(SoundInfo sound) {
+		for (int pos = 0; pos < soundList.size(); pos++) {
+			if (soundList.get(pos).getId() == sound.getId()) {
+				return pos;
+			}
+		}
+		return 0;
+	}
+
 	public void setSoundList(List<SoundInfo> list) {
 		soundList = list;
 	}
@@ -582,6 +646,15 @@ public class Sprite implements Serializable, Cloneable {
 
 	public List<NfcTagData> getNfcTagList() {
 		return nfcTagList;
+	}
+
+	public int getNfcPositionById(NfcTagData nfcTagData) {
+		for (int pos = 0; pos < nfcTagList.size(); pos++) {
+			if (nfcTagList.get(pos).getId() == nfcTagData.getId()) {
+				return pos;
+			}
+		}
+		return 0;
 	}
 
 	public void setNfcTagList(List<NfcTagData> list) {

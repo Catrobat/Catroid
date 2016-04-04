@@ -66,6 +66,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -127,6 +128,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -1585,6 +1587,27 @@ public final class UiTestUtils {
 
 	public static List<InternToken> getInternTokenList() {
 		return internTokenList;
+	}
+
+	public static Project deleteOldAndCreateAndSaveCleanStandardProject(Context context, Instrumentation instrumentation) {
+		String standardProjectName = context.getString(R.string.default_project_name);
+		Project standardProject;
+		try {
+			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
+				ProjectManager.getInstance().loadProject(standardProjectName, context);
+				ProjectManager.getInstance().deleteCurrentProject(null);
+			}
+			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(standardProjectName,
+					instrumentation.getTargetContext());
+			ProjectManager.getInstance().setProject(standardProject);
+			return standardProject;
+		} catch (ProjectException projectException) {
+			Log.e(TAG, "Cannot load old standard project", projectException);
+			fail("Cannot load old standard project");
+		} catch (IOException exception) {
+			fail("Standard project not created");
+		}
+		return null;
 	}
 
 	public static void clearAllUtilTestProjects() {

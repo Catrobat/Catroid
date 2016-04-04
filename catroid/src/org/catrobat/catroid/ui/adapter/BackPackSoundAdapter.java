@@ -26,7 +26,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.SoundInfoHistory;
+import org.catrobat.catroid.content.commands.SoundCommands;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
@@ -54,12 +57,20 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionMode
 	}
 
 	public void onDestroyActionModeUnpacking() {
+		ArrayList<SoundInfo> toAdd = new ArrayList<>();
 		List<SoundInfo> soundsToUnpack = new ArrayList<>();
 		for (Integer checkedPosition : checkedSounds) {
 			soundsToUnpack.add(getItem(checkedPosition));
 		}
 		for (SoundInfo soundInfo : soundsToUnpack) {
-			SoundController.getInstance().unpack(soundInfo, backPackSoundFragment.isDeleteUnpackedItems(), false);
+			toAdd.add(SoundController.getInstance().unpack(soundInfo, backPackSoundFragment.isDeleteUnpackedItems(),
+					false));
+		}
+
+		if (!toAdd.isEmpty()) {
+			SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(toAdd, null, null);
+			command.execute();
+			SoundInfoHistory.getInstance(ProjectManager.getInstance().getCurrentSprite()).add(command);
 		}
 
 		boolean returnToScriptActivity = checkedSounds.size() > 0;
