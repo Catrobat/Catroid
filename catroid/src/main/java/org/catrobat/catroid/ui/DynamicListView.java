@@ -43,6 +43,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -62,9 +63,24 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.LookDataHistory;
+import org.catrobat.catroid.content.NfcDataHistory;
+import org.catrobat.catroid.content.SoundInfoHistory;
+import org.catrobat.catroid.content.SpriteHistory;
+import org.catrobat.catroid.content.commands.LookCommands;
+import org.catrobat.catroid.content.commands.NfcDataCommands;
+import org.catrobat.catroid.content.commands.SoundCommands;
+import org.catrobat.catroid.content.commands.SpriteCommands;
+
 import java.util.List;
 
 public class DynamicListView extends ListView {
+
+	public static final int LOOK_LIST = 0;
+	public static final int SOUND_LIST = 1;
+	public static final int NFC_TAG_LIST = 2;
+	public static final int SPRITE_LIST = 3;
 
 	private static final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 15;
 	private static final int MOVE_DURATION = 100;
@@ -72,7 +88,7 @@ public class DynamicListView extends ListView {
 	private static final int INVALID_POINTER_ID = -1;
 
 	public List dataList;
-	private boolean forSpriteList = false;
+	private int dataType;
 	private boolean dismissLongPress = false;
 	private int lastEventY = -1;
 	private int downY = -1;
@@ -84,26 +100,32 @@ public class DynamicListView extends ListView {
 	private long aboveItemId = INVALID_ID;
 	private long mobileItemId = INVALID_ID;
 	private long belowItemId = INVALID_ID;
+	private int touchStartPosition = 0;
+	private int touchEndPosition = 0;
 	private BitmapDrawable hoverCell;
 	private Rect hoverCellCurrentBounds;
 	private Rect hoverCellOriginalBounds;
 	private int activePointerId = INVALID_POINTER_ID;
 	private boolean isWaitingForScrollFinish = false;
 	private int scrollState = OnScrollListener.SCROLL_STATE_IDLE;
+	private Context context;
 
 	public DynamicListView(Context context) {
 		super(context);
 		init(context);
+		this.context = context;
 	}
 
 	public DynamicListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
+		this.context = context;
 	}
 
 	public DynamicListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
+		this.context = context;
 	}
 
 	public void init(Context context) {
@@ -117,12 +139,13 @@ public class DynamicListView extends ListView {
 	private AdapterView.OnItemLongClickListener onItemLongClickListener =
 			new AdapterView.OnItemLongClickListener() {
 				public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-					if ((pos == 0 && forSpriteList)) {
+					if ((pos == 0 && dataType == SPRITE_LIST)) {
 						return true;
 					}
 					dismissLongPress = true;
 					totalOffset = 0;
 					int itemNum = pos - getFirstVisiblePosition();
+					touchStartPosition = pos;
 
 					View selectedView = getChildAt(itemNum);
 					mobileItemId = getAdapter().getItemId(pos);
@@ -277,7 +300,7 @@ public class DynamicListView extends ListView {
 		boolean isBelow = (belowView != null) && (deltaYTotal > belowView.getTop());
 		boolean isAbove = (aboveView != null) && (deltaYTotal < aboveView.getTop());
 
-		if (aboveView != null && (getPositionForView(aboveView) == 0 && isAbove && forSpriteList)) {
+		if (aboveView != null && (getPositionForView(aboveView) == 0 && isAbove && dataType == SPRITE_LIST)) {
 			return;
 		}
 
@@ -335,6 +358,7 @@ public class DynamicListView extends ListView {
 		Object temp = arrayList.get(indexOne);
 		arrayList.set(indexOne, arrayList.get(indexTwo));
 		arrayList.set(indexTwo, temp);
+		touchEndPosition = indexTwo;
 	}
 
 	private void touchEventsEnded() {
@@ -348,6 +372,29 @@ public class DynamicListView extends ListView {
 			if (scrollState != OnScrollListener.SCROLL_STATE_IDLE) {
 				isWaitingForScrollFinish = true;
 				return;
+			}
+
+			switch (dataType) {
+				case LOOK_LIST:
+					LookCommands.MoveLookCommand commandLook = new LookCommands.MoveLookCommand(touchStartPosition, touchEndPosition);
+					LookDataHistory.getInstance(ProjectManager.getInstance().getCurrentSprite()).add(commandLook);
+					((Activity) context).invalidateOptionsMenu();
+					break;
+				case SOUND_LIST:
+					SoundCommands.MoveSoundCommand commandSound = new SoundCommands.MoveSoundCommand(touchStartPosition, touchEndPosition);
+					SoundInfoHistory.getInstance(ProjectManager.getInstance().getCurrentSprite()).add(commandSound);
+					((Activity) context).invalidateOptionsMenu();
+					break;
+				case NFC_TAG_LIST:
+					NfcDataCommands.MoveNfcCommand commandNfc = new NfcDataCommands.MoveNfcCommand(touchStartPosition, touchEndPosition);
+					NfcDataHistory.getInstance(ProjectManager.getInstance().getCurrentSprite()).add(commandNfc);
+					((Activity) context).invalidateOptionsMenu();
+					break;
+				case SPRITE_LIST:
+					SpriteCommands.MoveSpriteCommand commandSprite = new SpriteCommands.MoveSpriteCommand(touchStartPosition, touchEndPosition);
+					SpriteHistory.getInstance().add(commandSprite);
+					((Activity) context).invalidateOptionsMenu();
+					break;
 			}
 
 			hoverCellCurrentBounds.offsetTo(hoverCellOriginalBounds.left, mobileView.getTop());
@@ -448,8 +495,8 @@ public class DynamicListView extends ListView {
 		dataList = data;
 	}
 
-	public void isForSpriteList() {
-		forSpriteList = true;
+	public void setDataType(int type) {
+		dataType = type;
 	}
 
 	private AbsListView.OnScrollListener scrollListener = new AbsListView.OnScrollListener() {

@@ -35,8 +35,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SpriteHistory;
+import org.catrobat.catroid.content.commands.SpriteCommands;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
@@ -136,6 +139,8 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 	}
 
 	public void onDestroyActionModeUnpacking(boolean delete) {
+		List<Sprite> before = new ArrayList<>();
+		before.addAll(ProjectManager.getInstance().getCurrentProject().getSpriteList());
 		List<Sprite> spritesToUnpack = new ArrayList<>();
 		for (Integer checkedPosition : checkedSprites) {
 			spritesToUnpack.add(getItem(checkedPosition));
@@ -143,6 +148,17 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 
 		for (Sprite sprite : spritesToUnpack) {
 			BackPackSpriteController.getInstance().unpack(sprite, delete, false, false, false);
+		}
+
+		List<Sprite> after = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		if (before.size() < after.size()) {
+			ArrayList<Sprite> toAdd = new ArrayList<>();
+			for (int i = before.size(); i < after.size(); i++) {
+				toAdd.add(after.get(i));
+			}
+			SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(toAdd, null, null);
+			SpriteHistory.getInstance().add(command);
 		}
 
 		boolean returnToProjectActivity = !checkedSprites.isEmpty();

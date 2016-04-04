@@ -20,45 +20,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
 
-import android.app.ListFragment;
+package org.catrobat.catroid.content;
 
-public abstract class ScriptActivityFragment extends ListFragment {
+public class SpriteHistory extends MediaHistory {
+	private static SpriteHistory instance = new SpriteHistory();
+	public static String projectName;
 
-	protected boolean actionModeActive = false;
-
-	public boolean getActionModeActive() {
-		return actionModeActive;
+	public static SpriteHistory getInstance() {
+		if (instance == null) {
+			instance = new SpriteHistory();
+		}
+		return instance;
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	public static void clearHistory() {
+		instance = null;
 	}
 
-	public abstract boolean getShowDetails();
+	private static boolean getAllUndoRedoStatus() {
+		boolean result = false;
+		if (instance == null) {
+			return false;
+		}
+		result |= instance.isRedoable();
+		result |= instance.isUndoable();
 
-	public abstract void setShowDetails(boolean showDetails);
+		return result;
+	}
 
-	public abstract void setSelectMode(int selectMode);
-
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
-	public abstract void handleAddButton();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
+	public static void applyChanges() {
+		if (!LookDataHistory.getAllUndoRedoStatus() && !getAllUndoRedoStatus()) {
+			LookDataHistory.applyChanges();
+		}
+		if (!SoundInfoHistory.getAllUndoRedoStatus() && !getAllUndoRedoStatus()) {
+			SoundInfoHistory.applyChanges();
+		}
+	}
 }

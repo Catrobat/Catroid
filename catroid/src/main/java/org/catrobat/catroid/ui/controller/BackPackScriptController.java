@@ -165,7 +165,7 @@ public final class BackPackScriptController {
 
 	private void handleSoundBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		PlaySoundBrick brick = (PlaySoundBrick) brickOfScript;
-		SoundInfo newSoundInfo = SoundController.getInstance().unpack(brick.getSound(), deleteUnpackedItems, true);
+		SoundInfo newSoundInfo = SoundController.getInstance().unpack(brick.getSoundInfo(), deleteUnpackedItems, true);
 		if (newSoundInfo != null) {
 			brick.setSoundInfo(newSoundInfo);
 		}

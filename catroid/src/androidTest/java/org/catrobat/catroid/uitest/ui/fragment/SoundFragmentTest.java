@@ -42,7 +42,10 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.soundrecorder.RecordButton;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -184,7 +187,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		super.tearDown();
 	}
 
-	public void testDragAndDropUp() {
+	public void testDragAndDropUpWithUndoRedo() {
 		for (int i = 0; i < 3; i++) {
 			addSoundInfoWithName("TestSound" + i);
 		}
@@ -206,9 +209,25 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
 		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound2");
 		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound1");
+
+		undo();
+
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound1");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
+
+		redo();
+
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound2");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound1");
 	}
 
-	public void testDragAndDropDown() {
+	public void testDragAndDropDownWithUndoRedo() {
 		for (int i = 0; i < 3; i++) {
 			addSoundInfoWithName("TestSound" + i);
 		}
@@ -230,12 +249,182 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound1");
 		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), SECOND_TEST_SOUND_NAME);
 		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
+
+		undo();
+
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound1");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
+
+		redo();
+
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(1).getTitle(), "TestSound0");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound1");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
 	}
 
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getSoundAdapter().getShowDetails());
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
+	}
+
+	public void testUndoRedoActionModesNoItemsSelected() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Delete)", solo.getView(R.id.menu_undo).isEnabled());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Copy)", solo.getView(R.id.menu_undo).isEnabled());
+
+		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Rename)", solo.getView(R.id.menu_undo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceDelete() {
+		deleteSound(FIRST_TEST_SOUND_NAME);
+
+		assertEquals("sound was not deleted!", 1, getCurrentNumberOfSounds());
+		undo();
+		assertTrue("sound was not restored!", solo.waitForText(FIRST_TEST_SOUND_NAME));
+		redo();
+		assertEquals("sound was not deleted again!", 1, getCurrentNumberOfSounds());
+
+		deleteSound(SECOND_TEST_SOUND_NAME);
+		assertEquals("Second sound was not deleted!", 0, getCurrentNumberOfSounds());
+		undo();
+		assertTrue("sound was not restored!", solo.waitForText(SECOND_TEST_SOUND_NAME));
+		undo();
+		assertTrue("sound was not restored!", solo.waitForText(FIRST_TEST_SOUND_NAME));
+		redo();
+		assertEquals("First sound was not deleted again!", 1, getCurrentNumberOfSounds());
+		deleteSound(SECOND_TEST_SOUND_NAME);
+		assertEquals("First sound was not deleted again!", 0, getCurrentNumberOfSounds());
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceCopy() {
+		copySound(FIRST_TEST_SOUND_NAME);
+		assertEquals("sound was not copied!", 3, getCurrentNumberOfSounds());
+		undo();
+		assertEquals("Copied sound has not been undone!", 2, getCurrentNumberOfSounds());
+		redo();
+		assertEquals("sound was not copied again!", 3, getCurrentNumberOfSounds());
+
+		copySound(SECOND_TEST_SOUND_NAME);
+		assertEquals("Second sound was not copied!", 4, getCurrentNumberOfSounds());
+		undo();
+		assertEquals("Second sound copy was not undone!", 3, getCurrentNumberOfSounds());
+		undo();
+		assertEquals("First sound copy was not undone!", 2, getCurrentNumberOfSounds());
+		redo();
+		assertEquals("First sound was not copied again!", 3, getCurrentNumberOfSounds());
+		copySound(SECOND_TEST_SOUND_NAME);
+		assertEquals("Second sound was not copied!", 4, getCurrentNumberOfSounds());
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceNew() {
+		int expectedNumberOfSounds = getCurrentNumberOfSounds() + 1;
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.add_sound_from_recorder));
+		RecordButton recordButton = (RecordButton) solo.getView(R.id.soundrecorder_record_button);
+		solo.clickOnView(recordButton);
+		solo.sleep(TIME_TO_WAIT);
+		solo.clickOnView(recordButton);
+		solo.waitForFragmentByTag(SoundFragment.TAG);
+		solo.sleep(TIME_TO_WAIT);
+		assertEquals("No sound was added", expectedNumberOfSounds, getCurrentNumberOfSounds());
+
+		undo();
+		assertEquals("Added Sound was not undone", expectedNumberOfSounds - 1, getCurrentNumberOfSounds());
+
+		redo();
+		assertEquals("Added Sound was not redone", expectedNumberOfSounds, getCurrentNumberOfSounds());
+	}
+
+	public void testUndoRedoSequenceRename() {
+		String renameNameFirst = "test1";
+		String renameNameSecond = "test2";
+		renameSound(FIRST_TEST_SOUND_NAME, renameNameFirst);
+		assertTrue("sound was not renamed!", searchForSound(renameNameFirst));
+		assertFalse("sound " + FIRST_TEST_SOUND_NAME + " should not be in list!", searchForSound(FIRST_TEST_SOUND_NAME));
+
+		undo();
+		assertTrue("sound " + FIRST_TEST_SOUND_NAME + " should be in list after undo!", searchForSound(FIRST_TEST_SOUND_NAME));
+		assertFalse("sound " + renameNameFirst + " should not be in list after undo!", searchForSound(renameNameFirst));
+
+		redo();
+		assertTrue("sound was not renamed after redo!", searchForSound(renameNameFirst));
+		assertFalse("sound " + FIRST_TEST_SOUND_NAME + " should not be in list after redo!", searchForSound(FIRST_TEST_SOUND_NAME));
+
+		renameSound(SECOND_TEST_SOUND_NAME, renameNameSecond);
+		assertTrue("Second sound was not renamed!", searchForSound(renameNameSecond));
+		assertFalse("sound " + SECOND_TEST_SOUND_NAME + " should not be in list!", searchForSound(SECOND_TEST_SOUND_NAME));
+
+		undo();
+		assertTrue("Second sound was not undone!", searchForSound(SECOND_TEST_SOUND_NAME));
+		assertFalse("sound " + renameNameSecond + " should not be in list!", searchForSound(renameNameSecond));
+
+		undo();
+		assertTrue("sound " + FIRST_TEST_SOUND_NAME + " should be in list after undo!", searchForSound(FIRST_TEST_SOUND_NAME));
+		assertFalse("sound " + renameNameFirst + " should not be in list after undo!", searchForSound(renameNameFirst));
+
+		redo();
+		assertTrue("sound was not renamed after redo!", searchForSound(renameNameFirst));
+		assertFalse("sound " + FIRST_TEST_SOUND_NAME + " should not be in list after redo!", searchForSound(FIRST_TEST_SOUND_NAME));
+
+		renameSound(SECOND_TEST_SOUND_NAME, renameNameSecond);
+		assertTrue("Second sound was not renamed!", searchForSound(renameNameSecond));
+		assertFalse("sound " + SECOND_TEST_SOUND_NAME + " should not be in list!", searchForSound(SECOND_TEST_SOUND_NAME));
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceMixedCase() {
+		String copySoundNameFirst = FIRST_TEST_SOUND_NAME + "1";
+		copySound(FIRST_TEST_SOUND_NAME);
+		assertEquals("sound was not copied!", 3, getCurrentNumberOfSounds());
+
+		deleteSound(copySoundNameFirst);
+		assertEquals("copied sound was not deleted!", 2, getCurrentNumberOfSounds());
+
+		undo();
+		assertEquals("undo of delete copied sound was not done!", 3, getCurrentNumberOfSounds());
+
+		undo();
+		assertEquals("undo of copy sound was not done!", 2, getCurrentNumberOfSounds());
+
+		redo();
+		assertEquals("redo of copy sound was not done!", 3, getCurrentNumberOfSounds());
+
+		redo();
+		assertEquals("redo of delete copied sound was not done!", 2, getCurrentNumberOfSounds());
+	}
+
+	public void testCorrectUpdateOfPlaySoundBrickOnRedoUndo() {
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
+		playSoundBrick.setSoundInfo(soundInfo2);
+		Script script = projectManager.getCurrentProject().getSpriteList().get(0).getScript(0);
+		script.addBrick(playSoundBrick);
+		deleteSound(soundInfo2.getTitle());
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("PlaySoundBrick should not play " + soundInfo2.getTitle(), solo.waitForText(soundInfo2.getTitle()));
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.sounds));
+
+		undo();
+		assertTrue("PlaySoundBrick should play " + soundInfo2.getTitle(), playSoundBrick.getSoundInfo().equals(soundInfo2));
 	}
 
 	public void testAddNewSoundDialog() {
@@ -1665,18 +1854,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
 	}
 
-	private void deleteSound(String soundName) {
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
-		solo.sleep(TIME_TO_WAIT);
-		solo.clickOnText(soundName);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-		solo.waitForDialogToOpen();
-		solo.waitForText(solo.getString(R.string.yes));
-		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		solo.clickOnText(solo.getString(R.string.yes));
-		solo.waitForDialogToClose();
-	}
-
 	private void renameSound(String soundToRename, String newSoundName) {
 		clickSingleItemActionMode(soundToRename, R.id.rename, solo.getString(R.string.rename));
 		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));
@@ -1803,5 +1980,34 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		SoundInfo soundInfoToAdd = soundInfo.clone();
 		soundInfoToAdd.setTitle(soundName);
 		soundInfoList.add(soundInfoToAdd);
+	}
+
+	private void undo() {
+		solo.clickOnActionBarItem(R.id.menu_undo);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void redo() {
+		solo.clickOnActionBarItem(R.id.menu_redo);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void deleteSound(String soundName) {
+		clickOnContextMenuItem(soundName, solo.getString(R.string.delete));
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void copySound(String soundName) {
+		clickOnContextMenuItem(soundName, solo.getString(R.string.copy));
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private boolean searchForSound(String soundName) {
+		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
+			if (soundInfo.getTitle().compareTo(soundName) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

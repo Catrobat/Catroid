@@ -50,17 +50,23 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.utils.IdPool;
 
 import java.util.List;
 
 public class SetLookBrick extends BrickBaseType implements OnLookDataListChangedAfterNewListener {
 	private static final long serialVersionUID = 1L;
 	private LookData look;
+	private transient int id = IdPool.getInstance().getNewId();
 	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
 	private transient AdapterView<?> adapterView;
 
 	public SetLookBrick() {
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public void setLook(LookData lookData) {
