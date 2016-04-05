@@ -55,17 +55,20 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 		rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+
+		physicsWorld = project.getPhysicsWorld();
+		sprite = new Sprite("TestSprite");
+		sprite.look = new PhysicsLook(sprite, physicsWorld);
+		sprite.setActionFactory(new ActionPhysicsFactory());
+
+		project.addSprite(sprite);
+
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
 				rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
 				TestUtils.TYPE_IMAGE_FILE);
-
-		physicsWorld = project.getPhysicsWorld();
-		sprite = new Sprite("TestSprite");
-		sprite.look = new PhysicsLook(sprite, physicsWorld);
-		sprite.setActionFactory(new ActionPhysicsFactory());
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite.look.setLookData(lookdata);

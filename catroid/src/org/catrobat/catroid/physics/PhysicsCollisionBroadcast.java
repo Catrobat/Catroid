@@ -56,18 +56,18 @@ public class PhysicsCollisionBroadcast {
 
 	public boolean sendBroadcast() {
 		if (objectName1 != null && objectName2 != null && !objectName1.isEmpty() && !objectName2.isEmpty()) {
-			fireEvent(objectName1 + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + objectName2);
-			fireEvent(objectName2 + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + objectName1);
-			fireEvent(objectName1 + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR
-					+ PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER);
-			fireEvent(objectName2 + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR
-					+ PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER);
+			fireEvent(PhysicsCollision.generateBroadcastMessage(objectName1, objectName2));
+			fireEvent(PhysicsCollision.generateBroadcastMessage(objectName2, objectName1));
+			fireEvent(PhysicsCollision.generateBroadcastMessage(objectName1, PhysicsCollision
+					.COLLISION_WITH_ANYTHING_IDENTIFIER));
+			fireEvent(PhysicsCollision.generateBroadcastMessage(objectName2, PhysicsCollision
+					.COLLISION_WITH_ANYTHING_IDENTIFIER));
 			return true;
 		}
 		return false;
 	}
 
-	private void fireEvent(String message) {
+	public static void fireEvent(String message) {
 		BroadcastEvent event = new BroadcastEvent();
 		event.setBroadcastMessage(message);
 		event.setType(BroadcastEvent.BroadcastType.broadcast);
