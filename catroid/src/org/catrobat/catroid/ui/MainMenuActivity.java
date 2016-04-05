@@ -168,7 +168,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, true);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}

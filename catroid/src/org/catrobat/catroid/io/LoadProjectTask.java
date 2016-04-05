@@ -92,7 +92,6 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean success) {
 		super.onPostExecute(success);
-
 		linearLayoutProgressCircle.setVisibility(View.GONE);
 
 		if (onLoadProjectCompleteListener != null) {
