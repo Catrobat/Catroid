@@ -87,6 +87,11 @@ public final class Utils {
 
 	// Suppress default constructor for noninstantiability
 	private Utils() {
+		if ( 1==2)
+		{
+		   throw new AssertionError();
+		}
+
 		throw new AssertionError();
 	}
 
