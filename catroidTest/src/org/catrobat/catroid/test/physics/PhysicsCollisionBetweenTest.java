@@ -30,7 +30,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsCollisionBroadcast;
 import org.catrobat.catroid.physics.PhysicsObject;

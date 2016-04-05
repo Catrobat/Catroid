@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,38 +36,37 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetYBrick extends FormulaBrick {
+public class ChangeTransparencyByNBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public SetYBrick() {
-		addAllowedBrickField(BrickField.Y_POSITION);
+	public ChangeTransparencyByNBrick() {
+		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
 	}
 
-	public SetYBrick(int yPositionValue) {
-		initializeBrickFields(new Formula(yPositionValue));
+	public ChangeTransparencyByNBrick(double changeTransparencyValue) {
+		initializeBrickFields(new Formula(changeTransparencyValue));
 	}
 
-	public SetYBrick(Formula yPosition) {
-		initializeBrickFields(yPosition);
+	public ChangeTransparencyByNBrick(Formula changeTransparency) {
+		initializeBrickFields(changeTransparency);
 	}
 
-	private void initializeBrickFields(Formula yPosition) {
-		addAllowedBrickField(BrickField.Y_POSITION);
-		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
+	private void initializeBrickFields(Formula changeTransparency) {
+		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
+		setFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE, changeTransparency);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).getRequiredResources();
 	}
 
 	@Override
@@ -75,12 +74,13 @@ public class SetYBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		view = View.inflate(context, R.layout.brick_set_y, null);
+
+		view = View.inflate(context, R.layout.brick_change_transparency, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_set_y_checkbox);
-
+		setCheckboxView(R.id.brick_change_transparency_checkbox);
 		final Brick brickInstance = this;
+
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -88,22 +88,24 @@ public class SetYBrick extends FormulaBrick {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_transparency_prototype_text_view);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_transparency_edit_text);
+		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
+				.setTextFieldId(R.id.brick_change_transparency_edit_text);
+		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).refreshTextField(view);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
-		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
-		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
-		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-		editY.setOnClickListener(this);
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+		editX.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
-		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
-		textYPosition.setText(String.valueOf(BrickValues.Y_POSITION));
+		prototypeView = View.inflate(context, R.layout.brick_change_transparency, null);
+		TextView textChangeGhostEffect = (TextView) prototypeView
+				.findViewById(R.id.brick_change_transparency_prototype_text_view);
+		textChangeGhostEffect.setText(String.valueOf(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		return prototypeView;
 	}
 
@@ -112,15 +114,17 @@ public class SetYBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_set_y_layout);
+			View layout = view.findViewById(R.id.brick_change_transparency_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_label);
-			TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
-			textY.setTextColor(textY.getTextColors().withAlpha(alphaValue));
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
+			TextView textTransparency = (TextView) view.findViewById(R.id.brick_change_transparency_label);
+			TextView textTransparencyBy = (TextView) view.findViewById(R.id.brick_change_transparency_by);
+			TextView editTransparency = (TextView) view.findViewById(R.id.brick_change_transparency_edit_text);
+			textTransparency.setTextColor(textTransparency.getTextColors().withAlpha(alphaValue));
+			textTransparencyBy.setTextColor(textTransparencyBy.getTextColors().withAlpha(alphaValue));
+			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
+			editTransparency.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = alphaValue;
 		}
@@ -130,15 +134,15 @@ public class SetYBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		// sequence.addAction(ExtendedActions.setY(sprite, yPosition));
-		sequence.addAction(sprite.getActionFactory().createSetYAction(sprite,
-				getFormulaWithBrickField(BrickField.Y_POSITION))); // TODO[physics]
+		//sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
+		sequence.addAction(sprite.getActionFactory().createChangeTransparencyByNAction(sprite,
+				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE))); // TODO[physics]
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
+		FormulaEditorFragment.showFragment(view, this, BrickField.TRANSPARENCY_CHANGE);
 	}
 
 	@Override

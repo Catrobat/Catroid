@@ -27,10 +27,10 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.content.bricks.conditional.HideBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
 
 import java.util.HashMap;
 import java.util.List;

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,38 +36,36 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class TurnRightBrick extends FormulaBrick {
-
+public class ChangeBrightnessByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
+
 	private transient View prototypeView;
 
-	public TurnRightBrick() {
-		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
+	public ChangeBrightnessByNBrick() {
+		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
 	}
 
-	public TurnRightBrick(double degreesValue) {
-		initializeBrickFields(new Formula(degreesValue));
+	public ChangeBrightnessByNBrick(double changeBrightnessValue) {
+		initializeBrickFields(new Formula(changeBrightnessValue));
 	}
 
-	public TurnRightBrick(Formula degreesFormula) {
-		initializeBrickFields(degreesFormula);
+	public ChangeBrightnessByNBrick(Formula changeBrightness) {
+		initializeBrickFields(changeBrightness);
 	}
 
-	private void initializeBrickFields(Formula degrees) {
-		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
-		setFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES, degrees);
+	private void initializeBrickFields(Formula changeBrightness) {
+		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
+		setFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE, changeBrightness);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).getRequiredResources();
 	}
 
 	@Override
@@ -76,12 +74,12 @@ public class TurnRightBrick extends FormulaBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_turn_right, null);
+		view = View.inflate(context, R.layout.brick_change_brightness, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_turn_right_checkbox);
-
+		setCheckboxView(R.id.brick_change_brightness_checkbox);
 		final Brick brickInstance = this;
+
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,22 +87,24 @@ public class TurnRightBrick extends FormulaBrick {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
-		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
-		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).setTextFieldId(R.id.brick_turn_right_edit_text);
-		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).refreshTextField(view);
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).setTextFieldId(R.id.brick_change_brightness_edit_text);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).refreshTextField(view);
 
-		textDegrees.setVisibility(View.GONE);
-		editDegrees.setVisibility(View.VISIBLE);
-		editDegrees.setOnClickListener(this);
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+
+		editX.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
-		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
-		textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
+		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
+		TextView textChangeBrightness = (TextView) prototypeView
+				.findViewById(R.id.brick_change_brightness_prototype_text_view);
+		textChangeBrightness.setText(String.valueOf(BrickValues.CHANGE_BRITHNESS_BY));
 		return prototypeView;
 	}
 
@@ -113,20 +113,17 @@ public class TurnRightBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_turn_right_layout);
+			View layout = view.findViewById(R.id.brick_change_brightness_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView turnRightLabel = (TextView) view.findViewById(R.id.brick_turn_right_label);
-			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
-			TextView degreeSymbol = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
-			TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
-
-			turnRightLabel.setTextColor(turnRightLabel.getTextColors().withAlpha(alphaValue));
-			textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
-			degreeSymbol.setTextColor(degreeSymbol.getTextColors().withAlpha(alphaValue));
-			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-			editDegrees.getBackground().setAlpha(alphaValue);
+			TextView textBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_label);
+			TextView textBy = (TextView) view.findViewById(R.id.brick_change_brightness_by_textview);
+			TextView editBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
+			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
+			textBy.setTextColor(textBy.getTextColors().withAlpha(alphaValue));
+			editBrightness.setTextColor(editBrightness.getTextColors().withAlpha(alphaValue));
+			editBrightness.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = alphaValue;
 		}
@@ -136,15 +133,15 @@ public class TurnRightBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.turnRight(sprite, degrees));
-		sequence.addAction(sprite.getActionFactory().createTurnRightAction(sprite,
-				getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES))); // TODO[physics]
+		//sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, changeBrightness));
+		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite,
+				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE))); // TODO[physics]
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.TURN_RIGHT_DEGREES);
+		FormulaEditorFragment.showFragment(view, this, BrickField.BRIGHTNESS_CHANGE);
 	}
 
 	@Override

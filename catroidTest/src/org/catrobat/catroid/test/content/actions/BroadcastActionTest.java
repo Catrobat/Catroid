@@ -32,9 +32,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.content.bricks.conditional.ChangeXByNBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetXBrick;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.HashMap;

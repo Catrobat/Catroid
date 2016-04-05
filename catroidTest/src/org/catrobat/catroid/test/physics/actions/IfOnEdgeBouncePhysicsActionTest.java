@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;

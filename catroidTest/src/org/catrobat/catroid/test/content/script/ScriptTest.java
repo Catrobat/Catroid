@@ -27,9 +27,9 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.conditional.HideBrick;
-import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
+import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
 
 import java.util.ArrayList;
 

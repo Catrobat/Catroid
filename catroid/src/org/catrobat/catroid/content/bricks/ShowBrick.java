@@ -20,11 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -35,17 +34,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 
-public class HideBrick extends BrickBaseType {
-	private static final String TAG = HideBrick.class.getSimpleName();
+public class ShowBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public HideBrick() {
+	public ShowBrick() {
 	}
 
 	@Override
@@ -58,10 +53,10 @@ public class HideBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		view = View.inflate(context, R.layout.brick_hide, null);
+		view = View.inflate(context, R.layout.brick_show, null);
 		view = getViewWithAlpha(alphaValue);
+		setCheckboxView(R.id.brick_show_checkbox);
 
-		setCheckboxView(R.id.brick_hide_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -70,46 +65,46 @@ public class HideBrick extends BrickBaseType {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-
 		return view;
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		HideBrick copyBrick = (HideBrick) clone();
+		ShowBrick copyBrick = (ShowBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
+
 		if (view != null) {
-			Log.d(TAG, "VIEW != NULL");
-			View layout = view.findViewById(R.id.brick_hide_layout);
+
+			View layout = view.findViewById(R.id.brick_show_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = alphaValue;
 
-			TextView hideLabel = (TextView) view.findViewById(R.id.brick_hide_label);
-			hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
+			TextView textSpeak = (TextView) view.findViewById(R.id.brick_show_textview);
+			textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
 		}
 
 		return view;
 	}
 
 	@Override
-	public Brick clone() {
-		return new HideBrick();
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_hide, null);
+		return View.inflate(context, R.layout.brick_show, null);
 	}
 
 	@Override
+	public Brick clone() {
+		return new ShowBrick();
+	}
 
+	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createHideAction(sprite)); // TODO[physics]
+		//sequence.addAction(ExtendedActions.show(sprite));
+		sequence.addAction(sprite.getActionFactory().createShowAction(sprite)); // TODO[physics]
 		return null;
 	}
 }

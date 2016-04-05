@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,38 +36,36 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeXByNBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
+public class TurnRightBrick extends FormulaBrick {
 
+	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 
-	public ChangeXByNBrick() {
-		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
+	public TurnRightBrick() {
+		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
 	}
 
-	public ChangeXByNBrick(int xMovementValue) {
-		initializeBrickFields(new Formula(xMovementValue));
+	public TurnRightBrick(double degreesValue) {
+		initializeBrickFields(new Formula(degreesValue));
 	}
 
-	public ChangeXByNBrick(Formula xMovement) {
-		initializeBrickFields(xMovement);
+	public TurnRightBrick(Formula degreesFormula) {
+		initializeBrickFields(degreesFormula);
 	}
 
-	private void initializeBrickFields(Formula xMovement) {
-		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
-		setFormulaWithBrickField(BrickField.X_POSITION_CHANGE, xMovement);
+	private void initializeBrickFields(Formula degrees) {
+		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
+		setFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES, degrees);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).getRequiredResources();
 	}
 
 	@Override
@@ -76,12 +74,12 @@ public class ChangeXByNBrick extends FormulaBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_change_x, null);
+		view = View.inflate(context, R.layout.brick_turn_right, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_change_x_checkbox);
-		final Brick brickInstance = this;
+		setCheckboxView(R.id.brick_turn_right_checkbox);
 
+		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,22 +87,22 @@ public class ChangeXByNBrick extends FormulaBrick {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
-		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
-		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).setTextFieldId(R.id.brick_change_x_edit_text);
-		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).refreshTextField(view);
+		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
+		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
+		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).setTextFieldId(R.id.brick_turn_right_edit_text);
+		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
+		textDegrees.setVisibility(View.GONE);
+		editDegrees.setVisibility(View.VISIBLE);
+		editDegrees.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
-		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
-		textXMovement.setText(String.valueOf(BrickValues.CHANGE_X_BY));
+		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
+		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
+		textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
 		return prototypeView;
 	}
 
@@ -113,15 +111,20 @@ public class ChangeXByNBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_change_x_layout);
+			View layout = view.findViewById(R.id.brick_turn_right_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
-			TextView editChangeSize = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
-			changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
-			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
-			editChangeSize.getBackground().setAlpha(alphaValue);
+			TextView turnRightLabel = (TextView) view.findViewById(R.id.brick_turn_right_label);
+			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
+			TextView degreeSymbol = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
+			TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
+
+			turnRightLabel.setTextColor(turnRightLabel.getTextColors().withAlpha(alphaValue));
+			textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
+			degreeSymbol.setTextColor(degreeSymbol.getTextColors().withAlpha(alphaValue));
+			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
+			editDegrees.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = alphaValue;
 		}
@@ -131,15 +134,15 @@ public class ChangeXByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.changeXByN(sprite, xMovement));
-		sequence.addAction(sprite.getActionFactory().createChangeXByNAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION_CHANGE))); // TODO[physics]
+		//sequence.addAction(ExtendedActions.turnRight(sprite, degrees));
+		sequence.addAction(sprite.getActionFactory().createTurnRightAction(sprite,
+				getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES))); // TODO[physics]
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION_CHANGE);
+		FormulaEditorFragment.showFragment(view, this, BrickField.TURN_RIGHT_DEGREES);
 	}
 
 	@Override

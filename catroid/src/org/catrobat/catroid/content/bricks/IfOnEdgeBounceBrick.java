@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -34,15 +34,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 
 import java.util.List;
 
-public class ShowBrick extends BrickBaseType {
+public class IfOnEdgeBounceBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
-	public ShowBrick() {
+	public IfOnEdgeBounceBrick() {
 	}
 
 	@Override
@@ -55,10 +54,10 @@ public class ShowBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		view = View.inflate(context, R.layout.brick_show, null);
+		view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_show_checkbox);
 
+		setCheckboxView(R.id.brick_if_on_edge_bounce_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -67,12 +66,13 @@ public class ShowBrick extends BrickBaseType {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
+
 		return view;
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		ShowBrick copyBrick = (ShowBrick) clone();
+		IfOnEdgeBounceBrick copyBrick = (IfOnEdgeBounceBrick) clone();
 		return copyBrick;
 	}
 
@@ -81,32 +81,32 @@ public class ShowBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_show_layout);
+			View layout = view.findViewById(R.id.brick_if_on_edge_bounce_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = alphaValue;
 
-			TextView textSpeak = (TextView) view.findViewById(R.id.brick_show_textview);
-			textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
+			TextView ifBounceLabel = (TextView) view.findViewById(R.id.brick_if_on_edge_bounce_label);
+			ifBounceLabel.setTextColor(ifBounceLabel.getTextColors().withAlpha(alphaValue));
 		}
 
 		return view;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_show, null);
+	public Brick clone() {
+		return new IfOnEdgeBounceBrick();
 	}
 
 	@Override
-	public Brick clone() {
-		return new ShowBrick();
+	public View getPrototypeView(Context context) {
+		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.show(sprite));
-		sequence.addAction(sprite.getActionFactory().createShowAction(sprite)); // TODO[physics]
+		//sequence.addAction(ExtendedActions.ifOnEdgeBounce(sprite));
+		sequence.addAction(sprite.getActionFactory().createIfOnEdgeBounceAction(sprite)); // TODO[physics]
 		return null;
 	}
 }

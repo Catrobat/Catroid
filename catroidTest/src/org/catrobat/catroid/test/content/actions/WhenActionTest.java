@@ -27,7 +27,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 
 public class WhenActionTest extends AndroidTestCase {
 
