@@ -169,7 +169,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		if ((getRequiredResources() & Brick.PHYSIC) > 0) {  //TODO[physics]: add condition
+		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
 			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
@@ -258,18 +258,18 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public ActionFactory getActionFactory() { // TODO[physics]:
+	public ActionFactory getActionFactory() {
 		return actionFactory;
 	}
 
-	public void setActionFactory(ActionFactory actionFactory) { // TODO[physics]:
+	public void setActionFactory(ActionFactory actionFactory) {
 		this.actionFactory = actionFactory;
 	}
 
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
-		cloneSprite(cloneSprite); // TODO[physics]:
+		cloneSprite(cloneSprite);
 		return cloneSprite;
 	}
 
@@ -377,7 +377,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ActionFactory.parallel(); //TODO[physics] ExtendedActions -> ActionFactory
+		ParallelAction whenParallelAction = ActionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);

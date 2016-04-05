@@ -344,11 +344,6 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 				+ look.getHeightInUserInterfaceDimensionUnit() + ".",
 				physicsLook.getHeightInUserInterfaceDimensionUnit(), look.getHeightInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getDegreeUserInterfaceOffset()"
-				+ physicsLook.getDegreeUserInterfaceOffset() + " differs from look value"
-				+ look.getDegreeUserInterfaceOffset() + ".",
-				physicsLook.getDegreeUserInterfaceOffset(), look.getDegreeUserInterfaceOffset());
-
 		assertEquals("physicsLook getDirectionInUserInterfaceDimensionUnit()"
 				+ physicsLook.getDirectionInUserInterfaceDimensionUnit() + " differs from look value"
 				+ look.getDirectionInUserInterfaceDimensionUnit() + ".",

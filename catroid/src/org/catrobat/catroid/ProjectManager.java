@@ -33,7 +33,6 @@ import android.util.Log;
 
 import com.facebook.AccessToken;
 
-
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -294,7 +293,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_PHYSICS);
 			} else {
-				// TODO: physics change to normal project
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);
 			}

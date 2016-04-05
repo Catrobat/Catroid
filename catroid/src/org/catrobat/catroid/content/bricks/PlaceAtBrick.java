@@ -175,10 +175,9 @@ public class PlaceAtBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//		sequence.addAction(ExtendedActions.placeAt(sprite, xPosition, yPosition));
 		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
 				getFormulaWithBrickField(BrickField.X_POSITION),
-				getFormulaWithBrickField(BrickField.Y_POSITION))); // TODO[physics]
+				getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
 	}
 

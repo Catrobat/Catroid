@@ -75,10 +75,9 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.replaceItemInUserList(sprite, getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
 		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite,
 				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX),
-				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList)); // TODO[physics]
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
 		return null;
 	}
 

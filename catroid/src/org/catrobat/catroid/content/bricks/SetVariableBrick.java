@@ -103,9 +103,8 @@ public class SetVariableBrick extends UserVariableBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		// sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
-				getFormulaWithBrickField(BrickField.VARIABLE), userVariable)); // TODO[physics]
+				getFormulaWithBrickField(BrickField.VARIABLE), userVariable));
 		return null;
 	}
 

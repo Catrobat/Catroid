@@ -121,7 +121,7 @@ public class StageListener implements ApplicationListener {
 
 	private Project project;
 
-	private PhysicsWorld physicsWorld; // TODO[physics]
+	private PhysicsWorld physicsWorld;
 
 	private OrthographicCamera camera;
 	private Batch batch;
@@ -181,7 +181,7 @@ public class StageListener implements ApplicationListener {
 		stage = new Stage(viewPort, batch);
 		initScreenMode();
 
-		physicsWorld = project.resetPhysicsWorld(); // TODO[physics]
+		physicsWorld = project.resetPhysicsWorld();
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
@@ -294,7 +294,7 @@ public class StageListener implements ApplicationListener {
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
-		PhysicsShapeBuilder.getInstance().reset(); //TODO[physics]
+		PhysicsShapeBuilder.getInstance().reset();
 		CameraManager.getInstance().setToDefaultCamera();
 	}
 
@@ -310,7 +310,7 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			physicsWorld = project.resetPhysicsWorld(); //TODO[physics]
+			physicsWorld = project.resetPhysicsWorld();
 
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(whiteBackground);
@@ -374,13 +374,13 @@ public class StageListener implements ApplicationListener {
 			 * future EMMA - update will fix the bugs.
 			 */
 			if (!DYNAMIC_SAMPLING_RATE_FOR_ACTIONS) {
-				physicsWorld.step(deltaTime); //TODO[physics]
+				physicsWorld.step(deltaTime);
 				stage.act(deltaTime);
 			} else {
 				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
 				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
 				while (deltaTime > 0f) {
-					physicsWorld.step(optimizedDeltaTime); // TODO[physics]
+					physicsWorld.step(optimizedDeltaTime);
 					stage.act(optimizedDeltaTime);
 					deltaTime -= optimizedDeltaTime;
 				}

@@ -57,18 +57,14 @@ public class PhysicsBoundaryBoxTest extends AndroidTestCase {
 
 	public void testProperties() {
 		assertEquals("World isn't emtpy", 0, world.getBodyCount());
-		// TODO[physics] refactor values given to create
 		new PhysicsBoundaryBox(world).create(40, 40);
 		assertEquals("World contains wrong number of boundary box sides", 4, world.getBodyCount());
 
 		Array<Body> bodies = new Array<Body>();
 		world.getBodies(bodies);
-		assertEquals("bodies contains wrong number", 4, bodies.size);
+		assertEquals("Bodies contains wrong number", 4, bodies.size);
 		for (Body body : bodies) {
 			assertEquals("BodyType of boundary box side isn't static", BodyType.StaticBody, body.getType());
-
-			//TODO [Physics] need this line -> expected behaviour is what???
-			//assertTrue("Body isn't allowed to sleep", body.isSleepingAllowed());
 
 			Array<Fixture> fixtures = body.getFixtureList();
 			assertEquals("Body should contain only one shape (side)", 1, fixtures.size);

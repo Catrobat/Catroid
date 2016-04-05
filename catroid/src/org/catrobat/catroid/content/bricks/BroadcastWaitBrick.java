@@ -157,8 +157,7 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		// sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
-		sequence.addAction(sprite.getActionFactory().createBroadcastActionFromWaiter(sprite, broadcastMessage)); //TODO[physics]:
+		sequence.addAction(sprite.getActionFactory().createBroadcastActionFromWaiter(sprite, broadcastMessage));
 		return null;
 	}
 }

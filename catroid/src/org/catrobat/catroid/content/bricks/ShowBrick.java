@@ -103,8 +103,7 @@ public class ShowBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.show(sprite));
-		sequence.addAction(sprite.getActionFactory().createShowAction(sprite)); // TODO[physics]
+		sequence.addAction(sprite.getActionFactory().createShowAction(sprite));
 		return null;
 	}
 }

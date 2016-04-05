@@ -104,8 +104,7 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//		sequence.addAction(ExtendedActions.clearGraphicEffect(sprite));
-		sequence.addAction(sprite.getActionFactory().createClearGraphicEffectAction(sprite)); // TODO[physics]
+		sequence.addAction(sprite.getActionFactory().createClearGraphicEffectAction(sprite));
 		return null;
 	}
 }

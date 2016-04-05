@@ -58,7 +58,6 @@ public final class DefaultProjectHandler {
 		if (BuildConfig.BUILD_TYPE == BuildConfig.BUILD_TYPE_PHYSICS) {
 			setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_PHYSICS);
 		} else {
-			// TODO: physics change to normal project
 			setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
 		}
 	}

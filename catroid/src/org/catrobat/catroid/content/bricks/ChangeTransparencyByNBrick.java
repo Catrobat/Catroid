@@ -134,9 +134,8 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
 		sequence.addAction(sprite.getActionFactory().createChangeTransparencyByNAction(sprite,
-				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE))); // TODO[physics]
+				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)));
 		return null;
 	}
 

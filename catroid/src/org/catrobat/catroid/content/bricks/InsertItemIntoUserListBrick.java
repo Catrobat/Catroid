@@ -75,10 +75,9 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.insertItemIntoUserList(sprite, getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
 		sequence.addAction(sprite.getActionFactory().createInsertItemIntoUserListAction(sprite,
 				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX),
-				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList)); // TODO[physics]
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
 
 		return null;
 	}

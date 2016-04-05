@@ -94,7 +94,7 @@ public class GlideToAction extends TemporalAction {
 	protected void update(float percent) {
 		float deltaX = sprite.look.getXInUserInterfaceDimensionUnit() - currentX;
 		float deltaY = sprite.look.getYInUserInterfaceDimensionUnit() - currentY;
-		if ((-0.1f > deltaX || deltaX > 0.1f) && (-0.1f > deltaY || deltaY > 0.1f)) { //TODO [physics] -> || replaced by &&
+		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
 			restart = true;
 			setDuration(getDuration() - getTime());
 			restart();

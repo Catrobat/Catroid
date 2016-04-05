@@ -183,8 +183,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction repeatSequence = ActionFactory.sequence(); // TODO[physics]
-		//Action action = ExtendedActions.repeat(sprite, timesToRepeat, repeatSequence);
+		SequenceAction repeatSequence = ActionFactory.sequence();
 		Action action = sprite.getActionFactory().createRepeatAction(sprite,
 				getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT), repeatSequence);
 		sequence.addAction(action);

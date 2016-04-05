@@ -105,8 +105,7 @@ public class ComeToFrontBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.comeToFront(sprite));
-		sequence.addAction(sprite.getActionFactory().createComeToFrontAction(sprite)); //TODO[physics]:
+		sequence.addAction(sprite.getActionFactory().createComeToFrontAction(sprite));
 		return null;
 	}
 }

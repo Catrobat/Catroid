@@ -226,11 +226,10 @@ public class GlideToBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.glideTo(sprite, xDestination, yDestination, durationInSeconds));
 		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
 				getFormulaWithBrickField(BrickField.X_DESTINATION),
 				getFormulaWithBrickField(BrickField.Y_DESTINATION),
-				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS))); // TODO[physics]
+				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
 		return null;
 	}
 
