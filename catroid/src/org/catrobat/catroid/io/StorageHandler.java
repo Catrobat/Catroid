@@ -143,9 +143,11 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserBrickParameter;
+import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -242,9 +244,12 @@ public final class StorageHandler {
 	private void prepareProgramXstream() {
 		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
+		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(DataContainer.class);
 		xstream.processAnnotations(Setting.class);
+		xstream.processAnnotations(UserVariableBrick.class);
+		xstream.processAnnotations(UserListBrick.class);
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter());
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
@@ -573,7 +578,7 @@ public final class StorageHandler {
 		Log.d(TAG, json);
 
 		try {
-			File backpackFile =  new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
 			if (!backpackFile.exists()) {
 				backpackFile.createNewFile();
 			}
@@ -596,15 +601,15 @@ public final class StorageHandler {
 
 	public Backpack loadBackpack() {
 		Log.d(TAG, "Loading backpack json");
-		File backpackFile =  new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
 		if (!backpackFile.exists()) {
 			Log.d(TAG, "Backpack file does not exist!");
 			return null;
 		}
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(backpackFile));
-			Backpack backpack = backpackGson.fromJson(br, Backpack.class);
+			BufferedReader bufferedBackpackReader = new BufferedReader(new FileReader(backpackFile));
+			Backpack backpack = backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
 			return backpack;
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "Could not find backpack file!");
@@ -674,20 +679,11 @@ public final class StorageHandler {
 		File backPackDirectory = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
 		backPackDirectory.mkdir();
 
-		//File noMediaFile = new File(backPackDirectory, NO_MEDIA_FILE);
-		//noMediaFile.createNewFile();
-
 		backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
 		backPackSoundDirectory.mkdir();
 
-		//noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
-		//noMediaFile.createNewFile();
-
 		backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
 		backPackImageDirectory.mkdir();
-
-		//noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
-		//noMediaFile.createNewFile();
 	}
 
 	public void clearBackPackSoundDirectory() {

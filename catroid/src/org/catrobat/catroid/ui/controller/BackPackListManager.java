@@ -69,14 +69,6 @@ public final class BackPackListManager {
 		getBackpack().backpackedScripts.remove(scriptGroup);
 	}
 
-	public void removeItemFromScriptBackPackByName(String name) {
-		for (String scriptGroup : backpackedScripts.keySet()) {
-			if (scriptGroup.equals(name)) {
-				backpackedScripts.remove(scriptGroup);
-			}
-		}
-	}
-
 	public ArrayList<String> getBackPackedScriptGroups() {
 		return new ArrayList<>(getBackpack().backpackedScripts.keySet());
 	}
@@ -106,9 +98,9 @@ public final class BackPackListManager {
 	}
 
 	public void removeItemFromLookBackPackByLookName(String name) {
-		for (LookData lookData : backpackedLooks) {
+		for (LookData lookData : getBackpack().backpackedLooks) {
 			if (lookData.getLookName().equals(name)) {
-				backpackedLooks.remove(lookData);
+				getBackpack().backpackedLooks.remove(lookData);
 			}
 		}
 	}
@@ -131,9 +123,9 @@ public final class BackPackListManager {
 	}
 
 	public void removeItemFromSoundBackPackBySoundTitle(String title) {
-		for (SoundInfo soundInfo : backpackedSounds) {
+		for (SoundInfo soundInfo : getBackpack().backpackedSounds) {
 			if (soundInfo.getTitle().equals(title)) {
-				backpackedSounds.remove(soundInfo);
+				getBackpack().backpackedSounds.remove(soundInfo);
 			}
 		}
 	}
@@ -156,9 +148,9 @@ public final class BackPackListManager {
 	}
 
 	public void removeItemFromSpriteBackPackByName(String name) {
-		for (Sprite sprite : backpackedSprites) {
+		for (Sprite sprite : getBackpack().backpackedSprites) {
 			if (sprite.getName().equals(name)) {
-				backpackedSprites.remove(sprite);
+				getBackpack().backpackedSprites.remove(sprite);
 			}
 		}
 	}

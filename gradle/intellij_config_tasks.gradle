@@ -24,6 +24,8 @@
 task gitSkipWorktreeForIntellijConfigFiles << {
     try {
         'git update-index --skip-worktree .idea/misc.xml'.execute().text.trim()
+        'git update-index --skip-worktree .idea/encodings.xml'.execute().text.trim()
+        'git update-index --skip-worktree .idea/vcs.xml'.execute().text.trim()
         'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
         'git update-index --skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
         'git update-index --skip-worktree .idea/codeStyleSettings.xml'.execute().text.trim()

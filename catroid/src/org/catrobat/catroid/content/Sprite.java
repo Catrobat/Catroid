@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
@@ -61,7 +62,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	@XStreamAsAttribute
 	private String name;
-	@XStreamAsAttribute
+	@XStreamOmitField
 	public boolean isBackgroundObject = false;
 
 	private List<Script> scriptList = new ArrayList<>();

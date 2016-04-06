@@ -204,13 +204,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.97f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
-			if (project.getCatrobatLanguageVersion() == 0.98f) {
-				//Inserted object background flag for backpack deserialization
-				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
-				if (project.getSpriteList().size() > 0) {
-					project.getSpriteList().get(0).isBackgroundObject = true;
-				}
-			}
 //			insert further conversions here
 
 			checkNestingBrickReferences(true, false);
@@ -581,7 +574,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	private void checkCurrentScript(Script script, boolean assumeWrong) {
-
 		boolean scriptCorrect = true;
 		if (assumeWrong) {
 			scriptCorrect = false;

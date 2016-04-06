@@ -685,8 +685,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		int indexOfNumber = completeTitle.indexOf(' ') + 1;
 		Spannable completeSpannedTitle = new SpannableString(completeTitle);
 		if (!completeTitle.equals(getString(R.string.backpack))) {
-			completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color
-							.actionbar_title_color)),
+			completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
 					indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}

@@ -845,7 +845,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 	public void testBackPackShowAndHideDetails() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
-		int timeToWait = 300;
+		int timeToWait = 500;
 
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
@@ -861,6 +861,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
 
+		solo.sleep(timeToWait);
 		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
