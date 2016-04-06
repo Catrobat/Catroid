@@ -51,7 +51,7 @@ public class SetPhysicsObjectTypeActionTest extends PhysicsBaseTest {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Action action = sprite.getActionFactory().createSetPhysicsObjectTypeAction(sprite, type);
 
-		assertEquals("Unexpected physics object type", PhysicsObject.Type.FIXED, physicsObject.getType());
+		assertEquals("Unexpected physics object type", PhysicsObject.Type.NONE, physicsObject.getType());
 
 		action.act(1.0f);
 	}

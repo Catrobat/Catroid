@@ -35,11 +35,13 @@ import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class PhysicsObject {
-	private static final String TAG = PhysicsObject.class.getSimpleName();
 
 	public enum Type {
 		DYNAMIC, FIXED, NONE
@@ -84,7 +86,17 @@ public class PhysicsObject {
 		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
 		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
 		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-		setType(Type.FIXED);
+
+		List<Brick> brickList = sprite.getAllBricks();
+		PhysicsObject.Type type = PhysicsObject.Type.NONE;
+		for (Brick brick : brickList) {
+			if (!(brick instanceof SetGravityBrick) && (brick.getRequiredResources() & Brick.PHYSIC) > 0) {
+				type = PhysicsObject.Type.DYNAMIC;
+				break;
+			}
+		}
+		setType(type);
+
 		// --
 		tmpVertice = new Vector2();
 	}
@@ -149,7 +161,7 @@ public class PhysicsObject {
 				break;
 			case NONE:
 				body.setType(BodyType.KinematicBody);
-				collisionMaskRecord = PhysicsWorld.NOCOLLISION_MASK;
+				collisionMaskRecord = PhysicsWorld.MASK_NOCOLLISION;
 				break;
 		}
 		calculateCircumference();

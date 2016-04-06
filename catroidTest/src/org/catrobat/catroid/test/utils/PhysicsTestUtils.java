@@ -100,16 +100,11 @@ public final class PhysicsTestUtils {
 		return Utils.md5Checksum(filename) + "_" + filename;
 	}
 
-	public static LookData generateLookData() {
-		return new LookData();
-	}
-
 	public static LookData generateLookData(File testImage) {
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName(testImage.getName());
-		Pixmap pixmap = null;
-		pixmap = Utils.getPixmapFromFile(testImage);
+		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 		return lookData;
 	}

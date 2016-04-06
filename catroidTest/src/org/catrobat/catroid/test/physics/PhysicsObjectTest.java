@@ -92,8 +92,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	public void testDefaultProperties() {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 
-		assertEquals("Wrong initialization", PhysicsObject.Type.FIXED, PhysicsTestUtils.getType(physicsObject));
-		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
+		assertEquals("Wrong initialization", PhysicsObject.Type.NONE, PhysicsTestUtils.getType(physicsObject));
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
 
 		Body body = PhysicsTestUtils.getBody(physicsObject);
@@ -103,12 +102,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_DENSITY, fixtureDef.density);
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_FRICTION, fixtureDef.friction);
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_BOUNCE_FACTOR, fixtureDef.restitution);
-		assertEquals("Wrong initialization", PhysicsWorld.CATEGORY_PHYSICSOBJECT, fixtureDef.filter.categoryBits);
-		assertEquals("Wrong initialization", -3, fixtureDef.filter.maskBits);
-
-		short categoryBits = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
-		short collisionBits = PhysicsWorld.MASK_PHYSICSOBJECT;
-		checkCollisionMask(physicsObject, categoryBits, collisionBits);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NOCOLLISION);
 
 		assertFalse("Wrong initialization", (Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));
 	}
