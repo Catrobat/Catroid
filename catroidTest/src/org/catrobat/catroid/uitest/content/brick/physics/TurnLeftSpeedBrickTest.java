@@ -81,7 +81,7 @@ public class TurnLeftSpeedBrickTest extends ActivityInstrumentationTestCase2<Scr
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		String textSetRotationSpeed = solo.getString(R.string.brick_turn_left);
+		String textSetRotationSpeed = solo.getString(R.string.brick_rotate_left);
 		assertNotNull("TextView does not exist.", solo.getText(textSetRotationSpeed));
 
 		float degreesPerSecond = 10.0f;
