@@ -300,8 +300,8 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
+		Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {

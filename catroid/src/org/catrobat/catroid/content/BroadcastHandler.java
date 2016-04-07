@@ -69,7 +69,9 @@ public final class BroadcastHandler {
 			for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
 				addOrRestartAction(look, action);
 			}
-			BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
+			if (BroadcastWaitSequenceMap.getCurrentBroadcastEvent() != null) {
+				BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
+			}
 		}
 	}
 
