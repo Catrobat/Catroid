@@ -60,6 +60,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = FormulaEditorEditTextTest.class.getSimpleName();
 
 	private static final int CHANGE_SIZE_BY_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
 	private static final int WAIT_EDIT_TEXT_RID = R.id.brick_wait_edit_text;
@@ -788,7 +789,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		int maxLoops = 100;
 		String lastComputeString = computeTextView.getText().toString();
 		while (maxLoops-- > 0) {
-			Log.e("info", "loopCount " + maxLoops);
+			Log.e(TAG, "loopCount " + maxLoops);
 			sensorManager.sendGeneratedSensorValues();
 
 			//Wait for runnable in FormulaEditorComputeDialog to

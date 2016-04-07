@@ -121,7 +121,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void uploadProject(String projectName, Activity activity) {
 		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, false, false);
+			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, true, false);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
 		}
@@ -577,7 +577,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 					|| !elseBrick.getIfEndBrick().equals(endBrick)
 					|| !endBrick.getIfBeginBrick().equals(currentBrick)
 					|| !endBrick.getIfElseBrick().equals(elseBrick)) {
-				Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
+				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
 						+ currentBrick);
 				return false;
 			}
@@ -585,7 +585,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			LoopEndBrick endBrick = ((LoopBeginBrick) currentBrick).getLoopEndBrick();
 			if (endBrick == null || endBrick.getLoopBeginBrick() == null
 					|| !endBrick.getLoopBeginBrick().equals(currentBrick)) {
-				Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
+				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
 						+ currentBrick);
 				return false;
 			}

@@ -735,7 +735,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
 
-		Log.d("TEST", "Look to delete: " + lookToDelete.getLookName());
+		Log.d(TAG, "Look to delete: " + lookToDelete.getLookName());
 
 		String testLookName = SECOND_TEST_LOOK_NAME;
 		assertEquals("The two names should be equal", testLookName, lookToDelete.getLookName());
@@ -756,7 +756,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("New count is not correct - one look should be deleted", 1, newCount);
 		assertEquals("Count of the lookDataList is not correct", newCount, lookDataList.size());
 
-		Log.d("LookFragmentTest", "path: " + lookToDelete.getAbsolutePath());
+		Log.d(TAG, "path: " + lookToDelete.getAbsolutePath());
 		File deletedFile = new File(lookToDelete.getAbsolutePath());
 		assertFalse("File should be deleted", deletedFile.exists());
 	}

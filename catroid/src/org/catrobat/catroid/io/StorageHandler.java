@@ -419,10 +419,13 @@ public final class StorageHandler {
 
 		Log.d(TAG, "loadProject " + projectName);
 
+		if (!projectExists(projectName)) {
+			return null;
+		}
+
 		loadSaveLock.lock();
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
-			Log.d(TAG, "path: " + projectCodeFile.getAbsolutePath());
 			fileInputStream = new FileInputStream(projectCodeFile);
 			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
 			return project;
@@ -886,11 +889,11 @@ public final class StorageHandler {
 		try {
 			if (isBackPackFile) {
 				File toDelete = new File(filepath);
-				Log.d("LookController", "delete" + toDelete);
+				Log.d(TAG, "delete" + toDelete);
 				toDelete.delete();
 			} else if (container.decrementUsage(filepath)) {
 				File toDelete = new File(filepath);
-				Log.d("LookController", "delete" + toDelete);
+				Log.d(TAG, "delete" + toDelete);
 				toDelete.delete();
 			}
 		} catch (FileNotFoundException fileNotFoundException) {

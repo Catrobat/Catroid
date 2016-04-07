@@ -484,6 +484,24 @@ public class DataContainer implements Serializable {
 		return false;
 	}
 
+	public boolean existListInAnySprite(String listName, List<Sprite> sprites) {
+		for (Sprite sprite : sprites) {
+			if (existSpriteListByName(listName, sprite)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean existVariableInAnySprite(String variableName, List<Sprite> sprites) {
+		for (Sprite sprite : sprites) {
+			if (existSpriteVariableByName(variableName, sprite)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean existProjectVariable(UserVariable variable) {
 		return projectVariables.contains(variable);
 	}

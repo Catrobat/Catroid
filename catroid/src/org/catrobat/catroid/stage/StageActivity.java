@@ -44,6 +44,8 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
@@ -52,6 +54,8 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
+
+import java.util.List;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -154,21 +158,8 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onResume() {
-		stageAudioFocus.requestAudioFocus();
-
-		FaceDetectionHandler.resumeFaceDetection();
-		FlashUtil.resumeFlash();
-		CameraManager.getInstance().resumePreviewAsync();
-
-		VibratorUtil.resumeVibrator();
-		SensorHandler.startSensorListener(this);
-		if (nfcAdapter != null) {
-			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
-		}
-
+		resumeResources();
 		super.onResume();
-
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
 
 	public void pause() {
@@ -189,16 +180,51 @@ public class StageActivity extends AndroidApplication {
 
 	public void resume() {
 		stageListener.menuResume();
-		FlashUtil.resumeFlash();
-		VibratorUtil.resumeVibrator();
+		resumeResources();
+	}
+
+	public void resumeResources() {
+		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
 		SensorHandler.startSensorListener(this);
-		FaceDetectionHandler.resumeFaceDetection();
 
-		CameraManager.getInstance().resumePreviewAsync();
+		for (Sprite sprite : spriteList) {
+			if (sprite.getPlaySoundBricks().size() > 0) {
+				stageAudioFocus.requestAudioFocus();
+				break;
+			}
+		}
 
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
+			FlashUtil.resumeFlash();
+		}
 
-		if (nfcAdapter != null) {
+		if ((requiredResources & Brick.VIBRATOR) > 0) {
+			VibratorUtil.resumeVibrator();
+		}
+
+		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+			FaceDetectionHandler.resumeFaceDetection();
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0
+				|| (requiredResources & Brick.BLUETOOTH_PHIRO) > 0
+				|| (requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+		}
+
+		if ((requiredResources & Brick.CAMERA_BACK) > 0
+				|| (requiredResources & Brick.CAMERA_FRONT) > 0) {
+			CameraManager.getInstance().resumePreviewAsync();
+		}
+
+		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
+			stageAudioFocus.requestAudioFocus();
+		}
+
+		if ((requiredResources & Brick.NFC_ADAPTER) > 0
+				&& nfcAdapter != null) {
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		}
 	}
