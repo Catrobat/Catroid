@@ -21,22 +21,21 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
 
     <LinearLayout
         android:id="@+id/formula_editor_brick_space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:orientation="vertical" />
 
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/formula_editor_brick_space"
         android:background="@color/white" >
 
         <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
@@ -70,12 +69,18 @@
             android:src="@drawable/icon_backspace" />
     </FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5" >
+    </View>
+
     <include
         android:id="@+id/formula_editor_keyboardview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:layout_gravity="bottom"
         layout="@layout/formula_editor_keyboard" />
 
-</RelativeLayout>
+</LinearLayout>
