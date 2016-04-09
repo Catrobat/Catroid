@@ -38,7 +38,6 @@
     <dimen name="brick_height_small" >72dp</dimen >
     <dimen name="brick_height_medium" >96dp</dimen >
     <dimen name="brick_height_big" >120dp</dimen >
-    <dimen name="key_height" >35dip</dimen >
     <dimen name="key_margin" >1dip</dimen >
     <dimen name="text_size_xxlarge" >24sp</dimen >
     <dimen name="brick_category_height" >90dp</dimen >
