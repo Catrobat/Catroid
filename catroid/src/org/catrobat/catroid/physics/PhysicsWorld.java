@@ -173,13 +173,15 @@ public class PhysicsWorld {
 				case BBI_HORIZONTAL:
 					if (activeHorizontalBounces.remove(sprite) && !activeVerticalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						//Log.d(TAG, "ifOnEdgeBounce deactivated BBI_HORIZONTAL");
+						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName
+								(), PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
 					}
 					break;
 				case BBI_VERTICAL:
 					if (activeVerticalBounces.remove(sprite) && !activeHorizontalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						//Log.d(TAG, "ifOnEdgeBounce deactivated BBI_VERTICAL");
+						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName
+								(), PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
 					}
 					break;
 			}

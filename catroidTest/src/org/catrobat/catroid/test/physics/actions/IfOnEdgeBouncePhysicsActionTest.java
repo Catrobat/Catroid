@@ -27,12 +27,21 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
+import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
@@ -159,5 +168,82 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 		assertTrue(sprite.look.getXInUserInterfaceDimensionUnit() + " < " + borderX + "(border value X)", (sprite.look.getXInUserInterfaceDimensionUnit() < setXValue));
 		assertTrue(sprite.look.getYInUserInterfaceDimensionUnit() + " < " + borderY + "(border value Y)", (sprite.look.getYInUserInterfaceDimensionUnit() < setYValue));
+	}
+
+	public void testCollisionBroadcastOnIfOnEdgeBounce() {
+		assertTrue("getLookData is null", sprite.look.getLookData() != null);
+
+		CollisionScript spriteCollisionScript = new CollisionScript("");
+		spriteCollisionScript.setAndReturnBroadcastMessage(sprite.getName(), PhysicsCollision
+				.COLLISION_WITH_ANYTHING_IDENTIFIER);
+		spriteCollisionScript.getScriptBrick();
+		int testXValue = 300;
+		int testYValue = 250;
+		PlaceAtBrick testBrick = new PlaceAtBrick(testXValue, testYValue);
+		spriteCollisionScript.addBrick(testBrick);
+		sprite.addScript(spriteCollisionScript);
+
+		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+
+		float setXValue = ScreenValues.SCREEN_WIDTH / 2 - sprite.look.getLookData().getPixmap().getWidth() / 4;
+		sprite.look.setXInUserInterfaceDimensionUnit(setXValue);
+		float setYValue = ScreenValues.SCREEN_HEIGHT / 2 - sprite.look.getLookData().getPixmap().getHeight() / 4;
+		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
+
+		assertEquals("SetXValue not the same", setXValue, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("setYValue not the same", setYValue, sprite.look.getYInUserInterfaceDimensionUnit());
+
+		float setVelocityXValue = 400.0f;
+		float setVelocityYValue = 400.0f;
+		physicsObject.setVelocity(setVelocityXValue, setVelocityYValue);
+
+		ActionFactory factory = sprite.getActionFactory();
+		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
+
+		ArrayList<Sprite> activeVerticalBounces = (ArrayList<Sprite>) Reflection.getPrivateField(PhysicsWorld.class,
+				physicsWorld, "activeVerticalBounces");
+		ArrayList<Sprite> activeHorizontalBounces = (ArrayList<Sprite>) Reflection.getPrivateField(PhysicsWorld.class,
+				physicsWorld, "activeHorizontalBounces");
+
+		assertTrue("Bounce Once Vertical Array is not empty", activeVerticalBounces.isEmpty());
+		assertTrue("Bounce Once Vertical Array is not empty", activeHorizontalBounces.isEmpty());
+
+		ifOnEdgeBouncePhysicsAction.act(1.0f);
+
+		assertFalse("Bounce Once Vertical Array is empty", activeVerticalBounces.isEmpty());
+		assertFalse("Bounce Once Vertical Array is empty", activeHorizontalBounces.isEmpty());
+
+		assertTrue("New X value is not smaller after IfOnEdgeBounce act", setXValue > sprite.look
+				.getXInUserInterfaceDimensionUnit());
+		assertTrue("New Y value is not smaller after IfOnEdgeBounce act", setYValue > sprite.look
+				.getYInUserInterfaceDimensionUnit());
+
+		physicsWorld.step(2.0f);
+
+		assertTrue("Bounce Once Vertical Array is not empty after colliding once", activeVerticalBounces.isEmpty());
+		assertTrue("Bounce Once Vertical Array is not empty after colliding once", activeHorizontalBounces.isEmpty());
+
+		while (!allActionsOfAllSpritesAreFinished()) {
+			for (Sprite spriteOfList : project.getSpriteList()) {
+				spriteOfList.look.act(1.0f);
+			}
+		}
+
+		assertEquals("X Value of Sprite was not set", (float) testXValue, sprite.look.getXInUserInterfaceDimensionUnit
+				());
+		assertEquals("Y Value of Sprite was not set", (float) testYValue, sprite.look.getYInUserInterfaceDimensionUnit
+				());
+	}
+
+	public boolean allActionsOfAllSpritesAreFinished() {
+		for (Sprite spriteOfList : project.getSpriteList()) {
+			if (!spriteOfList.look.getAllActionsAreFinished()) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
