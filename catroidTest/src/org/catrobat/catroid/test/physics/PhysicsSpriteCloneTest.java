@@ -212,7 +212,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 
 		PhysicsObject clonedPhysicsObject = physicsWorld.getPhysicsObject(clonedSprite);
 		assertEquals("Cloned Physics Object must be equal.", physicsObject.getType(), clonedPhysicsObject.getType());
-		clonedPhysicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		clonedPhysicsObject.setType(PhysicsObject.Type.FIXED);
 		assertNotSame("Cloned Physics Object value must be different.", physicsObject.getType(), clonedPhysicsObject.getType());
 	}
 }
