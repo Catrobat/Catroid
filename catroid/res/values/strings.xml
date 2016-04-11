@@ -524,6 +524,8 @@
     <string name="brick_turn_speed_unit">degrees/s</string>
     <string name="brick_set_friction">"Set friction to "</string>
     <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+    <string name="brick_rotate_left">"Rotate left "</string>
+    <string name="brick_rotate_right">"Rotate right "</string>
 
     <!-- Looks bricks -->
     <string name="brick_set_look">Switch to look</string>
