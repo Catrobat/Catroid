@@ -49,15 +49,15 @@ public class PhysicsWorld {
 	private static final String TAG = PhysicsWorld.class.getSimpleName();
 
 	// CATEGORY
-	public static final short NOCOLLISION_MASK = 0x0000;
+	public static final short CATEGORY_NO_COLLISION = 0x0000;
 	public static final short CATEGORY_BOUNDARYBOX = 0x0002;
 	public static final short CATEGORY_PHYSICSOBJECT = 0x0004;
 
 	// COLLISION_MODE
 	public static final short MASK_BOUNDARYBOX = CATEGORY_PHYSICSOBJECT; // collides with physics_objects
 	public static final short MASK_PHYSICSOBJECT = ~CATEGORY_BOUNDARYBOX; // collides with everything but not with the boundarybox
-	public static final short MASK_TOBOUNCE = -1; // collides with everything
-	public static final short MASK_NOCOLLISION = 0; // collides with NOBODY
+	public static final short MASK_TO_BOUNCE = -1; // collides with everything
+	public static final short MASK_NO_COLLISION = 0; // collides with NOBODY
 
 	public static final float ACTIVE_AREA_WIDTH_FACTOR = 3.0f;
 	public static final float ACTIVE_AREA_HEIGHT_FACTOR = 2.0f;

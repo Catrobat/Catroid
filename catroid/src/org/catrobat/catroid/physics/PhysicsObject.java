@@ -161,7 +161,7 @@ public class PhysicsObject {
 				break;
 			case NONE:
 				body.setType(BodyType.KinematicBody);
-				collisionMaskRecord = PhysicsWorld.MASK_NOCOLLISION;
+				collisionMaskRecord = PhysicsWorld.MASK_NO_COLLISION;
 				break;
 		}
 		calculateCircumference();
@@ -317,7 +317,7 @@ public class PhysicsObject {
 
 		short maskBits;
 		if (bounce) {
-			maskBits = PhysicsWorld.MASK_TOBOUNCE;
+			maskBits = PhysicsWorld.MASK_TO_BOUNCE;
 			body.setUserData(sprite);
 		} else {
 			maskBits = PhysicsWorld.MASK_PHYSICSOBJECT;
@@ -391,7 +391,7 @@ public class PhysicsObject {
 	}
 
 	public void activateNonColliding(boolean updateState) {
-		setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK, updateState);
+		setCollisionBits(categoryMaskRecord, PhysicsWorld.MASK_NO_COLLISION, updateState);
 	}
 
 	public void deactivateNonColliding(boolean record, boolean updateState) {
@@ -412,7 +412,7 @@ public class PhysicsObject {
 	}
 
 	public boolean isNonColliding() {
-		return collisionMaskRecord == PhysicsWorld.MASK_NOCOLLISION;
+		return collisionMaskRecord == PhysicsWorld.MASK_NO_COLLISION;
 	}
 
 	private void calculateAabb() {
