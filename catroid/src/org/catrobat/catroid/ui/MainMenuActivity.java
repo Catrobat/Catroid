@@ -199,6 +199,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleHelpButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -207,6 +211,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleWebButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -230,6 +238,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleUploadButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}

@@ -517,6 +517,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void showSignInDialog(Activity activity, Boolean showUploadDialogWhenDone) {
+		if (!Utils.isNetworkAvailable(activity, true)) {
+			return;
+		}
+
 		showUploadDialog = showUploadDialogWhenDone;
 		SignInDialog signInDialog = new SignInDialog();
 		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
