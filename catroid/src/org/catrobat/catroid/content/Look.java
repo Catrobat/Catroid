@@ -43,6 +43,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Look extends Image {
+	private static final int ROTATION_STYLE_ALL_AROUND = 1;
+	private static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
+	private static final int ROTATION_STYLE_NONE = 2;
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 	public boolean visible = true;
@@ -56,6 +59,10 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
 	private BrightnessContrastShader shader;
+	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
+	private float rotation = 90f;
+	private float realRotation = rotation;
+	private boolean isFlipped = false;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -65,6 +72,7 @@ public class Look extends Image {
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
 		addListeners();
+		rotation = getDirectionInUserInterfaceDimensionUnit();
 	}
 
 	protected void addListeners() {
@@ -294,7 +302,7 @@ public class Look extends Image {
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {
-		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
+		float direction = (rotation + DEGREE_UI_OFFSET) % 360;
 		if (direction < 0) {
 			direction += 360f;
 		}
@@ -303,12 +311,47 @@ public class Look extends Image {
 		return direction;
 	}
 
+	public float getRealDirectionInUserInterfaceDimensionUnit() {
+		return realRotation;
+	}
+
+	public void setRotationMode(int mode) {
+		rotationMode = mode;
+	}
+
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		setRotation((-degrees + DEGREE_UI_OFFSET) % 360);
+		float oldRotation = getDirectionInUserInterfaceDimensionUnit();
+		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
+		realRotation = degrees;
+		float newRotation = getDirectionInUserInterfaceDimensionUnit();
+
+		switch (rotationMode) {
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				setRotation(0f);
+				if ((oldRotation < 0 && newRotation >= 0) || (oldRotation >= 0 && newRotation < 0)) {
+					lookData.getTextureRegion().flip(true, false);
+					isFlipped = !isFlipped;
+				}
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				setRotation(rotation);
+				break;
+			case ROTATION_STYLE_NONE:
+				setRotation(0f);
+				break;
+		}
+	}
+
+	public boolean isFlipped() {
+		return isFlipped;
+	}
+
+	public void setFlipped(boolean status) {
+		isFlipped = status;
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation((getRotation() - changeDegrees) % 360);
+		setDirectionInUserInterfaceDimensionUnit((getDirectionInUserInterfaceDimensionUnit() + changeDegrees) % 360);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
