@@ -131,6 +131,7 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.android.support:multidex:1.0.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')

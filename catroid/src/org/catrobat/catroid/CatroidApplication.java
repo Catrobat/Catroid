@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
 
-public class CatroidApplication extends Application {
+public class CatroidApplication extends MultiDexApplication {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
