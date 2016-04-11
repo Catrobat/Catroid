@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,38 +36,36 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeYByNBrick extends FormulaBrick {
+public class SetBrightnessBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public ChangeYByNBrick() {
-		addAllowedBrickField(BrickField.Y_POSITION_CHANGE);
+	public SetBrightnessBrick() {
+		addAllowedBrickField(BrickField.BRIGHTNESS);
 	}
 
-	public ChangeYByNBrick(int yMovementValue) {
-		initializeBrickFields(new Formula(yMovementValue));
+	public SetBrightnessBrick(double brightnessValue) {
+		initializeBrickFields(new Formula(brightnessValue));
 	}
 
-	public ChangeYByNBrick(Formula yMovement) {
-		initializeBrickFields(yMovement);
+	public SetBrightnessBrick(Formula brightness) {
+		initializeBrickFields(brightness);
 	}
 
-	private void initializeBrickFields(Formula yMovement) {
-		addAllowedBrickField(BrickField.Y_POSITION_CHANGE);
-		setFormulaWithBrickField(BrickField.Y_POSITION_CHANGE, yMovement);
+	private void initializeBrickFields(Formula brightness) {
+		addAllowedBrickField(BrickField.BRIGHTNESS);
+		setFormulaWithBrickField(BrickField.BRIGHTNESS, brightness);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.BRIGHTNESS).getRequiredResources();
 	}
 
 	@Override
@@ -75,12 +73,13 @@ public class ChangeYByNBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		view = View.inflate(context, R.layout.brick_change_y, null);
+
+		view = View.inflate(context, R.layout.brick_set_brightness, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_change_y_checkbox);
-		final Brick brickInstance = this;
+		setCheckboxView(R.id.brick_set_brightness_checkbox);
 
+		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,22 +88,23 @@ public class ChangeYByNBrick extends FormulaBrick {
 			}
 		});
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
-		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
-		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).setTextFieldId(R.id.brick_change_y_edit_text);
-		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).refreshTextField(view);
+		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
 
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-		editY.setOnClickListener(this);
+		editX.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
-		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
-		textYMovement.setText(String.valueOf(BrickValues.CHANGE_Y_BY));
+		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
+		TextView textSetBrightness = (TextView) prototypeView
+				.findViewById(R.id.brick_set_brightness_prototype_text_view);
+		textSetBrightness.setText(String.valueOf(BrickValues.SET_BRIGHTNESS_TO));
 		return prototypeView;
 	}
 
@@ -113,15 +113,19 @@ public class ChangeYByNBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_change_y_layout);
+			View layout = view.findViewById(R.id.brick_set_brightness_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView changeYLabel = (TextView) view.findViewById(R.id.brick_change_y_label);
-			TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
-			changeYLabel.setTextColor(changeYLabel.getTextColors().withAlpha(alphaValue));
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
+			TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
+			TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
+			TextView editTransparency = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
+			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
+			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
+			editTransparency.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = alphaValue;
 		}
@@ -131,15 +135,15 @@ public class ChangeYByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.changeYByN(sprite, yMovement));
-		sequence.addAction(sprite.getActionFactory().createChangeYByNAction(sprite,
-				getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE))); // TODO[physics]
+		//		sequence.addAction(ExtendedActions.setBrightness(sprite, brightness));
+		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite,
+				getFormulaWithBrickField(BrickField.BRIGHTNESS))); // TODO[physics]
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION_CHANGE);
+		FormulaEditorFragment.showFragment(view, this, BrickField.BRIGHTNESS);
 	}
 
 	@Override

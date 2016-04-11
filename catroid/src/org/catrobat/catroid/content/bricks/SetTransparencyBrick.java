@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,38 +36,37 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetBrightnessBrick extends FormulaBrick {
+public class SetTransparencyBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public SetBrightnessBrick() {
-		addAllowedBrickField(BrickField.BRIGHTNESS);
+	public SetTransparencyBrick() {
+		addAllowedBrickField(BrickField.TRANSPARENCY);
 	}
 
-	public SetBrightnessBrick(double brightnessValue) {
-		initializeBrickFields(new Formula(brightnessValue));
+	public SetTransparencyBrick(double transparencyEffectValue) {
+		initializeBrickFields(new Formula(transparencyEffectValue));
 	}
 
-	public SetBrightnessBrick(Formula brightness) {
-		initializeBrickFields(brightness);
+	public SetTransparencyBrick(Formula transparency) {
+		initializeBrickFields(transparency);
 	}
 
-	private void initializeBrickFields(Formula brightness) {
-		addAllowedBrickField(BrickField.BRIGHTNESS);
-		setFormulaWithBrickField(BrickField.BRIGHTNESS, brightness);
+	private void initializeBrickFields(Formula transparency) {
+		addAllowedBrickField(BrickField.TRANSPARENCY);
+		setFormulaWithBrickField(BrickField.TRANSPARENCY, transparency);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.BRIGHTNESS).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.TRANSPARENCY).getRequiredResources();
 	}
 
 	@Override
@@ -76,10 +75,10 @@ public class SetBrightnessBrick extends FormulaBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_set_brightness, null);
+		view = View.inflate(context, R.layout.brick_set_transparency, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_set_brightness_checkbox);
+		setCheckboxView(R.id.brick_set_transparency_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -90,10 +89,10 @@ public class SetBrightnessBrick extends FormulaBrick {
 			}
 		});
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
-		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
-		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
+		TextView textX = (TextView) view.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
+		getFormulaWithBrickField(BrickField.TRANSPARENCY).setTextFieldId(R.id.brick_set_transparency_to_edit_text);
+		getFormulaWithBrickField(BrickField.TRANSPARENCY).refreshTextField(view);
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 
@@ -103,10 +102,10 @@ public class SetBrightnessBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
-		TextView textSetBrightness = (TextView) prototypeView
-				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(BrickValues.SET_BRIGHTNESS_TO));
+		prototypeView = View.inflate(context, R.layout.brick_set_transparency, null);
+		TextView textSetTransparency = (TextView) prototypeView
+				.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
+		textSetTransparency.setText(String.valueOf(BrickValues.SET_TRANSPARENCY));
 		return prototypeView;
 	}
 
@@ -115,16 +114,16 @@ public class SetBrightnessBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_set_brightness_layout);
+			View layout = view.findViewById(R.id.brick_set_transparency_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
-			TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
-			TextView editTransparency = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
-			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
-			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
+			TextView textTransparencyLabel = (TextView) view.findViewById(R.id.brick_set_transparency_label);
+			TextView textTransparencyTo = (TextView) view.findViewById(R.id.brick_set_transparency_to);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_transparency_percent);
+			TextView editTransparency = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
+			textTransparencyLabel.setTextColor(textTransparencyLabel.getTextColors().withAlpha(alphaValue));
+			textTransparencyTo.setTextColor(textTransparencyTo.getTextColors().withAlpha(alphaValue));
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
 			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
 			editTransparency.getBackground().setAlpha(alphaValue);
@@ -137,15 +136,15 @@ public class SetBrightnessBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//		sequence.addAction(ExtendedActions.setBrightness(sprite, brightness));
-		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite,
-				getFormulaWithBrickField(BrickField.BRIGHTNESS))); // TODO[physics]
+		//sequence.addAction(ExtendedActions.setGhostEffect(sprite, transparency));
+		sequence.addAction(sprite.getActionFactory().createSetTransparencyAction(sprite,
+				getFormulaWithBrickField(BrickField.TRANSPARENCY))); // TODO[physics]
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.BRIGHTNESS);
+		FormulaEditorFragment.showFragment(view, this, BrickField.TRANSPARENCY);
 	}
 
 	@Override

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,38 +36,36 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetSizeToBrick extends FormulaBrick {
+public class ChangeXByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public SetSizeToBrick() {
-		addAllowedBrickField(BrickField.SIZE);
+	public ChangeXByNBrick() {
+		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
 	}
 
-	public SetSizeToBrick(double sizeValue) {
-		initializeBrickFields(new Formula(sizeValue));
+	public ChangeXByNBrick(int xMovementValue) {
+		initializeBrickFields(new Formula(xMovementValue));
 	}
 
-	public SetSizeToBrick(Formula size) {
-		initializeBrickFields(size);
+	public ChangeXByNBrick(Formula xMovement) {
+		initializeBrickFields(xMovement);
 	}
 
-	private void initializeBrickFields(Formula size) {
-		addAllowedBrickField(BrickField.SIZE);
-		setFormulaWithBrickField(BrickField.SIZE, size);
+	private void initializeBrickFields(Formula xMovement) {
+		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
+		setFormulaWithBrickField(BrickField.X_POSITION_CHANGE, xMovement);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.SIZE).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).getRequiredResources();
 	}
 
 	@Override
@@ -76,12 +74,12 @@ public class SetSizeToBrick extends FormulaBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_set_size_to, null);
+		view = View.inflate(context, R.layout.brick_change_x, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_set_size_to_checkbox);
-
+		setCheckboxView(R.id.brick_change_x_checkbox);
 		final Brick brickInstance = this;
+
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,21 +87,22 @@ public class SetSizeToBrick extends FormulaBrick {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
-		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
-		getFormulaWithBrickField(BrickField.SIZE).setTextFieldId(R.id.brick_set_size_to_edit_text);
-		getFormulaWithBrickField(BrickField.SIZE).refreshTextField(view);
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-		edit.setOnClickListener(this);
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
+		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).setTextFieldId(R.id.brick_change_x_edit_text);
+		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).refreshTextField(view);
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+		editX.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
-		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
-		textSetSizeTo.setText(String.valueOf(BrickValues.SET_SIZE_TO));
+		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
+		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
+		textXMovement.setText(String.valueOf(BrickValues.CHANGE_X_BY));
 		return prototypeView;
 	}
 
@@ -112,17 +111,15 @@ public class SetSizeToBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_set_size_to_layout);
+			View layout = view.findViewById(R.id.brick_change_x_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textSize = (TextView) view.findViewById(R.id.brick_set_size_to_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
-			TextView editSize = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
-			textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
-			editSize.getBackground().setAlpha(alphaValue);
+			TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
+			TextView editChangeSize = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
+			changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
+			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
+			editChangeSize.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = alphaValue;
 		}
@@ -132,15 +129,15 @@ public class SetSizeToBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.setSizeTo(sprite, size));
-		sequence.addAction(sprite.getActionFactory().createSetSizeToAction(sprite,
-				getFormulaWithBrickField(BrickField.SIZE))); // TODO[physics]
+		//sequence.addAction(ExtendedActions.changeXByN(sprite, xMovement));
+		sequence.addAction(sprite.getActionFactory().createChangeXByNAction(sprite,
+				getFormulaWithBrickField(BrickField.X_POSITION_CHANGE))); // TODO[physics]
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.SIZE);
+		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION_CHANGE);
 	}
 
 	@Override

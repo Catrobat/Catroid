@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks.conditional;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,38 +36,36 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetXBrick extends FormulaBrick {
+public class SetYBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public SetXBrick() {
-		addAllowedBrickField(BrickField.X_POSITION);
+	public SetYBrick() {
+		addAllowedBrickField(BrickField.Y_POSITION);
 	}
 
-	public SetXBrick(int xPositionValue) {
-		initializeBrickFields(new Formula(xPositionValue));
+	public SetYBrick(int yPositionValue) {
+		initializeBrickFields(new Formula(yPositionValue));
 	}
 
-	public SetXBrick(Formula xPosition) {
-		initializeBrickFields(xPosition);
+	public SetYBrick(Formula yPosition) {
+		initializeBrickFields(yPosition);
 	}
 
-	private void initializeBrickFields(Formula xPosition) {
-		addAllowedBrickField(BrickField.X_POSITION);
-		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
+	private void initializeBrickFields(Formula yPosition) {
+		addAllowedBrickField(BrickField.Y_POSITION);
+		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.X_POSITION).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources();
 	}
 
 	@Override
@@ -75,11 +73,10 @@ public class SetXBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-
-		view = View.inflate(context, R.layout.brick_set_x, null);
+		view = View.inflate(context, R.layout.brick_set_y, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_set_x_checkbox);
+		setCheckboxView(R.id.brick_set_y_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -89,17 +86,23 @@ public class SetXBrick extends FormulaBrick {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_prototype_text_view);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 
-		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_set_x_edit_text);
-		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
-
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
-
+		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
+		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
+		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
+		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
+		textY.setVisibility(View.GONE);
+		editY.setVisibility(View.VISIBLE);
+		editY.setOnClickListener(this);
 		return view;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
+		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
+		textYPosition.setText(String.valueOf(BrickValues.Y_POSITION));
+		return prototypeView;
 	}
 
 	@Override
@@ -107,15 +110,15 @@ public class SetXBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_set_x_layout);
+			View layout = view.findViewById(R.id.brick_set_y_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textX = (TextView) view.findViewById(R.id.brick_set_x_label);
-			TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
-			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
+			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_label);
+			TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
+			textY.setTextColor(textY.getTextColors().withAlpha(alphaValue));
+			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+			editY.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = alphaValue;
 		}
@@ -124,24 +127,16 @@ public class SetXBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_x, null);
-		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_prototype_text_view);
-		textXPosition.setText(String.valueOf(BrickValues.X_POSITION));
-		return prototypeView;
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.setX(sprite, xPosition));
-		sequence.addAction(sprite.getActionFactory().createSetXAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION))); //TODO[physics]:
+		// sequence.addAction(ExtendedActions.setY(sprite, yPosition));
+		sequence.addAction(sprite.getActionFactory().createSetYAction(sprite,
+				getFormulaWithBrickField(BrickField.Y_POSITION))); // TODO[physics]
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+		FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
 	}
 
 	@Override
