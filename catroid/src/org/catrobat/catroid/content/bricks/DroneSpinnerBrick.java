@@ -38,6 +38,7 @@ import org.catrobat.catroid.R;
 import java.util.ArrayList;
 
 public abstract class DroneSpinnerBrick extends BrickBaseType {
+	private static final String TAG = DroneSpinnerBrick.class.getSimpleName();
 
 	protected transient AdapterView<?> adapterView;
 	protected String selectedMessage;
@@ -91,7 +92,7 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 				selectedMessage = parent.getItemAtPosition(position).toString();
 				spinnerPosition = position;
 				adapterView = parent;
-				Log.d("DroneSpinnerBrick: ", "selected message = "
+				Log.d(TAG, "selected message = "
 						+ selectedMessage + " on position: " + spinnerPosition);
 			}
 

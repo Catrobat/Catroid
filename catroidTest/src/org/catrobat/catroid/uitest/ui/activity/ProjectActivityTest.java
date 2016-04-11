@@ -184,8 +184,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		double p = (Double) ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable("p", copiedSprite).getValue();
 
-		Log.e("CATROID", "q hat den Wert: " + q);
-		Log.e("CATROID", "p hat den Wert: " + p);
+		Log.e(TAG, "q hat den Wert: " + q);
+		Log.e(TAG, "p hat den Wert: " + p);
 
 		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
 		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);
@@ -560,7 +560,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		// Add sprite which already exists
 		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(lookFile),
-				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null, LookData.LookDataType.IMAGE);
+				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String errorMessageText = solo.getString(R.string.spritename_already_exists);

@@ -39,6 +39,7 @@ import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
+	private static final String TAG = StageDialog.class.getSimpleName();
 	private StageActivity stageActivity;
 	private StageListener stageListener;
 
@@ -101,7 +102,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				makeScreenshot();
 				break;
 			default:
-				Log.w("CATROID", "Unimplemented button clicked! This shouldn't happen!");
+				Log.w(TAG, "Unimplemented button clicked! This shouldn't happen!");
 				break;
 		}
 	}
@@ -128,7 +129,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
-				Log.e("CATROID", "Thread activated too early!", e);
+				Log.e(TAG, "Thread activated too early!", e);
 			}
 		}
 		stageActivity.resume();

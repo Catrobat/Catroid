@@ -145,6 +145,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[10] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("isBackgroundSprite")) {
 				fieldKeyOrder[11] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
+				fieldKeyOrder[12] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

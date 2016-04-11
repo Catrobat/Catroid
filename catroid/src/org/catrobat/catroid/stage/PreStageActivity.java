@@ -26,8 +26,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -43,13 +46,16 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
@@ -183,9 +189,29 @@ public class PreStageActivity extends BaseActivity {
 				resourceFailed(Brick.FACE_DETECTION);
 			}
 		}
+		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
+			if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.nfc_facedetection_support)).setCancelable(false)
+						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								nfcInitialize();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+			} else {
+				nfcInitialize();
+			}
+		}
 
-		if (requiredResources == Brick.NO_RESOURCES) {
+		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
+		}
+
+		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
+			connectRaspberrySocket();
 		}
 	}
 
@@ -195,6 +221,18 @@ public class PreStageActivity extends BaseActivity {
 		if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE)
 				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
 			resourceInitialized();
+		}
+	}
+
+	private void connectRaspberrySocket() {
+		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
+		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+
+		if (RaspberryPiService.getInstance().connect(host, port)) {
+			resourceInitialized();
+		} else {
+			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			resourceFailed();
 		}
 	}
 
@@ -248,6 +286,8 @@ public class PreStageActivity extends BaseActivity {
 		if (FaceDetectionHandler.isFaceDetectionRunning()) {
 			FaceDetectionHandler.stopFaceDetection();
 		}
+
+		RaspberryPiService.getInstance().disconnect();
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -364,7 +404,7 @@ public class PreStageActivity extends BaseActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+		Log.i(TAG, "requestcode " + requestCode + " result code" + resultCode);
 
 		switch (requestCode) {
 
@@ -451,6 +491,24 @@ public class PreStageActivity extends BaseActivity {
 		} else {
 			resourceFailed(Brick.CAMERA_FLASH);
 		}
+	}
+
+	private void nfcInitialize() {
+		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
+		if (adapter != null && !adapter.isEnabled()) {
+			ToastUtil.showError(PreStageActivity.this, R.string.nfc_not_activated);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+				startActivity(intent);
+			}
+		} else if (adapter == null) {
+			ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
+			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
+		}
+		resourceInitialized();
 	}
 }
 

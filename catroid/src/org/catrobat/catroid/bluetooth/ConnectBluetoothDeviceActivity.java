@@ -309,7 +309,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "Bluetooth activation activity returned");
+		Log.i(TAG, "Bluetooth activation activity returned");
 
 		switch (resultCode) {
 			case Activity.RESULT_OK:

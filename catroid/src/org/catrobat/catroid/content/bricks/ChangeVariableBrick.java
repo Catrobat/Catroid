@@ -164,6 +164,9 @@ public class ChangeVariableBrick extends UserVariableBrick {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(ChangeVariableBrick.this);
+					int spinnerPos = ((UserVariableAdapterWrapper) parent.getAdapter())
+							.getPositionOfItem(userVariable);
+					dialog.setUserVariableIfCancel(spinnerPos);
 					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
@@ -239,7 +242,9 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	public ChangeVariableBrick copyBrickForSprite(Sprite sprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		ChangeVariableBrick copyBrick = clone();
-		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
+		if (this.userVariable != null) {
+			copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
+		}
 		return copyBrick;
 	}
 

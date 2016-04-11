@@ -81,6 +81,7 @@ public class SignInDialog extends DialogFragment implements
 		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
 		GetFacebookUserInfoTask.OnGetFacebookUserInfoTaskCompleteListener {
+	private static final String TAG = SignInDialog.class.getSimpleName();
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_sign_in";
 	private static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
@@ -470,7 +471,7 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onGetFacebookUserInfoTaskComplete(String id, String name, String locale, String email) {
-		Log.d("FB", "User Info complete");
+		Log.d(TAG, "FB User Info complete");
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, id).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, name).commit();

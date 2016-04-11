@@ -150,12 +150,12 @@ public class NewLookDialog extends DialogFragment {
 	private void setupDroneVideoButton(View parentView) {
 		View droneVideoButton = parentView.findViewById(R.id.dialog_new_look_drone_video);
 		View droneDialogItem = parentView.findViewById(R.id.dialog_new_look_drone);
+
 		if (!SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
 			droneVideoButton.setVisibility(View.GONE);
 			droneDialogItem.setVisibility(View.GONE);
 			return;
 		}
-
 		droneDialogItem.setVisibility(View.VISIBLE);
 		droneVideoButton.setOnClickListener(new View.OnClickListener() {
 			@Override

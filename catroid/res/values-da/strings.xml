@@ -22,7 +22,8 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Slet</string>
   <string name="rename">Omdøb</string>
@@ -45,7 +46,7 @@
   <string name="close">Luk</string>
   <string name="error">Fejl</string>
   <string name="please_wait">Vent venligst</string>
-  <string name="loading">Indlæser ...</string>
+  <string name="loading">Indlæser&#8230;</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -74,6 +75,7 @@
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
+  <!-- Main menu activity -->
   <string name="main_menu_new">Ny</string>
   <string name="main_menu_continue">Fortsæt</string>
   <string name="main_menu_programs">Programmer</string>
@@ -87,6 +89,7 @@
   <string name="main_menu_logout">Logout</string>
   <string name="main_menu_login">Log på</string>
   <string name="logout_successful">Logout successful</string>
+  <!-- Settings activity -->
   <string name="preference_title">Indstillinger</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2,0 klodser</string>
   <string name="preference_description_quadcopter_bricks">Tillad at styre ARDrone 2.0 Quadrokopter</string>
@@ -97,7 +100,17 @@
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
   <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
+  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
+  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
+  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
+  <string name="preference_raspi_help">Help / Getting started</string>
+  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
+  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
+  <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Tegn Billede</string>
   <string name="dialog_new_object_gallery">Vælg Billede</string>
   <string name="dialog_new_object_camera">Tag Billede</string>
@@ -105,18 +118,22 @@
   <string name="dialog_new_object_name">Objektnavn</string>
   <string name="dialog_new_object_switch_title">Nyt objekt oprettet</string>
   <string name="dialog_new_object_switch_message">Skift til nyt objekt?</string>
+  <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Brugsvilkår</string>
   <string name="dialog_terms_of_use_info">For at få lov til at bruge Pocket Code og andre eksekverbare filer tilbudt af Catrobat projektet, skal du acceptere vores Brugsvilkår og nøje følge dem, når du bruger Pocket Code og vores andre eksekverbare filer. Se venligst nedenstående link for deres præcise formulering.</string>
   <string name="dialog_terms_of_use_link_text">Brugsvilkår</string>
+  <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
         AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
         use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <!-- About Dialog -->
   <string name="dialog_about_title">Om Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code er et programmerings miljø og tolk til Android-enheder for det visuelle programmeringssprog Catrobat.\n\nKildekoden til Pocket Code er hovedsagelig udgivet under GNU AGPL v3 License. For præcise oplysninger om licensen se nedenstående link.</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Kode Kilde Kode Licens</string>
   <string name="dialog_about_catrobat_link_text">Om Catrobat</string>
+  <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programmer</string>
   <string name="number_of_scripts">Manuskripter:</string>
@@ -134,7 +151,9 @@
   <string name="dialog_confirm_delete_object_message">Dette kan ikke fortrydes!</string>
   <string name="select_all">Vælg alle</string>
   <string name="deselect_all">Deselect all</string>
+  <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopier</string>
+  <!-- Script activity -->
   <string name="scripts">Manuskripter</string>
   <string name="look">Udseende</string>
   <string name="looks">Udseender</string>
@@ -145,6 +164,7 @@
   <string name="script_groups">Script Groups</string>
   <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
         !</string>
+  <!-- Script fragment -->
   <string name="fragment_script_text_description">Tryk på \"+\" for at tilføje Manuskripter</string>
   <string name="dialog_confirm_delete_brick_title">Slet denne klods?</string>
   <string name="dialog_confirm_delete_script_title">Slet dette manuskript?</string>
@@ -153,17 +173,18 @@
   <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Dette kan ikke fortrydes!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Slet 1 Klods</item>
-    <item quantity="other">Slet %d Klodser</item>
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Kopier 1 Klods</item>
-    <item quantity="other">Kopier %d Klodser</item>
+    <item quantity="one">Copy %d Brick</item>
+    <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack 1 Brick</item>
+    <item quantity="one">Backpack %d Brick</item>
     <item quantity="other">Backpack %d Bricks</item>
   </plurals>
+  <!-- Look fragment -->
   <string name="fragment_look_text_description">Tryk på \"+\" for at tilføje Udseende</string>
   <string name="fragment_background_text_description">Tryk på \"+\" for at tilføje Baggrunde</string>
   <string name="rename_look_dialog">Omdøb Udseende</string>
@@ -179,6 +200,7 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Dette kan ikke fortrydes!</string>
   <string name="lookname">navn på udseende:</string>
+  <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tryk på \"+\" for at tilføje Lyde</string>
   <string name="rename_sound_dialog">Omdøb Lyd</string>
   <string name="backpack_title">Rygsæk</string>
@@ -195,6 +217,20 @@
   <string name="sound_name">navn på lyd:</string>
   <string name="new_sound_name">navn på lyd:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">blev pakket ud!</item>
     <item quantity="other">blev pakket ud!</item>
@@ -207,6 +243,7 @@
     <item quantity="one">Script</item>
     <item quantity="other">Scripts</item>
   </plurals>
+  <!-- My Projects activity -->
   <string name="last_used">Sidste login:</string>
   <string name="description">Beskrivelse:</string>
   <string name="set_description">Sæt beskrivelse</string>
@@ -220,10 +257,12 @@
   <string name="details_date_today">I dag</string>
   <string name="details_date_yesterday">I går</string>
   <string name="dialog_copy_project_title">Kopier program</string>
+  <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">Pocket Code Optager</string>
   <string name="soundrecorder_error">Lydoptagelse mislykkedes</string>
   <string name="soundrecorder_recorded_filename">optag</string>
   <string name="soundrecorder_text_view">Tryk på ikonet ovenfor for at starte og stoppe optagelsen.</string>
+  <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
   <string name="prestage_resource_not_available_title">Component not available</string>
   <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
@@ -238,6 +277,11 @@
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
+  <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Flyt Klods</string>
   <string name="brick_context_dialog_show_source">Vis Kildeklods</string>
   <string name="brick_context_dialog_delete_brick">Slet Klods</string>
@@ -247,6 +291,7 @@
   <string name="brick_context_dialog_edit_brick">Redigér Klods</string>
   <string name="brick_context_dialog_formula_edit_brick">Redigér Formel</string>
   <string name="brick_context_dialog_delete_script">Slet Manuskript</string>
+  <!-- New look dialog -->
   <string name="new_look_dialog_title">Tilføj Udseende</string>
   <string name="add_look_from_camera">Tag Billede</string>
   <string name="add_look_draw_new_image">Tegn billede</string>
@@ -256,9 +301,11 @@
   <string name="look_rename_overwrite">Look with this name already exists. Please choose a different one
         !</string>
   <string name="add_look_drone_video">Drone Video</string>
+  <!-- New Sound dialog -->
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
+  <!-- New project dialog -->
   <string name="new_project_dialog_title">Nyt program</string>
   <string name="new_project_dialog_hint">Mit Program</string>
   <string name="new_project_description_dialog_hint">Min beskrivelse</string>
@@ -267,6 +314,7 @@
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientation:</string>
+  <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mit Objekt</string>
   <string name="new_sprite_dialog_title">Nyt Objekt</string>
   <string name="spritename_already_exists">Dette objekt navn findes allerede</string>
@@ -274,6 +322,7 @@
   <string name="spritename_invalid">Dette objekt navn er ugyldigt</string>
   <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">Navn på objekt:</string>
+  <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Brugernavn:</string>
   <string name="password">Adgangskode:</string>
@@ -296,15 +345,18 @@
   <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
+  <!-- OverwriteRenameDialog Strings -->
   <string name="overwrite_text">Program med samme navn findes allerede!</string>
   <string name="overwrite_replace">Erstat eksisterende program</string>
   <string name="overwrite_rename">Omdøb downloadet program</string>
+  <!-- OverwriteRenameMediaDialog -->
   <string name="overwrite_replace_look">Replace existing Look</string>
   <string name="overwrite_rename_look">Rename downloaded Look</string>
   <string name="overwrite_replace_sound">Replace existing Sound</string>
   <string name="overwrite_rename_sound">Rename downloaded Sound</string>
   <string name="overwrite_replace_default">Replace existing media</string>
   <string name="overwrite_rename_default">Rename existing media</string>
+  <!-- Stage menu dialog -->
   <string name="stage_dialog_back">Tilbage</string>
   <string name="stage_dialog_resume">Genoptag</string>
   <string name="stage_dialog_restart">Genstart</string>
@@ -312,9 +364,14 @@
   <string name="stage_dialog_axes_off">Akser Fra</string>
   <string name="stage_dialog_maximize">Maksimer /\nStræk</string>
   <string name="stage_dialog_screenshot">Skærmbillede</string>
-  <string name="new_broadcast_message">Ny ...</string>
+  <!-- Broadcast spinner -->
+  <string name="new_broadcast_message">Ny&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Ny besked</string>
   <string name="dialog_new_broadcast_message_name">besked:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">Ny&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
+  <!-- Brick categories -->
   <string name="categories">Kategorier</string>
   <string name="category_motion">Bevægelse</string>
   <string name="category_looks">Udseender</string>
@@ -326,6 +383,8 @@
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
+  <string name="category_raspi">Raspberry Pi</string>
+  <!-- Motion bricks -->
   <string name="brick_place_at">"Placér ved"</string>
   <string name="x_label">"X:"</string>
   <string name="y_label">"Y:"</string>
@@ -351,6 +410,7 @@
   <string name="brick_point_to">Peger mod</string>
   <string name="brick_glide">Glid</string>
   <string name="brick_glide_to_x">til X:</string>
+  <!-- Looks bricks -->
   <string name="brick_set_look">Skift til udseende</string>
   <string name="brick_set_background">Set baggrund</string>
   <string name="brick_set_size_to">Indstil størrelse til</string>
@@ -370,15 +430,18 @@
   <string name="brick_flash_on">on</string>
   <string name="brick_flash_off">off</string>
   <string name="brick_vibration">Vibrér for</string>
+  <!-- Sound bricks -->
   <string name="brick_play_sound">Start lyd</string>
   <string name="brick_stop_all_sounds">Stop alle lyde</string>
   <string name="brick_set_volume_to">Indstil lydstyrken til</string>
   <string name="brick_change_volume_by">Skift lydstyrke ved</string>
   <string name="brick_speak">Tal</string>
   <string name="brick_speak_default_value">"Hej!"</string>
+  <!-- Control bricks -->
   <string name="brick_when_started">Når programmet startes</string>
   <string name="brick_when">Når du trykker her</string>
   <string name="brick_wait">Vent</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"sekund"</item>
     <item quantity="other">"sekunder"</item>
@@ -400,8 +463,8 @@
   <string name="brick_if_end">Slut hvis</string>
   <string name="brick_set_variable">Sæt variabel</string>
   <string name="brick_change_variable">Skift variabel</string>
-  <string name="brick_variable_spinner_create_new_variable">Ny ...</string>
-  <string name="brick_note_default_value">"tilføj kommentar her ..."</string>
+  <string name="brick_variable_spinner_create_new_variable">Ny&#8230;</string>
+  <string name="brick_note_default_value">"tilføj kommentar her…"</string>
   <string name="brick_broadcast_default_value">"besked 1"</string>
   <string name="brick_add_item_to_userlist_add">Add</string>
   <string name="brick_add_item_to_userlist">to list</string>
@@ -413,6 +476,7 @@
   <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
+  <!-- defaultValues -->
   <string name="default_project_name">Mit første program</string>
   <string name="default_project_background_name">Baggrund</string>
   <string name="default_project_cloud_name">Clouds</string>
@@ -423,8 +487,10 @@
   <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
+  <!-- defaultDroneValues -->
   <string name="default_drone_project_name">Min første Drone-program</string>
   <string name="default_drone_project_sprites_takeoff">Start</string>
+  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
   <string name="default_drone_project_sprites_rotate">Rotate</string>
   <string name="default_drone_project_sprites_up">Op</string>
   <string name="default_drone_project_sprites_down">Ned</string>
@@ -437,26 +503,32 @@
   <string name="default_drone_project_sprites_emergency">Emergency</string>
   <string name="drone_brick_set_text">Text</string>
   <string name="drone_brick_set_x">X:</string>
+  <!-- Drone config spinner values  -->
   <string name="drone_config_indoor_with_hull">indoor with hull</string>
   <string name="drone_config_indoor_without_hull">indoor without hull</string>
   <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
   <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+  <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 meters</string>
   <string name="drone_set_altitude_max_5m">5 meters</string>
   <string name="drone_set_altitude_max_10m">10 meters</string>
   <string name="drone_set_altitude_max_100m">100 meters</string>
+  <!-- Drone max vertical speed limit values  -->
   <string name="drone_set_vertical_min">200 mm/s</string>
   <string name="drone_set_vertical_indoor">700 mm/s</string>
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
+  <!-- Drone max rotation speed limit values  -->
   <string name="drone_set_rotation_min">40 °/s</string>
   <string name="drone_set_rotation_indoor">100 °/s</string>
   <string name="drone_set_rotation_outdoor">200 °/s</string>
   <string name="drone_set_rotation_max">350 °/s</string>
+  <!-- Drone max tilt limit values  -->
   <string name="drone_set_tilt_min">5 °</string>
   <string name="drone_set_tilt_indoor">12 °</string>
   <string name="drone_set_tilt_outdoor">20 ° </string>
   <string name="drone_set_tilt_max">30 °</string>
+  <!-- Notifications -->
   <string name="notification_invalid_text_entered">Indtast venligst en værdi</string>
   <string name="notification_screenshot_ok">Skærmbillede gemt</string>
   <string name="notification_download_project_cancel">Annulleret download af program</string>
@@ -489,6 +561,7 @@
   <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
   <string name="drone_emergency_title">Emergency</string>
+  <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code kræver skrivbar ekstern lagring som et SD-kort for at køre, men ingen blev fundet.\nDu kan løse dette ved at gøre den eksterne opbevaring skrivbar eller indsætte et SD-kort og prøve igen.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
   <string name="error_project_exists">Et program med samme navn findes allerede.\nVælg et andet navn.</string>
@@ -521,19 +594,36 @@
   <string name="error_rename_incompatible_project">Omdøbning af et inkompatibelt projekt er ikke muligt.</string>
   <string name="error_changing_description_of_incompatible_project">Ændring af beskrivelsen af ​​et inkompatibelt projekt er ikke muligt.</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
+  <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth kan ikke aktiveres, lukker fase</string>
   <string name="title_paired_devices">Parrede enheder</string>
   <string name="title_other_devices">Nye enheder</string>
   <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Søg efter Bluetooth-enheder</string>
   <string name="select_device">Vælg enhed:</string>
-  <string name="connecting_please_wait">Tilslutning til din enhed.\nVent venligst ...</string>
+  <string name="connecting_please_wait">Tilslutning til din enhed.\nVent venligst&#8230;</string>
+  <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">Tilslutning til enhed mislykkedes!</string>
   <string name="none_found">Ingen uparrede enheder fundet</string>
   <string name="none_paired">Ingen parrede enheder fundet</string>
+  <!-- Arduino Bricks -->
   <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
   <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">til</string>
+  <!-- Raspi Bricks -->
+  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+  <string name="brick_raspi_set_pin_value_to">til</string>
+  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+  <string name="brick_raspi_if_begin_second_part">er sandt, så</string>
+  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
+  <string name="brick_raspi_when_equals">changes to</string>
+  <string name="brick_raspi_pressed_text">High</string>
+  <string name="brick_raspi_released_text">Low</string>
+  <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+  <!-- Raspi Settings -->
+  <string name="raspi_settings_title_name">Raspberry Pi Settings</string>
+  <string name="raspi_settings_gpio_version">GPIO Version</string>
+  <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">til</string>
   <string name="nxt_motor_speed">speed</string>
@@ -571,6 +661,7 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
+  <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
   <string name="brick_drone_play_led_animation">Spil LED animation</string>
   <string name="brick_drone_move_left">Flyt til venstre</string>
@@ -594,20 +685,26 @@
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">with</string>
   <string name="brick_drone_percent_power">% power</string>
+  <!-- Phiro bricks -->
+  <!-- motor -->
   <string name="phiro_motor_stop">Stop Phiro motor</string>
   <string name="brick_phiro_motor_forward_action">Move Phiro motor forward</string>
   <string name="brick_phiro_motor_backward_action">Move Phiro motor backward</string>
   <string name="phiro_motor_speed">Speed</string>
+  <!-- sensor -->
   <string name="brick_phiro_sensor_begin">If Phiro</string>
   <string name="brick_phiro_sensor_second_part">is activated</string>
+  <!-- tone -->
   <string name="phiro_play_tone">Play Phiro music\n</string>
   <string name="phiro_tone_duration">Duration</string>
   <string name="brick_phiro_select_tone">tone</string>
   <string name="phiro_seconds">seconds</string>
+  <!-- light -->
   <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
   <string name="phiro_rgb_led_red">Red</string>
   <string name="phiro_rgb_led_green">Green</string>
   <string name="phiro_rgb_led_blue">Blue</string>
+  <!-- Phiro tone strings -->
   <string name="phiro_tone_do">Do</string>
   <string name="phiro_tone_re">Re</string>
   <string name="phiro_tone_mi">Mi</string>
@@ -615,22 +712,27 @@
   <string name="phiro_tone_so">So</string>
   <string name="phiro_tone_la">La</string>
   <string name="phiro_tone_ti">Ti</string>
+  <!-- Phiro motor strings -->
   <string name="phiro_motor_left">Venstre</string>
   <string name="phiro_motor_right">Højre</string>
   <string name="phiro_motor_both">Both</string>
+  <!-- Phiro light strings -->
   <string name="phiro_light_left">Venstre</string>
   <string name="phiro_light_right">Højre</string>
   <string name="phiro_light_both">Both</string>
+  <!-- Phiro sensor strings -->
   <string name="phiro_sensor_front_left">Front Left Sensor</string>
   <string name="phiro_sensor_front_right">Front Right Sensor</string>
   <string name="phiro_sensor_side_left">Side Left Sensor</string>
   <string name="phiro_sensor_side_right">Side Right Sensor</string>
   <string name="phiro_sensor_bottom_left">Bottom Left Sensor</string>
   <string name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
+  <!-- Phiro RGBColor Chooser strings -->
   <string name="color_red">Red</string>
   <string name="color_green">Green</string>
   <string name="color_blue">Blue</string>
   <string name="color_preview">Color Preview</string>
+  <!-- Formula Editor Strings -->
   <string name="formula_editor_data">Data</string>
   <string name="formula_editor_true">Sandt</string>
   <string name="formula_editor_false">Falsk</string>
@@ -692,6 +794,7 @@
   <string name="formula_editor_function_join_parameter">(\'Hej\', \'verden\')</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
+  <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>
@@ -777,6 +880,7 @@
     <item quantity="one">Item selected!</item>
     <item quantity="other">Items selected!</item>
   </plurals>
+  <!-- Brick Data Editor Strings -->
   <string name="brick_data_editor_title">Klods-redigering</string>
   <string name="separator">|</string>
   <string name="add_text">Tilføj tekst</string>
@@ -787,27 +891,30 @@
   <string name="edit_variable">Redigér Variabel</string>
   <string name="variable_hint">Variabel navn</string>
   <string name="brick_show_text_var">Show variable</string>
-  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_show_text_pos">"at "</string>
   <string name="brick_hide_text_var">Hide variable</string>
+  <!-- User Bricks strings -->
   <string name="define">definér</string>
   <string name="new_user_brick">New Klods</string>
   <string name="new_user_brick_variable">Variabel 1</string>
   <string name="recursive_user_brick_forbidden">Tilføjelse af BrugerKlods til BrugerKlods er ikke tilladt endnu!</string>
   <string name="brick_single">Klods</string>
   <string name="brick_multiple">Klodser</string>
+  <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">successfully merged into</string>
   <string name="warning">Warning</string>
   <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
-  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
-        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
+        has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
   <string name="merge_conflict">Merging not possible</string>
   <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
   <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
+  <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>

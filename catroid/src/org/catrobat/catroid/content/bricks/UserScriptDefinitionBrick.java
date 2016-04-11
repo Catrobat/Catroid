@@ -175,8 +175,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 		TextView define = new TextView(context);
 		define.setTextAppearance(context, R.style.BrickText);
-		define.setText(context.getString(R.string.define));
-		define.setText(define.getText() + "  ");
+		define.setText(context.getString(R.string.define).concat(" "));
 
 		layout.addView(define);
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) define.getLayoutParams();

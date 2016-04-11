@@ -382,7 +382,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			}
 		}
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
-			Log.d("SoundFragment", "onActivityResult RequestMusic");
+			Log.d(TAG, "onActivityResult RequestMusic");
 			setHandleAddbutton();
 		}
 
@@ -1002,7 +1002,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			try {
 				file = StorageHandler.getInstance().copySoundFile(path[0]);
 			} catch (IOException e) {
-				Log.e("CATROID", "Cannot load sound.", e);
+				Log.e(TAG, "Cannot load sound.", e);
 			}
 			return file;
 		}

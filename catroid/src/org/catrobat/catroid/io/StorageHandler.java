@@ -38,14 +38,17 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
@@ -113,6 +116,9 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -137,6 +143,7 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -250,6 +257,7 @@ public final class StorageHandler {
 		xstream.alias("look", LookData.class);
 		xstream.alias("droneLook", DroneVideoLookData.class);
 		xstream.alias("sound", SoundInfo.class);
+		xstream.alias("nfcTag", NfcTagData.class);
 		xstream.alias("userVariable", UserVariable.class);
 		xstream.alias("userList", UserList.class);
 
@@ -258,7 +266,9 @@ public final class StorageHandler {
 
 		xstream.alias("script", StartScript.class);
 		xstream.alias("script", WhenScript.class);
+		xstream.alias("script", WhenNfcScript.class);
 		xstream.alias("script", BroadcastScript.class);
+		xstream.alias("script", RaspiInterruptScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
@@ -324,6 +334,8 @@ public final class StorageHandler {
 		xstream.alias("brick", WhenBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
 
+		xstream.alias("brick", WhenNfcBrick.class);
+
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", DroneTakeOffLandBrick.class);
@@ -347,6 +359,10 @@ public final class StorageHandler {
 
 		xstream.alias("brick", ArduinoSendPWMValueBrick.class);
 		xstream.alias("brick", ArduinoSendDigitalValueBrick.class);
+
+		xstream.alias("brick", RaspiSendDigitalValueBrick.class);
+		xstream.alias("brick", RaspiIfLogicBeginBrick.class);
+		xstream.alias("brick", RaspiPwmBrick.class);
 
 		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
@@ -846,11 +862,11 @@ public final class StorageHandler {
 		try {
 			if (isBackPackFile) {
 				File toDelete = new File(filepath);
-				Log.d("LookController", "delete" + toDelete);
+				Log.d(TAG, "delete" + toDelete);
 				toDelete.delete();
 			} else if (container.decrementUsage(filepath)) {
 				File toDelete = new File(filepath);
-				Log.d("LookController", "delete" + toDelete);
+				Log.d(TAG, "delete" + toDelete);
 				toDelete.delete();
 			}
 		} catch (FileNotFoundException fileNotFoundException) {
@@ -939,6 +955,9 @@ public final class StorageHandler {
 		}
 		if ((resources & Brick.FACE_DETECTION) > 0) {
 			permissionsSet.add(Constants.FACE_DETECTION);
+		}
+		if ((resources & Brick.NFC_ADAPTER) > 0) {
+			permissionsSet.add(Constants.NFC);
 		}
 		return permissionsSet;
 	}

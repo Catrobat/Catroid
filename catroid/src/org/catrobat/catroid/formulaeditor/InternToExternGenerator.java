@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InternToExternGenerator {
+	private static final String TAG = InternToExternGenerator.class.getSimpleName();
 
 	private String generatedExternFormulaString;
 	private ExternInternRepresentationMapping generatedExternInternRepresentationMapping;
@@ -88,6 +89,8 @@ public class InternToExternGenerator {
 				.formula_editor_function_arduino_read_pin_value_digital);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ARDUINOANALOG.name(),
 				R.string.formula_editor_function_arduino_read_pin_value_analog);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.RASPIDIGITAL.name(), R.string
+				.formula_editor_function_raspi_read_pin_value_digital);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LIST_ITEM.name(), R.string.formula_editor_function_list_item);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.CONTAINS.name(), R.string.formula_editor_function_contains);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(),
@@ -154,7 +157,7 @@ public class InternToExternGenerator {
 	}
 
 	public void generateExternStringAndMapping(List<InternToken> internTokenFormula) {
-		Log.i("info", "generateExternStringAndMapping:enter");
+		Log.i(TAG, "generateExternStringAndMapping:enter");
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 

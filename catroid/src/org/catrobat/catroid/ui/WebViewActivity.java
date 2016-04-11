@@ -57,6 +57,7 @@ import java.net.URLDecoder;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends BaseActivity {
+	private static final String TAG = WebViewActivity.class.getSimpleName();
 
 	public static final String INTENT_PARAMETER_URL = "url";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
@@ -256,7 +257,7 @@ public class WebViewActivity extends BaseActivity {
 		try {
 			mediaName = URLDecoder.decode(mediaName, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			Log.e("WebViewActivity", "Could not decode program name: " + mediaName, e);
+			Log.e(TAG, "Could not decode program name: " + mediaName, e);
 			return null;
 		}
 		return mediaName;

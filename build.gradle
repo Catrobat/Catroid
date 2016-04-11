@@ -26,7 +26,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.1'
+        classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
@@ -61,7 +61,9 @@ android {
             buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -76,6 +78,8 @@ android {
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
         }
     }
 }
@@ -207,12 +211,9 @@ android {
         }
     }
     lintOptions {
-        // define ignores like a specific res-folder in our lint.xml file
+        // specific ignores should be defined via lint.xml file, all general ignores should be added here
         lintConfig file('config/lint.xml')
-
-        // all general ignores should be added in this place
         // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
-        // OldTargetApi should be reviewed - consider updating target API to 20
         // RtlSymmetry/RtlHardcoded should be reviewed
         // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
         // IconMissingDensityFolder - currently no xxxhdpi icons available
@@ -225,8 +226,9 @@ android {
 
         textReport true
         xmlReport true
-        htmlReport false
+        htmlReport true
         xmlOutput file("build/reports/lint.xml")
+        htmlOutput file("build/reports/lint.html")
     }
 }
 
