@@ -101,7 +101,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_DENSITY, fixtureDef.density);
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_FRICTION, fixtureDef.friction);
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_BOUNCE_FACTOR, fixtureDef.restitution);
-		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NOCOLLISION);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NO_COLLISION);
 
 		assertFalse("Wrong initialization", (Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));
 	}
@@ -188,13 +188,13 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	public void testSetCollisionBits() {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.NONE,
 				10.0f, 5.0f);
-		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NOCOLLISION);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NO_COLLISION);
 
 		physicsObject.setType(PhysicsObject.Type.FIXED);
 		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
 
 		physicsObject.setType(PhysicsObject.Type.NONE);
-		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NOCOLLISION);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NO_COLLISION);
 
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
@@ -484,7 +484,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 		assertTrue("If on edge bounce hasn't been set correctly",
 				(Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));
-		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_TOBOUNCE);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_TO_BOUNCE);
 
 		physicsObject.setIfOnEdgeBounce(false, sprite);
 		assertFalse("If on edge bounce hasn't been set correctly",
