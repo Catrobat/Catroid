@@ -27,7 +27,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,13 +34,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.Utils;
-
-import java.io.IOException;
 
 public class OrientationDialog extends DialogFragment {
 
@@ -52,7 +46,8 @@ public class OrientationDialog extends DialogFragment {
 	private Dialog orientationDialog;
 	private String projectName;
 	private RadioButton landscapeMode;
-	private boolean createEmptyProject;
+	private CreateProjectDialog createProjectDialog;
+	private boolean createEmptyProject = true;
 	private boolean createLandscapeProject = false;
 
 	private boolean openedFromProjectList = false;
@@ -99,33 +94,30 @@ public class OrientationDialog extends DialogFragment {
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
 
-		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
+		if (getActivity() == null) {
+			Log.e(TAG, "handleOkButtonClick() Activity was null!");
 			return;
 		}
 
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-		if (isOpenedFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+		if (projectName.isEmpty()) {
+			Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.error_no_program_name_entered);
+			return;
 		}
 
-		getActivity().startActivity(intent);
+		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
+			Utils.showErrorDialog(getActivity(), R.string.name_exists, R.string.error_project_exists);
+			return;
+		}
+
+		createProjectDialog = new CreateProjectDialog();
+		createProjectDialog.show(getFragmentManager(), createProjectDialog.DIALOG_FRAGMENT_TAG);
+		createProjectDialog.setOpenedFromProjectList(openedFromProjectList);
+		createProjectDialog.setProjectName(projectName);
+		createProjectDialog.setCreateEmptyProject(createEmptyProject);
+		createProjectDialog.setCreateDroneProject(createDroneProject);
+		createProjectDialog.setCreateLandscapeProject(createLandscapeProject);
 
 		dismiss();
-	}
-
-	public boolean isOpenedFromProjectList() {
-		return openedFromProjectList;
 	}
 
 	public void setOpenedFromProjectList(boolean openedFromProjectList) {

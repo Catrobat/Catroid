@@ -317,6 +317,7 @@
   <string name="new_project_default">Beispielprogramm erstellen</string>
   <string name="new_project_default_drone">Beispielprogramm für Drohnen erstellen</string>
   <string name="project_orientation_title">Ausrichtung:</string>
+  <string name="creating_project_title">Erstellen von Programm</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
   <string name="new_sprite_dialog_title">Neues Objekt</string>

@@ -316,6 +316,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientación:</string>
+  <string name="creating_project_title">Creating Project</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mi objeto</string>
   <string name="new_sprite_dialog_title">Objeto nuevo</string>
