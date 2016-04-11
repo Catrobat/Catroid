@@ -63,11 +63,9 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private File complexSingleConvexPolygonFile;
 
 	private Sprite sprite;
-
 	static {
 		GdxNativesLoader.load();
 	}
-
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -139,8 +137,8 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 			lowerAccuracyShapes = higherAccuracyShapes;
 			highestAccuracyShapes = higherAccuracyShapes;
 		}
-		assertTrue("lower accuracy must have less shapes than higher accuracy", lowestAccuracyShapes.length <
-				highestAccuracyShapes.length);
+		assertTrue("lower accuracy must have less shapes than higher accuracy", lowestAccuracyShapes.length
+				< highestAccuracyShapes.length);
 	}
 
 	private void checkBuiltShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {

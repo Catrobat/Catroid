@@ -463,8 +463,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		startingScript.addBrick(new SetLookBrick());
 		startingScript.addBrick(new SetLookBrick());
 		assertEquals("Number of bricks in background sprite was wrong after adding three new bricks", 10,
-				backgroundSprite
-				.getNumberOfBricks());
+				backgroundSprite.getNumberOfBricks());
 		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
 		ProjectManager.getInstance().setCurrentScript(startingScript);
 		StorageHandler.getInstance().saveProject(standardProject);

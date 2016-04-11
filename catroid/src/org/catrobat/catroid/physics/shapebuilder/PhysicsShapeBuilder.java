@@ -32,7 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PhysicsShapeBuilder {
+public final class PhysicsShapeBuilder {
 
 	private static final String TAG = PhysicsShapeBuilder.class.getSimpleName();
 	private static final float[] ACCURACY_LEVELS = { 0.125f, 0.25f, 0.50f, 0.75f, 1.0f };
@@ -111,7 +111,6 @@ public class PhysicsShapeBuilder {
 
 		private static final int MAX_ORIGINAL_PIXMAP_SIZE = 512;
 
-		private final String TAG = ImageShapes.class.getSimpleName();
 		private Map<String, Shape[]> shapeMap = new HashMap<>();
 		private Pixmap pixmap;
 		private float sizeAdjustmentScaleFactor = 1;
@@ -133,7 +132,7 @@ public class PhysicsShapeBuilder {
 		}
 
 		private String getShapeKey(float accuracyLevel) {
-			return String.format("%d", (int) (accuracyLevel * 100));
+			return String.valueOf((int) (accuracyLevel * 100));
 		}
 
 		private Shape[] computeNewShape(float accuracy) {

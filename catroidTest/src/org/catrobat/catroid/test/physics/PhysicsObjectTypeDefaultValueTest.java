@@ -203,5 +203,3 @@ public class PhysicsObjectTypeDefaultValueTest extends PhysicsBaseTest {
 		sprite.addScript(script);
 	}
 }
-
-

@@ -119,10 +119,10 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 			}
 		}
 
-		assertEquals("X Value of Sprite was not set", (float) testXValue, sprite2.look.getXInUserInterfaceDimensionUnit
-				());
-		assertEquals("Y Value of Sprite was not set", (float) testYValue, sprite2.look.getYInUserInterfaceDimensionUnit
-				());
+		assertEquals("X Value of Sprite was not set", (float) testXValue, sprite2.look
+				.getXInUserInterfaceDimensionUnit());
+		assertEquals("Y Value of Sprite was not set", (float) testYValue, sprite2.look
+				.getYInUserInterfaceDimensionUnit());
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {

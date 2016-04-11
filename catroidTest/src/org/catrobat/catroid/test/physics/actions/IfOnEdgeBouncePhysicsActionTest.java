@@ -209,12 +209,12 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 				physicsWorld, "activeHorizontalBounces");
 
 		assertTrue("Bounce Once Vertical Array is not empty", activeVerticalBounces.isEmpty());
-		assertTrue("Bounce Once Vertical Array is not empty", activeHorizontalBounces.isEmpty());
+		assertTrue("Bounce Once Horizontal Array is not empty", activeHorizontalBounces.isEmpty());
 
 		ifOnEdgeBouncePhysicsAction.act(1.0f);
 
 		assertFalse("Bounce Once Vertical Array is empty", activeVerticalBounces.isEmpty());
-		assertFalse("Bounce Once Vertical Array is empty", activeHorizontalBounces.isEmpty());
+		assertFalse("Bounce Once Horizontal Array is empty", activeHorizontalBounces.isEmpty());
 
 		assertTrue("New X value is not smaller after IfOnEdgeBounce act", setXValue > sprite.look
 				.getXInUserInterfaceDimensionUnit());
@@ -224,7 +224,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		physicsWorld.step(2.0f);
 
 		assertTrue("Bounce Once Vertical Array is not empty after colliding once", activeVerticalBounces.isEmpty());
-		assertTrue("Bounce Once Vertical Array is not empty after colliding once", activeHorizontalBounces.isEmpty());
+		assertTrue("Bounce Once Horizontal Array is not empty after colliding once", activeHorizontalBounces.isEmpty());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
 			for (Sprite spriteOfList : project.getSpriteList()) {
@@ -232,10 +232,10 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 			}
 		}
 
-		assertEquals("X Value of Sprite was not set", (float) testXValue, sprite.look.getXInUserInterfaceDimensionUnit
-				());
-		assertEquals("Y Value of Sprite was not set", (float) testYValue, sprite.look.getYInUserInterfaceDimensionUnit
-				());
+		assertEquals("X Value of Sprite was not set", (float) testXValue, sprite.look
+				.getXInUserInterfaceDimensionUnit());
+		assertEquals("Y Value of Sprite was not set", (float) testYValue, sprite.look
+				.getYInUserInterfaceDimensionUnit());
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {

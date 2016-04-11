@@ -50,8 +50,8 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 
 	private static final String SPRITE_RENAME_METHOD_NAME = "rename";
 
-	private static final String COLLISION_BROADCAST_MESSAGE = FIRST_SPRITE_NAME +
-			PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + SECOND_SPRITE_NAME;
+	private static final String COLLISION_BROADCAST_MESSAGE = FIRST_SPRITE_NAME
+			+ PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + SECOND_SPRITE_NAME;
 
 	private Project project;
 

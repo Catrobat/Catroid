@@ -26,7 +26,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.LookData;
@@ -748,7 +747,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSendDigitalArduinoValueAction(Sprite sprite, Formula pinNumber,
 			Formula
-			pinValue) {
+					pinValue) {
 		ArduinoSendDigitalValueAction action = action(ArduinoSendDigitalValueAction.class);
 		action.setSprite(sprite);
 		action.setPinNumber(pinNumber);

@@ -173,30 +173,18 @@ public class PhysicsWorld {
 				case BBI_HORIZONTAL:
 					if (activeHorizontalBounces.remove(sprite) && !activeVerticalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName
-								(), PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
+						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName(),
+								PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
 					}
 					break;
 				case BBI_VERTICAL:
 					if (activeVerticalBounces.remove(sprite) && !activeHorizontalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName
-								(), PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
+						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName(),
+								PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
 					}
 					break;
 			}
-		}
-	}
-
-	public void resetActiveInOnEdgeBounce(Sprite sprite) {
-		if (physicsObjects.containsKey(sprite)) {
-			activeHorizontalBounces.remove(sprite);
-			activeVerticalBounces.remove(sprite);
-			PhysicsObject physicsObject = physicsObjects.get(sprite);
-			physicsObject.setIfOnEdgeBounce(false, sprite);
-			//Log.d(TAG, "resetActiveInOnEdgeBounce:");
-		} else {
-			Log.d(TAG, "resetActiveInOnEdgeBounce: BUT SPRITE NOT KNOWN");
 		}
 	}
 }

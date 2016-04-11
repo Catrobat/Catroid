@@ -167,12 +167,12 @@ public class ArduinoTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick1 = new ArduinoSendPWMValueBrick(
 				PWM_PIN, PIN_HIGH);
-		commands.add(new int[]{PIN_HIGH, PWM_PIN, PIN_HIGH});
+		commands.add(new int[] { PIN_HIGH, PWM_PIN, PIN_HIGH });
 		WaitBrick firstWaitBrick = new WaitBrick(100);
 
 		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick2 = new ArduinoSendPWMValueBrick(
 				PWM_PIN, PIN_LOW);
-		commands.add(new int[]{PIN_LOW, PWM_PIN, PIN_LOW});
+		commands.add(new int[] { PIN_LOW, PWM_PIN, PIN_LOW });
 
 		whenScript.addBrick(arduinoArduinoSendPWMValueBrick1);
 		whenScript.addBrick(firstWaitBrick);

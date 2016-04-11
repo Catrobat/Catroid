@@ -235,7 +235,6 @@ public final class UiTestUtils {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_nfctags);
 	}
-
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("sprite1");
@@ -1772,7 +1771,7 @@ public final class UiTestUtils {
 	}
 
 	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
-										final float yTo, final int steps) {
+			final float yTo, final int steps) {
 		final Activity activity = solo.getCurrentActivity();
 		Handler handler = new Handler(activity.getMainLooper());
 

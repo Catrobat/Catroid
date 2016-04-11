@@ -127,7 +127,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
 			editX.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

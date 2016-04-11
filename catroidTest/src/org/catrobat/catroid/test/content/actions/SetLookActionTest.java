@@ -44,10 +44,8 @@ import java.io.File;
 public class SetLookActionTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private File testImage;
-	int width;
-	int height;
 	private String projectName = "testProject";
+	private File testImage;
 	private Project project;
 
 	@Override
@@ -69,9 +67,6 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
-
-		this.width = bitmapOptions.outWidth;
-		this.height = bitmapOptions.outHeight;
 	}
 
 	@Override

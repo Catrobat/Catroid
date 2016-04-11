@@ -97,7 +97,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
 		assertEquals("New project has wrong number of sprites", 4, spriteCount);
 		Sprite bird = projectManager.getCurrentProject().getSpriteList().get(projectManager.getCurrentProject()
-				.getSpriteList().size() -1);
+				.getSpriteList().size() - 1);
 		assertEquals("Catroid sprite has wrong number of scripts", 3, bird.getNumberOfScripts());
 
 		Sprite sprite = new Sprite(spriteNameOne);

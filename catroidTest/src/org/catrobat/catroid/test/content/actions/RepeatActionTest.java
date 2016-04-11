@@ -193,7 +193,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final float expectedDeltaY = 150f;
 
 		final RepeatAction repeatAction = (RepeatAction) testSprite.getActionFactory().createRepeatAction(testSprite,
-				new Formula(0),	testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(decoyDeltaY)));
+				new Formula(0), testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(decoyDeltaY)));
 		repeatAction.act(1f);
 
 		testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(expectedDeltaY)).act(1f);

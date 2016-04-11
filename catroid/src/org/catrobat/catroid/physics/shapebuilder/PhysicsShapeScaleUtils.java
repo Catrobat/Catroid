@@ -30,9 +30,12 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PhysicsShapeScaleUtils {
+public final class PhysicsShapeScaleUtils {
 
 	public static final float COORDINATE_SCALING_DECIMAL_ACCURACY = 100.0f;
+
+	private PhysicsShapeScaleUtils() {
+	}
 
 	public static Shape[] scaleShapes(Shape[] shapes, float targetScale) {
 		return scaleShapes(shapes, targetScale, 1.0f);

@@ -132,7 +132,7 @@ public class GlideToActionTest extends AndroidTestCase {
 				sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(NOT_NUMERICAL_STRING), new Formula(
-						NOT_NUMERICAL_STRING2), new Formula(NOT_NUMERICAL_STRING3));
+				NOT_NUMERICAL_STRING2), new Formula(NOT_NUMERICAL_STRING3));
 
 		currentTimeDelta = System.currentTimeMillis();
 		do {

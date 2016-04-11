@@ -179,7 +179,7 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 			View layout = view.findViewById(R.id.brick_collision_receive_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}

@@ -29,13 +29,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.standardprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -48,8 +44,6 @@ import java.util.List;
 public class DefaultProjectHandlerTest extends AndroidTestCase {
 
 	private static final String TEST_PROJECT_NAME = "testStandardProject";
-	private static final int BACKGROUNDIMAGE_WIDTH = 720;
-	private static final int BACKGROUNDIMAGE_HEIGHT = 1134;
 
 	public DefaultProjectHandlerTest() throws IOException {
 	}
