@@ -143,7 +143,6 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//		sequence.addAction(ExtendedActions.turnRightSpeed(sprite, physicsObject, degreesPerSecond));
 		sequence.addAction(sprite.getActionFactory().createTurnRightSpeedAction(sprite,
 				getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
 		return null;

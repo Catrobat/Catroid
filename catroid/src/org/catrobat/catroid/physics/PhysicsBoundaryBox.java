@@ -43,7 +43,7 @@ public class PhysicsBoundaryBox {
 	}
 
 	/**
-	 * TODO: Create only one body with four shapes (sides). Refactor test after that.
+	 * TODO[physics]: Create only one body with four shapes (sides). Refactor test after that.
 	 *
 	 * @param height
 	 * @param width

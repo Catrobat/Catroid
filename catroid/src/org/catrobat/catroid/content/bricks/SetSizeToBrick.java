@@ -130,9 +130,8 @@ public class SetSizeToBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.setSizeTo(sprite, size));
 		sequence.addAction(sprite.getActionFactory().createSetSizeToAction(sprite,
-				getFormulaWithBrickField(BrickField.SIZE))); // TODO[physics]
+				getFormulaWithBrickField(BrickField.SIZE)));
 		return null;
 	}
 

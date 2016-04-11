@@ -220,8 +220,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.setLook(sprite, look));
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look)); // TODO[physics]
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look));
 		return null;
 	}
 

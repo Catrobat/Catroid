@@ -141,7 +141,6 @@ public class SetMassBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//		sequence.addAction(ExtendedActions.setMass(sprite, physicsObject, mass));
 		sequence.addAction(sprite.getActionFactory().createSetMassAction(sprite,
 				getFormulaWithBrickField(BrickField.PHYSICS_MASS)));
 		return null;

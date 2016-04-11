@@ -159,9 +159,8 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.goNStepsBack(sprite, steps));
 		sequence.addAction(sprite.getActionFactory().createGoNStepsBackAction(sprite,
-				getFormulaWithBrickField(BrickField.STEPS))); //TODO[physics]:
+				getFormulaWithBrickField(BrickField.STEPS)));
 		return null;
 	}
 

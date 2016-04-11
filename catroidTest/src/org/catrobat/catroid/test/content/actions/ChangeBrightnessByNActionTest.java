@@ -54,12 +54,11 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(DIMMER_VALUE)).act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed",
 				INITIALIZED_VALUE + BRIGHTER_VALUE + DIMMER_VALUE,
-				sprite.look.getBrightnessInUserInterfaceDimensionUnit()); // TODO[physics]
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		//ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(null, brighter);
-		Action action = sprite.getActionFactory().createChangeBrightnessByNAction(null, new Formula(BRIGHTER_VALUE)); // TODO[physics] ExtendedActions
+		Action action = sprite.getActionFactory().createChangeBrightnessByNAction(null, new Formula(BRIGHTER_VALUE));
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");

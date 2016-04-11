@@ -286,7 +286,6 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 		}
 
-		// TODO[physics]
 		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
 		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
 		motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));

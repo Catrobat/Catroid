@@ -56,7 +56,6 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// TODO[physics] maybe initialize with values from a real project
 		physicsWorld = new PhysicsWorld(1920, 1600);
 	}
 

@@ -316,10 +316,6 @@ public class Look extends Image {
 		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
 	}
 
-	public static float getDegreeUserInterfaceOffset() { //TODO[physics]: add getter
-		return DEGREE_UI_OFFSET;
-	}
-
 	public float getDirectionInUserInterfaceDimensionUnit() {
 		return convertStageAngleToCatroidAngle(getRotation());
 	}
@@ -394,7 +390,7 @@ public class Look extends Image {
 		return (catroidAngle > -180 && catroidAngle <= 180);
 	}
 
-	private float breakDownCatroidAngle(float catroidAngle) { //TODO[physics]: add method
+	private float breakDownCatroidAngle(float catroidAngle) {
 		catroidAngle = catroidAngle % 360;
 		if (catroidAngle >= 0 && !isAngleInCatroidInterval(catroidAngle)) {
 			return catroidAngle - 360;
@@ -404,12 +400,12 @@ public class Look extends Image {
 		return catroidAngle;
 	}
 
-	protected float convertCatroidAngleToStageAngle(float catroidAngle) { //TODO[physics]: add method
+	protected float convertCatroidAngleToStageAngle(float catroidAngle) {
 		catroidAngle = breakDownCatroidAngle(catroidAngle);
 		return -catroidAngle + DEGREE_UI_OFFSET;
 	}
 
-	protected float convertStageAngleToCatroidAngle(float stageAngle) { //TODO[physics]: add method
+	protected float convertStageAngleToCatroidAngle(float stageAngle) {
 		float catroidAngle = -stageAngle + DEGREE_UI_OFFSET;
 		return breakDownCatroidAngle(catroidAngle);
 	}

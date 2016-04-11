@@ -52,7 +52,6 @@ public class PhysicsWorldTest extends AndroidTestCase {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setUp() {
-		//TODO[physics] take a meaningful width and height of PhysicsWorld
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		world = (World) Reflection.getPrivateField(physicsWorld, "world");
 		physicsObjects = (Map<Sprite, PhysicsObject>) Reflection.getPrivateField(physicsWorld, "physicsObjects");
@@ -106,7 +105,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 			physicsWorld.getPhysicsObject(null);
 			fail("Get physics object of a null sprite didn't cause a null pointer exception");
 		} catch (NullPointerException exception) {
-			Log.d(TAG, "");
+			Log.d(TAG, "Exception thrown as expected");
 		}
 	}
 
@@ -127,9 +126,6 @@ public class PhysicsWorldTest extends AndroidTestCase {
 				paramList);
 
 		assertEquals("Type is not the expected", Type.NONE, physicsObject.getType());
-
-		// TODO[Physics] extend test
-		//assertTrue("Created body isn't a bullet", body.isBullet());
 	}
 
 	public void testGetSamePhysicsObject() {

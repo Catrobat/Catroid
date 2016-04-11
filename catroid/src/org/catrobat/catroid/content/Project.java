@@ -202,7 +202,6 @@ public class Project implements Serializable {
 		}
 	}
 
-	// TODO[physics]
 	public PhysicsWorld getPhysicsWorld() {
 		if (physicsWorld == null) {
 			resetPhysicsWorld();
@@ -210,13 +209,12 @@ public class Project implements Serializable {
 		return physicsWorld;
 	}
 
-	// default constructor for XMLParser
-	public Project() {
-	}
-
-	// TODO[physics]:
 	public PhysicsWorld resetPhysicsWorld() {
 		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
+	}
+
+	// default constructor for XMLParser
+	public Project() {
 	}
 
 	public DataContainer getDataContainer() {

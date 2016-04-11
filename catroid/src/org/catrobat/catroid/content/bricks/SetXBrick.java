@@ -131,9 +131,8 @@ public class SetXBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.setX(sprite, xPosition));
 		sequence.addAction(sprite.getActionFactory().createSetXAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION))); //TODO[physics]:
+				getFormulaWithBrickField(BrickField.X_POSITION)));
 		return null;
 	}
 

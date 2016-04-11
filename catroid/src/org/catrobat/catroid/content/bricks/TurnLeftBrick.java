@@ -135,9 +135,8 @@ public class TurnLeftBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.turnLeft(sprite, degrees));
 		sequence.addAction(sprite.getActionFactory().createTurnLeftAction(sprite,
-				getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES))); // TODO[physics]
+				getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES)));
 		return null;
 	}
 

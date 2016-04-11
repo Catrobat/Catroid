@@ -32,7 +32,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ChangeSizeByNAction extends TemporalAction {
 
-	protected Sprite sprite; // TODO[physics]: private to protected
+	private Sprite sprite;
 	private Formula size;
 
 	@Override

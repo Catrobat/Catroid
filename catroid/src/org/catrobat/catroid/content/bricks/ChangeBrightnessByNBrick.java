@@ -133,9 +133,8 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, changeBrightness));
 		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite,
-				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE))); // TODO[physics]
+				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)));
 		return null;
 	}
 
