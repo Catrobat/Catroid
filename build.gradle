@@ -22,12 +22,18 @@
  */
 
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+    buildscript {
+        repositories {
+            mavenCentral()
+            maven { url 'https://jitpack.io' }
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:2.0.0'
+            //classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
+            //workaround for bug in sdkmanager sdk when working with AS 2.0:
+            //see http://stackoverflow.com/questions/33881984/errorcause-com-android-sdklib-repository-fullrevision
+            classpath 'com.github.JakeWharton:sdk-manager-plugin:220bf7a88a7072df3ed16dc8466fb144f2817070'
+        }
     }
 }
 
