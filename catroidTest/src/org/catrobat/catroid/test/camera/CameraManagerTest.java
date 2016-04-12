@@ -23,13 +23,13 @@
 package org.catrobat.catroid.test.camera;
 
 import android.hardware.Camera;
-
-import junit.framework.TestCase;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.uitest.annotation.Device;
 
-public class CameraManagerTest extends TestCase {
+public class CameraManagerTest extends AndroidTestCase {
 
 	public void testCameraNotAvailable() {
 		Camera camera = null;
@@ -66,6 +66,11 @@ public class CameraManagerTest extends TestCase {
 
 	@Device
 	public void testDoubleStart() {
+		try {
+			DefaultProjectHandler.createAndSaveDefaultProject(getContext());
+		} catch (Exception e) {
+			fail("Could not create and save default project");
+		}
 		boolean success = CameraManager.getInstance().startCamera();
 		assertTrue("Camera was not started properly", success);
 		try {
