@@ -39,7 +39,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
@@ -209,8 +208,8 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = ActionFactory.sequence();
-		SequenceAction elseAction = ActionFactory.sequence();
+		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
 		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
 				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
 		sequence.addAction(action);

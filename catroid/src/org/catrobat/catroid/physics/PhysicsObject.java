@@ -90,14 +90,13 @@ public class PhysicsObject {
 		List<Brick> brickList = sprite.getAllBricks();
 		PhysicsObject.Type type = PhysicsObject.Type.NONE;
 		for (Brick brick : brickList) {
-			if (!(brick instanceof SetGravityBrick) && (brick.getRequiredResources() & Brick.PHYSIC) > 0) {
+			if (!(brick instanceof SetGravityBrick) && (brick.getRequiredResources() & Brick.PHYSICS) > 0) {
 				type = PhysicsObject.Type.DYNAMIC;
 				break;
 			}
 		}
 		setType(type);
 
-		// --
 		tmpVertice = new Vector2();
 	}
 

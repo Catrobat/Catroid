@@ -45,7 +45,7 @@ import java.util.Iterator;
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
-	protected boolean lookVisible = true;
+	private boolean lookVisible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;

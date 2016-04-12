@@ -62,7 +62,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 
 	@Override
 	public int getRequiredResources() {
-		return PHYSIC;
+		return PHYSICS;
 	}
 
 	@Override

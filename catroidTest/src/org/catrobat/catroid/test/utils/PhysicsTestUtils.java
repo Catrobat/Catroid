@@ -38,7 +38,6 @@ import java.io.File;
 
 public final class PhysicsTestUtils {
 
-	// Suppress default constructor for noninstantiability
 	private PhysicsTestUtils() {
 		throw new AssertionError();
 	}
@@ -75,7 +74,6 @@ public final class PhysicsTestUtils {
 		return createPhysicsObject(physicsWorld, null, null);
 	}
 
-	// Private member helper methods.
 	public static Body getBody(PhysicsObject physicsObject) {
 		return (Body) Reflection.getPrivateField(physicsObject, "body");
 	}

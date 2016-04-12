@@ -72,7 +72,7 @@ public class SetFrictionBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return PHYSIC;
+		return PHYSICS;
 	}
 
 	@Override

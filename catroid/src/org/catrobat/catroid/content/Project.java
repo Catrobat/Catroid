@@ -39,7 +39,6 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
@@ -168,9 +167,9 @@ public class Project implements Serializable {
 
 		for (Sprite sprite : spriteList) {
 			int tempResources = sprite.getRequiredResources();
-			if ((tempResources & Brick.PHYSIC) > 0) {
+			if ((tempResources & Brick.PHYSICS) > 0) {
 				sprite.setActionFactory(physicsActionFactory);
-				tempResources &= ~Brick.PHYSIC;
+				tempResources &= ~Brick.PHYSICS;
 			}
 			resources |= tempResources;
 		}

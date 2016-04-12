@@ -24,10 +24,10 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physics.content.ActionFactory;
 
 public class WaitActionTest extends AndroidTestCase {
 

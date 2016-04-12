@@ -27,10 +27,10 @@ import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.standardprojectcreators.DefaultProjectCreator;
-import org.catrobat.catroid.common.standardprojectcreators.DefaultProjectCreatorDefault;
-import org.catrobat.catroid.common.standardprojectcreators.DefaultProjectCreatorDrone;
-import org.catrobat.catroid.common.standardprojectcreators.DefaultProjectCreatorPhysics;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDefault;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorPhysics;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 
@@ -55,11 +55,7 @@ public final class DefaultProjectHandler {
 	}
 
 	private DefaultProjectHandler() {
-		if (BuildConfig.BUILD_TYPE == BuildConfig.BUILD_TYPE_PHYSICS) {
-			setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_PHYSICS);
-		} else {
-			setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
-		}
+		setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
 	}
 
 	public static Project createAndSaveDefaultProject(Context context, boolean landscapeMode) throws IOException {

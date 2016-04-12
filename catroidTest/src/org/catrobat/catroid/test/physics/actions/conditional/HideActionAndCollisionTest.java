@@ -25,8 +25,8 @@ package org.catrobat.catroid.test.physics.actions.conditional;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.test.physics.PhysicsCollisionBaseTest;
 
 public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {

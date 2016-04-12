@@ -74,7 +74,6 @@ public class PhysicsCollision implements ContactListener {
 			physicsCollisionBroadcasts.put(key2, physicsCollisionBroadcast);
 		}
 		physicsCollisionBroadcasts.get(key1).increaseContactCounter();
-		//Log.d(TAG, "registerContact:" + physicsCollisionBroadcasts.toString());
 	}
 
 	private void unregisterContact(Sprite sprite1, Sprite sprite2) {
@@ -86,7 +85,6 @@ public class PhysicsCollision implements ContactListener {
 
 			if (physicsCollisionBroadcast.getContactCounter() == 0) {
 				physicsCollisionBroadcast.sendBroadcast();
-				//Log.d(TAG, "remove contact:" + physicsCollisionBroadcasts.toString());
 				physicsCollisionBroadcasts.remove(key1);
 				physicsCollisionBroadcasts.remove(key2);
 			}
@@ -95,17 +93,13 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		//Log.d(TAG, "beginContact");
-
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();
 
 		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof PhysicsBoundaryBox.BoundaryBoxIdentifier) {
 			physicsWorld.bouncedOnEdge((Sprite) a.getUserData(), (PhysicsBoundaryBox.BoundaryBoxIdentifier) b.getUserData());
-			//Log.d(TAG, "bouncedOnEdge SPRITE A");
 		} else if (a.getUserData() instanceof PhysicsBoundaryBox.BoundaryBoxIdentifier && (b.getUserData() instanceof Sprite)) {
 			physicsWorld.bouncedOnEdge((Sprite) b.getUserData(), (PhysicsBoundaryBox.BoundaryBoxIdentifier) a.getUserData());
-			//Log.d(TAG, "bouncedOnEdge SPRITE B");
 		} else if (a.getUserData() instanceof Sprite && b.getUserData() instanceof Sprite) {
 			Sprite sprite1 = (Sprite) a.getUserData();
 			Sprite sprite2 = (Sprite) b.getUserData();
@@ -115,8 +109,6 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		//Log.d(TAG, "endContact");
-
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();
 
@@ -129,11 +121,9 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		//Log.d(TAG, "preSolve");
 	}
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		//Log.d(TAG, "postSolve");
 	}
 }

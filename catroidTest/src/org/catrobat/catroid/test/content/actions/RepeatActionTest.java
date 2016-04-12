@@ -38,7 +38,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import java.util.HashMap;
@@ -174,8 +173,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		Sprite testSprite = new Sprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 
-		ActionFactory factory = testSprite.getActionFactory();
-		SequenceAction sequence = (SequenceAction) factory.createSequence();
+		SequenceAction sequence = (SequenceAction) testSprite.getActionFactory().createSequence();
 		repeatBrick.addActionToSequence(testSprite, sequence);
 
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);

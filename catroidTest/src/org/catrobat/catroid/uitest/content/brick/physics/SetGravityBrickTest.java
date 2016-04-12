@@ -43,12 +43,12 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetGravityBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private SetGravityBrick setGravityBrick;
 
-	public SetGravityTest() {
+	public SetGravityBrickTest() {
 		super(ScriptActivity.class);
 	}
 

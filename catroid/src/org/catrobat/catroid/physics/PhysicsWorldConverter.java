@@ -27,7 +27,7 @@ import com.badlogic.gdx.math.Vector2;
 public final class PhysicsWorldConverter {
 
 	private PhysicsWorldConverter() {
-	} // Make sure that utility classes (classes that contain only static methods or fields in their API) do not have a public constructor.
+	}
 
 	public static float convertBox2dToNormalAngle(float box2dAngle) {
 		return (float) Math.toDegrees(box2dAngle);

@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.common.standardprojectcreators;
+package org.catrobat.catroid.common.defaultprojectcreators;
 
 import android.content.Context;
 

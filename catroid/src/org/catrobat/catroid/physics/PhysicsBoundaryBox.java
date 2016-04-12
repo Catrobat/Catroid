@@ -36,7 +36,7 @@ public class PhysicsBoundaryBox {
 
 	private final World world;
 
-	public enum BoundaryBoxIdentifier { BBI_HORIZONTAL, BBI_VERTICAL }
+	public enum BoundaryBoxIdentifier {BBI_HORIZONTAL, BBI_VERTICAL}
 
 	public PhysicsBoundaryBox(World world) {
 		this.world = world;
@@ -80,12 +80,5 @@ public class PhysicsBoundaryBox {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixtureDef);
 		body.setUserData(identifier);
-
-		//		for (Fixture f : body.getFixtureList()) {
-		//			Filter filter = new Filter();
-		//			filter.categoryBits = 0;
-		//			filter.maskBits = 0;
-		//			f.setFilterData(filter);
-		//		}
 	}
 }

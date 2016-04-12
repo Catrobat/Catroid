@@ -379,7 +379,6 @@ public final class StorageHandler {
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
 
 		// Physics Script
-		// TODO physics change to normal script xml tag
 		xstream.alias("script", CollisionScript.class);
 		// Physics Bricks
 		xstream.alias("brick", CollisionReceiverBrick.class);

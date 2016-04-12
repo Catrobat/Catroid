@@ -25,11 +25,11 @@ package org.catrobat.catroid.test.content.actions;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.List;

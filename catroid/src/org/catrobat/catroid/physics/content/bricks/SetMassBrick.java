@@ -67,7 +67,7 @@ public class SetMassBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return PHYSIC;
+		return PHYSICS;
 	}
 
 	@Override

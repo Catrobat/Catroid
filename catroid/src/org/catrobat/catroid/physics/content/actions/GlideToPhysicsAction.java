@@ -22,26 +22,21 @@
  */
 package org.catrobat.catroid.physics.content.actions;
 
-import android.util.Log;
-
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.physics.PhysicsLook;
 
 public class GlideToPhysicsAction extends GlideToAction {
-	private static final String TAG = GlideToPhysicsAction.class.getSimpleName();
 
 	private PhysicsLook physicsLook;
 
 	@Override
 	protected void begin() {
-		Log.d(TAG, "begin GlideToPhsicsAction");
 		physicsLook.startGlide();
 		super.begin();
 	}
 
 	@Override
 	protected void end() {
-		Log.d(TAG, "end GlideToPhsicsAction");
 		super.end();
 		physicsLook.stopGlide();
 	}

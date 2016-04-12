@@ -46,7 +46,6 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -169,7 +168,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
+		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
 			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
@@ -269,11 +268,7 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
-		cloneSprite(cloneSprite);
-		return cloneSprite;
-	}
 
-	protected void cloneSprite(final Sprite cloneSprite) {
 		cloneSprite.setName(this.getName());
 		cloneSprite.isBackpackSprite = false;
 
@@ -358,6 +353,8 @@ public class Sprite implements Serializable, Cloneable {
 		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
 			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
+
+		return cloneSprite;
 	}
 
 	public Sprite cloneForBackPack() {
@@ -377,7 +374,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ActionFactory.parallel();
+		ParallelAction whenParallelAction = actionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -556,10 +553,10 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void rename(String newSpriteName) {
-		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
+		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
 			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 			for (Sprite currentSprite : spriteList) {
-				if ((currentSprite.getRequiredResources() & Brick.PHYSIC) > 0) {
+				if ((currentSprite.getRequiredResources() & Brick.PHYSICS) > 0) {
 					currentSprite.updateCollisionBroadcastMessages(getName(), newSpriteName);
 				}
 			}

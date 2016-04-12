@@ -513,11 +513,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	}
 
 	private boolean checkReturnWithoutSaving(int errorType) {
-		Log.i("info",
-				"confirmSwitchEditTextCounter=" + confirmSwitchEditTextCounter + " "
-						+ (System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW)
-		);
-
 		if ((System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW)
 				&& (confirmSwitchEditTextCounter > 1)) {
 			confirmSwitchEditTextTimeStamp[0] = 0;

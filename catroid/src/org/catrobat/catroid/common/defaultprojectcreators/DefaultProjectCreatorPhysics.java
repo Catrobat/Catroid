@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.common.standardprojectcreators;
+package org.catrobat.catroid.common.defaultprojectcreators;
 
 import android.content.Context;
 
@@ -95,8 +95,8 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 				R.drawable.physics_background_480_800, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.physics_background_480_800, context, true,
-					backgroundImageScaleFactor);
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.physics_background_480_800, context, true,
+				backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setLookName(backgroundName);

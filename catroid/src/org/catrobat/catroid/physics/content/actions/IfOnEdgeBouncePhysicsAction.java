@@ -32,10 +32,8 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 
 public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 
-	//private static final String TAG = IfOnEdgeBouncePhysicsAction.class.getSimpleName();
-
 	public static final float THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE = 10.0f;
-	private static final float COLLISION_OVERLAP_RANGE_FACTOR = 0.5f;
+	private static final float COLLISION_OVERLAP_RANGE_FACTOR = 0.9f;
 
 	private Sprite sprite;
 	private PhysicsWorld physicsWorld;

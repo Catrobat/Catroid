@@ -43,12 +43,12 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetMassBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private SetMassBrick setMassBrick;
 
-	public SetMassTest() {
+	public SetMassBrickTest() {
 		super(ScriptActivity.class);
 	}
 

@@ -78,7 +78,7 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	@Override
 	public int getRequiredResources() {
-		return PHYSIC;
+		return PHYSICS;
 	}
 
 	@Override
@@ -149,9 +149,9 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 		for (Sprite sprite : project.getSpriteList()) {
 			if (!spriteName.equals(sprite.getName())) {
 				resources |= sprite.getRequiredResources();
-				if ((resources & Brick.PHYSIC) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
+				if ((resources & Brick.PHYSICS) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
 					messageAdapter.add(sprite.getName());
-					resources &= ~Brick.PHYSIC;
+					resources &= ~Brick.PHYSICS;
 				}
 			}
 		}

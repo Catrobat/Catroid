@@ -71,7 +71,7 @@ public class SetVelocityBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return PHYSIC;
+		return PHYSICS;
 	}
 
 	@Override

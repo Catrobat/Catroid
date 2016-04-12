@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content;
+package org.catrobat.catroid.content;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -30,9 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
@@ -237,7 +235,7 @@ public class ActionFactory extends Actions {
 		action.setDuration(0);
 		action.setInterpolation(null);
 		action.setSprite(sprite);
-		return action; //XXX: wrong action???
+		return action;
 	}
 
 	public Action createGoNStepsBackAction(Sprite sprite, Formula steps) {

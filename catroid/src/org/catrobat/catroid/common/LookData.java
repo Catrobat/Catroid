@@ -126,13 +126,12 @@ public class LookData implements Serializable, Cloneable {
 			try {
 				pixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
 			} catch (GdxRuntimeException gdxRuntimeException) {
-				Log.e(TAG, "gdx.files throws GdxRuntimeException");
+				Log.e(TAG, "gdx.files throws GdxRuntimeException", gdxRuntimeException);
 				if (gdxRuntimeException.getMessage().startsWith("Couldn't load file:")) {
 					pixmap = new Pixmap(1, 1, Pixmap.Format.Alpha);
 				}
 			} catch (NullPointerException nullPointerException) {
-				Log.d(TAG, "gdx.files throws nullpointer");
-				pixmap = null;
+				Log.e(TAG, "gdx.files throws NullPointerException", nullPointerException);
 			}
 		}
 		return pixmap;

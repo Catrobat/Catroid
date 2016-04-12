@@ -33,8 +33,6 @@ import org.catrobat.catroid.test.utils.TestUtils;
 
 public class GravityActionTest extends PhysicsBaseTest {
 
-	//private static final String TAG = GravityActionTest.class.getSimpleName();
-
 	private static final int TEST_STEP_COUNT = 10;
 	private static final float TEST_STEP_DELTA_TIME = 0.1f;
 
@@ -73,8 +71,6 @@ public class GravityActionTest extends PhysicsBaseTest {
 		float postVelocityYValue = 0;
 		for (int step = 1; step < TEST_STEP_COUNT; step++) {
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
-			//Log.d(TAG, "Coordinates (x;y): (" + physicsObject.getX() + ";" + physicsObject.getY() + ")");
-			//Log.d(TAG, "velocity: " + physicsObject.getVelocity());
 			postVelocityYValue = Math.abs(physicsObject.getVelocity().y);
 			assertTrue("post velocity.y (" + postVelocityYValue + ") is lower than previous value (" + preVelocityYValue + "), should be higher!", postVelocityYValue > preVelocityYValue);
 			preVelocityYValue = postVelocityYValue;

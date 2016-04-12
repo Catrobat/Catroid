@@ -502,7 +502,6 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		brickInfo = new BrickInfo(ChooseCameraBrick.class.getSimpleName());
 		brickInfoMap.put("chooseCameraBrick", brickInfo);
 
-		// TODO[physics]
 		brickInfo = new BrickInfo(CollisionReceiverBrick.class.getSimpleName());
 		brickInfoMap.put("collisionReceiverBrick", brickInfo);
 

@@ -27,10 +27,10 @@ import android.test.InstrumentationTestCase;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.HashMap;
 import java.util.Map;

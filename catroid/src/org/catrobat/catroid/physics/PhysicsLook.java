@@ -239,7 +239,6 @@ public class PhysicsLook extends Look {
 			transparencyCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
-					//Log.d(TAG, "transparencyCondition:"+(alpha==0.0));
 					return alpha == 0.0;
 				}
 			};
@@ -247,7 +246,6 @@ public class PhysicsLook extends Look {
 			glideToCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
-					//Log.d(TAG, "glideToCondition:"+glideToIsActive);
 					return glideToIsActive;
 				}
 			};

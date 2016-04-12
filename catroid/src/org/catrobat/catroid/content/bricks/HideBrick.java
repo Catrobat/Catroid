@@ -104,7 +104,6 @@ public class HideBrick extends BrickBaseType {
 	}
 
 	@Override
-
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createHideAction(sprite));
 		return null;
