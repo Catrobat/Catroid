@@ -82,7 +82,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
 			R.string.formula_editor_function_length, R.string.formula_editor_function_letter,
 			R.string.formula_editor_function_join, R.string.formula_editor_function_number_of_items,
-			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains };
 
 	private static final int[] FUNCTIONS_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
@@ -96,42 +96,42 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
 			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_letter_parameter,
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_number_of_items_parameter,
-			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter};
+			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter };
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_loudness};
+	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness };
 
-	private static final int[] ACCELERATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
-			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration};
+	private static final int[] ACCELERATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
+			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration };
 
-	private static final int[] INCLINATION_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination};
+	private static final int[] INCLINATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_inclination,
+			R.string.formula_editor_sensor_y_inclination };
 
-	private static final int[] COMPASS_SENSOR_ITEMS = {R.string.formula_editor_sensor_compass_direction};
+	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction };
 
-	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_1,
+	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
 			R.string.formula_editor_sensor_lego_nxt_4};
 
-	private static final int[] SENSOR_ITEMS_DRONE = {R.string.formula_editor_sensor_drone_battery_status,
+	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
 			R.string.formula_editor_sensor_drone_usb_remaining_time, R.string.formula_editor_sensor_drone_camera_ready,
 			R.string.formula_editor_sensor_drone_record_ready, R.string.formula_editor_sensor_drone_recording,
-			R.string.formula_editor_sensor_drone_num_frames};
+			R.string.formula_editor_sensor_drone_num_frames };
 
-	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
+	private static final int[] PHIRO_SENSOR_ITEMS = { R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
 			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
-			R.string.formula_editor_phiro_sensor_bottom_right};
+			R.string.formula_editor_phiro_sensor_bottom_right };
 
-	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
-			R.string.formula_editor_function_arduino_read_pin_value_digital};
+	private static final int[] ARDUINO_SENSOR_ITEMS = { R.string.formula_editor_function_arduino_read_pin_value_analog,
+			R.string.formula_editor_function_arduino_read_pin_value_digital };
 
-	private static final int[] FACE_DETECTION_SENSOR_ITEMS = {R.string.formula_editor_sensor_face_detected,
+	private static final int[] FACE_DETECTION_SENSOR_ITEMS = { R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
-			R.string.formula_editor_sensor_face_y_position};
+			R.string.formula_editor_sensor_face_y_position };
 
-	private static final int[] RASPBERRY_SENSOR_ITEMS = {R.string.formula_editor_function_raspi_read_pin_value_digital};
+	private static final int[] RASPBERRY_SENSOR_ITEMS = { R.string.formula_editor_function_raspi_read_pin_value_digital };
 
 	private String actionBarTitle;
 	private int[] itemsIds;
