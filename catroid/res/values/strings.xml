@@ -527,6 +527,8 @@
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_look">Next look</string>
     <string name="brick_next_background">Next background</string>
+    <string name="brick_previous_look">Previous look</string>
+    <string name="brick_previous_background">Previous background</string>
     <string name="brick_flash">Turn flashlight</string>
     <string name="brick_flash_on">on</string>
     <string name="brick_flash_off">off</string>

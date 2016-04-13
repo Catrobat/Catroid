@@ -302,6 +302,12 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static PreviousLookAction previousLook(Sprite sprite) {
+		PreviousLookAction action = action(PreviousLookAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public static PlaySoundAction playSound(Sprite sprite, SoundInfo sound) {
 		PlaySoundAction action = action(PlaySoundAction.class);
 		action.setSprite(sprite);
