@@ -832,6 +832,23 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue(UiTestUtils.PROJECTNAME1 + " has not been deleted!", projectDeleted);
 	}
 
+	public void testMainMenuItemsNotVisible() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
+
+		solo.sendKey(Solo.MENU);
+
+		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
+		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
+
+	}
+
 	public void testConfirmDeleteProgramDialogTitleChange() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
