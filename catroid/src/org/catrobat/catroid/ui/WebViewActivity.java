@@ -170,7 +170,7 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
-			if (callMainMenu && urlClient.equals(url)) {
+			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
 				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
 				startActivity(intent);
 			}
