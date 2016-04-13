@@ -148,7 +148,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_sound))) {
 			tempList = setupSoundCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_looks))) {
-			tempList = setupLooksCategoryList(context);
+			tempList = setupLooksCategoryList(sprite, context);
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
@@ -309,7 +309,7 @@ public class CategoryBricksFactory {
 		return soundBrickList;
 	}
 
-	private List<Brick> setupLooksCategoryList(Context context) {
+	private List<Brick> setupLooksCategoryList(Sprite sprite, Context context) {
 		List<Brick> looksBrickList = new ArrayList<Brick>();
 
 		looksBrickList.add(new SetLookBrick());
@@ -325,6 +325,12 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
+
+		if (!isBackground(sprite)) {
+			looksBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
+			looksBrickList.add(new ComeToFrontBrick());
+		}
+
 		if (BuildConfig.FEATURE_FLASH_BRICK_ENABLED) {
 			looksBrickList.add(new FlashBrick());
 		}
