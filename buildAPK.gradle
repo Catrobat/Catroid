@@ -191,7 +191,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 824;//3143; //debugging purpose only
+    def id = 6760;//3143; //debugging purpose only
     def url = "";
     if (project.hasProperty("download")) {
         url = project["download"]
