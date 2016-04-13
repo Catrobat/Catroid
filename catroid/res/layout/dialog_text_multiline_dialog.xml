@@ -23,11 +23,15 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/DefaultDialog"
-    android:paddingBottom="0dp">
+    android:paddingBottom="0dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         style="@style/DefaultDialog"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             style="@style/DefaultDialog.TextView"
