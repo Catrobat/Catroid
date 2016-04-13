@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,14 @@ package org.catrobat.catroid.formulaeditor;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.arduino.Arduino;
+import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -368,6 +374,34 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionLength(left, sprite);
 			case JOIN:
 				return interpretFunctionJoin(sprite);
+			case ARDUINODIGITAL:
+				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
+				if (arduinoDigital != null && left != null) {
+					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 13) {
+						return 0d;
+					}
+					return arduinoDigital.getDigitalArduinoPin(doubleValueOfLeftChild.intValue());
+				}
+				break;
+			case ARDUINOANALOG:
+				Arduino arduinoAnalog = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
+				if (arduinoAnalog != null && left != null) {
+					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 5) {
+						return 0d;
+					}
+					return arduinoAnalog.getAnalogArduinoPin(doubleValueOfLeftChild.intValue());
+				}
+				break;
+			case RASPIDIGITAL:
+				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
+				int pin = doubleValueOfLeftChild.intValue();
+				// TODO check if pin is
+				try {
+					return connection.getPin(pin) ? 1d : 0d;
+				} catch (Exception e) {
+					Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+				}
+				break;
 			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
@@ -883,9 +917,36 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			resources |= rightChild.getRequiredResources();
 		}
+		if (type == ElementType.FUNCTION) {
+			Functions functions = Functions.getFunctionByValue(value);
+			switch (functions) {
+				case ARDUINOANALOG:
+				case ARDUINODIGITAL:
+					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
+					break;
+				case RASPIDIGITAL:
+					resources |= Brick.SOCKET_RASPI;
+					break;
+			}
+		}
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);
 			switch (sensor) {
+				case X_ACCELERATION:
+				case Y_ACCELERATION:
+				case Z_ACCELERATION:
+					resources |= Brick.SENSOR_ACCELERATION;
+					break;
+
+				case X_INCLINATION:
+				case Y_INCLINATION:
+					resources |= Brick.SENSOR_INCLINATION;
+					break;
+
+				case COMPASS_DIRECTION:
+					resources |= Brick.SENSOR_COMPASS;
+					break;
+
 				case FACE_DETECTED:
 				case FACE_SIZE:
 				case FACE_X_POSITION:
@@ -908,6 +969,20 @@ public class FormulaElement implements Serializable {
 				case PHIRO_BOTTOM_RIGHT:
 					resources |= Brick.BLUETOOTH_PHIRO;
 					break;
+
+				case DRONE_BATTERY_STATUS:
+				case DRONE_CAMERA_READY:
+				case DRONE_EMERGENCY_STATE:
+				case DRONE_FLYING:
+				case DRONE_INITIALIZED:
+				case DRONE_NUM_FRAMES:
+				case DRONE_RECORD_READY:
+				case DRONE_RECORDING:
+				case DRONE_USB_ACTIVE:
+				case DRONE_USB_REMAINING_TIME:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
+
 				default:
 			}
 		}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,23 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Created by Robert Riedl on 29.07.2015.
- */
-
 package org.catrobat.catroid.stage;
 
 import com.badlogic.gdx.graphics.Color;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.List;
+import java.util.Map;
 
 public class ShowTextActor extends Actor {
 	private int posX;
@@ -59,18 +57,33 @@ public class ShowTextActor extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-		List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
+		List<UserVariable> projectVariableList = projectVariableContainer.getProjectVariables();
 
-		if (variableName.equals("No variable set")) {
+		Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
+
+		if (variableName.equals(Constants.NO_VARIABLE_SELECTED)) {
 			font.draw(batch, variableName, posX, posY);
 		} else {
-			for (UserVariable variable : variableList) {
+			for (UserVariable variable : projectVariableList) {
 				if (variable.getName().equals(variableName)) {
 					variableValue = variable.getValue().toString();
-					if (variable.getVisibility()) {
+					if (variable.getVisible()) {
 						font.draw(batch, variableValue, posX, posY);
 					}
 					break;
+				}
+			}
+			if (spriteVariableList != null) {
+				for (UserVariable variable : spriteVariableList) {
+					if (variable.getName().equals(variableName)) {
+						variableValue = variable.getValue().toString();
+						if (variable.getVisible()) {
+							font.draw(batch, variableValue, posX, posY);
+						}
+						break;
+					}
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -316,6 +316,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertTrue("Variable values: '5', '3' and '6' should have appeared", solo.waitForText("5", 0, 1000) || solo.waitForText("3", 0, 1000) || solo.waitForText("6", 0, 1000));
 	}
 
+	/*
+	TODO: fix this
+	currently commented as userbricks are still disabled
 	public void testCopyAndDeleteUserBrickFromScriptWithBothVariants() {
 		//copy via action mode
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, solo.getCurrentActivity());
@@ -364,6 +367,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertTrue("only 1 userbrick should exist in the script after copying via context menu, but that's not the case!", ProjectManager.getInstance().getCurrentScript().getBrickList().size() == 7);
 		solo.sleep(300);
 	}
+	*/
 
 //	public void testMoveUserBrickUpAndDown() throws InterruptedException {
 //		solo.scrollDown();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -173,8 +175,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 		TextView define = new TextView(context);
 		define.setTextAppearance(context, R.style.BrickText);
-		define.setText(context.getString(R.string.define));
-		define.setText(define.getText() + "  ");
+		define.setText(context.getString(R.string.define).concat(" "));
 
 		layout.addView(define);
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) define.getLayoutParams();
@@ -247,6 +248,11 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	@Override
 	public View getPrototypeView(Context context) {
 		return getView(context, 0, null);
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		return null;
 	}
 
 	@Override

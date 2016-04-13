@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,22 +22,27 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 
-import com.actionbarsherlock.app.ActionBar;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -46,10 +51,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -58,12 +66,17 @@ import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
+	private static final String TAG = ProjectActivity.class.getSimpleName();
+
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
+	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 
 	private static final String TYPE_FILE = "file";
 	private static final String TYPE_HTTP = "http";
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private CallbackManager callbackManager;
+	private SignInDialog signInDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +84,14 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
+		initializeFacebookSdk();
+
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
 
-		final ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setTitle(R.string.app_name);
 
@@ -90,15 +105,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			loadProgramFromExternalSource(loadExternalProjectUri);
 		}
 
-		if (!BackPackListManager.isBackpackFlag()) {
-			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+		if (!BackPackListManager.getInstance().isBackpackFlag()) {
+			BackPackListManager.getInstance().clearBackPackSounds();
+			BackPackListManager.getInstance().clearBackPackLooks();
 		}
-
-		//TODO Drone do not create project for now
-		//if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
-		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
-		//}
-		//SettingsActivity.setTermsOfServiceAgreedPermanently(this, false);
 	}
 
 	@Override
@@ -108,6 +118,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
+
+		AppEventsLogger.activateApp(this);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
 
@@ -132,6 +144,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
+		AppEventsLogger.deactivateApp(this);
+
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
 			ProjectManager.getInstance().saveProject(getApplicationContext());
@@ -154,7 +168,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, true);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
@@ -172,7 +186,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+		dialog.show(getFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handleProgramsButton(View view) {
@@ -185,6 +199,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleHelpButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -193,65 +211,37 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleWebButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 
-		startWebViewActivity(Constants.BASE_URL_HTTPS);
-	}
+		if (Utils.isUserLoggedIn(this)) {
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-	public void startWebViewActivity(String url) {
-		// TODO just a quick fix for not properly working webview on old devices
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-			boolean showBrowserWarning = preferences.getBoolean(SHARED_PREFERENCES_SHOW_BROWSER_WARNING, true);
-			if (showBrowserWarning) {
-				showWebWarningDialog();
-			} else {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
-				startActivity(browserIntent);
-			}
+			String url = Constants.CATROBAT_TOKEN_LOGIN_URL + username + Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + token;
+			startWebViewActivity(url);
 		} else {
-			Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
-			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-			startActivity(intent);
+			startWebViewActivity(Constants.BASE_URL_HTTPS);
 		}
 	}
 
-	private void showWebWarningDialog() {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final View checkboxView = View.inflate(this, R.layout.dialog_web_warning, null);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getText(R.string.main_menu_web_dialog_title));
-		builder.setView(checkboxView);
-
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				CheckBox dontShowAgainCheckBox = (CheckBox) checkboxView
-						.findViewById(R.id.main_menu_web_dialog_dont_show_checkbox);
-				if (dontShowAgainCheckBox != null && dontShowAgainCheckBox.isChecked()) {
-					preferences.edit().putBoolean(SHARED_PREFERENCES_SHOW_BROWSER_WARNING, false).commit();
-				}
-
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
-				startActivity(browserIntent);
-			}
-		});
-		builder.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.setCanceledOnTouchOutside(true);
-		alertDialog.show();
+	public void startWebViewActivity(String url) {
+		Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		startActivity(intent);
 	}
 
 	public void handleUploadButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -293,5 +283,44 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectFailure() {
+	}
+
+	public void initializeFacebookSdk() {
+		FacebookSdk.sdkInitialize(getApplicationContext());
+		callbackManager = CallbackManager.Factory.create();
+
+		LoginManager.getInstance().registerCallback(callbackManager,
+				new FacebookCallback<LoginResult>() {
+					@Override
+					public void onSuccess(LoginResult loginResult) {
+						Log.d(TAG, loginResult.toString());
+						AccessToken accessToken = loginResult.getAccessToken();
+						GetFacebookUserInfoTask getFacebookUserInfoTask = new GetFacebookUserInfoTask(MainMenuActivity.this,
+								accessToken.getToken(), accessToken.getUserId());
+						getFacebookUserInfoTask.setOnGetFacebookUserInfoTaskCompleteListener(signInDialog);
+						getFacebookUserInfoTask.execute();
+					}
+
+					@Override
+					public void onCancel() {
+						Log.d(TAG, "cancel");
+					}
+
+					@Override
+					public void onError(FacebookException exception) {
+						ToastUtil.showError(MainMenuActivity.this, exception.getMessage());
+						Log.d(TAG, exception.getMessage());
+					}
+				});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		callbackManager.onActivityResult(requestCode, resultCode, data);
+	}
+
+	public void setSignInDialog(SignInDialog signInDialog) {
+		this.signInDialog = signInDialog;
 	}
 }

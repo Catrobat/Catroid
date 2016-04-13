@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -33,16 +34,17 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.actionbarsherlock.app.ActionBar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -55,6 +57,7 @@ import java.net.URLDecoder;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends BaseActivity {
+	private static final String TAG = WebViewActivity.class.getSimpleName();
 
 	public static final String INTENT_PARAMETER_URL = "url";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
@@ -74,7 +77,7 @@ public class WebViewActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);
 
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 
 		Intent intent = getIntent();
@@ -206,7 +209,7 @@ public class WebViewActivity extends BaseActivity {
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
-			if (url.contains(Constants.BASE_URL_HTTPS) || url.contains(Constants.CATROBAT_ABOUT_URL) || url.contains(Constants.LIBRARY_BASE_URL)) {
+			if (url.contains(Constants.BASE_URL_HTTPS) || url.contains(Constants.LIBRARY_BASE_URL)) {
 				return false;
 			}
 			return true;
@@ -221,6 +224,7 @@ public class WebViewActivity extends BaseActivity {
 		progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
 		progressDialog.setProgress(0);
 		progressDialog.setMax(100);
+		progressDialog.setProgressNumberFormat(null);
 		progressDialog.show();
 	}
 
@@ -253,7 +257,7 @@ public class WebViewActivity extends BaseActivity {
 		try {
 			mediaName = URLDecoder.decode(mediaName, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			Log.e("WebViewActivity", "Could not decode program name: " + mediaName, e);
+			Log.e(TAG, "Could not decode program name: " + mediaName, e);
 			return null;
 		}
 		return mediaName;
@@ -280,5 +284,23 @@ public class WebViewActivity extends BaseActivity {
 		String extention = contentDisposition.substring(extentionIndex);
 		extention = extention.substring(0, extention.length() - 1);
 		return extention;
+	}
+
+	//taken from http://stackoverflow.com/a/28998241/
+	@SuppressWarnings("deprecated")
+	@SuppressLint("NewApi")
+	public static void clearCookies(Context context) {
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+			CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(context);
+			cookieSyncMngr.startSync();
+			CookieManager cookieManager = CookieManager.getInstance();
+			cookieManager.removeAllCookie();
+			cookieManager.removeSessionCookie();
+			cookieSyncMngr.stopSync();
+			cookieSyncMngr.sync();
+		} else {
+			CookieManager.getInstance().removeAllCookies(null);
+			CookieManager.getInstance().flush();
+		}
 	}
 }

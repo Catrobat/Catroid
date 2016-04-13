@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,9 @@ public final class BroadcastHandler {
 			for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
 				addOrRestartAction(look, action);
 			}
-			BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
+			if (BroadcastWaitSequenceMap.getCurrentBroadcastEvent() != null) {
+				BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
+			}
 		}
 	}
 
@@ -120,7 +122,7 @@ public final class BroadcastHandler {
 			Sprite receiverSprite = scriptSpriteMap.get(receiverScript);
 			String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName() + receiverSprite.getScriptIndex(receiverScript);
 			stringActionMap.put(actionName, broadcastWaitAction);
-			if (!handleActionFromBroadcastWait(look, broadcastWaitAction)) {
+			if (!handleActionFromBroadcastWait(broadcastWaitAction)) {
 				event.raiseNumberOfReceivers();
 				actionList.add(broadcastWaitAction);
 				addOrRestartAction(look, broadcastWaitAction);
@@ -152,8 +154,7 @@ public final class BroadcastHandler {
 		return true;
 	}
 
-	private static boolean handleActionFromBroadcastWait(Look look,
-			SequenceAction sequenceActionWithBroadcastNotifyAction) {
+	private static boolean handleActionFromBroadcastWait(SequenceAction sequenceActionWithBroadcastNotifyAction) {
 		Action actualAction = sequenceActionWithBroadcastNotifyAction.getActions().get(0);
 
 		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
@@ -165,16 +166,16 @@ public final class BroadcastHandler {
 				if (sequenceActionWithBroadcastNotifyAction == actionOfLook) {
 					((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
 							.resetNumberOfFinishedReceivers();
-					Look.actionsToRestartAdd(actionOfLook);
+					sprites.look.actionsToRestartAdd(actionOfLook);
 					return true;
 				} else {
 					if (actualActionOfLook != null && actualActionOfLook == actualAction) {
 						((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
 								.resetEventAndResumeScript();
-						Look.actionsToRestartAdd(actionOfLook);
+						sprites.look.actionsToRestartAdd(actionOfLook);
 						return false;
 					} else {
-						addOrRestartAction(look, sequenceActionWithBroadcastNotifyAction);
+						addOrRestartAction(sprites.look, sequenceActionWithBroadcastNotifyAction);
 						return false;
 					}
 				}

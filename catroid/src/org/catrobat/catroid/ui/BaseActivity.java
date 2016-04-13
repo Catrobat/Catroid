@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,30 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
-public class BaseActivity extends SherlockFragmentActivity {
+public class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
+	private Menu baseMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +56,11 @@ public class BaseActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		// Partly from http://stackoverflow.com/a/5069354
 		unbindDrawables(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
 		System.gc();
+
+		super.onDestroy();
 	}
 
 	@Override
@@ -65,13 +68,14 @@ public class BaseActivity extends SherlockFragmentActivity {
 		super.onResume();
 
 		if (getTitleActionBar() != null) {
-			getSupportActionBar().setTitle(getTitleActionBar());
+			getActionBar().setTitle(getTitleActionBar());
 		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		baseMenu = menu;
+		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -82,12 +86,12 @@ public class BaseActivity extends SherlockFragmentActivity {
 				if (returnToProjectsList) {
 					Intent intent = new Intent(this, MyProjectsActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.setBackPackFlag(true);
+					BackPackListManager.getInstance().setBackPackFlag(true);
 					startActivity(intent);
 				} else {
 					Intent intent = new Intent(this, MainMenuActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.setBackPackFlag(true);
+					BackPackListManager.getInstance().setBackPackFlag(true);
 					startActivity(intent);
 				}
 				break;
@@ -100,11 +104,17 @@ public class BaseActivity extends SherlockFragmentActivity {
 				return true;
 			case R.id.menu_terms_of_use:
 				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
-				termsOfUseDialog.show(getSupportFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+				termsOfUseDialog.show(getFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				aboutDialog.show(getFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				return true;
+			case R.id.menu_logout:
+				Utils.logoutUser(this);
+				return true;
+			case R.id.menu_login:
+				ProjectManager.getInstance().showSignInDialog(this, false);
 				return true;
 			default:
 				break;
@@ -114,6 +124,10 @@ public class BaseActivity extends SherlockFragmentActivity {
 
 	// Taken from http://stackoverflow.com/a/11270668
 	private void launchMarket() {
+		if (!Utils.isNetworkAvailable(this, true)) {
+			return;
+		}
+
 		Uri uri = Uri.parse("market://details?id=" + getPackageName());
 		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
@@ -152,5 +166,13 @@ public class BaseActivity extends SherlockFragmentActivity {
 
 	public void setTitleActionBar(String titleActionBar) {
 		this.titleActionBar = titleActionBar;
+	}
+
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem logout = baseMenu.findItem(R.id.menu_logout);
+		MenuItem login = baseMenu.findItem(R.id.menu_login);
+		logout.setVisible(Utils.isUserLoggedIn(this));
+		login.setVisible(!Utils.isUserLoggedIn(this));
+		return true;
 	}
 }

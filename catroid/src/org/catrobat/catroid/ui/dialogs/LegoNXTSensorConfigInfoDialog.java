@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,9 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -44,9 +44,11 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
 
-		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_disable_show_dialog);
+		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id
+				.lego_nxt_sensor_config_info_disable_show_dialog);
 
 		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(this.getActivity());
 		String[] sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);

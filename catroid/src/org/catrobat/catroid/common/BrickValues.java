@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,17 +42,16 @@ public final class BrickValues {
 	public static final Float CHANGE_GHOST_EFFECT = 25f;
 	public static final Float SET_BRIGHTNESS_TO = 50f;
 	public static final Float CHANGE_BRITHNESS_BY = 25f;
-	public static final int VIBRATE_MILLISECONDS = 1000;
+	public static final Float VIBRATE_SECONDS = 1f;
 
 	//constants Sounds
 	public static final Float SET_VOLUME_TO = 60f;
 	public static final Float CHANGE_VOLUME_BY = -10f;
-	public static final String SPEAK = "Hello!";
 
 	//Constants Control
 	public static final int WAIT = 1000;
 	public static final int REPEAT = 10;
-	public static final int IF_CONDITION = 1;
+	public static final String IF_CONDITION = "1 < 2";
 	public static final String NOTE = "add comment here…";
 
 	//Constants Lego
@@ -65,6 +64,27 @@ public final class BrickValues {
 	//Constants Drone
 	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
 	public static final float DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 0.2f;
+	public static final String STRING_VALUE = "default";
+
+	public static final int DRONE_ALTITUDE_MIN = 3;
+	public static final int DRONE_ALTITUDE_INDOOR = 5;
+	public static final int DRONE_ALTITUDE_OUTDOOR = 10;
+	public static final int DRONE_ALTITUDE_MAX = 100;
+
+	public static final int DRONE_VERTICAL_MIN = 200;
+	public static final int DRONE_VERTICAL_INDOOR = 700;
+	public static final int DRONE_VERTICAL_OUTDOOR = 1000;
+	public static final int DRONE_VERTICAL_MAX = 2000;
+
+	public static final int DRONE_ROTATION_MIN = 40;
+	public static final int DRONE_ROTATION_INDOOR = 100;
+	public static final int DRONE_ROTATION_OUTDOOR = 200;
+	public static final int DRONE_ROTATION_MAX = 350;
+
+	public static final int DRONE_TILT_MIN = 5;
+	public static final int DRONE_TILT_INDOOR = 12;
+	public static final int DRONE_TILT_OUTDOOR = 20;
+	public static final int DRONE_TILT_MAX = 30;
 
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
@@ -85,6 +105,20 @@ public final class BrickValues {
 	public static final int PHIRO_VALUE_GREEN = 255;
 	public static final int PHIRO_VALUE_BLUE = 255;
 	public static final String PHIRO_IF_SENSOR_DEFAULT_VALUE = "Front Left Sensor";
+
+	//Constants Arduino
+	public static final int ARDUINO_PWM_INITIAL_PIN_VALUE = 255;
+	public static final int ARDUINO_PWM_INITIAL_PIN_NUMBER = 3;
+	public static final int ARDUINO_DIGITAL_INITIAL_PIN_VALUE = 1;
+	public static final int ARDUINO_DIGITAL_INITIAL_PIN_NUMBER = 13;
+
+	//Constants Raspi
+	public static final int RASPI_DIGITAL_INITIAL_PIN_VALUE = 1;
+	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
+	public static final String RASPI_PRESSED_EVENT = "pressed";
+	public static final String RASPI_RELEASED_EVENT = "released";
+	public static final double RASPI_PWM_INITIAL_PERCENTAGE = 50.0;
+	public static final double RASPI_PWM_INITIAL_FREQUENCY = 100.0;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

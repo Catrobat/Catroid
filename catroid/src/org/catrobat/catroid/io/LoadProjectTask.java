@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,11 +92,10 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean success) {
 		super.onPostExecute(success);
+		linearLayoutProgressCircle.setVisibility(View.GONE);
 
 		if (onLoadProjectCompleteListener != null) {
 			if (!success && showErrorMessage) {
-				linearLayoutProgressCircle.setVisibility(View.GONE);
-
 				Builder builder = new CustomAlertDialogBuilder(activity);
 				builder.setTitle(R.string.error);
 				builder.setMessage(errorMessage);

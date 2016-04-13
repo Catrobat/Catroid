@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public final class UtilCamera {
-
+	private static final String TAG = UtilCamera.class.getSimpleName();
 	// Suppress default constructor for noninstantiability
 	private UtilCamera() {
 		throw new AssertionError();
@@ -66,7 +66,7 @@ public final class UtilCamera {
 			try {
 				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
 			} catch (FileNotFoundException e) {
-				Log.e("CATROID", "Could not find file to save bitmap.", e);
+				Log.e(TAG, "Could not find file to save bitmap.", e);
 			}
 
 			return rotatedPictureUri;
@@ -95,7 +95,7 @@ public final class UtilCamera {
 					break;
 			}
 		} catch (IOException e) {
-			Log.e("CATROID", "Could not find file to initialize ExifInterface.", e);
+			Log.e(TAG, "Could not find file to initialize ExifInterface.", e);
 		}
 		return rotate;
 	}

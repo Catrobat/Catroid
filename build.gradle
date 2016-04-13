@@ -1,11 +1,32 @@
-import java.util.regex.Pattern
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2016 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.1'
+        classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
@@ -31,9 +52,8 @@ android {
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LED_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_BACKPACK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
@@ -41,13 +61,15 @@ android {
             buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LED_BRICK_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_BACKPACK_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
@@ -55,10 +77,12 @@ android {
             buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
         }
     }
 }
-
 
 ext {
     projectVersion = "0.9"
@@ -70,8 +94,6 @@ configurations {
 }
 
 dependencies {
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3.1'
@@ -83,6 +105,9 @@ dependencies {
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
+    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -90,7 +115,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
-	checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
+    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
 task copyAndroidNatives() {
@@ -143,23 +168,23 @@ def getCurrentGitBranch() {
     }
 }
 
-
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.0'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 24
+        versionCode 28
         println "VersionCode is " + versionCode
-        versionName "0.9.17"
+        versionName "0.9.21"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
     }
+
     sourceSets {
         main {
             manifest.srcFile 'catroid/AndroidManifest.xml'
@@ -186,12 +211,9 @@ android {
         }
     }
     lintOptions {
-        // define ignores like a specific res-folder in our lint.xml file
+        // specific ignores should be defined via lint.xml file, all general ignores should be added here
         lintConfig file('config/lint.xml')
-
-        // all general ignores should be added in this place
         // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
-        // OldTargetApi should be reviewed - consider updating target API to 20
         // RtlSymmetry/RtlHardcoded should be reviewed
         // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
         // IconMissingDensityFolder - currently no xxxhdpi icons available
@@ -200,12 +222,13 @@ android {
         ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
                 'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
                 'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
-                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation'
+                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation'
 
         textReport true
         xmlReport true
-        htmlReport false
+        htmlReport true
         xmlOutput file("build/reports/lint.xml")
+        htmlOutput file("build/reports/lint.html")
     }
 }
 
@@ -230,7 +253,6 @@ if (project.hasProperty('jenkins')) {
                 }
                 manifestOutputFile.write(generatedContent)
             }
-
         }
     }
 }

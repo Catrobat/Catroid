@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,7 +52,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -61,6 +60,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = FormulaEditorEditTextTest.class.getSimpleName();
 
 	private static final int CHANGE_SIZE_BY_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
 	private static final int WAIT_EDIT_TEXT_RID = R.id.brick_wait_edit_text;
@@ -587,8 +587,6 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	public void testStrings() {
-		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
-				this.getInstrumentation().getTargetContext(), true);
 		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		FormulaEditorEditText formulaEditorEditText = (FormulaEditorEditText) solo
@@ -713,9 +711,6 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertFalse("Unallowed char or string found (hyphen, costumephrase, spritephrase).",
 				hyphenOrCostumephraseOrSpritephraseFound);
-
-		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
-				this.getInstrumentation().getTargetContext(), false);
 	}
 
 	@Device
@@ -794,7 +789,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		int maxLoops = 100;
 		String lastComputeString = computeTextView.getText().toString();
 		while (maxLoops-- > 0) {
-			Log.e("info", "loopCount " + maxLoops);
+			Log.e(TAG, "loopCount " + maxLoops);
 			sensorManager.sendGeneratedSensorValues();
 
 			//Wait for runnable in FormulaEditorComputeDialog to

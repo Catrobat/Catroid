@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -37,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -127,8 +127,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
+		prototypeView = View.inflate(context, R.layout.brick_move_n_steps, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		textSteps.setText(String.valueOf(BrickValues.MOVE_STEPS));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
@@ -169,5 +168,9 @@ public class MoveNStepsBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.STEPS);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,15 @@ public class DroneFlipAction extends TemporalAction {
 	}
 
 	@Override
+	protected void begin() {
+		super.begin();
+
+		if (service.getDroneService() != null) {
+			service.getDroneService().doLeftFlip();
+		}
+	}
+
+	@Override
 	protected void update(float percent) {
 		Log.d(TAG, "update!");
 	}
@@ -46,8 +55,6 @@ public class DroneFlipAction extends TemporalAction {
 	@Override
 	public boolean act(float delta) {
 		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		service.getDroneService().doLeftFlip();
 		return superReturn;
 	}
 }

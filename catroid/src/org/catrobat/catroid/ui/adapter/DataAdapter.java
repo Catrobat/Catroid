@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
+public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapterInterface {
 	private Context context;
 	private List<UserVariable> userBrickVariables;
 	private List<UserList> spriteLists;
@@ -223,7 +223,7 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 
 		if (holder.text1 != null) {
 			if (currentDataItem instanceof UserVariable) {
-				holder.text1.setText(nameOfCurrentDataItem + ":");
+				holder.text1.setText(nameOfCurrentDataItem.concat(":"));
 			} else {
 				holder.text1.setText(nameOfCurrentDataItem);
 			}

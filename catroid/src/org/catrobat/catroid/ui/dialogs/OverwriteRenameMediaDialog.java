@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,12 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,7 +122,7 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 				header = R.string.look_rename_overwrite;
 				replaceText = R.string.overwrite_replace_look;
 				renameText = R.string.overwrite_rename_look;
-				renameHeaderText = R.string.new_sound_name;
+				renameHeaderText = R.string.new_look_name;
 				break;
 			case Constants.MEDIA_TYPE_SOUND:
 				header = R.string.rename_sound_overwrite;
@@ -214,19 +214,31 @@ public class OverwriteRenameMediaDialog extends DialogFragment implements OnClic
 		if (replaceButton.isChecked()) {
 			switch (mediaType) {
 				case Constants.MEDIA_TYPE_LOOK:
+					LookData lookToRemove = null;
 					for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 						if (lookData.getLookName().compareTo(mediaName) == 0) {
+							lookToRemove = lookData;
 							ProjectManager.getInstance().getCurrentSprite().getLookDataList().remove(lookData);
-							StorageHandler.getInstance().deleteFile(lookData.getAbsolutePath());
+							StorageHandler.getInstance().deleteFile(lookData.getAbsolutePath(), false);
 						}
+					}
+					if (lookToRemove != null) {
+						ProjectManager.getInstance().getCurrentSprite().getLookDataList().remove(lookToRemove);
+						StorageHandler.getInstance().deleteFile(lookToRemove.getAbsolutePath(), false);
 					}
 					break;
 				case Constants.MEDIA_TYPE_SOUND:
+					SoundInfo soundToRemove = null;
 					for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
 						if (soundInfo.getTitle().compareTo(mediaName) == 0) {
+							soundToRemove = soundInfo;
 							ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
-							StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
+							StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath(), false);
 						}
+					}
+					if (soundToRemove != null) {
+						ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundToRemove);
+						StorageHandler.getInstance().deleteFile(soundToRemove.getAbsolutePath(), false);
 					}
 					break;
 			}

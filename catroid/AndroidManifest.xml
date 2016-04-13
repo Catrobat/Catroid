@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2015 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid"
     android:installLocation="auto" >
@@ -40,15 +40,23 @@
 
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <!---->
+
     <!--&lt;!&ndash; drone &ndash;&gt;-->
-    <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
+    <uses-feature android:name="android.hardware.wifi" android:required="false"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- drone permissions end -->
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- nfc -->
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <!-- For testing purposes, this is automatically removed in live builds, but not in jenkins builds -->
     <uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />
@@ -63,6 +71,15 @@
         android:label="@string/app_name"
         android:name=".CatroidApplication"
         android:theme="@style/Theme.Catroid" >
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
         <activity
             android:name=".ui.MainMenuActivity"
             android:launchMode="standard"
@@ -109,12 +126,19 @@
         <activity
             android:name=".ui.BackPackActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:noHistory="true"/>
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".stage.StageActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/stage"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
+        <activity
+            android:name=".drone.DroneStageActivity"
             android:configChanges="orientation"
             android:label="@string/stage"
             android:screenOrientation="portrait"

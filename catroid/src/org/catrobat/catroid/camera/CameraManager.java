@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,29 +22,31 @@
  */
 package org.catrobat.catroid.camera;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
-import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
-import org.catrobat.catroid.R;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.stage.CameraSurface;
+import org.catrobat.catroid.stage.DeviceCameraControl;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.utils.FlashUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CameraManager implements Camera.PreviewCallback {
+public final class CameraManager implements DeviceCameraControl, Camera.PreviewCallback {
 
 	public static final int TEXTURE_NAME = 1;
+	public static final int NO_CAMERA = -1;
 	private static final String TAG = CameraManager.class.getSimpleName();
 	private static CameraManager instance;
 	private Camera camera;
@@ -53,11 +55,35 @@ public final class CameraManager implements Camera.PreviewCallback {
 	private int previewFormat;
 	private int previewWidth;
 	private int previewHeight;
-	private int cameraID = 0;
+	private int currentCameraID = NO_CAMERA;
+	private int frontCameraID = NO_CAMERA;
+	private int backCameraID = NO_CAMERA;
+	private int defaultCameraID = NO_CAMERA;
+	private boolean hasFlashBack = false;
+	private int cameraCount = 0;
+
 	private int orientation = 0;
 
-	private boolean facingBack = true;
-	private boolean useTexture = false;
+	StageActivity stageActivity = null;
+	CameraSurface cameraSurface = null;
+
+	private boolean updateBackgroundToTransparent = false;
+	private boolean updateBackgroundToNotTransparent = false;
+
+	public final Object cameraChangeLock = new Object();
+	private final Object cameraBaseLock = new Object();
+	private boolean wasRunning = false;
+
+	//Mode used for CameraPreview
+	public enum CameraState {
+		notUsed,
+		prepare,
+		previewRunning,
+		previewPaused,
+		stopped
+	}
+
+	private CameraState state = CameraState.notUsed;
 
 	public static CameraManager getInstance() {
 		if (instance == null) {
@@ -67,34 +93,65 @@ public final class CameraManager implements Camera.PreviewCallback {
 	}
 
 	private CameraManager() {
-		int currentApi = android.os.Build.VERSION.SDK_INT;
-		if (currentApi >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-			useTexture = true;
-			createTexture();
+		cameraCount = Camera.getNumberOfCameras();
+		for (int id = 0; id < cameraCount; id++) {
+			Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+			Camera.getCameraInfo(id, cameraInfo);
+
+			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+				backCameraID = id;
+				hasFlashBack = hasCameraFlash(id);
+			}
+			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+				frontCameraID = id;
+				//Adapt to support front flash
+			}
+			defaultCameraID = id;
 		}
+		currentCameraID = defaultCameraID;
+		createTexture();
+	}
+
+	public void setToDefaultCamera() {
+		currentCameraID = defaultCameraID;
+	}
+
+	public boolean setToFrontCamera() {
+		if (!hasFrontCamera()) {
+			return false;
+		}
+		updateCamera(frontCameraID);
+		return true;
+	}
+
+	public boolean setToBackCamera() {
+		if (!hasBackCamera()) {
+			return false;
+		}
+		updateCamera(backCameraID);
+		return true;
+	}
+
+	public boolean hasBackCamera() {
+		if (backCameraID == NO_CAMERA) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean hasFrontCamera() {
+		if (frontCameraID == NO_CAMERA) {
+			return false;
+		}
+		return true;
+	}
+
+	public CameraState getState() {
+		return state;
 	}
 
 	public Camera getCamera() {
-		if (camera == null) {
-			createCamera();
-		}
 		return camera;
-	}
-
-	public void updateCameraID(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String idAsString = preferences.getString(
-				context.getResources().getString(R.string.preference_key_select_camera), "0");
-		cameraID = Integer.parseInt(idAsString);
-
-		CameraInfo cameraInfo = new CameraInfo();
-		Camera.getCameraInfo(cameraID, cameraInfo);
-		orientation = cameraInfo.orientation;
-		facingBack = cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK;
-	}
-
-	public int getCameraID() {
-		return cameraID;
 	}
 
 	public int getOrientation() {
@@ -102,22 +159,47 @@ public final class CameraManager implements Camera.PreviewCallback {
 	}
 
 	public boolean isFacingBack() {
-		return facingBack;
+		return currentCameraID == backCameraID;
+	}
+
+	public boolean isFacingFront() {
+		return currentCameraID == frontCameraID;
 	}
 
 	private boolean createCamera() {
 		if (camera != null) {
 			return false;
 		}
+
 		try {
-			camera = Camera.open(cameraID);
+			camera = Camera.open(currentCameraID);
+			if (ProjectManager.getInstance().getCurrentProject().islandscapeMode()) {
+				camera.setDisplayOrientation(0);
+			} else {
+				camera.setDisplayOrientation(90);
+			}
+
+			Camera.Parameters p = camera.getParameters();
+			List<Camera.Size> previewSizes = p.getSupportedPreviewSizes();
+			int previewHeight = 0;
+			int previewWidth = 0;
+			for (int i = 0; i < previewSizes.size(); i++) {
+				Log.d(TAG, "Supported size: " + previewSizes.get(i).width + " x " + previewSizes
+						.get(i).height);
+				if (previewSizes.get(i).height > previewHeight) {
+					previewHeight = previewSizes.get(i).height;
+					previewWidth = previewSizes.get(i).width;
+				}
+			}
+			p.setPreviewSize(previewWidth, previewHeight);
+			camera.setParameters(p);
 		} catch (RuntimeException runtimeException) {
 			Log.e(TAG, "Creating camera failed!", runtimeException);
 			return false;
 		}
-		camera.setPreviewCallbackWithBuffer(this);
 
-		if (useTexture && texture != null) {
+		camera.setPreviewCallbackWithBuffer(this);
+		if (texture != null) {
 			try {
 				setTexture();
 			} catch (IOException iOException) {
@@ -129,28 +211,37 @@ public final class CameraManager implements Camera.PreviewCallback {
 	}
 
 	public boolean startCamera() {
-		if (camera == null) {
-			boolean success = createCamera();
-			if (!success) {
+		synchronized (cameraBaseLock) {
+			if (camera == null) {
+				boolean success = createCamera();
+				if (!success) {
+					return false;
+				}
+			}
+			Parameters parameters = camera.getParameters();
+			previewFormat = parameters.getPreviewFormat();
+			previewWidth = parameters.getPreviewSize().width;
+			previewHeight = parameters.getPreviewSize().height;
+			try {
+				camera.startPreview();
+			} catch (Exception e) {
+				Log.e(TAG, e.getMessage());
 				return false;
 			}
+			return true;
 		}
-		Parameters parameters = camera.getParameters();
-		previewFormat = parameters.getPreviewFormat();
-		previewWidth = parameters.getPreviewSize().width;
-		previewHeight = parameters.getPreviewSize().height;
-		camera.startPreview();
-		return true;
 	}
 
 	public void releaseCamera() {
-		if (camera == null) {
-			return;
+		synchronized (cameraBaseLock) {
+			if (camera == null) {
+				return;
+			}
+			camera.setPreviewCallback(null);
+			camera.stopPreview();
+			camera.release();
+			camera = null;
 		}
-		camera.setPreviewCallback(null);
-		camera.stopPreview();
-		camera.release();
-		camera = null;
 	}
 
 	public void addOnJpgPreviewFrameCallback(JpgPreviewCallback callback) {
@@ -184,19 +275,261 @@ public final class CameraManager implements Camera.PreviewCallback {
 		return decodableBytes;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void createTexture() {
 		texture = new SurfaceTexture(TEXTURE_NAME);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setTexture() throws IOException {
 		camera.setPreviewTexture(texture);
 	}
 
-	public void setLedParams(Parameters led) {
-		if (camera != null && led != null) {
-			camera.setParameters(led);
+	public void setFlashParams(Parameters flash) {
+		if (camera != null && flash != null) {
+			Parameters current = camera.getParameters();
+			current.setFlashMode(flash.getFlashMode());
+			camera.setParameters(current);
+		}
+	}
+
+	@Override
+	public void prepareCamera() {
+		state = CameraState.previewRunning;
+
+		if (cameraSurface == null) {
+			cameraSurface = new CameraSurface(stageActivity);
+		}
+
+		ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup
+				.LayoutParams.WRAP_CONTENT);
+
+		//java.lang.IllegalStateException: The specified child already has a parent. You must call removeView() on the child's parent first.
+		ViewGroup parent = (ViewGroup) cameraSurface.getParent();
+		if (parent != null) {
+			parent.removeView(cameraSurface);
+		}
+		stageActivity.addContentView(cameraSurface, params);
+		startCamera();
+	}
+
+	@Override
+	public void stopPreview() {
+		state = CameraState.notUsed;
+		if (cameraSurface != null) {
+			ViewParent parentView = cameraSurface.getParent();
+			if (parentView instanceof ViewGroup) {
+				ViewGroup viewGroup = (ViewGroup) parentView;
+				viewGroup.removeView(cameraSurface);
+			}
+
+			cameraSurface = null;
+			try {
+				if (camera != null) {
+					camera.stopPreview();
+					setTexture();
+				}
+				if (FaceDetectionHandler.isFaceDetectionRunning() || FlashUtil.isAvailable()) {
+					camera.startPreview();
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "reset Texture failed at stopPreview");
+				Log.e(TAG, e.getMessage());
+			}
+		}
+	}
+
+	@Override
+	public void pausePreview() {
+		if (state == CameraState.previewRunning) {
+			wasRunning = true;
+		}
+
+		stopPreview();
+		state = CameraState.previewPaused;
+	}
+
+	@Override
+	public void resumePreview() {
+		prepareCamera();
+		wasRunning = false;
+	}
+
+	@Override
+	public void prepareCameraAsync() {
+		Runnable r = new Runnable() {
+			public void run() {
+				prepareCamera();
+			}
+		};
+		stageActivity.post(r);
+	}
+
+	@Override
+	public void stopPreviewAsync() {
+		Runnable r = new Runnable() {
+			public void run() {
+				stopPreview();
+			}
+		};
+		stageActivity.post(r);
+	}
+
+	@Override
+	public void pausePreviewAsync() {
+		if (state == CameraState.previewPaused
+				|| state == CameraState.stopped
+				|| state == CameraState.notUsed) {
+			return;
+		}
+
+		Runnable r = new Runnable() {
+			public void run() {
+				pausePreview();
+			}
+		};
+		stageActivity.post(r);
+	}
+
+	@Override
+	public void resumePreviewAsync() {
+		if (state != CameraState.previewPaused || !wasRunning) {
+			return;
+		}
+
+		Runnable r = new Runnable() {
+			public void run() {
+				resumePreview();
+			}
+		};
+		stageActivity.post(r);
+	}
+
+	@Override
+	public boolean isReady() {
+		if (camera != null) {
+			return true;
+		}
+		return false;
+	}
+
+	public void updatePreview(CameraState newState) {
+
+		synchronized (cameraChangeLock) {
+			if (state == CameraState.previewRunning
+					&& newState != CameraState.prepare) {
+				stopPreviewAsync();
+				updateBackgroundToNotTransparent = true;
+			} else if (state == CameraState.notUsed
+					&& newState != CameraState.stopped) {
+				updateBackgroundToTransparent = true;
+				prepareCameraAsync();
+			}
+		}
+	}
+
+	public void setUpdateBackgroundToTransparent(boolean updateBackgroundToTransparent) {
+		this.updateBackgroundToTransparent = updateBackgroundToTransparent;
+	}
+
+	public boolean isUpdateBackgroundToTransparent() {
+		return updateBackgroundToTransparent;
+	}
+
+	public boolean isUpdateBackgroundToNotTransparent() {
+		return updateBackgroundToNotTransparent;
+	}
+
+	public void setUpdateBackgroundToNotTransparent(boolean updateBackgroundToNotTransparent) {
+		this.updateBackgroundToNotTransparent = updateBackgroundToNotTransparent;
+	}
+
+	private void updateCamera(int cameraId) {
+
+		synchronized (cameraChangeLock) {
+			CameraState currentState = state;
+
+			if (cameraId == currentCameraID) {
+				return;
+			}
+
+			currentCameraID = cameraId;
+
+			if (FlashUtil.isOn() && !isFacingBack()) {
+				Log.w(TAG, "destroy Stage because flash isOn and front Camera was chosen");
+				CameraManager.getInstance().destroyStage();
+				return;
+			}
+
+			FlashUtil.pauseFlash();
+			FaceDetectionHandler.pauseFaceDetection();
+			releaseCamera();
+
+			startCamera();
+			FaceDetectionHandler.resumeFaceDetection();
+			FlashUtil.resumeFlash();
+
+			if (currentState == CameraState.prepare
+					|| currentState == CameraState.previewRunning) {
+				changeCameraAsync();
+			}
+		}
+	}
+
+	public void changeCameraAsync() {
+		Runnable r = new Runnable() {
+			public void run() {
+				changeCamera();
+			}
+		};
+		stageActivity.post(r);
+	}
+
+	public void changeCamera() {
+		stopPreview();
+		prepareCamera();
+	}
+
+	public void setStageActivity(StageActivity stageActivity) {
+		this.stageActivity = stageActivity;
+	}
+
+	public void destroyStage() {
+		if (this.stageActivity != null) {
+			stageActivity.destroy();
+		}
+	}
+
+	public boolean hasFlash() {
+		return hasFlashBack;
+	}
+
+	private boolean hasCameraFlash(int cameraID) {
+		try {
+			Camera camera;
+			camera = Camera.open(cameraID);
+
+			if (camera == null) {
+				return false;
+			}
+
+			Camera.Parameters parameters = camera.getParameters();
+
+			if (parameters.getFlashMode() == null) {
+				camera.release();
+				return false;
+			}
+
+			List<String> supportedFlashModes = parameters.getSupportedFlashModes();
+			if (supportedFlashModes == null || supportedFlashModes.isEmpty()
+					|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+				camera.release();
+				return false;
+			}
+
+			camera.release();
+			return true;
+		} catch (Exception exception) {
+			Log.e(TAG, "failed checking for flash", exception);
+			return false;
 		}
 	}
 }

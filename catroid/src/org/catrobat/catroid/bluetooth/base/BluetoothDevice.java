@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.bluetooth.base;
 
+import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.stage.StageResourceInterface;
@@ -32,9 +33,7 @@ public interface BluetoothDevice extends StageResourceInterface {
 
 	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
 	Class<Phiro> PHIRO = Phiro.class;
-
-//	Class<Arduino> ARDUINO = Arduino.class;
-//	Class<Albert> ALBERT = Albert.class;
+	Class<Arduino> ARDUINO = Arduino.class;
 
 	String getName();
 	Class<? extends BluetoothDevice> getDeviceType();

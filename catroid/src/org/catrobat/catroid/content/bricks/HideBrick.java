@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import java.util.List;
 
 public class HideBrick extends BrickBaseType {
+	private static final String TAG = HideBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
 
 	public HideBrick() {
@@ -80,7 +81,7 @@ public class HideBrick extends BrickBaseType {
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			Log.d("TAG", "VIEW != NULL");
+			Log.d(TAG, "VIEW != NULL");
 			View layout = view.findViewById(R.id.brick_hide_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);

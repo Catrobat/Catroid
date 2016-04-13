@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,11 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,25 +39,25 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.utils.Utils;
 
 public class NewProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
-	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
 
 	private static final String TAG = NewProjectDialog.class.getSimpleName();
 
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
-	private CheckBox emptyProjectCheckBox;
+	private RadioButton defaultProjectRadioButton;
+	private RadioButton defaultDroneProjectRadioButton;
 	private OrientationDialog orientationDialog;
-	private SharedPreferences sharedPreferences;
 
 	private boolean openedFromProjectList = false;
 
@@ -131,18 +129,19 @@ public class NewProjectDialog extends DialogFragment {
 			}
 		});
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		boolean shouldBeEmpty = sharedPreferences.getBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, false);
+		defaultProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_radio_button);
+		defaultDroneProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_drone_radio_button);
 
-		emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
-		emptyProjectCheckBox.setChecked(shouldBeEmpty);
+		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
+			defaultDroneProjectRadioButton.setVisibility(View.VISIBLE);
+		}
 
 		return newProjectDialog;
 	}
 
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
-		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
+
 		if (getActivity() == null) {
 			Log.e(TAG, "handleOkButtonClick() Activity was null!");
 			return;
@@ -158,13 +157,26 @@ public class NewProjectDialog extends DialogFragment {
 			return;
 		}
 
+		boolean createEmptyProject = true;
+		boolean createDroneProject = false;
+
+		if (defaultProjectRadioButton.isChecked()) {
+			createEmptyProject = false;
+			createDroneProject = false;
+		}
+
+		if (defaultDroneProjectRadioButton.isChecked()) {
+			createEmptyProject = false;
+			createDroneProject = true;
+		}
+
 		orientationDialog = new OrientationDialog();
-		orientationDialog.show(getActivity().getSupportFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
+		orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
 		orientationDialog.setOpenedFromProjectList(openedFromProjectList);
 		orientationDialog.setProjectName(projectName);
-		orientationDialog.setShouldBeEmpty(shouldBeEmpty);
+		orientationDialog.setCreateEmptyProject(createEmptyProject);
+		orientationDialog.setCreateDroneProject(createDroneProject);
 
-		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 
 		dismiss();

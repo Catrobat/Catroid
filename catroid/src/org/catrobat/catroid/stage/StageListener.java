@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
@@ -32,7 +31,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -43,6 +41,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -52,17 +51,19 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
-import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -147,6 +148,7 @@ public class StageListener implements ApplicationListener {
 	public boolean axesOn = false;
 
 	private byte[] thumbnail;
+	private LookData whiteBackground = null;
 
 	StageListener() {
 	}
@@ -200,16 +202,8 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
-	}
 
-	void activityResume() {
-		if (!paused) {
-			FaceDetectionHandler.resumeFaceDetection();
-		}
-	}
-
-	void activityPause() {
-		FaceDetectionHandler.pauseFaceDetection();
+		whiteBackground = createWhiteBackgroundLookData();
 	}
 
 	void menuResume() {
@@ -240,7 +234,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public void reloadProject(Context context, StageDialog stageDialog) {
+	public void reloadProject(StageDialog stageDialog) {
 		if (reloadProject) {
 			return;
 		}
@@ -248,7 +242,7 @@ public class StageListener implements ApplicationListener {
 
 		project.getDataContainer().resetAllDataObjects();
 
-		LedUtil.reset();
+		FlashUtil.reset();
 		VibratorUtil.reset();
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
@@ -291,12 +285,13 @@ public class StageListener implements ApplicationListener {
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
+		CameraManager.getInstance().setToDefaultCamera();
 	}
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
@@ -305,10 +300,11 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			Sprite sprite;
 			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				sprites.get(0).look.setLookData(whiteBackground);
 			}
+
+			Sprite sprite;
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
@@ -329,10 +325,12 @@ public class StageListener implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
+			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 			int spriteSize = sprites.size();
 			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				sprites.get(0).look.setLookData(whiteBackground);
 			}
+
 			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
@@ -385,6 +383,8 @@ public class StageListener implements ApplicationListener {
 
 		if (!finished) {
 			stage.draw();
+
+			updateCameraEvents();
 		}
 
 		if (makeAutomaticScreenshot) {
@@ -417,6 +417,23 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	private void updateCameraEvents() {
+		if (CameraManager.getInstance().isUpdateBackgroundToTransparent()) {
+			//Set the transparency of the Background to 100% if there was no background image specified or 50% if so
+			if (sprites.get(0).look.getLookData().equals(whiteBackground)) {
+				sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(99f);
+			} else {
+				sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(50f);
+			}
+			CameraManager.getInstance().setUpdateBackgroundToTransparent(false);
+		}
+
+		if (CameraManager.getInstance().isUpdateBackgroundToNotTransparent()) {
+			sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(0f);
+			CameraManager.getInstance().setUpdateBackgroundToNotTransparent(false);
+		}
+	}
+
 	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
 		List<String> broadcastWaitNotifyActions = new ArrayList<String>();
 		for (String actionString : actions.get(Constants.BROADCAST_SCRIPT)) {
@@ -440,6 +457,9 @@ public class StageListener implements ApplicationListener {
 		}
 		if (currentActions.get(Constants.BROADCAST_NOTIFY_ACTION) != null) {
 			actions.addAll(currentActions.get(Constants.BROADCAST_NOTIFY_ACTION));
+		}
+		if (currentActions.get(Constants.RASPI_SCRIPT) != null) {
+			actions.addAll(currentActions.get(Constants.RASPI_SCRIPT));
 		}
 		for (String action : actions) {
 			for (String actionOfLook : actions) {
@@ -620,10 +640,12 @@ public class StageListener implements ApplicationListener {
 	private LookData createWhiteBackgroundLookData() {
 		LookData whiteBackground = new LookData();
 		Pixmap whiteBackgroundPixmap = new Pixmap((int) virtualWidth, (int) virtualHeight, Format.RGBA8888);
-		whiteBackgroundPixmap.setColor(Color.WHITE);
+		whiteBackgroundPixmap.setColor(1, 1, 1, 1);
 		whiteBackgroundPixmap.fill();
 		whiteBackground.setPixmap(whiteBackgroundPixmap);
 		whiteBackground.setTextureRegion();
+		whiteBackground.setLookFilename("white");
+		whiteBackground.setLookName("white");
 		return whiteBackground;
 	}
 
@@ -646,11 +668,15 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
-	public void addActor(ShowTextActor actor) {
+	public void addActor(Actor actor) {
 		stage.addActor(actor);
 	}
 
 	public Stage getStage() {
 		return stage;
+	}
+
+	public void removeActor(Look look) {
+		look.remove();
 	}
 }
