@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -103,7 +104,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
 		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
-		textXMovement.setText(String.valueOf(BrickValues.CHANGE_X_BY));
+		textXMovement.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_X_BY));
 		return prototypeView;
 	}
 

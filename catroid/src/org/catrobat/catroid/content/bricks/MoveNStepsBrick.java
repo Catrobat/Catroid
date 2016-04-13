@@ -129,7 +129,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_move_n_steps, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		textSteps.setText(String.valueOf(BrickValues.MOVE_STEPS));
+		textSteps.setText(Utils.getNumberStringForBricks(BrickValues.MOVE_STEPS));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.MOVE_STEPS)));

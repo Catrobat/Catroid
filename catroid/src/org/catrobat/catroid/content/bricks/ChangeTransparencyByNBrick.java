@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 		TextView textChangeTransparency = (TextView) prototypeView
 				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		textChangeTransparency.setText(String.valueOf(BrickValues.CHANGE_GHOST_EFFECT));
+		textChangeTransparency.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_GHOST_EFFECT));
 		return prototypeView;
 	}
 
