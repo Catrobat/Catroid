@@ -23,24 +23,6 @@
   -->
 <resources>
 
-    <string-array name="raspi_version_spinner_names">
-        <item>RaspberryPi Model A</item>
-        <item>RaspberryPi Model B</item>
-        <item>RaspberryPi Model A+</item>
-        <item>RaspberryPi Model B+</item>
-        <item>RaspberryPi 2</item>
-        <item>RaspberryPi Zero</item>
-    </string-array>
-
-    <string-array name="raspi_version_spinner_revisions">
-        <item>0007</item>
-        <item>0004</item>
-        <item>0012</item>
-        <item>0013</item>
-        <item>a01041</item>
-        <item>TODO</item>
-    </string-array>
-
     <!-- Mindroid motors spinner -->
     <string-array name="nxt_motor_chooser" >
         <item >@string/nxt_motor_a</item >

@@ -94,27 +94,6 @@
                 android:textSize="12sp"/>
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/dialog_new_object_third_row"
-            style="@style/DefaultDialog.Item"
-            android:baselineAligned="false"
-            android:visibility="gone"
-            android:weightSum="2">
-
-            <TextView
-                android:id="@+id/dialog_new_object_drone_video"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/new_object_dialog_selector"
-                android:drawableTop="@drawable/ic_video"
-                android:gravity="center"
-                android:text="@string/add_look_drone_video"
-                android:textSize="12sp"/>
-
-        </LinearLayout>
-
         <LinearLayout
             android:id="@+id/dialog_new_object_step_2_layout"
             android:layout_width="match_parent"
@@ -145,6 +124,27 @@
                 style="@style/DefaultDialog.EditText"
                 android:inputType="text">
             </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_new_object_drone"
+            style="@style/DefaultDialog.Item"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="false"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/dialog_new_object_drone_video"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_video"
+                android:gravity="center"
+                android:text="@string/add_look_drone_video"
+                android:textSize="12sp"/>
+
         </LinearLayout>
     </LinearLayout>
 

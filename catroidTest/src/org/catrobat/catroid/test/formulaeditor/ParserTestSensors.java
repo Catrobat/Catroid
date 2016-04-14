@@ -57,7 +57,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ParserTestSensors extends InstrumentationTestCase {
-	private static final String TAG = ParserTestSensors.class.getSimpleName();
 
 	private Project project;
 	private Sprite firstSprite;
@@ -113,7 +112,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 		Method[] methods = faceDetector.getClass().getSuperclass().getDeclaredMethods();
 		for (Method method : methods) {
-			Log.e(TAG, method.getName());
+			Log.e("SensorTest", method.getName());
 		}
 
 		ParameterList parameters = new ParameterList(Boolean.TRUE);

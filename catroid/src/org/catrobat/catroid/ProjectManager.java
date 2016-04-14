@@ -582,7 +582,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 					|| !elseBrick.getIfEndBrick().equals(endBrick)
 					|| !endBrick.getIfBeginBrick().equals(currentBrick)
 					|| !endBrick.getIfElseBrick().equals(elseBrick)) {
-				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
+				Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
 						+ currentBrick);
 				return false;
 			}
@@ -590,7 +590,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			LoopEndBrick endBrick = ((LoopBeginBrick) currentBrick).getLoopEndBrick();
 			if (endBrick == null || endBrick.getLoopBeginBrick() == null
 					|| !endBrick.getLoopBeginBrick().equals(currentBrick)) {
-				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
+				Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
 						+ currentBrick);
 				return false;
 			}

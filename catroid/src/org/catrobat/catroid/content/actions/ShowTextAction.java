@@ -110,7 +110,7 @@ public class ShowTextAction extends TemporalAction {
 			actor.setX(x);
 			actor.setY(y);
 		} catch (InterpretationException e) {
-			Log.d(TAG, "InterpretationException");
+			Log.d("ShowTextAction.java", "InterpretationException");
 		}
 	}
 

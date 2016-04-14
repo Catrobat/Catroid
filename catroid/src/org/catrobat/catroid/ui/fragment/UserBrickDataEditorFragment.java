@@ -63,7 +63,6 @@ import java.util.List;
 
 public class UserBrickDataEditorFragment extends Fragment implements OnKeyListener,
 		DragAndDropBrickLayoutListener, UserBrickEditElementDialog.DialogListener, LineBreakListener {
-	private static final String TAG = UserBrickDataEditorFragment.class.getSimpleName();
 
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
 	private static final String BRICK_BUNDLE_ARGUMENT = "current_brick";
@@ -128,7 +127,7 @@ public class UserBrickDataEditorFragment extends Fragment implements OnKeyListen
 			((ScriptActivity) activity).setupActionBar();
 			((ScriptActivity) activity).redrawBricks();
 		} else {
-			Log.e(TAG,
+			Log.e("userbricks",
 					"UserBrickDataEditor.onUserDismiss() called when the parent activity is not a UserBrickScriptActivity!\n"
 							+ "This should never happen, afaik. I don't know how to correctly reset the action bar...");
 		}

@@ -64,6 +64,11 @@ public class LookData implements Serializable, Cloneable {
 	public void draw(Batch batch, float alpha) {
 	}
 
+	public static enum LookDataType {
+		IMAGE,
+		DRONE_VIDEO
+	}
+
 	public transient boolean isBackpackLookData = false;
 
 	@Override

@@ -123,7 +123,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			Uri uri = soundRecorder.getPath();
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
-			Log.e(TAG, "Error recording sound.", e);
+			Log.e("CATROID", "Error recording sound.", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 			setResult(Activity.RESULT_CANCELED);
 		}

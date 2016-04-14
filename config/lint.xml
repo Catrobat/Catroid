@@ -28,7 +28,6 @@
         <ignore path="catroid/res/drawable-xhdpi" />
         <ignore path="catroid/res/drawable-xxhdpi" />
     </issue >
-
     <issue id="InflateParams" >
         <ignore path="catroid/src/org/catrobat/catroid/content/bricks/**" />
         <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/AboutDialogFragment.java" />
@@ -42,17 +41,27 @@
     </issue >
 
     <issue id="UnusedResources" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
-    </issue>
-
-    <issue id="ImpliedQuantity" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+        <ignore path="catroid/res/drawable-nodpi/default_drone_project_orange_light_bulb.png" />
     </issue >
-
-    <issue id="MissingQuantity" >
+    <issue id="UnusedQuantity" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="ImpliedQuantity" >
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
 
+
+    <!--Only temporary until the end of October 2014-->
+    <issue id="TypographyEllipsis" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="TypographyDashes" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="MissingQuantity" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
     <issue id="Typos" >
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >

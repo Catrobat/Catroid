@@ -57,7 +57,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -350,7 +349,7 @@ public final class Utils {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
 			if (UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
-				Log.i(TAG, "Somebody deleted all projects in the file-system");
+				Log.i("Utils", "Somebody deleted all projects in the file-system");
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 
@@ -385,26 +384,6 @@ public final class Utils {
 			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
 		}
 
-		return newName;
-	}
-
-	public static String getUniqueNfcTagName(String name) {
-		return searchForNonExistingNfcTagName(name, 0);
-	}
-
-	private static String searchForNonExistingNfcTagName(String name, int nextNumber) {
-		String newName;
-		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + nextNumber;
-		}
-		for (NfcTagData nfcTagData : nfcTagDataList) {
-			if (nfcTagData.getNfcTagName().equals(newName)) {
-				return searchForNonExistingNfcTagName(name, ++nextNumber);
-			}
-		}
 		return newName;
 	}
 

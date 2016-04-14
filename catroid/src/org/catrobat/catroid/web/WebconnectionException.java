@@ -25,7 +25,6 @@ package org.catrobat.catroid.web;
 import android.util.Log;
 
 public class WebconnectionException extends Exception {
-	private static final String TAG = WebconnectionException.class.getSimpleName();
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +51,7 @@ public class WebconnectionException extends Exception {
 	@Override
 	public String getMessage() {
 
-		Log.d(TAG, "Error #" + statusCode + ": " + message);
+		Log.d("DEBUG", "Error #" + statusCode + ": " + message);
 		return message;
 	}
 }

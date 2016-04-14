@@ -141,11 +141,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_arduino_read_pin_value_analog:
 				return buildSingleParameterFunction(Functions.ARDUINOANALOG, InternTokenType.NUMBER, "0");
 
-			//RaspberryPi
-
-			case R.string.formula_editor_function_raspi_read_pin_value_digital:
-				return buildSingleParameterFunction(Functions.RASPIDIGITAL, InternTokenType.NUMBER, "0");
-
 			//SENSOR
 
 			case R.string.formula_editor_sensor_x_acceleration:

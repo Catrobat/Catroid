@@ -490,11 +490,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
 					LookController.getInstance().loadPictureFromLibraryIntoCatroid(filePath, activity,
 							lookDataList, this);
-					break;
-				case LookController.REQUEST_DRONE_VIDEO:
-					String droneFilePath = getString(R.string.add_look_drone_video);
-					LookController.getInstance().loadDroneVideoImageToProject(droneFilePath,
-							R.drawable.ic_video, this.getActivity(), lookDataList, this);
 			}
 			isResultHandled = true;
 		}
@@ -652,7 +647,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	}
 
 	public void addLookDroneVideo() {
-		onActivityResult(LookController.REQUEST_DRONE_VIDEO, Activity.RESULT_OK, new Intent());
+
+		LookController.getInstance().loadDroneVideoImageToProject(getString(R.string.add_look_drone_video), R.drawable.ic_video, this.getActivity(), lookDataList, this);
 	}
 
 	@Override

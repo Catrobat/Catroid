@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -161,7 +160,6 @@ public final class DownloadUtil {
 
 	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
 
-	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {
 		public DownloadProjectReceiver(Handler handler) {
 			super(handler);
@@ -188,7 +186,6 @@ public final class DownloadUtil {
 		}
 	}
 
-	@SuppressLint("ParcelCreator")
 	private class DownloadMediaReceiver extends ResultReceiver {
 		public DownloadMediaReceiver(Handler handler) {
 			super(handler);

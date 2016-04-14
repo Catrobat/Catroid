@@ -24,7 +24,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/application_background_color">
+    android:background="@color/application_background_color"
+    android:theme="@android:style/Theme.Light" >
 
     <LinearLayout
         android:id="@+id/brick_data_editor_brick_space"

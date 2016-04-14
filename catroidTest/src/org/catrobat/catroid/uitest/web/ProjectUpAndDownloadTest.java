@@ -565,11 +565,11 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 
 		try {
-			Log.v(TAG, "" + resultString);
+			Log.v("resultString=", "" + resultString);
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
-			Log.v(TAG, "ServerID = " + serverProjectId);
+			Log.v("serverID=", "" + serverProjectId);
 		} catch (JSONException e) {
 			fail("JSON exception occurred");
 		}

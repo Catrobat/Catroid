@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import java.util.List;
 
 public class HideBrick extends BrickBaseType {
-	private static final String TAG = HideBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
 
 	public HideBrick() {
@@ -81,7 +80,7 @@ public class HideBrick extends BrickBaseType {
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			Log.d(TAG, "VIEW != NULL");
+			Log.d("TAG", "VIEW != NULL");
 			View layout = view.findViewById(R.id.brick_hide_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);

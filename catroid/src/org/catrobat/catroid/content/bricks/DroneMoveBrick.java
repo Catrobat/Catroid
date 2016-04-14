@@ -45,7 +45,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public abstract class DroneMoveBrick extends FormulaBrick {
-	private static final String TAG = DroneMoveBrick.class.getSimpleName();
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
@@ -115,7 +114,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 			} catch (InterpretationException interpretationException) {
-				Log.d(TAG, "Formula interpretation for this specific Brick failed.", interpretationException);
+				Log.d("DroneMoveBrick", "Formula interpretation for this specific Brick failed.", interpretationException);
 			}
 		} else {
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees

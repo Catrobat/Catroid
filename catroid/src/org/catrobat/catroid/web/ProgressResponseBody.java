@@ -77,18 +77,12 @@ public class ProgressResponseBody extends ResponseBody {
 	private Source source(Source source) {
 		return new ForwardingSource(source) {
 			long totalBytesRead = 0L;
-			long lastProgess = -1L;
 
 			@Override
 			public long read(Buffer sink, long byteCount) throws IOException {
 				long bytesRead = super.read(sink, byteCount);
 				totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-				long progress = (100 * totalBytesRead) / contentLength();
-				boolean endOfFile = bytesRead == -1;
-				if (progress > lastProgess || endOfFile) {
-					sendUpdateIntent(progress, endOfFile);
-					lastProgess = progress;
-				}
+				sendUpdateIntent((100 * totalBytesRead) / contentLength(), bytesRead == -1);
 				return bytesRead;
 			}
 		};

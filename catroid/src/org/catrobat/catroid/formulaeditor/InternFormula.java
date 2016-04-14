@@ -31,7 +31,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InternFormula {
-	private static final String TAG = InternFormula.class.getSimpleName();
 
 	public static enum CursorTokenPosition {
 		LEFT, MIDDLE, RIGHT
@@ -717,7 +716,7 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification replaceCursorPositionInternTokenByTokenList(
 			List<InternToken> internTokensToReplaceWith) {
 
-		Log.i(TAG, "replaceCursorPositionInternTokenByTokenList:enter");
+		Log.i("info", "replaceCursorPositionInternTokenByTokenList:enter");
 
 		if (cursorPositionInternToken.isNumber() && internTokensToReplaceWith.size() == 1
 				&& internTokensToReplaceWith.get(0).isOperator()) {

@@ -36,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 
 import java.util.ArrayList;
@@ -156,7 +155,8 @@ public class Look extends Image {
 			setVisible(true);
 		}
 
-		if (lookData instanceof DroneVideoLookData && lookData != null) {
+		//currently only used for dronevideo!
+		if (lookData != null) {
 			lookData.draw(batch, alpha);
 		}
 

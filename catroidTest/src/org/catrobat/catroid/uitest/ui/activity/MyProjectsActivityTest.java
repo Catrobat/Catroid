@@ -2092,7 +2092,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
 		} catch (IOException e) {
-			Log.e(TAG, e.toString());
+			Log.e("CATROID", e.toString());
 			fail("corrupting project failed due to IOException");
 		}
 	}

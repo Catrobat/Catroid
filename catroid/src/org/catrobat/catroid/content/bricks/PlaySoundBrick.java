@@ -48,7 +48,6 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
 
@@ -348,14 +347,5 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo) {
 		sound = soundInfo;
 		oldSelectedSound = soundInfo;
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackSound(this.getSound(), true);
-		this.setSoundInfo(backPackedSoundInfo);
-		if (sprite != null && !sprite.getSoundList().contains(backPackedSoundInfo)) {
-			sprite.getSoundList().add(backPackedSoundInfo);
-		}
 	}
 }
