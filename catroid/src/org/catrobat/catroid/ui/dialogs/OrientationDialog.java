@@ -26,8 +26,11 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,6 +57,8 @@ public class OrientationDialog extends DialogFragment {
 	private RadioButton landscapeMode;
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
+	private Context mContext;
+
 
 	private boolean openedFromProjectList = false;
 	private boolean createDroneProject = false;
@@ -61,6 +66,8 @@ public class OrientationDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+
+		mContext = getActivity();
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.project_orientation_title)
@@ -98,30 +105,8 @@ public class OrientationDialog extends DialogFragment {
 
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
-
-		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
-			return;
-		}
-
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-		if (isOpenedFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		}
-
-		getActivity().startActivity(intent);
-
-		dismiss();
+		LoadingOnCreatingProject loadingOnCreatingProject = new LoadingOnCreatingProject(mContext);
+		loadingOnCreatingProject.execute();
 	}
 
 	public boolean isOpenedFromProjectList() {
@@ -142,5 +127,57 @@ public class OrientationDialog extends DialogFragment {
 
 	public void setCreateDroneProject(boolean isChecked) {
 		createDroneProject = isChecked;
+	}
+
+	private class LoadingOnCreatingProject extends AsyncTask<String, Void, Boolean> {
+		private ProgressDialog dialog;
+
+		protected LoadingOnCreatingProject(Context context) {
+			dialog = new ProgressDialog(context);
+		}
+
+		@Override
+		protected void onPostExecute(Boolean showing) {
+			super.onPostExecute(showing);
+			dialog.dismiss();
+
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			this.dialog.setMessage("Please wait");
+			this.dialog.show();
+		}
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			try {
+				try {
+					ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
+				} catch (IllegalArgumentException illegalArgumentException) {
+					Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+				} catch (IOException ioException) {
+					Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+					Log.e(TAG, Log.getStackTraceString(ioException));
+					dismiss();
+				}
+
+				Intent intent = new Intent(getActivity(), ProjectActivity.class);
+
+				intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+				if (isOpenedFromProjectList()) {
+					intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+				}
+
+				getActivity().startActivity(intent);
+				dismiss();
+				return true;
+			} catch (Exception e) {
+
+				return false;
+			}
+		}
 	}
 }
