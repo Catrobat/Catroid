@@ -24,9 +24,10 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetSizeToActionTest extends InstrumentationTestCase {
@@ -46,7 +47,7 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getScaleX());
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getScaleY());
 
-		ExtendedActions.setSizeTo(sprite, size).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, size).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE / 100,
 				sprite.look.getScaleX());
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE / 100,
@@ -57,13 +58,14 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
 		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
 
-		ExtendedActions.setSizeTo(sprite, new Formula(-10)).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(-10)).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 0f,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetSizeToAction action = ExtendedActions.setSizeTo(null, size);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createSetSizeToAction(null, size);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");
@@ -72,27 +74,27 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		ExtendedActions.setSizeTo(sprite, new Formula(String.valueOf(SIZE))).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(String.valueOf(SIZE))).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setSizeTo(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setSizeTo(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 0f,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		ExtendedActions.setSizeTo(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 0f,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.setSizeTo(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 100f,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}

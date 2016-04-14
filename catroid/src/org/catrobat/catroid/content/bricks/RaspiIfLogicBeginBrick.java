@@ -36,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.LinkedList;
@@ -135,9 +134,9 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = ExtendedActions.sequence();
-		SequenceAction elseAction = ExtendedActions.sequence();
-		Action action = ExtendedActions.raspiIfLogicAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
+		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		Action action = sprite.getActionFactory().createRaspiIfLogicActionAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
 				elseAction);
 		sequence.addAction(action);
 

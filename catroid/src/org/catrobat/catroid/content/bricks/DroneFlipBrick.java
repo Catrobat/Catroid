@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class DroneFlipBrick extends DroneBasicBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneFlip());
+		sequence.addAction(sprite.getActionFactory().createDroneFlipAction());
 		return null;
 	}
 

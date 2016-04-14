@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions.conditional;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
@@ -37,32 +37,32 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		float xPosition = sprite.look.getXInUserInterfaceDimensionUnit();
 		float yPosition = sprite.look.getYInUserInterfaceDimensionUnit();
 
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
+		int halfVirtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
+		int halfVirtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
 		float newDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
 
-		if (xPosition < -virtualScreenWidth + width / 2) {
+		if (xPosition < -halfVirtualScreenWidth + width / 2) {
 			if (isLookingLeft(newDirection)) {
 				newDirection = -newDirection;
 			}
-			xPosition = -virtualScreenWidth + (width / 2);
-		} else if (xPosition > virtualScreenWidth - width / 2) {
+			xPosition = -halfVirtualScreenWidth + (width / 2);
+		} else if (xPosition > halfVirtualScreenWidth - width / 2) {
 			if (isLookingRight(newDirection)) {
 				newDirection = -newDirection;
 			}
-			xPosition = virtualScreenWidth - (width / 2);
+			xPosition = halfVirtualScreenWidth - (width / 2);
 		}
 
-		if (yPosition < -virtualScreenHeight + height / 2) {
+		if (yPosition < -halfVirtualScreenHeight + height / 2) {
 			if (isLookingDown(newDirection)) {
 				newDirection = 180f - newDirection;
 			}
-			yPosition = -virtualScreenHeight + (height / 2);
-		} else if (yPosition > virtualScreenHeight - height / 2) {
+			yPosition = -halfVirtualScreenHeight + (height / 2);
+		} else if (yPosition > halfVirtualScreenHeight - height / 2) {
 			if (isLookingUp(newDirection)) {
 				newDirection = 180f - newDirection;
 			}
-			yPosition = virtualScreenHeight - (height / 2);
+			yPosition = halfVirtualScreenHeight - (height / 2);
 		}
 
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(newDirection);

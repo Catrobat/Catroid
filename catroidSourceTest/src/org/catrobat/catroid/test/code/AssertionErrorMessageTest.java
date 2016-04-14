@@ -251,8 +251,8 @@ public class AssertionErrorMessageTest extends TestCase {
 
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
-			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
-			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
+			assertTrue("Couldn't find directory: " + directoryName, directory.getAbsoluteFile().exists() && directory.getAbsoluteFile().isDirectory());
+			assertTrue("Couldn't read directory: " + directoryName, directory.getAbsoluteFile().canRead());
 
 			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, ".java");
 			for (File file : filesToCheck) {

@@ -54,6 +54,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -733,20 +734,21 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testBackgroundBricks() {
-		Project standardProject = null;
+		TestUtils.clearProject(solo.getString(R.string.default_project_name));
+		Project defaultProject = null;
 		try {
-			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(
+			defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(
 					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		} catch (IOException e) {
-			Log.e(TAG, "Could not create standard project", e);
-			fail("Could not create standard project");
+			Log.e(TAG, "Could not create default project", e);
+			fail("Could not create default project");
 		}
 
-		if (standardProject == null) {
-			fail("Could not create standard project");
+		if (defaultProject == null) {
+			fail("Could not create default project");
 		}
-		ProjectManager.getInstance().setProject(standardProject);
-		StorageHandler.getInstance().saveProject(standardProject);
+		ProjectManager.getInstance().setProject(defaultProject);
+		StorageHandler.getInstance().saveProject(defaultProject);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		String categoryLooks = solo.getString(R.string.category_looks);

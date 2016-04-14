@@ -107,6 +107,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[3] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("settings")) {
 				fieldKeyOrder[4] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("physicsWorld")) {
+				fieldKeyOrder[5] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {
@@ -147,6 +149,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[11] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
 				fieldKeyOrder[12] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("actionFactory")) {
+				fieldKeyOrder[13] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

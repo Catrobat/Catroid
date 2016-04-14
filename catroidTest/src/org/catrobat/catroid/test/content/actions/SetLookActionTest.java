@@ -25,14 +25,15 @@ package org.catrobat.catroid.test.content.actions;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -43,10 +44,8 @@ import java.io.File;
 public class SetLookActionTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private File testImage;
-	int width;
-	int height;
 	private String projectName = "testProject";
+	private File testImage;
 	private Project project;
 
 	@Override
@@ -68,9 +67,6 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
-
-		this.width = bitmapOptions.outWidth;
-		this.height = bitmapOptions.outHeight;
 	}
 
 	@Override
@@ -97,7 +93,9 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName("testImage");
 		sprite.getLookDataList().add(lookData);
-		SetLookAction action = ExtendedActions.setLook(sprite, lookData);
+
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetLookAction(sprite, lookData);
 		action.act(1.0f);
 		assertNotNull("current Look is null", sprite.look);
 	}
