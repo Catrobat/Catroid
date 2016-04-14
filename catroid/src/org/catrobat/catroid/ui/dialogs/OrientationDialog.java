@@ -140,7 +140,6 @@ public class OrientationDialog extends DialogFragment {
 		protected void onPostExecute(Boolean showing) {
 			super.onPostExecute(showing);
 			dialog.dismiss();
-
 		}
 
 		@Override
