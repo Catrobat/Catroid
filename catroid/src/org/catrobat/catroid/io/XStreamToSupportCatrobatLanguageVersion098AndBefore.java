@@ -29,9 +29,7 @@ import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -92,9 +90,6 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
-import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
-import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -114,7 +109,6 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
-import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -300,21 +294,6 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("pwmPinValue", BrickField.ARDUINO_ANALOG_PIN_VALUE);
 		brickInfoMap.put("arduinoSendPWMValueBrick", brickInfo);
 
-		brickInfo = new BrickInfo(RaspiSendDigitalValueBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.RASPI_DIGITAL_PIN_NUMBER);
-		brickInfo.addBrickFieldToMap("digitalPinValue", BrickField.RASPI_DIGITAL_PIN_VALUE);
-		brickInfoMap.put("raspiSendDigitalValueBrick", brickInfo);
-
-		brickInfo = new BrickInfo(RaspiPwmBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.RASPI_DIGITAL_PIN_NUMBER);
-		brickInfo.addBrickFieldToMap("pwmFrequency", BrickField.RASPI_PWM_FREQUENCY);
-		brickInfo.addBrickFieldToMap("pwmPercentage", BrickField.RASPI_PWM_PERCENTAGE);
-		brickInfoMap.put("raspiPwmBrick", brickInfo);
-
-		brickInfo = new BrickInfo(RaspiIfLogicBeginBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.IF_CONDITION);
-		brickInfoMap.put("raspiIfLogicBeginBrick", brickInfo);
-
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);
 
@@ -413,9 +392,6 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
 		brickInfoMap.put("whenStartedBrick", brickInfo);
 
-		brickInfo = new BrickInfo(WhenNfcBrick.class.getSimpleName());
-		brickInfoMap.put("whenNfcBrick", brickInfo);
-
 		brickInfo = new BrickInfo(DronePlayLedAnimationBrick.class.getSimpleName());
 		brickInfoMap.put("dronePlayLedAnimationBrick", brickInfo);
 
@@ -502,8 +478,6 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
-		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());
-		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());
 	}
 
 	private void modifyXMLToSupportUnknownFields(File file) {

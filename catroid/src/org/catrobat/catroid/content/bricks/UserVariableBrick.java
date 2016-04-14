@@ -25,10 +25,8 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.Spinner;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
@@ -84,6 +82,15 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 
 	public BackPackedData getBackPackedData() {
 		return backPackedData;
+	}
+
+	public void setBackPackedData(Project project, UserVariable userVariable, Integer userVariableType) {
+		if (backPackedData == null) {
+			backPackedData = new BackPackedData();
+		}
+		this.backPackedData.project = project;
+		this.backPackedData.userVariable = userVariable;
+		this.backPackedData.userVariableType = userVariableType;
 	}
 
 	public void setBackPackedData(BackPackedData backPackedData) {
@@ -145,21 +152,5 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Integer type = DataContainer.USER_DATA_EMPTY;
-		if (getUserVariable() != null) {
-			type = currentProject.getDataContainer()
-					.getTypeOfUserVariable(getUserVariable().getName(), ProjectManager
-							.getInstance().getCurrentSprite());
-		}
-		if (backPackedData == null) {
-			backPackedData = new BackPackedData();
-		}
-		this.backPackedData.project = currentProject;
-		this.backPackedData.userVariableType = type;
 	}
 }

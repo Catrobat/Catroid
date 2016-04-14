@@ -150,14 +150,17 @@ public class SpriteBaseAdapter extends ArrayAdapter<Sprite> implements ActionMod
 			holder.image.setImageBitmap(firstLookData.getThumbnailBitmap());
 		}
 
-		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts).concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
+		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts) + " "
+				+ sprite.getNumberOfScripts());
 
-		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks).concat(" ").concat(Integer
-				.toString(sprite.getNumberOfBricks())).concat(Integer.toString(sprite.getNumberOfScripts())));
+		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks) + " "
+				+ (sprite.getNumberOfBricks() + sprite.getNumberOfScripts()));
 
-		holder.looks.setText(context.getResources().getString(R.string.number_of_looks).concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
+		holder.looks.setText(context.getResources().getString(R.string.number_of_looks) + " "
+				+ sprite.getLookDataList().size());
 
-		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds).concat(" ").concat(Integer.toString(sprite.getSoundList().size())));
+		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds) + " "
+				+ sprite.getSoundList().size());
 
 		if (!showDetails) {
 			holder.details.setVisibility(View.GONE);

@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import android.view.View;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -35,7 +33,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -95,39 +92,6 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertEquals("Variable has the wrong value after stage", 42.0,
 				dataContainer.getUserVariable("p2", sprite).getValue());
-	}
-
-	public void testCreatingNewVariableCancelling() {
-		Spinner setVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
-		Spinner changeVariableSpinner = solo.getCurrentViews(Spinner.class).get(1);
-		UserVariable setValueVar = (UserVariable) setVariableSpinner.getSelectedItem();
-		UserVariable changeVariableVar = (UserVariable) changeVariableSpinner.getSelectedItem();
-		String spinnerText1 = setValueVar.getName();
-		String spinnerText2 = changeVariableVar.getName();
-
-		View view1 = solo.getView(Spinner.class, 0);
-		solo.clickOnView(view1);
-		solo.scrollToTop();
-		solo.clickOnView(solo.getView(TextView.class, 0));
-		solo.waitForText(solo.getString(R.string.cancel_button));
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
-		solo.waitForText(spinnerText1);
-
-		View view2 = solo.getView(Spinner.class, 1);
-		solo.clickOnView(view2);
-		solo.scrollToTop();
-		solo.clickOnView(solo.getView(TextView.class, 0));
-		solo.waitForText(solo.getString(R.string.cancel_button));
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
-		solo.waitForText(spinnerText2);
-
-		setValueVar = (UserVariable) setVariableSpinner.getSelectedItem();
-		changeVariableVar = (UserVariable) changeVariableSpinner.getSelectedItem();
-		String newSpinnerText1 = setValueVar.getName();
-		String newSpinnerText2 = changeVariableVar.getName();
-
-		assertTrue("Wrong Spinner Value", spinnerText1.equals(newSpinnerText1));
-		assertTrue("Wrong Spinner Value", spinnerText2.equals(newSpinnerText2));
 	}
 
 	private void createProject() {

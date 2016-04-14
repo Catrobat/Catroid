@@ -646,7 +646,7 @@ public final class SoundController {
 		} catch (IOException e) {
 			Utils.showErrorDialog(activity, R.string.error_load_sound);
 		} catch (NullPointerException e) {
-			Log.e(TAG, "probably originalSoundPath null; message: " + e.getMessage());
+			Log.e("NullPointerException", "probably originalSoundPath null; message: " + e.getMessage());
 			Utils.showErrorDialog(activity, R.string.error_load_sound);
 		}
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));

@@ -22,8 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
-  <!-- General terms -->
+<resources>
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Cancelar</string>
   <string name="rename">Renombrar</string>
@@ -75,7 +74,6 @@
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
-  <!-- Main menu activity -->
   <string name="main_menu_new">Nuevo</string>
   <string name="main_menu_continue">Continuar</string>
   <string name="main_menu_programs">Programas</string>
@@ -89,7 +87,6 @@
   <string name="main_menu_logout">Desconectarse</string>
   <string name="main_menu_login">Login</string>
   <string name="logout_successful">Logout successful</string>
-  <!-- Settings activity -->
   <string name="preference_title">Configuración</string>
   <string name="preference_title_enable_quadcopter_bricks">Bloques ARDrone 2.0</string>
   <string name="preference_description_quadcopter_bricks">Permite controlar el quadcopter ARDrone 2.0</string>
@@ -100,17 +97,7 @@
   <string name="preference_title_enable_phiro_bricks">Phiro Bloques</string>
   <string name="preference_description_phiro_bricks">Permite controlar un robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
-  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
   <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
-  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
-  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
-  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
-  <string name="preference_raspi_port">Raspberry Pi Port</string>
-  <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Dibujar una imagen</string>
   <string name="dialog_new_object_gallery">Seleccione una imagen</string>
   <string name="dialog_new_object_camera">Tomar una foto</string>
@@ -118,24 +105,20 @@
   <string name="dialog_new_object_name">Nombre del objeto</string>
   <string name="dialog_new_object_switch_title">Ha creado un nuevo objeto</string>
   <string name="dialog_new_object_switch_message">¿Cambia al nuevo objeto?</string>
-  <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Términos de uso</string>
   <string name="dialog_terms_of_use_info">Para poder utilizar Pocket Code y otros ejecutables ofrecidos por el proyecto Catrobat, debes de estar de acuerdo con nuestros Términos de Uso y seguirlos estrictamente cuando utilizas Pocket Code y nuestros otros ejecutables. Por favor vea el siguiente enlace para tener una formulación más precisa. \n
 </string>
   <string name="dialog_terms_of_use_link_text">Términos de Uso</string>
-  <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
         AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
         use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
-  <!-- About Dialog -->
   <string name="dialog_about_title">Acerca de Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code es un entorno de programación y de interpretación para dispositivos Android, que utiliza el lenguaje de programación visual Catrobat.\n\n 
 El código fuente de Pocket Code generalmente utiliza la licencia Pública General de GNU AGPL v3.  Ver el enlace de abajo para obtener más detalles de la licencia \n</string>
   <string name="dialog_about_pocketcode_license_link_text">Licencia del código fuente de Pocket Code</string>
   <string name="dialog_about_catrobat_link_text">Acerca de Catrobat</string>
-  <!-- Project activity view -->
   <string name="project_name">Programa:</string>
   <string name="my_projects_activity_title">Programas</string>
   <string name="number_of_scripts">Líneas de comando:</string>
@@ -153,9 +136,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_object_message">Esta operación no se puede deshacer!</string>
   <string name="select_all">Seleccionar todos</string>
   <string name="deselect_all">Deselect all</string>
-  <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Copiar</string>
-  <!-- Script activity -->
   <string name="scripts">Líneas de comandos</string>
   <string name="look">Apariencia</string>
   <string name="looks">Apariencias</string>
@@ -166,7 +147,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="script_groups">Script Groups</string>
   <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
         !</string>
-  <!-- Script fragment -->
   <string name="fragment_script_text_description">Pulse \"+\" para añadir lineas de comandos
 </string>
   <string name="dialog_confirm_delete_brick_title">¿Desea eliminar este Bloque?</string>
@@ -176,18 +156,17 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Esta operación no se puede deshacer!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete %d Brick</item>
-    <item quantity="other">Delete %d Bricks</item>
+    <item quantity="one">Eliminar %d bloque</item>
+    <item quantity="other">Eliminar %d bloques</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d Brick</item>
-    <item quantity="other">Copy %d Bricks</item>
+    <item quantity="one">Copia %d bloque</item>
+    <item quantity="other">Copia %d bloques</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d Brick</item>
+    <item quantity="one">Backpack 1 Brick</item>
     <item quantity="other">Backpack %d Bricks</item>
   </plurals>
-  <!-- Look fragment -->
   <string name="fragment_look_text_description">Pulse \"+\" para añadir diferentes apariencias</string>
   <string name="fragment_background_text_description">Pulse \"+\" añadir fondos</string>
   <string name="rename_look_dialog">Renombre la apariencia</string>
@@ -203,7 +182,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Esta operación no se puede deshacer!</string>
   <string name="lookname">Nombre de la apariencia:</string>
-  <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Pulse \"+\" para agregar sonidos</string>
   <string name="rename_sound_dialog">Renombre el sonido</string>
   <string name="backpack_title">Mochila</string>
@@ -220,20 +198,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="sound_name">nombre del sonido:</string>
   <string name="new_sound_name">Nombre de sonido:</string>
   <string name="rename_sound_overwrite">Sonido con el mismo nombre ya existe!</string>
-  <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="rename_nfctag_dialog">Rename nfctag</string>
-  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
-  <string name="nfctag_scan">scan</string>
-  <string name="delete_nfctag_dialog">Delete nfctag?</string>
-  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
-  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
-  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
-  <string name="nfctag_name">nfctag name:</string>
-  <string name="nfctag">NFC Tag</string>
-  <string name="nfctags">NFC Tags</string>
-  <string name="uid">ID</string>
-  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">ha sido descomprimido!</item>
     <item quantity="other">han sido descomprimidos!</item>
@@ -246,7 +210,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
     <item quantity="one">Script</item>
     <item quantity="other">Scripts</item>
   </plurals>
-  <!-- My Projects activity -->
   <string name="last_used">Último acceso:</string>
   <string name="description">Descripción:</string>
   <string name="set_description">Descripción del set</string>
@@ -260,12 +223,10 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="details_date_today">Hoy</string>
   <string name="details_date_yesterday">Ayer</string>
   <string name="dialog_copy_project_title">Programa de copia</string>
-  <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">Grabadora de Pocket Code</string>
   <string name="soundrecorder_error">Error de grabación de sonido</string>
   <string name="soundrecorder_recorded_filename">registro</string>
   <string name="soundrecorder_text_view">Pulse el icono de arriba para iniciar y detener la grabación.</string>
-  <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
   <string name="prestage_resource_not_available_title">Component not available</string>
   <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
@@ -280,11 +241,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
-  <string name="no_nfc_available">NFC not available</string>
-  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
-  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
-        issues!</string>
-  <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Mover el Bloque</string>
   <string name="brick_context_dialog_show_source">Ver la fuente del Bloque</string>
   <string name="brick_context_dialog_delete_brick">Eliminar el bloque</string>
@@ -294,7 +250,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_context_dialog_edit_brick">Editar el bloque</string>
   <string name="brick_context_dialog_formula_edit_brick">Editar la fórmula</string>
   <string name="brick_context_dialog_delete_script">Eliminar el guión</string>
-  <!-- New look dialog -->
   <string name="new_look_dialog_title">Añadir diseño de apariencia</string>
   <string name="add_look_from_camera">Tomar una foto</string>
   <string name="add_look_draw_new_image">Dibujar una imagen</string>
@@ -303,11 +258,9 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="new_look_name">Nombre de Mira:</string>
   <string name="look_rename_overwrite">Nombre de mira ya existe!</string>
   <string name="add_look_drone_video">Drone Video</string>
-  <!-- New Sound dialog -->
   <string name="new_sound_dialog_title">Añade sonido</string>
   <string name="add_sound_from_recorder">Grabar el Sonido</string>
   <string name="add_sound_choose_file">Seleccione archivo</string>
-  <!-- New project dialog -->
   <string name="new_project_dialog_title">Nuevo programa</string>
   <string name="new_project_dialog_hint">Mi programa</string>
   <string name="new_project_description_dialog_hint">Mi descripción</string>
@@ -316,7 +269,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientación:</string>
-  <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Mi objeto</string>
   <string name="new_sprite_dialog_title">Objeto nuevo</string>
   <string name="spritename_already_exists">Este nombre de objeto ya existe</string>
@@ -324,7 +276,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="spritename_invalid">Este nombre de objeto no es válido</string>
   <string name="no_spritename_entered">Por favor, introduzca un nombre de objeto.</string>
   <string name="sprite_name">Nombre del objeto:</string>
-  <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Nombre de usuario:</string>
   <string name="password">Contraseña:</string>
@@ -347,18 +298,15 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
-  <!-- OverwriteRenameDialog Strings -->
   <string name="overwrite_text">Un programa con el mismo nombre ya existe!</string>
   <string name="overwrite_replace">Reemplazar el programa existente</string>
   <string name="overwrite_rename">Renombre de programa descargado</string>
-  <!-- OverwriteRenameMediaDialog -->
   <string name="overwrite_replace_look">Reemplazar existente Mira</string>
   <string name="overwrite_rename_look">Vuelva a nombrar la Mira descargada</string>
   <string name="overwrite_replace_sound">Cambie el sonido existente</string>
   <string name="overwrite_rename_sound">Vuelva a nombrar el sonido descargado</string>
   <string name="overwrite_replace_default">Sustituya los medios de comunicación existentes</string>
   <string name="overwrite_rename_default">Cambie el nombre de los medios de comunicación existentes</string>
-  <!-- Stage menu dialog -->
   <string name="stage_dialog_back">Atrás</string>
   <string name="stage_dialog_resume">Restablecer</string>
   <string name="stage_dialog_restart">Reiniciar</string>
@@ -366,14 +314,9 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="stage_dialog_axes_off">Ejes de</string>
   <string name="stage_dialog_maximize">Maximizar/\nAlargar</string>
   <string name="stage_dialog_screenshot">Capturas de pantalla</string>
-  <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Nuevo&#8230;</string>
+  <string name="new_broadcast_message">Nuevo...</string>
   <string name="dialog_new_broadcast_message_title">Mensaje nuevo</string>
   <string name="dialog_new_broadcast_message_name">Mensaje:</string>
-  <!-- NFC spinner -->
-  <string name="new_nfc_tag">Nuevo&#8230;</string>
-  <string name="brick_when_nfc_default_all">all</string>
-  <!-- Brick categories -->
   <string name="categories">Categorías</string>
   <string name="category_motion">Movimiento</string>
   <string name="category_looks">Apariencias</string>
@@ -385,8 +328,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
-  <string name="category_raspi">Raspberry Pi</string>
-  <!-- Motion bricks -->
   <string name="brick_place_at">"Coloque en "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -412,7 +353,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_point_to">Apuntar hacia</string>
   <string name="brick_glide">Deslizar</string>
   <string name="brick_glide_to_x">a X:</string>
-  <!-- Looks bricks -->
   <string name="brick_set_look">Cambiar a Apariencia</string>
   <string name="brick_set_background">Establecer una imagen de fondo</string>
   <string name="brick_set_size_to">Establecer el tamaño en</string>
@@ -432,18 +372,15 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_flash_on">on</string>
   <string name="brick_flash_off">off</string>
   <string name="brick_vibration">Vibrar por</string>
-  <!-- Sound bricks -->
   <string name="brick_play_sound">Iniciar sonido</string>
   <string name="brick_stop_all_sounds">Para todos los sonidos</string>
   <string name="brick_set_volume_to">Ajustar el volumen a</string>
   <string name="brick_change_volume_by">Cambiar el volumen en</string>
   <string name="brick_speak">Hablar</string>
   <string name="brick_speak_default_value">"¡Hola!"</string>
-  <!-- Control bricks -->
   <string name="brick_when_started">Cuando comience el programa</string>
   <string name="brick_when">Cuando pulse</string>
   <string name="brick_wait">Espere</string>
-  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"segundo"</item>
     <item quantity="other">"segundos"</item>
@@ -465,8 +402,8 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_if_end">Fin del \"Si\"</string>
   <string name="brick_set_variable">Establezca una variable</string>
   <string name="brick_change_variable">Cambie la variable</string>
-  <string name="brick_variable_spinner_create_new_variable">Nuevo&#8230;</string>
-  <string name="brick_note_default_value">"añada comentario aquí…"</string>
+  <string name="brick_variable_spinner_create_new_variable">Nuevo...</string>
+  <string name="brick_note_default_value">"Añada comentario aquí..."</string>
   <string name="brick_broadcast_default_value">"mensaje 1"</string>
   <string name="brick_add_item_to_userlist_add">Añada</string>
   <string name="brick_add_item_to_userlist">a la lista</string>
@@ -478,7 +415,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_replace_item_in_userlist_replace_in_list">Reemplace el elemento de lista</string>
   <string name="brick_replace_item_in_userlist_item_at_index">en la posición</string>
   <string name="brick_replace_item_in_userlist_with_value">con</string>
-  <!-- defaultValues -->
   <string name="default_project_name">Mi primer programa</string>
   <string name="default_project_background_name">Fondo</string>
   <string name="default_project_cloud_name">Clouds</string>
@@ -489,10 +425,8 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
-  <!-- defaultDroneValues -->
   <string name="default_drone_project_name">Mi primer programa robot</string>
   <string name="default_drone_project_sprites_takeoff">Despegar</string>
-  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
   <string name="default_drone_project_sprites_rotate">Rotar</string>
   <string name="default_drone_project_sprites_up">Arriba</string>
   <string name="default_drone_project_sprites_down">Abajo</string>
@@ -505,32 +439,26 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="default_drone_project_sprites_emergency">Emergency</string>
   <string name="drone_brick_set_text">Text</string>
   <string name="drone_brick_set_x">X:</string>
-  <!-- Drone config spinner values  -->
   <string name="drone_config_indoor_with_hull">indoor with hull</string>
   <string name="drone_config_indoor_without_hull">indoor without hull</string>
   <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
   <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
-  <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 meters</string>
   <string name="drone_set_altitude_max_5m">5 meters</string>
   <string name="drone_set_altitude_max_10m">10 meters</string>
   <string name="drone_set_altitude_max_100m">100 meters</string>
-  <!-- Drone max vertical speed limit values  -->
   <string name="drone_set_vertical_min">200 mm/s</string>
   <string name="drone_set_vertical_indoor">700 mm/s</string>
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
-  <!-- Drone max rotation speed limit values  -->
   <string name="drone_set_rotation_min">40 °/s</string>
   <string name="drone_set_rotation_indoor">100 °/s</string>
   <string name="drone_set_rotation_outdoor">200 °/s</string>
   <string name="drone_set_rotation_max">350 °/s</string>
-  <!-- Drone max tilt limit values  -->
   <string name="drone_set_tilt_min">5 °</string>
   <string name="drone_set_tilt_indoor">12 °</string>
   <string name="drone_set_tilt_outdoor">20 ° </string>
   <string name="drone_set_tilt_max">30 °</string>
-  <!-- Notifications -->
   <string name="notification_invalid_text_entered">Por favor, introduzca un valor</string>
   <string name="notification_screenshot_ok">Captura de pantalla guardada</string>
   <string name="notification_download_project_cancel">Cancelada la descarga</string>
@@ -563,7 +491,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
   <string name="drone_emergency_title">Emergency</string>
-  <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code requiere almacenamiento externo de escritura, por ejemplo una tarjeta SD para ejecutar, pero no se encontró ninguno. \nYou puede arreglar esto haciendo el almacenamiento externo escribible o insertando una tarjeta SD, inténtelo de nuevo.</string>
   <string name="error_no_program_name_entered">Por favor, introduzca un nombre de programa.</string>
   <string name="error_project_exists">Un programa con el mismo nombre ya existe. \nPlease elegir un nombre diferente.</string>
@@ -596,36 +523,19 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="error_rename_incompatible_project">No es posible cambiar el nombre de un proyecto incompatible.</string>
   <string name="error_changing_description_of_incompatible_project">No es posible cambiar la descripción de un proyecto incompatible.</string>
   <string name="error_unknown_error">Se ha producido un error desconocido.</string>
-  <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth no puede está disponible, fase de cierre</string>
   <string name="title_paired_devices">Dispositivos emparejados</string>
   <string name="title_other_devices">Nuevos dispositivos</string>
   <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Búsqueda de dispositivos Bluetooth</string>
   <string name="select_device">Seleccionar dispositivo:</string>
-  <string name="connecting_please_wait">Conexión a la espera del dispositivo. \nPlease&#8230;</string>
-  <!-- <string name="pairing_message">After pairing, connect.</string> -->
+  <string name="connecting_please_wait">Conexión a la espera del dispositivo. \nPlease...</string>
   <string name="bt_connection_failed">Error en la conexión al dispositivo.</string>
   <string name="none_found">No hay dispositivos emparejados</string>
   <string name="none_paired">No hay dispositivos emparejados</string>
-  <!-- Arduino Bricks -->
   <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
   <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">Para</string>
-  <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
-  <string name="brick_raspi_set_pin_value_to">Para</string>
-  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-  <string name="brick_raspi_if_begin_second_part">es verdadero entonces</string>
-  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-  <string name="brick_raspi_when_equals">changes to</string>
-  <string name="brick_raspi_pressed_text">High</string>
-  <string name="brick_raspi_released_text">Low</string>
-  <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
-  <!-- Raspi Settings -->
-  <string name="raspi_settings_title_name">Raspberry Pi Settings</string>
-  <string name="raspi_settings_gpio_version">GPIO Version</string>
-  <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Establezaca el motor NXT</string>
   <string name="nxt_motor_speed_to">para</string>
   <string name="nxt_motor_speed">velocidad</string>
@@ -663,7 +573,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="nxt_port_3">Puerto 3</string>
   <string name="nxt_port_4">Puerto 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">No volver a mostrar este mensaje.</string>
-  <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
   <string name="brick_drone_play_led_animation">Reproducir la animación LED</string>
   <string name="brick_drone_move_left">Mover a izquierda</string>
@@ -687,26 +596,20 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">con</string>
   <string name="brick_drone_percent_power">% power</string>
-  <!-- Phiro bricks -->
-  <!-- motor -->
   <string name="phiro_motor_stop">Parar el motor Phiro</string>
   <string name="brick_phiro_motor_forward_action">Mueva el motor Phiro hacia delante</string>
   <string name="brick_phiro_motor_backward_action">Mueva el motor Phiro hacia atrás</string>
   <string name="phiro_motor_speed">Velocidad</string>
-  <!-- sensor -->
   <string name="brick_phiro_sensor_begin">Si Phiro</string>
   <string name="brick_phiro_sensor_second_part">se activa</string>
-  <!-- tone -->
   <string name="phiro_play_tone">Tocar musica\n Phiro</string>
   <string name="phiro_tone_duration">Duración</string>
   <string name="brick_phiro_select_tone">tono</string>
   <string name="phiro_seconds">segundos</string>
-  <!-- light -->
   <string name="brick_phiro_rgb_led_action">Establecer luz de Phiro</string>
   <string name="phiro_rgb_led_red">Rojo</string>
   <string name="phiro_rgb_led_green">Verde</string>
   <string name="phiro_rgb_led_blue">Azul</string>
-  <!-- Phiro tone strings -->
   <string name="phiro_tone_do">Do</string>
   <string name="phiro_tone_re">Re</string>
   <string name="phiro_tone_mi">Mi</string>
@@ -714,27 +617,22 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="phiro_tone_so">So</string>
   <string name="phiro_tone_la">La</string>
   <string name="phiro_tone_ti">Ti</string>
-  <!-- Phiro motor strings -->
   <string name="phiro_motor_left">Izquierda</string>
   <string name="phiro_motor_right">Derecha</string>
   <string name="phiro_motor_both">Ambos</string>
-  <!-- Phiro light strings -->
   <string name="phiro_light_left">Izquierda</string>
   <string name="phiro_light_right">Derecha</string>
   <string name="phiro_light_both">Ambos</string>
-  <!-- Phiro sensor strings -->
   <string name="phiro_sensor_front_left">Sensor frontal izquierdo</string>
   <string name="phiro_sensor_front_right">Sensor frontal derecho</string>
   <string name="phiro_sensor_side_left">Sensor lado izquierdo</string>
   <string name="phiro_sensor_side_right">Sensor lado derecho</string>
   <string name="phiro_sensor_bottom_left">Sensor izquierdo inferior</string>
   <string name="phiro_sensor_bottom_right">Sensor inferior derecho</string>
-  <!-- Phiro RGBColor Chooser strings -->
   <string name="color_red">Rojo</string>
   <string name="color_green">Verde</string>
   <string name="color_blue">Azul</string>
   <string name="color_preview">Vista previa de color</string>
-  <!-- Formula Editor Strings -->
   <string name="formula_editor_data">Datos</string>
   <string name="formula_editor_true">Verdadero</string>
   <string name="formula_editor_false">Falso</string>
@@ -796,7 +694,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="formula_editor_function_join_parameter">(\'Hola\', \'mundo\')</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
-  <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
   <string name="formula_editor_function_list_item">elemento</string>
   <string name="formula_editor_function_list_item_parameter">(1, * lista de nombre)</string>
   <string name="formula_editor_function_contains">contiene</string>
@@ -882,7 +779,6 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
     <item quantity="one">Elemento seleccionado!</item>
     <item quantity="other">Elementos seleccionado!</item>
   </plurals>
-  <!-- Brick Data Editor Strings -->
   <string name="brick_data_editor_title">Editor de bloques</string>
   <string name="separator">|</string>
   <string name="add_text">Añadir texto</string>
@@ -893,30 +789,27 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="edit_variable">Editar variable</string>
   <string name="variable_hint">Nombre de Variable</string>
   <string name="brick_show_text_var">Mostrar la variable</string>
-  <string name="brick_show_text_pos">"at "</string>
+  <string name="brick_show_text_pos">"en  "</string>
   <string name="brick_hide_text_var">Ocultar la variable</string>
-  <!-- User Bricks strings -->
   <string name="define">definir</string>
   <string name="new_user_brick">Nuevo bloque</string>
   <string name="new_user_brick_variable">Variable 1</string>
   <string name="recursive_user_brick_forbidden">Añadir un usuario de Bloque a Usuario de Bloque, no está disponible todavía!</string>
   <string name="brick_single">Bloque</string>
   <string name="brick_multiple">Bloques</string>
-  <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">exitosamente se fusionaron en</string>
   <string name="warning">¡Alerta</string>
   <string name="error_merge_with_self">¡ Precaución! Proyecto actual y el proyecto seleccionado son iguales!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
-        has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
+  <string name="error_different_resolutions">Caution! Different resolutions detected. %1$s has resolution %2$dx%3$d
+        and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abortar</string>
   <string name="merge_conflict">Combinación no posible</string>
   <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
     variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
   <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
-  <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>

@@ -52,7 +52,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XMLValidatingTest extends AndroidTestCase {
-	private static final String TAG = XMLValidatingTest.class.getSimpleName();
 	private String testProjectName = "xmlTestProjectName";
 
 	public XMLValidatingTest() throws IOException {
@@ -106,7 +105,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		for (Brick brick : bricks) {
 			if (brick.getClass().equals(WhenBrick.class) || brick.getClass().equals(WhenStartedBrick.class)
 					|| brick.getClass().equals(BroadcastReceiverBrick.class)) {
-				Log.i(TAG, "These bricks are not in the new schema");
+				Log.i("XMLValidationtest", "These bricks are not in the new schema");
 			} else {
 				startScript.addBrick(brick);
 			}

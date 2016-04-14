@@ -34,7 +34,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
-	private static final String TAG = CopyProjectTask.class.getSimpleName();
 
 	private ProjectsListFragment parentFragment;
 	private String newName;
@@ -62,7 +61,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 			StorageHandler.getInstance().saveProject(copiedProject);
 		} catch (IOException exception) {
 			UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
-			Log.e(TAG, "Error while copying project, destroy newly created directories.", exception);
+			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 			StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
 
 			return false;

@@ -67,7 +67,6 @@ import org.catrobat.catroid.utils.Utils;
 
 public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
 		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
-	private static final String TAG = FormulaEditorDataFragment.class.getSimpleName();
 
 	public static final String USER_DATA_TAG = "userDataFragment";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
@@ -91,7 +90,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.d(TAG, "FormulaEditorData onresume()");
+		Log.d("CatroidFragmentTag", "FormulaEditorData onresume()");
 	}
 
 	@Override

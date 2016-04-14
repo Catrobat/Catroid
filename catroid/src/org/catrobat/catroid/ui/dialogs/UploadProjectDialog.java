@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -61,7 +60,6 @@ public class UploadProjectDialog extends DialogFragment {
 
 	private String openAuthProvider = Constants.NO_OAUTH_PROVIDER;
 
-	@SuppressLint("ParcelCreator")
 	private class UploadReceiver extends ResultReceiver {
 
 		public UploadReceiver(Handler handler) {

@@ -49,7 +49,6 @@ public class DataContainer implements Serializable {
 	public static final transient int USER_VARIABLE_USERBRICK = 2;
 	public static final transient int USER_LIST_SPRITE = 4;
 	public static final transient int USER_LIST_PROJECT = 5;
-	public static final transient int USER_DATA_EMPTY = 6;
 
 	@XStreamAlias("programVariableList")
 	private List<UserVariable> projectVariables;

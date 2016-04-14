@@ -45,7 +45,6 @@ import java.io.File;
 import java.util.Arrays;
 
 public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final String TAG = TouchAxisTest.class.getSimpleName();
 
 	public TouchAxisTest() {
 		super(MainMenuActivity.class);
@@ -72,7 +71,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
 		byte[] screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 100, 1, 1);
 
-		Log.d(TAG, "width: " + ScreenValues.SCREEN_WIDTH / 2);
+		Log.d("Test", "width: " + ScreenValues.SCREEN_WIDTH / 2);
 
 		//Will be changed in near future, due to ScreenSizeManager
 		//assertTrue("Pixels didn't match! Touch area is off!", Arrays.equals(blackPixel, screenPixel));
