@@ -395,13 +395,10 @@ public final class StorageHandler {
 
 		Log.d(TAG, "loadProject " + projectName);
 
-		if (!projectExists(projectName)) {
-			return null;
-		}
-
 		loadSaveLock.lock();
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+			Log.d(TAG, "path: " + projectCodeFile.getAbsolutePath());
 			fileInputStream = new FileInputStream(projectCodeFile);
 			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
 			return project;

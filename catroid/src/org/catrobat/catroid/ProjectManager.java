@@ -120,7 +120,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void uploadProject(String projectName, Activity activity) {
 		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, true, false);
+			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, false, false);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
 		}
