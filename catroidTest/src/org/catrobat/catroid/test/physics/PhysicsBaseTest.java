@@ -59,7 +59,6 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 		physicsWorld = project.getPhysicsWorld();
 		sprite = new Sprite("TestSprite");
 		sprite.look = new PhysicsLook(sprite, physicsWorld);
-		sprite.setActionFactory(new ActionPhysicsFactory());
 
 		project.addSprite(sprite);
 
@@ -72,6 +71,7 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite.look.setLookData(lookdata);
+		sprite.setActionFactory(new ActionPhysicsFactory());
 
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
 
