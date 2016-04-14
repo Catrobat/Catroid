@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsBoundaryBox;
+import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
 public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
@@ -59,7 +60,8 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 		// AABB ... AXIS-ALIGNED-BOUNDING-BOX
 		Vector2 bbLowerEdge = new Vector2();
 		Vector2 bbUpperEdge = new Vector2();
-		physicsWorld.getPhysicsObject(sprite).getBoundaryBox(bbLowerEdge, bbUpperEdge);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		physicsObject.getBoundaryBox(bbLowerEdge, bbUpperEdge);
 
 		float bbWidth = bbUpperEdge.x - bbLowerEdge.x;
 		float bbHeight = bbUpperEdge.y - bbLowerEdge.y;
@@ -71,12 +73,12 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 
 		float leftCollisionAreaInnerBorder = (-vsWidth / 2.0f) + (bbWidth / 2.0f);
 		float leftCollisionAreaOuterBorder = leftCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * (-bbWidth);
-		boolean leftVelocityHighEnoughToCollideAfterRepositioning = physicsWorld.getPhysicsObject(sprite).getVelocity().x <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean leftVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().x <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean leftGravityPresent = physicsWorld.getGravity().x < 0;
 
 		float rightCollisionAreaInnerBorder = (vsWidth / 2.0f) - (bbWidth / 2.0f);
 		float rightCollisionAreaOuterBorder = rightCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * bbWidth;
-		boolean rightVelocityHighEnoughToCollideAfterRepositioning = physicsWorld.getPhysicsObject(sprite).getVelocity().x >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean rightVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().x >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean rightGravityPresent = physicsWorld.getGravity().x > 0;
 
 		if (leftCollisionAreaOuterBorder < bbCenterX && bbCenterX < leftCollisionAreaInnerBorder) {
@@ -89,12 +91,12 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 
 		float bottomCollisionAreaInnerBorder = (-vsHeight / 2.0f) + (bbHeight / 2.0f);
 		float bottomCollisionAreaOuterBorder = bottomCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * (-bbHeight);
-		boolean bottomVelocityHighEnoughToCollideAfterRepositioning = physicsWorld.getPhysicsObject(sprite).getVelocity().y <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean bottomVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().y <= -THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean bottomGravityPresent = physicsWorld.getGravity().y < 0;
 
 		float topCollisionAreaInnerBorder = (vsHeight / 2.0f) - (bbHeight / 2.0f);
 		float topCollisionAreaOuterBorder = topCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * bbHeight;
-		boolean topVelocityHighEnoughToCollideAfterRepositioning = physicsWorld.getPhysicsObject(sprite).getVelocity().y >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
+		boolean topVelocityHighEnoughToCollideAfterRepositioning = physicsObject.getVelocity().y >= THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE;
 		boolean topGravityPresent = physicsWorld.getGravity().y > 0;
 
 		if (bottomCollisionAreaOuterBorder < bbCenterY && bbCenterY < bottomCollisionAreaInnerBorder) {
