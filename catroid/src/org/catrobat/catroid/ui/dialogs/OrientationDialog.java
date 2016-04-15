@@ -145,7 +145,7 @@ public class OrientationDialog extends DialogFragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			this.dialog.setMessage("Please wait");
+			this.dialog.setMessage(getResources().getString(R.string.please_wait));
 			this.dialog.show();
 		}
 
@@ -163,7 +163,6 @@ public class OrientationDialog extends DialogFragment {
 				}
 
 				Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
 				intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
 
 				if (isOpenedFromProjectList()) {
@@ -174,7 +173,6 @@ public class OrientationDialog extends DialogFragment {
 				dismiss();
 				return true;
 			} catch (Exception e) {
-
 				return false;
 			}
 		}
