@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -75,7 +76,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private static final int TIME_TO_WAIT = 200;
 	private static final int TIME_TO_WAIT_BACKPACK = 1000;
 
-	private static final String FIRST_TEST_SOUND_NAME = "testSound1";
+	private static final String FIRST_TEST_SOUND_NAME = "longsound";
 	private static final String SECOND_TEST_SOUND_NAME = "testSound2";
 	private static final String SECOND_SPRITE_NAME = "second_sprite";
 
@@ -110,6 +111,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private String backpackAdd;
 	private String backpackTitle;
 	private String deleteDialogTitle;
+	private String backpackReplaceDialogSingle;
+	private String backpackReplaceDialogMultiple;
 
 	public SoundFragmentTest() {
 		super(MainMenuActivity.class);
@@ -153,6 +156,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		secondTestSoundNamePacked = SECOND_TEST_SOUND_NAME;
 		secondTestSoundNamePackedAndUnpacked = SECOND_TEST_SOUND_NAME + "1";
 
+		Resources resources = getActivity().getBaseContext().getResources();
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
 		backpackTitle = solo.getString(R.string.backpack_title);
@@ -163,6 +167,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
 		backpackAdd = solo.getString(R.string.backpack_add);
+		backpackReplaceDialogSingle = resources.getString(R.string.backpack_replace_sound, FIRST_TEST_SOUND_NAME);
+		backpackReplaceDialogMultiple = solo.getString(R.string.backpack_replace_sound_multiple);
 
 		if (getSoundAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -1170,6 +1176,47 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
+	}
+
+	public void testBackPackAlreadyPackedDialogSingleItem() {
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Sound wasn't backpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		solo.waitForDialogToOpen();
+		assertTrue("Sound already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogSingle, 0, TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(200);
+
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Sound wasn't backpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Sound was not replaced!", BackPackListManager.getInstance().getBackPackedSounds().size() == 1);
+	}
+
+	public void testBackPackAlreadyPackedDialogMultipleItems() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
+		assertTrue("Sound wasn't backpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		UiTestUtils.openBackPackActionMode(solo, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForDialogToOpen();
+		assertTrue("Sound already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogMultiple, 0,
+				TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(200);
+
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Sound wasn't backpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Sound wasn't backpacked!", solo.waitForText(secondTestSoundNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Sound was not replaced!", BackPackListManager.getInstance().getBackPackedSounds().size() == 2);
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {

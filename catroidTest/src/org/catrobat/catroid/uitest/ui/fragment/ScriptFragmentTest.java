@@ -90,6 +90,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private String unpack;
 	private String unpackAndKeep;
 	private String backpack;
+	private String backpackAdd;
 	private String backpackTitle;
 
 	private String delete;
@@ -116,6 +117,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		unpack = solo.getString(R.string.unpack);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
+		backpackAdd = solo.getString(R.string.backpack_add);
 		backpackTitle = solo.getString(R.string.backpack_title);
 
 		delete = solo.getString(R.string.delete);
@@ -1534,8 +1536,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForText(brickWhenStarted);
 		solo.clickOnText(brickWhenStarted);
 		solo.waitForDialogToOpen();
-		solo.waitForText(backpack);
-		solo.clickOnText(backpack);
+		solo.waitForText(backpackAdd);
+		solo.clickOnText(backpackAdd);
 
 		fillNewScriptGroupDialog(scriptGroupName);
 	}

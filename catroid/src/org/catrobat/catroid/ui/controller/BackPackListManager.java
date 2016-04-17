@@ -75,6 +75,14 @@ public final class BackPackListManager {
 		backpackedScripts.remove(scriptGroup);
 	}
 
+	public void removeItemFromScriptBackPackByName(String name) {
+		for (String scriptGroup : backpackedScripts.keySet()) {
+			if (scriptGroup.equals(name)) {
+				backpackedScripts.remove(scriptGroup);
+			}
+		}
+	}
+
 	public ArrayList<String> getBackPackedScriptGroups() {
 		return new ArrayList<>(backpackedScripts.keySet());
 	}
@@ -95,6 +103,14 @@ public final class BackPackListManager {
 		backpackedLooks.remove(lookData);
 	}
 
+	public void removeItemFromLookBackPackByLookName(String name) {
+		for (LookData lookData : backpackedLooks) {
+			if (lookData.getLookName().equals(name)) {
+				backpackedLooks.remove(lookData);
+			}
+		}
+	}
+
 	public List<SoundInfo> getBackPackedSounds() {
 		return backpackedSounds;
 	}
@@ -111,6 +127,14 @@ public final class BackPackListManager {
 		backpackedSounds.remove(currentSoundInfo);
 	}
 
+	public void removeItemFromSoundBackPackBySoundTitle(String title) {
+		for (SoundInfo soundInfo : backpackedSounds) {
+			if (soundInfo.getTitle().equals(title)) {
+				backpackedSounds.remove(soundInfo);
+			}
+		}
+	}
+
 	public List<Sprite> getBackPackedSprites() {
 		return backpackedSprites;
 	}
@@ -125,6 +149,14 @@ public final class BackPackListManager {
 
 	public void removeItemFromSpriteBackPack(Sprite sprite) {
 		backpackedSprites.remove(sprite);
+	}
+
+	public void removeItemFromSpriteBackPackByName(String name) {
+		for (Sprite sprite : backpackedSprites) {
+			if (sprite.getName().equals(name)) {
+				backpackedSprites.remove(sprite);
+			}
+		}
 	}
 
 	public List<LookData> getHiddenBackpackedLooks() {
@@ -171,8 +203,8 @@ public final class BackPackListManager {
 		hiddenBackpackedSprites.remove(sprite);
 	}
 
-	public boolean backPackedSoundsContain(SoundInfo soundInfo) {
-		List<SoundInfo> backPackedSounds = getAllBackPackedSounds();
+	public boolean backPackedSoundsContain(SoundInfo soundInfo, boolean onlyVisible) {
+		List<SoundInfo> backPackedSounds = onlyVisible ? getBackPackedSounds() : getAllBackPackedSounds();
 		for (SoundInfo backPackedSound : backPackedSounds) {
 			if (backPackedSound.equals(soundInfo)) {
 				return true;
@@ -181,8 +213,8 @@ public final class BackPackListManager {
 		return false;
 	}
 
-	public boolean backPackedLooksContain(LookData lookData) {
-		List<LookData> backPackedLooks = getAllBackPackedLooks();
+	public boolean backPackedLooksContain(LookData lookData, boolean onlyVisible) {
+		List<LookData> backPackedLooks = onlyVisible ? getBackPackedLooks() : getAllBackPackedLooks();
 		for (LookData backPackedLook : backPackedLooks) {
 			if (backPackedLook.equals(lookData)) {
 				return true;
@@ -191,8 +223,8 @@ public final class BackPackListManager {
 		return false;
 	}
 
-	public boolean backPackedSpritesContains(Sprite sprite) {
-		List<Sprite> backPackedSprites = getAllBackPackedSprites();
+	public boolean backPackedSpritesContains(Sprite sprite, boolean onlyVisible) {
+		List<Sprite> backPackedSprites = onlyVisible ? getBackPackedSprites() : getAllBackPackedSprites();
 		for (Sprite backPackedSprite : backPackedSprites) {
 			if (backPackedSprite.equals(sprite)) {
 				return true;

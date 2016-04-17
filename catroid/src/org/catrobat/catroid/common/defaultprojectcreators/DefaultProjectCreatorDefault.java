@@ -96,30 +96,30 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 					R.drawable.default_project_background_landscape, context);
 			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_clouds_landscape,
+							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_landscape,
 					context, true,
 					backgroundImageScaleFactor);
 			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background_landscape,
+							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_background_landscape,
 					context, true,
 					backgroundImageScaleFactor);
 		} else {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 					R.drawable.default_project_background_portrait, context);
 			backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background_portrait,
+							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_background_portrait,
 					context, true,
 					backgroundImageScaleFactor);
 			cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-							+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_clouds_portrait,
+							+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_portrait,
 					context, true,
 					backgroundImageScaleFactor);
 		}
 		File birdWingUpFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingUpLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_bird_wing_up, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_up, context, true,
 				backgroundImageScaleFactor);
 		File birdWingDownFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingDownLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_bird_wing_down, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down, context, true,
 				backgroundImageScaleFactor);
 		try {
 			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, tweet1

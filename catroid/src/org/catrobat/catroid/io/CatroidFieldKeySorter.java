@@ -109,6 +109,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[4] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("physicsWorld")) {
 				fieldKeyOrder[5] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[6] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {
@@ -151,6 +153,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[12] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("actionFactory")) {
 				fieldKeyOrder[13] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[14] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

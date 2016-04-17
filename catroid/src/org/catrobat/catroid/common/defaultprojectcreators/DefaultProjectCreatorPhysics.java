@@ -95,7 +95,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 				R.drawable.physics_background_480_800, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.physics_background_480_800, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.physics_background_480_800, context, true,
 				backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData();

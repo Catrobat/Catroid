@@ -72,7 +72,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 				R.drawable.drone_project_background, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.drone_project_background, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.drone_project_background, context, true,
 				backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData();
@@ -95,7 +95,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String takeOffSpriteName = context.getString(R.string.default_drone_project_sprites_takeoff);
 
 		File takeOffArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_takeoff, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_takeoff, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_LAND_BRICK,
@@ -105,7 +105,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String rotateSpriteName = context.getString(R.string.default_drone_project_sprites_rotate);
 
 		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, rotateSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_rotate, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(rotateSpriteName, DroneBrickFactory.DroneBricks.DRONE_FLIP_BRICK,
@@ -117,7 +117,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 
 		//TODO Drone: add when PlayLedAnimationBrick works
 		//File playLedFile = UtilFile.copyImageFromResourceIntoProject(projectName, blinkLedSpriteName
-		//		+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
+		//		+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_light_bulb, context,
 		//		true, backgroundImageScaleFactor);
 
 		//TODO Drone: add when PlayLedAnimationBrick works
@@ -128,7 +128,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);
 
 		File upFile = UtilFile.copyImageFromResourceIntoProject(projectName, upSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_up, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_arrow_up, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(upSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_UP_BRICK, -100,
@@ -138,7 +138,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String downSpriteName = context.getString(R.string.default_drone_project_sprites_down);
 
 		File downFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_down, context,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_arrow_down, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(downSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_DOWN_BRICK,
@@ -148,7 +148,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String forwardSpriteName = context.getString(R.string.default_drone_project_sprites_forward);
 
 		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, forwardSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_forward, context,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_go_forward, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(forwardSpriteName,
@@ -158,7 +158,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String backwardSpriteName = context.getString(R.string.default_drone_project_sprites_back);
 
 		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_back, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_go_back, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(backwardSpriteName,
@@ -168,7 +168,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String leftSpriteName = context.getString(R.string.default_drone_project_sprites_left);
 
 		File leftFile = UtilFile.copyImageFromResourceIntoProject(projectName, leftSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_left, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_go_left, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(leftSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_LEFT_BRICK,
@@ -178,7 +178,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String rightSpriteName = context.getString(R.string.default_drone_project_sprites_right);
 
 		File rightFile = UtilFile.copyImageFromResourceIntoProject(projectName, rightSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_right, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_go_right, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(rightSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_RIGHT_BRICK,
@@ -188,7 +188,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String turnLeftSpriteName = context.getString(R.string.default_drone_project_sprites_turn_left);
 
 		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnLeftSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_left, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_turn_left, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnLeftSpriteName,
@@ -198,7 +198,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
 
 		File turnRightFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnRightSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_turn_right, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
@@ -208,7 +208,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String emergencySpriteName = context.getString(R.string.default_drone_project_sprites_emergency);
 
 		File emergencyFile = UtilFile.copyImageFromResourceIntoProject(projectName, emergencySpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_emergency, context,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_go_emergency, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(emergencySpriteName,
@@ -218,7 +218,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		String videoSpriteName = context.getString(R.string.add_look_drone_video);
 
 		File videoFile = UtilFile.copyImageFromResourceIntoProject(projectName, videoSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.ic_video, context,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.ic_video, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneVideoLookSprite(videoSpriteName, -200, 0, videoFile, context));
@@ -227,7 +227,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 		//TODO Drone: add when PlayLedAnimationBrick works
 		//String blinkLedSpriteName = context.getString(R.string.default_drone_project_sprites_blink_led);
 		//File playLedFile = UtilFile.copyImageFromResourceIntoProject(projectName, blinkLedSpriteName
-		//		+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
+		//		+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_drone_project_orange_light_bulb, context,
 		//		true, backgroundImageScaleFactor);
 		//defaultDroneProject.addSprite(createDroneSprite(blinkLedSpriteName,
 		//		DroneUtils.DroneBricks.DRONE_PLAY_LED_ANIMATION_BRICK, -100, -450, playLedFile));

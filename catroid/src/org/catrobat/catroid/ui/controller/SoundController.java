@@ -24,12 +24,15 @@ package org.catrobat.catroid.ui.controller;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -58,6 +61,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.UtilFile;
@@ -79,6 +83,8 @@ public final class SoundController {
 
 	private static final SoundController INSTANCE = new SoundController();
 	private static final String TAG = SoundController.class.getSimpleName();
+
+	private OnBackpackSoundCompleteListener onBackpackSoundCompleteListener;
 
 	private SoundController() {
 	}
@@ -668,11 +674,87 @@ public final class SoundController {
 		return soundInfo;
 	}
 
-	public SoundInfo backPackSound(SoundInfo selectedSoundInfo, boolean addToHiddenBackpack) {
-		if (addToHiddenBackpack && BackPackListManager.getInstance().backPackedSoundsContain(selectedSoundInfo)) {
+	public boolean checkSoundReplaceInBackpack(List<SoundInfo> currentSoundInfoList) {
+		boolean soundsAlreadyInBackpack = false;
+		for (SoundInfo soundInfo : currentSoundInfoList) {
+			soundsAlreadyInBackpack = checkSoundReplaceInBackpack(soundInfo);
+			if (soundsAlreadyInBackpack) {
+				return soundsAlreadyInBackpack;
+			}
+		}
+		return soundsAlreadyInBackpack;
+	}
+
+	public boolean checkSoundReplaceInBackpack(SoundInfo currentSoundInfo) {
+		return BackPackListManager.getInstance().backPackedSoundsContain(currentSoundInfo, true);
+	}
+
+	public void showBackPackReplaceDialog(final List<SoundInfo> currentSoundInfoList, final Context context) {
+		Resources resources = context.getResources();
+		String replaceLookMessage = resources.getString(R.string.backpack_replace_sound_multiple);
+
+		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+				.setTitle(R.string.backpack)
+				.setMessage(replaceLookMessage)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						for (SoundInfo currentSoundInfo : currentSoundInfoList) {
+							backPackVisibleSound(currentSoundInfo);
+						}
+						onBackpackSoundCompleteListener.onBackpackSoundComplete(true);
+						dialog.dismiss();
+					}
+				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						onBackpackSoundCompleteListener.onBackpackSoundComplete(false);
+						dialog.dismiss();
+					}
+				}).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+	}
+
+	public void showBackPackReplaceDialog(final SoundInfo currentSoundInfo, final Context context) {
+		Resources resources = context.getResources();
+		String replaceLookMessage = resources.getString(R.string.backpack_replace_sound, currentSoundInfo.getTitle());
+
+		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+				.setTitle(R.string.backpack)
+				.setMessage(replaceLookMessage)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						backPackVisibleSound(currentSoundInfo);
+						onBackpackSoundCompleteListener.onBackpackSoundComplete(true);
+						dialog.dismiss();
+					}
+				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				}).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+	}
+
+	public void backPackVisibleSound(SoundInfo selectedSoundInfo) {
+		String soundInfoTitle = selectedSoundInfo.getTitle();
+		BackPackListManager.getInstance().removeItemFromSoundBackPackBySoundTitle(soundInfoTitle);
+		backPack(selectedSoundInfo, soundInfoTitle, false);
+	}
+
+	public SoundInfo backPackHiddenSound(SoundInfo selectedSoundInfo) {
+		if (BackPackListManager.getInstance().backPackedSoundsContain(selectedSoundInfo, false)) {
 			return selectedSoundInfo;
 		}
 		String newSoundInfoTitle = Utils.getUniqueSoundName(selectedSoundInfo, true);
+		return backPack(selectedSoundInfo, newSoundInfoTitle, true);
+	}
+
+	public SoundInfo backPack(SoundInfo selectedSoundInfo, String newSoundInfoTitle, boolean addToHiddenBackpack) {
 		String existingFileNameInBackPackDirectory = soundFileAlreadyInBackPackDirectory(selectedSoundInfo);
 		if (existingFileNameInBackPackDirectory == null) {
 			copySoundBackPack(selectedSoundInfo, newSoundInfoTitle, false);
@@ -688,5 +770,13 @@ public final class SoundController {
 					BackPackListManager.getInstance().getCurrentSoundAdapter(), newSoundTitle, deleteUnpackedItems, fromHiddenBackPack);
 		}
 		return null;
+	}
+
+	public void setOnBackpackSoundCompleteListener(OnBackpackSoundCompleteListener listener) {
+		onBackpackSoundCompleteListener = listener;
+	}
+
+	public interface OnBackpackSoundCompleteListener {
+		void onBackpackSoundComplete(boolean startBackpackActivity);
 	}
 }

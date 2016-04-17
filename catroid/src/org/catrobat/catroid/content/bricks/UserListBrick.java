@@ -165,6 +165,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 			backPackedData = new BackPackedData();
 		}
 		this.backPackedData.project = currentProject;
+		this.backPackedData.userList = userList;
 		this.backPackedData.userListType = type;
 	}
 }

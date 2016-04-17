@@ -93,7 +93,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
-		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
+		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener, SoundController.OnBackpackSoundCompleteListener {
 
 	public static final String TAG = SoundFragment.class.getSimpleName();
 
@@ -520,8 +520,14 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_backpack:
-				SoundController.getInstance().backPackSound(selectedSoundInfo, false);
-				openBackPack();
+				boolean soundAlreadyInBackpack = SoundController.getInstance().checkSoundReplaceInBackpack(selectedSoundInfo);
+				if (!soundAlreadyInBackpack) {
+					SoundController.getInstance().backPackVisibleSound(selectedSoundInfo);
+					openBackPack();
+				} else {
+					SoundController.getInstance().setOnBackpackSoundCompleteListener(this);
+					SoundController.getInstance().showBackPackReplaceDialog(selectedSoundInfo, getActivity());
+				}
 				break;
 
 			case R.id.context_menu_copy:
@@ -684,6 +690,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	public List<SoundInfo> getSoundInfoList() {
 		return soundInfoList;
+	}
+
+	@Override
+	public void onBackpackSoundComplete(boolean startBackpackActivity) {
+		openBackPack();
 	}
 
 	private class SoundRenamedReceiver extends BroadcastReceiver {
