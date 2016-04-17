@@ -45,8 +45,8 @@
 
         <ImageView
             android:id="@+id/scratch_projects_list_item_image"
-            android:layout_width="72dp"
-            android:layout_height="65dp"
+            android:layout_width="@dimen/project_thumbnail_width"
+            android:layout_height="@dimen/project_thumbnail_height"
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:background="@drawable/my_projects_activity_list_item_thumbnail_border"

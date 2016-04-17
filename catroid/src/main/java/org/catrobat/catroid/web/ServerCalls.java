@@ -25,11 +25,13 @@ package org.catrobat.catroid.web;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.facebook.login.LoginBehavior;
+import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -60,6 +62,7 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -323,17 +326,17 @@ public final class ServerCalls {
 				ScratchProjectData projectData = new ScratchProjectData(title, content, projectUrl);
 				if (metatags.has("ogImage")) {
 					String projectImageUrl = metatags.getString("ogImage");
-					int projectImageWidth = 200;
-					int projectImageHeight = 200;
-					projectData.setProjectImage(new ScratchProjectData.HttpImage(projectImageUrl, projectImageWidth, projectImageHeight));
+					// TODO: extract size from URL!
+					projectData.setProjectImage(new WebImage(Uri.parse(projectImageUrl), 200, 200));
 				}
 
 				if (richSnippet.has("cseThumbnail")) {
 					JSONObject cseThumbnail = richSnippet.getJSONObject("cseThumbnail");
 					String projectThumbnailUrl = cseThumbnail.getString("src");
-					int projectThumbnailWidth = Integer.parseInt(cseThumbnail.getString("width"));
-					int projectThumbnailHeight = Integer.parseInt(cseThumbnail.getString("height"));
-					projectData.setProjectThumbnail(new ScratchProjectData.HttpImage(projectThumbnailUrl, projectThumbnailWidth, projectThumbnailHeight));
+					int width = Integer.parseInt(cseThumbnail.getString("width"));
+					int height = Integer.parseInt(cseThumbnail.getString("height"));
+					WebImage webImage = new WebImage(Uri.parse(projectThumbnailUrl), width, height);
+					projectData.setProjectThumbnail(webImage);
 				}
 				projectList.add(projectData);
 			}
@@ -513,7 +516,7 @@ public final class ServerCalls {
 		}
 	}
 
-	public void downloadImage(final String url, final File file) throws Throwable {
+	public void downloadFile(final String url, final File file) throws Throwable {
 		final int HTTP_TIMEOUT = 30_000;
 		InputStream inputStream = null;
 		OutputStream outputStream = null;

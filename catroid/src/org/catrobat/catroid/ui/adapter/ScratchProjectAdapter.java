@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,18 +35,25 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.common.images.WebImage;
+
 import org.catrobat.catroid.common.ScratchProjectData;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.FileCache;
+import org.catrobat.catroid.utils.ExpiringLruMemoryImageCache;
 import org.catrobat.catroid.utils.WebImageLoader;
 
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ScratchProjectAdapter extends ArrayAdapter<ScratchProjectData> {
+
     private static final String TAG = ScratchProjectAdapter.class.getSimpleName();
+    private static final int WEBIMAGE_DOWNLOADER_POOL_SIZE = 5;
+
     private boolean showDetails;
     private int selectMode;
     private Set<Integer> checkedProjects = new TreeSet<Integer>();
@@ -70,7 +76,8 @@ public class ScratchProjectAdapter extends ArrayAdapter<ScratchProjectData> {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         showDetails = true;
         selectMode = ListView.CHOICE_MODE_NONE;
-        webImageLoader = new WebImageLoader(new FileCache(context), Executors.newFixedThreadPool(5));
+        ExecutorService executorService = Executors.newFixedThreadPool(WEBIMAGE_DOWNLOADER_POOL_SIZE);
+        webImageLoader = new WebImageLoader(context, ExpiringLruMemoryImageCache.getInstance(), new FileCache(context), executorService);
     }
 
     public void setOnScratchProjectEditListener(OnScratchProjectEditListener listener) {
@@ -138,9 +145,12 @@ public class ScratchProjectAdapter extends ArrayAdapter<ScratchProjectData> {
         holder.detailsText.setSingleLine(false);
 
         // set project image (threaded):
-        ScratchProjectData.HttpImage httpImageMetadata = projectData.getProjectThumbnail();
+        WebImage httpImageMetadata = projectData.getProjectThumbnail();
         if (httpImageMetadata != null) {
-            webImageLoader.fetchAndShowImage(httpImageMetadata.getUrl(), holder.image);
+            int width = getContext().getResources().getDimensionPixelSize(R.dimen.scratch_project_thumbnail_width);
+            int height = getContext().getResources().getDimensionPixelSize(R.dimen.scratch_project_thumbnail_height);
+            webImageLoader.fetchAndShowImage(httpImageMetadata.getUrl().toString(),
+                    holder.image, width, height);
         }
 
         if (showDetails) {
@@ -183,21 +193,9 @@ public class ScratchProjectAdapter extends ArrayAdapter<ScratchProjectData> {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewHolder clickedViewHolder = (ViewHolder) v.getTag();
-                v.clearFocus();
-                v.requestFocus();
-                if (clickedViewHolder != null) {
-                    Log.d(TAG, "Clicked on list view item: " + clickedViewHolder.projectName);
-                } else {
-                    Log.d(TAG, "Clicked on list view item");
-                }
-
-                // TODO: implement!
                 if (selectMode != ListView.CHOICE_MODE_NONE) {
-                    Log.d(TAG, "Toggling checkbox");
                     holder.checkbox.setChecked(!holder.checkbox.isChecked());
                 } else if (onScratchProjectEditListener != null) {
-                    Log.d(TAG, "Project edit listener not set");
                     onScratchProjectEditListener.onProjectEdit(position);
                 }
             }
@@ -217,7 +215,6 @@ public class ScratchProjectAdapter extends ArrayAdapter<ScratchProjectData> {
             holder.background.setBackgroundResource(R.drawable.button_background_selector);
             clearCheckedProjects();
         }
-
         return projectView;
     }
 

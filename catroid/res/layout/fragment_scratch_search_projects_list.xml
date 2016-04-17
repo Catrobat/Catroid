@@ -51,7 +51,7 @@
     android:iconifiedByDefault="false"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:privateImeOptions="nm"/>
+    android:privateImeOptions="nm" />
 
 <ImageButton
     android:id="@+id/mic_button_image_scratch"
@@ -71,7 +71,7 @@
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
     android:layout_below="@+id/mic_button_image_scratch"
-    android:layout_marginTop="15dp"
+    android:layout_marginTop="@dimen/scratch_project_search_list_view_margin_top"
     android:dividerHeight="1dp"
     android:divider="@color/transparent" />
 

@@ -207,14 +207,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScratchConverterActivity"
-            android:noHistory="false"
             android:label="@string/title_activity_scratch_converter"
+            android:noHistory="false"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name=".ui.ScratchConverterActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.ScratchProjectDetailsActivity"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".bluetooth.ConnectBluetoothDeviceActivity"
 
@@ -229,7 +233,9 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>

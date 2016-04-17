@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="org.catrobat.catroid.ui.ScratchProjectDetailsActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/scratch_project_title" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:id="@+id/scratch_project_image_view"
+        android:src="@drawable/ic_launcher"
+        android:layout_below="@+id/scratch_project_title"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Instructions"
+        android:id="@+id/scratch_project_instructions_label"
+        android:layout_below="@+id/scratch_project_title"
+        android:layout_toRightOf="@+id/scratch_project_image_view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta, tellus molestie fermentum efficitur, sem est dictum dolor, vel faucibus odio velit quis purus. Donec malesuada congue metus eu venenatis. Pellentesque eget luctus elit, vitae bibendum eros."
+        android:id="@+id/scratch_project_instructions_text"
+        android:layout_below="@+id/scratch_project_instructions_label"
+        android:layout_toRightOf="@+id/scratch_project_image_view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Notes and Credits"
+        android:id="@+id/scratch_project_notes_and_credits_label"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/scratch_project_instructions_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta, tellus molestie fermentum efficitur, sem est dictum dolor, vel faucibus odio velit quis purus. Donec malesuada congue metus eu venenatis. Pellentesque eget luctus elit, vitae bibendum eros."
+        android:id="@+id/scratch_project_notes_and_credits_text"
+        android:layout_below="@+id/scratch_project_notes_and_credits_label" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Convert"
+        android:id="@+id/scratch_project_convert_button"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_below="@+id/scratch_project_notes_and_credits_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+</RelativeLayout>

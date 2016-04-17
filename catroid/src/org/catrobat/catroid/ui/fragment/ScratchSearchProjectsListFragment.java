@@ -28,15 +28,17 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.LruCache;
-import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -60,8 +62,10 @@ import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.transfers.FetchScratchProjectsTask;
 import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
+import org.catrobat.catroid.ui.ScratchProjectDetailsActivity;
 import org.catrobat.catroid.ui.adapter.ScratchProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.ExpiringLruMemoryObjectCache;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -75,7 +79,9 @@ public class ScratchSearchProjectsListFragment extends Fragment
     private static final String SHARED_PREFERENCE_NAME = "showDetailsScratchProjects";
     private static final String TAG = ScratchSearchProjectsListFragment.class.getSimpleName();
 
-    private static String convertActionModeTitle;
+    private String convertActionModeTitle;
+    private static String singleItemAppendixConvertActionMode;
+    private static String multipleItemAppendixConvertActionMode;
 
     private SearchView searchView;
     private ImageButton audioButton;
@@ -83,21 +89,16 @@ public class ScratchSearchProjectsListFragment extends Fragment
     private ProgressDialog progressDialog;
     private List<ScratchProjectData> scratchProjectList;
     private ScratchProjectData scratchProjectToEdit;
-    private LruCache<String, ScratchSearchResult> scratchSearchResultCache;
+    private ExpiringLruMemoryObjectCache<ScratchSearchResult> scratchSearchResultCache;
     private ScratchProjectAdapter scratchProjectAdapter;
     private ActionMode actionMode;
     private View selectAllActionModeButton;
+    private FetchScratchProjectsTask currentTask = null;
     private boolean selectAll = true;
-    private boolean actionModeActive = false;
 
-    private void setSearchResultsListViewMargin(int leftDP, int topDP, int rightDP, int bottomDP) {
+    private void setSearchResultsListViewMargin(int left, int top, int right, int bottom) {
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)searchResultsListView.getLayoutParams();
-        Resources r = getResources();
-        float leftPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDP, r.getDisplayMetrics());
-        float topPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topDP, r.getDisplayMetrics());
-        float rightPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDP, r.getDisplayMetrics());
-        float bottomPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomDP, r.getDisplayMetrics());
-        params.setMargins((int)leftPX, (int)topPX, (int)rightPX, (int)bottomPX);
+        params.setMargins(left, top, right, bottom);
         searchResultsListView.setLayoutParams(params);
     }
 
@@ -110,8 +111,11 @@ public class ScratchSearchProjectsListFragment extends Fragment
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-            actionModeActive = true;
+
             convertActionModeTitle = getString(R.string.convert);
+            singleItemAppendixConvertActionMode = getString(R.string.program);
+            multipleItemAppendixConvertActionMode = getString(R.string.programs);
+
             mode.setTitle(convertActionModeTitle);
             addSelectAllActionModeButton(mode, menu);
             searchView.setVisibility(View.GONE);
@@ -139,7 +143,7 @@ public class ScratchSearchProjectsListFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         setRetainInstance(true);
         super.onCreate(savedInstanceState);
-        scratchSearchResultCache = new LruCache<>(Constants.SCRATCH_SEARCH_RESULT_CACHE_SIZE);
+        scratchSearchResultCache = ExpiringLruMemoryObjectCache.getInstance();
     }
 
     @Override
@@ -216,7 +220,11 @@ public class ScratchSearchProjectsListFragment extends Fragment
 
                 // cache miss
                 Log.d(TAG, "Cache miss!");
-                new FetchScratchProjectsTask().setDelegate(fragment).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, newText);
+                if (currentTask != null) {
+                    currentTask.cancel(true);
+                }
+                currentTask = new FetchScratchProjectsTask();
+                currentTask.setDelegate(fragment).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, newText);
                 return false;
             }
         });
@@ -267,8 +275,6 @@ public class ScratchSearchProjectsListFragment extends Fragment
         scratchProjectAdapter.notifyDataSetChanged();
     }
 
-    /*public boolean getActionModeActive() { return actionModeActive; }*/
-
     private void initAdapter() {
         if (scratchProjectList == null) {
             scratchProjectList = new ArrayList<>();
@@ -313,20 +319,43 @@ public class ScratchSearchProjectsListFragment extends Fragment
 
     @Override
     public void onProjectChecked() {
-        Log.d(TAG, "Project checked!");
-        /*
         if (scratchProjectAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE || actionMode == null) {
             return;
         }
-        */
+
+        updateActionModeTitle();
+    }
+
+    private void updateActionModeTitle() {
+        int numberOfSelectedItems = scratchProjectAdapter.getAmountOfCheckedProjects();
+        if (numberOfSelectedItems == 0) {
+            actionMode.setTitle(convertActionModeTitle);
+        } else {
+            String appendix = multipleItemAppendixConvertActionMode;
+
+            if (numberOfSelectedItems == 1) {
+                appendix = singleItemAppendixConvertActionMode;
+            }
+
+            String numberOfItems = Integer.toString(numberOfSelectedItems);
+            String completeTitle = convertActionModeTitle + " " + numberOfItems + " " + appendix;
+
+            int titleLength = convertActionModeTitle.length();
+
+            Spannable completeSpannedTitle = new SpannableString(completeTitle);
+            completeSpannedTitle.setSpan(
+                    new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+                    titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            actionMode.setTitle(completeSpannedTitle);
+        }
     }
 
     @Override
     public void onProjectEdit(int position) {
-        // TODO: use this after project has been converted!
-        Intent intent = new Intent(getActivity(), ScratchConverterActivity.class);
-        intent.putExtra(Constants.PROJECTNAME_TO_LOAD, scratchProjectAdapter.getItem(position).getTitle());
-        intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+        Intent intent = new Intent(getActivity(), ScratchProjectDetailsActivity.class);
+        intent.putExtra(Constants.SCRATCH_PROJECT_DATA, (Parcelable) scratchProjectAdapter.getItem(position));
+
         getActivity().startActivity(intent);
     }
 
@@ -409,10 +438,10 @@ public class ScratchSearchProjectsListFragment extends Fragment
         setSelectMode(ListView.CHOICE_MODE_NONE);
         scratchProjectAdapter.clearCheckedProjects();
         actionMode = null;
-        actionModeActive = false;
         searchView.setVisibility(View.VISIBLE);
         audioButton.setVisibility(View.VISIBLE);
-        setSearchResultsListViewMargin(0, 15, 0, 0);
+        int marginTop = getActivity().getResources().getDimensionPixelSize(R.dimen.scratch_project_search_list_view_margin_top);
+        setSearchResultsListViewMargin(0, marginTop, 0, 0);
     }
 
     private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
