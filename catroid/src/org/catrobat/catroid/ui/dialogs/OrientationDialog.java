@@ -57,7 +57,7 @@ public class OrientationDialog extends DialogFragment {
 	private RadioButton landscapeMode;
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
-	private Context mContext;
+	private Context context;
 
 
 	private boolean openedFromProjectList = false;
@@ -67,7 +67,7 @@ public class OrientationDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 
-		mContext = getActivity();
+		context = getActivity();
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.project_orientation_title)
@@ -105,7 +105,7 @@ public class OrientationDialog extends DialogFragment {
 
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
-		LoadingOnCreatingProject loadingOnCreatingProject = new LoadingOnCreatingProject(mContext);
+		LoadingOnCreatingProject loadingOnCreatingProject = new LoadingOnCreatingProject(context);
 		loadingOnCreatingProject.execute();
 	}
 
