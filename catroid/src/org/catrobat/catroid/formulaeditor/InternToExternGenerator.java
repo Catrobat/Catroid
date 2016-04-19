@@ -26,6 +26,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -164,6 +165,14 @@ public class InternToExternGenerator {
 	}
 
 	public void generateExternStringAndMapping(List<InternToken> internTokenFormula) {
+		generateStringAndMappingInternal(internTokenFormula, false);
+	}
+
+	public void trimExternString(List<InternToken> internTokenFormula) {
+		generateStringAndMappingInternal(internTokenFormula, true);
+	}
+
+	private void generateStringAndMappingInternal(List<InternToken> internTokenFormula, boolean trimNumbers) {
 		Log.i(TAG, "generateExternStringAndMapping:enter");
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
@@ -196,7 +205,7 @@ public class InternToExternGenerator {
 				nextToken = internTokenList.get(1);
 			}
 
-			externTokenString = generateExternStringFromToken(currentToken);
+			externTokenString = generateExternStringFromToken(currentToken, trimNumbers);
 			generatedExternFormulaString += externTokenString;
 			externStringEndIndex = generatedExternFormulaString.length();
 
@@ -210,10 +219,13 @@ public class InternToExternGenerator {
 		generatedExternFormulaString += " ";
 	}
 
-	private String generateExternStringFromToken(InternToken internToken) {
+	private String generateExternStringFromToken(InternToken internToken, boolean trimNumbers) {
 		switch (internToken.getInternTokenType()) {
 			case NUMBER:
 				String number = internToken.getTokenStringValue();
+				if(trimNumbers) {
+					number = Utils.getNumberStringForBricks(Float.parseFloat(number));
+				}
 
 				if (!number.contains(".")) {
 					return number;

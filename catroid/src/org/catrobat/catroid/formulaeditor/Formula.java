@@ -186,8 +186,9 @@ public class Formula implements Serializable {
 	}
 
 	public void refreshTextField(View view) {
-		refreshTextField(view, getDisplayString(view.getContext()));
+		refreshTextField(view, getTrimmedFormulaString(view.getContext()));
 	}
+
 
 	public void refreshTextField(View view, String formulaString) {
 		if (formulaTextFieldId != null && formulaTree != null && view != null) {
@@ -208,6 +209,11 @@ public class Formula implements Serializable {
 		if (formulaTextField != null) {
 			formulaTextField.setBackgroundDrawable(highlightBackground);
 		}
+	}
+
+	public String getTrimmedFormulaString(Context context){
+		return internFormula.trimExternFormulaString(context);
+
 	}
 
 	public void prepareToRemove() {
