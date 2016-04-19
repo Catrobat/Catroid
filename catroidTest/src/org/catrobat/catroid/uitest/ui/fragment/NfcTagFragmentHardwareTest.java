@@ -47,22 +47,22 @@ import java.util.ArrayList;
 */
 
 public class NfcTagFragmentHardwareTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-/*
-	private static final int TIME_TO_WAIT = 50;
+	/*
+		private static final int TIME_TO_WAIT = 50;
 
-	private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
-	private static final String FIRST_TEST_TAG_ID = "111111";
+		private static final String FIRST_TEST_TAG_NAME = "tagNameTest";
+		private static final String FIRST_TEST_TAG_ID = "111111";
 
-	private static final String SECOND_TEST_TAG_NAME = "tagNameTest2";
-	private static final String SECOND_TEST_TAG_ID = "222222";
+		private static final String SECOND_TEST_TAG_NAME = "tagNameTest2";
+		private static final String SECOND_TEST_TAG_ID = "222222";
 
-	private NfcTagData tagData;
-	private NfcTagData tagData2;
+		private NfcTagData tagData;
+		private NfcTagData tagData2;
 
-	private ArrayList<NfcTagData> tagDataList;
+		private ArrayList<NfcTagData> tagDataList;
 
-	private ProjectManager projectManager;
-*/
+		private ProjectManager projectManager;
+	*/
 	public NfcTagFragmentHardwareTest() {
 		super(MainMenuActivity.class);
 	}

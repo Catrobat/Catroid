@@ -55,17 +55,20 @@ public interface Brick extends Serializable, Cloneable {
 		PHIRO_SPEED, PHIRO_DURATION_IN_SECONDS, PHIRO_LIGHT_RED, PHIRO_LIGHT_GREEN, PHIRO_LIGHT_BLUE,
 		IF_PHIRO_SENSOR_CONDITION,
 
+		PHYSICS_BOUNCE_FACTOR, PHYSICS_FRICTION, PHYSICS_GRAVITY_X, PHYSICS_GRAVITY_Y, PHYSICS_MASS,
+		PHYSICS_VELOCITY_X, PHYSICS_VELOCITY_Y, PHYSICS_TURN_LEFT_SPEED, PHYSICS_TURN_RIGHT_SPEED,
+
 		ARDUINO_ANALOG_PIN_VALUE, ARDUINO_ANALOG_PIN_NUMBER, ARDUINO_DIGITAL_PIN_VALUE, ARDUINO_DIGITAL_PIN_NUMBER,
 
 		RASPI_DIGITAL_PIN_VALUE, RASPI_DIGITAL_PIN_NUMBER, RASPI_PWM_PERCENTAGE, RASPI_PWM_FREQUENCY
 	}
 
-	//use bitwise | for using multiple ressources in a brick
+	//use bitwise | for using multiple resources in a brick
 	int NO_RESOURCES = 0x0;
-	//	public static final int SOUND_MANAGER = 0x1;
+	//int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
-	//	public static final int BLUETOOTH_ARDUINO = 0x8;
+	int PHYSICS = 0x8;
 	int FACE_DETECTION = 0x10;
 	int ARDRONE_SUPPORT = 0x20;
 	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
@@ -79,6 +82,7 @@ public interface Brick extends Serializable, Cloneable {
 	int SENSOR_INCLINATION = 0x4000;
 	int SENSOR_COMPASS = 0x8000;
 	int NFC_ADAPTER = 0x10000;
+	//	public static final int BLUETOOTH_ARDUINO = 0x20000;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 

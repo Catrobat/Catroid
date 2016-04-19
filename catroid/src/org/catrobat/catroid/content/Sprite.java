@@ -36,7 +36,6 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -45,6 +44,8 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.physics.PhysicsLook;
+import org.catrobat.catroid.physics.PhysicsWorld;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,6 +69,8 @@ public class Sprite implements Serializable, Cloneable {
 	private transient int newUserBrickNext = 1;
 	public transient boolean isBackpackSprite = false;
 	public transient boolean isBackgroundSprite = false;
+
+	private transient ActionFactory actionFactory = new ActionFactory();
 
 	public Sprite(String name) {
 		this.name = name;
@@ -165,7 +168,12 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		look = new Look(this);
+		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
+			look = new PhysicsLook(this, physicsWorld);
+		} else {
+			look = new Look(this);
+		}
 		for (LookData lookData : lookList) {
 			lookData.resetLookData();
 		}
@@ -249,9 +257,18 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	public ActionFactory getActionFactory() {
+		return actionFactory;
+	}
+
+	public void setActionFactory(ActionFactory actionFactory) {
+		this.actionFactory = actionFactory;
+	}
+
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
+
 		cloneSprite.setName(this.getName());
 		cloneSprite.isBackpackSprite = false;
 
@@ -357,7 +374,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ExtendedActions.parallel();
+		ParallelAction whenParallelAction = actionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -369,13 +386,19 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private SequenceAction createActionSequence(Script s) {
-		SequenceAction sequence = ExtendedActions.sequence();
+		SequenceAction sequence = ActionFactory.sequence();
 		s.run(this, sequence);
 		return sequence;
 	}
 
+	public void startScriptBroadcast(Script s, boolean overload) {
+		SequenceAction sequence = ActionFactory.sequence();
+		s.run(this, sequence);
+		look.addAction(sequence);
+	}
+
 	public void createWhenNfcScriptAction(String uid) {
-		ParallelAction whenParallelAction = ExtendedActions.parallel();
+		ParallelAction whenParallelAction = ActionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenNfcScript) {
 				WhenNfcScript whenNfcScript = (WhenNfcScript) s;
@@ -527,6 +550,27 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public void rename(String newSpriteName) {
+		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
+			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			for (Sprite currentSprite : spriteList) {
+				if ((currentSprite.getRequiredResources() & Brick.PHYSICS) > 0) {
+					currentSprite.updateCollisionBroadcastMessages(getName(), newSpriteName);
+				}
+			}
+		}
+		setName(newSpriteName);
+	}
+
+	public void updateCollisionBroadcastMessages(String oldCollisionObjectIdentifier, String newCollisionObjectIdentifier) {
+		for (int scriptIndex = 0; scriptIndex < getNumberOfScripts(); scriptIndex++) {
+			Script currentScript = getScript(scriptIndex);
+			if (currentScript instanceof CollisionScript) {
+				((CollisionScript) currentScript).updateBroadcastMessage(oldCollisionObjectIdentifier, newCollisionObjectIdentifier);
+			}
+		}
 	}
 
 	public boolean containsLookData(LookData lookData) {

@@ -24,9 +24,10 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 public class ClearGraphicEffectActionTest extends AndroidTestCase {
 
@@ -38,7 +39,8 @@ public class ClearGraphicEffectActionTest extends AndroidTestCase {
 		sprite.look.setBrightnessInUserInterfaceDimensionUnit(value);
 		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
-		ClearGraphicEffectAction action = ExtendedActions.clearGraphicEffect(sprite);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createClearGraphicEffectAction(sprite);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Look's ghost effect is removed.", 0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
@@ -47,7 +49,8 @@ public class ClearGraphicEffectActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		ClearGraphicEffectAction action = ExtendedActions.clearGraphicEffect(null);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createClearGraphicEffectAction(null);
 		try {
 			action.act(1.0f);
 			fail("Execution of ClearGraphicEffectBrick with null Sprite did not cause a NullPointerException to be thrown");

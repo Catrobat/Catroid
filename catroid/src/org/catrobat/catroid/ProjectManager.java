@@ -279,30 +279,20 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public boolean initializeDroneProject(Context context) {
-		try {
-			fileChecksumContainer = new FileChecksumContainer();
-			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(context);
-
-			currentSprite = null;
-			currentScript = null;
-			return true;
-		} catch (IOException ioException) {
-			Log.e(TAG, "Cannot initialize default project.", ioException);
-			Utils.showErrorDialog(context, R.string.error_load_project);
-			return false;
-		}
-	}
-
 	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
 			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
-		} else if (drone) {
-			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(projectName, context, landscapeMode);
 		} else {
+			if (drone) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_DRONE);
+			} else {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_DEFAULT);
+			}
 			project = DefaultProjectHandler.createAndSaveDefaultProject(projectName, context, landscapeMode);
 		}
 

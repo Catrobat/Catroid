@@ -43,7 +43,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -273,7 +272,7 @@ public class ShowTextBrick extends UserVariableBrick {
 		if (userVariableName == null) {
 			userVariableName = Constants.NO_VARIABLE_SELECTED;
 		}
-		sequence.addAction(ExtendedActions.showText(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
+		sequence.addAction(sprite.getActionFactory().createShowTextAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION), userVariableName));
 		return null;
 	}

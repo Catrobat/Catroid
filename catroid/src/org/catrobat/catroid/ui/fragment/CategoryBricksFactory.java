@@ -120,6 +120,15 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 
@@ -186,9 +195,12 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
 		final String broadcastMessage = MessageContainer.getFirst(context);
+
 		controlBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		controlBrickList.add(new BroadcastBrick(broadcastMessage));
 		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+
+		controlBrickList.add(new CollisionReceiverBrick("object"));
 
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
@@ -274,6 +286,15 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 		}
 
+		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
+		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
+		motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
+		motionBrickList.add(new TurnRightSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
+		motionBrickList.add(new SetGravityBrick(BrickValues.PHYSIC_GRAVITY));
+		motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
+		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
+		motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
+
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 					BrickValues.PHIRO_SPEED));
@@ -321,7 +342,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new HideBrick());
 		looksBrickList.add(new ShowBrick());
 		looksBrickList.add(new SetTransparencyBrick(BrickValues.SET_TRANSPARENCY));
-		looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_GHOST_EFFECT));
+		looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());

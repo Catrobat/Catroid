@@ -38,7 +38,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
@@ -171,10 +170,10 @@ public class ChooseCameraBrick extends BrickBaseType {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		if (spinnerSelectionID == FRONT) {
-			sequence.addAction(ExtendedActions.setFrontCamera());
+			sequence.addAction(sprite.getActionFactory().createSetFrontCameraAction());
 			return null;
 		}
-		sequence.addAction(ExtendedActions.setBackCamera());
+		sequence.addAction(sprite.getActionFactory().createSetBackCameraAction());
 		return null;
 	}
 }

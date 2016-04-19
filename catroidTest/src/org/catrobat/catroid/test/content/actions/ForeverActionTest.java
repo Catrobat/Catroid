@@ -42,7 +42,6 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		final int deltaY = -10;
 
 		Sprite testSprite = new Sprite("testSprite");
-
 		StartScript testScript = new StartScript();
 
 		ForeverBrick foreverBrick = new ForeverBrick();

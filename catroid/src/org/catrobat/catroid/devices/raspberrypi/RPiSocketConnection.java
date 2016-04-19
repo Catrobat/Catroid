@@ -25,9 +25,9 @@ package org.catrobat.catroid.devices.raspberrypi;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.BroadcastAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -133,7 +133,8 @@ public class RPiSocketConnection {
 	private void callEvent(String broadcastMessage) {
 		Sprite dummySenderSprite = new Sprite();
 		dummySenderSprite.setName("raspi_interrupt_dummy");
-		BroadcastAction action = ExtendedActions.broadcast(dummySenderSprite, broadcastMessage);
+		BroadcastAction action = (BroadcastAction) ActionFactory.createBroadcastAction(dummySenderSprite,
+				broadcastMessage);
 		action.act(0);
 	}
 

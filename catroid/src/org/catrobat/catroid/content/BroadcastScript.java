@@ -32,7 +32,7 @@ import java.util.List;
 public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	private String receivedMessage;
+	protected String receivedMessage;
 
 	public BroadcastScript(String broadcastMessage) {
 		super();

@@ -154,4 +154,12 @@
         <item>@string/phiro_sensor_bottom_right</item>
     </string-array>
 
+    <!-- Physics object type spinner -->
+    <string-array name="physics_object_types">
+        <item>@string/brick_set_physics_object_type_dynamic</item>
+        <item>@string/brick_set_physics_object_type_fixed</item>
+        <item>@string/brick_set_physics_object_type_no</item>
+    </string-array>
+
+
 </resources>
