@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -218,9 +219,9 @@ public class ShowTextBrick extends UserVariableBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_show_text, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_show_text_prototype_text_view_x);
-		textX.setText(String.valueOf(BrickValues.X_POSITION));
+		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_show_text_prototype_text_view_y);
-		textY.setText(String.valueOf(BrickValues.Y_POSITION));
+		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
 	}
 

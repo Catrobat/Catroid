@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class TurnRightBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
-		textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
+		textDegrees.setText(Utils.getNumberStringForBricks(BrickValues.TURN_DEGREES));
 		return prototypeView;
 	}
 
