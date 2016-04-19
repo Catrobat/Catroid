@@ -20,19 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.pocketmusic.ui;
 
-package org.catrobat.catroid.pocketmusic;
-
-import android.os.Bundle;
+import android.content.Context;
+import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BaseActivity;
 
-public class PocketMusicActivity extends BaseActivity {
+public class NoteView extends View implements View.OnClickListener {
+
+	private boolean toggled;
+	private static int whiteColor;
+	private static int blackColor;
+
+	public NoteView(Context context) {
+		super(context);
+		setBackgroundColor(getToggledColor());
+		setOnClickListener(this);
+		whiteColor = getResources().getColor(R.color.white);
+		blackColor = getResources().getColor(R.color.dark_gray);
+	}
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onClick(View v) {
+		toggled = !toggled;
+		setBackgroundColor(getToggledColor());
+	}
 
-		setContentView(R.layout.activity_pocketmusic);
+	private int getToggledColor() {
+		return toggled ? blackColor : whiteColor;
+	}
+
+	public boolean isToggled() {
+		return toggled;
 	}
 }

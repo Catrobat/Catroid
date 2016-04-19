@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.util.SparseArray;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 
 import java.util.List;
-import java.util.Map;
 
 public class GridRow {
 
@@ -52,7 +51,7 @@ public class GridRow {
 		int result = 21;
 		result = 31 * result + noteName.hashCode();
 
-		for (int i = 0 ; i < getGridRowPositions().size() ; ++i) {
+		for (int i = 0; i < getGridRowPositions().size(); i++) {
 			result = 31 * result + getGridRowPositions().valueAt(i).hashCode();
 		}
 
@@ -69,7 +68,7 @@ public class GridRow {
 		if (reference.getGridRowPositions().size() != getGridRowPositions().size()) {
 			return false;
 		}
-		for (int i = 0 ; i < reference.getGridRowPositions().size() ; ++i) {
+		for (int i = 0; i < reference.getGridRowPositions().size(); i++) {
 			if (reference.getGridRowPositions().keyAt(i) != getGridRowPositions().keyAt(i)) {
 				return false;
 			}

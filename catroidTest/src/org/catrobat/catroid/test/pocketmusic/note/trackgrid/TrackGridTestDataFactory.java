@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,9 +35,7 @@ import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class TrackGridTestDataFactory {
 
