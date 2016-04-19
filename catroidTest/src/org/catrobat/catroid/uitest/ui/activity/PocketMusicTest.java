@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,10 +31,15 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
+import org.catrobat.catroid.pocketmusic.ui.NoteView;
+import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
+import org.catrobat.catroid.pocketmusic.ui.TrackView;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+
+import java.util.Random;
 
 public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -48,10 +53,10 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.createTestProject();
 
 		UiTestUtils.getIntoSoundsFromMainMenu(solo);
+		prepareTest();
 	}
 
 	public void testOrientation() throws NameNotFoundException {
-		prepareTest();
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
 		assertEquals("PocketcodeActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
@@ -72,22 +77,50 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	public void testPianoElement() {
-		prepareTest();
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
 		assertNotNull("Piano Element was not found.", solo.getCurrentActivity().findViewById(R.id.musicdroid_piano));
 	}
 
 	public void testNoteGridElement() {
-		prepareTest();
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
 		assertNotNull("NoteGrid Element was not found.", solo.getCurrentActivity().findViewById(R.id
 				.musicdroid_note_grid));
 	}
 
+	public void testRandomButtonToggle() {
+		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
+		Random random = new Random();
+		int randomRow = random.nextInt(TrackView.ROW_COUNT);
+		int randomCol = random.nextInt(TrackRowView.QUARTER_COUNT);
+		clickRandomButton(trackView, true, randomRow, randomCol, "Button not toggled");
+		clickRandomButton(trackView, false, randomRow, randomCol, "Button toggled");
+	}
+
+	private void clickRandomButton(TrackView trackView, boolean expectedState, int randomRow, int randomCol, String
+			assertionText) {
+		TrackRowView randomRowView = trackView.getTrackRowViews().get(randomRow);
+		NoteView randomNoteView = randomRowView.getNoteViews().get(randomCol);
+		solo.clickOnView(randomNoteView);
+		solo.sleep(200);
+		assertEquals(assertionText, randomNoteView.isToggled(), expectedState);
+	}
+
+	public void testButtonCount() {
+		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
+
+		TrackView trackView = (TrackView) solo.getCurrentActivity().findViewById(R.id.musicdroid_note_grid);
+		assertEquals("TrackView size invalid", TrackView.ROW_COUNT, trackView.getTrackRowViews().size());
+
+		for (TrackRowView trackRowView : trackView.getTrackRowViews()) {
+			assertEquals("TrackRowView size invalid", trackRowView.getTactCount(), trackRowView.getNoteViews().size());
+		}
+	}
+
 	public void testPlayButtonElement() {
-		prepareTest();
 		solo.waitForActivity(PocketMusicActivity.class.getSimpleName());
 
 		assertNotNull("Play Button Element was not found.",
