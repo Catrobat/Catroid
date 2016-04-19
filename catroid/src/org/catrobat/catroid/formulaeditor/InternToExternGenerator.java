@@ -223,7 +223,7 @@ public class InternToExternGenerator {
 		switch (internToken.getInternTokenType()) {
 			case NUMBER:
 				String number = internToken.getTokenStringValue();
-				if(trimNumbers) {
+				if (trimNumbers) {
 					number = Utils.getNumberStringForBricks(Float.parseFloat(number));
 				}
 

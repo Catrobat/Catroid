@@ -211,9 +211,8 @@ public class Formula implements Serializable {
 		}
 	}
 
-	public String getTrimmedFormulaString(Context context){
+	public String getTrimmedFormulaString(Context context) {
 		return internFormula.trimExternFormulaString(context);
-
 	}
 
 	public void prepareToRemove() {
