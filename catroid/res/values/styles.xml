@@ -442,6 +442,23 @@
         <item name="android:background" >@drawable/brick_orange_3h</item >
     </style >
 
+    <style name="BrickContainer.Event" ></style >
+
+    <style name="BrickContainer.Event.Small" >
+        <item name="android:minHeight" >@dimen/brick_height_small</item >
+        <item name="android:background" >@drawable/brick_brown_1h_when_9</item >
+    </style >
+
+    <style name="BrickContainer.Event.MediumWhen9" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_brown_2h_when_9</item >
+    </style >
+
+    <style name="BrickContainer.Event.Medium" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_brown_2h_9</item >
+    </style >
+
     <style name="BrickContainer.Script" ></style >
 
     <style name="BrickContainer.Script.Small" >
@@ -560,6 +577,11 @@
     <style name="BrickCategoryText.Control" >
         <item name="android:background" >@drawable/brick_selection_background_control</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_control</item >
+    </style >
+
+    <style name="BrickCategoryText.Event" >
+        <item name="android:background" >@drawable/brick_selection_background_event</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_event</item >
     </style >
 
     <style name="BrickCategoryText.Motion" >
