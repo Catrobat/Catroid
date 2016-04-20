@@ -207,7 +207,6 @@ public final class StorageHandler {
 	private File backPackImageDirectory;
 
 	private Lock loadSaveLock = new ReentrantLock();
-
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
@@ -217,7 +216,6 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
-
 	private StorageHandler() throws IOException {
 		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
@@ -680,72 +678,52 @@ public final class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
-	public File copySoundFileBackPack(SoundInfo selectedSoundInfo, String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
+	private File copyFileBackPack(String programSubDirectory, String backpackSubDirectory, String inputFilePath,
+			String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			Log.e(TAG, "file " + inputFilePath + " doesn`t exist or can`t be read");
+			return null;
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile).toUpperCase();
 
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), programSubDirectory,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+		} else {
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, backpackSubDirectory,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (!fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
+		}
+
+		File outputFile = new File(outputFilePath);
+		if (!outputFile.exists()) {
+			outputFile.createNewFile();
+		}
+		return copyFileAddCheckSum(outputFile, inputFile);
+	}
+
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo, String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
 		if (selectedSoundInfo == null) {
 			return null;
 		}
 		String inputFilePath = selectedSoundInfo.getAbsolutePath();
-
-		File inputFile = new File(inputFilePath);
-		if (!inputFile.exists() || !inputFile.canRead()) {
-			if (copyFromBackpack) {
-				return null;
-			}
-			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
-		}
-		String inputFileChecksum = Utils.md5Checksum(inputFile);
-
-		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
-		String outputFilePath;
-		if (copyFromBackpack) {
-			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-			outputFilePath = buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY,
-					inputFileChecksum + "_" + newTitle + fileFormat);
-		} else {
-			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
-					inputFileChecksum + "_" + newTitle + fileFormat);
-			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
-				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
-			}
-		}
-
-		File outputFile = new File(outputFilePath);
-		return copyFileAddCheckSum(outputFile, inputFile);
+		return copyFileBackPack(SOUND_DIRECTORY, BACKPACK_SOUND_DIRECTORY, inputFilePath, newTitle, copyFromBackpack);
 	}
 
 	public File copyImageBackPack(LookData selectedLookData, String newName, boolean copyFromBackpack)
 			throws IOException {
-
+		if (selectedLookData == null) {
+			return null;
+		}
 		String inputFilePath = selectedLookData.getAbsolutePath();
-
-		File inputFile = new File(inputFilePath);
-		if (!inputFile.exists() || !inputFile.canRead()) {
-			if (copyFromBackpack) {
-				return null;
-			}
-			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
-		}
-		String inputFileChecksum = Utils.md5Checksum(inputFile);
-
-		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
-		String outputFilePath;
-		if (copyFromBackpack) {
-			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-			outputFilePath = buildPath(buildProjectPath(currentProject), IMAGE_DIRECTORY,
-					inputFileChecksum + "_" + newName + fileFormat);
-		} else {
-			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY,
-					inputFileChecksum + "_" + newName + fileFormat);
-			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
-				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
-			}
-		}
-
-		File outputFile = new File(outputFilePath);
-		return copyFileAddCheckSum(outputFile, inputFile);
+		return copyFileBackPack(IMAGE_DIRECTORY, BACKPACK_IMAGE_DIRECTORY, inputFilePath, newName, copyFromBackpack);
 	}
 
 	public File copyImageFromResourceToCatroid(Activity activity, int imageId, String defaultImageName) throws IOException {

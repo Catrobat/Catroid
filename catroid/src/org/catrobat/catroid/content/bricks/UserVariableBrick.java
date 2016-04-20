@@ -160,6 +160,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 			backPackedData = new BackPackedData();
 		}
 		this.backPackedData.project = currentProject;
+		this.backPackedData.userVariable = userVariable;
 		this.backPackedData.userVariableType = type;
 	}
 }

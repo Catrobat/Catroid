@@ -96,8 +96,8 @@ public class StageListener implements ApplicationListener {
 
 	private float deltaActionTimeDivisor = 10f;
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
-			+ Constants.IMAGE_STANDARD_EXTENTION;
-	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION;
+			+ Constants.IMAGE_STANDARD_EXTENSION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;

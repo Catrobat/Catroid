@@ -355,7 +355,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		LookData backPackedLookData = LookController.getInstance().backPackLook(this.getLook(), true);
+		LookData backPackedLookData = LookController.getInstance().backPackHiddenLook(this.getLook());
 		this.setLook(backPackedLookData);
 		if (sprite != null && !sprite.getLookDataList().contains(backPackedLookData)) {
 			sprite.getLookDataList().add(backPackedLookData);

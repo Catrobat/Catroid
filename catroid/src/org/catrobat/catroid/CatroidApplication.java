@@ -23,6 +23,7 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
@@ -45,6 +46,12 @@ public class CatroidApplication extends MultiDexApplication {
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();
+	}
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
+		MultiDex.install(this);
 	}
 
 	public ApplicationSettings getParrotApplicationSettings() {

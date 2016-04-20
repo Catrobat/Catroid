@@ -39,12 +39,12 @@ public final class Constants {
 	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
-	public static final String IMAGE_STANDARD_EXTENTION = ".png";
+	public static final String IMAGE_STANDARD_EXTENSION = ".png";
 	public static final String SOUND_STANDARD_EXTENSION = ".wav";
 
 	//Extensions:
-	public static final String[] IMAGE_EXTENTIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
-	public static final String[] SOUND_EXTENTIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
+	public static final String[] IMAGE_EXTENSIONS = { ".png", ".jpg", ".jpeg", ".png", ".gif" };
+	public static final String[] SOUND_EXTENSIONS = { ".wav", ".mp3", ".mpga", ".wav", ".ogy" };
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
@@ -84,7 +84,6 @@ public final class Constants {
 	public static final String RASPI_BROADCAST_PREFIX = "#RASPI#";
 	public static final String RASPI_BROADCAST_INTERRUPT_PREFIX = RASPI_BROADCAST_PREFIX + "interrupt ";
 	public static final String OPENING_BRACE = "(";
-	public static final String CLOSING_BRACE = ")";
 
 	//Web:
 	public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";

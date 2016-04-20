@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -84,7 +85,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int TIME_TO_WAIT = 400;
 	private static final int TIME_TO_WAIT_BACKPACK = 1000;
 
-	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
+	private static final String FIRST_TEST_LOOK_NAME = "catroid_sunglasses";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
 	private static final String THIRD_TEST_LOOK_NAME = "lookNameTest3";
 	private static final String SPRITE_NAME = "cat";
@@ -120,6 +121,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private String backpack;
 	private String backpackAdd;
 	private String backpackTitle;
+	private String backpackReplaceDialogSingle;
+	private String backpackReplaceDialogMultiple;
 
 	public LookFragmentTest() {
 		super(MainMenuActivity.class);
@@ -177,6 +180,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 
+		Resources resources = getActivity().getBaseContext().getResources();
 		copy = solo.getString(R.string.copy);
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
@@ -187,6 +191,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		backpackAdd = solo.getString(R.string.backpack_add);
 		backpackTitle = solo.getString(R.string.backpack_title);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_look_title);
+		backpackReplaceDialogSingle = resources.getString(R.string.backpack_replace_look, FIRST_TEST_LOOK_NAME);
+		backpackReplaceDialogMultiple = solo.getString(R.string.backpack_replace_look_multiple);
 
 		if (getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -709,6 +715,47 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
+	public void testBackPackAlreadyPackedDialogSingleItem() {
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.waitForDialogToOpen();
+		assertTrue("Look already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogSingle, 0, TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(200);
+
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look was not replaced!", BackPackListManager.getInstance().getBackPackedLooks().size() == 1);
+	}
+
+	public void testBackPackAlreadyPackedDialogMultipleItems() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		UiTestUtils.openBackPackActionMode(solo, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForDialogToOpen();
+		assertTrue("Look already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogMultiple, 0,
+				TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(200);
+
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look was not replaced!", BackPackListManager.getInstance().getBackPackedLooks().size() == 2);
+	}
+
 	public void testCopyLookContextMenu() {
 		String testLookName = SECOND_TEST_LOOK_NAME;
 
@@ -1152,8 +1199,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(200);
-		assertNotNull("there must be an Intent", getLookFragment().lastRecivedIntent);
-		Bundle bundle = getLookFragment().lastRecivedIntent.getExtras();
+		assertNotNull("there must be an Intent", getLookFragment().lastReceivedIntent);
+		Bundle bundle = getLookFragment().lastReceivedIntent.getExtras();
 		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
 		assertEquals("Image must by a temp copy", Constants.TMP_IMAGE_PATH, pathOfPocketPaintImage);
 	}

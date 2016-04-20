@@ -179,6 +179,8 @@
     <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
+    <string name="backpack_replace_object">The object "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 
@@ -196,8 +198,7 @@
     <string name="size">Size:</string>
     <string name="script_group">Script Group</string>
     <string name="script_groups">Script Groups</string>
-    <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+    <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
     <!--  -->
 
 
@@ -241,6 +242,8 @@
     <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
     <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
     <string name="lookname">Look name:</string>
+    <string name="backpack_replace_look">The look "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 
@@ -261,6 +264,8 @@
     <string name="sound_name">Sound name:</string>
     <string name="new_sound_name">Sound name:</string>
     <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+    <string name="backpack_replace_sound">The sound "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 

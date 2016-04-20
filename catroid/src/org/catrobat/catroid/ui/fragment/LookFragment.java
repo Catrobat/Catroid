@@ -97,14 +97,14 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 public class LookFragment extends ScriptActivityFragment implements LookBaseAdapter.OnLookEditListener,
-		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
+		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener, LookController.OnBackpackLookCompleteListener {
 
 	public static final String TAG = LookFragment.class.getSimpleName();
 	private static int selectedLookPosition = Constants.NO_POSITION;
 	private static String actionModeTitle;
 	private static String singleItemAppendixActionMode;
 	private static String multipleItemAppendixActionMode;
-	public Intent lastRecivedIntent = null;
+	public Intent lastReceivedIntent = null;
 	private LookBaseAdapter adapter;
 	private List<LookData> lookDataList;
 	private LookData selectedLookData;
@@ -466,7 +466,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		lastRecivedIntent = data;
+		lastReceivedIntent = data;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case LookController.REQUEST_SELECT_OR_DRAW_IMAGE:
@@ -540,8 +540,14 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 				break;
 
 			case R.id.context_menu_backpack:
-				LookController.getInstance().backPackLook(selectedLookData, false);
-				openBackPack();
+				boolean lookAlreadyInBackpack = LookController.getInstance().checkLookReplaceInBackpack(selectedLookData);
+				if (!lookAlreadyInBackpack) {
+					LookController.getInstance().backPackVisibleLook(selectedLookData);
+					openBackPack();
+				} else {
+					LookController.getInstance().setOnBackpackLookCompleteListener(this);
+					LookController.getInstance().showBackPackReplaceDialog(selectedLookData, getActivity());
+				}
 				break;
 
 			case R.id.context_menu_cut:
@@ -1031,6 +1037,11 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	public List<LookData> getLookDataList() {
 		return lookDataList;
+	}
+
+	@Override
+	public void onBackpackLookComplete(boolean startBackpackActivity) {
+		openBackPack();
 	}
 
 	public interface OnLookDataListChangedAfterNewListener {
