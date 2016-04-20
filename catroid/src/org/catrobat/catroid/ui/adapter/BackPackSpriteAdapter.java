@@ -81,7 +81,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		holder.background.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP && backpackSpriteFragment != null) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN && backpackSpriteFragment != null) {
 					backpackSpriteFragment.setSelectedSpritePosition(position);
 					backpackSpriteFragment.getListView().showContextMenuForChild(v);
 				}
