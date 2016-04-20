@@ -136,9 +136,6 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	private String actionBarTitle;
 	private int[] itemsIds;
 
-	public FormulaEditorListFragment() {
-	}
-
 	private static int[] concatAll(int[] first, int[]... rest) {
 		int totalLength = first.length;
 		for (int[] array : rest) {
