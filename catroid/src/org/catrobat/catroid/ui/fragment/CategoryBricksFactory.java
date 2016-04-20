@@ -151,6 +151,8 @@ public class CategoryBricksFactory {
 		List<Brick> toReturn = new ArrayList<Brick>();
 		if (category.equals(context.getString(R.string.category_control))) {
 			tempList = setupControlCategoryList(context);
+		} else if (category.equals(context.getString(R.string.category_event))) {
+			tempList = setupEventCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
 			tempList = setupMotionCategoryList(sprite, context);
 		} else if (category.equals(context.getString(R.string.category_sound))) {
@@ -187,20 +189,25 @@ public class CategoryBricksFactory {
 		return toReturn;
 	}
 
+	private List<Brick> setupEventCategoryList(Context context) {
+		List<Brick> eventBrickList = new ArrayList<Brick>();
+		eventBrickList.add(new WhenStartedBrick(null));
+		eventBrickList.add(new CollisionReceiverBrick("object"));
+		eventBrickList.add(new WhenBrick(null));
+		final String broadcastMessage = MessageContainer.getFirst(context);
+		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
+		eventBrickList.add(new BroadcastBrick(broadcastMessage));
+		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+
+		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			eventBrickList.add(new WhenNfcBrick());
+		}
+		return eventBrickList;
+	}
+
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
-		controlBrickList.add(new WhenStartedBrick(null));
-		controlBrickList.add(new WhenBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
-
-		final String broadcastMessage = MessageContainer.getFirst(context);
-
-		controlBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
-		controlBrickList.add(new BroadcastBrick(broadcastMessage));
-		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
-
-		controlBrickList.add(new CollisionReceiverBrick("object"));
-
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
 		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
@@ -212,11 +219,6 @@ public class CategoryBricksFactory {
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
-
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-			controlBrickList.add(new WhenNfcBrick());
-		}
-
 		return controlBrickList;
 	}
 

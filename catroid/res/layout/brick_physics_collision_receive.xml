@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_collision_receive_layout"
-        style="@style/BrickContainer.Script.Medium"
+        style="@style/BrickContainer.Event.MediumWhen9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
