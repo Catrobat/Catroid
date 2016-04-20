@@ -44,8 +44,7 @@ public class SetLookActionTest extends PhysicsBaseTest {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename
-				("multible_convex_polygons.png");
+		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
 
 		multipleConvexPolygonsFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
 				multipleConvexPolygonsFileName, MULTIPLE_CONVEX_POLYGONS_RES_ID, getInstrumentation().getContext(),
