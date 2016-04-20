@@ -1064,6 +1064,7 @@
     <string name="formula_editor_list_dialog_title">New List</string>
     <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
+    <string name="formula_editor_dialog_change_text">Change text</string>
     <string name="formula_editor_data_dialog_hint">Enter name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
