@@ -1119,6 +1119,43 @@ public final class UiTestUtils {
 		return brickList;
 	}
 
+	public static List<Brick> createTestProjectNestedBricks() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript();
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBeginBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(10);
+		LoopEndBrick loopEndBrick = new LoopEndBrick();
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		brickList.add(ifBeginBrick);
+		brickList.add(new ShowBrick());
+		brickList.add(ifElseBrick);
+		brickList.add(new ComeToFrontBrick());
+		brickList.add(ifEndBrick);
+		brickList.add(repeatBrick);
+		brickList.add(new ShowBrick());
+		brickList.add(loopEndBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
 	public static List<Brick> createTestProjectWithEveryBrick() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
