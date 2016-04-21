@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -110,7 +110,7 @@ public class Track implements Serializable {
 
 	public Set<Long> getSortedTicks() {
 		Set<Long> treeSet = new TreeSet<>();
-		for (int i = 0; i < events.size(); ++i) {
+		for (int i = 0; i < events.size(); i++) {
 			treeSet.add(events.keyAt(i));
 		}
 		return treeSet;
@@ -140,12 +140,13 @@ public class Track implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int result = 18;
-		result = 31 * result + instrument.hashCode();
-		result = 31 * result + events.hashCode();
-		result = 31 * result + key.hashCode();
-		result = 31 * result + (int) lastTick;
-		return result;
+		int primeWithGoodCollisionPrevention = 31;
+		int hashCode = 18;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + instrument.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + events.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + key.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + (int) lastTick;
+		return hashCode;
 	}
 
 	@Override

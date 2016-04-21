@@ -20,19 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.pocketmusic.ui;
 
-package org.catrobat.catroid.pocketmusic;
+import android.content.Context;
+import android.widget.TableRow;
 
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BaseActivity;
+public class TrackRowView extends TableRow {
 
-public class PocketMusicActivity extends BaseActivity {
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public static final int QUARTER_COUNT = 4;
+	private List<NoteView> noteViews = new ArrayList<>(QUARTER_COUNT);
 
-		setContentView(R.layout.activity_pocketmusic);
+	public TrackRowView(Context context) {
+		super(context);
+		initializeRow();
+	}
+
+	private void initializeRow() {
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = 2;
+		for (int i = 0; i < QUARTER_COUNT; i++) {
+			noteViews.add(new NoteView(getContext()));
+			addView(noteViews.get(i), params);
+		}
+	}
+
+	public List<NoteView> getNoteViews() {
+		return noteViews;
+	}
+
+	public int getTactCount() {
+		return QUARTER_COUNT;
 	}
 }
