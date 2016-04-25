@@ -34,7 +34,7 @@ import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.InterruptedIOException;
 
-public class FetchScratchProjectsTask extends AsyncTask<String, Integer, ScratchSearchResult> {
+public class FetchScratchProjectsTask extends AsyncTask<String, Void, ScratchSearchResult> {
 
     private static final String TAG = FetchScratchProjectsTask.class.getSimpleName();
     private static final int MAX_NUM_OF_RETRIES = 2;
@@ -62,10 +62,9 @@ public class FetchScratchProjectsTask extends AsyncTask<String, Integer, Scratch
 
     @Override
     protected ScratchSearchResult doInBackground(String... params) {
-        Preconditions.checkNotNull((params.length == 0 || params.length == 1),
-                "Invalid number of parameters!");
+        Preconditions.checkArgument(params.length <= 2, "Invalid number of parameters!");
         try {
-            return fetchProjectList(params.length == 1 ? params[0] : null);
+            return fetchProjectList(params.length > 0 ? params[0] : null);
         } catch (InterruptedIOException exception) {
             Log.d(TAG, "CANCELLED!");
             Log.d(TAG, "test: " + isCancelled());

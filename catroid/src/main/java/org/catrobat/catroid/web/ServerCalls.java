@@ -28,11 +28,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.login.LoginBehavior;
 import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Closeables;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.squareup.okhttp.ConnectionSpec;
@@ -55,6 +58,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -516,11 +520,28 @@ public final class ServerCalls {
 		}
 	}
 
-	public void downloadFile(final String url, final File file) throws Throwable {
-		final int HTTP_TIMEOUT = 30_000;
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
+	// TODO: move to Util class...
+	@Nullable
+	public static byte[] convertInputStreamToByteArray(final InputStream inputStream) {
+		try {
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int len;
+			while ((len = inputStream.read(buffer)) > -1 ) {
+				byteArrayOutputStream.write(buffer, 0, len);
+			}
+			byteArrayOutputStream.flush();
+			return byteArrayOutputStream.toByteArray();
+		} catch (IOException e) {
+			return null;
+		}
+	}
 
+	@Nullable
+	public byte[] downloadFile(final String url) throws Throwable {
+		final int HTTP_TIMEOUT = 30_000;
+
+		InputStream inputStream = null;
 		try {
 			URL imageUrl = new URL(url);
 			HttpURLConnection connection = (HttpURLConnection)imageUrl.openConnection();
@@ -528,23 +549,15 @@ public final class ServerCalls {
 			connection.setReadTimeout(HTTP_TIMEOUT);
 			connection.setInstanceFollowRedirects(true);
 			inputStream = connection.getInputStream();
-			outputStream = new FileOutputStream(file);
-			Utils.copyStream(inputStream, outputStream);
-			return;
+			if (inputStream == null) {
+				return null;
+			}
+			return convertInputStreamToByteArray(inputStream);
 		} catch (Throwable exc) {
 			exc.printStackTrace();
 			throw exc;
 		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException exc) {}
-			}
-			if (outputStream != null) {
-				try {
-					outputStream.close();
-				} catch (IOException exc) {}
-			}
+			Closeables.closeQuietly(inputStream);
 		}
 	}
 

@@ -35,18 +35,30 @@ public class ExpiringLruMemoryCache<K, V> {
     private final long expireTime;
     private final LruCache<K, V> memoryCache;
     private final Map<K, Long> expirationTimes;
+    private ClockInterface clock;
+    public interface ClockInterface { long elapsedRealtime(); } // unit testing
 
-    public ExpiringLruMemoryCache(final int maxSize, final long expireTime,
-                                  final LruCache<K, V> lruCache)
+    public ExpiringLruMemoryCache(final long expireTime, final LruCache<K, V> lruCache,
+                                  final ClockInterface clock)
     {
         this.expireTime = expireTime;
-        this.expirationTimes = new HashMap<>(maxSize);
+        this.expirationTimes = new HashMap<>();
         this.memoryCache = lruCache;
+        this.clock = clock;
+
+        if (clock == null) {
+            this.clock = new ClockInterface() {
+                @Override
+                public long elapsedRealtime() {
+                    return SystemClock.elapsedRealtime();
+                }
+            };
+        }
     }
 
     public synchronized V get(K key) {
         V value = memoryCache.get(key);
-        if (value != null && SystemClock.elapsedRealtime() >= getExpiryTime(key)) {
+        if (value != null && clock.elapsedRealtime() >= getExpiryTime(key)) {
             remove(key);
             return null;
         }
@@ -55,7 +67,7 @@ public class ExpiringLruMemoryCache<K, V> {
 
     public synchronized V put(K key, V value) {
         V oldValue = memoryCache.put(key, value);
-        expirationTimes.put(key, SystemClock.elapsedRealtime() + expireTime);
+        expirationTimes.put(key, clock.elapsedRealtime() + expireTime);
         return oldValue;
     }
 
@@ -77,10 +89,6 @@ public class ExpiringLruMemoryCache<K, V> {
 
     public Map<K, V> snapshot() {
         return memoryCache.snapshot();
-    }
-
-    public void trimToSize(int maxSize) {
-        memoryCache.trimToSize(maxSize);
     }
 
     public int createCount() {

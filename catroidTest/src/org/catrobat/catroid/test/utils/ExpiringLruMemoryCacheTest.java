@@ -24,17 +24,19 @@
 package org.catrobat.catroid.test.utils;
 
 import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.test.InstrumentationTestCase;
+import android.util.LruCache;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.ExpiringLruMemoryCache;
 import org.catrobat.catroid.utils.ExpiringLruMemoryImageCache;
 import org.catrobat.catroid.utils.ExpiringLruMemoryObjectCache;
 import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 
 public final class ExpiringLruMemoryCacheTest extends InstrumentationTestCase {
 
@@ -48,9 +50,21 @@ public final class ExpiringLruMemoryCacheTest extends InstrumentationTestCase {
         }
     }
 
+    final private static class TestClock implements ExpiringLruMemoryCache.ClockInterface {
+        public long elapsedTime = 0;
+
+        @Override
+        public long elapsedRealtime() {
+            return (elapsedTime != 0) ? elapsedTime : SystemClock.elapsedRealtime();
+        }
+    }
+
+    final private static long EXPIRE_TIME = 300; // 300ms (in ms)
+
     private ExpiringLruMemoryObjectCache<String> textCache;
     private ExpiringLruMemoryImageCache imageCache;
     private BitmapData[] images;
+    private TestClock testClock;
 
     public ExpiringLruMemoryCacheTest() {
         super();
@@ -60,20 +74,24 @@ public final class ExpiringLruMemoryCacheTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        // this bypasses the getInstance() singleton method
-        // and uses introspection in order to access private constructor (for testing purposes only!)
+        testClock = new TestClock();
         int maxSize = 2;      // number of entries
-        int expireTime = 300; // 500ms (in ms)
-        Class[] constructorArgs = new Class[] { Long.TYPE, Integer.TYPE };
 
+        // this bypasses the getInstance() singleton method
+        Class[] constructorArgs = new Class[] { Long.TYPE, LruCache.class, ExpiringLruMemoryCache.ClockInterface.class };
         Constructor<ExpiringLruMemoryObjectCache> textCacheConstructor = ExpiringLruMemoryObjectCache.class.getDeclaredConstructor(constructorArgs);
         textCacheConstructor.setAccessible(true);
-        textCache = (ExpiringLruMemoryObjectCache<String>) textCacheConstructor.newInstance(new Long(expireTime), new Integer(maxSize));
-        Field instanceField = ExpiringLruMemoryObjectCache.class.getDeclaredField("instance");
-        instanceField.setAccessible(true);
-        if (instanceField.getType() == ExpiringLruMemoryObjectCache.class) {
-            instanceField.set(null, textCache);
-        }
+        // use introspection for accessing private constructor
+        // TODO: pass mocked LruCache instead!
+        textCache = (ExpiringLruMemoryObjectCache<String>) textCacheConstructor.newInstance(new Long(EXPIRE_TIME), new LruCache<String, String>(maxSize) {
+            @Override
+            protected void entryRemoved(boolean evicted, String key, String oldValue, String newValue) {
+                textCache.removeExpiryTime(key);
+            }
+
+            @Override
+            protected int sizeOf(String key, String value) { return 1; }
+        }, testClock);
 
         String tempFilePath = Constants.DEFAULT_ROOT + "/testFile.png";
         File file = UiTestUtils.createTestMediaFile(tempFilePath,
@@ -86,15 +104,19 @@ public final class ExpiringLruMemoryCacheTest extends InstrumentationTestCase {
         BitmapData bitmapData = new BitmapData(bitmap, width, height);
         images = new BitmapData[] { bitmapData, bitmapData, bitmapData };
         maxSize = (2 * bitmap.getByteCount() / 1024); // allocate memory for exactly 2 bitmap files (in KB)
-        expireTime = 300;   // 500ms (in ms)
         Constructor<ExpiringLruMemoryImageCache> imageCacheConstructor = ExpiringLruMemoryImageCache.class.getDeclaredConstructor(constructorArgs);
         imageCacheConstructor.setAccessible(true);
-        imageCache = imageCacheConstructor.newInstance(new Long(expireTime), new Integer(maxSize));
-        instanceField = ExpiringLruMemoryImageCache.class.getDeclaredField("instance");
-        instanceField.setAccessible(true);
-        if (instanceField.getType() == ExpiringLruMemoryImageCache.class) {
-            instanceField.set(null, imageCache);
-        }
+        // use introspection for accessing private constructor
+        // TODO: pass mocked LruCache instead!
+        imageCache = imageCacheConstructor.newInstance(new Long(EXPIRE_TIME), new LruCache<String, Bitmap>(maxSize) {
+            @Override
+            protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+                imageCache.removeExpiryTime(key);
+            }
+
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) { return bitmap.getByteCount() / 1024; }
+        }, testClock);
     }
 
     @Override
@@ -105,124 +127,244 @@ public final class ExpiringLruMemoryCacheTest extends InstrumentationTestCase {
     //----------------------------------------------------------------------------------------------
     // text cache tests
     //----------------------------------------------------------------------------------------------
+    public void testFetchingNotExistingKeyShouldFail() {
+        final String key = "a";
+        assertNull(textCache.get(key));
+    }
+
+    public void testFetchingExpiryTimeForNotExistingKeyShouldReturnZero() {
+        final String key = "a";
+        assertEquals(0, textCache.getExpiryTime(key));
+    }
+
     public void testShouldReturnTextForNonExpiredText() {
-        textCache.put("z", "Z");
-        String resultA = textCache.get("z");
+        final String key = "a";
+        final String value = "A";
+
+        textCache.put(key, value);
+        String resultA = textCache.get(key);
         assertNotNull(resultA);
-        assertEquals(resultA, "Z");
+        assertEquals(value, resultA);
     }
 
     public void testShouldReturnNullForExpiredText() {
-        textCache.put("a", "A");
+        final String key = "a";
+        final String value = "A";
 
-        try {
-            Thread.sleep(400); // let both keys get expired => wait for more than a half second!
-        } catch (InterruptedException e) {}
-
-        assertNull(textCache.get("a"));
+        testClock.elapsedTime = SystemClock.elapsedRealtime();
+        textCache.put(key, value);
+        testClock.elapsedTime += EXPIRE_TIME + 100; // simulate wait until key gets expired!
+        assertNull(textCache.get(key));
     }
 
-    public void testAccessingTextShouldNotIncreaseExpireTime() {
-        textCache.put("a", "A"); // create key
+    public void testRemoveNonExpiredText() {
+        final String key = "a";
+        final String value = "A";
 
-        try {
-            Thread.sleep(200); // wait a bit but not too long! key should not get expired!
-        } catch (InterruptedException e) {}
-
-        assertNotNull(textCache.get("a"));
-
-        try {
-            Thread.sleep(200); // after 400ms (in total) the key should not be available any more!
-        } catch (InterruptedException e) {}
-
-        assertNull(textCache.get("a"));
+        textCache.put(key, value);
+        assertNotNull(value);
+        assertNotNull(textCache.remove(key));
+        assertNull(textCache.get(key));
     }
 
-    public void testRemovingCachedTextShouldRemoveExpiryCacheEntry() {
-        textCache.put("a", "A");
-        textCache.removeExpiryTime("a");
-        assertTrue(textCache.getExpiryTime("a") == 0);
+    public void testExpiryTimeForNonExpiredText() {
+        final String key = "a";
+        final String value = "A";
+
+        testClock.elapsedTime = SystemClock.elapsedRealtime();
+        textCache.put(key, value);
+
+        final long expiryTime = textCache.getExpiryTime(key);
+        assertTrue("Key does not exist or is not valid any more!", expiryTime != 0);
+        assertEquals(testClock.elapsedTime + EXPIRE_TIME, expiryTime);
     }
 
-    public void testExceedingMaxSizeShouldEvictLeastRecentlyUsedTextEntryAndRemoveExpiryCacheEntry() {
-        textCache.put("a", "A");
-        textCache.put("b", "B");
+    public void testAccessingTextShouldNotIncreaseExpiryTime() {
+        final String key = "a";
+        final String value = "A";
+
+        testClock.elapsedTime = SystemClock.elapsedRealtime();
+        textCache.put(key, value); // create key
+        final long initialExpiryTime = textCache.getExpiryTime(key);
+        assertTrue("Key does not exist or is not valid any more!", initialExpiryTime != 0);
+
+        testClock.elapsedTime += EXPIRE_TIME - 100; // simulate wait 200ms! key should remain valid!
+        assertNotNull(textCache.get(key));
+        assertEquals("Key does not exist or expiry time changed unexpectedly!",
+                initialExpiryTime, textCache.getExpiryTime(key));
+
+        testClock.elapsedTime += EXPIRE_TIME - 100; // simulate wait another 200ms!
+        assertNull(textCache.get(key)); // now, the key should not be valid/available any more!
+        assertEquals("Key has not been removed!", 0, textCache.getExpiryTime(key));
+    }
+
+    public void testRemovingExpiryTimeOfText() {
+        final String key = "a";
+        final String value = "A";
+
+        textCache.put(key, value);
+        textCache.removeExpiryTime(key);
+        assertEquals(0, textCache.getExpiryTime(key));
+    }
+
+    public void testRemovingExpiryTimeOfTextShouldRemoveCacheEntry() {
+        final String key = "a";
+        final String value = "A";
+
+        textCache.put(key, value);
+        textCache.removeExpiryTime(key);
+        assertNull(textCache.get(key));
+    }
+
+    public void testExceedingMaxSizeShouldRemoveLeastRecentlyUsedTextEntryAndRemoveExpiryTime() {
+        final String keyA = "a";
+        final String valueA = "A";
+        final String keyB = "b";
+        final String valueB = "B";
+        final String keyC = "c";
+        final String valueC = "C";
+
+        textCache.put(keyA, valueA);
+        textCache.put(keyB, valueB);
+        final long expiryTimeB = textCache.getExpiryTime(keyB);
 
         // we are at 2, which is our maximum
         // => let's access "b" multiple times and never "use" "a"
-        textCache.get("b");
-        textCache.get("b");
-        textCache.get("b");
+        textCache.get(keyB);
+        textCache.get(keyB);
+        textCache.get(keyB);
 
         // now add another, which should evict "a"
-        textCache.put("c", "C");
-        assertNotNull(textCache.get("c"));
-        assertTrue(textCache.getExpiryTime("c") != 0);
+        textCache.put(keyC, valueC);
+        assertNotNull(textCache.get(keyC));
+        assertTrue(textCache.getExpiryTime(keyC) != 0);
+        assertNotNull(textCache.get(keyB));
+        assertEquals(expiryTimeB, textCache.getExpiryTime(keyB));
 
-        assertNull(textCache.get("a"));
-        assertTrue(textCache.getExpiryTime("a") == 0);
+        assertNull(textCache.get(keyA));
+        assertEquals(0, textCache.getExpiryTime(keyA));
     }
 
     //----------------------------------------------------------------------------------------------
     // image cache tests
     //----------------------------------------------------------------------------------------------
+    public void testFetchingNotExistingImageKeyShouldFail() {
+        final String key = "a";
+        assertNull(imageCache.get(key));
+    }
+
+    public void testFetchingImageExpiryTimeForNotExistingKeyShouldReturnZero() {
+        final String key = "a";
+        assertEquals(0, imageCache.getExpiryTime(key));
+    }
+
     public void testShouldReturnImageForNonExpiredImage() {
-        imageCache.put("a", images[0].bitmap);
-        Bitmap resultA = imageCache.get("a");
+        final String key = "a";
+        final Bitmap value = images[0].bitmap;
+
+        imageCache.put(key, value);
+        Bitmap resultA = imageCache.get(key);
         assertNotNull(resultA);
-        assertEquals(resultA.getHeight(), images[0].height);
-        assertEquals(resultA.getWidth(), images[0].width);
+        assertEquals(images[0].height, resultA.getHeight());
+        assertEquals(images[0].width, resultA.getWidth());
     }
 
     public void testShouldReturnNullForExpiredImage() {
-        imageCache.put("a", images[0].bitmap);
+        final String key = "a";
+        final Bitmap value = images[0].bitmap;
 
-        try {
-            Thread.sleep(400); // let both keys get expired => wait for more than a half second!
-        } catch (InterruptedException e) {}
-
-        assertNull(imageCache.get("a"));
+        testClock.elapsedTime = SystemClock.elapsedRealtime();
+        imageCache.put(key, value);
+        testClock.elapsedTime += EXPIRE_TIME + 100; // simulate wait until key gets expired!
+        assertNull(imageCache.get(key));
     }
 
-    public void testAccessingImageShouldNotIncreaseExpireTime() {
-        imageCache.put("a", images[0].bitmap); // create key
+    public void testRemoveNonExpiredImage() {
+        final String key = "a";
+        final Bitmap value = images[0].bitmap;
 
-        try {
-            Thread.sleep(200); // wait a bit but not too long! key should not get expired!
-        } catch (InterruptedException e) {}
-
-        assertNotNull(imageCache.get("a"));
-
-        try {
-            Thread.sleep(200); // after 600ms (in total) the key should not be available any more!
-        } catch (InterruptedException e) {}
-
-        assertNull(imageCache.get("a"));
+        imageCache.put(key, value);
+        assertNotNull(value);
+        assertNotNull(imageCache.remove(key));
+        assertNull(imageCache.get(key));
     }
 
-    public void testRemovingCachedImageShouldRemoveExpiryCacheImage() {
-        imageCache.put("a", images[0].bitmap);
-        imageCache.removeExpiryTime("a");
-        assertTrue(imageCache.getExpiryTime("a") == 0);
+    public void testExpiryTimeForNonExpiredImage() {
+        final String key = "a";
+        final Bitmap value = images[0].bitmap;
+
+        testClock.elapsedTime = SystemClock.elapsedRealtime();
+        imageCache.put(key, value);
+
+        final long expiryTime = imageCache.getExpiryTime(key);
+        assertTrue("Key does not exist or is not valid any more!", expiryTime != 0);
+        assertEquals(testClock.elapsedTime + EXPIRE_TIME, expiryTime);
+    }
+
+    public void testAccessingImageShouldNotIncreaseExpiryTime() {
+        final String key = "a";
+        final Bitmap value = images[0].bitmap;
+
+        testClock.elapsedTime = SystemClock.elapsedRealtime();
+        imageCache.put(key, value); // create key
+        final long initialExpiryTime = imageCache.getExpiryTime(key);
+        assertTrue("Key does not exist or is not valid any more!", initialExpiryTime != 0);
+
+        testClock.elapsedTime += EXPIRE_TIME - 100; // simulate wait 200ms! key should remain valid!
+        assertNotNull(imageCache.get(key));
+        assertEquals("Key does not exist or expiry time changed unexpectedly!",
+                initialExpiryTime, imageCache.getExpiryTime(key));
+
+        testClock.elapsedTime += EXPIRE_TIME - 100; // wait another 200ms
+        assertNull(imageCache.get(key)); // now, the key should not be available any more!
+        assertEquals("Key has not been removed!", 0, imageCache.getExpiryTime(key));
+    }
+
+    public void testRemovingExpiryTimeOfImage() {
+        final String key = "a";
+        final Bitmap value = images[0].bitmap;
+
+        imageCache.put(key, value);
+        imageCache.removeExpiryTime(key);
+        assertEquals(0, imageCache.getExpiryTime(key));
+    }
+
+    public void testRemovingExpiryTimeOfImageShouldRemoveCacheEntry() {
+        final String key = "a";
+        final Bitmap value = images[0].bitmap;
+
+        imageCache.put(key, value);
+        imageCache.removeExpiryTime(key);
+        assertNull(imageCache.get(key));
     }
 
     public void testExceedingMaxSizeShouldEvictLeastRecentlyUsedImageEntryAndRemoveExpiryCacheImage() {
-        imageCache.put("a", images[0].bitmap);
-        imageCache.put("b", images[1].bitmap);
+        final String keyA = "a";
+        final Bitmap valueA = images[0].bitmap;
+        final String keyB = "b";
+        final Bitmap valueB = images[1].bitmap;
+        final String keyC = "c";
+        final Bitmap valueC = images[2].bitmap;
+
+        imageCache.put(keyA, valueA);
+        imageCache.put(keyB, valueB);
+        final long expiryTimeB = imageCache.getExpiryTime(keyB);
 
         // we are at 2, which is our maximum
         // => let's access "b" multiple times and never "use" "a"
-        imageCache.get("b");
-        imageCache.get("b");
-        imageCache.get("b");
+        imageCache.get(keyB);
+        imageCache.get(keyB);
+        imageCache.get(keyB);
 
         // now add another, which should evict "a"
-        imageCache.put("c", images[2].bitmap);
-        assertNotNull(imageCache.get("c"));
-        assertTrue(imageCache.getExpiryTime("c") != 0);
+        imageCache.put(keyC, valueC);
+        assertNotNull(imageCache.get(keyC));
+        assertTrue(imageCache.getExpiryTime(keyC) != 0);
+        assertNotNull(imageCache.get(keyB));
+        assertEquals(expiryTimeB, imageCache.getExpiryTime(keyB));
 
-        assertNull(imageCache.get("a"));
-        assertTrue(imageCache.getExpiryTime("a") == 0);
+        assertNull(imageCache.get(keyA));
+        assertEquals(0, imageCache.getExpiryTime(keyA));
     }
 
 }

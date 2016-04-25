@@ -34,18 +34,9 @@ public class ExpiringLruMemoryObjectCache<V> extends ExpiringLruMemoryCache<Stri
 
     private static ExpiringLruMemoryObjectCache instance = null;
 
-    private ExpiringLruMemoryObjectCache(final long expireTime, final int cacheSize) {
-        super(cacheSize, expireTime, new LruCache<String, V>(cacheSize) {
-            @Override
-            protected void entryRemoved(boolean evicted, String key, V oldValue, V newValue) {
-                getInstance().removeExpiryTime(key);
-            }
-
-            @Override
-            protected int sizeOf(String key, V value) {
-                return 1;
-            }
-        });
+    private ExpiringLruMemoryObjectCache(final long expireTime, final LruCache<String, V> lruCache,
+                                         final ClockInterface clock) {
+        super(expireTime, lruCache, clock);
     }
 
     final public static <V> ExpiringLruMemoryObjectCache<V> getInstance() {
@@ -53,7 +44,17 @@ public class ExpiringLruMemoryObjectCache<V> extends ExpiringLruMemoryCache<Stri
             // do it in a thread safe way
             synchronized (ExpiringLruMemoryObjectCache.class) {
                 if (instance == null) {
-                    instance = new ExpiringLruMemoryObjectCache<>(EXPIRE_TIME, CACHE_SIZE);
+                    instance = new ExpiringLruMemoryObjectCache<>(EXPIRE_TIME, new LruCache<String, V>(CACHE_SIZE) {
+                        @Override
+                        protected void entryRemoved(boolean evicted, String key, V oldValue, V newValue) {
+                            instance.removeExpiryTime(key);
+                        }
+
+                        @Override
+                        protected int sizeOf(String key, V value) {
+                            return 1;
+                        }
+                    }, null);
                 }
             }
         }

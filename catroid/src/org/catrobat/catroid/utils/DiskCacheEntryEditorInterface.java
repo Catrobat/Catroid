@@ -21,25 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.common;
+package org.catrobat.catroid.utils;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.OutputStream;
 
-public class ScratchSearchResult {
-    private ArrayList<ScratchProjectPreviewData> projectList;
-    private String query;
-    private int currentPageIndex;
-    private int totalNumberOfResults;
-
-    public ScratchSearchResult(ArrayList<ScratchProjectPreviewData> projectList, String query, int currentPageIndex, int totalNumberOfResults) {
-        this.query = query;
-        this.projectList = projectList;
-        this.currentPageIndex = currentPageIndex;
-        this.totalNumberOfResults = totalNumberOfResults;
-    }
-
-    public ArrayList<ScratchProjectPreviewData> getProjectList() { return projectList; }
-    public String getQuery() { return query; }
-    public int getCurrentPageIndex() { return currentPageIndex; }
-    public int getTotalNumberOfResults() { return totalNumberOfResults; }
+public interface DiskCacheEntryEditorInterface {
+    void abort() throws IOException;
+    void commit() throws IOException;
+    OutputStream newOutputStream(int index) throws IOException;
 }

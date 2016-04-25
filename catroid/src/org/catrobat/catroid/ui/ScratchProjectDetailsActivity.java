@@ -31,7 +31,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProjectData;
-import org.catrobat.catroid.utils.FileCache;
+import org.catrobat.catroid.utils.ExpiringDiskCache;
 import org.catrobat.catroid.utils.ExpiringLruMemoryImageCache;
 import org.catrobat.catroid.utils.WebImageLoader;
 
@@ -55,9 +55,12 @@ public class ScratchProjectDetailsActivity extends BaseActivity {
 
         ScratchProjectData scratchProjectData = getIntent().getParcelableExtra(Constants.SCRATCH_PROJECT_DATA);
 
-        final int WEBIMAGE_DOWNLOADER_POOL_SIZE = 3;
-        ExecutorService executorService = Executors.newFixedThreadPool(WEBIMAGE_DOWNLOADER_POOL_SIZE);
-        webImageLoader = new WebImageLoader(this, ExpiringLruMemoryImageCache.getInstance(), new FileCache(this), executorService);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        webImageLoader = new WebImageLoader(
+                ExpiringLruMemoryImageCache.getInstance(),
+                ExpiringDiskCache.getInstance(this),
+                executorService
+        );
 
         Log.i(TAG, scratchProjectData.getTitle());
         projectTitleTextView = (TextView) findViewById(R.id.scratch_project_title);

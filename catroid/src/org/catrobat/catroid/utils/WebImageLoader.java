@@ -23,19 +23,23 @@
 
 package org.catrobat.catroid.utils;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ImageView;
+
+import com.google.common.io.Closeables;
 
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -46,16 +50,15 @@ public class WebImageLoader {
     private static final int MAX_NUM_OF_RETRIES = 2;
     private static final int MIN_DELAY = 1_000; // in ms
 
-    private Context context;
     private ExpiringLruMemoryImageCache memoryCache;
-    private FileCache fileCache;
+    private ExpiringDiskCache diskCache;
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     private ExecutorService executorService;
 
-    public WebImageLoader(Context context, ExpiringLruMemoryImageCache memoryCache, FileCache fileCache, ExecutorService executorService) {
-        this.context = context;
+    public WebImageLoader(final ExpiringLruMemoryImageCache memoryCache,
+                          final ExpiringDiskCache fileCache, final ExecutorService executorService) {
         this.memoryCache = memoryCache;
-        this.fileCache = fileCache;
+        this.diskCache = fileCache;
         this.executorService = executorService;
     }
 
@@ -99,7 +102,7 @@ public class WebImageLoader {
     }
 
     public void fetchAndShowImage(String url, ImageView imageView, int width, int height) {
-        Log.d(TAG, "Fetching image from URL: " + url);
+        Log.d(TAG, "Look-up for image with URL: " + url);
         imageViews.put(imageView, url);
         Bitmap bitmap = memoryCache.get(url);
         if (bitmap != null) {
@@ -113,12 +116,12 @@ public class WebImageLoader {
     }
 
     @Nullable
-    private Bitmap decodeFile(File file, int width, int height) {
+    private Bitmap decodeLoadedBitmap(byte[] byteArray, int width, int height) {
         Log.d(TAG, "Trying to decode file (width: " + width + ", height: " + height + ")");
-        if ((file == null) || ! file.exists()) {
+        if (byteArray == null) {
             return null;
         }
-        return ImageEditing.getScaledBitmapFromPath(file.getAbsolutePath(), width, height,
+        return ImageEditing.getScaledBitmapOfLoadedBitmap(byteArray, width, height,
                 ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
     }
 
@@ -144,19 +147,69 @@ public class WebImageLoader {
             if (imageViewReused(imageToLoad)) {
                 return;
             }
-            File file = fileCache.getFile(imageToLoad.url);
-            if (file == null) {
-                return;
+
+            ExpiringDiskCache.BitmapEntry entry = null;
+            if (diskCache != null) {
+                try {
+                    entry = diskCache.getBitmap(imageToLoad.url);
+                } catch (Throwable e) {
+                    Log.w(TAG, "Disk Cache not accessible");
+                    Log.w(TAG, e);
+                }
             }
-            Bitmap bitmap = decodeFile(file, width, height); // try to load from disk
-            if (bitmap == null) { // try to download file from web
-                Log.d(TAG, "Cache miss for: " + imageToLoad.url);
-                bitmap = fetchBitmapFromWeb(imageToLoad.url, file, width, height);
+
+            Bitmap bitmap;
+            if (entry == null || entry.getBitmap() == null) {
+                Log.i(TAG, "NO Disk cache hit for: " + imageToLoad.url);
+                if (entry != null) {
+                    Log.i(TAG, "BUT entry given for: " + imageToLoad.url);
+                }
+                byte[] imageData = fetchFileDataFromWeb(imageToLoad.url);
+                if (imageData == null) {
+                    Log.d(TAG, "Cannot fetch file from web: " + imageToLoad.url);
+                    return; // give up!
+                }
+
+                // resize image!
+                bitmap = decodeLoadedBitmap(imageData, width, height);
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageData);
+                if (byteArrayInputStream == null) {
+                    Log.e(TAG, "Unable to convert byte data to InputStream. This should never happen!");
+                    return; // give up!
+                }
+
+                ByteArrayOutputStream byteArrayOutputStream = null;
+                try {
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                    imageData = byteArrayOutputStream.toByteArray();
+                    Closeables.closeQuietly(byteArrayInputStream);
+                    byteArrayInputStream = new ByteArrayInputStream(imageData);
+
+                    if (diskCache != null) {
+                        diskCache.put(imageToLoad.url, byteArrayInputStream);
+                        Closeables.closeQuietly(byteArrayInputStream);
+                        byteArrayInputStream = new ByteArrayInputStream(imageData);
+                        Log.i(TAG, "Stored to disk cache for: " + imageToLoad.url);
+                    }
+                    bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
+                    if (bitmap == null) {
+                        return; // give up!
+                    }
+                } catch (Throwable e) {
+                    Log.w(TAG, "Disk Cache not writeable!");
+                    Log.w(TAG, e);
+                } finally {
+                    Closeables.closeQuietly(byteArrayInputStream);
+                    if (byteArrayOutputStream != null) {
+                        try {
+                            byteArrayOutputStream.close();
+                        } catch (IOException ex) {}
+                    }
+                }
             } else {
-                Log.d(TAG, "Disk cache hit for: " + imageToLoad.url);
-            }
-            if (bitmap == null) {
-                return; // give up!
+                bitmap = entry.getBitmap();
+                Log.i(TAG, "Disk cache hit for: " + imageToLoad.url);
             }
             memoryCache.put(imageToLoad.url, bitmap);
             if (imageViewReused(imageToLoad)) {
@@ -167,21 +220,19 @@ public class WebImageLoader {
         }
 
         @Nullable
-        private Bitmap fetchBitmapFromWeb(String url, File file, int width, int height) {
+        private byte[] fetchFileDataFromWeb(final String url) {
             Log.d(TAG, "Downloading image from URL: " + url);
-            if ((url == null) || (file == null)) {
+            if (url == null) {
                 return null;
             }
 
             // exponential backoff
-            int delay;
             for (int attempt = 0; attempt <= MAX_NUM_OF_RETRIES; attempt++) {
                 try {
-                    ServerCalls.getInstance().downloadFile(url, file);
-                    return decodeFile(file, width, height);
+                    return ServerCalls.getInstance().downloadFile(url);
                 } catch (Throwable exception) {
                     Log.d(TAG, exception.getLocalizedMessage() + "\n" +  exception.getStackTrace());
-                    delay = MIN_DELAY + (int) (MIN_DELAY * Math.random() * (attempt + 1));
+                    int delay = MIN_DELAY + (int) (MIN_DELAY * Math.random() * (attempt + 1));
                     Log.i(TAG, "Retry #" + (attempt+1) + " to fetch scratch project list scheduled in "
                             + delay + " ms due to " + exception.getLocalizedMessage());
                     try {

@@ -44,6 +44,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
+import com.google.common.io.ByteStreams;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

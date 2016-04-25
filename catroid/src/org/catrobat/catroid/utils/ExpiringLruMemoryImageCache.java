@@ -36,18 +36,9 @@ final public class ExpiringLruMemoryImageCache extends ExpiringLruMemoryCache<St
 
     private static ExpiringLruMemoryImageCache instance = null;
 
-    private ExpiringLruMemoryImageCache(final long expireTime, final int cacheSize) {
-        super(cacheSize, expireTime, new LruCache<String, Bitmap>(cacheSize) {
-            @Override
-            protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
-                getInstance().removeExpiryTime(key); // dirty hack
-            }
-
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                return bitmap.getByteCount() / 1024;
-            }
-        });
+    private ExpiringLruMemoryImageCache(final long expireTime, final LruCache<String, Bitmap> lruCache,
+                                        final ClockInterface clock) {
+        super(expireTime, lruCache, clock);
     }
 
     final public static ExpiringLruMemoryImageCache getInstance() {
@@ -55,7 +46,17 @@ final public class ExpiringLruMemoryImageCache extends ExpiringLruMemoryCache<St
             // do it in a thread safe way
             synchronized (ExpiringLruMemoryImageCache.class) {
                 if (instance == null) {
-                    instance = new ExpiringLruMemoryImageCache(EXPIRE_TIME, CACHE_SIZE);
+                    instance = new ExpiringLruMemoryImageCache(EXPIRE_TIME, new LruCache<String, Bitmap>(CACHE_SIZE) {
+                        @Override
+                        protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+                            instance.removeExpiryTime(key);
+                        }
+
+                        @Override
+                        protected int sizeOf(String key, Bitmap bitmap) {
+                            return bitmap.getByteCount() / 1024;
+                        }
+                    }, null);
                 }
             }
         }
