@@ -28,10 +28,6 @@
   <string name="cancel_button">रद्द करें</string>
   <string name="rename">नाम बदलिए</string>
   <string name="delete">मिटायें</string>
-  <string name="menu_item_move_down">नीचे ले जाएँ</string>
-  <string name="menu_item_move_up">ऊपर ले जाएँ</string>
-  <string name="menu_item_move_to_top">सबसे ऊपर ले जाएँ</string>
-  <string name="menu_item_move_to_bottom">सबसे नीचे ले जाएँ</string>
   <string name="yes">हाँ</string>
   <string name="no">नहीं</string>
   <string name="copy">प्रतिलिपि बनाएँ</string>

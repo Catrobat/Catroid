@@ -28,10 +28,6 @@
   <string name="cancel_button">రద్దు చేయు</string>
   <string name="rename">పేరు మార్చు</string>
   <string name="delete">తొలగించు</string>
-  <string name="menu_item_move_down">క్రిందకు జరుపు</string>
-  <string name="menu_item_move_up">పైకి జరుపు</string>
-  <string name="menu_item_move_to_top">మొదటికి జరుపు</string>
-  <string name="menu_item_move_to_bottom">అడుగుకు జరుపు</string>
   <string name="yes">అవును</string>
   <string name="no">కాదు</string>
   <string name="copy">నకలు చేయు</string>

@@ -28,10 +28,6 @@
   <string name="cancel_button">Avbryt</string>
   <string name="rename">Byt namn</string>
   <string name="delete">Radera</string>
-  <string name="menu_item_move_down">Flytta ner</string>
-  <string name="menu_item_move_up">Flytta upp</string>
-  <string name="menu_item_move_to_top">Move to top</string>
-  <string name="menu_item_move_to_bottom">Move to bottom</string>
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
   <string name="copy">Kopiera</string>

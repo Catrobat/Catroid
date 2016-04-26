@@ -186,84 +186,52 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		super.tearDown();
 	}
 
-	public void testMoveSoundUp() {
-		moveSoundUp(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropUp() {
+		for (int i = 0; i < 3; i++) {
+			addSoundInfoWithName("TestSound" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.sounds));
 
-		assertEquals("Sound didn't move up (testMoveSoundUp 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move up (testMoveSoundUp 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound1");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(0) - 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound2");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound1");
 	}
 
-	public void testMoveSoundDown() {
-		moveSoundDown(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropDown() {
+		for (int i = 0; i < 3; i++) {
+			addSoundInfoWithName("TestSound" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.sounds));
 
-		assertEquals("Sound didn't move down (testMoveSoundDown 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move down (testMoveSoundDown 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
-	}
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound1");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
 
-	public void testMoveSoundToBottom() {
-		moveSoundToBottom(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
 
-		assertEquals("Sound didn't move bottom (testMoveSoundToBottom 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move bottom (testMoveSoundToBottom 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundToTop() {
-		moveSoundToTop(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound didn't move top (testMoveSoundToTop 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move top (testMoveSoundToTop 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundUpFirstEntry() {
-		moveSoundUp(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundUpFirstEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundUpFirstEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundDownLastEntry() {
-		moveSoundDown(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundDownLastEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundDownLastEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundToTopFirstEntry() {
-		moveSoundToTop(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundToTopFirstEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundToTopFirstEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundToBottomLastEntry() {
-		moveSoundToBottom(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundToBottomLastEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundToBottomLastEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(1).getTitle(), "TestSound0");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound1");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
 	}
 
 	public void testInitialLayout() {
@@ -1892,19 +1860,9 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		}
 	}
 
-	private void moveSoundDown(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_down));
-	}
-
-	private void moveSoundUp(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveSoundToBottom(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveSoundToTop(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_to_top));
+	private void addSoundInfoWithName(String soundName) {
+		SoundInfo soundInfoToAdd = soundInfo.clone();
+		soundInfoToAdd.setTitle(soundName);
+		soundInfoList.add(soundInfoToAdd);
 	}
 }

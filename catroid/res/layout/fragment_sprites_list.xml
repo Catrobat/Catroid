@@ -52,10 +52,10 @@
             android:textSize="30sp" />
     </RelativeLayout>
 
-  <ListView
+  <org.catrobat.catroid.ui.DynamicListView
       android:id="@android:id/list"
       style="@style/ListViewShadowed"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+      android:layout_height="match_parent" />
 
 </FrameLayout>

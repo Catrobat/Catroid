@@ -28,10 +28,6 @@
   <string name="cancel_button">Prekliči</string>
   <string name="rename">Preimenuj</string>
   <string name="delete">Izbriši</string>
-  <string name="menu_item_move_down">Premakni navzdol</string>
-  <string name="menu_item_move_up">Premakni navzgor</string>
-  <string name="menu_item_move_to_top">Premakni na vrh</string>
-  <string name="menu_item_move_to_bottom">Premakni na dno</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>
   <string name="copy">Kopiraj</string>

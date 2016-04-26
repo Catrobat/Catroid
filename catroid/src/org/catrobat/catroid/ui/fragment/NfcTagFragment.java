@@ -41,8 +41,6 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ActionMode;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,8 +48,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -64,6 +60,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.DynamicListView;
 import org.catrobat.catroid.ui.NfcTagViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.NfcTagAdapter;
@@ -75,7 +72,6 @@ import org.catrobat.catroid.ui.dialogs.RenameNfcTagDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.Collections;
 import java.util.List;
 
 public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBaseAdapter.OnNfcTagEditListener, Dialog.OnKeyListener {
@@ -94,6 +90,7 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	private NfcTagDeletedReceiver nfcTagDeletedReceiver;
 	private NfcTagRenamedReceiver nfcTagRenamedReceiver;
 	private NfcTagCopiedReceiver nfcTagCopiedReceiver;
+	private NfcListTouchActionUpReceiver nfcListTouchActionUpReceiver;
 
 	private NfcTagsListInitReceiver nfcTagsListInitReceiver;
 
@@ -164,6 +161,8 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			Log.e(TAG, e.getMessage());
 		}
 
+		((DynamicListView) getListView()).setDataList(nfcTagDataList);
+
 		adapter = new NfcTagAdapter(getActivity(), R.layout.fragment_nfctag_nfctaglist_item,
 				R.id.fragment_nfctag_item_title_text_view, nfcTagDataList, false);
 
@@ -180,13 +179,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		menu.findItem(R.id.backpack).setVisible(false);
 		menu.findItem(R.id.cut).setVisible(false);
 		menu.findItem(R.id.show_details).setVisible(true);
-		/*
-		menu.findItem(R.id.settings).setVisible(true);
-		menu.findItem(R.id.context_menu_move_up).setVisible(true);
-		menu.findItem(R.id.context_menu_move_down).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
-		*/
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -195,12 +187,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable(NfcTagController.BUNDLE_ARGUMENTS_SELECTED_NFCTAG, selectedNfcTag);
 		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		initClickListener();
 	}
 
 	@Override
@@ -231,6 +217,10 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			nfcTagsListInitReceiver = new NfcTagsListInitReceiver();
 		}
 
+		if (nfcListTouchActionUpReceiver == null) {
+			nfcListTouchActionUpReceiver = new NfcListTouchActionUpReceiver();
+		}
+
 		IntentFilter intentFilterRenameNfcTag = new IntentFilter(ScriptActivity.ACTION_NFCTAG_RENAMED);
 		getActivity().registerReceiver(nfcTagRenamedReceiver, intentFilterRenameNfcTag);
 
@@ -242,6 +232,9 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 		IntentFilter intentFilterNfcTagsListInit = new IntentFilter(ScriptActivity.ACTION_NFCTAGS_LIST_INIT);
 		getActivity().registerReceiver(nfcTagsListInitReceiver, intentFilterNfcTagsListInit);
+
+		IntentFilter intentFilterNfcTagsListActionUp = new IntentFilter(ScriptActivity.ACTION_NFC_TOUCH_ACTION_UP);
+		getActivity().registerReceiver(nfcListTouchActionUpReceiver, intentFilterNfcTagsListActionUp);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -301,6 +294,10 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 		if (nfcTagsListInitReceiver != null) {
 			getActivity().unregisterReceiver(nfcTagsListInitReceiver);
+		}
+
+		if (nfcListTouchActionUpReceiver != null) {
+			getActivity().unregisterReceiver(nfcListTouchActionUpReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -420,76 +417,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 	}
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, view, menuInfo);
-
-		selectedNfcTag = adapter.getItem(selectedNfcTagPosition);
-		menu.setHeaderTitle(selectedNfcTag.getNfcTagName());
-		adapter.addCheckedItem(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-
-		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(true);
-		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
-		menu.findItem(R.id.context_menu_backpack).setVisible(false);
-
-		menu.findItem(R.id.context_menu_move_up).setVisible(true);
-		menu.findItem(R.id.context_menu_move_down).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
-
-		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedNfcTagPosition != nfcTagDataList.size() - 1);
-		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedNfcTagPosition != nfcTagDataList.size() - 1);
-
-		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedNfcTagPosition != 0);
-		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedNfcTagPosition != 0);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-
-			case R.id.context_menu_backpack:
-				break;
-
-			case R.id.context_menu_copy:
-				NfcTagData newNfcTagData = NfcTagController.getInstance().copyNfcTag(selectedNfcTag, nfcTagDataList,
-						adapter);
-				updateNfcTagAdapter(newNfcTagData);
-				break;
-
-			case R.id.context_menu_cut:
-				break;
-
-			case R.id.context_menu_insert_below:
-				break;
-
-			case R.id.context_menu_move:
-				break;
-
-			case R.id.context_menu_rename:
-				showRenameDialog();
-				break;
-
-			case R.id.context_menu_delete:
-				showConfirmDeleteDialog();
-				break;
-
-			case R.id.context_menu_move_down:
-				moveTagDataDown();
-				break;
-			case R.id.context_menu_move_up:
-				moveTagDataUp();
-				break;
-			case R.id.context_menu_move_to_bottom:
-				moveTagDataToBottom();
-				break;
-			case R.id.context_menu_move_to_top:
-				moveTagDataToTop();
-		}
-		return super.onContextItemSelected(item);
-	}
-
 	private void updateNfcTagAdapter(NfcTagData newNfcTagData) {
 
 		if (nfcTagDataListChangedAfterNewListener != null) {
@@ -531,30 +458,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	protected void showDeleteDialog() {
 		DeleteNfcTagDialog deleteNfcTagDialog = DeleteNfcTagDialog.newInstance(selectedNfcTagPosition);
 		deleteNfcTagDialog.show(getFragmentManager(), DeleteNfcTagDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void moveTagDataDown() {
-		Collections.swap(nfcTagDataList, selectedNfcTagPosition + 1, selectedNfcTagPosition);
-		adapter.notifyDataSetChanged();
-	}
-
-	private void moveTagDataUp() {
-		Collections.swap(nfcTagDataList, selectedNfcTagPosition - 1, selectedNfcTagPosition);
-		adapter.notifyDataSetChanged();
-	}
-
-	private void moveTagDataToBottom() {
-		for (int i = selectedNfcTagPosition; i < nfcTagDataList.size() - 1; i++) {
-			Collections.swap(nfcTagDataList, i, i + 1);
-		}
-		adapter.notifyDataSetChanged();
-	}
-
-	private void moveTagDataToTop() {
-		for (int i = selectedNfcTagPosition; i > 0; i--) {
-			Collections.swap(nfcTagDataList, i, i - 1);
-		}
-		adapter.notifyDataSetChanged();
 	}
 
 	private class NfcTagRenamedReceiver extends BroadcastReceiver {
@@ -707,16 +610,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 	};
 
-	private void initClickListener() {
-		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				selectedNfcTagPosition = position;
-				return false;
-			}
-		});
-	}
-
 	private void showConfirmDeleteDialog() {
 		int titleId = R.string.dialog_confirm_delete_nfctag_title;
 		if (adapter.getAmountOfCheckedItems() == 1) {
@@ -847,6 +740,15 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_NFCTAGS_LIST_INIT)) {
 				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	private class NfcListTouchActionUpReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_NFC_TOUCH_ACTION_UP)) {
+				((DynamicListView) getListView()).notifyListItemTouchActionUp();
 			}
 		}
 	}

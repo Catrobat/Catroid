@@ -28,10 +28,6 @@
   <string name="cancel_button">キャンセル</string>
   <string name="rename">名前の変更</string>
   <string name="delete">削除</string>
-  <string name="menu_item_move_down">下に移動</string>
-  <string name="menu_item_move_up">上に移動</string>
-  <string name="menu_item_move_to_top">最上部に移動</string>
-  <string name="menu_item_move_to_bottom">最下部に移動</string>
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
   <string name="copy">コピー</string>
