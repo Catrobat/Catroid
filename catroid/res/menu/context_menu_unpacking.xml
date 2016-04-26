@@ -25,7 +25,8 @@
 
 	<item
         android:id="@+id/context_menu_unpacking_keep"
-        android:title="@string/unpack_keep" />
+        android:title="@string/unpack_keep"
+        android:visible="false"/>
 
     <item
         android:id="@+id/context_menu_unpacking"

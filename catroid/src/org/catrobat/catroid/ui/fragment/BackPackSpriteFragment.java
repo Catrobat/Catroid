@@ -183,7 +183,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedSprites().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(true);
+			menu.findItem(R.id.unpacking_keep).setVisible(false);
 		}
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
@@ -208,7 +208,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 				checkForBackgroundUnpacking(selectedSpriteBackPack, false, false, false);
 				break;
 			case R.id.context_menu_unpacking:
-				checkForBackgroundUnpacking(selectedSpriteBackPack, true, false, false);
+				checkForBackgroundUnpacking(selectedSpriteBackPack, false, false, false);
 				break;
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
