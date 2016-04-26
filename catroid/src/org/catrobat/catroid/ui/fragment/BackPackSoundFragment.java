@@ -198,7 +198,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedSounds().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(true);
+			menu.findItem(R.id.unpacking_keep).setVisible(false);
 		}
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
@@ -227,7 +227,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				contextMenuUnpacking(false);
 				break;
 			case R.id.context_menu_unpacking:
-				contextMenuUnpacking(true);
+				contextMenuUnpacking(false);
 				break;
 			case R.id.context_menu_delete:
 				deleteSounds();

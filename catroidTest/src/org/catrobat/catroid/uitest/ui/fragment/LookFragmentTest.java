@@ -44,6 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -117,7 +118,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private ProjectManager projectManager;
 
 	private String unpack;
-	private String unpackAndKeep;
 	private String backpack;
 	private String backpackAdd;
 	private String backpackTitle;
@@ -187,7 +187,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
 		unpack = solo.getString(R.string.unpack);
-		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
 		backpackAdd = solo.getString(R.string.backpack_add);
 		backpackTitle = solo.getString(R.string.backpack_title);
@@ -277,6 +276,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
 
 		assertTrue("BackPack title didn't show up",
 				solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
@@ -288,7 +289,13 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertNotNull("Could not get Adapter", adapter);
 		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+
 		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForFragmentByTag(LookFragment.TAG);
+		solo.sleep(200);
 		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
@@ -309,27 +316,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
-	}
-
-	public void testBackPackLookSimpleUnpackingAndUnpackingAndKeepContextMenu() {
-		LookAdapter adapter = getLookAdapter();
-		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
-		solo.sleep(TIME_TO_WAIT_BACKPACK);
-
-		clickOnContextMenuItem(firstTestLookNamePacked, unpackAndKeep);
-		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
-		deleteLook(firstTestLookNamePackedAndUnpacked);
-		solo.sleep(200);
-		UiTestUtils.openBackPack(solo, getActivity());
-
-		assertTrue("Look wasn't kept in backpack!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
-		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		assertFalse("Backpack isn't empty!", solo.searchText(unpack));
 	}
 
 	public void testBackPackLookSimpleUnpackingAndDelete() {
@@ -402,10 +388,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertNotNull("Could not get Adapter", adapter);
 		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
+		solo.sleep(200);
 		solo.goBack();
+		solo.sleep(200);
 		solo.goBack();
+		solo.sleep(200);
+
+		solo.waitForText(SECOND_SPRITE_NAME, 1, 1000);
 		solo.clickOnText(SECOND_SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnText(solo.getString(R.string.look));
@@ -566,7 +559,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
 
-		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -577,19 +570,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.deleteAllItems(solo, getActivity());
 		assertFalse("Look wasn't deleted!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
 		assertFalse("Look wasn't deleted!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
-
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
-		UiTestUtils.clickOnText(solo, selectAll);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-		solo.waitForActivity(ScriptActivity.class);
-
-		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
-		assertTrue("Look wasn't unpacked!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
-
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		assertFalse("Backpack items were not cleared!", solo.waitForText(unpack, 1, 1000));
 	}
 
 	public void testBackPackDeleteActionModeCheckingAndTitle() {
@@ -739,6 +719,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForFragmentByTag(LookFragment.TAG);
 
 		UiTestUtils.openBackPackActionMode(solo, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
@@ -749,8 +730,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogMultiple, 0,
 				TIME_TO_WAIT));
 		solo.clickOnButton(solo.getString(R.string.yes));
-		solo.sleep(200);
+		solo.waitForDialogToClose();
 
+		solo.waitForActivity(BackPackActivity.class.getSimpleName());
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+		solo.sleep(200);
 		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
 		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 		assertTrue("Look wasn't backpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
@@ -2092,11 +2076,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
-		solo.waitForDialogToOpen();
-		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
-				.nothing_to_unpack)));
-
 		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
@@ -2206,13 +2185,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	private void clickOnContextMenuItem(String lookName, String menuItemName) {
-		int match = 1;
-		if (menuItemName.equals(unpack)) {
-			match = 2;
-		}
 		solo.clickLongOnText(lookName);
 		solo.waitForText(menuItemName);
-		solo.clickOnText(menuItemName, match);
+		solo.clickOnText(menuItemName);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
 	}
 
 	private String getLookName(int lookIndex) {
