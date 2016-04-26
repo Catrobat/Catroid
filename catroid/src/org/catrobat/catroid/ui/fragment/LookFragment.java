@@ -382,6 +382,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			return;
 		}
 
+		if (BackPackListManager.getInstance().isBackpackEmpty()) {
+			BackPackListManager.getInstance().loadBackpack();
+		}
+
 		if (lookRenamedReceiver == null) {
 			lookRenamedReceiver = new LookRenamedReceiver();
 		}

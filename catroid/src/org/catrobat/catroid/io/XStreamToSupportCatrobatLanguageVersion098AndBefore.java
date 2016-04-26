@@ -176,7 +176,7 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 			return;
 		}
 
-		brickInfoMap = new HashMap<String, BrickInfo>();
+		brickInfoMap = new HashMap<>();
 
 		BrickInfo brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
@@ -543,7 +543,8 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		if (scriptInfoMap != null) {
 			return;
 		}
-		scriptInfoMap = new HashMap<String, String>();
+
+		scriptInfoMap = new HashMap<>();
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
@@ -921,7 +922,7 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 
 		void addBrickFieldToMap(String oldFiledName, BrickField brickField) {
 			if (brickFieldMap == null) {
-				brickFieldMap = new HashMap<String, BrickField>();
+				brickFieldMap = new HashMap<>();
 			}
 			brickFieldMap.put(oldFiledName, brickField);
 		}

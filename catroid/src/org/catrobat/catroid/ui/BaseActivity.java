@@ -35,7 +35,6 @@ import android.widget.AdapterView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -86,12 +85,10 @@ public class BaseActivity extends Activity {
 				if (returnToProjectsList) {
 					Intent intent = new Intent(this, MyProjectsActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.getInstance().setBackPackFlag(true);
 					startActivity(intent);
 				} else {
 					Intent intent = new Intent(this, MainMenuActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.getInstance().setBackPackFlag(true);
 					startActivity(intent);
 				}
 				break;

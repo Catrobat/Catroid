@@ -454,6 +454,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
+		BackPackListManager.getInstance().saveBackpack();
+
 		if (scriptGroupDeletedReceiver != null) {
 			getActivity().unregisterReceiver(scriptGroupDeletedReceiver);
 		}

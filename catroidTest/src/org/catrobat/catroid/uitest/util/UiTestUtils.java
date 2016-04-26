@@ -172,6 +172,10 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
+import static org.catrobat.catroid.utils.Utils.buildPath;
+
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
@@ -2439,13 +2443,21 @@ public final class UiTestUtils {
 		solo.sleep(300);
 	}
 
-	public static void clearBackPack() {
+	public static void clearBackPack(boolean deleteBackPackDirectories) {
 		BackPackListManager.getInstance().clearBackPackLooks();
-		StorageHandler.getInstance().clearBackPackLookDirectory();
 		BackPackListManager.getInstance().clearBackPackSounds();
-		StorageHandler.getInstance().clearBackPackSoundDirectory();
 		BackPackListManager.getInstance().clearBackPackScripts();
 		BackPackListManager.getInstance().clearBackPackSprites();
+		if (deleteBackPackDirectories) {
+			clearBackPackJson();
+			StorageHandler.getInstance().clearBackPackLookDirectory();
+			StorageHandler.getInstance().clearBackPackSoundDirectory();
+		}
+	}
+
+	public static void clearBackPackJson() {
+		File backPackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, StorageHandler.BACKPACK_FILENAME));
+		backPackFile.delete();
 	}
 
 	public static void prepareForSpecialBricksTest(Context instrumentationContext, int imageResource,

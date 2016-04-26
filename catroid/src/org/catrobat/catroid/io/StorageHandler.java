@@ -30,10 +30,15 @@ import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -138,9 +143,11 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserBrickParameter;
+import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -162,11 +169,13 @@ import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
@@ -198,8 +207,10 @@ public final class StorageHandler {
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
+	public static final String BACKPACK_FILENAME = "backpack.json";
 
 	private XStreamToSupportCatrobatLanguageVersion098AndBefore xstream;
+	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
 
@@ -217,18 +228,8 @@ public final class StorageHandler {
 		}
 	}
 	private StorageHandler() throws IOException {
-		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
-		xstream.processAnnotations(Project.class);
-		xstream.processAnnotations(XmlHeader.class);
-		xstream.processAnnotations(DataContainer.class);
-		xstream.processAnnotations(Setting.class);
-		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
-		xstream.registerConverter(new XStreamUserVariableConverter());
-		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
-		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
-		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
-
-		setXstreamAliases();
+		prepareProgramXstream();
+		prepareBackpackGson();
 
 		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
@@ -238,6 +239,31 @@ public final class StorageHandler {
 
 	public static StorageHandler getInstance() {
 		return INSTANCE;
+	}
+
+	private void prepareProgramXstream() {
+		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream.processAnnotations(Project.class);
+		xstream.processAnnotations(Sprite.class);
+		xstream.processAnnotations(XmlHeader.class);
+		xstream.processAnnotations(DataContainer.class);
+		xstream.processAnnotations(Setting.class);
+		xstream.processAnnotations(UserVariableBrick.class);
+		xstream.processAnnotations(UserListBrick.class);
+		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
+		xstream.registerConverter(new XStreamUserVariableConverter());
+		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+
+		setProgramXstreamAliases();
+	}
+
+	private void prepareBackpackGson() {
+		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
+		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackBrickSerializerAndDeserializer());
+		backpackGson = gsonBuilder.create();
 	}
 
 	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
@@ -261,7 +287,7 @@ public final class StorageHandler {
 		}
 	}
 
-	private void setXstreamAliases() {
+	private void setProgramXstreamAliases() {
 		xstream.alias("look", LookData.class);
 		xstream.alias("droneLook", DroneVideoLookData.class);
 		xstream.alias("sound", SoundInfo.class);
@@ -402,6 +428,11 @@ public final class StorageHandler {
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
+		try {
+			createBackPackFileStructure();
+		} catch (IOException e) {
+			Log.e(TAG, "Creating backpack file structure failed");
+		}
 	}
 
 	public Project loadProject(String projectName) {
@@ -424,8 +455,7 @@ public final class StorageHandler {
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 			fileInputStream = new FileInputStream(projectCodeFile);
-			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
-			return project;
+			return (Project) xstream.getProjectFromXML(projectCodeFile);
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "Could not load project!");
 			deleteDirectory(file);
@@ -501,7 +531,7 @@ public final class StorageHandler {
 			}
 
 			File projectDirectory = new File(buildProjectPath(project.getName()));
-			createProjectDataStructure(projectDirectory);
+			createProgramFileStructure(projectDirectory);
 
 			writer = new BufferedWriter(new FileWriter(tmpCodeFile), Constants.BUFFER_8K);
 			writer.write(projectXml);
@@ -541,6 +571,56 @@ public final class StorageHandler {
 		}
 	}
 
+	public boolean saveBackpack(Backpack backpack) {
+		Log.d(TAG, "Saving backpack json");
+		FileWriter writer = null;
+		String json = backpackGson.toJson(backpack);
+		Log.d(TAG, json);
+
+		try {
+			File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			if (!backpackFile.exists()) {
+				backpackFile.createNewFile();
+			}
+			writer = new FileWriter(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			writer.write(json);
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Could not write backpack file", e);
+			return false;
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException ioException) {
+					Log.e(TAG, "Failed closing the buffered writer", ioException);
+				}
+			}
+		}
+	}
+
+	public Backpack loadBackpack() {
+		Log.d(TAG, "Loading backpack json");
+		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		if (!backpackFile.exists()) {
+			Log.d(TAG, "Backpack file does not exist!");
+			return null;
+		}
+
+		try {
+			BufferedReader bufferedBackpackReader = new BufferedReader(new FileReader(backpackFile));
+			Backpack backpack = backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
+			return backpack;
+		} catch (FileNotFoundException e) {
+			Log.d(TAG, "Could not find backpack file!");
+			return new Backpack();
+		} catch (JsonSyntaxException | JsonIOException jsonException) {
+			Log.d(TAG, "Could not load backpack file! File will be deleted!");
+			backpackFile.delete();
+			return new Backpack();
+		}
+	}
+
 	public boolean codeFileSanityCheck(String projectName) {
 		loadSaveLock.lock();
 
@@ -577,7 +657,7 @@ public final class StorageHandler {
 		return true;
 	}
 
-	private void createProjectDataStructure(File projectDirectory) throws IOException {
+	private void createProgramFileStructure(File projectDirectory) throws IOException {
 		Log.d(TAG, "create Project Data structure");
 		createCatroidRoot();
 		projectDirectory.mkdir();
@@ -593,24 +673,17 @@ public final class StorageHandler {
 
 		noMediaFile = new File(soundDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
+	}
 
+	private void createBackPackFileStructure() throws IOException {
 		File backPackDirectory = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
 		backPackDirectory.mkdir();
-
-		noMediaFile = new File(backPackDirectory, NO_MEDIA_FILE);
-		noMediaFile.createNewFile();
 
 		backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
 		backPackSoundDirectory.mkdir();
 
-		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
-		noMediaFile.createNewFile();
-
 		backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
 		backPackImageDirectory.mkdir();
-
-		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
-		noMediaFile.createNewFile();
 	}
 
 	public void clearBackPackSoundDirectory() {

@@ -178,6 +178,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 
+		UiTestUtils.clearBackPackJson();
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 
 		Resources resources = getActivity().getBaseContext().getResources();

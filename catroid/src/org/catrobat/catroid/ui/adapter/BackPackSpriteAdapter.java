@@ -92,7 +92,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		handleHolderViews(position, holder);
 
 		if (selectMode != ListView.CHOICE_MODE_NONE) {
-			if (disableBackgroundSprites && getItem(position).isBackgroundSprite) {
+			if (disableBackgroundSprites && getItem(position).isBackgroundObject) {
 				holder.checkbox.setVisibility(View.INVISIBLE);
 				enableHolderViews(holder, false);
 				spriteView.setAlpha((float) 0.25);
@@ -173,7 +173,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 	public int getCountWithBackgroundSprites() {
 		int numberOfBackgroundSprites = 0;
 		for (int position = 0; position < getCount(); position++) {
-			if (getItem(position).isBackgroundSprite) {
+			if (getItem(position).isBackgroundObject) {
 				numberOfBackgroundSprites++;
 			}
 		}

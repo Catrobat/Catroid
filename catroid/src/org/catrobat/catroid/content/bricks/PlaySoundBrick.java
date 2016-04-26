@@ -352,7 +352,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
 		SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackHiddenSound(this.getSound());
-		this.setSoundInfo(backPackedSoundInfo);
+		setSoundInfo(backPackedSoundInfo);
 		if (sprite != null && !sprite.getSoundList().contains(backPackedSoundInfo)) {
 			sprite.getSoundList().add(backPackedSoundInfo);
 		}

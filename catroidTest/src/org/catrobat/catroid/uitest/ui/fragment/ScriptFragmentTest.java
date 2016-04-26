@@ -123,7 +123,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_script_group_title);
 
-		UiTestUtils.clearBackPack();
+		UiTestUtils.clearBackPack(true);
 	}
 
 	public void testCopyScript() {

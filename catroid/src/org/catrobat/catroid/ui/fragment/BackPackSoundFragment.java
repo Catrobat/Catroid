@@ -276,6 +276,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	public void onPause() {
 		super.onPause();
 
+		BackPackListManager.getInstance().saveBackpack();
 		SoundController.getInstance().stopSound(mediaPlayer, BackPackListManager.getInstance().getBackPackedSounds());
 		adapter.notifyDataSetChanged();
 

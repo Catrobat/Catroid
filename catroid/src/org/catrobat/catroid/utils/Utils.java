@@ -452,7 +452,7 @@ public final class Utils {
 	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
 		String newName;
 		List<Sprite> spriteList;
-		if (!sprite.isBackpackSprite) {
+		if (!sprite.isBackpackObject) {
 			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
 		} else {
 			spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();

@@ -271,6 +271,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			return;
 		}
 
+		if (BackPackListManager.getInstance().isBackpackEmpty()) {
+			BackPackListManager.getInstance().loadBackpack();
+		}
+
 		if (brickListChangedReceiver == null) {
 			brickListChangedReceiver = new BrickListChangedReceiver();
 		}
@@ -282,7 +286,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 		initListeners();
-		adapter.resetAlphas();
+		if (adapter != null) {
+			adapter.resetAlphas();
+		}
 		handleInsertFromBackpack();
 	}
 
