@@ -164,12 +164,15 @@ public class Project implements Serializable {
 	public int getRequiredResources() {
 		int resources = Brick.NO_RESOURCES;
 		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
+		ActionFactory actionFactory = new ActionFactory();
 
 		for (Sprite sprite : spriteList) {
 			int tempResources = sprite.getRequiredResources();
 			if ((tempResources & Brick.PHYSICS) > 0) {
 				sprite.setActionFactory(physicsActionFactory);
 				tempResources &= ~Brick.PHYSICS;
+			} else {
+				sprite.setActionFactory(actionFactory);
 			}
 			resources |= tempResources;
 		}
