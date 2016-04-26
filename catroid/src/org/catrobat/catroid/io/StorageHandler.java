@@ -758,7 +758,7 @@ public final class StorageHandler {
 			Log.e(TAG, "file " + inputFilePath + " doesn`t exist or can`t be read");
 			return null;
 		}
-		String inputFileChecksum = Utils.md5Checksum(inputFile).toUpperCase();
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
 		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
 		String outputFilePath;
