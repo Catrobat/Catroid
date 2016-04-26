@@ -219,3 +219,22 @@ android {
         htmlOutput file("build/reports/lint.html")
     }
 }
+
+task copyAndroidNatives() {
+    file("catroid/jniLibs/armeabi/").mkdirs();
+    file("catroid/jniLibs/armeabi-v7a/").mkdirs();
+    file("catroid/jniLibs/x86/").mkdirs();
+    configurations.natives.files.each { jar ->
+        def outputDir = null
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
+        if (outputDir != null) {
+            copy {
+                from zipTree(jar)
+                into outputDir
+                include "*.so"
+            }
+        }
+    }
+}
