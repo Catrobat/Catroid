@@ -193,9 +193,9 @@ public class CategoryBricksFactory {
 	private List<Brick> setupEventCategoryList(Context context) {
 		List<Brick> eventBrickList = new ArrayList<Brick>();
 		final String broadcastMessage = MessageContainer.getFirst(context);
-		eventBrickList.add(new WhenBrick(null));
 		eventBrickList.add(new WhenStartedBrick(null));
 		eventBrickList.add(new CollisionReceiverBrick("object"));
+		eventBrickList.add(new WhenBrick(null));
 		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
