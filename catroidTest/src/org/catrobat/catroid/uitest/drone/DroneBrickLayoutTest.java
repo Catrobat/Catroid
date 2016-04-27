@@ -151,13 +151,13 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
 
-		assertTrue("Wrong Project was created! Should be the Drone Project!", solo.searchText(solo.getString(R.string
-				.default_drone_project_name)));
+		assertTrue("Wrong Project was created! Should be my first program", solo.searchText(solo.getString(R.string
+				.default_project_name)));
 
 		SettingsActivity.enableARDroneBricks(getActivity(), false);
 
-		solo.waitForText(solo.getString(R.string.default_drone_project_name));
-		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));
+		solo.waitForText(solo.getString(R.string.default_project_name));
+		solo.clickLongOnText(solo.getString(R.string.default_project_name));
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
