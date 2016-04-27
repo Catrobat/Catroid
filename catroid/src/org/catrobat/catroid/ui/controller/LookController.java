@@ -316,6 +316,7 @@ public final class LookController {
 			} else {
 				imageName = oldFile.getName();
 			}
+			imageName = Utils.getUniqueLookName(imageName, lookDataList);
 			String imageFileName = imageFile.getName();
 			// if pixmap cannot be created, image would throw an Exception in stage
 			// so has to be loaded again with other Config
