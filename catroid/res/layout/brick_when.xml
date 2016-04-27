@@ -51,7 +51,7 @@
         </TextView >
 
         <!--
-    inactive - to be revived when there are more actions for the spinner 
+    inactive - to be revived when there are more actions for the spinner
 	<Spinner
 		android:id="@+id/brick_when_spinner"
 		android:layout_height="wrap_content"

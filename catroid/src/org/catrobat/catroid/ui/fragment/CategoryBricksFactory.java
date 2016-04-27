@@ -192,8 +192,10 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupEventCategoryList(Context context) {
 		List<Brick> eventBrickList = new ArrayList<Brick>();
-		eventBrickList.add(new WhenBrick(null));
 		final String broadcastMessage = MessageContainer.getFirst(context);
+		eventBrickList.add(new WhenBrick(null));
+		eventBrickList.add(new WhenStartedBrick(null));
+		eventBrickList.add(new CollisionReceiverBrick("object"));
 		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
@@ -202,9 +204,7 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
-		controlBrickList.add(new WhenStartedBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
-		controlBrickList.add(new CollisionReceiverBrick("object"));
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
 		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
