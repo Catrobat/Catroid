@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.percent.PercentRelativeLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -86,7 +87,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	private Context context;
 	private FormulaEditorEditText formulaEditorEditText;
-	private LinearLayout formulaEditorKeyboard;
+	private PercentRelativeLayout formulaEditorKeyboard;
 	private ImageButton formulaEditorFieldDeleteButton;
 	private LinearLayout formulaEditorBrick;
 	private View brickView;
@@ -278,7 +279,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		formulaEditorEditText = (FormulaEditorEditText) fragmentView.findViewById(R.id.formula_editor_edit_field);
 
-		formulaEditorKeyboard = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
+		formulaEditorKeyboard = (PercentRelativeLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
 		formulaEditorEditText.init(this);
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -393,11 +394,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		};
 
 		for (int index = 0; index < formulaEditorKeyboard.getChildCount(); index++) {
-			LinearLayout child = (LinearLayout) formulaEditorKeyboard.getChildAt(index);
-			for (int nestedIndex = 0; nestedIndex < child.getChildCount(); nestedIndex++) {
-				View view = child.getChildAt(nestedIndex);
-				view.setOnTouchListener(touchListener);
-			}
+			formulaEditorKeyboard.getChildAt(index).setOnTouchListener(touchListener);
 		}
 		formulaEditorFieldDeleteButton.setOnTouchListener(touchListener);
 
