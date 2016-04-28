@@ -37,7 +37,6 @@ repositories {
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-//apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply from: 'gradle/adb_tasks.gradle'
