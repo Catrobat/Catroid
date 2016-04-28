@@ -730,8 +730,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertNotNull("Could not get Adapter", adapter);
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
-		assertTrue("BackPack title didn't show up", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("BackPack title didn't show up", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
 		soundInfoList = backPackListManager.getBackPackedSounds();
 		SoundInfo soundInfo = soundInfoList.get(0);
 		solo.clickOnView(playAndStopImageButton);
@@ -752,8 +755,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
-		assertTrue("BackPack title didn't show up",
-				solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
+		assertTrue("BackPack title didn't show up", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
 		assertTrue("Sound wasn't backpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
 		assertTrue("Sound wasn't backpacked!", solo.waitForText(secondTestSoundNamePacked, 0, TIME_TO_WAIT));
 	}
@@ -772,11 +774,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
 		deleteSound(firstTestSoundNamePackedAndUnpacked);
-		solo.sleep(200);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.openBackPack(solo, getActivity());
 		solo.waitForActivity(BackPackActivity.class);
 		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
-		solo.sleep(TIME_TO_WAIT);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("Sound wasn't kept in backpack!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT_BACKPACK));
 	}

@@ -193,7 +193,7 @@ public final class BackPackScriptController {
 			} else if (brickOfScript instanceof PointToBrick) {
 				PointToBrick brick = (PointToBrick) brickOfScript;
 				Sprite unpackedPointToSprite = BackPackSpriteController.getInstance().unpack(brick.getPointedObject(),
-						deleteUnpackedItems, true, true);
+						deleteUnpackedItems, true, true, false);
 				brick.setPointedObject(unpackedPointToSprite);
 			}
 		}

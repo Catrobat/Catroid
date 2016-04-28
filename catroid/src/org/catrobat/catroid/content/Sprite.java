@@ -62,8 +62,6 @@ public class Sprite implements Serializable, Cloneable {
 
 	@XStreamAsAttribute
 	private String name;
-	@XStreamOmitField
-	public boolean isBackgroundObject = false;
 
 	private List<Script> scriptList = new ArrayList<>();
 	private List<LookData> lookList = new ArrayList<>();
