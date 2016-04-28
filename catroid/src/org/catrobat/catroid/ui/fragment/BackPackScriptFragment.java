@@ -124,8 +124,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(false);
 		}
+		menu.findItem(R.id.unpacking_keep).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}

@@ -28,18 +28,6 @@
         android:showAsAction="never"
         android:visible="false"
         android:title="@string/backpack" />
-
-     <item
-         android:id="@+id/unpacking"
-         android:showAsAction="never"
-         android:visible="false"
-         android:title="@string/unpack" />
-
-    <item
-        android:id="@+id/unpacking_keep"
-        android:showAsAction="never"
-        android:visible="false"
-        android:title="@string/unpack_keep" />
     <item
         android:id="@+id/delete"
         android:showAsAction="never"

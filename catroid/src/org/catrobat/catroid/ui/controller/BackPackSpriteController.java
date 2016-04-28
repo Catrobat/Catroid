@@ -144,7 +144,6 @@ public final class BackPackSpriteController {
 		String newSpriteName = Utils.getUniqueSpriteName(spriteToEdit);
 		backPackSprite.setName(newSpriteName);
 		backPackSprite.isBackpackObject = true;
-		backPackSprite.isBackgroundObject = ProjectManager.getInstance().getCurrentProject().isBackgroundObject(spriteToEdit);
 
 		for (LookData lookData : spriteToEdit.getLookDataList()) {
 			if (!lookDataIsUsedInScript(lookData, ProjectManager.getInstance().getCurrentSprite())) {
@@ -165,7 +164,8 @@ public final class BackPackSpriteController {
 		return backPackSprite;
 	}
 
-	public Sprite unpack(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite, boolean fromHiddenBackPack) {
+	public Sprite unpack(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite, boolean
+			fromHiddenBackPack, boolean asBackground) {
 
 		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentProject().containsSprite(selectedSprite)) {
 			return selectedSprite;
@@ -192,7 +192,7 @@ public final class BackPackSpriteController {
 
 		BackPackScriptController.getInstance().unpack(selectedSprite.getName(), delete, false, null, true);
 
-		if (selectedSprite.isBackgroundObject) {
+		if (asBackground) {
 			ProjectManager.getInstance().getCurrentProject().replaceBackgroundSprite(unpackedSprite);
 		} else {
 			ProjectManager.getInstance().addSprite(unpackedSprite);

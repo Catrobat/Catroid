@@ -192,8 +192,8 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedLooks().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(false);
 		}
+		menu.findItem(R.id.unpacking_keep).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}

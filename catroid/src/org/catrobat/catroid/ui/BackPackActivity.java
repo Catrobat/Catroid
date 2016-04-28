@@ -141,6 +141,10 @@ public class BackPackActivity extends BaseActivity {
 				currentFragment.startUnPackingActionMode(false);
 				break;
 
+			case R.id.unpacking_object:
+				currentFragment.startUnPackingActionMode(false);
+				break;
+
 			case R.id.delete:
 				currentFragment.startDeleteActionMode();
 				break;
