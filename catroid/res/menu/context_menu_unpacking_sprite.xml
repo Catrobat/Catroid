@@ -23,13 +23,12 @@
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-        android:id="@+id/context_menu_unpacking_keep"
-        android:title="@string/unpack_keep"
-        android:visible="false"/>
+        android:id="@+id/context_menu_unpacking_background"
+        android:title="@string/unpack_bg" />
 
     <item
-        android:id="@+id/context_menu_unpacking"
-        android:title="@string/unpack" />
+        android:id="@+id/context_menu_unpacking_object"
+        android:title="@string/unpack_object" />
 
     <item
         android:id="@+id/context_menu_delete"

@@ -90,7 +90,6 @@ public class Project implements Serializable {
 			return;
 		}
 		Sprite background = new Sprite(context.getString(R.string.background));
-		background.isBackgroundObject = true;
 		background.look.setZIndex(0);
 		addSprite(background);
 	}
