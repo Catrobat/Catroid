@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.utils.TouchUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -397,13 +398,18 @@ public class FormulaElement implements Serializable {
 			case RASPIDIGITAL:
 				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
 				int pin = doubleValueOfLeftChild.intValue();
-				// TODO check if pin is
 				try {
 					return connection.getPin(pin) ? 1d : 0d;
 				} catch (Exception e) {
 					Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
 				}
 				break;
+			case MULTI_FINGER_TOUCHED:
+				return TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()) ? 1d : 0d;
+			case MULTI_FINGER_X:
+				return Double.valueOf(TouchUtil.getX(doubleValueOfLeftChild.intValue()));
+			case MULTI_FINGER_Y:
+				return Double.valueOf(TouchUtil.getY(doubleValueOfLeftChild.intValue()));
 			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
