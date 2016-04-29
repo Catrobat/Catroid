@@ -179,6 +179,8 @@
     <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
+    <string name="backpack_replace_object">The object "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 
@@ -196,8 +198,7 @@
     <string name="size">Size:</string>
     <string name="script_group">Script Group</string>
     <string name="script_groups">Script Groups</string>
-    <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+    <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
     <!--  -->
 
 
@@ -241,6 +242,8 @@
     <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
     <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
     <string name="lookname">Look name:</string>
+    <string name="backpack_replace_look">The look "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 
@@ -261,6 +264,8 @@
     <string name="sound_name">Sound name:</string>
     <string name="new_sound_name">Sound name:</string>
     <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+    <string name="backpack_replace_sound">The sound "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
 
@@ -511,6 +516,23 @@
     <string name="brick_glide_to_x">to X:</string>
     <!--  -->
 
+    <!-- Physics -->
+    <string name="default_project_name_physics">My first physics program</string>
+    <string name="brick_set_physics_object_type">physical object</string>
+    <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
+    <string name="brick_set_physics_object_type_fixed">Fixed</string>
+    <string name="brick_set_physics_object_type_no">No</string>
+    <string name="brick_set_mass">"Set mass to "</string>
+    <string name="brick_set_mass_unit">kg</string>
+    <string name="brick_set_gravity_to">"Set gravity to "</string>
+    <string name="brick_set_gravity_unit">step/s²</string>
+    <string name="brick_set_velocity_to">"Set velocity to "</string>
+    <string name="brick_set_velocity_unit">step/s</string>
+    <string name="brick_turn_speed_unit">degrees/s</string>
+    <string name="brick_set_friction">"Set friction to "</string>
+    <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+    <string name="brick_rotate_left">"Rotate left "</string>
+    <string name="brick_rotate_right">"Rotate right "</string>
 
     <!-- Looks bricks -->
     <string name="brick_set_look">Switch to look</string>
@@ -556,6 +578,9 @@
         <item quantity="other">"seconds "</item>
     </plurals>
 
+    <string name="brick_collision_receive">When physical collision with</string>
+    <string name="collision_with_anything">anything</string>
+
     <string name="brick_broadcast_receive">When I receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
@@ -573,6 +598,7 @@
     <string name="brick_if_begin_second_part">is true then</string>
     <string name="brick_if_else">Else</string>
     <string name="brick_if_end">End If</string>
+    <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
     <string name="brick_variable_spinner_create_new_variable">New…</string>
@@ -998,6 +1024,9 @@
     <string name="formula_editor_object_size">size</string>
     <string name="formula_editor_object_rotation">direction</string>
     <string name="formula_editor_object_layer">layer</string>
+    <string name="formula_editor_object_x_velocity">x_velocity</string>
+    <string name="formula_editor_object_y_velocity">y_velocity</string>
+    <string name="formula_editor_object_angular_velocity">angular_velocity</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
     <string name="formula_editor_math">Functions</string>

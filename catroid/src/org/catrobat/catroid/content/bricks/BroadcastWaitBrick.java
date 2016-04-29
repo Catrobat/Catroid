@@ -41,7 +41,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
@@ -158,7 +157,7 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
+		sequence.addAction(sprite.getActionFactory().createBroadcastActionFromWaiter(sprite, broadcastMessage));
 		return null;
 	}
 }

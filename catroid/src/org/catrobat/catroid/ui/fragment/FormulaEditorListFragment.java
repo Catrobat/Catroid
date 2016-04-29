@@ -61,7 +61,8 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	private static final int[] OBJECT_ITEMS = {R.string.formula_editor_object_x, R.string.formula_editor_object_y,
 			R.string.formula_editor_object_transparency, R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
-			R.string.formula_editor_object_layer};
+			R.string.formula_editor_object_layer, R.string.formula_editor_object_x_velocity,
+			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity };
 
 	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
@@ -109,7 +110,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
-			R.string.formula_editor_sensor_lego_nxt_4};
+			R.string.formula_editor_sensor_lego_nxt_4 };
 
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,

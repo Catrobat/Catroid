@@ -39,7 +39,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -228,9 +227,10 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = ExtendedActions.sequence();
-		SequenceAction elseAction = ExtendedActions.sequence();
-		Action action = ExtendedActions.phiroSendSelectedSensor(sprite, sensorSpinnerPosition, ifAction, elseAction);
+		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		Action action = sprite.getActionFactory().createPhiroSendSelectedSensorAction(sprite, sensorSpinnerPosition,
+				ifAction, elseAction);
 		sequence.addAction(action);
 
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();

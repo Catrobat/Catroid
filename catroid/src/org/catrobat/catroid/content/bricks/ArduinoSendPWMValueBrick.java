@@ -36,7 +36,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -172,7 +171,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.sendPWMArduinoValue(sprite,
+		sequence.addAction(sprite.getActionFactory().createSendPWMArduinoValueAction(sprite,
 				getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER),
 				getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE)));
 		return null;

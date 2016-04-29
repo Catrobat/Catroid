@@ -24,22 +24,25 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.HideAction;
 
 public class HideActionTest extends AndroidTestCase {
 
 	public void testHide() {
 		Sprite sprite = new Sprite("new sprite");
-		assertTrue("Unexpected default visibility", sprite.look.visible);
-		HideAction action = ExtendedActions.hide(sprite);
+		assertTrue("Unexpected default visibility", sprite.look.isVisible());
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createHideAction(sprite);
 		action.act(1.0f);
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.visible);
+		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.isLookVisible());
 	}
 
 	public void testNullSprite() {
-		HideAction action = ExtendedActions.hide(null);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createHideAction(null);
 		try {
 			action.act(1.0f);
 			fail("Execution of HideBrick with null Sprite did not cause a NullPointerException to be thrown");

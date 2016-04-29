@@ -287,6 +287,10 @@ public class PreStageActivity extends BaseActivity {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
+		if (VibratorUtil.isActive()) {
+			VibratorUtil.pauseVibrator();
+		}
+
 		RaspberryPiService.getInstance().disconnect();
 	}
 

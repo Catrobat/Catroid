@@ -285,8 +285,8 @@ public final class UtilFile {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
 		}
 		outputFilename = UtilFile.encodeSpecialCharsForFileSystem(outputFilename);
-		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENTION)) {
-			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENTION;
+		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENSION)) {
+			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENSION;
 		}
 		File copiedFile = copyFromResourceIntoProject(projectName, Constants.IMAGE_DIRECTORY, outputFilename,
 				resourceId, context, false);

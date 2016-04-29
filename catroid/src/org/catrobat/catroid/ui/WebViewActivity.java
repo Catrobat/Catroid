@@ -170,7 +170,7 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
-			if (callMainMenu && urlClient.equals(url)) {
+			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
 				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
 				startActivity(intent);
 			}
@@ -265,13 +265,13 @@ public class WebViewActivity extends BaseActivity {
 
 	private String getMediaTypeFromContentDisposition(String contentDisposition) {
 		String mediaType = null;
-		for (String extension : Constants.IMAGE_EXTENTIONS) {
+		for (String extension : Constants.IMAGE_EXTENSIONS) {
 			if (getExtentionFromContentDisposition(contentDisposition).compareTo(extension) == 0) {
 				mediaType = Constants.MEDIA_TYPE_LOOK;
 			}
 		}
 
-		for (String extention : Constants.SOUND_EXTENTIONS) {
+		for (String extention : Constants.SOUND_EXTENSIONS) {
 			if (getExtentionFromContentDisposition(contentDisposition).compareTo(extention) == 0) {
 				mediaType = Constants.MEDIA_TYPE_SOUND;
 			}

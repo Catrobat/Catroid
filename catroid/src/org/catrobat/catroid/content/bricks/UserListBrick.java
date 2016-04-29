@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.Spinner;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -37,7 +39,8 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 
 	protected UserList userList;
 
-	protected transient BackPackedData backPackedData;
+	@XStreamOmitField
+	protected BackPackedData backPackedData;
 
 	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
 		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
@@ -92,7 +95,6 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 	public class BackPackedData {
 		public UserList userList;
 		public Integer userListType;
-		public Project project;
 
 		public BackPackedData() {
 		}
@@ -101,7 +103,6 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 			if (backPackedData != null) {
 				this.userList = backPackedData.userList;
 				this.userListType = backPackedData.userListType;
-				this.project = backPackedData.project;
 			}
 		}
 	}
@@ -164,7 +165,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		if (backPackedData == null) {
 			backPackedData = new BackPackedData();
 		}
-		this.backPackedData.project = currentProject;
-		this.backPackedData.userListType = type;
+		backPackedData.userList = userList;
+		backPackedData.userListType = type;
 	}
 }

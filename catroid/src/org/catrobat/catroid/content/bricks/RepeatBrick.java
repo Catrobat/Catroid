@@ -38,7 +38,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -183,9 +182,9 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction repeatSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.repeat(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT),
-				repeatSequence);
+		SequenceAction repeatSequence = (SequenceAction) sprite.getActionFactory().createSequence();
+		Action action = sprite.getActionFactory().createRepeatAction(sprite,
+				getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT), repeatSequence);
 		sequence.addAction(action);
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(repeatSequence);

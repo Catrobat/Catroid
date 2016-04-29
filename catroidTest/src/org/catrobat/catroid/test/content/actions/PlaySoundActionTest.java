@@ -25,12 +25,13 @@ package org.catrobat.catroid.test.content.actions;
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -66,7 +67,8 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
 
-		PlaySoundAction action = ExtendedActions.playSound(testSprite, soundInfo);
+		ActionFactory factory = testSprite.getActionFactory();
+		Action action = factory.createPlaySoundAction(testSprite, soundInfo);
 		action.act(1.0f);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
@@ -79,8 +81,9 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
 
-		PlaySoundAction playSoundAction1 = ExtendedActions.playSound(testSprite, soundInfo);
-		PlaySoundAction playSoundAction2 = ExtendedActions.playSound(testSprite, soundInfo);
+		ActionFactory factory = testSprite.getActionFactory();
+		Action playSoundAction1 = factory.createPlaySoundAction(testSprite, soundInfo);
+		Action playSoundAction2 = factory.createPlaySoundAction(testSprite, soundInfo);
 
 		playSoundAction1.act(1.0f);
 		playSoundAction2.act(1.0f);

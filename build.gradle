@@ -27,7 +27,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
     }
 }
 
@@ -37,7 +37,6 @@ repositories {
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-//apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply from: 'gradle/adb_tasks.gradle'
@@ -48,6 +47,9 @@ check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
 android {
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     buildTypes {
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -58,7 +60,6 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
@@ -74,7 +75,6 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
@@ -105,9 +105,14 @@ dependencies {
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.android.support:multidex:1.0.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -116,25 +121,6 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
     checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
-}
-
-task copyAndroidNatives() {
-    file("catroid/jniLibs/armeabi/").mkdirs();
-    file("catroid/jniLibs/armeabi-v7a/").mkdirs();
-    file("catroid/jniLibs/x86/").mkdirs();
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
-        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
-        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
-        if(outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
-            }
-        }
-    }
 }
 
 def getBuildNumberParameter = { ->
@@ -183,6 +169,7 @@ android {
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+        multiDexEnabled true
     }
 
     sourceSets {
@@ -232,26 +219,20 @@ android {
     }
 }
 
-if (project.hasProperty('jenkins')) {
-    project.android.dexOptions.preDexLibraries = false
-//    android.buildTypes.each { type ->
-//        if (type.name == "debug") {
-//            type.packageNameSuffix = ".jenkinsdebug"
-//            type.versionNameSuffix = "-jenkins-$type.name"
-//        }
-//    }
-} else {
-    //not a jenkins build, remove animation scale permission
-    android.applicationVariants.all { variant ->
-        println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
-        variant.outputs.each { output ->
-            output.processManifest.doLast {
-                def generatedContent = manifestOutputFile.getText()
-                generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
-                if (generatedContent.contains('SET_ANIMATION_SCALE')) {
-                    throw new RuntimeException("Error in removing animation scale permission!")
-                }
-                manifestOutputFile.write(generatedContent)
+task copyAndroidNatives() {
+    file("catroid/jniLibs/armeabi/").mkdirs();
+    file("catroid/jniLibs/armeabi-v7a/").mkdirs();
+    file("catroid/jniLibs/x86/").mkdirs();
+    configurations.natives.files.each { jar ->
+        def outputDir = null
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
+        if (outputDir != null) {
+            copy {
+                from zipTree(jar)
+                into outputDir
+                include "*.so"
             }
         }
     }

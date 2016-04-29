@@ -45,7 +45,7 @@ import java.util.Iterator;
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
-	public boolean visible = true;
+	private boolean lookVisible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -97,6 +97,14 @@ public class Look extends Image {
 		});
 	}
 
+	public boolean isLookVisible() {
+		return lookVisible;
+	}
+
+	public void setLookVisible(boolean lookVisible) {
+		this.lookVisible = lookVisible;
+	}
+
 	public static boolean actionsToRestartContains(Action action) {
 		return Look.actionsToRestart.contains(action);
 	}
@@ -110,7 +118,7 @@ public class Look extends Image {
 
 		cloneLook.alpha = this.alpha;
 		cloneLook.brightness = this.brightness;
-		cloneLook.visible = this.visible;
+		cloneLook.setLookVisible(isLookVisible());
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
@@ -121,7 +129,7 @@ public class Look extends Image {
 		if (sprite.isPaused) {
 			return true;
 		}
-		if (!visible) {
+		if (!isLookVisible()) {
 			return false;
 		}
 
@@ -151,16 +159,16 @@ public class Look extends Image {
 		checkImageChanged();
 		batch.setShader(shader);
 		if (alpha == 0.0f) {
-			setVisible(false);
+			super.setVisible(false);
 		} else {
-			setVisible(true);
+			super.setVisible(true);
 		}
 
 		if (lookData instanceof DroneVideoLookData && lookData != null) {
 			lookData.draw(batch, alpha);
 		}
 
-		if (this.visible && this.getDrawable() != null) {
+		if (isLookVisible() && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
 		}
 	}
@@ -208,8 +216,8 @@ public class Look extends Image {
 			float newX = getX() - (pixmap.getWidth() - getWidth()) / 2f;
 			float newY = getY() - (pixmap.getHeight() - getHeight()) / 2f;
 
-			setPosition(newX, newY);
 			setSize(pixmap.getWidth(), pixmap.getHeight());
+			setPosition(newX, newY);
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
 			if (brightnessChanged) {
@@ -272,6 +280,21 @@ public class Look extends Image {
 		setY(y - getHeight() / 2f);
 	}
 
+	public float getAngularVelocityInUserInterfaceDimensionUnit() {
+		// only available in physicsLook
+		return 0;
+	}
+
+	public float getXVelocityInUserInterfaceDimensionUnit() {
+		// only available in physicsLook
+		return 0;
+	}
+
+	public float getYVelocityInUserInterfaceDimensionUnit() {
+		// only available in physicsLook
+		return 0;
+	}
+
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
 		setXInUserInterfaceDimensionUnit(x);
 		setYInUserInterfaceDimensionUnit(y);
@@ -294,21 +317,15 @@ public class Look extends Image {
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {
-		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
-		if (direction < 0) {
-			direction += 360f;
-		}
-		direction = 180f - direction;
-
-		return direction;
+		return convertStageAngleToCatroidAngle(getRotation());
 	}
 
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		setRotation((-degrees + DEGREE_UI_OFFSET) % 360);
+		setRotation(convertCatroidAngleToStageAngle(degrees));
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation((getRotation() - changeDegrees) % 360);
+		setRotation(getRotation() - changeDegrees);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
@@ -332,15 +349,14 @@ public class Look extends Image {
 	}
 
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
-		if (percent < 0f) {
-			percent = 0f;
-		} else if (percent >= 100f) {
+		if (percent < 100.0f) {
+			if (percent < 0f) {
+				percent = 0f;
+			}
+			setVisible(true);
+		} else {
 			percent = 100f;
 			setVisible(false);
-		}
-
-		if (percent < 100.0f) {
-			setVisible(true);
 		}
 
 		alpha = (100f - percent) / 100f;
@@ -368,6 +384,30 @@ public class Look extends Image {
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	private boolean isAngleInCatroidInterval(float catroidAngle) {
+		return (catroidAngle > -180 && catroidAngle <= 180);
+	}
+
+	private float breakDownCatroidAngle(float catroidAngle) {
+		catroidAngle = catroidAngle % 360;
+		if (catroidAngle >= 0 && !isAngleInCatroidInterval(catroidAngle)) {
+			return catroidAngle - 360;
+		} else if (catroidAngle < 0 && !isAngleInCatroidInterval(catroidAngle)) {
+			return catroidAngle + 360;
+		}
+		return catroidAngle;
+	}
+
+	protected float convertCatroidAngleToStageAngle(float catroidAngle) {
+		catroidAngle = breakDownCatroidAngle(catroidAngle);
+		return -catroidAngle + DEGREE_UI_OFFSET;
+	}
+
+	protected float convertStageAngleToCatroidAngle(float stageAngle) {
+		float catroidAngle = -stageAngle + DEGREE_UI_OFFSET;
+		return breakDownCatroidAngle(catroidAngle);
 	}
 
 	protected void doHandleBroadcastEvent(String broadcastMessage) {

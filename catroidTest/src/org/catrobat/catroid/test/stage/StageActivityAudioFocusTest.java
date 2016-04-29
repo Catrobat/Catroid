@@ -55,7 +55,9 @@ public class StageActivityAudioFocusTest extends BaseActivityUnitTestCase<StageA
 
 		Thread.sleep(400);
 		instrumentation.callActivityOnResume(activity);
+		stageAudioFocus.requestAudioFocus();
 		assertTrue("AudioFocus not granted after Stage has resumed", stageAudioFocus.isAudioFocusGranted());
+		stageAudioFocus.releaseAudioFocus();
 
 		Thread.sleep(400);
 		instrumentation.callActivityOnPause(activity);

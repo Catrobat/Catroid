@@ -58,7 +58,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		checkActionBarInACategory(solo.getString(R.string.category_motion), "motion");
 		checkActionBarInACategory(solo.getString(R.string.category_sound), "sound");
 		checkActionBarInACategory(solo.getString(R.string.category_looks), "looks");
-		//searchText just to get focus
+		// searchText just to get focus
 		solo.searchText(solo.getString(R.string.categories));
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);

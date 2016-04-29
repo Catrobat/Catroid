@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.Spinner;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -37,7 +39,9 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 
 	protected UserVariable userVariable;
 	public boolean inUserBrick = false;
-	protected transient BackPackedData backPackedData;
+
+	@XStreamOmitField
+	protected BackPackedData backPackedData;
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
@@ -93,7 +97,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 	public class BackPackedData {
 		public UserVariable userVariable;
 		public Integer userVariableType;
-		public Project project;
 
 		public BackPackedData() {
 		}
@@ -102,7 +105,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 			if (backPackedData != null) {
 				this.userVariable = backPackedData.userVariable;
 				this.userVariableType = backPackedData.userVariableType;
-				this.project = backPackedData.project;
 			}
 		}
 	}
@@ -159,7 +161,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		if (backPackedData == null) {
 			backPackedData = new BackPackedData();
 		}
-		this.backPackedData.project = currentProject;
+		this.backPackedData.userVariable = userVariable;
 		this.backPackedData.userVariableType = type;
 	}
 }

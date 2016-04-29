@@ -115,6 +115,12 @@ public class AddBrickFragment extends ListFragment implements DeleteModeListener
 		return view;
 	}
 
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.backpack).setVisible(false);
+		super.onPrepareOptionsMenu(menu);
+	}
+
 	private void setupSelectedBrickCategory() {
 		Context context = getActivity();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();

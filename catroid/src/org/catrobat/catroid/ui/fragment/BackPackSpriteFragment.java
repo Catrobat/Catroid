@@ -219,7 +219,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 
 	private void checkForBackgroundUnpacking(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite,
 			boolean fromHiddenBackPack) {
-		if (selectedSprite.isBackgroundSprite) {
+		if (selectedSprite.isBackgroundObject) {
 			ConfirmUnpackBackgroundDialog dialog = new ConfirmUnpackBackgroundDialog(selectedSprite, delete,
 					keepCurrentSprite, fromHiddenBackPack);
 			dialog.show(getFragmentManager(), ConfirmUnpackBackgroundDialog.DIALOG_FRAGMENT_TAG);
@@ -335,7 +335,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 					@Override
 					public void onClick(View view) {
 						for (int position = 0; position < adapter.getCount(); position++) {
-							if (adapter.getItem(position).isBackgroundSprite && actionModeTitle.equals(
+							if (adapter.getItem(position).isBackgroundObject && actionModeTitle.equals(
 									getString(R.string.unpack))) {
 								continue;
 							}
@@ -417,6 +417,8 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		BackPackListManager.getInstance().saveBackpack();
 
 		if (spriteDeletedReceiver != null) {
 			getActivity().unregisterReceiver(spriteDeletedReceiver);

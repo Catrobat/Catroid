@@ -1846,7 +1846,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		boolean screenshotExists = ProjectManager.getInstance().getCurrentProject()
-				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(false, false, false); // green to green
 		byte[] greenPixel1 = createScreenshotBitmap();
@@ -1859,7 +1859,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
-				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(true, false, false); // green to red
 		byte[] redPixel1 = createScreenshotBitmap();
@@ -1868,7 +1868,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
-				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(false, true, true); // red to green + screenshot
 		byte[] greenPixel2 = createScreenshotBitmap();
@@ -1877,7 +1877,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
-				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION);
 		assertEquals("there should be a manual screenshot", false, screenshotExists);
 		playTheProject(true, false, false); // green to red, screenshot must stay green
 		byte[] greenPixel3 = createScreenshotBitmap();

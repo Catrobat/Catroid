@@ -49,6 +49,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	@Override
 	public void stopFaceDetection() {
 		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(this);
+		CameraManager.getInstance().releaseCamera();
 	}
 
 	@Override
