@@ -136,6 +136,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
 			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic };
 
+	private static final int[] NFC_TAG_ID_ITEMS = { R.string.formula_editor_nfc_tag_id };
+
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
@@ -302,6 +304,11 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			if (SensorHandler.getInstance(context).compassAvailable()) {
 				itemsIds = concatAll(itemsIds, COMPASS_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
+			}
+
+			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, NFC_TAG_ID_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ID_ITEMS.length));
 			}
 
 			header.put(itemsIds.length, getString(R.string.formula_editor_device_touch_detection));

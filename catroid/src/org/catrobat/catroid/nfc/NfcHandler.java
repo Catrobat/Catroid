@@ -33,8 +33,17 @@ import java.util.List;
 
 public final class NfcHandler {
 	private static final String TAG = NfcHandler.class.getSimpleName();
+	private static int nfcTagId = 0;
 
 	private NfcHandler() {
+	}
+
+	public static int getLastNfcTagId() {
+		return nfcTagId;
+	}
+
+	private static void setLastNfcTagId(String tagID) {
+		nfcTagId = Integer.parseInt(tagID);
 	}
 
 	public static void processIntent(Intent intent) {
@@ -43,11 +52,9 @@ public final class NfcHandler {
 		}
 
 		String uid = getUid(intent);
+		setLastNfcTagId(uid);
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-
-		//String nameForUid = spriteList.//NfcTagContainer.getNameForUid(uid);
-		//Log.d(TAG, "namefor uid:" + nameForUid);
 
 		for (Sprite sprite : spriteList) {
 			sprite.createWhenNfcScriptAction(uid);
@@ -59,32 +66,11 @@ public final class NfcHandler {
 				|| NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())
 				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
 			byte[] tagId = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-			String uid = byteArrayToHex(tagId);
 
-			//if whole tag is needed
-			//Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-			//String uid = byteArrayToHex(tag.getId());
-
-			Log.d(TAG, "read successful. uid = hex:" + uid);
-
-			// uncomment for debugging ndef information
-			//			Ndef ndefTag;
-			//			if (null != (ndefTag = Ndef.get(tag))) {
-			//				try {
-			//					ndefTag.connect();
-			//					NdefMessage ndefMessage = ndefTag.getNdefMessage();
-			//					for (NdefRecord record : ndefMessage.getRecords()) {
-			//						Log.d(TAG, "record, tnf: " + record.getTnf() + " " + new String(record.getPayload()));
-			//					}
-			//					ndefTag.close();
-			//				} catch (IOException e) {
-			//					// ...
-			//				} catch (FormatException e) {
-			//					// ...
-			//				}
-			//
-			//			}
-			return uid;
+			String uidHex = String.valueOf(byteArrayToHex(tagId));
+			setLastNfcTagId(uidHex);
+			Log.d(TAG, "read successful. uid = int: " + uidHex);
+			return uidHex;
 		}
 		return null;
 	}
@@ -97,6 +83,10 @@ public final class NfcHandler {
 		for (byte b : a) {
 			sb.append(String.format("%02x", b & 0xff));
 		}
-		return sb.toString();
+		return cutHexStringToIntSize(sb.toString());
+	}
+
+	public static String cutHexStringToIntSize(String longHex) {
+		return String.valueOf(Long.parseLong(longHex, 16) & Integer.MAX_VALUE);
 	}
 }
