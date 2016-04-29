@@ -38,6 +38,7 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,6 +72,8 @@ public class Look extends Image {
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				TouchUtil.touchDown(event.getStageX(), event.getStageY(), pointer);
+
 				if (doTouchDown(x, y, pointer)) {
 					return true;
 				}
@@ -81,6 +84,16 @@ public class Look extends Image {
 				}
 				setTouchable(Touchable.enabled);
 				return false;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				TouchUtil.touchUp(pointer);
+			}
+
+			@Override
+			public void touchDragged(InputEvent event, float x, float y, int pointer) {
+				TouchUtil.updatePosition(event.getStageX(), event.getStageY(), pointer);
 			}
 		});
 

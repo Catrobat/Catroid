@@ -144,6 +144,14 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_raspi_read_pin_value_digital:
 				return buildSingleParameterFunction(Functions.RASPIDIGITAL, InternTokenType.NUMBER, "0");
 
+			//Finger touching
+			case R.string.formula_editor_function_finger_x:
+				return buildSensor(Sensors.FINGER_X);
+			case R.string.formula_editor_function_finger_y:
+				return buildSensor(Sensors.FINGER_Y);
+			case R.string.formula_editor_function_is_finger_touching:
+				return buildSensor(Sensors.FINGER_TOUCHED);
+
 			//SENSOR
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
