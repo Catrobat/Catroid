@@ -1019,6 +1019,7 @@
     <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+    <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_transparency">transparency</string>

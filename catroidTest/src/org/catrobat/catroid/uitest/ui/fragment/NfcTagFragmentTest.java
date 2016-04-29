@@ -137,7 +137,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		int oldCount = adapter.getCount();
 
-		UiTestUtils.fakeNfcTag(solo, "123", null, null);
+		UiTestUtils.fakeNfcTag(solo, "1234", null, null);
 
 		solo.sleep(500);
 
@@ -954,8 +954,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		return (NfcTagAdapter) getNfcTagFragment().getListAdapter();
 	}
 
-	private void checkVisibilityOfViews(int imageVisibility, int tagNameVisibility, int tagDetailsVisibility,
-			int checkBoxVisibility) {
+	private void checkVisibilityOfViews(int imageVisibility, int tagNameVisibility, int tagDetailsVisibility, int checkBoxVisibility) {
 		assertTrue("Tag image " + getAssertMessageAffix(imageVisibility),
 				solo.getView(R.id.fragment_nfctag_item_image_button).getVisibility() == imageVisibility);
 		assertTrue("Tag name " + getAssertMessageAffix(tagNameVisibility),
@@ -1040,8 +1039,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		}
 	}
 
-	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
-			boolean secondCheckboxExpectedChecked) {
+	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked, boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
 		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
 		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);

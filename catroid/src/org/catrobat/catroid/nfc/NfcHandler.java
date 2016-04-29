@@ -29,12 +29,22 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 public final class NfcHandler {
 	private static final String TAG = NfcHandler.class.getSimpleName();
+	private static int nfcTagId = 0;
 
 	private NfcHandler() {
+	}
+
+	public static int getLastNfcTagId() {
+		return nfcTagId;
+	}
+
+	private static void setLastNfcTagId(String tagID) {
+		nfcTagId = Integer.parseInt(tagID);
 	}
 
 	public static void processIntent(Intent intent) {
@@ -43,11 +53,9 @@ public final class NfcHandler {
 		}
 
 		String uid = getUid(intent);
+		setLastNfcTagId(uid);
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-
-		//String nameForUid = spriteList.//NfcTagContainer.getNameForUid(uid);
-		//Log.d(TAG, "namefor uid:" + nameForUid);
 
 		for (Sprite sprite : spriteList) {
 			sprite.createWhenNfcScriptAction(uid);
@@ -59,44 +67,17 @@ public final class NfcHandler {
 				|| NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())
 				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
 			byte[] tagId = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-			String uid = byteArrayToHex(tagId);
+			String uid = String.valueOf(byteArrayToInt(tagId));
+			setLastNfcTagId(uid);
 
-			//if whole tag is needed
-			//Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-			//String uid = byteArrayToHex(tag.getId());
+			Log.d(TAG, "read successful. uid = int:" + uid);
 
-			Log.d(TAG, "read successful. uid = hex:" + uid);
-
-			// uncomment for debugging ndef information
-			//			Ndef ndefTag;
-			//			if (null != (ndefTag = Ndef.get(tag))) {
-			//				try {
-			//					ndefTag.connect();
-			//					NdefMessage ndefMessage = ndefTag.getNdefMessage();
-			//					for (NdefRecord record : ndefMessage.getRecords()) {
-			//						Log.d(TAG, "record, tnf: " + record.getTnf() + " " + new String(record.getPayload()));
-			//					}
-			//					ndefTag.close();
-			//				} catch (IOException e) {
-			//					// ...
-			//				} catch (FormatException e) {
-			//					// ...
-			//				}
-			//
-			//			}
 			return uid;
 		}
 		return null;
 	}
 
-	public static String byteArrayToHex(byte[] a) {
-		if (a == null) {
-			return null;
-		}
-		StringBuilder sb = new StringBuilder();
-		for (byte b : a) {
-			sb.append(String.format("%02x", b & 0xff));
-		}
-		return sb.toString();
+	public static int byteArrayToInt(byte[] b) {
+		return ByteBuffer.wrap(b).getInt();
 	}
 }

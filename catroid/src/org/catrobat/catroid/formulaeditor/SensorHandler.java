@@ -39,6 +39,7 @@ import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.nfc.NfcHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
@@ -412,6 +413,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return 0.0;
 				}
+
+			case NFC_TAG_ID:
+				return (double) NfcHandler.getLastNfcTagId();
 		}
 		return 0d;
 	}

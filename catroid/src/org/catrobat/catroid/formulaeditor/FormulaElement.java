@@ -995,6 +995,10 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.ARDRONE_SUPPORT;
 					break;
 
+				case NFC_TAG_ID:
+					resources |= Brick.NFC_ADAPTER;
+					break;
+
 				default:
 			}
 		}

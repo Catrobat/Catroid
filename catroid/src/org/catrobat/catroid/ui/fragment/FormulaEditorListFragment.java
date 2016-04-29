@@ -114,6 +114,8 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
 			R.string.formula_editor_sensor_lego_nxt_4 };
 
+	private static final int[] NFC_TAG_ID = { R.string.formula_editor_nfc_tag_id };
+
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
@@ -209,6 +211,10 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, NFC_TAG_ID);
 			}
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
