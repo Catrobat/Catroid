@@ -20,28 +20,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.content;
 
-import android.util.Log;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 
-public enum Functions {
+import java.util.ArrayList;
 
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, FLOOR, CEIL, MAX, MIN, TRUE, FALSE, LENGTH,
-	LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS, ARDUINOANALOG, ARDUINODIGITAL, RASPIDIGITAL,
-	MULTI_FINGER_X, MULTI_FINGER_Y, MULTI_FINGER_TOUCHED;
+public class WhenTouchDownScript extends Script {
 
-	private static final String TAG = Functions.class.getSimpleName();
+	private static final long serialVersionUID = 1L;
 
-	public static boolean isFunction(String value) {
-		return getFunctionByValue(value) != null;
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite) {
+		WhenTouchDownScript cloneScript = new WhenTouchDownScript();
+		doCopy(copySprite, cloneScript);
+		return cloneScript;
 	}
 
-	public static Functions getFunctionByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
+	@Override
+	public ScriptBrick getScriptBrick() {
+		if (brick == null) {
+			brick = new WhenTouchDownBrick(this);
 		}
-		return null;
+		return brick;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		int resources = Brick.NO_RESOURCES;
+		resources |= getScriptBrick().getRequiredResources();
+		ArrayList<Brick> brickList = getBrickList();
+		for (Brick brick : brickList) {
+			resources |= brick.getRequiredResources();
+		}
+		return resources;
 	}
 }

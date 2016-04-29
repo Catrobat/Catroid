@@ -40,6 +40,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -67,6 +69,7 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -154,6 +157,8 @@ public class StageListener implements ApplicationListener {
 
 	private byte[] thumbnail;
 
+	private InputListener inputListener = null;
+
 	StageListener() {
 	}
 
@@ -177,6 +182,7 @@ public class StageListener implements ApplicationListener {
 		batch = new SpriteBatch();
 		stage = new Stage(viewPort, batch);
 		initScreenMode();
+		initStageInputListener();
 
 		physicsWorld = project.resetPhysicsWorld();
 
@@ -208,6 +214,30 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
+	}
+
+	private void initStageInputListener() {
+
+		if (inputListener == null) {
+			inputListener = new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					TouchUtil.touchDown(event.getStageX(), event.getStageY(), pointer);
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+					TouchUtil.touchUp(pointer);
+				}
+
+				@Override
+				public void touchDragged(InputEvent event, float x, float y, int pointer) {
+					TouchUtil.updatePosition(event.getStageX(), event.getStageY(), pointer);
+				}
+			};
+		}
+		stage.addListener(inputListener);
 	}
 
 	void menuResume() {
@@ -248,6 +278,7 @@ public class StageListener implements ApplicationListener {
 
 		FlashUtil.reset();
 		VibratorUtil.reset();
+		TouchUtil.reset();
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 
@@ -321,6 +352,7 @@ public class StageListener implements ApplicationListener {
 				sprite.pause();
 			}
 			stage.addActor(passepartout);
+			initStageInputListener();
 
 			paused = true;
 			firstStart = true;
