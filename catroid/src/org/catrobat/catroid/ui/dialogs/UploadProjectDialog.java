@@ -90,6 +90,7 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_upload_project";
+	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
 
 	private EditText projectUploadName;
 	private EditText projectDescriptionField;
@@ -272,6 +273,14 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("notificationId", notificationId);
 		activity = getActivity();
 		activity.startService(uploadIntent);
+		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0);
+		numberOfUploadedProjects = numberOfUploadedProjects + 1;
+
+		if (numberOfUploadedProjects == 2) {
+			RatingDialog dialog = new RatingDialog();
+			dialog.show(getFragmentManager(), RatingDialog.TAG);
+		}
+		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
 	}
 
 	private void handleCancelButtonClick() {
