@@ -186,7 +186,7 @@ public class StageListener implements ApplicationListener {
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
-			sprite.look.createBrightnessContrastShader();
+			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -320,7 +320,7 @@ public class StageListener implements ApplicationListener {
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
-				sprite.look.createBrightnessContrastShader();
+				sprite.look.createBrightnessContrastHueShader();
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
