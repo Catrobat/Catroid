@@ -151,6 +151,12 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.FINGER_Y);
 			case R.string.formula_editor_function_is_finger_touching:
 				return buildSensor(Sensors.FINGER_TOUCHED);
+			case R.string.formula_editor_function_multi_finger_x:
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_X, InternTokenType.NUMBER, "0");
+			case R.string.formula_editor_function_multi_finger_y:
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_Y, InternTokenType.NUMBER, "0");
+			case R.string.formula_editor_function_is_multi_finger_touching:
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_TOUCHED, InternTokenType.NUMBER, "0");
 
 			//SENSOR
 			case R.string.formula_editor_sensor_x_acceleration:

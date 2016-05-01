@@ -98,7 +98,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_list_item_parameter,
 			R.string.formula_editor_function_contains_parameter};
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_loudness, R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y, R.string.formula_editor_function_is_finger_touching};
+	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness, R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y, R.string.formula_editor_function_is_finger_touching, R.string.formula_editor_function_multi_finger_x, R.string.formula_editor_function_multi_finger_y, R.string.formula_editor_function_is_multi_finger_touching };
 
 	private static final int[] ACCELERATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration };
