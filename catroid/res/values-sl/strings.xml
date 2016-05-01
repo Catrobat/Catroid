@@ -175,8 +175,8 @@
   <string name="dialog_confirm_delete_brick_title">Ali želiš izbrisati ta blok?</string>
   <string name="dialog_confirm_delete_script_title">Ali želiš izbrisati ta skript?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Ali želiš izbrisati te bloke?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">To dejanje ne more biti razveljavljeno!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>

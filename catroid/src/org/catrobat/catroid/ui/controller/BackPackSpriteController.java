@@ -156,7 +156,7 @@ public final class BackPackSpriteController {
 			}
 		}
 		List<Script> backPackedScripts = BackPackScriptController.getInstance().backpack(backPackSprite.getName(),
-				spriteToEdit.getListWithAllBricks(), true, backPackSprite);
+				spriteToEdit.getListWithAllBricks(), true, spriteToEdit);
 
 		if (backPackedScripts != null && !backPackedScripts.isEmpty()) {
 			backPackSprite.getScriptList().addAll(backPackedScripts);

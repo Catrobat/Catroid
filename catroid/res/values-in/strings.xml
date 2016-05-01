@@ -170,8 +170,8 @@
   <string name="dialog_confirm_delete_brick_title">Hapus brick ini?</string>
   <string name="dialog_confirm_delete_script_title">Hapus script ini?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Hapus brick ini?</string>
-  <string name="dialog_confirm_delete_script_group_title">Hapus Group ini</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Hapus Group-Group ini</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Hapus Group ini</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Hapus Group-Group ini</string>
   <string name="dialog_confirm_delete_brick_message">Perintah ini tidak dapat dibatalkan!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">Hapus bata %d</item>

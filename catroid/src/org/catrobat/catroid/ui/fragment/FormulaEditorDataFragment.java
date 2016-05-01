@@ -61,6 +61,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
@@ -81,13 +82,11 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 	private boolean inContextMode;
 	private int index;
 	private DataAdapter adapter;
-	private boolean inUserBrick;
 
-	public FormulaEditorDataFragment(boolean inUserBrick) {
+	public FormulaEditorDataFragment() {
 		contextActionMode = null;
 		index = -1;
 		inContextMode = false;
-		this.inUserBrick = inUserBrick;
 	}
 
 	@Override
@@ -115,8 +114,9 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 		if (!inContextMode) {
 			super.onCreateContextMenu(menu, view, menuInfo);
 			getActivity().getMenuInflater().inflate(R.menu.context_menu_formulaeditor_userlist, menu);
-			menu.findItem(R.id.context_formula_editor_userlist_delete).setVisible(true);
-			menu.findItem(R.id.context_formula_editor_userlist_rename).setVisible(true);
+			boolean visible = !(getActivity() instanceof UserBrickScriptActivity);
+			menu.findItem(R.id.context_formula_editor_userlist_delete).setVisible(visible);
+			menu.findItem(R.id.context_formula_editor_userlist_rename).setVisible(visible);
 		}
 	}
 
@@ -131,7 +131,8 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 		for (int index = 0; index < menu.size(); index++) {
 			menu.getItem(index).setVisible(false);
 		}
-		menu.findItem(R.id.formula_editor_data_item_delete).setVisible(true);
+		boolean deleteVisible = !(getActivity() instanceof UserBrickScriptActivity);
+		menu.findItem(R.id.formula_editor_data_item_delete).setVisible(deleteVisible);
 
 		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
 		getActivity().getActionBar().setTitle(actionBarTitle);
@@ -314,15 +315,15 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 	}
 
 	private void initializeDataAdapter() {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		DataContainer dataContainer = currentProject.getDataContainer();
-		adapter = dataContainer.createDataAdapter(getActivity(), userBrickId, currentSprite, inUserBrick);
+		adapter = dataContainer.createDataAdapter(getActivity(), currentUserBrick, currentSprite);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
 		adapter.setOnListItemClickListener(this);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override

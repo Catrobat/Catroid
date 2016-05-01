@@ -31,11 +31,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.BackPackGroupViewHolder;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.controller.BackPackScriptController;
-import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
+import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
+import org.catrobat.catroid.ui.fragment.BackPackUserBrickFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,41 +44,40 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class BackPackScriptAdapter extends ArrayAdapter<String> implements ActionModeActivityAdapterInterface {
+public class BackPackUserBrickAdapter extends ArrayAdapter<String> implements ActionModeActivityAdapterInterface {
 
-	protected SortedSet<Integer> checkedScriptGroups = new TreeSet<>();
-	private BackPackScriptFragment backPackScriptFragment;
+	protected SortedSet<Integer> checkedUserBrickGroups = new TreeSet<>();
+	private BackPackUserBrickFragment backPackUserBrickFragment;
 	private boolean showDetails;
 	private int selectMode;
 
-	public BackPackScriptAdapter(final Context context, int resource, int textViewResourceId, ArrayList<String> items,
-			BackPackScriptFragment backPackScriptFragment) {
+	public BackPackUserBrickAdapter(final Context context, int resource, int textViewResourceId, ArrayList<String> items,
+			BackPackUserBrickFragment backPackUserBrickFragment) {
 		super(context, resource, textViewResourceId, items);
-		this.backPackScriptFragment = backPackScriptFragment;
+		this.backPackUserBrickFragment = backPackUserBrickFragment;
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		if (backPackScriptFragment == null) {
+		if (backPackUserBrickFragment == null) {
 			return convertView;
 		}
-		return backPackScriptFragment.getView(position, convertView);
+		return backPackUserBrickFragment.getView(position, convertView);
 	}
 
 	public void onDestroyActionModeUnpacking() {
-		Boolean deleteUnpackedItems = backPackScriptFragment.isDeleteUnpackedItems();
+		Boolean deleteUnpackedItems = backPackUserBrickFragment.isDeleteUnpackedItems();
 
-		List<String> scriptGroupsToUnpack = new ArrayList<>();
-		for (Integer scriptPosition : checkedScriptGroups) {
-			scriptGroupsToUnpack.add(getItem(scriptPosition));
+		List<String> userBrickGroupsToUnpack = new ArrayList<>();
+		for (Integer userBrickPosition : checkedUserBrickGroups) {
+			userBrickGroupsToUnpack.add(getItem(userBrickPosition));
 		}
-		for (String scriptGroup : scriptGroupsToUnpack) {
-			BackPackScriptController.getInstance().unpack(scriptGroup, deleteUnpackedItems, true,
-					backPackScriptFragment.getActivity(), false);
+		for (String userBrickGroup : userBrickGroupsToUnpack) {
+			BackPackUserBrickController.getInstance().unpack(userBrickGroup, deleteUnpackedItems, backPackUserBrickFragment.getActivity());
 		}
 
-		backPackScriptFragment.clearCheckedItemsAndEnableButtons();
+		backPackUserBrickFragment.clearCheckedItemsAndEnableButtons();
 	}
 
 	@Override
@@ -103,35 +102,35 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 
 	@Override
 	public int getAmountOfCheckedItems() {
-		return checkedScriptGroups.size();
+		return checkedUserBrickGroups.size();
 	}
 
 	@Override
 	public Set<Integer> getCheckedItems() {
-		return checkedScriptGroups;
+		return checkedUserBrickGroups;
 	}
 
 	@Override
 	public void clearCheckedItems() {
-		checkedScriptGroups.clear();
+		checkedUserBrickGroups.clear();
 	}
 
 	public void addCheckedItem(int position) {
-		checkedScriptGroups.add(position);
+		checkedUserBrickGroups.add(position);
 	}
 
-	public void updateScriptGroupLogic(int position, final BackPackGroupViewHolder holder) {
-		final String scriptGroupName = getItem(position);
+	public void updateUserBrickGroupLogic(int position, final BackPackGroupViewHolder holder) {
+		final String userBrickGroupName = getItem(position);
 
-		if (scriptGroupName == null) {
+		if (userBrickGroupName == null) {
 			return;
 		}
 		holder.backPackGroupNameTextView.setTag(position);
 		holder.backPackGroupElement.setTag(position);
-		holder.backPackGroupNameTextView.setText(scriptGroupName);
+		holder.backPackGroupNameTextView.setText(userBrickGroupName);
 
 		boolean checkboxIsVisible = handleCheckboxes(position, holder);
-		handleDetails(scriptGroupName, holder);
+		handleDetails(userBrickGroupName, holder);
 
 		// Disable ImageView on active ActionMode
 		if (checkboxIsVisible) {
@@ -161,13 +160,13 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 						clearCheckedItems();
 					}
-					checkedScriptGroups.add(position);
+					checkedUserBrickGroups.add(position);
 				} else {
-					checkedScriptGroups.remove(position);
+					checkedUserBrickGroups.remove(position);
 				}
 				notifyDataSetChanged();
 
-				backPackScriptFragment.onScriptGroupChecked();
+				backPackUserBrickFragment.onUserBrickGroupChecked();
 			}
 		});
 
@@ -184,7 +183,7 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 			clearCheckedItems();
 		}
 
-		if (checkedScriptGroups.contains(position)) {
+		if (checkedUserBrickGroups.contains(position)) {
 			holder.checkbox.setChecked(true);
 		} else {
 			holder.checkbox.setChecked(false);
@@ -192,15 +191,15 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 		return checkboxIsVisible;
 	}
 
-	private void handleDetails(String scriptGroup, BackPackGroupViewHolder holder) {
+	private void handleDetails(String userBrickGroup, BackPackGroupViewHolder holder) {
 		if (getShowDetails()) {
-			List<Script> scripts = BackPackListManager.getInstance().getBackPackedScripts().get(scriptGroup);
-			if (scripts == null) {
+			List<UserBrick> userBricks = BackPackListManager.getInstance().getBackPackedUserBricks().get(userBrickGroup);
+			if (userBricks == null) {
 				return;
 			}
 			Integer numberOfBricks = 0;
-			for (Script script : scripts) {
-				numberOfBricks += script.getBrickList().size() + 1;
+			for (UserBrick userBrick : userBricks) {
+				numberOfBricks += userBrick.getDefinitionBrick().getUserScript().getBrickList().size() + 1;
 			}
 			holder.backPackGroupNumberOfBricksValue.setText(String.format(Locale.getDefault(), numberOfBricks.toString()));
 			holder.backPackGroupDetailsLinearLayout.setVisibility(TextView.VISIBLE);
@@ -209,17 +208,17 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 		}
 	}
 
-	public void deleteCheckedScriptGroups() {
+	public void deleteCheckedUserBrickGroups() {
 		int numberDeleted = 0;
-		for (int position : checkedScriptGroups) {
-			deleteScriptGroup(position - numberDeleted);
+		for (int position : checkedUserBrickGroups) {
+			deleteUserBrickGroup(position - numberDeleted);
 			++numberDeleted;
 		}
 		notifyDataSetChanged();
 	}
 
-	private void deleteScriptGroup(int position) {
-		BackPackListManager.getInstance().removeItemFromScriptBackPack(getItem(position));
+	private void deleteUserBrickGroup(int position) {
+		BackPackListManager.getInstance().removeItemFromUserBrickBackPack(getItem(position));
 		remove(getItem(position));
 	}
 }

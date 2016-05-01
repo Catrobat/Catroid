@@ -76,16 +76,17 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		SetLookBrick copyBrick = (SetLookBrick) clone();
 
 		if (look != null && look.isBackpackLookData) {
-			copyBrick.look = look;
+			copyBrick.look = look.clone();
 			return copyBrick;
 		}
 
 		for (LookData data : sprite.getLookDataList()) {
-			if (look != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
-				copyBrick.look = data;
+			if (look != null && data != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
+				copyBrick.look = data.clone();
 				break;
 			}
 		}
+		copyBrick.look.isBackpackLookData = false;
 		return copyBrick;
 	}
 
@@ -355,10 +356,12 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		LookData backPackedLookData = LookController.getInstance().backPackHiddenLook(this.getLook());
-		setLook(backPackedLookData);
-		if (sprite != null && !sprite.getLookDataList().contains(backPackedLookData)) {
-			sprite.getLookDataList().add(backPackedLookData);
+		if (look == null) {
+			return;
+		}
+		look = LookController.getInstance().backPackHiddenLook(this.getLook());
+		if (sprite != null && !sprite.getLookDataList().contains(look)) {
+			sprite.getLookDataList().add(look);
 		}
 	}
 }

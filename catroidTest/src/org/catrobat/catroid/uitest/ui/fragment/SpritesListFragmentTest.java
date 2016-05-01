@@ -52,6 +52,7 @@ import org.catrobat.catroid.ui.adapter.BackPackSpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -702,7 +703,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		solo.waitForActivity(ProjectActivity.class);
-		assertFalse("Background sprite was unpacked, but shouldn't be!", solo.waitForText(SPRITE_NAME_BACKGROUND, 1,
+		assertTrue("Background sprite wasn't unpacked, but should be!", solo.waitForText(SPRITE_NAME_BACKGROUND, 1,
 				1000));
 		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME, 1, 1000));
 		UiTestUtils.deleteAllItems(solo, getActivity());
@@ -894,7 +895,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		UiTestUtils.openBackPack(solo, getActivity());
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, unpackAsObject);
+		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, unpackAsBackGround);
 		solo.waitForDialogToOpen();
 		solo.waitForText(solo.getString(R.string.unpack_background));
 		solo.clickOnText(solo.getString(R.string.ok));
@@ -947,6 +948,36 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 
 		assertTrue("Sprite from PointToBrick was not unpacked!", solo.waitForText("dog", 1, TIME_TO_WAIT_BACKPACK));
+	}
+
+	public void testBackPackSpriteWithUserBrick() {
+		solo.goBack();
+		UiTestUtils.createTestProjectWithUserBrick();
+		solo.clickOnText(continueMenu);
+		solo.waitForActivity(ProjectActivity.class);
+		solo.waitForFragmentByTag(SpritesListFragment.TAG);
+
+		SpriteAdapter adapter = getSpriteAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME_BACKGROUND);
+		solo.goBack();
+
+		UiTestUtils.openBackPack(solo, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(SPRITE_NAME_BACKGROUND, unpackAsObject);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Sprite wasn't unpacked!", solo.waitForText(SPRITE_NAME_BACKGROUND, 0,
+				TIME_TO_WAIT_BACKPACK, false, true));
+
+		solo.clickOnText(SPRITE_NAME_BACKGROUND);
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
+		UiTestUtils.getIntoUserBrickOverView(solo);
+		assertTrue("No UserBrick was unpacked!", solo.waitForText(UiTestUtils.TEST_USER_BRICK_NAME, 0,
+				TIME_TO_WAIT_BACKPACK, false, true));
 	}
 
 	public void testBackPackAlreadyPackedDialogSingleItem() {

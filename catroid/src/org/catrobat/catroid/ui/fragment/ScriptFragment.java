@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -66,6 +67,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickCheckedListener;
@@ -225,10 +227,21 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = View.inflate(getActivity(), R.layout.fragment_script, null);
-
 		listView = (DragAndDropListView) rootView.findViewById(android.R.id.list);
+		setupUiForUserBricks();
 
 		return rootView;
+	}
+
+	private void setupUiForUserBricks() {
+		if (getActivity() instanceof UserBrickScriptActivity || isInUserBrickOverview()) {
+			BottomBar.hidePlayButton(getActivity());
+			ActionBar actionBar = getActivity().getActionBar();
+			if (actionBar != null) {
+				String title = getActivity().getString(R.string.category_user_bricks);
+				actionBar.setTitle(title);
+			}
+		}
 	}
 
 	@Override
@@ -239,13 +252,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.unpacking).setVisible(false);
 		menu.findItem(R.id.unpacking_keep).setVisible(false);
+		if (getActivity() instanceof UserBrickScriptActivity || isInUserBrickOverview()) {
+			backpackMenuIsVisible = false;
+		}
 		menu.findItem(R.id.backpack).setVisible(backpackMenuIsVisible);
-
+		handlePlayButtonVisibility();
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -270,6 +285,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
+
+		setupUiForUserBricks();
 
 		if (BackPackListManager.getInstance().isBackpackEmpty()) {
 			BackPackListManager.getInstance().loadBackpack();
@@ -317,6 +334,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onCategorySelected(String category) {
+		String userBrickCategory = getActivity().getString(R.string.category_user_bricks);
+		if (category.equals(userBrickCategory)) {
+			backpackMenuIsVisible = true;
+			getActivity().invalidateOptionsMenu();
+		}
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -335,7 +357,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		position += firstVisibleBrick;
 
 		//TODO: allow recursive userbricks if its possible
-		if (adapter.getUserBrick() != null && brickToBeAdded instanceof UserBrick) { // && ((UserBrick) brickToBeAdded).getDefinitionBrick().equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
+		if (adapter.getUserBrick() != null && brickToBeAdded instanceof UserBrick) {
 			ToastUtil.showError(getActivity().getApplicationContext(), R.string.recursive_user_brick_forbidden);
 		} else {
 			adapter.addNewBrick(position, brickToBeAdded, true);
@@ -359,8 +381,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		adapter = new BrickAdapter(this, sprite, listView);
 		adapter.setOnBrickCheckedListener(this);
-		ScriptActivity activity = (ScriptActivity) getActivity();
-		activity.setupBrickAdapter(adapter);
+		if (getActivity() instanceof UserBrickScriptActivity) {
+			((UserBrickScriptActivity) getActivity()).setupBrickAdapter(adapter);
+			setupUiForUserBricks();
+		}
 
 		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
 			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScriptSafe());
@@ -461,7 +485,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		backpackMenuIsVisible = false;
 
 		// addButtonHandler != null when the user brick category is open in the AddBrickFragment
-		if (AddBrickFragment.addButtonHandler != null) {
+		if (isInUserBrickOverview()) {
 			AddBrickFragment.addButtonHandler.handleAddButton();
 			return;
 		}
@@ -472,6 +496,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		showCategoryFragment();
+	}
+
+	public boolean isInUserBrickOverview() {
+		return AddBrickFragment.addButtonHandler != null && BottomBar.isBottomBarVisible(getActivity());
 	}
 
 	@Override
@@ -526,7 +554,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (brick instanceof ScriptBrick) {
 			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
 
-			Script clonedScript = scriptToEdit.copyScriptForSprite(sprite, sprite.getUserBrickList());
+			Script clonedScript = scriptToEdit.copyScriptForSprite(sprite);
 
 			sprite.addScript(clonedScript);
 			adapter.initBrickList();
@@ -654,8 +682,13 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onBrickChecked() {
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+		boolean condition;
+		if (getActivity() instanceof UserBrickScriptActivity) {
+			condition = adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount() - 1;
+		} else {
+			condition = adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount();
+		}
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, condition);
 	}
 
 	private void updateActionModeTitle() {
@@ -719,5 +752,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	public void setBackpackMenuIsVisible(boolean backpackMenuIsVisible) {
 		this.backpackMenuIsVisible = backpackMenuIsVisible;
+	}
+
+	private void handlePlayButtonVisibility() {
+		if (isInUserBrickOverview() || getActivity() instanceof UserBrickScriptActivity) {
+			BottomBar.hidePlayButton(getActivity());
+		}
 	}
 }

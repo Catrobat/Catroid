@@ -79,7 +79,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Script currentScript;
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
-	private boolean asynchronTask = true;
+	private boolean asynchronousTask = true;
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleCorrectAddButton;
@@ -210,6 +210,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.99f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
+			if (project.getCatrobatLanguageVersion() == 0.98f) {
+				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+			}
 //			insert further conversions here
 
 			checkNestingBrickReferences(true, false);
@@ -265,7 +268,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		project.saveLegoNXTSettingsToProject(context);
 
-		if (asynchronTask) {
+		if (asynchronousTask) {
 			SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
 			saveTask.execute();
 		} else {

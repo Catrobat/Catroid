@@ -171,8 +171,8 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 		listView = getListView();
 		registerForContextMenu(listView);
 
-		adapter = new BackPackSpriteAdapter(getActivity(), R.layout.fragment_script_backpack_item,
-				R.id.fragment_script_backpack_item_name_text_view,
+		adapter = new BackPackSpriteAdapter(getActivity(), R.layout.fragment_group_backpack_item,
+				R.id.fragment_group_backpack_item_name_text_view,
 				BackPackListManager.getInstance().getBackPackedSprites(), this);
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
@@ -500,7 +500,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 	private class SpriteDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_SCRIPT_GROUP_DELETED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_DELETED)) {
 				adapter.notifyDataSetChanged();
 				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			}

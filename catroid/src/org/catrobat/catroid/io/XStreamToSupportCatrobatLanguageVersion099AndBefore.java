@@ -576,6 +576,7 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBefore extends XStream
 			deleteChildNodeByName(originalDocument, "scriptList", "object");
 			deleteChildNodeByName(originalDocument, "brickList", "object");
 			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
+			deleteChildNodeByName(originalDocument, "brickList", "inUserBrick");
 
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);

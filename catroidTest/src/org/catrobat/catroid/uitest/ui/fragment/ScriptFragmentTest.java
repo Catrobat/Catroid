@@ -119,7 +119,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		backpackTitle = solo.getString(R.string.backpack_title);
 
 		delete = solo.getString(R.string.delete);
-		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_script_group_title);
+		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_backpack_group_title);
 
 		UiTestUtils.clearBackPack(true);
 	}
@@ -907,6 +907,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
 		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 		unpackScriptGroup(DEFAULT_SCRIPT_GROUP_NAME, unpack);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
+		solo.sleep(500);
 
 		assertEquals("Brick count in list view not correct", brickCountInView + 7, UiTestUtils.getScriptListView(solo)
 				.getCount());
@@ -1110,6 +1112,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.goBack();
 		backPackFirstScriptWithContextMenu(SECOND_SCRIPT_GROUP_NAME);
 
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackScriptFragment.TAG);
 		BackPackScriptAdapter adapter = getBackPackScriptAdapter();
 		int oldCount = adapter.getCount();
 
@@ -1411,6 +1415,38 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Sprite was not unpacked!", solo.waitForText("dog", 1, TIME_TO_WAIT_BACKPACK));
 	}
 
+	public void testBackPackScriptWithUserBrick() {
+		UiTestUtils.createTestProjectWithUserBrick();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
+		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.clickOnText(SECOND_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		int numberOfBricksInBrickList = ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks();
+
+		UiTestUtils.openBackPackFromEmtpyAdapter(solo, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(DEFAULT_SCRIPT_GROUP_NAME, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		assertEquals("Brick count in current sprite not correct", numberOfBricksInBrickList + 7,
+				ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks());
+		assertEquals("UserBrick prototype count in current sprite not correct", 1,
+				ProjectManager.getInstance().getCurrentSprite().getUserBrickList().size());
+
+		UiTestUtils.getIntoUserBrickOverView(solo);
+		assertTrue("No UserBrick was unpacked!", solo.waitForText(UiTestUtils.TEST_USER_BRICK_NAME, 0,
+				TIME_TO_WAIT_BACKPACK, false,
+				true));
+	}
+
 	public void testBackPackScriptGroupWithSameName() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -1519,7 +1555,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(solo.getString(R.string.ok));
 
 		solo.waitForDialogToClose();
-		solo.sleep(20000);
 	}
 
 	private void clickOnContextMenuItem(String scriptGroupName, String menuItemName) {
@@ -1539,13 +1574,13 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 			int checkBoxVisibility) {
 		solo.sleep(200);
 		assertTrue("Script group image " + getAssertMessageAffix(imageVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_image_view).getVisibility() == imageVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_image_view).getVisibility() == imageVisibility);
 		assertTrue("Script group name " + getAssertMessageAffix(scriptGroupNameVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_name_text_view).getVisibility() == scriptGroupNameVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_name_text_view).getVisibility() == scriptGroupNameVisibility);
 		assertTrue("Script group details " + getAssertMessageAffix(scriptGroupDetailsVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_detail_linear_layout).getVisibility() == scriptGroupDetailsVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_detail_linear_layout).getVisibility() == scriptGroupDetailsVisibility);
 		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_checkbox).getVisibility() == checkBoxVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_checkbox).getVisibility() == checkBoxVisibility);
 	}
 
 	private String getAssertMessageAffix(int visibility) {

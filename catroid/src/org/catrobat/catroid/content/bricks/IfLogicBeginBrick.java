@@ -214,7 +214,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
 		sequence.addAction(action);
 
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		LinkedList<SequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(elseAction);
 		returnActionList.add(ifAction);
 

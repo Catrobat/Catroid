@@ -21,11 +21,29 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/brick_data_insert"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/brick_data_edit_cursor_size"
-    android:src="@drawable/brick_data_insert" >
+<ScrollView style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
 
-</ImageView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dialog_item_margin">
+
+        <TextView
+            android:id="@+id/dialog_userbrick_name_textview"
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/new_user_brick_name" />
+
+        <EditText
+            android:id="@+id/dialog_userbrick_name_edittext"
+            style="@style/DefaultDialog.EditText"
+            android:inputType="text"
+            android:maxLines="1"
+            android:selectAllOnFocus="true" />
+
+    </LinearLayout>
+
+</ScrollView>

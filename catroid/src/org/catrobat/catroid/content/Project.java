@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -228,7 +229,7 @@ public class Project implements Serializable {
 	}
 
 	public void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new ArrayList<String>();
+		List<String> usedMessages = new ArrayList<>();
 		for (Sprite currentSprite : spriteList) {
 			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
 				Script currentScript = currentSprite.getScript(scriptIndex);
@@ -238,6 +239,14 @@ public class Project implements Serializable {
 
 				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
 					Brick currentBrick = currentScript.getBrick(brickIndex);
+					if (currentBrick instanceof BroadcastMessage) {
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+					}
+				}
+			}
+			for (UserBrick userBrick : currentSprite.getUserBrickList()) {
+				Script userScript = userBrick.getDefinitionBrick().getUserScript();
+				for (Brick currentBrick : userScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
 						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
 					}

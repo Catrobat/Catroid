@@ -54,6 +54,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
@@ -69,7 +70,7 @@ import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
+import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 
 import java.util.concurrent.locks.Lock;
 
@@ -78,6 +79,7 @@ public class ScriptActivity extends BaseActivity {
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
 	public static final int FRAGMENT_NFCTAGS = 3;
+	public static final int USERBRICKS_PROTOTYPE_VIEW = 4;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 
@@ -98,7 +100,9 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_NFCTAGS_LIST_INIT = "org.catrobat.catroid.NFCTAGS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 	public static final String ACTION_USERLIST_DELETED = "org.catrobat.catroid.USERLIST_DELETED";
-	public static final String ACTION_SCRIPT_GROUP_DELETED = "org.catrobat.catroid.LOOK_DELETED";
+	public static final String ACTION_SCRIPT_GROUP_DELETED = "org.catrobat.catroid.SCRIPTGROUP_DELETED";
+	public static final String ACTION_USERBRICK_GROUP_DELETED = "org.catrobat.catroid.USERBRICKGROUP_DELETED";
+	public static final String ACTION_SPRITE_DELETED = "org.catrobat.catroid.SPRITE_DELETED";
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;
@@ -110,6 +114,7 @@ public class ScriptActivity extends BaseActivity {
 
 	private ScriptActivityFragment currentFragment = null;
 	private DeleteModeListener deleteModeListener;
+	private BackPackModeListener backPackModeListener;
 	private String currentFragmentTag;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -272,6 +277,7 @@ public class ScriptActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.clear();
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -331,19 +337,19 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	private void openBackPack() {
+		Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
 		if (currentFragment == lookFragment) {
-			Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
 			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
-			startActivity(intent);
 		} else if (currentFragment == soundFragment) {
-			Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
 			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
-			startActivity(intent);
 		} else if (currentFragment == scriptFragment) {
-			Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
-			startActivity(intent);
+			if (scriptFragment.isInUserBrickOverview()) {
+				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, USERBRICKS_PROTOTYPE_VIEW);
+			} else {
+				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+			}
 		}
+		startActivity(intent);
 	}
 
 	private void showBackPackChooser() {
@@ -355,8 +361,14 @@ public class ScriptActivity extends BaseActivity {
 
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCRIPTS:
-				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedScripts().size();
-				numberOfItemsInAdapter = ((ScriptFragment) currentFragment).getAdapter().getCount();
+				if (scriptFragment.isInUserBrickOverview()) {
+					numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedUserBricks().size();
+					Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+					numberOfItemsInAdapter = currentSprite.getUserBrickList().size();
+				} else {
+					numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedScripts().size();
+					numberOfItemsInAdapter = ((ScriptFragment) currentFragment).getAdapter().getCount();
+				}
 				break;
 			case FRAGMENT_LOOKS:
 				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedLooks().size();
@@ -371,7 +383,11 @@ public class ScriptActivity extends BaseActivity {
 		if (numberOfItemsInBackpack > 0 && numberOfItemsInAdapter == 0) {
 			openBackPack();
 		} else if (numberOfItemsInBackpack == 0) {
-			currentFragment.startBackPackActionMode();
+			if (backPackModeListener != null) {
+				backPackModeListener.startBackPackActionMode();
+			} else {
+				currentFragment.startBackPackActionMode();
+			}
 		} else {
 			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
 
@@ -379,7 +395,11 @@ public class ScriptActivity extends BaseActivity {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					if (which == 0) {
-						currentFragment.startBackPackActionMode();
+						if (backPackModeListener != null) {
+							backPackModeListener.startBackPackActionMode();
+						} else {
+							currentFragment.startBackPackActionMode();
+						}
 					} else if (which == 1) {
 						openBackPack();
 					}
@@ -420,8 +440,8 @@ public class ScriptActivity extends BaseActivity {
 			}
 		}
 
-		String tag1 = UserBrickDataEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG;
-		UserBrickDataEditorFragment fragment = (UserBrickDataEditorFragment) fragmentManager.findFragmentByTag(tag1);
+		String tag1 = UserBrickElementEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG;
+		UserBrickElementEditorFragment fragment = (UserBrickElementEditorFragment) fragmentManager.findFragmentByTag(tag1);
 		if (fragment != null && fragment.isVisible()) {
 			return fragment.onKey(null, keyCode, event);
 		}
@@ -549,6 +569,16 @@ public class ScriptActivity extends BaseActivity {
 			return super.dispatchKeyEvent(event);
 		}
 
+		AddBrickFragment addBrickFragment = (AddBrickFragment) getFragmentManager()
+				.findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+
+		if (addBrickFragment != null && addBrickFragment.isVisible()
+				&& addBrickFragment.isActionModeActive()) {
+			ListAdapter adapter = addBrickFragment.getListAdapter();
+			((PrototypeBrickAdapter) adapter).clearCheckedItems();
+			return super.dispatchKeyEvent(event);
+		}
+
 		if (currentFragment != null && currentFragment.getActionModeActive()
 				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 			if (scriptFragment != null && scriptFragment.getAdapter() != null && scriptFragment.getAdapter().isBackPackActionMode()) {
@@ -581,6 +611,10 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setDeleteModeListener(DeleteModeListener listener) {
 		deleteModeListener = listener;
+	}
+
+	public void setBackPackModeListener(BackPackModeListener listener) {
+		backPackModeListener = listener;
 	}
 
 	public ScriptActivityFragment getFragment(int fragmentPosition) {
@@ -683,15 +717,8 @@ public class ScriptActivity extends BaseActivity {
 		this.isLookFragmentHandleAddButtonHandled = isLookFragmentHandleAddButtonHandled;
 	}
 
-	public void setupBrickAdapter(BrickAdapter adapter) {
-	}
-
 	public ScriptFragment getScriptFragment() {
 		return scriptFragment;
-	}
-
-	public void setScriptFragment(ScriptFragment scriptFragment) {
-		this.scriptFragment = scriptFragment;
 	}
 
 	public void redrawBricks() {
