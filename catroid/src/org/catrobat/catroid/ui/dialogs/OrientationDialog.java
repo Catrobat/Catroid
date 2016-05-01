@@ -58,8 +58,6 @@ public class OrientationDialog extends DialogFragment {
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
 	private Context context;
-
-
 	private boolean openedFromProjectList = false;
 	private boolean createDroneProject = false;
 
@@ -68,7 +66,6 @@ public class OrientationDialog extends DialogFragment {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 
 		context = getActivity();
-
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.project_orientation_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
