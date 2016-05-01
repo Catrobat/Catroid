@@ -140,15 +140,10 @@ import java.util.List;
 public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
-		UserBrickScriptActivity activity;
-		try {
-			activity = (UserBrickScriptActivity) context;
-		} catch (ClassCastException e) {
-			activity = null;
-		}
-		boolean isUserScriptMode = activity != null;
-		List<Brick> tempList = new LinkedList<Brick>();
-		List<Brick> toReturn = new ArrayList<Brick>();
+
+		boolean isUserScriptMode = context instanceof UserBrickScriptActivity;
+		List<Brick> tempList = new LinkedList<>();
+		List<Brick> toReturn = new ArrayList<>();
 		if (category.equals(context.getString(R.string.category_control))) {
 			tempList = setupControlCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
@@ -174,13 +169,7 @@ public class CategoryBricksFactory {
 		}
 
 		for (Brick brick : tempList) {
-			ScriptBrick brickAsScriptBrick;
-			try {
-				brickAsScriptBrick = (ScriptBrick) brick;
-			} catch (ClassCastException e) {
-				brickAsScriptBrick = null;
-			}
-			if (!isUserScriptMode || brickAsScriptBrick == null) {
+			if (!isUserScriptMode || !(brick instanceof ScriptBrick)) {
 				toReturn.add(brick);
 			}
 		}
@@ -188,7 +177,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupControlCategoryList(Context context) {
-		List<Brick> controlBrickList = new ArrayList<Brick>();
+		List<Brick> controlBrickList = new ArrayList<>();
 		controlBrickList.add(new WhenStartedBrick(null));
 		controlBrickList.add(new WhenBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
@@ -222,7 +211,7 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupUserBricksCategoryList() {
 		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
-		ArrayList<Brick> newList = new ArrayList<Brick>();
+		ArrayList<Brick> newList = new ArrayList<>();
 
 //		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
 //		if (userBrickWeAreAddingTo != null) {
@@ -258,7 +247,7 @@ public class CategoryBricksFactory {
 //	}
 
 	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
-		List<Brick> motionBrickList = new ArrayList<Brick>();
+		List<Brick> motionBrickList = new ArrayList<>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
 		motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
@@ -305,7 +294,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupSoundCategoryList(Context context) {
-		List<Brick> soundBrickList = new ArrayList<Brick>();
+		List<Brick> soundBrickList = new ArrayList<>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
@@ -329,7 +318,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupLooksCategoryList(Context context) {
-		List<Brick> looksBrickList = new ArrayList<Brick>();
+		List<Brick> looksBrickList = new ArrayList<>();
 
 		looksBrickList.add(new SetLookBrick());
 		looksBrickList.add(new NextLookBrick());
@@ -356,7 +345,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupDataCategoryList() {
-		List<Brick> dataBrickList = new ArrayList<Brick>();
+		List<Brick> dataBrickList = new ArrayList<>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
 		dataBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
@@ -369,7 +358,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupLegoNxtCategoryList() {
-		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
+		List<Brick> legoNXTBrickList = new ArrayList<>();
 		legoNXTBrickList.add(new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_ANGLE));
 		legoNXTBrickList.add(new LegoNxtMotorStopBrick(LegoNxtMotorStopBrick.Motor.MOTOR_A));
@@ -381,7 +370,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupDroneCategoryList() {
-		List<Brick> droneBrickList = new ArrayList<Brick>();
+		List<Brick> droneBrickList = new ArrayList<>();
 		droneBrickList.add(new DroneTakeOffLandBrick());
 		droneBrickList.add(new DroneFlipBrick());
 		droneBrickList.add(new DroneEmergencyBrick());
@@ -408,7 +397,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupPhiroProCategoryList() {
-		List<Brick> phiroProBrickList = new ArrayList<Brick>();
+		List<Brick> phiroProBrickList = new ArrayList<>();
 		phiroProBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 				BrickValues.PHIRO_SPEED));
 		phiroProBrickList.add(new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
@@ -429,7 +418,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupArduinoCategoryList() {
-		List<Brick> arduinoBrickList = new ArrayList<Brick>();
+		List<Brick> arduinoBrickList = new ArrayList<>();
 		arduinoBrickList.add(new ArduinoSendDigitalValueBrick(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
 		arduinoBrickList.add(new ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
 
@@ -437,7 +426,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupRaspiCategoryList() {
-		List<Brick> raspiBrickList = new ArrayList<Brick>();
+		List<Brick> raspiBrickList = new ArrayList<>();
 		raspiBrickList.add(new WhenRaspiPinChangedBrick(null));
 		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues

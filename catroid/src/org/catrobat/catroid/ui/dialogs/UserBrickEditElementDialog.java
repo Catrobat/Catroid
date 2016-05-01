@@ -41,7 +41,8 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
+import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 	private static int stringResourceOfHintText;
 	private static ArrayList<String> takenVariables;
 	private View fragmentView;
-	private UserBrickDataEditorFragment userBrickDataEditorFragment;
+	private UserBrickElementEditorFragment userBrickElementEditorFragment;
 
 	public UserBrickEditElementDialog(View fragmentView) {
 		super();
@@ -89,17 +90,17 @@ public class UserBrickEditElementDialog extends DialogFragment {
 		editMode = mode;
 	}
 
-	public void setUserBrickDataEditorFragment(UserBrickDataEditorFragment userBrickDataEditorFragment) {
-		this.userBrickDataEditorFragment = userBrickDataEditorFragment;
+	public void setUserBrickElementEditorFragment(UserBrickElementEditorFragment userBrickElementEditorFragment) {
+		this.userBrickElementEditorFragment = userBrickElementEditorFragment;
 	}
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 		if (stringResourceOfTitle == R.string.add_variable) {
-			int numberOfElements = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size();
+			int numberOfElements = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScriptDefinitionBrickElements().size();
 			ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().removeDataAt(numberOfElements - 1, getActivity().getApplicationContext());
-			userBrickDataEditorFragment.decreaseIndexOfCurrentlyEditedElement();
+			userBrickElementEditorFragment.decreaseIndexOfCurrentlyEditedElement();
 		}
 		finishDialog(null);
 	}
@@ -158,7 +159,6 @@ public class UserBrickEditElementDialog extends DialogFragment {
 
 	private void handleOnShow(final Dialog dialogNewVariable) {
 		final Button positiveButton = ((AlertDialog) dialogNewVariable).getButton(AlertDialog.BUTTON_POSITIVE);
-		positiveButton.setEnabled(false);
 
 		EditText dialogEditText = (EditText) dialogNewVariable
 				.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
@@ -189,6 +189,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 				for (String takenName : takenVariables) {
 					if (editable.toString().equals(takenName)) {
 						positiveButton.setEnabled(false);
+						ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 						break;
 					}
 				}

@@ -336,7 +336,7 @@ public class StageListener implements ApplicationListener {
 			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 			int spriteSize = sprites.size();
 
-			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
+			Map<String, List<String>> scriptActions = new HashMap<>();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
 				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
@@ -347,7 +347,7 @@ public class StageListener implements ApplicationListener {
 
 			if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
 				List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
-				Map<String, List<String>> notifyMap = new HashMap<String, List<String>>();
+				Map<String, List<String>> notifyMap = new HashMap<>();
 				notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
 				scriptActions.putAll(notifyMap);
 			}
@@ -431,7 +431,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
-		List<String> broadcastWaitNotifyActions = new ArrayList<String>();
+		List<String> broadcastWaitNotifyActions = new ArrayList<>();
 		for (String actionString : actions.get(Constants.BROADCAST_SCRIPT)) {
 			String broadcastNotifyString = SEQUENCE + actionString.substring(0, actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR)) + BROADCAST_NOTIFY + actionString.substring(actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
 			broadcastWaitNotifyActions.add(broadcastNotifyString);
@@ -444,7 +444,7 @@ public class StageListener implements ApplicationListener {
 		if (!actionsToRestartMap.isEmpty()) {
 			return;
 		}
-		List<String> actions = new ArrayList<String>();
+		List<String> actions = new ArrayList<>();
 		if (currentActions.get(Constants.START_SCRIPT) != null) {
 			actions.addAll(currentActions.get(Constants.START_SCRIPT));
 		}
@@ -489,10 +489,7 @@ public class StageListener implements ApplicationListener {
 		String innerAction1 = action1.substring(startIndex1, endIndex1);
 
 		String action2Sub = action2.substring(0, action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-		if (innerAction1.equals(action2Sub)) {
-			return true;
-		}
-		return false;
+		return innerAction1.equals(action2Sub);
 	}
 
 	private void printPhysicsLabelOnScreen() {

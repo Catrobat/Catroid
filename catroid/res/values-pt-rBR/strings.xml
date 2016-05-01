@@ -177,8 +177,8 @@
   <string name="dialog_confirm_delete_brick_title">Apagar este bloco?</string>
   <string name="dialog_confirm_delete_script_title">Apagar este script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Apagar estes blocos?</string>
-  <string name="dialog_confirm_delete_script_group_title">Excluir este grupo?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Excluir esses grupos?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Excluir este grupo?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Excluir esses grupos?</string>
   <string name="dialog_confirm_delete_brick_message">Isto não pode ser desfeito!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>

@@ -143,16 +143,14 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[7] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("userBricks")) {
 				fieldKeyOrder[8] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("newUserBrickNext")) {
-				fieldKeyOrder[9] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("isBackpackObject")) {
-				fieldKeyOrder[10] = fieldKey;
+				fieldKeyOrder[9] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
-				fieldKeyOrder[11] = fieldKey;
+				fieldKeyOrder[10] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("actionFactory")) {
-				fieldKeyOrder[12] = fieldKey;
+				fieldKeyOrder[11] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("$change")) {
-				fieldKeyOrder[13] = fieldKey;
+				fieldKeyOrder[12] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

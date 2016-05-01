@@ -25,11 +25,9 @@ package org.catrobat.catroid.content;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class WhenNfcScript extends Script {
 
@@ -44,9 +42,9 @@ public class WhenNfcScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	public Script copyScriptForSprite(Sprite copySprite) {
 		WhenNfcScript cloneScript = new WhenNfcScript(nfcTag);
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		doCopy(copySprite, cloneScript);
 		return cloneScript;
 	}
 

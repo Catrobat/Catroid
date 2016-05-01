@@ -22,46 +22,14 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.os.Bundle;
-
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 public class UserBrickScriptActivity extends ScriptActivity {
 
-	private static UserBrick cachedUserBrick;
-	private UserBrick userBrick;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setUserBrickIfJustCreated();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		setUserBrickIfJustCreated();
-	}
-
-	public void setUserBrickIfJustCreated() {
-		if (UserBrickScriptActivity.cachedUserBrick != null) {
-			userBrick = UserBrickScriptActivity.cachedUserBrick;
-			UserBrickScriptActivity.cachedUserBrick = null;
-		}
-		if (userBrick != null) {
-			ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-		}
-	}
-
-	public static void setUserBrick(Brick userBrick) {
-		cachedUserBrick = (UserBrick) userBrick;
-	}
-
-	@Override
 	public void setupBrickAdapter(BrickAdapter adapter) {
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		adapter.setUserBrick(userBrick);
 		adapter.updateProjectBrickList();
 	}

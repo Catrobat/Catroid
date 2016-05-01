@@ -32,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -39,15 +40,16 @@ public class UserBrickParameter extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public int parameterIndex;
-	public String variableName;
-	public transient TextView textView;
-	public transient TextView prototypeView;
+	private UserScriptDefinitionBrickElement element;
+
+	private transient TextView textView;
+	private transient TextView prototypeView;
 
 	private transient UserBrick parent;
 
-	public UserBrickParameter(UserBrick parent) {
+	public UserBrickParameter(UserBrick parent, UserScriptDefinitionBrickElement element) {
 		this.parent = parent;
+		this.element = element;
 		addAllowedBrickField(BrickField.USER_BRICK);
 		setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
 	}
@@ -61,10 +63,11 @@ public class UserBrickParameter extends FormulaBrick {
 	public UserBrickParameter clone() {
 		UserBrickParameter clonedBrick = new UserBrickParameter(getFormulaWithBrickField(
 				BrickField.USER_BRICK).clone());
-		clonedBrick.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(textView.getId());
+		if (textView != null) {
+			clonedBrick.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(textView.getId());
+		}
 		clonedBrick.parent = parent;
-		clonedBrick.parameterIndex = parameterIndex;
-		clonedBrick.variableName = variableName;
+		clonedBrick.element = element;
 		clonedBrick.textView = textView;
 		clonedBrick.prototypeView = prototypeView;
 		return clonedBrick;
@@ -87,8 +90,11 @@ public class UserBrickParameter extends FormulaBrick {
 
 	@Override
 	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		String variableName = element.getText();
+
+		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
+				getFormulaWithBrickField(BrickField.VARIABLE), dataContainer.getUserVariable(variableName, sprite)));
 		return null;
 	}
 
@@ -100,5 +106,36 @@ public class UserBrickParameter extends FormulaBrick {
 	@Override
 	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
-}
 
+	public void setParent(UserBrick parent) {
+		this.parent = parent;
+	}
+
+	public TextView getTextView() {
+		return textView;
+	}
+
+	public TextView getPrototypeView() {
+		return prototypeView;
+	}
+
+	public UserScriptDefinitionBrickElement getElement() {
+		return element;
+	}
+
+	public void setTextView(TextView textView) {
+		this.textView = textView;
+	}
+
+	public void setPrototypeView(TextView prototypeView) {
+		this.prototypeView = prototypeView;
+	}
+
+	public UserBrick getParent() {
+		return parent;
+	}
+
+	public void setElement(UserScriptDefinitionBrickElement element) {
+		this.element = element;
+	}
+}

@@ -126,7 +126,7 @@
   <string name="dialog_terms_of_use_link_text">Лицензионное Соглашение</string>
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Условия использования Pocket Code</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">Вы собираетесь использовать Pocket Code вместе с 
+  <string name="dialog_terms_of_use_parrot_reminder_text">Вы собираетесь использовать Pocket Code вместе с
         AR.Drone. Мы настоятельно рекомендуем вам выполнять условия использования AR.Drone и условия использования Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Не напоминать мне снова.</string>
   <!-- About Dialog -->
@@ -171,9 +171,9 @@
   <string name="dialog_confirm_delete_brick_title">Вы уверены, что хотите удалить этот блок?</string>
   <string name="dialog_confirm_delete_script_title">Вы уверены, что хотите удалить этот скрипт?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Вы уверены, что хотите удалить эти блоки?</string>
-  <string name="dialog_confirm_delete_script_group_title">Удалить эту группу?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Удалить эти группы?</string>
-  <string name="dialog_confirm_delete_brick_message">Это действие необратимо!</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Удалить эту группу?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Удалить эти группы?</string>
+  <string name="dialog_confirm_delete_brick_message">Это действие необротимо!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Удалить блок %d</item>
     <item quantity="few">Удалить блоки %d</item>

@@ -59,23 +59,23 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BackPackGroupViewHolder;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BackPackScriptAdapter;
+import org.catrobat.catroid.ui.adapter.BackPackUserBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.controller.BackPackScriptController;
+import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public class BackPackScriptFragment extends BackPackActivityFragment implements Dialog.OnKeyListener {
+public class BackPackUserBrickFragment extends BackPackActivityFragment implements Dialog.OnKeyListener {
 
-	public static final String TAG = BackPackScriptFragment.class.getSimpleName();
-	private static final String SHARED_PREFERENCE_NAME = "showDetailsScripts";
+	public static final String TAG = BackPackUserBrickFragment.class.getSimpleName();
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsUserBricks";
 
-	private BackPackScriptAdapter adapter;
-	private String selectedScriptGroupBackPack;
-	private int selectedScriptGroupPosition;
+	private BackPackUserBrickAdapter adapter;
+	private String selectedUserBrickGroupBackPack;
+	private int selectedUserBrickGroupPosition;
 
 	private ListView listView;
 	private ActionMode actionMode;
@@ -85,7 +85,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 	protected String singleItemAppendixActionMode;
 	protected String multipleItemAppendixActionMode;
 
-	private ScriptGroupDeletedReceiver scriptGroupDeletedReceiver;
+	private UserBrickGroupDeletedReceiver userBrickGroupDeletedReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -108,21 +108,21 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		registerForContextMenu(listView);
 		listView.setLongClickable(false);
 
-		adapter = new BackPackScriptAdapter(getActivity(), R.layout.fragment_group_backpack_item, R.id
+		adapter = new BackPackUserBrickAdapter(getActivity(), R.layout.fragment_group_backpack_item, R.id
 				.fragment_group_backpack_item_name_text_view, BackPackListManager.getInstance()
-				.getBackPackedScriptGroups(), this);
+				.getBackPackedUserBrickGroups(), this);
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
 		initClickListener();
 
-		singleItemAppendixActionMode = getString(R.string.script_group);
-		multipleItemAppendixActionMode = getString(R.string.script_groups);
+		singleItemAppendixActionMode = getString(R.string.userbrick_group);
+		multipleItemAppendixActionMode = getString(R.string.userbrick_groups);
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(false);
-		if (!BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
+		if (!BackPackListManager.getInstance().getBackPackedUserBricks().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
 		}
 		menu.findItem(R.id.unpacking_keep).setVisible(false);
@@ -134,8 +134,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 
-		selectedScriptGroupBackPack = adapter.getItem(selectedScriptGroupPosition);
-		menu.setHeaderTitle(selectedScriptGroupBackPack);
+		selectedUserBrickGroupBackPack = adapter.getItem(selectedUserBrickGroupPosition);
+		menu.setHeaderTitle(selectedUserBrickGroupBackPack);
 		adapter.addCheckedItem(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
 
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
@@ -146,12 +146,10 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_unpacking_keep:
-				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(),
-						false);
+				BackPackUserBrickController.getInstance().unpack(selectedUserBrickGroupBackPack, false, getActivity());
 				break;
 			case R.id.context_menu_unpacking:
-				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(),
-						false);
+				BackPackUserBrickController.getInstance().unpack(selectedUserBrickGroupBackPack, false, getActivity());
 				break;
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
@@ -174,7 +172,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				adapter.deleteCheckedScriptGroups();
+				adapter.deleteCheckedUserBrickGroups();
 				checkEmptyBackgroundBackPack();
 				clearCheckedItemsAndEnableButtons();
 				adapter.notifyDataSetChanged();
@@ -208,7 +206,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				selectedScriptGroupPosition = position;
+				selectedUserBrickGroupPosition = position;
 				listView.showContextMenuForChild(view);
 			}
 		});
@@ -216,7 +214,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK, selectedScriptGroupBackPack);
+		outState.putSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK, selectedUserBrickGroupBackPack);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -322,14 +320,14 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 							adapter.addCheckedItem(position);
 						}
 						adapter.notifyDataSetChanged();
-						onScriptGroupChecked();
+						onUserBrickGroupChecked();
 					}
 				});
 	}
 
 	@Override
 	protected void showDeleteDialog() {
-		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedScriptGroupPosition);
+		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedUserBrickGroupPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -405,21 +403,21 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					selectedScriptGroupPosition = position;
+					selectedUserBrickGroupPosition = position;
 					listView.showContextMenuForChild(v);
 				}
 				return false;
 			}
 		});
 
-		adapter.updateScriptGroupLogic(position, holder);
+		adapter.updateUserBrickGroupLogic(position, holder);
 		return convertView;
 	}
 
-	private class ScriptGroupDeletedReceiver extends BroadcastReceiver {
+	private class UserBrickGroupDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_SCRIPT_GROUP_DELETED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_USERBRICK_GROUP_DELETED)) {
 				adapter.notifyDataSetChanged();
 				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			}
@@ -434,12 +432,12 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 			return;
 		}
 
-		if (scriptGroupDeletedReceiver == null) {
-			scriptGroupDeletedReceiver = new ScriptGroupDeletedReceiver();
+		if (userBrickGroupDeletedReceiver == null) {
+			userBrickGroupDeletedReceiver = new UserBrickGroupDeletedReceiver();
 		}
 
 		IntentFilter intentFilterDeleteLook = new IntentFilter(ScriptActivity.ACTION_LOOK_DELETED);
-		getActivity().registerReceiver(scriptGroupDeletedReceiver, intentFilterDeleteLook);
+		getActivity().registerReceiver(userBrickGroupDeletedReceiver, intentFilterDeleteLook);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -458,8 +456,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 
 		BackPackListManager.getInstance().saveBackpack();
 
-		if (scriptGroupDeletedReceiver != null) {
-			getActivity().unregisterReceiver(scriptGroupDeletedReceiver);
+		if (userBrickGroupDeletedReceiver != null) {
+			getActivity().unregisterReceiver(userBrickGroupDeletedReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -470,11 +468,11 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		editor.commit();
 	}
 
-	public BackPackScriptAdapter getAdapter() {
+	public BackPackUserBrickAdapter getAdapter() {
 		return adapter;
 	}
 
-	public void onScriptGroupChecked() {
+	public void onUserBrickGroupChecked() {
 		if (actionMode == null) {
 			return;
 		}
@@ -519,7 +517,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 	}
 
 	private void checkEmptyBackgroundBackPack() {
-		if (BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
+		if (BackPackListManager.getInstance().getBackPackedUserBricks().isEmpty()) {
 			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_groups_backpack_text_heading);
 			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
 			emptyViewHeading.setText(R.string.backpack);

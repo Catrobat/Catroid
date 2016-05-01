@@ -35,6 +35,8 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 
+import java.io.Serializable;
+
 public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
 
 	protected UserList userList;
@@ -92,7 +94,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		this.backPackedData = backPackedData;
 	}
 
-	public class BackPackedData {
+	public class BackPackedData implements Serializable {
 		public UserList userList;
 		public Integer userListType;
 
@@ -121,7 +123,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 			if (sprite == null || !from.existSpriteList(userList, sprite)) {
 				return;
 			}
-			list = into.getDataContainer().addSpriteListIfDontExist(userList.getName(),
+			list = into.getDataContainer().addSpriteListIfDoesNotExist(userList.getName(),
 					into.getSpriteBySpriteName(sprite));
 		}
 
