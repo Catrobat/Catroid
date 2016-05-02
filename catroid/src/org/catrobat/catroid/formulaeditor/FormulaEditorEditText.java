@@ -245,6 +245,19 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		return internFormula.getExternFormulaString();
 	}
 
+	public String getSelectedTextFromInternFormula() {
+		return internFormula.getSelectedText();
+	}
+
+	public void overrideSelectedText(String string) {
+		internFormula.overrideSelectedText(string, context);
+
+		history.push(internFormula.getInternFormulaState());
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
 	public boolean hasChanges() {
 		return history != null && history.hasUnsavedChanges();
 	}
