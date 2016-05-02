@@ -23,9 +23,15 @@
 package org.catrobat.catroid;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -58,12 +64,17 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckFacebookServerTokenValidityTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.transfers.CheckVersionTask;
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.DefaultActivityLauncher;
+import org.catrobat.catroid.utils.MockActivityLauncher;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,7 +82,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
+public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckVersionTask.OnCheckVersionListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
@@ -84,6 +95,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleCorrectAddButton;
 	private boolean showUploadDialog = false;
+	private boolean runningUploadOldVersionTest;
+	private boolean mockPlayStoreStarted;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -121,22 +134,37 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.handleCorrectAddButton = value;
 	}
 
-	public void uploadProject(String projectName, Activity activity) {
-		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, true, false);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
-		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+	public void setRunningUploadOldVersionTest(boolean value) {
+		this.runningUploadOldVersionTest = value;
+	}
 
-		if (!Utils.isUserLoggedIn(activity)) {
-			showSignInDialog(activity, true);
-		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
-			checkTokenTask.setOnCheckTokenCompleteListener(this);
-			checkTokenTask.execute();
+	public boolean getRunningUploadOldVersionTest() {
+		return this.runningUploadOldVersionTest;
+	}
+
+	public void setMockPlayStoreStartedTrue() {
+		this.mockPlayStoreStarted = true;
+	}
+
+	public boolean getMockPlayStoreStarted() {
+		return this.mockPlayStoreStarted;
+	}
+
+	public void uploadProject(String projectName, Activity activity) {
+		try {
+			PackageInfo info = activity.getPackageManager().getPackageInfo(activity.getPackageName(),
+					0);
+			String version;
+			if (runningUploadOldVersionTest) {
+				version = "test";
+			} else {
+				version = info.versionName;
+			}
+			CheckVersionTask checkVersionTask = new CheckVersionTask(activity, version, projectName);
+			checkVersionTask.setOnCheckVersionListener(this);
+			checkVersionTask.execute();
+		} catch (PackageManager.NameNotFoundException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
 	}
 
@@ -529,6 +557,83 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			showUploadProjectDialog(fragmentManager, bundle);
 		} else {
 			showUploadDialog = true;
+		}
+	}
+
+	@Override
+	public void onVersionValid(Activity activity, String projectName) {
+		checkAndUpload(activity, projectName);
+	}
+
+	@Override
+	public void onVersionInvalid(Activity activity, String projectName) {
+		showWrongVersionDialog(activity, projectName);
+	}
+
+	private void showWrongVersionDialog(final Activity activity, final String projectName) {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
+		builder.setTitle(R.string.error);
+		builder.setMessage(R.string.error_outdated_pocketcode_version);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				openPlayStoreWithPocketCode(activity);
+			}
+		});
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				checkAndUpload(activity, projectName);
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	private void checkAndUpload(Activity activity, String projectName) {
+		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
+			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, false, false);
+			loadProjectTask.setOnLoadProjectCompleteListener(this);
+			loadProjectTask.execute();
+		}
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
+			showSignInDialog(activity, true);
+		} else {
+			if (!Utils.isUserLoggedIn(activity)) {
+				showSignInDialog(activity, true);
+			} else {
+				CheckTokenTask checkTokenTask = new CheckTokenTask(activity, token, username);
+				checkTokenTask.setOnCheckTokenCompleteListener(this);
+				checkTokenTask.execute();
+			}
+		}
+	}
+
+	private void openPlayStoreWithPocketCode(Activity activity) {
+		final String appPackageName = activity.getPackageName();
+		try {
+			tryPlayStoreIntent(Constants.APP_STORE_URL_ONE, appPackageName, activity);
+		} catch (android.content.ActivityNotFoundException anfe) {
+			tryPlayStoreIntent(Constants.APP_STORE_URL_TWO, appPackageName, activity);
+		}
+	}
+
+	private void tryPlayStoreIntent(String url, String appPackageName, Activity activity) {
+		Intent playStoreIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(url + appPackageName));
+		if (ProjectManager.getInstance().getRunningUploadOldVersionTest()) {
+			MockActivityLauncher launcher = new MockActivityLauncher();
+			launcher.start(activity, playStoreIntent);
+		} else {
+			DefaultActivityLauncher launcher = new DefaultActivityLauncher();
+			launcher.start(activity, playStoreIntent);
 		}
 	}
 
