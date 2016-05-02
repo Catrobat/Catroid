@@ -244,6 +244,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	}
 
 	private void onUserDismiss() {
+		refreshFormulaPreviewString(currentFormula.getTrimmedFormulaString(getActivity()));
 		formulaEditorEditText.endEdit();
 		currentFormula.prepareToRemove();
 

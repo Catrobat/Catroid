@@ -392,8 +392,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnButton(solo.getString(R.string.no));
 
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_changes_discarded)));
-		assertEquals("Wrong text in FormulaEditor", "0" + getActivity().getString(R.string.formula_editor_decimal_mark)
-				+ "0 ", ((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
+		assertEquals("Wrong text in FormulaEditor", "0 ", ((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID))
+				.getText().toString());
 	}
 
 	public void testDiscardDialog() {

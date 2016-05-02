@@ -680,4 +680,8 @@ public final class Utils {
 					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
 	}
+
+	public static String getNumberStringForBricks(float value) {
+		return (int) value == value ? "" + (int) value : "" + value;
+	}
 }
