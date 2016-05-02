@@ -312,8 +312,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		UiTestUtils.createUserListFromDataFragment(solo, itemString, true);
 		UiTestUtils.createUserListFromDataFragment(solo, itemString2nd, true);
 		UiTestUtils.createUserListFromDataFragment(solo, itemString3rd, false);
-
-		solo.clickOnView(solo.getView(R.id.formula_editor_data_item_delete));
+		String delete = solo.getString(R.string.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete, getActivity());
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -332,6 +332,21 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(itemString);
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(itemString2nd);
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(itemString3rd);
+	}
+
+	public void testDustbinNotVisible() {
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_data));
+		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
+
+		ArrayList<View> views = solo.getCurrentViews();
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (View view : views) {
+			ids.add(view.getId());
+		}
+
+		assertFalse("Dustbin icon found in Actionbar", ids.contains(R.id.formula_editor_data_item_delete));
 	}
 
 	public void testKeyCodeBackOnContextMode() {
