@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.graphics.Point;
-import android.hardware.SensorEvent;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -171,26 +170,6 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		assertEquals("LoudnessSensor dit not start recording, isRecording()", true, simulatedSoundRecorder.isRecording());
 		SensorHandler.stopSensorListeners();
 		assertEquals("LoudnessSensor did not stop recording, isRecording()", false, simulatedSoundRecorder.isRecording());
-	}
-
-	private boolean checkValidRotationValues(SensorEvent sensorEvent) {
-		float[] rotationMatrix = new float[16];
-		float[] rotationVector = new float[3];
-		float[] orientations = new float[3];
-
-		rotationVector[0] = sensorEvent.values[0];
-		rotationVector[1] = sensorEvent.values[1];
-		rotationVector[2] = sensorEvent.values[2];
-
-		android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
-		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
-
-		for (float orientation : orientations) {
-			if (Float.compare(orientation, Float.NaN) == 0) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor) {
