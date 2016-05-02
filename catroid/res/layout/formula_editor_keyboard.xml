@@ -31,12 +31,12 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/formula_editor_keyboard_compute"
+            android:id="@+id/formula_editor_keyboard_string"
             style="@style/FormulaEditorButton"
             android:layout_marginTop="@dimen/key_margin"
             android:layout_marginLeft="@dimen/key_margin"
             android:layout_weight="0.3"
-            android:text="@string/formula_editor_compute" />
+            android:text="@string/formula_editor_string" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_bracket_open"
@@ -223,12 +223,12 @@
             android:layout_marginLeft="@dimen/key_margin"
             android:layout_weight="0.30"
             android:text="@string/formula_editor_data" />
-        
+
         <Button
-            android:id="@+id/formula_editor_keyboard_string"
+            android:id="@+id/formula_editor_keyboard_compute"
             style="@style/FormulaEditorButton"
             android:layout_weight="0.35"
-            android:text="@string/formula_editor_string" />
+            android:text="@string/formula_editor_compute" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_ok"
