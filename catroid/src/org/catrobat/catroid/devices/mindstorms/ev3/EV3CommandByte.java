@@ -102,6 +102,8 @@ public class EV3CommandByte {
 	public enum EV3CommandOpCode {
 		OP_UI_READ(0x81), OP_UI_WRITE(0x82),
 
+		OP_KEEP_ALIVE(0x90),
+
 		OP_SOUND(0x94), OP_SOUND_TEST(0x95),
 
 		OP_INPUT_DEVICE(0x99), OP_INPUT_READ(0x9A), OP_INPUT_READ_SI(0x9D),

@@ -46,6 +46,8 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 	private static final UUID LEGO_EV3_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private static final String TAG = LegoEV3Impl.class.getSimpleName();
 
+	private static final int KEEP_ALIVE_TIME = 5;
+
 	private boolean isInitialized = false;
 
 	protected MindstormsConnection mindstormsConnection;
@@ -150,10 +152,17 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 
 	private void sendKeepAlive() throws MindstormsException {
 
-		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY, 0, 0, EV3CommandOpCode.OP_UI_READ);
+		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY,
+				0, 0, EV3CommandOpCode.OP_KEEP_ALIVE);
 		mindstormsConnection.incCommandCounter();
 
-		command.append(EV3CommandByteCode.UI_READ_GET_VBATT);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, KEEP_ALIVE_TIME);
+
+		try {
+			mindstormsConnection.send(command);
+		} catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
 	}
 
 	public void moveMotorStepsSpeed(byte outputField, int chainLayer, int speed, int step1Tacho, int step2Tacho, int step3Tacho, boolean brake) {

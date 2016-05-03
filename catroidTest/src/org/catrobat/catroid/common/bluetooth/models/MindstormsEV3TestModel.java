@@ -48,6 +48,8 @@ public class MindstormsEV3TestModel implements DeviceModel {
 	private byte[] portSensorMode = { 0, 0, 0, 0 };
 	private int[] portSensorValue = { 255, 255, 255, 255 };
 	private boolean[] portSensorActive = {false, false, false, false};
+	private int keepAliveTime = 0;
+	private boolean keepAliveSet = false;
 
 	protected byte[] createResponseFromClientRequest(byte[] message) {
 
@@ -75,9 +77,22 @@ public class MindstormsEV3TestModel implements DeviceModel {
 			case OP_INPUT_READ_SI:
 				return handleInputReadSiMessage(message, msgNumber);
 
+			case OP_KEEP_ALIVE:
+				return handleKeepAliveMessage(message);
+
 			default:
 				return handleUnknownMessage(msgNumber, commandType);
 		}
+	}
+
+	private byte[] handleKeepAliveMessage(byte[] message) {
+		replyRequired = false;
+
+		int keepAliveTime = message[6];
+
+		setKeepAliveTime(keepAliveTime);
+
+		return new byte[0];
 	}
 
 	private byte[] handleInputDeviceMessage(byte[] message, byte[] messageNumber) {
@@ -334,5 +349,18 @@ public class MindstormsEV3TestModel implements DeviceModel {
 
 	public void setSensorType(int port, EV3Sensor.Sensor sensorType) {
 		sensors[port] = sensorType;
+	}
+
+	public void setKeepAliveTime(int keepAliveTimeValue) {
+		keepAliveTime = keepAliveTimeValue;
+		keepAliveSet = true;
+	}
+
+	public int getKeepAliveTime() {
+		return keepAliveTime;
+	}
+
+	public boolean isKeepAliveSet() {
+		return keepAliveSet;
 	}
 }
