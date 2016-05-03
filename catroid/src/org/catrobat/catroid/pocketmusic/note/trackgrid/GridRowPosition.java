@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,11 +54,12 @@ public class GridRowPosition {
 
 	@Override
 	public int hashCode() {
-		int result = 23;
-		result = 31 * result + columnStartIndex;
-		result = 31 * result + (int) startTicksInTrack;
-		result = 31 * result + noteLength.hashCode();
-		return result;
+		int hashCode = 23;
+		int primeWithGoodCollisionPrevention = 31;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + columnStartIndex;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + (int) startTicksInTrack;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + noteLength.hashCode();
+		return hashCode;
 	}
 
 	@Override

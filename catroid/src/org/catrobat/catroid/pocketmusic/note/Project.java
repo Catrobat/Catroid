@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -109,12 +109,13 @@ public class Project implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int result = 16;
-		result = 31 * result + name.hashCode();
-		result = 31 * result + beatsPerMinute;
-		result = 31 * result + beat.hashCode();
-		result = 31 * result + tracks.hashCode();
-		return result;
+		int hashCode = 16;
+		int primeWithGoodCollisionPrevention = 31;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + name.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + beatsPerMinute;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + beat.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + tracks.hashCode();
+		return hashCode;
 	}
 
 	@Override

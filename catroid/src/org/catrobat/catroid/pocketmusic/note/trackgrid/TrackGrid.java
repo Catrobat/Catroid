@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,12 +60,13 @@ public class TrackGrid {
 
 	@Override
 	public int hashCode() {
-		int result = 172;
-		result = 31 * result + key.hashCode();
-		result = 31 * result + instrument.hashCode();
-		result = 31 * result + beat.hashCode();
-		result = 31 * result + gridRows.hashCode();
-		return result;
+		int hashCode = 172;
+		int primeWithGoodCollisionPrevention = 31;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + key.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + instrument.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + beat.hashCode();
+		hashCode = primeWithGoodCollisionPrevention * hashCode + gridRows.hashCode();
+		return hashCode;
 	}
 
 	@Override

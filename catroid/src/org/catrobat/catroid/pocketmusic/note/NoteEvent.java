@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2016 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,9 +62,10 @@ public class NoteEvent implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int result = 15;
-		result = 31 * result + noteName.hashCode();
-		return 31 * result + (noteOn ? 1 : 0);
+		int hashCode = 15;
+		int primeWithGoodCollisionPrevention = 31;
+		hashCode = primeWithGoodCollisionPrevention * hashCode + noteName.hashCode();
+		return primeWithGoodCollisionPrevention * hashCode + (noteOn ? 1 : 0);
 	}
 
 	@Override
