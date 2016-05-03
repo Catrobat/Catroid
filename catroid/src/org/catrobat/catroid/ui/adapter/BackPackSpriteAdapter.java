@@ -81,7 +81,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		holder.background.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP && backpackSpriteFragment != null) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN && backpackSpriteFragment != null) {
 					backpackSpriteFragment.setSelectedSpritePosition(position);
 					backpackSpriteFragment.getListView().showContextMenuForChild(v);
 				}
@@ -92,7 +92,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		handleHolderViews(position, holder);
 
 		if (selectMode != ListView.CHOICE_MODE_NONE) {
-			if (disableBackgroundSprites && getItem(position).isBackgroundSprite) {
+			if (disableBackgroundSprites && getItem(position).isBackgroundObject) {
 				holder.checkbox.setVisibility(View.INVISIBLE);
 				enableHolderViews(holder, false);
 				spriteView.setAlpha((float) 0.25);
@@ -173,7 +173,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 	public int getCountWithBackgroundSprites() {
 		int numberOfBackgroundSprites = 0;
 		for (int position = 0; position < getCount(); position++) {
-			if (getItem(position).isBackgroundSprite) {
+			if (getItem(position).isBackgroundObject) {
 				numberOfBackgroundSprites++;
 			}
 		}

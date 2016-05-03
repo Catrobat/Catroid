@@ -24,10 +24,8 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
-
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -38,7 +36,8 @@ public class WaitActionTest extends AndroidTestCase {
 
 	public void testWait() throws InterruptedException {
 		float waitOneSecond = 1.0f;
-		WaitAction action = ExtendedActions.delay(null, new Formula(waitOneSecond));
+		ActionFactory factory = new ActionFactory();
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(waitOneSecond));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -50,7 +49,9 @@ public class WaitActionTest extends AndroidTestCase {
 	public void testPauseResume() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		float waitOneSecond = 1.0f;
-		DelayAction action = ExtendedActions.delay(waitOneSecond);
+
+		ActionFactory factory = testSprite.getActionFactory();
+		WaitAction action = (WaitAction) factory.createDelayAction(testSprite, new Formula(waitOneSecond));
 		testSprite.look.addAction(action);
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
@@ -66,14 +67,15 @@ public class WaitActionTest extends AndroidTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		WaitAction action = ExtendedActions.delay(null, new Formula(String.valueOf(VALUE)));
+		ActionFactory factory = new ActionFactory();
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(String.valueOf(VALUE)));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
 		assertTrue("Unexpected waited time!", (action.getTime() - VALUE) > 0.5f);
 
-		action = ExtendedActions.delay(null, new Formula(NOT_NUMERICAL_STRING));
+		action = (WaitAction) factory.createDelayAction(null, new Formula(NOT_NUMERICAL_STRING));
 		currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -82,7 +84,8 @@ public class WaitActionTest extends AndroidTestCase {
 	}
 
 	public void testNullFormula() {
-		WaitAction action = ExtendedActions.delay(null, null);
+		ActionFactory factory = new ActionFactory();
+		WaitAction action = (WaitAction) factory.createDelayAction(null, null);
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -91,7 +94,8 @@ public class WaitActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		WaitAction action = ExtendedActions.delay(null, new Formula(Double.NaN));
+		ActionFactory factory = new ActionFactory();
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(Double.NaN));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;

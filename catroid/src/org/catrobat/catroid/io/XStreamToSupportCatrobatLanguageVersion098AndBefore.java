@@ -29,6 +29,7 @@ import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenNfcScript;
@@ -116,6 +117,15 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -166,7 +176,7 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 			return;
 		}
 
-		brickInfoMap = new HashMap<String, BrickInfo>();
+		brickInfoMap = new HashMap<>();
 
 		BrickInfo brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
@@ -491,6 +501,42 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 
 		brickInfo = new BrickInfo(ChooseCameraBrick.class.getSimpleName());
 		brickInfoMap.put("chooseCameraBrick", brickInfo);
+
+		brickInfo = new BrickInfo(CollisionReceiverBrick.class.getSimpleName());
+		brickInfoMap.put("collisionReceiverBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetBounceBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("bounceFactor", BrickField.PHYSICS_BOUNCE_FACTOR);
+		brickInfoMap.put("setBounceBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetFrictionBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("friction", BrickField.PHYSICS_FRICTION);
+		brickInfoMap.put("setFrictionBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetGravityBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("gravityX", BrickField.PHYSICS_GRAVITY_X);
+		brickInfo.addBrickFieldToMap("gravityY", BrickField.PHYSICS_GRAVITY_Y);
+		brickInfoMap.put("setGravityBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetMassBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("mass", BrickField.PHYSICS_MASS);
+		brickInfoMap.put("setMassBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetPhysicsObjectTypeBrick.class.getSimpleName());
+		brickInfoMap.put("setPhysicsObjectTypeBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetVelocityBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("velocityX", BrickField.PHYSICS_VELOCITY_X);
+		brickInfo.addBrickFieldToMap("velocityY", BrickField.PHYSICS_VELOCITY_Y);
+		brickInfoMap.put("setVelocityBrick", brickInfo);
+
+		brickInfo = new BrickInfo(TurnLeftSpeedBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("turnLeftSpeed", BrickField.PHYSICS_TURN_LEFT_SPEED);
+		brickInfoMap.put("turnLeftSpeedBrick", brickInfo);
+
+		brickInfo = new BrickInfo(TurnRightSpeedBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("turnRightSpeed", BrickField.PHYSICS_TURN_RIGHT_SPEED);
+		brickInfoMap.put("turnRightSpeedBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {
@@ -498,12 +544,13 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 			return;
 		}
 
-		scriptInfoMap = new HashMap<String, String>();
+		scriptInfoMap = new HashMap<>();
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
 		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());
+		scriptInfoMap.put("collisionScript", CollisionScript.class.getSimpleName());
 	}
 
 	private void modifyXMLToSupportUnknownFields(File file) {
@@ -875,7 +922,7 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 
 		void addBrickFieldToMap(String oldFiledName, BrickField brickField) {
 			if (brickFieldMap == null) {
-				brickFieldMap = new HashMap<String, BrickField>();
+				brickFieldMap = new HashMap<>();
 			}
 			brickFieldMap.put(oldFiledName, brickField);
 		}

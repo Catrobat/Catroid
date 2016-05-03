@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.ui.fragment;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.view.View;
 import android.widget.CheckBox;
@@ -42,9 +43,11 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BackPackSpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -55,11 +58,16 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
+import static org.catrobat.catroid.utils.Utils.buildPath;
 
 public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -105,6 +113,8 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	private String backpack;
 	private String backpackAdd;
 	private String backpackTitle;
+	private String backpackReplaceDialogSingle;
+	private String backpackReplaceDialogMultiple;
 
 	private List<Sprite> spriteList;
 
@@ -128,6 +138,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		ProjectManager.getInstance().setProject(project);
 
+		Resources resources = getActivity().getBaseContext().getResources();
 		continueMenu = solo.getString(R.string.main_menu_continue);
 		rename = solo.getString(R.string.rename);
 		backpackTitle = solo.getString(R.string.backpack_title);
@@ -137,8 +148,10 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
 		backpackAdd = solo.getString(R.string.backpack_add);
+		backpackReplaceDialogSingle = resources.getString(R.string.backpack_replace_object, SPRITE_NAME);
+		backpackReplaceDialogMultiple = solo.getString(R.string.backpack_replace_object_multiple);
 
-		UiTestUtils.clearBackPack();
+		UiTestUtils.clearBackPack(true);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
 		SpriteAdapter adapter = getSpriteAdapter();
@@ -832,7 +845,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 	public void testBackPackShowAndHideDetails() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
-		int timeToWait = 300;
+		int timeToWait = 500;
 
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
@@ -848,6 +861,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
 
+		solo.sleep(timeToWait);
 		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
@@ -961,6 +975,71 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 
 		assertTrue("Sprite from PointToBrick was not unpacked!", solo.waitForText("dog", 1, TIME_TO_WAIT_BACKPACK));
+	}
+
+	public void testBackPackAlreadyPackedDialogSingleItem() {
+		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Sprite wasn't backpacked!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		clickOnContextMenuItem(SPRITE_NAME, backpackAdd);
+		solo.waitForDialogToOpen();
+		assertTrue("Sprite already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogSingle, 0, TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(200);
+
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Sprite wasn't backpacked!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
+		assertTrue("Sprite was not replaced!", BackPackListManager.getInstance().getBackPackedSprites().size() == 1);
+	}
+
+	public void testBackPackAlreadyPackedDialogMultipleItems() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME, SPRITE_NAME2);
+		assertTrue("Sprite wasn't backpacked!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		UiTestUtils.openBackPackActionMode(solo, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForDialogToOpen();
+		assertTrue("Sprite already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogMultiple, 0,
+				TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(200);
+
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Sprite wasn't backpacked!", solo.waitForText(SPRITE_NAME_BACKGROUND, 0, TIME_TO_WAIT));
+		assertTrue("Sprite wasn't backpacked!", solo.waitForText(SPRITE_NAME, 0, TIME_TO_WAIT));
+		assertTrue("Sprite wasn't backpacked!", solo.waitForText(SPRITE_NAME2, 0, TIME_TO_WAIT));
+		assertTrue("Sprite was not replaced!", BackPackListManager.getInstance().getBackPackedSprites().size() == 3);
+	}
+
+	public void testBackPackSerializationAndDeserialization() {
+		File backPackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, StorageHandler.BACKPACK_FILENAME));
+		assertFalse("Backpack.json should not exist!", backPackFile.exists());
+		UiTestUtils.backPackAllItems(solo, getActivity(), SPRITE_NAME_BACKGROUND, SPRITE_NAME);
+		solo.goBack();
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("No items have been backpacked!", !BackPackListManager.getInstance().getBackpack()
+				.backpackedSprites.isEmpty());
+		backPackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, StorageHandler.BACKPACK_FILENAME));
+		assertTrue("Backpack.json has not been saved!", backPackFile.exists());
+
+		UiTestUtils.clearBackPack(false);
+		solo.sleep(TIME_TO_WAIT);
+		assertTrue("Backpacked items not deleted!", BackPackListManager.getInstance().getBackpack()
+				.backpackedSprites.isEmpty());
+
+		BackPackListManager.getInstance().loadBackpack();
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Backpacked items haven't been restored from backpack.json!", !BackPackListManager.getInstance()
+				.getBackpack().backpackedSprites.isEmpty());
 	}
 
 	private String getSpriteName(int spriteIndex) {

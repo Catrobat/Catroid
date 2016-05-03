@@ -105,53 +105,6 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@Device
-	public void testStartAndStop() {
-
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-
-			if (camera != null) {
-				camera.release();
-			}
-		}
-
-		int faces = camera.getParameters().getMaxNumDetectedFaces();
-		camera.release();
-		camera = null;
-
-		if (faces > 0) {
-			IcsFaceDetector detector = new IcsFaceDetector();
-			assertNotNull("Cannot instantiate IcsFaceDetector", detector);
-
-			try {
-				boolean success = detector.startFaceDetection();
-				assertTrue("IcsFaceDetector could not start", success);
-			} catch (Exception exc) {
-				fail("Cannot start face detection (" + exc.getMessage() + ")");
-			}
-
-			try {
-				detector.stopFaceDetection();
-			} catch (Exception exc) {
-				fail("Cannot stop face detection (" + exc.getMessage() + ")");
-			}
-
-			camera = null;
-			try {
-				camera = Camera.open();
-			} catch (Exception exc) {
-				fail("Ressources were not properly released");
-			}
-		}
-		if (camera != null) {
-			camera.release();
-		}
-	}
-
-	@Device
 	public void testDoubleStart() {
 
 		Camera camera = null;
@@ -258,7 +211,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 				/ FACE_RECT_SIZE;
 		assertEquals("Unexpected x position of face", expectedXPosition, detectedFaces[X_POSITION_INDEX]);
 
-		int expectedYPosition = (FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT * (-1)
+		int expectedYPosition = (FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT
 				/ FACE_RECT_SIZE;
 		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
 

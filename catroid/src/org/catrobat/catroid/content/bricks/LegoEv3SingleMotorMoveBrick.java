@@ -40,7 +40,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -202,7 +201,6 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 			}
 		});
 
@@ -267,7 +265,7 @@ public class LegoEv3SingleMotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoEv3SingleMotorMove(sprite, motorEnum,
+		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_EV3_POWER),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS)));
 		return null;

@@ -21,16 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Doesn't work atm. Maybe if the pmd plugin gets updated.
-//task findbugs(type: FindBugs) {
-//    classes = fileTree('build/classes/debug/')
-//    source = fileTree(android.sourceSets.main.java.srcDirs)
-//    classpath = files( project.configurations.compile.asPath )
-//    effort = 'max'
-//    reports.xml.enabled = false
-//    reports.html.enabled = true
-//}
-
 task checkstyle(type: Checkstyle) {
     configFile file('config/checkstyle.xml')
     source '.'
@@ -44,6 +34,7 @@ task checkstyle(type: Checkstyle) {
     ignoreFailures false
 
     reports {
+        xml.enabled = true
         xml.destination "build/reports/checkstyle.xml"
     }
 }

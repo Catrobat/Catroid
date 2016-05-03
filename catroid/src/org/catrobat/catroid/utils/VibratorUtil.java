@@ -179,14 +179,18 @@ public final class VibratorUtil {
 	}
 
 	private static synchronized void startVibrate() {
-		Log.d(TAG, "startVibrate()");
-		startTime = SystemClock.uptimeMillis();
-		vibrator.vibrate(MAX_TIME_TO_VIBRATE);
-		Log.d(TAG, "start time was: " + Long.toString(startTime));
+		if (vibrator != null) {
+			Log.d(TAG, "startVibrate()");
+			startTime = SystemClock.uptimeMillis();
+			vibrator.vibrate(MAX_TIME_TO_VIBRATE);
+			Log.d(TAG, "start time was: " + Long.toString(startTime));
+		}
 	}
 
 	private static synchronized void stopVibrate() {
-		Log.d(TAG, "stopVibrate()");
-		vibrator.cancel();
+		if (vibrator != null) {
+			Log.d(TAG, "stopVibrate()");
+			vibrator.cancel();
+		}
 	}
 }

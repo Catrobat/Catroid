@@ -36,7 +36,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -134,7 +133,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeBrightnessByN(sprite,
+		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite,
 				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)));
 		return null;
 	}

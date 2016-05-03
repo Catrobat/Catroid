@@ -33,6 +33,7 @@ public class Passepartout extends Actor {
 	private float virtualScreenWidth;
 	private float virtualScreenHeight;
 
+	private final Color passepartoutColor = Color.BLACK;
 	private float passepartoutHeight;
 	private float passepartoutWidth;
 
@@ -48,13 +49,14 @@ public class Passepartout extends Actor {
 		passepartoutWidth = ((screenWidth / (screenViewPortWidth / virtualScreenWidth)) - virtualScreenWidth) / 2f;
 
 		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.BLACK);
+		pixmap.setColor(passepartoutColor);
 		pixmap.fill();
 		texture = new Texture(pixmap);
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		batch.setColor(passepartoutColor);
 		if (Float.compare(passepartoutWidth, 0f) != 0) {
 			batch.draw(texture, -virtualScreenWidth / 2f, -virtualScreenHeight / 2f, -passepartoutWidth,
 					virtualScreenHeight);

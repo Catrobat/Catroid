@@ -54,6 +54,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -89,6 +90,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private String unpack;
 	private String unpackAndKeep;
 	private String backpack;
+	private String backpackAdd;
 	private String backpackTitle;
 
 	private String delete;
@@ -115,12 +117,13 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		unpack = solo.getString(R.string.unpack);
 		unpackAndKeep = solo.getString(R.string.unpack_keep);
 		backpack = solo.getString(R.string.backpack);
+		backpackAdd = solo.getString(R.string.backpack_add);
 		backpackTitle = solo.getString(R.string.backpack_title);
 
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_script_group_title);
 
-		UiTestUtils.clearBackPack();
+		UiTestUtils.clearBackPack(true);
 	}
 
 	public void testCopyScript() {
@@ -733,20 +736,21 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testBackgroundBricks() {
-		Project standardProject = null;
+		TestUtils.clearProject(solo.getString(R.string.default_project_name));
+		Project defaultProject = null;
 		try {
-			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(
+			defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(
 					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		} catch (IOException e) {
-			Log.e(TAG, "Could not create standard project", e);
-			fail("Could not create standard project");
+			Log.e(TAG, "Could not create default project", e);
+			fail("Could not create default project");
 		}
 
-		if (standardProject == null) {
-			fail("Could not create standard project");
+		if (defaultProject == null) {
+			fail("Could not create default project");
 		}
-		ProjectManager.getInstance().setProject(standardProject);
-		StorageHandler.getInstance().saveProject(standardProject);
+		ProjectManager.getInstance().setProject(defaultProject);
+		StorageHandler.getInstance().saveProject(defaultProject);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		String categoryLooks = solo.getString(R.string.category_looks);
@@ -1532,8 +1536,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForText(brickWhenStarted);
 		solo.clickOnText(brickWhenStarted);
 		solo.waitForDialogToOpen();
-		solo.waitForText(backpack);
-		solo.clickOnText(backpack);
+		solo.waitForText(backpackAdd);
+		solo.clickOnText(backpackAdd);
 
 		fillNewScriptGroupDialog(scriptGroupName);
 	}

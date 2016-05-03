@@ -30,10 +30,15 @@ import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -41,6 +46,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -141,9 +147,11 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserBrickParameter;
+import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -152,15 +160,26 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
@@ -192,8 +211,10 @@ public final class StorageHandler {
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
+	public static final String BACKPACK_FILENAME = "backpack.json";
 
 	private XStreamToSupportCatrobatLanguageVersion098AndBefore xstream;
+	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
 
@@ -201,7 +222,6 @@ public final class StorageHandler {
 	private File backPackImageDirectory;
 
 	private Lock loadSaveLock = new ReentrantLock();
-
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
@@ -211,20 +231,9 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
-
 	private StorageHandler() throws IOException {
-		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
-		xstream.processAnnotations(Project.class);
-		xstream.processAnnotations(XmlHeader.class);
-		xstream.processAnnotations(DataContainer.class);
-		xstream.processAnnotations(Setting.class);
-		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
-		xstream.registerConverter(new XStreamUserVariableConverter());
-		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
-		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
-		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
-
-		setXstreamAliases();
+		prepareProgramXstream();
+		prepareBackpackGson();
 
 		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
@@ -234,6 +243,31 @@ public final class StorageHandler {
 
 	public static StorageHandler getInstance() {
 		return INSTANCE;
+	}
+
+	private void prepareProgramXstream() {
+		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream.processAnnotations(Project.class);
+		xstream.processAnnotations(Sprite.class);
+		xstream.processAnnotations(XmlHeader.class);
+		xstream.processAnnotations(DataContainer.class);
+		xstream.processAnnotations(Setting.class);
+		xstream.processAnnotations(UserVariableBrick.class);
+		xstream.processAnnotations(UserListBrick.class);
+		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
+		xstream.registerConverter(new XStreamUserVariableConverter());
+		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+
+		setProgramXstreamAliases();
+	}
+
+	private void prepareBackpackGson() {
+		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
+		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackBrickSerializerAndDeserializer());
+		backpackGson = gsonBuilder.create();
 	}
 
 	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
@@ -257,7 +291,7 @@ public final class StorageHandler {
 		}
 	}
 
-	private void setXstreamAliases() {
+	private void setProgramXstreamAliases() {
 		xstream.alias("look", LookData.class);
 		xstream.alias("droneLook", DroneVideoLookData.class);
 		xstream.alias("sound", SoundInfo.class);
@@ -377,6 +411,19 @@ public final class StorageHandler {
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
 
+		// Physics Script
+		xstream.alias("script", CollisionScript.class);
+		// Physics Bricks
+		xstream.alias("brick", CollisionReceiverBrick.class);
+		xstream.alias("brick", SetBounceBrick.class);
+		xstream.alias("brick", SetFrictionBrick.class);
+		xstream.alias("brick", SetGravityBrick.class);
+		xstream.alias("brick", SetMassBrick.class);
+		xstream.alias("brick", SetPhysicsObjectTypeBrick.class);
+		xstream.alias("brick", SetVelocityBrick.class);
+		xstream.alias("brick", TurnLeftSpeedBrick.class);
+		xstream.alias("brick", TurnRightSpeedBrick.class);
+
 		xstream.alias("setting", LegoNXTSetting.class);
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
 		xstream.aliasAttribute(LegoNXTSetting.NXTPort.class, "number", "number");
@@ -389,6 +436,11 @@ public final class StorageHandler {
 		File catroidRoot = new File(DEFAULT_ROOT);
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
+		}
+		try {
+			createBackPackFileStructure();
+		} catch (IOException e) {
+			Log.e(TAG, "Creating backpack file structure failed");
 		}
 	}
 
@@ -404,13 +456,15 @@ public final class StorageHandler {
 
 		Log.d(TAG, "loadProject " + projectName);
 
+		if (!projectExists(projectName)) {
+			return null;
+		}
+
 		loadSaveLock.lock();
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
-			Log.d(TAG, "path: " + projectCodeFile.getAbsolutePath());
 			fileInputStream = new FileInputStream(projectCodeFile);
-			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
-			return project;
+			return (Project) xstream.getProjectFromXML(projectCodeFile);
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "Could not load project!");
 			deleteDirectory(file);
@@ -486,7 +540,7 @@ public final class StorageHandler {
 			}
 
 			File projectDirectory = new File(buildProjectPath(project.getName()));
-			createProjectDataStructure(projectDirectory);
+			createProgramFileStructure(projectDirectory);
 
 			writer = new BufferedWriter(new FileWriter(tmpCodeFile), Constants.BUFFER_8K);
 			writer.write(projectXml);
@@ -526,6 +580,56 @@ public final class StorageHandler {
 		}
 	}
 
+	public boolean saveBackpack(Backpack backpack) {
+		Log.d(TAG, "Saving backpack json");
+		FileWriter writer = null;
+		String json = backpackGson.toJson(backpack);
+		Log.d(TAG, json);
+
+		try {
+			File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			if (!backpackFile.exists()) {
+				backpackFile.createNewFile();
+			}
+			writer = new FileWriter(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			writer.write(json);
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Could not write backpack file", e);
+			return false;
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException ioException) {
+					Log.e(TAG, "Failed closing the buffered writer", ioException);
+				}
+			}
+		}
+	}
+
+	public Backpack loadBackpack() {
+		Log.d(TAG, "Loading backpack json");
+		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		if (!backpackFile.exists()) {
+			Log.d(TAG, "Backpack file does not exist!");
+			return null;
+		}
+
+		try {
+			BufferedReader bufferedBackpackReader = new BufferedReader(new FileReader(backpackFile));
+			Backpack backpack = backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
+			return backpack;
+		} catch (FileNotFoundException e) {
+			Log.d(TAG, "Could not find backpack file!");
+			return new Backpack();
+		} catch (JsonSyntaxException | JsonIOException jsonException) {
+			Log.d(TAG, "Could not load backpack file! File will be deleted!");
+			backpackFile.delete();
+			return new Backpack();
+		}
+	}
+
 	public boolean codeFileSanityCheck(String projectName) {
 		loadSaveLock.lock();
 
@@ -562,7 +666,7 @@ public final class StorageHandler {
 		return true;
 	}
 
-	private void createProjectDataStructure(File projectDirectory) throws IOException {
+	private void createProgramFileStructure(File projectDirectory) throws IOException {
 		Log.d(TAG, "create Project Data structure");
 		createCatroidRoot();
 		projectDirectory.mkdir();
@@ -578,24 +682,17 @@ public final class StorageHandler {
 
 		noMediaFile = new File(soundDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
+	}
 
+	private void createBackPackFileStructure() throws IOException {
 		File backPackDirectory = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
 		backPackDirectory.mkdir();
-
-		noMediaFile = new File(backPackDirectory, NO_MEDIA_FILE);
-		noMediaFile.createNewFile();
 
 		backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
 		backPackSoundDirectory.mkdir();
 
-		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
-		noMediaFile.createNewFile();
-
 		backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
 		backPackImageDirectory.mkdir();
-
-		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
-		noMediaFile.createNewFile();
 	}
 
 	public void clearBackPackSoundDirectory() {
@@ -663,72 +760,52 @@ public final class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
-	public File copySoundFileBackPack(SoundInfo selectedSoundInfo, String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
+	private File copyFileBackPack(String programSubDirectory, String backpackSubDirectory, String inputFilePath,
+			String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			Log.e(TAG, "file " + inputFilePath + " doesn`t exist or can`t be read");
+			return null;
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), programSubDirectory,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+		} else {
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, backpackSubDirectory,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (!fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
+		}
+
+		File outputFile = new File(outputFilePath);
+		if (!outputFile.exists()) {
+			outputFile.createNewFile();
+		}
+		return copyFileAddCheckSum(outputFile, inputFile);
+	}
+
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo, String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
 		if (selectedSoundInfo == null) {
 			return null;
 		}
 		String inputFilePath = selectedSoundInfo.getAbsolutePath();
-
-		File inputFile = new File(inputFilePath);
-		if (!inputFile.exists() || !inputFile.canRead()) {
-			if (copyFromBackpack) {
-				return null;
-			}
-			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
-		}
-		String inputFileChecksum = Utils.md5Checksum(inputFile);
-
-		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
-		String outputFilePath;
-		if (copyFromBackpack) {
-			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-			outputFilePath = buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY,
-					inputFileChecksum + "_" + newTitle + fileFormat);
-		} else {
-			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
-					inputFileChecksum + "_" + newTitle + fileFormat);
-			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
-				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
-			}
-		}
-
-		File outputFile = new File(outputFilePath);
-		return copyFileAddCheckSum(outputFile, inputFile);
+		return copyFileBackPack(SOUND_DIRECTORY, BACKPACK_SOUND_DIRECTORY, inputFilePath, newTitle, copyFromBackpack);
 	}
 
 	public File copyImageBackPack(LookData selectedLookData, String newName, boolean copyFromBackpack)
 			throws IOException {
-
+		if (selectedLookData == null) {
+			return null;
+		}
 		String inputFilePath = selectedLookData.getAbsolutePath();
-
-		File inputFile = new File(inputFilePath);
-		if (!inputFile.exists() || !inputFile.canRead()) {
-			if (copyFromBackpack) {
-				return null;
-			}
-			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
-		}
-		String inputFileChecksum = Utils.md5Checksum(inputFile);
-
-		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
-		String outputFilePath;
-		if (copyFromBackpack) {
-			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-			outputFilePath = buildPath(buildProjectPath(currentProject), IMAGE_DIRECTORY,
-					inputFileChecksum + "_" + newName + fileFormat);
-		} else {
-			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY,
-					inputFileChecksum + "_" + newName + fileFormat);
-			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
-				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
-			}
-		}
-
-		File outputFile = new File(outputFilePath);
-		return copyFileAddCheckSum(outputFile, inputFile);
+		return copyFileBackPack(IMAGE_DIRECTORY, BACKPACK_IMAGE_DIRECTORY, inputFilePath, newName, copyFromBackpack);
 	}
 
 	public File copyImageFromResourceToCatroid(Activity activity, int imageId, String defaultImageName) throws IOException {

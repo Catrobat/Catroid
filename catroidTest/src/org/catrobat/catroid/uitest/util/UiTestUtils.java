@@ -161,6 +161,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -170,6 +171,10 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
+import static org.catrobat.catroid.utils.Utils.buildPath;
 
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -234,7 +239,6 @@ public final class UiTestUtils {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_nfctags);
 	}
-
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("sprite1");
@@ -397,7 +401,7 @@ public final class UiTestUtils {
 	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
-		insertValue(solo, value + "");
+		insertValue(solo, new BigDecimal(value).toPlainString());
 	}
 
 	public static void insertStringIntoEditText(Solo solo, String newValue) {
@@ -506,7 +510,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.').replace(" ", "")));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
@@ -518,7 +523,8 @@ public final class UiTestUtils {
 		}
 
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
+				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')
+						.replace(" ", "")), 0.01f);
 	}
 
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField, FormulaBrick theBrick) {
@@ -1592,6 +1598,7 @@ public final class UiTestUtils {
 	 *
 	 * @param solo                 Use Robotium functionality
 	 * @param overflowMenuItemName Name of the overflow menu item
+	 * @param menuItemId           ID of an action item (icon)
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 
@@ -1769,7 +1776,7 @@ public final class UiTestUtils {
 	}
 
 	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
-										final float yTo, final int steps) {
+			final float yTo, final int steps) {
 		final Activity activity = solo.getCurrentActivity();
 		Handler handler = new Handler(activity.getMainLooper());
 
@@ -2437,13 +2444,21 @@ public final class UiTestUtils {
 		solo.sleep(300);
 	}
 
-	public static void clearBackPack() {
+	public static void clearBackPack(boolean deleteBackPackDirectories) {
 		BackPackListManager.getInstance().clearBackPackLooks();
-		StorageHandler.getInstance().clearBackPackLookDirectory();
 		BackPackListManager.getInstance().clearBackPackSounds();
-		StorageHandler.getInstance().clearBackPackSoundDirectory();
 		BackPackListManager.getInstance().clearBackPackScripts();
 		BackPackListManager.getInstance().clearBackPackSprites();
+		if (deleteBackPackDirectories) {
+			clearBackPackJson();
+			StorageHandler.getInstance().clearBackPackLookDirectory();
+			StorageHandler.getInstance().clearBackPackSoundDirectory();
+		}
+	}
+
+	public static void clearBackPackJson() {
+		File backPackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, StorageHandler.BACKPACK_FILENAME));
+		backPackFile.delete();
 	}
 
 	public static void prepareForSpecialBricksTest(Context instrumentationContext, int imageResource,

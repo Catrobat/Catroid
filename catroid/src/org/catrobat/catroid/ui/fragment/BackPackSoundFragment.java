@@ -276,6 +276,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	public void onPause() {
 		super.onPause();
 
+		BackPackListManager.getInstance().saveBackpack();
 		SoundController.getInstance().stopSound(mediaPlayer, BackPackListManager.getInstance().getBackPackedSounds());
 		adapter.notifyDataSetChanged();
 
@@ -333,7 +334,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		holder.soundFragmentButtonLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					selectedSoundPosition = position;
 					listView.showContextMenuForChild(v);
 				}

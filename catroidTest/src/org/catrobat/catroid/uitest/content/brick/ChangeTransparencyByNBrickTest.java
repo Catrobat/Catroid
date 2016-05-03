@@ -76,7 +76,7 @@ public class ChangeTransparencyByNBrickTest extends BaseActivityInstrumentationT
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_ghost_effect)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_change_ghost_effect_edit_text, EFFECT_TO_CHANGE, Brick.BrickField.TRANSPARENCY_CHANGE,
+				R.id.brick_change_transparency_edit_text, EFFECT_TO_CHANGE, Brick.BrickField.TRANSPARENCY_CHANGE,
 				changeTransparencyByNBrick);
 	}
 

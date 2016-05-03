@@ -70,6 +70,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
@@ -79,10 +80,11 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class SpritesListFragment extends ScriptActivityFragment implements SpriteBaseAdapter.OnSpriteEditListener,
-		OnLoadProjectCompleteListener {
+		OnLoadProjectCompleteListener, BackPackSpriteController.OnBackpackSpriteCompleteListener {
 
 	public static final String TAG = SpritesListFragment.class.getSimpleName();
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
@@ -182,6 +184,10 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		}
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
+		}
+
+		if (BackPackListManager.getInstance().isBackpackEmpty()) {
+			BackPackListManager.getInstance().loadBackpack();
 		}
 
 		StorageHandler.getInstance().fillChecksumContainer();
@@ -288,8 +294,14 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 				break;
 
 			case R.id.context_menu_backpack:
-				BackPackSpriteController.getInstance().backpack(spriteToEdit, false);
-				switchToBackPack();
+				boolean spriteAlreadyInBackpack = BackPackSpriteController.getInstance().checkSpriteReplaceInBackpack(spriteToEdit);
+				if (!spriteAlreadyInBackpack) {
+					BackPackSpriteController.getInstance().backpackVisibleSprite(spriteToEdit);
+					switchToBackPack();
+				} else {
+					BackPackSpriteController.getInstance().setOnBackpackSpriteCompleteListener(this);
+					BackPackSpriteController.getInstance().showBackPackReplaceDialog(spriteToEdit, getActivity());
+				}
 				break;
 
 			case R.id.context_menu_cut:
@@ -454,8 +466,13 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 	public void copySprite() {
 		Sprite copiedSprite = spriteToEdit.clone();
+		String oldName = copiedSprite.getName();
+
 		copiedSprite.setName(getSpriteName(spriteToEdit.getName().concat(getString(R.string.copy_sprite_name_suffix)),
 				0));
+		String newName = copiedSprite.getName();
+
+		copiedSprite.updateCollisionBroadcastMessages(oldName, newName);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -599,7 +616,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
-				spriteToEdit.setName(newSpriteName);
+				spriteToEdit.rename(newSpriteName);
 			}
 		}
 	}
@@ -769,17 +786,38 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			for (int position : spriteAdapter.getCheckedItems()) {
+			List<Sprite> spriteListToBackpack = new ArrayList<>();
+			for (Integer position : spriteAdapter.getCheckedItems()) {
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
-				BackPackSpriteController.getInstance().backpack(spriteToEdit, false);
+				spriteListToBackpack.add(spriteToEdit);
 			}
-			if (!spriteAdapter.getCheckedItems().isEmpty()) {
-				switchToBackPack();
+
+			boolean spritesAlreadyInBackpack = BackPackSpriteController.getInstance().checkSpriteReplaceInBackpack(spriteListToBackpack);
+
+			if (!spriteListToBackpack.isEmpty()) {
+				if (!spritesAlreadyInBackpack) {
+					for (Sprite spriteToBackpack : spriteListToBackpack) {
+						BackPackSpriteController.getInstance().backpackVisibleSprite(spriteToBackpack);
+						onBackpackSpriteComplete(true);
+					}
+				} else {
+					BackPackSpriteController.getInstance().setOnBackpackSpriteCompleteListener(SpritesListFragment.this);
+					BackPackSpriteController.getInstance().showBackPackReplaceDialog(spriteListToBackpack, getActivity());
+				}
+			} else {
+				clearCheckedSpritesAndEnableButtons();
 			}
-			clearCheckedSpritesAndEnableButtons();
-			isBackPackActionMode = false;
 		}
 	};
+
+	@Override
+	public void onBackpackSpriteComplete(boolean startBackpackActivity) {
+		if (!spriteAdapter.getCheckedItems().isEmpty() && startBackpackActivity) {
+			switchToBackPack();
+		}
+		clearCheckedSpritesAndEnableButtons();
+		isBackPackActionMode = false;
+	}
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();

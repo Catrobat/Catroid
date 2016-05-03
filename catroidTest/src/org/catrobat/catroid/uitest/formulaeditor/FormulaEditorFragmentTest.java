@@ -113,6 +113,14 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.goBack();
 	}
 
+	public void testPiValueInComputeDialog() {
+		solo.clickOnView(solo.getView(X_POS_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_pi));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		assertTrue("PI has wrong value in Dialog!", solo.searchText(String.valueOf(Math.PI), true));
+	}
+
 	public void testOnTheFlyUpdateOfBrickEditText() {
 
 		solo.clickOnView(solo.getView(X_POS_EDIT_TEXT_RID));

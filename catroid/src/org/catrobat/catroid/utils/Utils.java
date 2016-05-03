@@ -127,12 +127,22 @@ public final class Utils {
 		}
 	}
 
-	public static boolean isNetworkAvailable(Context context) {
+	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		boolean isAvailable = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+		if (!isAvailable && createDialog) {
+			new CustomAlertDialogBuilder(context).setTitle(R.string.no_internet)
+					.setMessage(R.string.error_no_internet).setPositiveButton(R.string.ok, null)
+					.show();
+		}
 
-		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+		return isAvailable;
+	}
+
+	public static boolean isNetworkAvailable(Context context) {
+		return isNetworkAvailable(context, false);
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
@@ -442,7 +452,7 @@ public final class Utils {
 	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
 		String newName;
 		List<Sprite> spriteList;
-		if (!sprite.isBackpackSprite) {
+		if (!sprite.isBackpackObject) {
 			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
 		} else {
 			spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();

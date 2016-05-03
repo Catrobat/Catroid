@@ -40,7 +40,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -222,7 +221,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoEv3MotorTurnAngle(sprite, motorEnum,
+		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES)));
 		return null;
 	}

@@ -32,7 +32,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -88,7 +87,7 @@ public class UserBrickParameter extends FormulaBrick {
 
 	@Override
 	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
 				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));
 		return null;
 	}
@@ -102,3 +101,4 @@ public class UserBrickParameter extends FormulaBrick {
 	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }
+

@@ -196,7 +196,7 @@ public class SpriteAdapter extends SpriteBaseAdapter implements ActionModeActivi
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (which == 0) {
-					BackPackSpriteController.getInstance().backpack(getItem(0), false);
+					BackPackSpriteController.getInstance().backpackVisibleSprite(getItem(0));
 					spritesListFragment.switchToBackPack();
 				}
 				dialog.dismiss();

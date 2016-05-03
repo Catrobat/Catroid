@@ -24,9 +24,10 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.GlideToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class GlideToActionTest extends AndroidTestCase {
@@ -54,7 +55,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
-		GlideToAction action = ExtendedActions.glideTo(sprite, xPosition, yPosition, duration);
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, xPosition, yPosition, duration);
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
@@ -67,7 +68,8 @@ public class GlideToActionTest extends AndroidTestCase {
 	}
 
 	public void testNullActor() {
-		GlideToAction action = ExtendedActions.glideTo(null, xPosition, yPosition, duration);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createGlideToAction(null, xPosition, yPosition, duration);
 		try {
 			action.act(1.0f);
 			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
@@ -76,14 +78,16 @@ public class GlideToActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundaryPositions() {
-		ExtendedActions.placeAt(sprite, new Formula(Integer.MAX_VALUE), new Formula(
+		Sprite sprite = new Sprite("testSprite");
+		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE), new Formula(
 				Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x float value", (float) Integer.MAX_VALUE,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y float value", (float) Integer.MAX_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 
-		ExtendedActions.placeAt(sprite, new Formula(Integer.MIN_VALUE), new Formula(Integer.MIN_VALUE)).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MIN_VALUE), new Formula(
+				Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum x float value", (float) Integer.MIN_VALUE,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum y float value", (float) Integer.MIN_VALUE,
@@ -96,7 +100,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
-		GlideToAction action = ExtendedActions.glideTo(sprite, xPosition, yPosition, duration);
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, xPosition, yPosition, duration);
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
@@ -114,7 +118,7 @@ public class GlideToActionTest extends AndroidTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		GlideToAction action = ExtendedActions.glideTo(sprite, new Formula(String.valueOf(Y_POSITION)),
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(String.valueOf(Y_POSITION)),
 				new Formula(String.valueOf(DURATION)), new Formula(String.valueOf(X_POSITION)));
 
 		long currentTimeDelta = System.currentTimeMillis();
@@ -127,8 +131,8 @@ public class GlideToActionTest extends AndroidTestCase {
 		assertEquals("Incorrect sprite y position after GlideToBrick executed", DURATION,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.glideTo(sprite, new Formula(NOT_NUMERICAL_STRING), new Formula(NOT_NUMERICAL_STRING2),
-				new Formula(NOT_NUMERICAL_STRING3));
+		action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(NOT_NUMERICAL_STRING), new Formula(
+				NOT_NUMERICAL_STRING2), new Formula(NOT_NUMERICAL_STRING3));
 
 		currentTimeDelta = System.currentTimeMillis();
 		do {
@@ -142,7 +146,7 @@ public class GlideToActionTest extends AndroidTestCase {
 	}
 
 	public void testNullFormula() {
-		GlideToAction action = ExtendedActions.glideTo(sprite, null, null, null);
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, null, null, null);
 
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
@@ -156,8 +160,8 @@ public class GlideToActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		GlideToAction action = ExtendedActions.glideTo(sprite, new Formula(Double.NaN), new Formula(Double.NaN),
-				new Formula(Double.NaN));
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(Double.NaN),
+				new Formula(Double.NaN), new Formula(Double.NaN));
 
 		long currentTimeDelta = System.currentTimeMillis();
 		do {

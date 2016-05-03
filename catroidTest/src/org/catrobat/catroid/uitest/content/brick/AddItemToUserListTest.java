@@ -89,13 +89,19 @@ public class AddItemToUserListTest extends BaseActivityInstrumentationTestCase<M
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 		solo.enterText(editText, userListName);
 		solo.clickOnButton(solo.getString(R.string.ok));
+
+		solo.waitForText(userListName);
+		solo.clickOnText(userListName);
+
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_add_item_to_userlist)));
 		assertTrue("Created List not set in spinner", solo.searchText(userListName));
 
 		UserList userList = (UserList) Reflection.getPrivateField(UserListBrick.class, addItemToUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 
-		solo.clickOnView(solo.getView(R.id.add_item_to_userlist_spinner));
+		solo.clickOnText(userListName);
+		solo.clickOnText(userListName);
+
 		solo.waitForText(getInstrumentation().getTargetContext().getString(
 				R.string.brick_variable_spinner_create_new_variable));
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(

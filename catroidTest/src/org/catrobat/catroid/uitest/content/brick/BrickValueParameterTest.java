@@ -113,8 +113,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		int changeYByPrototypeValue = Integer.parseInt(changeYByTextView.getText().toString());
 		assertEquals("Value in Brick ChangeYBy is not correct", BrickValues.CHANGE_Y_BY, changeYByPrototypeValue);
 
-		solo.scrollDownList(fragmentListView);
-		solo.searchText(solo.getString(R.string.brick_move));
+		if (!solo.searchText(solo.getString(R.string.brick_move))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView moveNStepsTextView = (TextView) solo.getView(R.id.brick_move_n_steps_prototype_text_view);
 		float moveNStepsPrototypeValue = Float.parseFloat(moveNStepsTextView.getText().toString());
 		assertEquals("Value in Brick MoveNSteps is not correct", BrickValues.MOVE_STEPS, moveNStepsPrototypeValue);
@@ -164,14 +165,17 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		int glideYPrototypeValue = Integer.parseInt(glideYTextView.getText().toString());
 		assertEquals("Value in Brick GlideY is not correct", BrickValues.Y_POSITION, glideYPrototypeValue);
 
-		solo.scrollDownList(fragmentListView);
-		solo.searchText(solo.getString(R.string.brick_go_back));
+		if (!solo.searchText(solo.getString(R.string.brick_go_back))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView goBackTextView = (TextView) solo.getView(R.id.brick_go_back_prototype_text_view);
 		int goBackPrototypeValue = Integer.parseInt(goBackTextView.getText().toString());
 		assertEquals("Value in Brick GoBack is not correct", BrickValues.GO_BACK, goBackPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_go_back));
-		solo.clickOnScreen(200, 200);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(300);
 
 		TextView goBackEditText = (TextView) solo.getView(R.id.brick_go_back_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
@@ -200,11 +204,17 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in SetLookBrick is not correct", solo.getString(R.string.new_broadcast_message),
 				setLookSpinner.getSelectedItem().toString());
 
+		if (!solo.searchText(solo.getString(R.string.brick_set_size_to))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView setSizeToTextView = (TextView) solo.getView(R.id.brick_set_size_to_prototype_text_view);
 		float setSizeToPrototypeValue = Float.parseFloat(setSizeToTextView.getText().toString());
 		assertEquals("Value in Brick SetSizeTo is not correct", (float) BrickValues.SET_SIZE_TO,
 				setSizeToPrototypeValue);
 
+		if (!solo.searchText(solo.getString(R.string.brick_change_size_by))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView changeSizeByTextView = (TextView) solo.getView(R.id.brick_change_size_by_prototype_text_view);
 		float changeSizeByPrototypeValue = Float.parseFloat(changeSizeByTextView.getText().toString());
 		assertEquals("Value in Brick ChangeSizeBy is not correct", (float) BrickValues.CHANGE_SIZE_BY,
@@ -244,7 +254,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				changeBrightnessPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_change_brightness));
-		solo.clickOnScreen(200, 200);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(300);
 
 		TextView changeBrightnessEditText = (TextView) solo.getView(R.id.brick_change_brightness_edit_text);
 		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString()
@@ -282,7 +294,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Brick Speak is not correct", defaultSpeakValue, speakPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_speak));
-		solo.sleep(300);
+		solo.sleep(500);
 
 		UiTestUtils.dragFloatingBrickDownwards(solo);
 
@@ -296,7 +308,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categorySoundText);
 		solo.clickOnText(solo.getString(R.string.brick_change_volume_by));
-		solo.sleep(300);
+		solo.sleep(500);
 		UiTestUtils.dragFloatingBrickDownwards(solo);
 		solo.sleep(300);
 
@@ -305,8 +317,8 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		// before parsing an int from the string
 		// in this case, between the minus operator and the value there is a blank also
 		String changeVolumeByEditTextString = changeVolumeByEditText.getText().toString();
-		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", "").replace(
-				',', '.'));
+		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", "")
+				.replace(',', '.'));
 		assertEquals("Value in Selected Brick ChangeVolumeBy is not correct", BrickValues.CHANGE_VOLUME_BY,
 				changeVolumeByEditTextValue);
 	}
@@ -371,8 +383,10 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		int repeatPrototypeValue = Integer.parseInt(repeatTextView.getText().toString());
 		assertEquals("Value in Repeat Wait is not correct", BrickValues.REPEAT, repeatPrototypeValue);
 
-		solo.clickOnText(solo.getString(R.string.brick_repeat));
-		solo.clickOnScreen(200, 200);
+		solo.clickOnView(solo.getView(R.id.brick_repeat_label));
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(300);
 
 		TextView repeatEditText = (TextView) solo.getView(R.id.brick_repeat_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
@@ -400,9 +414,12 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		int nXTMoveMotorPrototypeValue = Integer.parseInt(nxtMoveMotorTextView.getText().toString());
 		assertEquals("Value in Brick NXTMoveMotor is not correct", BrickValues.LEGO_SPEED, nXTMoveMotorPrototypeValue);
 
-		solo.searchText(solo.getString(R.string.nxt_play_tone));
+		if (!solo.searchText(solo.getString(R.string.nxt_play_tone))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		TextView nxtPlayToneSecondsTextView = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
-		float nXTPlayTonePrototypeValue = Float.parseFloat(nxtPlayToneSecondsTextView.getText().toString());
+		float nXTPlayTonePrototypeValue = Float.parseFloat(nxtPlayToneSecondsTextView.getText().toString()
+				.replaceAll(",", "."));
 		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_DURATION, nXTPlayTonePrototypeValue);
 
 		TextView nxtPlayToneFreqTextView = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
@@ -423,7 +440,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				legoNxtMotorTurnAngleSpinner.getSelectedItem().toString());
 
 		solo.clickOnText(solo.getString(R.string.nxt_play_tone));
-		solo.clickOnScreen(200, 200);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(300);
 
 		TextView nxtPlayToneEditText = (TextView) solo.getView(R.id.nxt_tone_freq_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
@@ -446,7 +465,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 
-		solo.searchText(solo.getString(R.string.brick_set_variable));
+		if (!solo.searchText(solo.getString(R.string.brick_set_variable))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner setVariableSpinner = (Spinner) solo.getView(R.id.set_variable_spinner);
 		assertEquals("Value in SetVariableBrick is not correct", "BrickValueParameterTestUserVariable",
 				((UserVariable) setVariableSpinner.getSelectedItem()).getName());
@@ -454,7 +475,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView setVariableTextView = (TextView) solo.getView(R.id.brick_set_variable_prototype_view);
 		assertEquals("Value in SetVariableBrick is not correct", "1.0", setVariableTextView.getText().toString());
 
-		solo.searchText(solo.getString(R.string.brick_change_variable));
+		if (!solo.searchText(solo.getString(R.string.brick_change_variable))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner changeVariableSpinner = (Spinner) solo.getView(R.id.change_variable_spinner);
 		assertEquals("Value in ChangeVariableBrick is not correct", "BrickValueParameterTestUserVariable",
 				((UserVariable) changeVariableSpinner.getSelectedItem()).getName());
@@ -462,7 +485,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView changeVariableTextView = (TextView) solo.getView(R.id.brick_change_variable_prototype_view);
 		assertEquals("Value in ChangeVariableBrick is not correct", "1.0", changeVariableTextView.getText().toString());
 
-		solo.searchText(solo.getString(R.string.brick_add_item_to_userlist_add));
+		if (!solo.searchText(solo.getString(R.string.brick_add_item_to_userlist_add))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner addItemToUserListSpinner = (Spinner) solo.getView(R.id.add_item_to_userlist_spinner);
 		assertEquals("Value in addItemToUserListSpinner is not correct", "BrickValueParameterTestUserList",
 				((UserList) addItemToUserListSpinner.getSelectedItem()).getName());
@@ -470,7 +495,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView addItemToUserListTextView = (TextView) solo.getView(R.id.brick_add_item_to_userlist_prototype_view);
 		assertEquals("Value in Add Item To List is not correct", "1.0", addItemToUserListTextView.getText().toString());
 
-		solo.searchText(solo.getString(R.string.brick_delete_item_from_userlist));
+		if (!solo.searchText(solo.getString(R.string.brick_delete_item_from_userlist))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner deleteItemInListSpinner = (Spinner) solo.getView(R.id.delete_item_of_userlist_spinner);
 		assertEquals("Value in deleteItemInListSpinner is not correct", "BrickValueParameterTestUserList",
 				((UserList) deleteItemInListSpinner.getSelectedItem()).getName());
@@ -478,9 +505,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView deleteItemInUserListIndexTextView = (TextView) solo.getView(R.id.brick_delete_item_of_userlist_prototype_view);
 		assertEquals("Value in Delete Item Of List is not correct", "1", deleteItemInUserListIndexTextView.getText().toString());
 
-		solo.scrollDownList(fragmentListView);
-
-		solo.searchText(solo.getString(R.string.brick_insert_item_into_userlist_insert_into));
+		if (!solo.searchText(solo.getString(R.string.brick_insert_item_into_userlist_insert_into))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner insertItemInListSpinner = (Spinner) solo.getView(R.id.insert_item_into_userlist_spinner);
 		assertEquals("Value in insertItemInListSpinner is not correct", "BrickValueParameterTestUserList",
 				((UserList) insertItemInListSpinner.getSelectedItem()).getName());
@@ -491,7 +518,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		TextView insertItemInUserListIndexTextValue = (TextView) solo.getView(R.id.brick_insert_item_into_userlist_value_prototype_view);
 		assertEquals("Value in insert item in userlist is not correct", "1.0", insertItemInUserListIndexTextValue.getText().toString());
 
-		solo.searchText(solo.getString(R.string.brick_replace_item_in_userlist_replace_in_list));
+		if (!solo.searchText(solo.getString(R.string.brick_replace_item_in_userlist_replace_in_list))) {
+			solo.scrollDownList(fragmentListView);
+		}
 		Spinner replaceItemInListSpinner = (Spinner) solo.getView(R.id.replace_item_in_userlist_spinner);
 		assertEquals("Value in replaceItemInListSpinner is not correct", "BrickValueParameterTestUserList",
 				((UserList) replaceItemInListSpinner.getSelectedItem()).getName());

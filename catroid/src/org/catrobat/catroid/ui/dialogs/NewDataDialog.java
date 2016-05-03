@@ -302,22 +302,30 @@ public class NewDataDialog extends DialogFragment {
 
 	private boolean isListNameValid(String name) {
 		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		RadioButton global = (RadioButton) getDialog()
+				.findViewById(R.id.dialog_formula_editor_data_name_global_variable_radio_button);
 
-		if (currentData.existProjectListWithName(name) || currentData.existSpriteListByName(name, currentSprite)) {
-			return false;
+		if (global.isChecked()) {
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			return !currentData.existListInAnySprite(name, sprites) && !currentData.existProjectListWithName(name);
+		} else {
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			return !currentData.existProjectListWithName(name) && !currentData.existSpriteListByName(name, currentSprite);
 		}
-		return true;
 	}
 
 	private boolean isVariableNameValid(String name) {
 		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		RadioButton global = (RadioButton) getDialog()
+				.findViewById(R.id.dialog_formula_editor_data_name_global_variable_radio_button);
 
-		if (currentData.existProjectVariableWithName(name) || currentData.existSpriteVariableByName(name, currentSprite)) {
-			return false;
+		if (global.isChecked()) {
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			return !currentData.existVariableInAnySprite(name, sprites) && !currentData.existProjectVariableWithName(name);
+		} else {
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			return !currentData.existProjectVariableWithName(name) && !currentData.existSpriteVariableByName(name, currentSprite);
 		}
-		return true;
 	}
 
 	public void setUserVariableIfCancel(int spinnerPositionIfCancel) {

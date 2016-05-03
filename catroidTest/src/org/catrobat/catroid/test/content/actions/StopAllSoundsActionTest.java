@@ -25,13 +25,13 @@ package org.catrobat.catroid.test.content.actions;
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.PlaySoundAction;
-import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -67,8 +67,10 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 		testSprite.getSoundList().add(soundInfo);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
-		PlaySoundAction playSoundAction = ExtendedActions.playSound(testSprite, soundInfo);
-		StopAllSoundsAction stopAllSoundsAction = ExtendedActions.stopAllSounds();
+
+		ActionFactory factory = testSprite.getActionFactory();
+		Action playSoundAction = factory.createPlaySoundAction(testSprite, soundInfo);
+		Action stopAllSoundsAction = factory.createStopAllSoundsAction();
 
 		playSoundAction.act(1.0f);
 
@@ -85,8 +87,9 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
 
-		PlaySoundAction playSoundAction1 = ExtendedActions.playSound(testSprite, soundInfo);
-		PlaySoundAction playSoundAction2 = ExtendedActions.playSound(testSprite, soundInfo);
+		ActionFactory factory = testSprite.getActionFactory();
+		Action playSoundAction1 = factory.createPlaySoundAction(testSprite, soundInfo);
+		Action playSoundAction2 = factory.createPlaySoundAction(testSprite, soundInfo);
 
 		playSoundAction1.act(1.0f);
 		playSoundAction2.act(1.0f);
@@ -96,7 +99,7 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 		assertTrue("First MediaPlayer is not playing", mediaPlayers.get(0).isPlaying());
 		assertTrue("Second MediaPlayer is not playing", mediaPlayers.get(1).isPlaying());
 
-		StopAllSoundsAction stopAllSoundsAction = ExtendedActions.stopAllSounds();
+		Action stopAllSoundsAction = factory.createStopAllSoundsAction();
 		stopAllSoundsAction.act(1.0f);
 
 		assertFalse("First MediaPlayer is still playing", mediaPlayers.get(0).isPlaying());

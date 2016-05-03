@@ -61,7 +61,8 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	private static final int[] OBJECT_ITEMS = {R.string.formula_editor_object_x, R.string.formula_editor_object_y,
 			R.string.formula_editor_object_transparency, R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
-			R.string.formula_editor_object_layer};
+			R.string.formula_editor_object_layer, R.string.formula_editor_object_x_velocity,
+			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity };
 
 	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
@@ -80,8 +81,9 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
 			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
-			R.string.formula_editor_function_length, R.string.formula_editor_function_number_of_items, R.string.formula_editor_function_letter,
-			R.string.formula_editor_function_join, R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains};
+			R.string.formula_editor_function_length, R.string.formula_editor_function_letter,
+			R.string.formula_editor_function_join, R.string.formula_editor_function_number_of_items,
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains };
 
 	private static final int[] FUNCTIONS_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
@@ -93,9 +95,9 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
 			R.string.formula_editor_function_floor_parameter, R.string.formula_editor_function_ceil_parameter,
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
-			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_number_of_items_parameter, R.string.formula_editor_function_letter_parameter,
-			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_list_item_parameter,
-			R.string.formula_editor_function_contains_parameter};
+			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_letter_parameter,
+			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_number_of_items_parameter,
+			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter };
 
 	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness };
 
@@ -105,11 +107,11 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	private static final int[] INCLINATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination };
 
-	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction};
+	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction };
 
 	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
-			R.string.formula_editor_sensor_lego_nxt_4};
+			R.string.formula_editor_sensor_lego_nxt_4 };
 
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
@@ -139,6 +141,20 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	private String actionBarTitle;
 	private int[] itemsIds;
 
+	private static int[] concatAll(int[] first, int[]... rest) {
+		int totalLength = first.length;
+		for (int[] array : rest) {
+			totalLength += array.length;
+		}
+		int[] result = Arrays.copyOf(first, totalLength);
+		int offset = first.length;
+		for (int[] array : rest) {
+			System.arraycopy(array, 0, result, offset, array.length);
+			offset += array.length;
+		}
+		return result;
+	}
+
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
@@ -149,9 +165,6 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		}
 		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
-	}
-
-	public FormulaEditorListFragment() {
 	}
 
 	@Override
@@ -232,20 +245,6 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.fragment_formula_editor_list_item, items);
 		setListAdapter(arrayAdapter);
-	}
-
-	private static int[] concatAll(int[] first, int[]... rest) {
-		int totalLength = first.length;
-		for (int[] array : rest) {
-			totalLength += array.length;
-		}
-		int[] result = Arrays.copyOf(first, totalLength);
-		int offset = first.length;
-		for (int[] array : rest) {
-			System.arraycopy(array, 0, result, offset, array.length);
-			offset += array.length;
-		}
-		return result;
 	}
 
 	@Override

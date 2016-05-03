@@ -62,6 +62,11 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.physics.PhysicsDebugSettings;
+import org.catrobat.catroid.physics.PhysicsLook;
+import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -91,8 +96,8 @@ public class StageListener implements ApplicationListener {
 
 	private float deltaActionTimeDivisor = 10f;
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
-			+ Constants.IMAGE_STANDARD_EXTENTION;
-	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION;
+			+ Constants.IMAGE_STANDARD_EXTENSION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -115,6 +120,8 @@ public class StageListener implements ApplicationListener {
 	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
+
+	private PhysicsWorld physicsWorld;
 
 	private OrthographicCamera camera;
 	private Batch batch;
@@ -173,6 +180,8 @@ public class StageListener implements ApplicationListener {
 		batch = new SpriteBatch();
 		stage = new Stage(viewPort, batch);
 		initScreenMode();
+
+		physicsWorld = project.resetPhysicsWorld();
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
@@ -285,13 +294,14 @@ public class StageListener implements ApplicationListener {
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
+		PhysicsShapeBuilder.getInstance().reset();
 		CameraManager.getInstance().setToDefaultCamera();
 	}
 
 	@Override
 	public void render() {
+		Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
@@ -299,6 +309,8 @@ public class StageListener implements ApplicationListener {
 			}
 			stage.clear();
 			SoundManager.getInstance().clear();
+
+			physicsWorld = project.resetPhysicsWorld();
 
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(whiteBackground);
@@ -362,11 +374,13 @@ public class StageListener implements ApplicationListener {
 			 * future EMMA - update will fix the bugs.
 			 */
 			if (!DYNAMIC_SAMPLING_RATE_FOR_ACTIONS) {
+				physicsWorld.step(deltaTime);
 				stage.act(deltaTime);
 			} else {
 				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
 				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
 				while (deltaTime > 0f) {
+					physicsWorld.step(optimizedDeltaTime);
 					stage.act(optimizedDeltaTime);
 					deltaTime -= optimizedDeltaTime;
 				}
@@ -405,6 +419,14 @@ public class StageListener implements ApplicationListener {
 
 		if (axesOn && !finished) {
 			drawAxes();
+		}
+
+		if (PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING) {
+			printPhysicsLabelOnScreen();
+		}
+
+		if (PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES && !finished) {
+			physicsWorld.render(camera.combined);
 		}
 
 		if (DEBUG) {
@@ -497,6 +519,27 @@ public class StageListener implements ApplicationListener {
 			return true;
 		}
 		return false;
+	}
+
+	private void printPhysicsLabelOnScreen() {
+		PhysicsObject tempPhysicsObject;
+		final int fontOffset = 5;
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		for (Sprite sprite : sprites) {
+			if (sprite.look instanceof PhysicsLook) {
+				tempPhysicsObject = physicsWorld.getPhysicsObject(sprite);
+				font.draw(batch, "velocity_x: " + tempPhysicsObject.getVelocity().x, tempPhysicsObject.getX(),
+						tempPhysicsObject.getY());
+				font.draw(batch, "velocity_y: " + tempPhysicsObject.getVelocity().y, tempPhysicsObject.getX(),
+						tempPhysicsObject.getY() + font.getXHeight() + fontOffset);
+				font.draw(batch, "angular velocity: " + tempPhysicsObject.getRotationSpeed(), tempPhysicsObject.getX(),
+						tempPhysicsObject.getY() + font.getXHeight() * 2 + fontOffset * 2);
+				font.draw(batch, "direction: " + tempPhysicsObject.getDirection(), tempPhysicsObject.getX(),
+						tempPhysicsObject.getY() + font.getXHeight() * 3 + fontOffset * 3);
+			}
+		}
+		batch.end();
 	}
 
 	private void drawAxes() {
@@ -644,8 +687,8 @@ public class StageListener implements ApplicationListener {
 		whiteBackgroundPixmap.fill();
 		whiteBackground.setPixmap(whiteBackgroundPixmap);
 		whiteBackground.setTextureRegion();
-		whiteBackground.setLookFilename("white");
 		whiteBackground.setLookName("white");
+		whiteBackground.setLookFilename("0123456789abcdefghijklmnopqrstuvwxyz");
 		return whiteBackground;
 	}
 

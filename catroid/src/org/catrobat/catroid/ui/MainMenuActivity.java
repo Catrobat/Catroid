@@ -52,7 +52,6 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -103,11 +102,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		if (loadExternalProjectUri != null) {
 			loadProgramFromExternalSource(loadExternalProjectUri);
-		}
-
-		if (!BackPackListManager.getInstance().isBackpackFlag()) {
-			BackPackListManager.getInstance().clearBackPackSounds();
-			BackPackListManager.getInstance().clearBackPackLooks();
 		}
 	}
 
@@ -169,7 +163,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, true);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
@@ -200,6 +194,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleHelpButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -208,6 +206,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleWebButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -231,6 +233,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleUploadButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}

@@ -81,7 +81,6 @@ public abstract class DroneBasicControlBrick extends BrickBaseType {
 			TextView label = (TextView) view.findViewById(R.id.ValueTextViewControl);
 			label.setText(getBrickLabel(view));
 		}
-
 		return view;
 	}
 

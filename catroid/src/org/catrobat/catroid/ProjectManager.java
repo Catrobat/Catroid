@@ -60,6 +60,7 @@ import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -67,6 +68,8 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
@@ -120,7 +123,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void uploadProject(String projectName, Activity activity) {
 		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, false, false);
+			LoadProjectTask loadProjectTask = new LoadProjectTask(activity, projectName, true, false);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
 		}
@@ -181,7 +184,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.91f) {
 				project.setCatrobatLanguageVersion(0.92f);
 				project.setScreenMode(ScreenModes.STRETCH);
-				checkNestingBrickReferences(false);
+				checkNestingBrickReferences(false, false);
 			}
 
 			if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
@@ -203,7 +206,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 //			insert further conversions here
 
-			checkNestingBrickReferences(true);
+			checkNestingBrickReferences(true, false);
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 				//project seems to be converted now and can be loaded
 				localizeBackgroundSprite(context);
@@ -279,30 +282,20 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public boolean initializeDroneProject(Context context) {
-		try {
-			fileChecksumContainer = new FileChecksumContainer();
-			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(context);
-
-			currentSprite = null;
-			currentScript = null;
-			return true;
-		} catch (IOException ioException) {
-			Log.e(TAG, "Cannot initialize default project.", ioException);
-			Utils.showErrorDialog(context, R.string.error_load_project);
-			return false;
-		}
-	}
-
 	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
 			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
-		} else if (drone) {
-			project = DefaultProjectHandler.createAndSaveDefaultDroneProject(projectName, context, landscapeMode);
 		} else {
+			if (drone) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_DRONE);
+			} else {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_DEFAULT);
+			}
 			project = DefaultProjectHandler.createAndSaveDefaultProject(projectName, context, landscapeMode);
 		}
 
@@ -323,10 +316,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
 
-		if (virtualScreenWidth > virtualScreenHeight) {
-			return true;
-		}
-		return false;
+		return virtualScreenWidth > virtualScreenHeight;
 	}
 
 	public void setProject(Project project) {
@@ -374,7 +364,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		String newProjectPath = Utils.buildProjectPath(newProjectName);
 		File newProjectDirectory = new File(newProjectPath);
 
-		boolean directoryRenamed = false;
+		boolean directoryRenamed;
 
 		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
 			String tmpProjectPath = Utils.buildProjectPath(createTemporaryDirectoryName(newProjectName));
@@ -517,6 +507,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void showSignInDialog(Activity activity, Boolean showUploadDialogWhenDone) {
+		if (!Utils.isNetworkAvailable(activity, true)) {
+			return;
+		}
+
 		showUploadDialog = showUploadDialogWhenDone;
 		SignInDialog signInDialog = new SignInDialog();
 		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
@@ -546,28 +540,52 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void onLoadProjectFailure() {
 	}
 
-	public void checkNestingBrickReferences(boolean assumeWrong) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject != null) {
-			for (Sprite currentSprite : currentProject.getSpriteList()) {
-				int numberOfScripts = currentSprite.getNumberOfScripts();
-				for (int pos = 0; pos < numberOfScripts; pos++) {
-					Script script = currentSprite.getScript(pos);
-					boolean scriptCorrect = true;
-					if (assumeWrong) {
-						scriptCorrect = false;
-					}
-					for (Brick currentBrick : script.getBrickList()) {
-						if (!scriptCorrect) {
-							continue;
-						}
-						scriptCorrect = checkReferencesOfCurrentBrick(currentBrick);
-					}
-					if (!scriptCorrect) {
-						correctAllNestedReferences(script);
-					}
+	public void checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
+		List<Sprite> spritesToCheck;
+		if (inBackPack) {
+			spritesToCheck = BackPackListManager.getInstance().getAllBackPackedSprites();
+
+			HashMap<String, List<Script>> backPackedScripts = BackPackListManager.getInstance().getAllBackPackedScripts();
+			for (String scriptGroup : backPackedScripts.keySet()) {
+				List<Script> scriptListToCheck = backPackedScripts.get(scriptGroup);
+				for (Script scriptToCheck : scriptListToCheck) {
+					checkCurrentScript(scriptToCheck, assumeWrong);
 				}
 			}
+		} else {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			if (currentProject == null) {
+				return;
+			}
+			spritesToCheck = currentProject.getSpriteList();
+		}
+
+		for (Sprite currentSprite : spritesToCheck) {
+			checkCurrentSprite(currentSprite, assumeWrong);
+		}
+	}
+
+	private void checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
+		int numberOfScripts = currentSprite.getNumberOfScripts();
+		for (int pos = 0; pos < numberOfScripts; pos++) {
+			Script script = currentSprite.getScript(pos);
+			checkCurrentScript(script, assumeWrong);
+		}
+	}
+
+	private void checkCurrentScript(Script script, boolean assumeWrong) {
+		boolean scriptCorrect = true;
+		if (assumeWrong) {
+			scriptCorrect = false;
+		}
+		for (Brick currentBrick : script.getBrickList()) {
+			if (!scriptCorrect) {
+				break;
+			}
+			scriptCorrect = checkReferencesOfCurrentBrick(currentBrick);
+		}
+		if (!scriptCorrect) {
+			correctAllNestedReferences(script);
 		}
 	}
 
@@ -599,9 +617,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	private void correctAllNestedReferences(Script script) {
-		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<IfLogicBeginBrick>();
-		ArrayList<PhiroIfLogicBeginBrick> ifSensorBeginList = new ArrayList<PhiroIfLogicBeginBrick>();
-		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<LoopBeginBrick>();
+		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
+		ArrayList<PhiroIfLogicBeginBrick> ifSensorBeginList = new ArrayList<>();
+		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<>();
 		for (Brick currentBrick : script.getBrickList()) {
 			if (currentBrick instanceof IfLogicBeginBrick) {
 				ifBeginList.add((IfLogicBeginBrick) currentBrick);
