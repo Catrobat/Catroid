@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -167,6 +168,26 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int projectUploadDescriptionNumberOfLines = editTextUploadDescription.getMaxLines();
 		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
+	}
+
+	public void testRatingDialog() throws Throwable {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		sharedPreferences.edit().putInt(UploadProjectDialog.NUMBER_OF_UPLOADED_PROJECTS, 0)
+				.commit();
+		UiTestUtils.createValidUser(getActivity());
+		createTestProject();
+
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+		solo.waitForDialogToOpen();
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+		solo.waitForDialogToClose();
+
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+		solo.waitForDialogToOpen();
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+		solo.waitForDialogToClose();
+
+		assertTrue("rating dialog", solo.waitForText(solo.getString(R.string.rating_dialog_rate_now)));
 	}
 
 	private void createTestProject() {

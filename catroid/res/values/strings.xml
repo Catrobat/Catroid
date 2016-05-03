@@ -1129,4 +1129,11 @@
         camera\" brick and change to your device\'s back camera. "</string>
     <!-- -->
 
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">Rate Pocket Code</string>
+    <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+    <string name="rating_dialog_rate_now">Now</string>
+    <string name="rating_dialog_rate_later">Later</string>
+    <string name="rating_dialog_rate_never">Never</string>
+    <!--  -->
 </resources>
