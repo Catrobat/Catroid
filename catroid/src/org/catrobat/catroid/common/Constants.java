@@ -84,7 +84,8 @@ public final class Constants {
 	public static final String CLOSING_BRACE = ")";
 
 	//Web:
-	public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";
+	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
+	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/pocketcode/pocket-library/looks";
 	public static final String LIBRARY_BACKGROUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/backgrounds";
 	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";

@@ -84,9 +84,10 @@ public class MarketingActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String url = ProjectManager.getInstance().getCurrentProject().getXmlHeader().getUrl();
-				if (!url.trim().startsWith("http://")) {
-					url = "https://share.catrob.at" + url;
+				if (!url.trim().startsWith("http")) {
+					url = Constants.MAIN_URL_HTTPS + url;
 				}
+				Log.d("MarketingActivity", "Program detail url: " + url);
 				startWebViewActivity(url);
 			}
 		});
