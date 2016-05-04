@@ -422,6 +422,25 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
 	}
 
+	public void testDragNDropNestedBrick() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProjectNestedBricks();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() == 8);
+
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(6) - 3, 20);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(5), brickList.get(0));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(1));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(2), brickList.get(3));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(4));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(5));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(6), brickList.get(6));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(7), brickList.get(7));
+	}
+
 	public void testDeleteActionMode() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
