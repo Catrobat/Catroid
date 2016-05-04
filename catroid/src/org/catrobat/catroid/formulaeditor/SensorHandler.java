@@ -366,6 +366,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return Double.valueOf(TouchUtil.getLastKnownX());
 			case FINGER_Y:
 				return Double.valueOf(TouchUtil.getLastKnownY());
+			case LAST_FINGER_INDEX:
+				return Double.valueOf(TouchUtil.getLastTouchIndex());
 
 			case DRONE_BATTERY_STATUS:
 				return (double) dcs.getDroneNavData().batteryStatus;

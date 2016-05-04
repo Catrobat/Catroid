@@ -33,11 +33,13 @@ public final class TouchUtil {
 	private TreeMap<Integer, PointF> currentlyTouchedFinger;
 	private float lastKnownX;
 	private float lastKnownY;
+	private int lastTouchIndex;
 
 	private TouchUtil() {
 		currentlyTouchedFinger = new TreeMap<>();
 		lastKnownX = 0.0f;
 		lastKnownY = 0.0f;
+		lastTouchIndex = 0;
 	}
 
 	private static TouchUtil getInstance() {
@@ -48,10 +50,13 @@ public final class TouchUtil {
 	}
 
 	public static void updatePosition(float x, float y, int pointer) {
-		touchDown(x, y, pointer);
+		getInstance().lastKnownX = x;
+		getInstance().lastKnownY = y;
+		getInstance().currentlyTouchedFinger.put(pointer + 1, new PointF(x, y));
 	}
 
 	public static void touchDown(float x, float y, int pointer) {
+		getInstance().lastTouchIndex = pointer + 1;
 		getInstance().lastKnownX = x;
 		getInstance().lastKnownY = y;
 		getInstance().currentlyTouchedFinger.put(pointer + 1, new PointF(x, y));
@@ -67,6 +72,10 @@ public final class TouchUtil {
 
 	public static boolean isFingerTouching(int pointer) {
 		return getInstance().currentlyTouchedFinger.containsKey(pointer);
+	}
+
+	public static int getLastTouchIndex() {
+		return getInstance().lastTouchIndex;
 	}
 
 	public static float getLastKnownX() {
