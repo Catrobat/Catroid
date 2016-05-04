@@ -586,6 +586,7 @@
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
+    <string name="brick_when_touched">When screen is touched</string>
 
     <plurals name="time_plural">
         <item quantity="one">time</item>

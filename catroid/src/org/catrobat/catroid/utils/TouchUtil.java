@@ -24,6 +24,10 @@ package org.catrobat.catroid.utils;
 
 import android.graphics.PointF;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+
+import java.util.List;
 import java.util.TreeMap;
 
 public final class TouchUtil {
@@ -60,6 +64,7 @@ public final class TouchUtil {
 		getInstance().lastKnownX = x;
 		getInstance().lastKnownY = y;
 		getInstance().currentlyTouchedFinger.put(pointer + 1, new PointF(x, y));
+		getInstance().fireTouchEvent();
 	}
 
 	public static void touchUp(int pointer) {
@@ -100,5 +105,13 @@ public final class TouchUtil {
 		}
 
 		return 0.0f;
+	}
+
+	private void fireTouchEvent() {
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		for (Sprite sprite : spriteList) {
+			sprite.createTouchDownAction();
+		}
 	}
 }
