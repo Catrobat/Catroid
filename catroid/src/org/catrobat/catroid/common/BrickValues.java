@@ -58,6 +58,8 @@ public final class BrickValues {
 	public static final Float CHANGE_TRANSPARENCY_EFFECT = 25f;
 	public static final Float SET_BRIGHTNESS_TO = 50f;
 	public static final Float CHANGE_BRITHNESS_BY = 25f;
+	public static final Float SET_COLOR_TO = 0f;
+	public static final Float CHANGE_COLOR_BY = 25f;
 	public static final Float VIBRATE_SECONDS = 1f;
 
 	//constants Sounds
