@@ -76,7 +76,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 		firstSpriteCollisionScript.getScriptBrick();
 		firstSprite.addScript(firstSpriteStartScript);
 		firstSprite.addScript(firstSpriteCollisionScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		secondSprite = new Sprite(SECOND_SPRITE_NAME);
 		Script secondSpriteStartScript = new StartScript();
@@ -86,7 +86,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 		secondSpriteCollisionScript.getScriptBrick();
 		secondSprite.addScript(secondSpriteStartScript);
 		secondSprite.addScript(secondSpriteCollisionScript);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);

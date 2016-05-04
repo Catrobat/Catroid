@@ -94,7 +94,7 @@ public class SpriteBaseAdapter extends ArrayAdapter<Sprite> implements ActionMod
 	public ArrayList<Sprite> getCheckedSprites() {
 		ArrayList<Sprite> result = new ArrayList<>();
 		for (Integer pos : checkedSprites) {
-			result.add(ProjectManager.getInstance().getCurrentProject().getSpriteList().get(pos));
+			result.add(ProjectManager.getInstance().getCurrentScene().getSpriteList().get(pos));
 		}
 		return result;
 	}

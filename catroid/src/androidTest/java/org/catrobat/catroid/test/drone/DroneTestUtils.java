@@ -48,7 +48,7 @@ public abstract class DroneTestUtils {
 			script.addBrick(currentBrick);
 			sprite.addScript(script);
 		}
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		setProjectAsCurrentProject(project, sprite, script);
 	}
 

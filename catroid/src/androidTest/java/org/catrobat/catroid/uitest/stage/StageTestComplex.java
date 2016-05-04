@@ -147,14 +147,14 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		assertNotNull("current project was null", project);
 
-		Sprite blueSprite = project.getSpriteList().get(5);
+		Sprite blueSprite = project.getDefaultScene().getSpriteList().get(5);
 		while (blueSprite.getNumberOfScripts() > 0) {
 			blueSprite.removeScript(blueSprite.getScript(0));
 		}
 
 		assertEquals("there shouldn't be any script left", 0, blueSprite.getNumberOfScripts());
 		assertEquals("there shouldn't be any script left", 0, blueSprite.getNumberOfBricks());
-		StorageHandler.getInstance().loadProject(project.getName());
+		StorageHandler.getInstance().loadProject(project.getName(), getActivity());
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1400);
@@ -286,27 +286,27 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		blackSprite.addScript(blackWhenScript);
 
-		project.addSprite(blackSprite);
-		project.addSprite(yellowSprite);
-		project.addSprite(redSprite);
-		project.addSprite(greenSprite);
-		project.addSprite(blueSprite);
+		project.getDefaultScene().addSprite(blackSprite);
+		project.getDefaultScene().addSprite(yellowSprite);
+		project.getDefaultScene().addSprite(redSprite);
+		project.getDefaultScene().addSprite(greenSprite);
+		project.getDefaultScene().addSprite(blueSprite);
 
 		StorageHandler.getInstance().saveProject(project);
 
-		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), yellowImageName,
+		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), yellowImageName,
 				org.catrobat.catroid.test.R.raw.yellow_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		File greenImageFile = UiTestUtils.saveFileToProject(project.getName(), greenImageName,
+		File greenImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), greenImageName,
 				org.catrobat.catroid.test.R.raw.green_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		File blueImageFile = UiTestUtils.saveFileToProject(project.getName(), blueImageName,
+		File blueImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), blueImageName,
 				org.catrobat.catroid.test.R.raw.blue_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		File redImageFile = UiTestUtils.saveFileToProject(project.getName(), redImageName,
+		File redImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), redImageName,
 				org.catrobat.catroid.test.R.raw.red_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		File blackImageFile = UiTestUtils.saveFileToProject(project.getName(), blackImageName,
+		File blackImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), blackImageName,
 				org.catrobat.catroid.test.R.raw.black_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 		yellowLookData.setLookFilename(yellowImageFile.getName());

@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Formula implements Serializable {
 
@@ -90,6 +91,11 @@ public class Formula implements Serializable {
 		internFormula.updateVariableReferences(oldName, newName, context);
 		formulaTree.updateVariableReferences(oldName, newName);
 		displayText = null;
+	}
+
+	public void getVariableAndListNames(ArrayList<String> variables, ArrayList<String> lists) {
+		internFormula.getVariableAndListNames(variables, lists);
+		formulaTree.getVariableAndListNames(variables, lists);
 	}
 
 	public Formula(String value) {
@@ -271,7 +277,7 @@ public class Formula implements Serializable {
 				return "ERROR";
 			}
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
-			DataContainer userVariables = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer userVariables = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
 			return (String) userVariable.getValue();
 		} else {

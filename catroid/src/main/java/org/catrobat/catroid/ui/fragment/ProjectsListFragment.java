@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.merge.MergeManager;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
@@ -84,7 +85,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectsListFragment extends ListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener, LoadProjectTask.OnLoadProjectCompleteListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
@@ -104,6 +105,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
 	private boolean selectAll = true;
+	public boolean lockBackButtonForAsync = false;
 
 	private boolean actionModeActive = false;
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -253,6 +255,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 
 		initAdapter();
 	}
@@ -366,8 +369,6 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				Log.e(TAG, "Project is not compatible", compatibilityException);
 				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
 			}
-		} else if (currentProject.getSpriteList().indexOf(projectToEdit) == 0) {
-			return;
 		}
 
 		menu.add(0, R.string.merge_button, 1, getString(R.string.merge_button) + ": " + ProjectManager.getInstance().getCurrentProject().getName());
@@ -445,11 +446,12 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 
 	@Override
 	public void onProjectEdit(int position) {
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, adapter.getItem(position).projectName);
-		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-
-		getActivity().startActivity(intent);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), adapter.getItem(position).projectName,
+				true, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
+		lockBackButtonForAsync = true;
+		loadProjectTask.execute();
 	}
 
 	public void startRenameActionMode() {
@@ -606,6 +608,20 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+		getActivity().startActivity(intent);
+		lockBackButtonForAsync = false;
+	}
+
+	@Override
+	public void onLoadProjectFailure() {
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+		lockBackButtonForAsync = false;
 	}
 
 	private class ProjectListInitReceiver extends BroadcastReceiver {

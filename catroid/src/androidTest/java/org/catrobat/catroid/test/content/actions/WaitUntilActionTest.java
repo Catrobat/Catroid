@@ -51,8 +51,8 @@ public class WaitUntilActionTest extends AndroidTestCase {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 	}
 
 	public void testWaitUntilBrick() {
@@ -81,7 +81,7 @@ public class WaitUntilActionTest extends AndroidTestCase {
 		WaitUntilBrick waitUntilBrick = new WaitUntilBrick(validFormula);
 		testScript.addBrick(waitUntilBrick);
 		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());

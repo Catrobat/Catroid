@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -57,13 +58,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScript);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		Scene scene = project.getDefaultScene();
+		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -91,13 +93,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScript);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		Scene scene = project.getDefaultScene();
+		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -129,14 +132,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScript);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -171,14 +174,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScriptMessageTwo);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -188,7 +191,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {
-		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			if (!spriteOfList.look.getAllActionsAreFinished()) {
 				return false;
 			}

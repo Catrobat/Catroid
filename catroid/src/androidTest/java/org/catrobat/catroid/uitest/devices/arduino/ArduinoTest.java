@@ -187,7 +187,7 @@ public class ArduinoTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
 		String imageName = "image";
-		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
+		File image = UiTestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		LookData lookData = new LookData();

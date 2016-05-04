@@ -110,7 +110,7 @@ public class PhiroSeekBarColorBrickTest extends BaseActivityInstrumentationTestC
 
 		script.addBrick(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, 0, 10, 20));
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

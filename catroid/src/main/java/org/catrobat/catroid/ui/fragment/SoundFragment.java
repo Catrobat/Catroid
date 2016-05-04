@@ -590,6 +590,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		dialog.showDialog(this);
 	}
 
+	@Override
+	public void handleCheckBoxClick(View view) {
+	}
+
 	public void addSoundRecord() {
 		Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
 		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);

@@ -53,7 +53,7 @@ public class PhysicsLook extends Look {
 	@Override
 	public void setLookData(LookData lookData) {
 		super.setLookData(lookData);
-		PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
+		PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
 		physicsWorld.changeLook(physicsObject, this);
 		updatePhysicsObjectState(true);
 	}
@@ -148,7 +148,7 @@ public class PhysicsLook extends Look {
 		super.setScale(scaleX, scaleY);
 
 		if (physicsObject != null) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
 			physicsWorld.changeLook(physicsObject, this);
 			updatePhysicsObjectState(true);
 		}

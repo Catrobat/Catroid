@@ -67,7 +67,7 @@ public class IfThenBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		sprite.addScript(script);
 		sprite.addScript(new StartScript());
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
@@ -79,7 +79,7 @@ public class IfThenBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnCheckBox(1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 
 		assertEquals("Incorrect number of bricks.", 5, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfThenLogicBeginBrick);
@@ -94,7 +94,7 @@ public class IfThenBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnCheckBox(3);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 5, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfThenLogicBeginBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);

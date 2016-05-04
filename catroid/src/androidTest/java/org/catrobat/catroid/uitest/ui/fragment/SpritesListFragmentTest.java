@@ -131,13 +131,13 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		project = ProjectManager.getInstance().getCurrentProject();
 		sprite = new Sprite(SPRITE_NAME);
 		sprite2 = new Sprite(SPRITE_NAME2);
-		project.addSprite(sprite);
-		project.addSprite(sprite2);
-		project.getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
-		project.getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
+		project.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite2);
+		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
 
-		project.getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
-		project.getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
 
 		ProjectManager.getInstance().setProject(project);
 
@@ -174,7 +174,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertTrue(copiedSpriteName + " not found!", solo.searchText(copiedSpriteName));
 
 		Sprite clonedSprite = null;
-		for (Sprite tempSprite : project.getSpriteList()) {
+		for (Sprite tempSprite : project.getDefaultScene().getSpriteList()) {
 			if (tempSprite.getName().equals(copiedSpriteName)) {
 				clonedSprite = tempSprite;
 			}
@@ -184,7 +184,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 			fail("no cloned sprite in project");
 		}
 
-		List<UserVariable> userVariableList = project.getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
+		List<UserVariable> userVariableList = project.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
 		Set<String> hashSet = new HashSet<>();
 		for (UserVariable userVariable : userVariableList) {
 			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
@@ -244,7 +244,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		List<Sprite> list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> list = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 
 		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
 		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
@@ -254,7 +254,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(0) - 100, 20);
 
-		list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		list = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 
 		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
 		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
@@ -270,7 +270,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		List<Sprite> list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> list = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 
 		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
 		assertEquals("Wrong List before DragAndDropTest", list.get(2).getName(), SPRITE_NAME2);
@@ -280,7 +280,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
 
-		list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		list = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 
 		assertEquals("Wrong List after DragAndDropTest", list.get(1).getName(), SPRITE_NAME2);
 		assertEquals("Wrong List after DragAndDropTest", list.get(2).getName(), SPRITE_NAME);
@@ -289,7 +289,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testDragAndDropWithBackground() {
-		List<Sprite> list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> list = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 
 		assertEquals("Wrong List before DragAndDropTest", list.get(0).getName(), SPRITE_NAME_BACKGROUND);
 		assertEquals("Wrong List before DragAndDropTest", list.get(1).getName(), SPRITE_NAME);
@@ -357,7 +357,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 	public void testGetSpriteFromMediaLibrary() {
 		String mediaLibraryText = solo.getString(R.string.add_look_media_library);
-		int numberSpritesBefore = ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
+		int numberSpritesBefore = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().size();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
@@ -378,7 +378,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose();
 		solo.sleep(TIME_TO_WAIT);
-		int numberSpritesAfter = ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
+		int numberSpritesAfter = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().size();
 		assertEquals("No Sprite was added!", numberSpritesBefore + 1, numberSpritesAfter);
 	}
 
@@ -498,6 +498,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertNotNull("Could not get Adapter", adapter);
 		packSingleItem(SPRITE_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
 		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME_BACKGROUND);
 		solo.goBack();
 
@@ -572,7 +573,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 	public void testBackPackActionModeIfNothingSelected() {
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		int expectedNumberOfSprites = ProjectManager.getInstance().getCurrentProject().getSpriteList().size();
+		int expectedNumberOfSprites = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -880,7 +881,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentProject().getDefaultScene().getDataContainer();
 		UserVariable spriteUserVariable = dataContainer.getUserVariable("sprite_var", projectManager.getCurrentSprite());
 		UserVariable projectUserVariable = dataContainer.getProjectVariables().get(0);
 		UserList projectUserList = dataContainer.getUserList("global_list", null);
@@ -1145,14 +1146,14 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	private void checkIfNumberOfSpritesIsEqual(int expectedNumber) {
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList();
 		assertEquals("Number of sprites is not as expected", expectedNumber, spriteList.size());
 	}
 
 	private void addSpriteWithName(String spriteName) {
 		Sprite spriteToAdd = sprite.clone();
 		spriteToAdd.setName(spriteName);
-		ProjectManager.getInstance().getCurrentProject().addSprite(spriteToAdd);
+		ProjectManager.getInstance().getCurrentScene().addSprite(spriteToAdd);
 	}
 
 	private void setServerURLToTestUrl() throws Throwable {

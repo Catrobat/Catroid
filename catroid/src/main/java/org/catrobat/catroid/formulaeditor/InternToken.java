@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InternToken {
@@ -49,6 +50,15 @@ public class InternToken {
 	public void updateVariableReferences(String oldName, String newName) {
 		if (internTokenType == InternTokenType.USER_VARIABLE && tokenStringValue.equals(oldName)) {
 			tokenStringValue = newName;
+		}
+	}
+
+	public void getVariableAndListNames(ArrayList<String> variables, ArrayList<String> lists) {
+		if (internTokenType == InternTokenType.USER_VARIABLE && !variables.contains(tokenStringValue)) {
+			variables.add(tokenStringValue);
+		}
+		if (internTokenType == InternTokenType.USER_LIST && !lists.contains(tokenStringValue)) {
+			lists.add(tokenStringValue);
 		}
 	}
 

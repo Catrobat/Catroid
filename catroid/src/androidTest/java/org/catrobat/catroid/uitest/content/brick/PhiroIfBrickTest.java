@@ -94,7 +94,7 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Incorrect number of bricks.", 6, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 0, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof PhiroIfLogicBeginBrick);
@@ -128,7 +128,7 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		sprite.addScript(script);
 		sprite.addScript(new StartScript());
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

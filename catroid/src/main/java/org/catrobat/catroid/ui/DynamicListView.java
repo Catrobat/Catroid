@@ -385,6 +385,7 @@ public class DynamicListView extends ListView {
 
 	public void notifyListItemTouchActionUp() {
 		if (dismissLongPress) {
+			dismissLongPress = false;
 			touchEventsCancelled();
 		}
 	}

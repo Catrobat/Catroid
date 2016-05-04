@@ -160,7 +160,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		whenScriptCat.addBrick(placeAtCat);
 		cat.addScript(whenScriptCat);
 
-		project.addSprite(cat);
+		project.getDefaultScene().addSprite(cat);
 
 		fish = new Sprite("fish");
 		StartScript startScriptFish = new StartScript();
@@ -181,14 +181,14 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		whenScriptFish.addBrick(placeAtFish);
 		fish.addScript(whenScriptFish);
 
-		project.addSprite(fish);
+		project.getDefaultScene().addSprite(fish);
 
 		StorageHandler.getInstance().saveProject(project);
 
-		File catImageFile = UiTestUtils.saveFileToProject(project.getName(), catFilename,
+		File catImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), catFilename,
 				org.catrobat.catroid.test.R.drawable.catroid_sunglasses, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
-		File fishImageFile = UiTestUtils.saveFileToProject(project.getName(), fishFilename,
+		File fishImageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), fishFilename,
 				org.catrobat.catroid.test.R.drawable.fish, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 		lookDataCat.setLookFilename(catImageFile.getName());

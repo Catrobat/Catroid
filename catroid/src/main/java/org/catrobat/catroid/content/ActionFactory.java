@@ -94,6 +94,8 @@ import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.SceneStartAction;
+import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
@@ -535,6 +537,18 @@ public class ActionFactory extends Actions {
 		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
 		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createSceneTransitionAction(String sceneName) {
+		SceneTransitionAction action = action(SceneTransitionAction.class);
+		action.setScene(sceneName);
+		return action;
+	}
+
+	public Action createSceneStartAction(String sceneName) {
+		SceneStartAction action = action(SceneStartAction.class);
+		action.setScene(sceneName);
 		return action;
 	}
 

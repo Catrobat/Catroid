@@ -23,6 +23,7 @@
 package org.catrobat.catroid.io;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -34,12 +35,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.parrot.freeflight.utils.FileUtils;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
@@ -50,10 +53,12 @@ import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.SupportProject;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
@@ -134,6 +139,8 @@ import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -162,6 +169,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.SupportDataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
@@ -173,6 +181,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -187,6 +196,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -195,7 +206,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
@@ -206,9 +216,12 @@ import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
 import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
+import static org.catrobat.catroid.common.Constants.SCENES_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.SCENES_ENABLED_TAG;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
 import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
+import static org.catrobat.catroid.utils.Utils.buildScenePath;
 
 public final class StorageHandler {
 	private static final StorageHandler INSTANCE;
@@ -236,7 +249,7 @@ public final class StorageHandler {
 		}
 	}
 	private StorageHandler() throws IOException {
-		prepareProgramXstream();
+		prepareProgramXstream(false);
 		prepareBackpackGson();
 
 		if (!Utils.externalStorageAvailable()) {
@@ -249,12 +262,19 @@ public final class StorageHandler {
 		return INSTANCE;
 	}
 
-	private void prepareProgramXstream() {
-		xstream = new XStreamToSupportCatrobatLanguageVersion0991AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
-		xstream.processAnnotations(Project.class);
+	private void prepareProgramXstream(boolean forSupportProject) {
+		xstream = new XStreamToSupportCatrobatLanguageVersion0991AndBefore(new PureJavaReflectionProvider(new
+				FieldDictionary(new CatroidFieldKeySorter())));
+		if (forSupportProject) {
+			xstream.processAnnotations(SupportProject.class);
+			xstream.processAnnotations(SupportDataContainer.class);
+		} else {
+			xstream.processAnnotations(Project.class);
+			xstream.processAnnotations(DataContainer.class);
+		}
+		xstream.processAnnotations(Scene.class);
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
-		xstream.processAnnotations(DataContainer.class);
 		xstream.processAnnotations(Setting.class);
 		xstream.processAnnotations(UserVariableBrick.class);
 		xstream.processAnnotations(UserListBrick.class);
@@ -362,6 +382,8 @@ public final class StorageHandler {
 		xstream.alias("brick", RepeatBrick.class);
 		xstream.alias("brick", RepeatUntilBrick.class);
 		xstream.alias("brick", ReplaceItemInUserListBrick.class);
+		xstream.alias("brick", SceneTransitionBrick.class);
+		xstream.alias("brick", SceneStartBrick.class);
 		xstream.alias("brick", SetBrightnessBrick.class);
 		xstream.alias("brick", SetColorBrick.class);
 		xstream.alias("brick", SetTransparencyBrick.class);
@@ -451,18 +473,127 @@ public final class StorageHandler {
 		}
 	}
 
-	public Project loadProject(String projectName) {
+	private boolean checkIfProjectHasScenes(String projectName) throws IOException {
+		File projectXmlFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+		String projectXml = Files.toString(projectXmlFile, Charsets.UTF_8);
+		return projectXml.contains(SCENES_ENABLED_TAG);
+	}
+
+	public String getFirstSceneName(String projectName) {
+		try {
+			if (!checkIfProjectHasScenes(projectName)) {
+				return null;
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "Exception getFirstSceneName", e);
+			return null;
+		}
+		File projectXmlFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+		String projectXml;
+		try {
+			projectXml = Files.toString(projectXmlFile, Charsets.UTF_8);
+		} catch (IOException e) {
+			Log.e(TAG, "Exception getFirstSceneName", e);
+			return null;
+		}
+		int start = projectXml.indexOf("<scene>");
+		int end = projectXml.indexOf("</name>", start);
+
+		return projectXml.substring(start + 20, end);
+	}
+
+	public Project loadProject(String projectName, Context context) {
 		File file = new File(DEFAULT_ROOT);
 		if (!file.exists()) {
 			Log.d(TAG, "Directory does not exist!");
 			return null;
 		}
 
-		boolean result = codeFileSanityCheck(projectName);
-		assertTrue(result);
+		try {
+			if (!checkIfProjectHasScenes(projectName)) {
+				return loadSupportProject(projectName, context);
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "Could not check Scene Tag!", e);
+			return null;
+		}
 
+		assertTrue(codeFileSanityCheck(projectName));
 		Log.d(TAG, "loadProject " + projectName);
+		if (!projectExists(projectName)) {
+			return null;
+		}
 
+		loadSaveLock.lock();
+		Project project = null;
+		try {
+			project = (Project) xstream.getProjectFromXML(new File(buildProjectPath(projectName), PROJECTCODE_NAME));
+			for (String sceneName : project.getSceneOrder()) {
+				project.getSceneByName(sceneName).setProject(project);
+				project.getSceneByName(sceneName).getDataContainer().setProject(project);
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "Could not get Project from xml and get Scene from order", e);
+			loadSaveLock.unlock();
+			return null;
+		}
+		loadSaveLock.unlock();
+
+		return project;
+	}
+
+	public static void copyDirectory(File destinationFile, File sourceFile) throws IOException {
+		if (!sourceFile.exists()) {
+			return;
+		}
+		if (sourceFile.isDirectory()) {
+			destinationFile.mkdirs();
+			for (String subDirectoryName : sourceFile.list()) {
+				copyDirectory(new File(destinationFile, subDirectoryName), new File(sourceFile, subDirectoryName));
+			}
+		} else {
+			UtilFile.copyFile(destinationFile, sourceFile);
+		}
+	}
+
+	private void fixFolderStructureForSupportProject(String projectName, String sceneName) throws IOException {
+		projectName = UtilFile.encodeSpecialCharsForFileSystem(projectName);
+		sceneName = UtilFile.encodeSpecialCharsForFileSystem(sceneName);
+		String projectPath = buildProjectPath(projectName);
+		String scenePath = buildScenePath(projectName, sceneName);
+		File looksDirectory = new File(buildPath(projectPath, IMAGE_DIRECTORY));
+		File soundsDirectory = new File(buildPath(projectPath, SOUND_DIRECTORY));
+		File sceneDirectoryLooks = new File(buildPath(scenePath, IMAGE_DIRECTORY));
+		File sceneDirectorySounds = new File(buildPath(scenePath, SOUND_DIRECTORY));
+		File automaticScreenshot = new File(projectPath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File manualScreenshot = new File(projectPath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		File sceneAutomaticScreenshot = new File(scenePath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File sceneManualScreenshot = new File(scenePath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+
+		copyDirectory(sceneDirectoryLooks, looksDirectory);
+		copyDirectory(sceneDirectorySounds, soundsDirectory);
+
+		if (automaticScreenshot.exists()) {
+			FileUtils.copyFileToDir(automaticScreenshot, sceneAutomaticScreenshot);
+			automaticScreenshot.delete();
+		}
+		if (manualScreenshot.exists()) {
+			FileUtils.copyFileToDir(manualScreenshot, sceneManualScreenshot);
+			manualScreenshot.delete();
+		}
+		UtilFile.deleteDirectory(looksDirectory);
+		UtilFile.deleteDirectory(soundsDirectory);
+	}
+
+	public Project loadSupportProject(String projectName, Context context) {
+		File file = new File(DEFAULT_ROOT);
+		if (!file.exists()) {
+			Log.d(TAG, "Directory does not exist!");
+			return null;
+		}
+
+		assertTrue(codeFileSanityCheck(projectName));
+		Log.d(TAG, "loadSupportProject " + projectName);
 		if (!projectExists(projectName)) {
 			return null;
 		}
@@ -471,12 +602,18 @@ public final class StorageHandler {
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 			fileInputStream = new FileInputStream(projectCodeFile);
-			return (Project) xstream.getProjectFromXML(projectCodeFile);
-		} catch (FileNotFoundException e) {
+			prepareProgramXstream(true);
+			SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(projectCodeFile);
+			prepareProgramXstream(false);
+			Project project = new Project(supportProject, context);
+			fixFolderStructureForSupportProject(projectName, project.getDefaultScene().getName());
+			return project;
+		} catch (IOException e) {
 			Log.d(TAG, "Could not load project!");
-			deleteDirectory(file);
+			UtilFile.deleteDirectory(file);
 			Log.d(TAG, "loadProject: directory is deleted and "
 					+ "default project should be restored!");
+			Log.e(TAG, "Exception: ", e);
 			return null;
 		} finally {
 			if (fileInputStream != null) {
@@ -525,10 +662,6 @@ public final class StorageHandler {
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
 
-			if (tmpCodeFile == null || currentCodeFile == null) {
-				Log.d(TAG, "tmpCodeFile or currentCodeFile is null!");
-				return false;
-			}
 			if (currentCodeFile.exists()) {
 				try {
 					String oldProjectXml = Files.toString(currentCodeFile, Charsets.UTF_8);
@@ -540,14 +673,12 @@ public final class StorageHandler {
 					Log.d(TAG, "Project version differ <" + oldProjectXml.length() + "> <"
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
 				} catch (Exception exception) {
-					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
-					fail("Opening old project " + currentCodeFile.getName() + " failed.");
+					Log.e(TAG, "Opening old project " + currentCodeFile.getAbsolutePath() + " failed.", exception);
 					return false;
 				}
 			}
 
-			File projectDirectory = new File(buildProjectPath(project.getName()));
-			createProgramFileStructure(projectDirectory);
+			createProjectFileStructure(project);
 
 			writer = new BufferedWriter(new FileWriter(tmpCodeFile), Constants.BUFFER_8K);
 			writer.write(projectXml);
@@ -584,6 +715,44 @@ public final class StorageHandler {
 			}
 
 			loadSaveLock.unlock();
+		}
+	}
+
+	public Scene createDefaultScene(String sceneName, boolean drone, boolean landscape, Context context) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		try {
+			if (drone) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_DRONE);
+			} else {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_DEFAULT);
+			}
+			Project project = DefaultProjectHandler.createDefaultProjectForScene(context, landscape);
+			if (!project.getDefaultScene().rename(sceneName, context, false)) {
+				loadSaveLock.lock();
+				deleteProject(project.getName());
+				loadSaveLock.unlock();
+				ProjectManager.getInstance().setProject(currentProject);
+				ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
+				return null;
+			}
+
+			File defaultSceneDir = new File(buildScenePath(project.getName(), project.getDefaultScene().getName()));
+			File targetSceneDir = new File(buildScenePath(currentProject.getName(), sceneName));
+
+			copyDirectory(targetSceneDir, defaultSceneDir);
+			project.getDefaultScene().setProject(currentProject);
+			project.getDefaultScene().resetDataContainerForDefaultScene();
+			loadSaveLock.lock();
+			deleteProject(project.getName());
+			loadSaveLock.unlock();
+			ProjectManager.getInstance().setProject(currentProject);
+			ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
+			return project.getDefaultScene();
+		} catch (IOException e) {
+			Log.e(TAG, "Error while creating default Scene!", e);
+			return null;
 		}
 	}
 
@@ -630,7 +799,7 @@ public final class StorageHandler {
 			Log.d(TAG, "Could not find backpack file!");
 			return new Backpack();
 		} catch (JsonSyntaxException | JsonIOException jsonException) {
-			Log.d(TAG, "Could not load backpack file! File will be deleted!");
+			Log.d(TAG, "Could not load backpack file! File will be deleted!", jsonException);
 			deleteBackpackFile();
 			return new Backpack();
 		}
@@ -682,18 +851,60 @@ public final class StorageHandler {
 		return true;
 	}
 
-	private void createProgramFileStructure(File projectDirectory) throws IOException {
+	public Scene cloneScene(Scene sourceScene) throws IOException, NullPointerException {
+		Project project = new Project();
+		List<Scene> list = new ArrayList<>();
+		File codeFile = createTempCodeFile();
+		list.add(sourceScene);
+		project.setSceneList(list);
+
+		String xml = xstream.toXML(project);
+		Files.write(xml, codeFile, Charset.defaultCharset());
+
+		project = (Project) xstream.getProjectFromXML(codeFile);
+		Scene result = project.getDefaultScene();
+
+		UtilFile.deleteDirectory(new File(Constants.TMP_PATH));
+
+		if (result == null) {
+			throw new NullPointerException("Scene was not found in Project!");
+		}
+		return result;
+	}
+
+	private File createTempCodeFile() throws IOException {
+		File tmpDir = new File(Constants.TMP_PATH);
+		if (!tmpDir.exists()) {
+			tmpDir.mkdir();
+		}
+		File codeFile = new File(Constants.TMP_PATH, Constants.PROJECTCODE_NAME);
+		codeFile.createNewFile();
+		return codeFile;
+	}
+
+	private void createProjectFileStructure(Project project) throws IOException {
 		Log.d(TAG, "create Project Data structure");
 		createCatroidRoot();
+		File projectDirectory = new File(buildProjectPath(project.getName()));
 		projectDirectory.mkdir();
 
-		File imageDirectory = new File(projectDirectory, IMAGE_DIRECTORY);
+		for (Scene scene : project.getSceneList()) {
+			File sceneDirectory = new File(buildScenePath(project.getName(), scene.getName()));
+			createSceneFileStructure(sceneDirectory);
+		}
+	}
+
+	private void createSceneFileStructure(File sceneDirectory) throws IOException {
+		Log.d(TAG, "create Scene Data structure");
+		sceneDirectory.mkdir();
+
+		File imageDirectory = new File(sceneDirectory, IMAGE_DIRECTORY);
 		imageDirectory.mkdir();
 
 		File noMediaFile = new File(imageDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 
-		File soundDirectory = new File(projectDirectory, SOUND_DIRECTORY);
+		File soundDirectory = new File(sceneDirectory, SOUND_DIRECTORY);
 		soundDirectory.mkdir();
 
 		noMediaFile = new File(soundDirectory, NO_MEDIA_FILE);
@@ -703,6 +914,9 @@ public final class StorageHandler {
 	private void createBackPackFileStructure() throws IOException {
 		File backPackDirectory = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
 		backPackDirectory.mkdir();
+
+		File backPackSceneDirectory = new File(backPackDirectory, SCENES_DIRECTORY);
+		backPackSceneDirectory.mkdir();
 
 		backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
 		backPackSoundDirectory.mkdir();
@@ -745,6 +959,10 @@ public final class StorageHandler {
 		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
 	}
 
+	public boolean deleteScene(String projectName, String sceneName) {
+		return UtilFile.deleteDirectory(new File(buildScenePath(projectName, sceneName)));
+	}
+
 	public boolean projectExists(String projectName) {
 		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
@@ -757,7 +975,8 @@ public final class StorageHandler {
 
 	public File copySoundFile(String path) throws IOException, IllegalArgumentException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY));
+		String currentScene = ProjectManager.getInstance().getCurrentScene().getName();
+		File soundDirectory = new File(buildPath(buildScenePath(currentProject, currentScene), SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -789,7 +1008,8 @@ public final class StorageHandler {
 		String outputFilePath;
 		if (copyFromBackpack) {
 			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-			outputFilePath = buildPath(buildProjectPath(currentProject), programSubDirectory,
+			String currentScene = ProjectManager.getInstance().getCurrentScene().getName();
+			outputFilePath = buildPath(buildScenePath(currentProject, currentScene), programSubDirectory,
 					inputFileChecksum + "_" + newTitle + fileFormat);
 		} else {
 			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, backpackSubDirectory,
@@ -837,12 +1057,15 @@ public final class StorageHandler {
 	public File copyImageFromResourceToCatroid(Activity activity, int imageId, String defaultImageName) throws IOException {
 		Bitmap newImage = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(), imageId);
 		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		return createImageFromBitmap(projectName, newImage, defaultImageName);
+		String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+		return createImageFromBitmap(projectName, sceneName, newImage, defaultImageName);
 	}
 
-	public File createImageFromBitmap(String currentProjectName, Bitmap inputImage, String newName) throws IOException {
+	public File createImageFromBitmap(String currentProjectName, String currentSceneName, Bitmap inputImage, String
+			newName) throws
+			IOException {
 
-		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
+		File imageDirectory = new File(buildPath(buildScenePath(currentProjectName, currentSceneName), IMAGE_DIRECTORY));
 
 		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
 
@@ -855,9 +1078,10 @@ public final class StorageHandler {
 		return createFileFromBitmap(outputFile, inputImage, imageDirectory);
 	}
 
-	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
+	public File copyImage(String currentProjectName, String currentSceneName, String inputFilePath, String newName)
+			throws IOException {
 		String newFilePath;
-		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
+		File imageDirectory = new File(buildPath(buildScenePath(currentProjectName, currentSceneName), IMAGE_DIRECTORY));
 
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -1007,15 +1231,16 @@ public final class StorageHandler {
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 
 		Project newProject = ProjectManager.getInstance().getCurrentProject();
-		List<Sprite> currentSpriteList = newProject.getSpriteList();
 
-		for (Sprite currentSprite : currentSpriteList) {
-			for (SoundInfo soundInfo : currentSprite.getSoundList()) {
-				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-			}
+		for (Scene scene : newProject.getSceneList()) {
+			for (Sprite currentSprite : scene.getSpriteList()) {
+				for (SoundInfo soundInfo : currentSprite.getSoundList()) {
+					container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+				}
 
-			for (LookData lookData : currentSprite.getLookDataList()) {
-				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+				for (LookData lookData : currentSprite.getLookDataList()) {
+					container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+				}
 			}
 		}
 	}
@@ -1074,21 +1299,21 @@ public final class StorageHandler {
 		return permissionsSet;
 	}
 
-	public boolean copyImageFiles(String targetProject, String sourceProject) {
-		return copyFiles(targetProject, sourceProject, false);
+	public boolean copyImageFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) {
+		return copyFiles(targetScene, targetProject, sourceScene, sourceProject, false);
 	}
 
-	public boolean copySoundFiles(String targetProject, String sourceProject) {
-		return copyFiles(targetProject, sourceProject, true);
+	public boolean copySoundFiles(String targetScene, String targetProject, String sourceScene, String sourceProject) {
+		return copyFiles(targetScene, targetProject, sourceScene, sourceProject, true);
 	}
 
-	private boolean copyFiles(String targetProject, String sourceProject, boolean copySoundFiles) {
+	private boolean copyFiles(String targetScene, String targetProject, String sourceScene, String sourceProject, boolean copySoundFiles) {
 		String type = IMAGE_DIRECTORY;
 		if (copySoundFiles) {
 			type = SOUND_DIRECTORY;
 		}
-		File targetDirectory = new File(buildPath(buildProjectPath(targetProject), type));
-		File sourceDirectory = new File(buildPath(buildProjectPath(sourceProject), type));
+		File targetDirectory = new File(buildPath(buildScenePath(targetProject, targetScene), type));
+		File sourceDirectory = new File(buildPath(buildScenePath(sourceProject, sourceScene), type));
 		if (!targetDirectory.exists() || !sourceDirectory.exists()) {
 			return false;
 		}
@@ -1106,23 +1331,6 @@ public final class StorageHandler {
 			return false;
 		}
 		return true;
-	}
-
-	public static boolean deleteDirectory(File path) {
-		if (path.exists()) {
-			File[] files = path.listFiles();
-			if (files == null) {
-				return true;
-			}
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isDirectory()) {
-					deleteDirectory(files[i]);
-				} else {
-					files[i].delete();
-				}
-			}
-		}
-		return path.delete();
 	}
 
 	public void updateCodefileOnDownload(String projectName) {

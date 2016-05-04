@@ -141,32 +141,32 @@ public class RenameVariableDialog extends DialogFragment {
 	}
 
 	private void renameUserList(String newName) {
-		if (ProjectManager.getInstance().getCurrentProject().getDataContainer().existProjectList(userList)) {
+		if (ProjectManager.getInstance().getCurrentScene().getDataContainer().existProjectList(userList)) {
 			if (!isVariableNameValid(newName)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
-				ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.renameProjectUserList(newName, userList.getName());
 			}
-		} else if (ProjectManager.getInstance().getCurrentProject().getDataContainer().existSpriteList(
+		} else if (ProjectManager.getInstance().getCurrentScene().getDataContainer().existSpriteList(
 				userList, ProjectManager.getInstance().getCurrentSprite())) {
-			ProjectManager.getInstance().getCurrentProject().getDataContainer()
+			ProjectManager.getInstance().getCurrentScene().getDataContainer()
 					.renameSpriteUserList(newName, userList.getName());
 		}
 		updateSpinner();
 	}
 
 	private void renameUserVariable(String newName) {
-		if (ProjectManager.getInstance().getCurrentProject().getDataContainer().existProjectVariable(userVariable)) {
+		if (ProjectManager.getInstance().getCurrentScene().getDataContainer().existProjectVariable(userVariable)) {
 			if (!isVariableNameValid(newName)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
-				ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.renameProjectUserVariable(newName, userVariable.getName());
 			}
-		} else if (ProjectManager.getInstance().getCurrentProject().getDataContainer().existSpriteVariable(
+		} else if (ProjectManager.getInstance().getCurrentScene().getDataContainer().existSpriteVariable(
 				userVariable, ProjectManager.getInstance().getCurrentSprite())) {
-			ProjectManager.getInstance().getCurrentProject().getDataContainer()
+			ProjectManager.getInstance().getCurrentScene().getDataContainer()
 					.renameSpriteUserVariable(newName, userVariable.getName());
 		}
 		updateSpinner();
@@ -208,10 +208,10 @@ public class RenameVariableDialog extends DialogFragment {
 	}
 
 	private boolean isVariableNameValid(String name) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer currentData = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 
 		if (currentData.existProjectVariable(userVariable)) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 			return !currentData.existVariableInAnySprite(name, sprites) && !currentData.existProjectVariableWithName(name);
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();

@@ -84,7 +84,7 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 				Sensors.PHIRO_BOTTOM_LEFT.name(), null)));
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);
-		projectPhiro.addSprite(sprite);
+		projectPhiro.getDefaultScene().addSprite(sprite);
 
 		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronousTask", false);
 		ProjectManager.getInstance().setProject(projectPhiro);

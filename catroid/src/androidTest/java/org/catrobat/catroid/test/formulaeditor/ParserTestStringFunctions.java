@@ -51,10 +51,10 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 	protected void setUp() {
 		testSprite = new Sprite("testsprite");
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentScene()
 				.getDataContainer();
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME).setValue(
 				USER_VARIABLE_1_VALUE_TYPE_DOUBLE);

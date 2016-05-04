@@ -155,7 +155,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void resetSprite() {
 		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
 			look = new Look(this);
@@ -255,12 +255,13 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
-		if (BroadcastSequenceMap.containsKey(broadcastMessage)) {
-			BroadcastSequenceMap.get(broadcastMessage).add(action);
+		String sceneName = ProjectManager.getInstance().getSceneToPlay().getName();
+		if (BroadcastSequenceMap.containsKey(broadcastMessage, sceneName)) {
+			BroadcastSequenceMap.get(broadcastMessage, sceneName).add(action);
 		} else {
 			ArrayList<SequenceAction> actionList = new ArrayList<>();
 			actionList.add(action);
-			BroadcastSequenceMap.put(broadcastMessage, actionList);
+			BroadcastSequenceMap.put(sceneName, broadcastMessage, actionList);
 		}
 	}
 
@@ -279,15 +280,18 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.setName(this.getName());
 		cloneSprite.isBackpackObject = false;
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {
-			throw new RuntimeException("The sprite must be in the current project before cloning it.");
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		if (currentScene == null) {
+			throw new RuntimeException("Current scene was null, cannot clone Sprite.");
+		}
+		if (!ProjectManager.getInstance().getCurrentScene().getSpriteList().contains(this)) {
+			throw new RuntimeException("The sprite must be in the current scene before cloning it.");
 		}
 
 		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
 		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
 
-		cloneSpriteVariables(currentProject, cloneSprite);
+		cloneSpriteVariables(currentScene, cloneSprite);
 		cloneLooks(cloneSprite);
 		cloneSounds(cloneSprite);
 		cloneUserBricks(cloneSprite);
@@ -338,7 +342,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void setVariableReferencesOfClonedSprite(Sprite cloneSprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		List<UserVariable> clonedSpriteVariables = dataContainer.getOrCreateVariableListForSprite(cloneSprite);
 		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedSpriteVariables);
 
@@ -346,8 +350,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedProjectVariables);
 	}
 
-	private void cloneSpriteVariables(Project currentProject, Sprite cloneSprite) {
-		DataContainer userVariables = currentProject.getDataContainer();
+	private void cloneSpriteVariables(Scene currentScene, Sprite cloneSprite) {
+		DataContainer userVariables = currentScene.getDataContainer();
 		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
 		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
 		for (UserVariable variable : originalSpriteVariables) {
@@ -599,7 +603,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void rename(String newSpriteName) {
 		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
-			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 			for (Sprite currentSprite : spriteList) {
 				if ((currentSprite.getRequiredResources() & Brick.PHYSICS) > 0) {
 					currentSprite.updateCollisionBroadcastMessages(getName(), newSpriteName);

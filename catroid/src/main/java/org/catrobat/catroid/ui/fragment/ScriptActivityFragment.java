@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.ListFragment;
+import android.view.View;
 
 public abstract class ScriptActivityFragment extends ListFragment {
 
@@ -53,6 +54,8 @@ public abstract class ScriptActivityFragment extends ListFragment {
 	public abstract void startBackPackActionMode();
 
 	public abstract void handleAddButton();
+
+	public abstract void handleCheckBoxClick(View view);
 
 	protected abstract void showRenameDialog();
 

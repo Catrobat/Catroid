@@ -85,7 +85,7 @@ public class FormulaEditorListFragmentTest extends BaseActivityInstrumentationTe
 
 		Sprite firstSprite = new Sprite("firstSprite");
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
