@@ -103,8 +103,6 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 			}
 		});
 
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
 		return dialog;
 	}
 
