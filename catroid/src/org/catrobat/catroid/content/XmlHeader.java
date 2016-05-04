@@ -190,4 +190,8 @@ public class XmlHeader implements Serializable {
 	public void setlandscapeMode(boolean landscapeMode) {
 		this.landscapeMode = landscapeMode;
 	}
+
+	public String getUrl() {
+		return this.url;
+	}
 }
