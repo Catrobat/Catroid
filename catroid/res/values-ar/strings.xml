@@ -911,9 +911,9 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">حساب</string>
   <string name="formula_editor_object">كائن</string>
-  <string name="formula_editor_math">Functions</string>
+  <string name="formula_editor_functions">Functions</string>
   <string name="formula_editor_logic">منطق</string>
-  <string name="formula_editor_sensors">أجهزة الاستشعار</string>
+  <string name="formula_editor_device">أجهزة الاستشعار</string>
   <string name="formula_editor_variables">المتغيرات</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>

@@ -21,15 +21,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_formula_editor_list_item"
-    style="@style/sound_fragment_main"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:background="@drawable/button_background_selector"
-    android:gravity="center_vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="6dp"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:textColor="@color/sound_fragment_text_main_color" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/categorylist_headline"
+    style="@style/headlineLinearLayout" >
 
+    <View
+        style="@style/headlineView"
+        android:background="@color/transparent"
+        android:layout_marginTop="12dp" />
+
+    <org.catrobat.catroid.ui.CapitalizedTextView
+        android:id="@+id/categorylist_headline_text"
+        style="@style/headlineTextView"
+        android:textSize="@dimen/text_size_xxlarge" />
+
+</LinearLayout >

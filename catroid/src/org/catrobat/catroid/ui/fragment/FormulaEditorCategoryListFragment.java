@@ -38,18 +38,21 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorPortConfigDialog;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class FormulaEditorListFragment extends ListFragment implements Dialog.OnKeyListener {
+public class FormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener, CategoryListAdapter.OnListItemClickListener {
 
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
@@ -59,23 +62,31 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
-	public static final String[] TAGS = {OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG};
+	public static final String[] TAGS = { OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG };
+	private String actionBarTitle;
+	private int[] itemsIds;
+	private int[] parameterIds;
+	private CategoryListAdapter adapter;
 
-	private static final int[] OBJECT_ITEMS = {R.string.formula_editor_object_x, R.string.formula_editor_object_y,
-			R.string.formula_editor_object_transparency, R.string.formula_editor_object_brightness,
-			R.string.formula_editor_object_color, R.string.formula_editor_object_size,
+	private static final int[] OBJECT_GENERAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_transparency,
+			R.string.formula_editor_object_brightness, R.string.formula_editor_object_color };
+
+	private static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_x,
+			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
-			R.string.formula_editor_object_angular_velocity};
+			R.string.formula_editor_object_angular_velocity };
 
-	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
+	private static final int[] LOGIC_BOOLEAN_OPERATORS_ITEMS = { R.string.formula_editor_logic_and,
+			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
+			R.string.formula_editor_function_true, R.string.formula_editor_function_false };
+
+	private static final int[] LOGIC_COMPARISON_OPERATORS_ITEMS = { R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
-			R.string.formula_editor_logic_greaterequal, R.string.formula_editor_logic_and,
-			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not, R.string.formula_editor_function_true,
-			R.string.formula_editor_function_false};
+			R.string.formula_editor_logic_greaterequal };
 
-	private static final int[] FUNCTIONS_ITEMS = {R.string.formula_editor_function_sin,
+	private static final int[] FUNCTIONS_MATH_ITEMS = { R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
 			R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
@@ -84,12 +95,9 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_arcsin, R.string.formula_editor_function_arccos,
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
 			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
-			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
-			R.string.formula_editor_function_length, R.string.formula_editor_function_letter,
-			R.string.formula_editor_function_join, R.string.formula_editor_function_number_of_items,
-			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains };
+			R.string.formula_editor_function_max, R.string.formula_editor_function_min };
 
-	private static final int[] FUNCTIONS_PARAMETERS = {R.string.formula_editor_function_sin_parameter,
+	private static final int[] FUNCTIONS_MATH_PARAMETERS = { R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
 			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
 			R.string.formula_editor_function_pi_parameter, R.string.formula_editor_function_sqrt_parameter,
@@ -98,9 +106,18 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_arcsin_parameter, R.string.formula_editor_function_arccos_parameter,
 			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
 			R.string.formula_editor_function_floor_parameter, R.string.formula_editor_function_ceil_parameter,
-			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
-			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_letter_parameter,
-			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_number_of_items_parameter,
+			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter };
+
+	private static final int[] FUNCTIONS_STRINGS_ITEMS = { R.string.formula_editor_function_length,
+			R.string.formula_editor_function_letter, R.string.formula_editor_function_join };
+
+	private static final int[] FUNCTIONS_STRINGS_PARAMETERS = { R.string.formula_editor_function_length_parameter,
+			R.string.formula_editor_function_letter_parameter, R.string.formula_editor_function_join_parameter };
+
+	private static final int[] FUNCTIONS_LISTS_ITEMS = { R.string.formula_editor_function_number_of_items,
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains };
+
+	private static final int[] FUNCTIONS_LISTS_PARAMETERS = { R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter, R.string.formula_editor_function_contains_parameter };
 
 	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness };
@@ -138,10 +155,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 	private static final int[] RASPBERRY_SENSOR_ITEMS = { R.string.formula_editor_function_raspi_read_pin_value_digital };
 
-	private String actionBarTitle;
-	private int[] itemsIds;
-
-	private static int[] concatAll(int[] first, int[]... rest) {
+	private int[] concatAll(int[] first, int[]... rest) {
 		int totalLength = first.length;
 		for (int[] array : rest) {
 			totalLength += array.length;
@@ -155,8 +169,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		return result;
 	}
 
-	@Override
-	public void onListItemClick(ListView listView, View view, int position, long id) {
+	public void onListItemClick(int position) {
 		if (isNXTItem(position)) {
 			DialogFragment dialog = new LegoNXTSensorPortConfigDialog(itemsIds[position]);
 			dialog.setTargetFragment(this, getTargetRequestCode());
@@ -225,15 +238,36 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
-		itemsIds = new int[]{};
+		itemsIds = new int[] {};
+		parameterIds = new int[] {};
+		Map<Integer, String> header = new TreeMap<>();
 
 		if (tag.equals(OBJECT_TAG)) {
-			itemsIds = OBJECT_ITEMS;
+			header.put(0, getString(R.string.formula_editor_object_general));
+			itemsIds = OBJECT_GENERAL_PROPERTIES_ITEMS;
+
+			header.put(itemsIds.length, getString(R.string.formula_editor_object_physical));
+			itemsIds = concatAll(itemsIds, OBJECT_PHYSICAL_PROPERTIES_ITEMS);
 		} else if (tag.equals(FUNCTION_TAG)) {
-			itemsIds = FUNCTIONS_ITEMS;
+			header.put(0, getString(R.string.formula_editor_functions_maths));
+			itemsIds = FUNCTIONS_MATH_ITEMS;
+			parameterIds = FUNCTIONS_MATH_PARAMETERS;
+
+			header.put(itemsIds.length, getString(R.string.formula_editor_functions_strings));
+			itemsIds = concatAll(itemsIds, FUNCTIONS_STRINGS_ITEMS);
+			parameterIds = concatAll(parameterIds, FUNCTIONS_STRINGS_PARAMETERS);
+
+			header.put(itemsIds.length, getString(R.string.formula_editor_functions_lists));
+			itemsIds = concatAll(itemsIds, FUNCTIONS_LISTS_ITEMS);
+			parameterIds = concatAll(parameterIds, FUNCTIONS_LISTS_PARAMETERS);
 		} else if (tag.equals(LOGIC_TAG)) {
-			itemsIds = LOGIC_ITEMS;
+			header.put(0, getString(R.string.formula_editor_logic_boolean));
+			itemsIds = LOGIC_BOOLEAN_OPERATORS_ITEMS;
+
+			header.put(itemsIds.length, getString(R.string.formula_editor_logic_comparison));
+			itemsIds = concatAll(itemsIds, LOGIC_COMPARISON_OPERATORS_ITEMS);
 		} else if (tag.equals(SENSOR_TAG)) {
+			header.put(0, getString(R.string.formula_editor_device));
 			itemsIds = DEFAULT_SENSOR_ITEMS;
 
 			Context context = this.getActivity().getApplicationContext();
@@ -251,44 +285,52 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			}
 
 			if (CameraManager.getInstance().hasBackCamera() || CameraManager.getInstance().hasFrontCamera()) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_face_detection));
 				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
 			}
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego));
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
 			}
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_phiro));
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
 			}
 
 			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_arduino));
 				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
 			}
 
 			if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_drone));
 				itemsIds = concatAll(itemsIds, SENSOR_ITEMS_DRONE);
 			}
 
 			if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_raspberry));
 				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
 			}
 		}
 
-		String[] items = new String[itemsIds.length];
+		List<String> items = new ArrayList<>();
 
-		for (int index = 0; index < items.length; index++) {
-			items[index] = tag.equals(FUNCTION_TAG) ? getString(itemsIds[index]) + getString(FUNCTIONS_PARAMETERS[index])
-					: getString(itemsIds[index]);
+		for (int index = 0; index < itemsIds.length; index++) {
+			items.add(tag.equals(FUNCTION_TAG) ? getString(itemsIds[index]) + getString(parameterIds[index])
+					: getString(itemsIds[index]));
 		}
 
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.fragment_formula_editor_list_item, items);
-		setListAdapter(arrayAdapter);
+		adapter = new CategoryListAdapter(getActivity(), items, header);
+		setListAdapter(adapter);
+		adapter.setOnListItemClickListener(this);
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
 		for (int index = 0; index < menu.size(); index++) {
 			menu.getItem(index).setVisible(false);
 		}
@@ -296,8 +338,6 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
 		getActivity().getActionBar().setTitle(actionBarTitle);
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
-
-		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

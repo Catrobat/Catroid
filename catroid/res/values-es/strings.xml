@@ -871,9 +871,9 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Calcular</string>
   <string name="formula_editor_object">Objeto</string>
-  <string name="formula_editor_math">Funciones</string>
+  <string name="formula_editor_functions">Funciones</string>
   <string name="formula_editor_logic">Lógica</string>
-  <string name="formula_editor_sensors">Sensores</string>
+  <string name="formula_editor_device">Sensores</string>
   <string name="formula_editor_variables">Variables</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>

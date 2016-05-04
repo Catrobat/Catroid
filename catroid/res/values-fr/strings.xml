@@ -872,9 +872,9 @@ il faut
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Calculer</string>
   <string name="formula_editor_object">Objet</string>
-  <string name="formula_editor_math">Fonctions</string>
+  <string name="formula_editor_functions">Fonctions</string>
   <string name="formula_editor_logic">Logique</string>
-  <string name="formula_editor_sensors">Capteurs</string>
+  <string name="formula_editor_device">Capteurs</string>
   <string name="formula_editor_variables">Variables</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
