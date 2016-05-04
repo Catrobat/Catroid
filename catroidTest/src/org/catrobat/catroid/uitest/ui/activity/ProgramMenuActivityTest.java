@@ -218,13 +218,13 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 
 		spriteCat.addScript(startScriptCat);
 		spriteCat.addScript(scriptTappedCat);
-		project.addSprite(spriteCat);
+		project.getDefaultScene().addSprite(spriteCat);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(spriteCat);
 		ProjectManager.getInstance().setCurrentScript(startScriptCat);
 
-		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
+		File imageFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), "catroid_sunglasses.png",
 				org.catrobat.catroid.test.R.drawable.catroid_sunglasses, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -235,7 +235,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		lookDataList.add(lookData);
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
-		File soundFile = UiTestUtils.saveFileToProject(project.getName(), "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(), "longsound.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();

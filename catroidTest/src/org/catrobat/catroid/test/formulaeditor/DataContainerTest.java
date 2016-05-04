@@ -87,11 +87,11 @@ public class DataContainerTest extends AndroidTestCase {
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
@@ -99,11 +99,11 @@ public class DataContainerTest extends AndroidTestCase {
 
 	public void testGetUserList() {
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(SPRITE_USER_LIST_NAME);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserListByName(SPRITE_USER_LIST_NAME);
 
-		assertNull("UserList found, but should not!", ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserList());
+		assertNull("UserList found, but should not!", ProjectManager.getInstance().getCurrentScene().getDataContainer().getUserList());
 
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
@@ -111,28 +111,28 @@ public class DataContainerTest extends AndroidTestCase {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_SINGLE_NUMBER_STRING);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserList();
+		UserList userList = ProjectManager.getInstance().getCurrentScene().getDataContainer().getUserList();
 		assertEquals("getUserList returned wrong UserList values!", USER_LIST_VALUES_SINGLE_NUMBER_STRING, userList.getList());
 	}
 
 	public void testRenameListGlobal() {
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 
 		dataContainer.renameProjectUserList(PROJECT_USER_LIST_NAME_2, PROJECT_USER_LIST_NAME);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserList(
+		UserList userList = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserList(
 				PROJECT_USER_LIST_NAME_2, dataContainer.getProjectLists());
 		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
 
 	public void testRenameListLocal() {
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
 		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
 
 		dataContainer.renameSpriteUserList(PROJECT_USER_LIST_NAME_2, PROJECT_USER_LIST_NAME);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserList(
+		UserList userList = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserList(
 				PROJECT_USER_LIST_NAME_2, dataContainer.getSpriteListOfLists(firstSprite));
 		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
@@ -142,7 +142,7 @@ public class DataContainerTest extends AndroidTestCase {
 
 		dataContainer.renameProjectUserVariable(PROJECT_USER_VARIABLE_NAME_2, PROJECT_USER_VARIABLE_NAME);
 
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserVariable(
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserVariable(
 				PROJECT_USER_VARIABLE_NAME_2, dataContainer.getProjectVariables());
 		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}
@@ -152,7 +152,7 @@ public class DataContainerTest extends AndroidTestCase {
 
 		dataContainer.renameSpriteUserVariable(PROJECT_USER_VARIABLE_NAME_2, PROJECT_USER_VARIABLE_NAME);
 
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserVariable(
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer().findUserVariable(
 				PROJECT_USER_VARIABLE_NAME_2, dataContainer.getVariableListForSprite(firstSprite));
 		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}

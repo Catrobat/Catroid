@@ -171,6 +171,10 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		return currentCameraInformation == frontCameraInformation;
 	}
 
+	public boolean isCameraActive() {
+		return state == CameraState.previewRunning;
+	}
+
 	public void setToDefaultCamera() {
 		updateCamera(defaultCameraInformation);
 	}
@@ -421,6 +425,26 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	public void resumePreview() {
 		prepareCamera();
 		wasRunning = false;
+	}
+
+	public void pauseForScene() {
+		Runnable r = new Runnable() {
+			public void run() {
+				pausePreview();
+			}
+		};
+		stageActivity.post(r);
+		wasRunning = false;
+		state = CameraState.notUsed;
+	}
+
+	public void resumeForScene() {
+		Runnable r = new Runnable() {
+			public void run() {
+				resumePreview();
+			}
+		};
+		stageActivity.post(r);
 	}
 
 	@Override

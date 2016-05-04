@@ -128,7 +128,7 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		script.addBrick(new GlideToBrick(0, 0, 0));
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

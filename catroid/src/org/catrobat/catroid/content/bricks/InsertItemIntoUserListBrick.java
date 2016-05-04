@@ -41,7 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -121,7 +121,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		textFieldIndex.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.insert_item_into_userlist_spinner);
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -188,7 +188,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		userListSpinner.setFocusable(false);
 		userListSpinner.setEnabled(false);
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
@@ -267,18 +267,18 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject == null) {
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		if (currentScene == null) {
 			throw new RuntimeException("The current project must be set before cloning it");
 		}
 
 		InsertItemIntoUserListBrick copyBrick = (InsertItemIntoUserListBrick) clone();
-		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
+		copyBrick.userList = currentScene.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 		super.updateUserListReference(into, from);
 	}
 }

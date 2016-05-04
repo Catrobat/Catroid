@@ -32,6 +32,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -78,6 +79,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
+	private boolean lockBackButtonForAsync = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +132,19 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		PreStageActivity.shutdownPersistentResources();
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			loadProjectInBackground(projectName);
 		}
 		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+
+		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
+			Intent intent = new Intent(this, ProjectActivity.class);
+			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -174,9 +184,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleContinueButton() {
-		Intent intent = new Intent(this, ProjectActivity.class);
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, Utils.getCurrentProjectName(this));
-		startActivity(intent);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
+		lockBackButtonForAsync = true;
+		loadProjectTask.execute();
 	}
 
 	private void loadProjectInBackground(String projectName) {
@@ -185,6 +197,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
+		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
@@ -194,6 +208,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
+		lockBackButtonForAsync = false;
 	}
 
 	public void handleNewButton(View view) {
@@ -297,7 +312,18 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		boolean result = false;
+		if (keyCode == KeyEvent.KEYCODE_BACK && !lockBackButtonForAsync) {
+			result =  true;
+		}
+		return result;
+	}
+
+	@Override
 	public void onLoadProjectFailure() {
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
+		lockBackButtonForAsync = false;
 	}
 
 	public void initializeFacebookSdk() {

@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 
 public class BroadcastEvent extends Event {
@@ -94,7 +95,7 @@ public class BroadcastEvent extends Event {
 	public void resetEventAndResumeScript() {
 		resetNumberOfReceivers();
 		resetNumberOfFinishedReceivers();
-		BroadcastWaitSequenceMap.remove(broadcastMessage);
+		BroadcastWaitSequenceMap.remove(broadcastMessage, ProjectManager.getInstance().getSceneToPlay().getName());
 		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
 		setRun(true);
 	}

@@ -186,7 +186,7 @@ public class StageActivity extends AndroidApplication {
 
 	public void resumeResources() {
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
 
 		SensorHandler.startSensorListener(this);
 

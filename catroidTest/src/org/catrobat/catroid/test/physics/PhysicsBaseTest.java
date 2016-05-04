@@ -56,16 +56,16 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		physicsWorld = project.getPhysicsWorld();
+		physicsWorld = project.getDefaultScene().getPhysicsWorld();
 		sprite = new Sprite("TestSprite");
 		sprite.look = new PhysicsLook(sprite, physicsWorld);
 
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+		rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
 				rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
 				TestUtils.TYPE_IMAGE_FILE);
 

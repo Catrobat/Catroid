@@ -252,7 +252,7 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
@@ -269,7 +269,7 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userList() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (dataContainer.getUserList(currentToken.getTokenStringValue(), currentSprite) == null) {

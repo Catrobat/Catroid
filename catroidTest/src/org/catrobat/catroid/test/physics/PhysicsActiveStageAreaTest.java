@@ -116,7 +116,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 	public void testSpriteLargerThanActiveAreaHangupAndResume() throws Exception {
 		String rectangle8192x8192FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_8192x8192.png");
 		int rectangle8192x8192ResID = R.raw.rectangle_8192x8192;
-		File rectangle8192x8192File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+		File rectangle8192x8192File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
 				rectangle8192x8192FileName, rectangle8192x8192ResID, getInstrumentation().getContext(),
 				TestUtils.TYPE_IMAGE_FILE);
 

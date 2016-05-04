@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorD
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorPhysics;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
@@ -58,12 +59,17 @@ public final class DefaultProjectHandler {
 		setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
 	}
 
-	public static Project createAndSaveDefaultProject(Context context, boolean landscapeMode) throws IOException {
+	public static Project createAndSaveDefaultProject(Context context, boolean landscapeMode, boolean forScene) throws
+			IOException {
 		String projectName = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
 		Project defaultProject = null;
 
-		if (StorageHandler.getInstance().projectExists(projectName)) {
+		if (StorageHandler.getInstance().projectExists(projectName) && !forScene) {
 			StorageHandler.getInstance().deleteProject(projectName);
+		}
+
+		if (forScene) {
+			projectName = Utils.getUniqueProjectName();
 		}
 
 		try {
@@ -76,10 +82,15 @@ public final class DefaultProjectHandler {
 	}
 
 	public static Project createAndSaveDefaultProject(Context context) throws IOException {
-		return createAndSaveDefaultProject(context, false);
+		return createAndSaveDefaultProject(context, false, false);
 	}
 
-	public static Project createAndSaveDefaultProject(String projectName, Context context, boolean landscapeMode)
+	public static Project createDefaultProjectForScene(Context context, boolean landscape) throws IOException {
+		return createAndSaveDefaultProject(context, landscape, true);
+	}
+
+	public static Project createAndSaveDefaultProject(String projectName, Context context, boolean
+			landscapeMode)
 			throws IOException,
 			IllegalArgumentException {
 		return getInstance().defaultProjectCreator.createDefaultProject(projectName, context, landscapeMode);
@@ -91,7 +102,8 @@ public final class DefaultProjectHandler {
 		return createAndSaveDefaultProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode) {
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean
+			landscapeMode) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}

@@ -95,6 +95,8 @@ import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
@@ -195,6 +197,8 @@ public class CategoryBricksFactory {
 
 		controlBrickList.add(new CollisionReceiverBrick("object"));
 
+		controlBrickList.add(new SceneTransitionBrick(null));
+		controlBrickList.add(new SceneStartBrick(null));
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
 		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
@@ -445,7 +449,7 @@ public class CategoryBricksFactory {
 	}
 
 	private boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
+		if (ProjectManager.getInstance().getCurrentScene().getSpriteList().indexOf(sprite) == 0) {
 			return true;
 		}
 		return false;

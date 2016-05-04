@@ -87,7 +87,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	public void testFileSize() throws IOException {
 		for (int i = 0; i < 2; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
+			UtilFile.saveFileToProject("testDirectory", "testScene", i + "testsound.mp3",
 					org.catrobat.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.FileType.TYPE_SOUND_FILE);
 		}
@@ -97,7 +97,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 				UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
+			UtilFile.saveFileToProject("testDirectory", "testScene", i + "testsound.mp3",
 					org.catrobat.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.FileType.TYPE_SOUND_FILE);
 		}
@@ -131,7 +131,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		Project project = new Project(null, projectName);
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		StorageHandler.getInstance().saveProject(project);
 
 		File catroidDirectoryFile = new File(CATROID_DIRECTORY);

@@ -105,11 +105,11 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		touchSprite.addScript(touchWhenScript);
 
-		testProject.addSprite(touchSprite);
+		testProject.getDefaultScene().addSprite(touchSprite);
 
 		StorageHandler.getInstance().saveProject(testProject);
 
-		File alphaTestImage = UiTestUtils.saveFileToProject(testProject.getName(), alphaTestImageName,
+		File alphaTestImage = UiTestUtils.saveFileToProject(testProject.getName(), testProject.getDefaultScene().getName(), alphaTestImageName,
 				org.catrobat.catroid.test.R.raw.alpha_test_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 		touchLookData.setLookFilename(alphaTestImage.getName());

@@ -203,23 +203,23 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		greenBroadcastScript.addBrick(greenSetTransparencyBrick2);
 		greenSprite.addScript(greenBroadcastScript);
 
-		projectWhenBrick.addSprite(yellowSprite);
+		projectWhenBrick.getDefaultScene().addSprite(yellowSprite);
 
-		projectWhenBrick.addSprite(blueSprite);
+		projectWhenBrick.getDefaultScene().addSprite(blueSprite);
 
-		projectWhenBrick.addSprite(greenSprite);
+		projectWhenBrick.getDefaultScene().addSprite(greenSprite);
 
 		StorageHandler.getInstance().saveProject(projectWhenBrick);
 
-		File yellowImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), yellowImageName,
+		File yellowImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), projectWhenBrick.getDefaultScene().getName(), yellowImageName,
 				org.catrobat.catroid.test.R.raw.yellow_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 
-		File blueImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), blueImageName,
+		File blueImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), projectWhenBrick.getDefaultScene().getName(), blueImageName,
 				org.catrobat.catroid.test.R.raw.blue_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 
-		File greenImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), greenImageName,
+		File greenImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), projectWhenBrick.getDefaultScene().getName(), greenImageName,
 				org.catrobat.catroid.test.R.raw.green_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 

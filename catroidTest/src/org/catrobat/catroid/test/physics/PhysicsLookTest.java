@@ -81,7 +81,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, testImageFilename, IMAGE_FILE_ID,
+		testImage = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), testImageFilename, IMAGE_FILE_ID,
 				getInstrumentation().getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		sprite = new Sprite("TestSprite");

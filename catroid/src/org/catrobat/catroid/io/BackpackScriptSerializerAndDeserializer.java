@@ -42,6 +42,7 @@ public class BackpackScriptSerializerAndDeserializer implements JsonSerializer<S
 
 	private static final String TAG = BackpackScriptSerializerAndDeserializer.class.getSimpleName();
 	private static final String PACKAGE_NAME = "org.catrobat.catroid.content.";
+	private static final String PACKAGE_NAME_PHYSICS = "org.catrobat.catroid.physics.content.bricks.";
 
 	private static final String TYPE = "scripttype";
 	private static final String PROPERTY = "properties";
@@ -64,8 +65,12 @@ public class BackpackScriptSerializerAndDeserializer implements JsonSerializer<S
 		try {
 			return context.deserialize(element, Class.forName(PACKAGE_NAME + type));
 		} catch (ClassNotFoundException e) {
-			Log.e(TAG, "Could not deserialize backpacked script element!");
-			throw new JsonParseException("Unknown element type: " + type, e);
+			try {
+				return context.deserialize(element, Class.forName(PACKAGE_NAME_PHYSICS + type));
+			} catch (ClassNotFoundException e2) {
+				Log.e(TAG, "Could not deserialize backpacked script element!");
+				throw new JsonParseException("Unknown element type: " + type, e2);
+			}
 		}
 	}
 }

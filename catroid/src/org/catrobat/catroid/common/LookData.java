@@ -35,6 +35,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
@@ -200,7 +202,18 @@ public class LookData implements Serializable, Cloneable {
 
 	protected String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				Constants.IMAGE_DIRECTORY);
+				getSceneNameByLookData(), Constants.IMAGE_DIRECTORY);
+	}
+
+	protected String getSceneNameByLookData() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				if (sprite.getLookDataList().contains(this)) {
+					return scene.getName();
+				}
+			}
+		}
+		return ProjectManager.getInstance().getCurrentScene().getName();
 	}
 
 	private String getPathToBackPackImageDirectory() {

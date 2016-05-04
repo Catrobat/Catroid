@@ -75,7 +75,8 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			// if we use the image from res-folder instead of assets, test would
 			// pass even if the needed code in copyImageIntoCatroid() was deleted
 			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(nyanCatPng);
-			nyanCatPath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+			nyanCatPath = Utils.buildPath(Utils.buildScenePath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager
+					.getInstance().getCurrentProject().getDefaultScene().getName()),
 					Constants.IMAGE_DIRECTORY, nyanCatPng);
 			writeBufferToFile(inputStream, nyanCatPath);
 		} catch (IOException e) {
@@ -127,7 +128,8 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			// if we use the image from res-folder instead of assets, test would
 			// pass even if the needed code in copyImageIntoCatroid() was deleted
 			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(manImageJpg);
-			manImagePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+			manImagePath = Utils.buildPath(Utils.buildScenePath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager
+					.getInstance().getCurrentProject().getDefaultScene().getName()),
 					Constants.IMAGE_DIRECTORY, manImageJpg);
 			writeBufferToFile(inputStream, manImagePath);
 		} catch (IOException e) {
@@ -189,13 +191,13 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project project = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		Sprite backgroundSprite = project.getSpriteList().get(0);
+		Sprite backgroundSprite = project.getDefaultScene().getSpriteList().get(0);
 		Script startScript = new StartScript();
 		SetLookBrick setLookBrick = new SetLookBrick();
 
 		startScript.addBrick(setLookBrick);
 		backgroundSprite.addScript(startScript);
-		project.addSprite(backgroundSprite);
+		project.getDefaultScene().addSprite(backgroundSprite);
 
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 		ProjectManager.getInstance().setProject(project);

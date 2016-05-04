@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -139,6 +140,12 @@ public class InternFormula {
 			internToken.updateVariableReferences(oldName, newName);
 		}
 		generateExternFormulaStringAndInternExternMapping(context);
+	}
+
+	public void getVariableAndListNames(ArrayList<String> variables, ArrayList<String> lists) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.getVariableAndListNames(variables, lists);
+		}
 	}
 
 	public void removeVariableReferences(String name, Context context) {

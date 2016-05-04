@@ -79,7 +79,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		File complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+		File complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
 				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
 

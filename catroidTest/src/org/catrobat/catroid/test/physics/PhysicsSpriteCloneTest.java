@@ -86,7 +86,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		sprite = new Sprite("TestSprite");
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 	}
 
 	@Override
@@ -186,14 +186,14 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		startScript.addBrick(setPhysicsObjectTypeBrick);
 		sprite.addScript(startScript);
 
-		PhysicsWorld physicsWorld = project.getPhysicsWorld();
+		PhysicsWorld physicsWorld = project.getDefaultScene().getPhysicsWorld();
 		sprite.look = new Look(sprite);
 
 		String rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 		File rectangle125x125File = null;
 		LookData lookdata;
 		try {
-			rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+			rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
 					rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
 					TestUtils.TYPE_IMAGE_FILE);
 			lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);

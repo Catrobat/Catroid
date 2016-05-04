@@ -71,7 +71,7 @@ public class PhysicsCollisionBroadcast {
 		BroadcastEvent event = new BroadcastEvent();
 		event.setBroadcastMessage(message);
 		event.setType(BroadcastEvent.BroadcastType.broadcast);
-		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> sprites = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
 		for (Sprite spriteOfList : sprites) {
 			spriteOfList.look.fire(event);
 		}

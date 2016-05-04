@@ -66,7 +66,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		ifOnEdgeBounceAction = factory.createIfOnEdgeBounceAction(sprite);
 
-		Project project = new Project();
+		Project project = new Project(null, "Test", false);
 		project.getXmlHeader().virtualScreenWidth = SCREEN_WIDTH;
 		project.getXmlHeader().virtualScreenHeight = SCREEN_HEIGHT;
 

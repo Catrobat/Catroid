@@ -41,7 +41,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -141,7 +141,7 @@ public class ShowTextBrick extends UserVariableBrick {
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
@@ -281,7 +281,7 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 		super.updateUserVariableReference(into, from);
 	}
 }

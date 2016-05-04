@@ -70,12 +70,12 @@ public class SpriteTest extends AndroidTestCase {
 		super.setUp();
 		sprite = new Sprite("testSprite");
 		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
-		project.getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
-		project.getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
+		project.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
 
-		project.getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
-		project.getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
 
 		ProjectManager.getInstance().setProject(project);
 	}
@@ -181,12 +181,12 @@ public class SpriteTest extends AndroidTestCase {
 		sprite.addScript(script);
 		Sprite clonedSprite = sprite.clone();
 
-		UserVariable clonedVariable = project.getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, clonedSprite);
+		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, clonedSprite);
 		assertNotNull("local variable isn't copied properly", clonedVariable);
 		assertEquals("variable not cloned properly", LOCAL_VARIABLE_NAME, clonedVariable.getName());
 		assertEquals("variable not cloned properly", LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
 
-		List<UserVariable> userVariableList = project.getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
+		List<UserVariable> userVariableList = project.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
 		Set<String> hashSet = new HashSet<>();
 		for (UserVariable userVariable : userVariableList) {
 			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));

@@ -74,7 +74,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertEquals("Incorrect number of bricks.", 6, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 0, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
@@ -95,7 +95,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	public void testIfBrickParts() {
 		int dragAndDropSteps = 100;
 		ArrayList<Integer> yPosition;
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		Log.d(TAG, "Before drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
@@ -184,7 +184,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
 
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+		projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(1).getBrickList();
 
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
@@ -202,7 +202,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		oldYto = yPosition.get(5) + 20;
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, oldYto, dragAndDropSteps);
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+		projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(1).getBrickList();
 
 		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
 		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
@@ -222,7 +222,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.clickOnCheckBox(1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
@@ -238,7 +238,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.clickOnCheckBox(3);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
@@ -254,7 +254,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.clickOnCheckBox(4);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
@@ -342,7 +342,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		sprite.addScript(script);
 		sprite.addScript(new StartScript());
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
