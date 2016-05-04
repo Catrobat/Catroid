@@ -27,6 +27,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.view.View;
 
 import com.robotium.solo.Solo;
 
@@ -40,6 +41,8 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+
+import java.util.ArrayList;
 
 public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -172,6 +175,16 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		}
 		solo.sleep(200);
 		assertTrue("Sprite name not found", solo.waitForText("cat"));
+	}
+
+	public void testDustbinNotVisible() {
+		ArrayList<View> views = solo.getCurrentViews();
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (View view : views) {
+			ids.add(view.getId());
+		}
+
+		assertFalse("Dustbin icon found in Actionbar", ids.contains(R.id.delete));
 	}
 
 	private void checkplayProgramButton() {
