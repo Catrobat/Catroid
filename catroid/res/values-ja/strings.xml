@@ -47,6 +47,7 @@
   <string name="error">エラー</string>
   <string name="please_wait">お待ちください</string>
   <string name="loading">読み込み中&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">私たちのサーバーでトークンをチェックします&#8230;</string>
   <string name="loading_check_facebook_data">Facebook のデータを取得します&#8230;</string>
   <string name="loading_check_email">私たちのサーバーでメールの可用性をチェックします&#8230;</string>
@@ -96,12 +97,12 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">レゴ マインドストーム NXT ブロック</string>
   <string name="preference_description_mindstorms_nxt_bricks">レゴ マインドストーム NXT ロボットを制御することができます</string>
   <string name="preference_title_mindstorms_nxt_sensors">レゴ NXT センサー</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
+  <string name="preference_title_drone_config_properties">ドローン設定プロパティ</string>
   <string name="preference_title_enable_phiro_bricks">Phiro ブロック</string>
   <string name="preference_description_phiro_bricks">Phiro ロボットを制御することができます</string>
   <string name="preference_title_enable_arduino_bricks">Arduino ブロック</string>
-  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+  <string name="preference_title_enable_nfc_bricks">近距離無線通信</string>
+  <string name="preference_description_nfc_bricks">プログラムで NFC タグを使用することができます</string>
   <string name="preference_description_arduino_bricks">Arduino ブロックを制御することができます</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi ブロック</string>
   <string name="preference_description_raspi_bricks">Raspberry Pi コンピューターを制御することができます</string>
@@ -151,6 +152,8 @@
   <string name="dialog_confirm_delete_object_message">元に戻すことができない ！</string>
   <string name="select_all">すべてを選択します。</string>
   <string name="deselect_all">すべて選択解除</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_コピー</string>
   <!-- Script activity -->
@@ -196,6 +199,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">これらの外見を削除しますか？</string>
   <string name="dialog_confirm_delete_look_message">元に戻すことができない ！</string>
   <string name="lookname">外見の名:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">「+」をタップしてのサウンドを追加するには</string>
   <string name="rename_sound_dialog">音の名前を変更します</string>
@@ -213,18 +218,20 @@
   <string name="sound_name">音の名前:</string>
   <string name="new_sound_name">サウンド名:</string>
   <string name="rename_sound_overwrite">同じ名前のサウンドが既に存在します!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="rename_nfctag_dialog">Rename nfctag</string>
-  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
-  <string name="nfctag_scan">scan</string>
-  <string name="delete_nfctag_dialog">Delete nfctag?</string>
-  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
-  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
-  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
-  <string name="nfctag_name">nfctag name:</string>
-  <string name="nfctag">NFC Tag</string>
-  <string name="nfctags">NFC Tags</string>
+  <string name="fragment_nfctag_text_description">追加するタグをスキャン</string>
+  <string name="rename_nfctag_dialog">Nfc タグの名前を変更</string>
+  <string name="nfctagname_invalid">この Nfc タグの名前は無効です</string>
+  <string name="nfctag_scan">スキャン</string>
+  <string name="delete_nfctag_dialog">Nfc タグを削除しますか?</string>
+  <string name="dialog_confirm_delete_nfctag_title">この Nfc タグを削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">これらの Nfc タグを削除しますか?</string>
+  <string name="dialog_confirm_delete_nfctag_message">この操作は元に戻すことができません!</string>
+  <string name="nfctag_name">Nfc タグ名:</string>
+  <string name="nfctag">NFC タグ</string>
+  <string name="nfctags">NFC タグ</string>
   <string name="uid">ID</string>
   <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
@@ -270,10 +277,9 @@
   <string name="prestage_no_camera_available">\u2022 顔認識\n</string>
   <string name="prestage_no_front_camera_available">\u2022 前面カメラ\n</string>
   <string name="prestage_default_resource_not_available">\u2022 不明なコンポーネント\n</string>
-  <string name="no_nfc_available">NFC not available</string>
-  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
-  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
-        issues!</string>
+  <string name="no_nfc_available">NFC は利用できません</string>
+  <string name="nfc_not_activated">NFC をアクティブにして、戻るボタンを押してアプリケーション戻ってください!</string>
+  <string name="nfc_facedetection_support">NFC と顔認識の組み合わせは、パフォーマンスの問題につながる可能性があります!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">ブロックを移動します。</string>
   <string name="brick_context_dialog_show_source">ソース ブロックを表示</string>
@@ -362,7 +368,7 @@
   <string name="dialog_new_broadcast_message_name">メッセージ：</string>
   <!-- NFC spinner -->
   <string name="new_nfc_tag">新しい&#8230;</string>
-  <string name="brick_when_nfc_default_all">all</string>
+  <string name="brick_when_nfc_default_all">すべて</string>
   <!-- Brick categories -->
   <string name="categories">範囲</string>
   <string name="category_motion">動き</string>
@@ -400,6 +406,23 @@
   <string name="brick_point_to">方向（オブジェクト）：</string>
   <string name="brick_glide">滑る：</string>
   <string name="brick_glide_to_x">x：</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">physical object</string>
+  <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
+  <string name="brick_set_physics_object_type_fixed">Fixed</string>
+  <string name="brick_set_physics_object_type_no">いいえ</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kg</string>
+  <string name="brick_set_gravity_to">"Set gravity to "</string>
+  <string name="brick_set_gravity_unit">step/s²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">step/s</string>
+  <string name="brick_turn_speed_unit">degrees/s</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">外見に切り替える：</string>
   <string name="brick_set_background">背景を設定する</string>
@@ -431,10 +454,12 @@
   <string name="brick_when_started">プログラムがはじまると</string>
   <string name="brick_when">オブジェクトがタップされている</string>
   <string name="brick_wait"> </string>
-  <string name="brick_when_nfc">When NFC</string>
+  <string name="brick_when_nfc">場合 NFC が</string>
   <plurals name="second_plural">
     <item quantity="other">"秒待つ"</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">次のメッセージを受け取ったとき</string>
   <string name="brick_broadcast">次のメッセージを送る：</string>
   <string name="brick_broadcast_wait">次のメッセージを送り、待つ：</string>
@@ -449,6 +474,7 @@
   <string name="brick_if_begin_second_part">は本当だったら</string>
   <string name="brick_if_else">そうではなかったら、</string>
   <string name="brick_if_end">「もし」の終わり</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">変数を設定：</string>
   <string name="brick_change_variable">変数の変更：</string>
   <string name="brick_variable_spinner_create_new_variable">新しい&#8230;</string>
@@ -566,6 +592,7 @@
 含まれていませんか (例えば $、%、&amp;、&#8230;)? </string>
   <string name="error_load_sound">サウンドをロード中にエラーが発生しました</string>
   <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">プログラムは、このバージョンのポケット コードと互換性がありません。</string>
   <string name="error_outdated_pocketcode_version">ポケットコードのバージョンが古すぎます。今すぐ更新しますか？</string>
   <string name="error_copy_project">プログラムのコピー中にエラーが発生しました。</string>
@@ -642,7 +669,7 @@
   <string name="preference_disable_nxt_info_dialog">情報ダイアログを無効にする</string>
   <string name="preference_disable_nxt_info_dialog_description">プログラムを開いたとき、プログラムで指定した NXT 設定は表示されません。</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT センサーのポートへのマッピングはプログラムで指定し、開かれたプログラムに対してのみ設定することができます!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
+  <string name="preference_title_drone_properties_setting_description">ドローン設定プロパティの選択は、特定のプログラムで、プログラムの中でのみ設定することができます。</string>
   <string name="lego_nxt_sensor_config_info_text">現在のプログラムは、レゴ マインドストーム NXT ブロックやセンサーを使用します。正しく動作するように、次のとおりセンサーをロボットに接続してください</string>
   <string name="nxt_port_1">ポート 1</string>
   <string name="nxt_port_2">ポート 2</string>
@@ -821,6 +848,9 @@
   <string name="formula_editor_object_size">サイズ</string>
   <string name="formula_editor_object_rotation">方向</string>
   <string name="formula_editor_object_layer">レイヤー</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">計算</string>
   <string name="formula_editor_object">オブジェクト</string>
   <string name="formula_editor_math">関数</string>
@@ -908,4 +938,10 @@
   <string name="choose_camera_front">前面</string>
   <string name="choose_camera_back">背面</string>
   <string name="error_flash_front_camera">「フラッシュは背面のカメラでのみ使用できます。「使用カメラ」ブロックを追加して、デバイスの背面のカメラに変更します。」</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>
