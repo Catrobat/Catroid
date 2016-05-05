@@ -37,16 +37,17 @@
   <string name="copy">Копировать</string>
   <string name="cut">Вырезать</string>
   <string name="move">Идти</string>
-  <string name="backpack_add">Add to backpack</string>
+  <string name="backpack_add">Добавить в рюкзак</string>
   <string name="backpack">Запаковать</string>
   <string name="packing">Запаковать</string>
-  <string name="unpack">Unpack</string>
+  <string name="unpack">Распаковать</string>
   <string name="unpack_keep">Распаковать и оставить</string>
   <string name="copy_addition">копия</string>
   <string name="close">Закрыть</string>
   <string name="error">Ошибка</string>
   <string name="please_wait">Подождите, пожалуйста</string>
   <string name="loading">Загрузка&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -61,8 +62,8 @@
   <string name="stage">Сцена</string>
   <string name="ok">ОК</string>
   <string name="settings">Настройки</string>
-  <string name="redo">Повторить действие</string>
-  <string name="undo">Отменить последние действие</string>
+  <string name="redo">Повторить</string>
+  <string name="undo">Отменить</string>
   <string name="name_exists">Такое имя уже используется</string>
   <string name="no_name">Имя отсутствует</string>
   <string name="is_empty">Пустой</string>
@@ -70,11 +71,11 @@
   <string name="my_group">Моя группа</string>
   <string name="name">Название:</string>
   <string name="nothing_to_copy">Ничего нет для копирования</string>
-  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
+  <string name="nothing_to_backpack_and_unpack">Нечего класть/доставать из рюкзака</string>
   <string name="nothing_to_unpack">Нечего распаковывать</string>
   <string name="nothing_to_delete">Нечего удалять</string>
   <string name="nothing_to_rename">Нечего переименовывать</string>
-  <string name="unpack_background">Фоновая программа будет заменена</string>
+  <string name="unpack_background">Фон программы будет заменен</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Новый проект</string>
   <string name="main_menu_continue">Продолжить</string>
@@ -86,30 +87,30 @@
   <string name="main_menu_terms_of_use">Условия использования</string>
   <string name="main_menu_rate_app">Оцените нас!</string>
   <string name="main_menu_play_store_not_installed">Приложение Play Store не найдено</string>
-  <string name="main_menu_logout">1 &amp;#x434;&amp;#x435;&amp;#x43D;&amp;#x44C; &amp;#x43D;&amp;#x430;&amp;#x437;&amp;#x430;&amp;#x434;</string>
-  <string name="main_menu_login">Вход</string>
-  <string name="logout_successful">Logout successful</string>
+  <string name="main_menu_logout">Выйти</string>
+  <string name="main_menu_login">Войти</string>
+  <string name="logout_successful">Выход выполнен</string>
   <!-- Settings activity -->
   <string name="preference_title">Настройки</string>
-  <string name="preference_title_enable_quadcopter_bricks">Блоки ARDrone 2.0</string>
+  <string name="preference_title_enable_quadcopter_bricks">Блоки AR.Drone 2.0</string>
   <string name="preference_description_quadcopter_bricks">Разрешить управление ARDrone 2.0</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Блоки Lego Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Разрешить управление роботом Lego Mindstorms NXT</string>
   <string name="preference_title_mindstorms_nxt_sensors">Датчики Lego NXT</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
+  <string name="preference_title_drone_config_properties">Настройки дрона</string>
   <string name="preference_title_enable_phiro_bricks">Блоки Phiro</string>
   <string name="preference_description_phiro_bricks">Разрешение упраление роботом Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Блоки Arduino</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
-  <string name="preference_description_arduino_bricks">Разрешитт использовать блоки Arduino</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
-  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
-  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
-  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
+  <string name="preference_description_nfc_bricks">Разрешить использование NFC тэгов</string>
+  <string name="preference_description_arduino_bricks">Разрешить использовать блоки Arduino</string>
+  <string name="preference_title_enable_raspi_bricks">Блоки Raspberry Pi</string>
+  <string name="preference_description_raspi_bricks">Разрешить использование Raspberry Pi компьютеров</string>
+  <string name="preference_raspi_enable_bricks">Включить блоки Raspberry Pi</string>
+  <string name="preference_raspi_help">Помощь / Приступая к работе</string>
+  <string name="preference_raspi_help_summary">Получить помощь по настройке параметров подключения</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
-  <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_raspi_port">Порт Raspberry Pi</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Нарисовать</string>
   <string name="dialog_new_object_gallery">Выберите изображение</string>
@@ -124,9 +125,8 @@
   <string name="dialog_terms_of_use_link_text">Лицензионное Соглашение</string>
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Условия использования Pocket Code</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
-        use for Pocket Code.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">Вы собираетесь использовать Pocket Code вместе с 
+        AR.Drone. Мы настоятельно рекомендуем вам выполнять условия использования AR.Drone и условия использования Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Не напоминать мне снова.</string>
   <!-- About Dialog -->
   <string name="dialog_about_title">О Pocket Code</string>
@@ -151,6 +151,8 @@
   <string name="dialog_confirm_delete_object_message">Это действие необротимо!</string>
   <string name="select_all">Выбрать все</string>
   <string name="deselect_all">Отменить все</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Копировать</string>
   <!-- Script activity -->
@@ -172,19 +174,19 @@
   <string name="dialog_confirm_delete_multiple_script_groups_title">Удалить эти группы?</string>
   <string name="dialog_confirm_delete_brick_message">Это действие необротимо!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete %d Brick</item>
-    <item quantity="few">Delete %d Bricks</item>
-    <item quantity="other">Delete %d Bricks</item>
+    <item quantity="one">Удалить блок %d</item>
+    <item quantity="few">Удалить блоки %d</item>
+    <item quantity="other">Удалить блоки %d</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy %d Brick</item>
-    <item quantity="few">Copy %d Bricks</item>
-    <item quantity="other">Copy %d Bricks</item>
+    <item quantity="one">Удалить блок %d</item>
+    <item quantity="few">Копировать блоки %d</item>
+    <item quantity="other">Копировать блоки %d</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack %d Brick</item>
-    <item quantity="few">Backpack %d Bricks</item>
-    <item quantity="other">Backpack %d Bricks</item>
+    <item quantity="one">Положить в рюкзак блок %d</item>
+    <item quantity="few">Положить в рюкзак блоки %d</item>
+    <item quantity="other">Положить в рюкзак блоки %d</item>
   </plurals>
   <!-- Look fragment -->
   <string name="fragment_look_text_description">Нажмите «+», чтобы добавить образ</string>
@@ -202,6 +204,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Удалить выбранные образы?</string>
   <string name="dialog_confirm_delete_look_message">Это действие необротимо!</string>
   <string name="lookname">название обрза:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Нажмите «+», чтобы добавить звуки</string>
   <string name="rename_sound_dialog">Переименовать звук</string>
@@ -219,11 +223,13 @@
   <string name="sound_name">имя звука:</string>
   <string name="new_sound_name">Название звука:</string>
   <string name="rename_sound_overwrite">Звук с таким именем уже существует!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="rename_nfctag_dialog">Rename nfctag</string>
-  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
-  <string name="nfctag_scan">scan</string>
+  <string name="fragment_nfctag_text_description">Сканировать теги для добавления</string>
+  <string name="rename_nfctag_dialog">Переименовать NFC тэг</string>
+  <string name="nfctagname_invalid">Недопустимое имя NFC-тега</string>
+  <string name="nfctag_scan">сканировать</string>
   <string name="delete_nfctag_dialog">Delete nfctag?</string>
   <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
   <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
@@ -416,6 +422,23 @@
   <string name="brick_point_to">Указать к</string>
   <string name="brick_glide">Скользить</string>
   <string name="brick_glide_to_x">по X:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">physical object</string>
+  <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
+  <string name="brick_set_physics_object_type_fixed">Fixed</string>
+  <string name="brick_set_physics_object_type_no">Нет</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kg</string>
+  <string name="brick_set_gravity_to">"Set gravity to "</string>
+  <string name="brick_set_gravity_unit">step/s²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">step/s</string>
+  <string name="brick_turn_speed_unit">degrees/s</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Задать костюм</string>
   <string name="brick_set_background">Установить фон</string>
@@ -453,6 +476,8 @@
     <item quantity="few">"секунды "</item>
     <item quantity="other">"секунды"</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">Когда я получу</string>
   <string name="brick_broadcast">Вещать всем</string>
   <string name="brick_broadcast_wait">Вещать всем и ждать</string>
@@ -469,6 +494,7 @@
   <string name="brick_if_begin_second_part">правда, то</string>
   <string name="brick_if_else">Иначе</string>
   <string name="brick_if_end">Закончить оператор if</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Присвоить</string>
   <string name="brick_change_variable">Изменить значение</string>
   <string name="brick_variable_spinner_create_new_variable">новое&#8230;</string>
@@ -587,6 +613,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Произошла ошибка при загрузке звука.</string>
   <string name="error_internet_connection">Произошла неизвестная ошибка. Проверьте подключение к интернету.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Программа не совместима с этой версией Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">Эта версия Pocket Code устарела. Обновить?</string>
   <string name="error_copy_project">Произошла ошибка при копировании проекта.</string>
@@ -843,6 +870,9 @@
   <string name="formula_editor_object_size">size</string>
   <string name="formula_editor_object_rotation">direction</string>
   <string name="formula_editor_object_layer">layer</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Вычислить</string>
   <string name="formula_editor_object">объект</string>
   <string name="formula_editor_math">Функции</string>
@@ -933,4 +963,10 @@
   <string name="choose_camera_front">Напротив</string>
   <string name="choose_camera_back">Назад</string>
   <string name="error_flash_front_camera">Вы можете использовать фонарик  только с задней камерой. Пожалуйста добавте\"Использование камеры\" кирпичь и измените для вашей камеры</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>
