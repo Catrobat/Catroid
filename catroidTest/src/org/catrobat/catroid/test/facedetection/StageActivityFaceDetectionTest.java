@@ -23,10 +23,6 @@
 
 package org.catrobat.catroid.test.facedetection;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.ScreenValues;
@@ -34,18 +30,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.BaseActivityUnitTestCase;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import java.util.ArrayList;
 
 public class StageActivityFaceDetectionTest extends BaseActivityUnitTestCase<StageActivity> {
 
@@ -57,30 +48,6 @@ public class StageActivityFaceDetectionTest extends BaseActivityUnitTestCase<Sta
 	protected void setUp() throws Exception {
 		super.setUp();
 		createProjectFaceDetection();
-	}
-
-	public void testFaceDetectionInStageActivityLifecycle() throws InterruptedException {
-		assertTrue("Face detection did not start!", FaceDetectionHandler.startFaceDetection());
-
-		Activity dial = startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:42"))
-				.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), null, null);
-		Reflection.setPrivateField(StageListener.class, getActivity().stageListener, "sprites", new ArrayList<Sprite>());
-
-		getInstrumentation().callActivityOnPause(dial);
-		assertFalse("Face detection should be stopped when other application is started!",
-				FaceDetectionHandler.isFaceDetectionRunning());
-
-		getInstrumentation().callActivityOnResume(dial);
-		assertTrue("Face detection was not restarted when coming back to stage!",
-				FaceDetectionHandler.isFaceDetectionRunning());
-
-		getActivity().pause();
-		assertFalse("Face detection should be stopped on pause!",
-				FaceDetectionHandler.isFaceDetectionRunning());
-
-		getActivity().resume();
-		assertTrue("Face detection was not restarted on resume!",
-				FaceDetectionHandler.isFaceDetectionRunning());
 	}
 
 	private void createProjectFaceDetection() {
