@@ -35,14 +35,10 @@ public final class TouchUtil {
 	private static TouchUtil instance;
 
 	private TreeMap<Integer, PointF> currentlyTouchedFinger;
-	private float lastKnownX;
-	private float lastKnownY;
 	private int lastTouchIndex;
 
 	private TouchUtil() {
 		currentlyTouchedFinger = new TreeMap<>();
-		lastKnownX = 0.0f;
-		lastKnownY = 0.0f;
 		lastTouchIndex = 0;
 	}
 
@@ -54,15 +50,11 @@ public final class TouchUtil {
 	}
 
 	public static void updatePosition(float x, float y, int pointer) {
-		getInstance().lastKnownX = x;
-		getInstance().lastKnownY = y;
 		getInstance().currentlyTouchedFinger.put(pointer + 1, new PointF(x, y));
 	}
 
 	public static void touchDown(float x, float y, int pointer) {
 		getInstance().lastTouchIndex = pointer + 1;
-		getInstance().lastKnownX = x;
-		getInstance().lastKnownY = y;
 		getInstance().currentlyTouchedFinger.put(pointer + 1, new PointF(x, y));
 		getInstance().fireTouchEvent();
 	}
@@ -71,24 +63,12 @@ public final class TouchUtil {
 		getInstance().currentlyTouchedFinger.remove(pointer + 1);
 	}
 
-	public static boolean isFingerTouching() {
-		return getInstance().currentlyTouchedFinger.size() > 0;
-	}
-
 	public static boolean isFingerTouching(int pointer) {
 		return getInstance().currentlyTouchedFinger.containsKey(pointer);
 	}
 
 	public static int getLastTouchIndex() {
 		return getInstance().lastTouchIndex;
-	}
-
-	public static float getLastKnownX() {
-		return getInstance().lastKnownX;
-	}
-
-	public static float getLastKnownY() {
-		return getInstance().lastKnownY;
 	}
 
 	public static float getX(int pointer) {

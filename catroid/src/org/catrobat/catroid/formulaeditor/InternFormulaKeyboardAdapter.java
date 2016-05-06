@@ -145,18 +145,12 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.RASPIDIGITAL, InternTokenType.NUMBER, "0");
 
 			//Finger touching
-			case R.string.formula_editor_function_finger_x:
-				return buildSensor(Sensors.FINGER_X);
-			case R.string.formula_editor_function_finger_y:
-				return buildSensor(Sensors.FINGER_Y);
-			case R.string.formula_editor_function_is_finger_touching:
-				return buildSensor(Sensors.FINGER_TOUCHED);
 			case R.string.formula_editor_function_multi_finger_x:
-				return buildSingleParameterFunction(Functions.MULTI_FINGER_X, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_X, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_multi_finger_y:
-				return buildSingleParameterFunction(Functions.MULTI_FINGER_Y, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_Y, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_is_multi_finger_touching:
-				return buildSingleParameterFunction(Functions.MULTI_FINGER_TOUCHED, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_TOUCHED, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_index_of_last_finger:
 				return buildSensor(Sensors.LAST_FINGER_INDEX);
 
