@@ -20,79 +20,83 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+package org.catrobat.catroid.common;
 
 import com.google.android.gms.common.images.WebImage;
 
-import org.catrobat.catroid.utils.WebImageLoader;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ScratchProjectData implements Parcelable, Serializable {
+public class ScratchProjectData implements Serializable {
+
+    public static class ScratchRemixProjectData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public ScratchRemixProjectData(String title, String owner, WebImage projectImage) {
+
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 
     private String title;
-    private String content;
+    private String owner;
+    private String instructions;
+    private String notesAndCredits;
     private String projectUrl;
-    private WebImage projectImage;
-    private WebImage projectThumbnail;
+    private int views;
+    private int favorites;
+    private int loves;
+    private String modifiedDate;
+    private String sharedDate;
+    private List<String> tags;
+    private List<ScratchRemixProjectData> remixes;
 
-    public ScratchProjectData(String title, String content, String projectUrl) {
+    public ScratchProjectData(String title, String owner, String instructions, String notesAndCredits,
+                              String projectUrl, int views, int favorites, int loves,
+                              String modifiedDate, String sharedDate, List<String> tags) {
         this.title = title;
-        this.content = content;
+        this.owner = owner;
+        this.instructions = instructions;
+        this.notesAndCredits = notesAndCredits;
         this.projectUrl = projectUrl;
-        this.projectImage = null;
-        this.projectThumbnail = null;
-    }
-
-    private ScratchProjectData(Parcel in) {
-        this.title = in.readString();
-        this.content = in.readString();
-        this.projectUrl = in.readString();
-        this.projectImage = in.readParcelable(WebImage.class.getClassLoader());
-        this.projectThumbnail = in.readParcelable(WebImage.class.getClassLoader());
+        this.views = views;
+        this.favorites = favorites;
+        this.loves = loves;
+        this.modifiedDate = modifiedDate;
+        this.sharedDate = sharedDate;
+        this.tags = tags;
+        this.remixes = new ArrayList<>();
     }
 
     public String getProjectUrl() { return projectUrl; }
 
     public String getTitle() { return title; }
 
-    public String getContent() { return content; }
+    public String getOwner() { return owner; }
 
-    public WebImage getProjectThumbnail() { return projectThumbnail; }
+    public String getInstructions() { return instructions; }
 
-    public void setProjectThumbnail(WebImage projectThumbnail) { this.projectThumbnail = projectThumbnail; }
+    public String getNotesAndCredits() { return notesAndCredits; }
 
-    public WebImage getProjectImage() { return projectImage; }
-
-    public void setProjectImage(WebImage projectImage) { this.projectImage = projectImage; }
-
-    @Override
-    public int describeContents() { return 0; }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(content);
-        dest.writeString(projectUrl);
-        dest.writeParcelable(projectImage, flags);
-        dest.writeParcelable(projectThumbnail, flags);
+    public void addRemixProject(ScratchRemixProjectData remixProjectData) {
+        remixes.add(remixProjectData);
     }
 
-    public static final Parcelable.Creator<ScratchProjectData> CREATOR = new Parcelable.Creator<ScratchProjectData>() {
-        @Override
-        public ScratchProjectData createFromParcel(Parcel source) {
-            return new ScratchProjectData(source);
-        }
+    public int getViews() { return views; }
 
-        @Override
-        public ScratchProjectData[] newArray(int size) {
-            return new ScratchProjectData[size];
-        }
-    };
+    public int getFavorites() { return favorites; }
+
+    public int getLoves() { return loves; }
+
+    public String getModifiedDate() { return modifiedDate; }
+
+    public String getSharedDate() { return sharedDate; }
+
+    public List<String> getTags() { return tags; }
+
+    public List<ScratchRemixProjectData> getRemixes() { return remixes; }
 
 }

@@ -24,30 +24,32 @@
 package org.catrobat.catroid.transfers;
 
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.common.base.Preconditions;
 
+import org.catrobat.catroid.common.ScratchProjectData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.InterruptedIOException;
 
-public class FetchScratchProjectsTask extends AsyncTask<String, Void, ScratchSearchResult> {
+public class FetchScratchProjectDetailsTask extends AsyncTask<Long, Void, ScratchProjectData> {
 
-    private static final String TAG = FetchScratchProjectsTask.class.getSimpleName();
+    private static final String TAG = FetchScratchProjectDetailsTask.class.getSimpleName();
     private static final int MAX_NUM_OF_RETRIES = 2;
     private static final int MIN_TIMEOUT = 1_000; // in ms
 
     public interface ScratchProjectListTaskDelegate {
         void onPreExecute();
-        void onPostExecute(ScratchSearchResult result);
+        void onPostExecute(ScratchProjectData projectData);
     }
 
     private ScratchProjectListTaskDelegate delegate = null;
 
-    public FetchScratchProjectsTask setDelegate(ScratchProjectListTaskDelegate delegate) {
+    public FetchScratchProjectDetailsTask setDelegate(ScratchProjectListTaskDelegate delegate) {
         this.delegate = delegate;
         return this;
     }
@@ -61,17 +63,19 @@ public class FetchScratchProjectsTask extends AsyncTask<String, Void, ScratchSea
     }
 
     @Override
-    protected ScratchSearchResult doInBackground(String... params) {
-        Preconditions.checkArgument(params.length <= 2, "Invalid number of parameters!");
+    protected ScratchProjectData doInBackground(Long... params) {
+        Preconditions.checkArgument(params.length == 1, "No project ID given!");
+        final long projectID = params[0];
+        Preconditions.checkArgument(projectID > 0, "Invalid project ID given!");
         try {
-            return fetchProjectList(params.length > 0 ? params[0] : null);
+            return fetchProjectData(projectID);
         } catch (InterruptedIOException exception) {
             Log.i(TAG, "Task has been cancelled in the meanwhile!");
             return null;
         }
     }
 
-    public ScratchSearchResult fetchProjectList(String query) throws InterruptedIOException {
+    public ScratchProjectData fetchProjectData(final long projectID) throws InterruptedIOException {
         // exponential backoff
         int delay;
         for (int attempt = 0; attempt <= MAX_NUM_OF_RETRIES; attempt++) {
@@ -79,11 +83,7 @@ public class FetchScratchProjectsTask extends AsyncTask<String, Void, ScratchSea
                 return null;
             }
             try {
-                if (query != null) {
-                    ServerCalls.ScratchSearchSortType sortType = ServerCalls.ScratchSearchSortType.RELEVANCE;
-                    return ServerCalls.getInstance().scratchSearch(query, sortType, 20, 0);
-                }
-                return ServerCalls.getInstance().fetchDefaultScratchProjects();
+                return ServerCalls.getInstance().fetchScratchProjectDetails(projectID);
             } catch (WebconnectionException e) {
                 Log.d(TAG, e.getLocalizedMessage() + "\n" +  e.getStackTrace());
                 delay = MIN_TIMEOUT + (int) (MIN_TIMEOUT * Math.random() * (attempt + 1));
@@ -100,10 +100,10 @@ public class FetchScratchProjectsTask extends AsyncTask<String, Void, ScratchSea
     }
 
     @Override
-    protected void onPostExecute(ScratchSearchResult result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(ScratchProjectData projectData) {
+        super.onPostExecute(projectData);
         if (delegate != null && ! isCancelled()) {
-            delegate.onPostExecute(result);
+            delegate.onPostExecute(projectData);
         }
     }
 

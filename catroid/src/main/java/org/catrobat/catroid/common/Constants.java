@@ -101,11 +101,12 @@ public final class Constants {
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
 
+	public static final String SCRATCH_PROJECT_BASE_URL_HTTPS = "https://scratch.mit.edu/projects/";
 	public static final String SCRATCH_SEARCH_BASE_URL = "https://www.googleapis.com/customsearch/";
 	public static final String SCRATCH_SEARCH_URL = SCRATCH_SEARCH_BASE_URL + "v1element";
-	public static final String SCRATCH_CONVERTER_BASE_URL = "https://scratch2.catrob.at/";
+	public static final String SCRATCH_CONVERTER_BASE_URL = "http://scratch2.catrob.at/"; // TODO: https??
 	public static final String SCRATCH_CONVERTER_API_BASE_URL = SCRATCH_CONVERTER_BASE_URL + "api/v1/";
-	public static final String SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL = SCRATCH_CONVERTER_API_BASE_URL + "projects.json";
+	public static final String SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL = SCRATCH_CONVERTER_API_BASE_URL + "projects/";
 
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";

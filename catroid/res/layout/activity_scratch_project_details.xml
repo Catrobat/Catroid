@@ -33,71 +33,192 @@
     tools:context="org.catrobat.catroid.ui.ScratchProjectDetailsActivity">
 
     <TextView
+        android:id="@+id/scratch_project_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Title"
+        android:text="@string/title"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/scratch_project_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/by_author"
+        android:layout_below="@+id/scratch_project_title"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="15dp"
-        android:id="@+id/scratch_project_title" />
+        android:layout_marginBottom="5dp" />
+
+    <View
+        android:id="@+id/separation_line"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/spritelist_separation_line_color"
+        android:layout_below="@+id/scratch_project_owner"
+        android:layout_marginBottom="15dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
         android:id="@+id/scratch_project_image_view"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_marginRight="20dp"
         android:src="@drawable/ic_launcher"
-        android:layout_below="@+id/scratch_project_title"
-        android:layout_marginTop="10dp" />
+        android:layout_below="@+id/separation_line"
+        android:layout_marginTop="5dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Instructions"
         android:id="@+id/scratch_project_instructions_label"
-        android:layout_below="@+id/scratch_project_title"
-        android:layout_toRightOf="@+id/scratch_project_image_view" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta, tellus molestie fermentum efficitur, sem est dictum dolor, vel faucibus odio velit quis purus. Donec malesuada congue metus eu venenatis. Pellentesque eget luctus elit, vitae bibendum eros."
-        android:id="@+id/scratch_project_instructions_text"
-        android:layout_below="@+id/scratch_project_instructions_label"
-        android:layout_toRightOf="@+id/scratch_project_image_view" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Notes and Credits"
-        android:id="@+id/scratch_project_notes_and_credits_label"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/scratch_project_instructions_text" />
+        android:text="@string/instructions"
+        android:layout_below="@+id/separation_line"
+        android:layout_toRightOf="@+id/scratch_project_image_view" />
 
     <TextView
+        android:id="@+id/scratch_project_instructions_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta, tellus molestie fermentum efficitur, sem est dictum dolor, vel faucibus odio velit quis purus. Donec malesuada congue metus eu venenatis. Pellentesque eget luctus elit, vitae bibendum eros."
+        android:layout_below="@+id/scratch_project_instructions_label"
+        android:layout_toRightOf="@+id/scratch_project_image_view"
+        android:maxLines="4"
+        android:nestedScrollingEnabled="true" />
+
+    <TextView
+        android:id="@+id/scratch_project_notes_and_credits_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/notes_and_credits"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/scratch_project_image_view" />
+
+    <TextView
         android:id="@+id/scratch_project_notes_and_credits_text"
-        android:layout_below="@+id/scratch_project_notes_and_credits_label" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta, tellus molestie fermentum efficitur, sem est dictum dolor, vel faucibus odio velit quis purus. Donec malesuada congue metus eu venenatis. Pellentesque eget luctus elit, vitae bibendum eros."
+        android:layout_below="@+id/scratch_project_notes_and_credits_label"
+        android:maxLines="4"
+        android:nestedScrollingEnabled="true" />
+
+    <RelativeLayout
+        android:id="@+id/scratch_project_share_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scratch_project_tags_text"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/scratch_project_favorites_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/favorites_72x72" />
+
+        <TextView
+            android:id="@+id/scratch_project_favorites_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginRight="22dp"
+            android:text="0"
+            android:layout_toRightOf="@+id/scratch_project_favorites_icon"
+            android:layout_marginTop="3dp" />
+
+        <ImageView
+            android:id="@+id/scratch_project_loves_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/loves_72x72"
+            android:layout_toRightOf="@+id/scratch_project_favorites_text" />
+
+        <TextView
+            android:id="@+id/scratch_project_loves_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginRight="22dp"
+            android:text="0"
+            android:layout_toRightOf="@+id/scratch_project_loves_icon"
+            android:layout_marginTop="3dp" />
+
+        <ImageView
+            android:id="@+id/scratch_project_views_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/views_72x72"
+            android:layout_toRightOf="@+id/scratch_project_loves_text" />
+
+        <TextView
+            android:id="@+id/scratch_project_views_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0"
+            android:layout_toRightOf="@+id/scratch_project_views_icon"
+            android:layout_marginTop="3dp" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/scratch_project_tags_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="tag1, tag2, tag3"
+        android:layout_above="@+id/scratch_project_shared_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_corner"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
+
+    <TextView
+        android:id="@+id/scratch_project_shared_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="italic"
+        android:layout_above="@+id/scratch_project_convert_button"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="7dp" />
+
+    <TextView
+        android:id="@+id/scratch_project_modified_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="italic"
+        android:layout_above="@+id/scratch_project_convert_button"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="7dp" />
 
     <Button
+        android:id="@+id/scratch_project_convert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Convert"
-        android:id="@+id/scratch_project_convert_button"
-        android:paddingLeft="60dp"
-        android:paddingRight="60dp"
+        android:text="@string/convert"
+        android:paddingLeft="130dp"
+        android:paddingRight="130dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:layout_below="@+id/scratch_project_notes_and_credits_text"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>

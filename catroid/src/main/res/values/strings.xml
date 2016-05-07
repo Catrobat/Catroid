@@ -131,9 +131,18 @@
     <!--  -->
 
     <!-- Scratch Converter activity -->
+
     <string name="title_activity_scratch_converter">Convert Scratch project BETA</string>
+    <string name="error_scratch_project_data_not_available">Error: Scratch project data not available, please try later</string>
     <string name="convert">Convert</string>
     <string name="show_description">Show description</string>
+    <string name="title">Title</string>
+    <string name="by">by</string>
+    <string name="by_author">by Author</string>
+    <string name="instructions">Instructions</string>
+    <string name="notes_and_credits">Notes and Credits</string>
+    <string name="shared">Shared</string>
+    <string name="modified">Modified</string>
     <!--  -->
 
 
