@@ -55,7 +55,6 @@ public class PhiroImplTest extends AndroidTestCase {
 	private static final int PIN_LEFT_MOTOR_FORWARD_BACKWARD = 11;
 
 	private static final int PIN_RIGHT_MOTOR_SPEED = 12;
-	private static final int PIN_RIGHT_MOTOR_FORWARD_BACKWARD = 2;
 
 	private static final int MIN_PWM_PIN = 2;
 	private static final int MAX_PWM_PIN = 13;
@@ -135,7 +134,6 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		phiro.stopRightMotor();
 		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
-		testSpeed(0, PIN_RIGHT_MOTOR_FORWARD_BACKWARD);
 	}
 
 	public void testStopAllMovements() {
@@ -146,7 +144,6 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(0, PIN_LEFT_MOTOR_SPEED);
 		testSpeed(0, PIN_LEFT_MOTOR_FORWARD_BACKWARD);
 		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
-		testSpeed(0, PIN_RIGHT_MOTOR_FORWARD_BACKWARD);
 	}
 
 	public void testSetLeftRGBLightColor() {
