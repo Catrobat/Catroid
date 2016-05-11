@@ -34,6 +34,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -285,6 +286,12 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			ProjectManager.getInstance().saveProject(getApplicationContext());
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, currentProject.getName());
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	// needed because of android:onClick in activity_main_menu.xml

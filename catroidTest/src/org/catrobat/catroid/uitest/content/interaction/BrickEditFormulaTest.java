@@ -71,5 +71,7 @@ public class BrickEditFormulaTest extends BaseActivityInstrumentationTestCase<Ma
 		checkBrick(R.string.brick_set_y);
 		checkBrick(R.string.brick_turn_left);
 		checkBrick(R.string.brick_turn_right);
+		checkBrick(R.string.brick_set_color);
+		checkBrick(R.string.brick_change_color);
 	}
 }

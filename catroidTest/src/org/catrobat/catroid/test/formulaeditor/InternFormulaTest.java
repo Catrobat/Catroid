@@ -675,6 +675,15 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.DO_NOT_MODIFY,
 				method.invoke(internFormula, arguments));
 
+		internTokens = new ArrayList<>();
+		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_COLOR.name()));
+		internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(1, false);
+
+		assertEquals("Do not modify in error", CursorTokenPropertiesAfterModification.RIGHT,
+				method.invoke(internFormula, arguments));
+
 		internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_BRIGHTNESS.name()));
 		internFormula = new InternFormula(internTokens);
