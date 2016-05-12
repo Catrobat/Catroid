@@ -47,6 +47,7 @@
   <string name="error">خطأ</string>
   <string name="please_wait">من فضلك إنتظر</string>
   <string name="loading">تحميل&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -153,6 +154,8 @@
   <string name="dialog_confirm_delete_object_message">لا يمكن التراجع عن هذا!</string>
   <string name="select_all">حدد كافة</string>
   <string name="deselect_all">Deselect all</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_نسخ</string>
   <!-- Script activity -->
@@ -164,8 +167,7 @@
   <string name="size">الحجم:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة البرامج النصية</string>
   <string name="dialog_confirm_delete_brick_title">هل تريد حذف هذا الطوب؟</string>
@@ -214,6 +216,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">لا يمكن التراجع عن هذا!</string>
   <string name="lookname">اسم المشهد:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
   <string name="rename_sound_dialog">إعادة تسمية الصوت</string>
@@ -231,6 +235,8 @@
   <string name="sound_name">اسم الصوت:</string>
   <string name="new_sound_name">اسم الصوت:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
   <string name="rename_nfctag_dialog">Rename nfctag</string>
@@ -444,6 +450,23 @@
   <string name="brick_point_to">أشر باتجاه</string>
   <string name="brick_glide">إنزلق خلال</string>
   <string name="brick_glide_to_x">إلى س:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">physical object</string>
+  <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
+  <string name="brick_set_physics_object_type_fixed">Fixed</string>
+  <string name="brick_set_physics_object_type_no">لا</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kg</string>
+  <string name="brick_set_gravity_to">"Set gravity to "</string>
+  <string name="brick_set_gravity_unit">step/s²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">step/s</string>
+  <string name="brick_turn_speed_unit">degrees/s</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">إنتقل الى المشهد</string>
   <string name="brick_set_background">تعيين خلفية</string>
@@ -484,6 +507,8 @@
     <item quantity="many">"seconds "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">عندما أستقبل</string>
   <string name="brick_broadcast">بث رسالة</string>
   <string name="brick_broadcast_wait">البث والانتظار</string>
@@ -503,6 +528,7 @@
   <string name="brick_if_begin_second_part">صحيحاً ثم</string>
   <string name="brick_if_else">غير ذلك</string>
   <string name="brick_if_end">إنهاء إذا</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">قم بتعيين متغير</string>
   <string name="brick_change_variable">تغيير متغير</string>
   <string name="brick_variable_spinner_create_new_variable">جديد&#8230;</string>
@@ -620,6 +646,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">حدث خطأ أثناء تحميل الصوت.</string>
   <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">البرنامج غير متوافق مع هذا الإصدار من \"النص البرمجي لجهاز الجيب\".</string>
   <string name="error_outdated_pocketcode_version">إصدار \"النص البرمجي لجهاز الجيب\" قديم جداً. قم بالتحديث الآن؟</string>
   <string name="error_copy_project">حدث خطأ أثناء نسخ البرنامج.</string>
@@ -743,9 +770,9 @@
   <string name="phiro_seconds">ثوان</string>
   <!-- light -->
   <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-  <string name="phiro_rgb_led_red">أحمر</string>
-  <string name="phiro_rgb_led_green">أخضر</string>
-  <string name="phiro_rgb_led_blue">أزرق</string>
+  <string name="phiro_rgb_led_red">Red</string>
+  <string name="phiro_rgb_led_green">Green</string>
+  <string name="phiro_rgb_led_blue">Blue</string>
   <!-- Phiro tone strings -->
   <string name="phiro_tone_do">Do</string>
   <string name="phiro_tone_re">Re</string>
@@ -755,12 +782,12 @@
   <string name="phiro_tone_la">La</string>
   <string name="phiro_tone_ti">Ti</string>
   <!-- Phiro motor strings -->
-  <string name="phiro_motor_left">اليسار</string>
-  <string name="phiro_motor_right">اليمين</string>
+  <string name="phiro_motor_left">Left</string>
+  <string name="phiro_motor_right">Right</string>
   <string name="phiro_motor_both">Both</string>
   <!-- Phiro light strings -->
-  <string name="phiro_light_left">اليسار</string>
-  <string name="phiro_light_right">اليمين</string>
+  <string name="phiro_light_left">Left</string>
+  <string name="phiro_light_right">Right</string>
   <string name="phiro_light_both">Both</string>
   <!-- Phiro sensor strings -->
   <string name="phiro_sensor_front_left">Front Left Sensor</string>
@@ -875,6 +902,9 @@
   <string name="formula_editor_object_size">الحجم</string>
   <string name="formula_editor_object_rotation">الاتجاه</string>
   <string name="formula_editor_object_layer">طبقة</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">حساب</string>
   <string name="formula_editor_object">كائن</string>
   <string name="formula_editor_math">Functions</string>
@@ -967,6 +997,12 @@
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. \"</string>
+  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. "</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>

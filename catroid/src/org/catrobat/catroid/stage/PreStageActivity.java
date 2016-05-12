@@ -165,6 +165,15 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
+		if ((requiredResources & Brick.VIDEO) > 0) {
+			if (CameraManager.getInstance().hasFrontCamera()
+					|| CameraManager.getInstance().hasBackCamera()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.VIDEO);
+			}
+		}
+
 		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
 			flashInitialize();
 		}
