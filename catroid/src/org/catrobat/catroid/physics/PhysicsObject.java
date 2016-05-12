@@ -86,16 +86,7 @@ public class PhysicsObject {
 		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
 		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
 		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-
-		List<Brick> brickList = sprite.getAllBricks();
-		PhysicsObject.Type type = PhysicsObject.Type.NONE;
-		for (Brick brick : brickList) {
-			if (!(brick instanceof SetGravityBrick) && (brick.getRequiredResources() & Brick.PHYSICS) > 0) {
-				type = PhysicsObject.Type.DYNAMIC;
-				break;
-			}
-		}
-		setType(type);
+		setType(Type.NONE);
 
 		tmpVertice = new Vector2();
 	}
