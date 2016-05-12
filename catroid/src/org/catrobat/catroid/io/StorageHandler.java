@@ -211,7 +211,7 @@ public final class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	public static final String BACKPACK_FILENAME = "backpack.json";
 
-	private XStreamToSupportCatrobatLanguageVersion098AndBefore xstream;
+	private XStreamToSupportCatrobatLanguageVersion099AndBefore xstream;
 	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
@@ -244,7 +244,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareProgramXstream() {
-		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion099AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
