@@ -287,7 +287,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = getActivity().getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(),
-				PackageManager.GET_ACTIVITIES);
+				PackageManager.GET_META_DATA);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
