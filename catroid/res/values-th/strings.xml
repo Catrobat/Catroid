@@ -47,6 +47,7 @@
   <string name="error">ผิดพลาด</string>
   <string name="please_wait">กรุณารอ</string>
   <string name="loading">กำลังโหลด&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -151,6 +152,8 @@
   <string name="dialog_confirm_delete_object_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="select_all">เลือก​ทั้ง​หมด</string>
   <string name="deselect_all">Deselect all</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_ทำซ้ำ</string>
   <!-- Script activity -->
@@ -162,8 +165,7 @@
   <string name="size">ขนาด:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">เคาะ \"+\" เพื่อเพิ่มสคริปต์</string>
   <string name="dialog_confirm_delete_brick_title">ลบก้อนคำสั่งนี้หรือไม่?</string>
@@ -197,6 +199,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="lookname">ชื่อ รูปลักษณ์:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">เคาะ \"+\" เพื่อใส่เสียง</string>
   <string name="rename_sound_dialog">เปลี่ยนชื่อเสียง</string>
@@ -214,6 +218,8 @@
   <string name="sound_name">ชื่อของเสียง:</string>
   <string name="new_sound_name">ชื่อของเสียง:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
   <string name="rename_nfctag_dialog">Rename nfctag</string>
@@ -402,6 +408,23 @@
   <string name="brick_point_to">ชี้ไปยัง</string>
   <string name="brick_glide">ไถล</string>
   <string name="brick_glide_to_x">ไปยังตำแหน่ง X:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">physical object</string>
+  <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
+  <string name="brick_set_physics_object_type_fixed">Fixed</string>
+  <string name="brick_set_physics_object_type_no">ไม่ใช่</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kg</string>
+  <string name="brick_set_gravity_to">"Set gravity to "</string>
+  <string name="brick_set_gravity_unit">step/s²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">step/s</string>
+  <string name="brick_turn_speed_unit">degrees/s</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">เปลี่ยนรูปลักษณ์เป็น</string>
   <string name="brick_set_background">ตั้งค่าพื้นหลัง</string>
@@ -437,6 +460,8 @@
   <plurals name="second_plural">
     <item quantity="other">"วินาที "</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">เมื่อฉันได้รับ</string>
   <string name="brick_broadcast">กระจายเสียง</string>
   <string name="brick_broadcast_wait">กระจายเสียงและรอ</string>
@@ -451,6 +476,7 @@
   <string name="brick_if_begin_second_part">เป็นจริงแล้ว</string>
   <string name="brick_if_else">มิฉนั้น</string>
   <string name="brick_if_end">สิ้นสุดถ้า</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">ตั้งค่าตัวแปร</string>
   <string name="brick_change_variable">เปลี่ยนค่าตัวแปร</string>
   <string name="brick_variable_spinner_create_new_variable">สร้างใหม่&#8230;</string>
@@ -568,6 +594,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">เกิดข้อผิดพลาดขณะโหลดเสียง</string>
   <string name="error_internet_connection">เกิดข้อผิดพลาดที่ไม่รู้จักขึ้น กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">โปรแกรมไม่เข้ากับ Pocket Code รุ่นนี้</string>
   <string name="error_outdated_pocketcode_version">Pocket Code รุ่นนี้เก่าเกินไป อัพเดตเดี๋ยวนี้หรือไม่?</string>
   <string name="error_copy_project">เกิดข้อผิดพลาดขณะคัดลอกโปรแกรม</string>
@@ -823,6 +850,9 @@
   <string name="formula_editor_object_size">ขนาด</string>
   <string name="formula_editor_object_rotation">ทิศทาง</string>
   <string name="formula_editor_object_layer">ชั้น</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">คำนวณ</string>
   <string name="formula_editor_object">วัตถุ</string>
   <string name="formula_editor_math">คณิตศาสตร์</string>
@@ -910,6 +940,12 @@
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. \"</string>
+  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. "</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>
