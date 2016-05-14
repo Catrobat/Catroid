@@ -82,6 +82,7 @@ public interface Brick extends Serializable, Cloneable {
 	int SENSOR_INCLINATION = 0x4000;
 	int SENSOR_COMPASS = 0x8000;
 	int NFC_ADAPTER = 0x10000;
+	int VIDEO = 0x20000;
 	//	public static final int BLUETOOTH_ARDUINO = 0x20000;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
