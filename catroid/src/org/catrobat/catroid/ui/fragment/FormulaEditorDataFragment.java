@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
+import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
 import org.catrobat.catroid.utils.Utils;
 
 public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
@@ -77,13 +78,13 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 	private ActionMode contextActionMode;
 	private View selectAllActionModeButton;
 	private boolean inContextMode;
-	private int deleteIndex;
+	private int index;
 	private DataAdapter adapter;
 	private boolean inUserBrick;
 
 	public FormulaEditorDataFragment(boolean inUserBrick) {
 		contextActionMode = null;
-		deleteIndex = -1;
+		index = -1;
 		inContextMode = false;
 		this.inUserBrick = inUserBrick;
 	}
@@ -114,6 +115,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 			super.onCreateContextMenu(menu, view, menuInfo);
 			getActivity().getMenuInflater().inflate(R.menu.context_menu_formulaeditor_userlist, menu);
 			menu.findItem(R.id.context_formula_editor_userlist_delete).setVisible(true);
+			menu.findItem(R.id.context_formula_editor_userlist_rename).setVisible(true);
 		}
 	}
 
@@ -188,7 +190,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
 				if (!inContextMode) {
-					deleteIndex = position;
+					index = position;
 					getActivity().openContextMenu(getListView());
 					return true;
 				}
@@ -235,19 +237,33 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 		switch (item.getItemId()) {
 			case R.id.context_formula_editor_userlist_delete:
 				if (!adapter.isEmpty()) {
-					Object itemToDelete = adapter.getItem(deleteIndex);
+					Object itemToDelete = adapter.getItem(index);
 					if (itemToDelete instanceof UserList) {
 						ProjectManager.getInstance().getCurrentProject().getDataContainer()
-								.deleteUserListByName(getNameOfItemInAdapter(deleteIndex));
+								.deleteUserListByName(getNameOfItemInAdapter(index));
 						adapter.notifyDataSetChanged();
 						getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_USERLIST_DELETED));
 					} else {
 						ProjectManager.getInstance().getCurrentProject().getDataContainer()
-								.deleteUserVariableByName(getNameOfItemInAdapter(deleteIndex));
+								.deleteUserVariableByName(getNameOfItemInAdapter(index));
 						adapter.notifyDataSetChanged();
 						getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
 					}
 				}
+				return true;
+			case R.id.context_formula_editor_userlist_rename:
+				Object itemToRename = adapter.getItem(index);
+				RenameVariableDialog dialog;
+				if (itemToRename instanceof UserVariable) {
+					dialog = new RenameVariableDialog((UserVariable) itemToRename, adapter, RenameVariableDialog
+							.DialogType.USER_VARIABLE);
+				} else if (itemToRename instanceof UserList) {
+					dialog = new RenameVariableDialog((UserList) itemToRename, adapter, RenameVariableDialog
+							.DialogType.USER_LIST);
+				} else {
+					return false;
+				}
+				dialog.show(getActivity().getFragmentManager(), RenameVariableDialog.DIALOG_FRAGMENT_TAG);
 				return true;
 			default:
 				return super.onContextItemSelected(item);
