@@ -98,7 +98,20 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_list_item_parameter,
 			R.string.formula_editor_function_contains_parameter};
 
-	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness, R.string.formula_editor_function_multi_finger_x, R.string.formula_editor_function_multi_finger_y, R.string.formula_editor_function_is_multi_finger_touching, R.string.formula_editor_function_index_of_last_finger };
+	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness,
+			R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y,
+			R.string.formula_editor_function_is_finger_touching, R.string.formula_editor_function_multi_finger_x,
+			R.string.formula_editor_function_multi_finger_y,
+			R.string.formula_editor_function_is_multi_finger_touching,
+			R.string.formula_editor_function_index_of_last_finger };
+
+	private static final int[] DEFAULT_SENSOR_PARAMETERS = { R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_touch_parameter,
+			R.string.formula_editor_function_touch_parameter,
+			R.string.formula_editor_function_touch_parameter,
+			R.string.formula_editor_function_no_parameter
+	};
 
 	private static final int[] ACCELERATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration };
@@ -165,16 +178,19 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
-		itemsIds = new int[]{};
+		itemsIds = new int[] {};
+		int[] parametersIds = new int[] {};
 
 		if (tag.equals(OBJECT_TAG)) {
 			itemsIds = OBJECT_ITEMS;
 		} else if (tag.equals(FUNCTION_TAG)) {
 			itemsIds = FUNCTIONS_ITEMS;
+			parametersIds = FUNCTIONS_PARAMETERS;
 		} else if (tag.equals(LOGIC_TAG)) {
 			itemsIds = LOGIC_ITEMS;
 		} else if (tag.equals(SENSOR_TAG)) {
 			itemsIds = DEFAULT_SENSOR_ITEMS;
+			parametersIds = DEFAULT_SENSOR_PARAMETERS;
 
 			Context context = this.getActivity().getApplicationContext();
 
@@ -218,7 +234,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		String[] items = new String[itemsIds.length];
 
 		for (int index = 0; index < items.length; index++) {
-			items[index] = tag.equals(FUNCTION_TAG) ? getString(itemsIds[index]) + getString(FUNCTIONS_PARAMETERS[index])
+			items[index] = index < parametersIds.length ? getString(itemsIds[index]) + getString(parametersIds[index])
 					: getString(itemsIds[index]);
 		}
 

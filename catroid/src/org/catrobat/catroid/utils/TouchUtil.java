@@ -64,7 +64,7 @@ public final class TouchUtil {
 	}
 
 	public static void touchDown(float x, float y, int pointer) {
-		if(getInstance().currentlyTouchingIndices.containsKey(pointer)) {
+		if (getInstance().currentlyTouchingIndices.containsKey(pointer)) {
 			touchUp(pointer);
 		}
 		getInstance().currentlyTouchingIndices.put(pointer, getInstance().touches.size());
@@ -80,7 +80,7 @@ public final class TouchUtil {
 	}
 
 	public static boolean isFingerTouching(int index) {
-		if(index < 1 || index > getInstance().isTouching.size()){
+		if (index < 1 || index > getInstance().isTouching.size()) {
 			return false;
 		}
 		return getInstance().isTouching.get(index - 1);
@@ -91,7 +91,7 @@ public final class TouchUtil {
 	}
 
 	public static float getX(int index) {
-		if (index < 1 || index > getInstance().isTouching.size()) {
+		if ((index < 1) || index > getInstance().isTouching.size()) {
 			return 0.0f;
 		}
 

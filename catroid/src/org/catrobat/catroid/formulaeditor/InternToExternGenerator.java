@@ -91,6 +91,9 @@ public class InternToExternGenerator {
 				R.string.formula_editor_function_arduino_read_pin_value_analog);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.RASPIDIGITAL.name(), R.string
 				.formula_editor_function_raspi_read_pin_value_digital);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FINGER_X.name(), R.string.formula_editor_function_finger_x);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FINGER_Y.name(), R.string.formula_editor_function_finger_y);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FINGER_TOUCHED.name(), R.string.formula_editor_function_is_finger_touching);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MULTI_FINGER_X.name(), R.string.formula_editor_function_multi_finger_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MULTI_FINGER_Y.name(), R.string.formula_editor_function_multi_finger_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MULTI_FINGER_TOUCHED.name(), R.string.formula_editor_function_is_multi_finger_touching);
