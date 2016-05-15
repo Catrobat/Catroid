@@ -69,6 +69,7 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -253,6 +254,7 @@ public class StageListener implements ApplicationListener {
 
 		FlashUtil.reset();
 		VibratorUtil.reset();
+		TouchUtil.reset();
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 

@@ -27,6 +27,7 @@ import android.graphics.PointF;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -34,12 +35,14 @@ public final class TouchUtil {
 
 	private static TouchUtil instance;
 
-	private TreeMap<Integer, PointF> currentlyTouchedFinger;
-	private int lastTouchIndex;
+	private TreeMap<Integer, Integer> currentlyTouchingIndices;
+	private ArrayList<PointF> touches;
+	private ArrayList<Boolean> isTouching;
 
 	private TouchUtil() {
-		currentlyTouchedFinger = new TreeMap<>();
-		lastTouchIndex = 0;
+		currentlyTouchingIndices = new TreeMap<>();
+		touches = new ArrayList<>();
+		isTouching = new ArrayList<>();
 	}
 
 	private static TouchUtil getInstance() {
@@ -49,42 +52,58 @@ public final class TouchUtil {
 		return instance;
 	}
 
+	public static void reset() {
+		getInstance().currentlyTouchingIndices.clear();
+		getInstance().touches.clear();
+		getInstance().isTouching.clear();
+	}
+
 	public static void updatePosition(float x, float y, int pointer) {
-		getInstance().currentlyTouchedFinger.put(pointer + 1, new PointF(x, y));
+		int index = getInstance().currentlyTouchingIndices.get(pointer);
+		getInstance().touches.set(index, new PointF(x, y));
 	}
 
 	public static void touchDown(float x, float y, int pointer) {
-		getInstance().lastTouchIndex = pointer + 1;
-		getInstance().currentlyTouchedFinger.put(pointer + 1, new PointF(x, y));
+		if(getInstance().currentlyTouchingIndices.containsKey(pointer)) {
+			touchUp(pointer);
+		}
+		getInstance().currentlyTouchingIndices.put(pointer, getInstance().touches.size());
+		getInstance().touches.add(new PointF(x, y));
+		getInstance().isTouching.add(true);
 		getInstance().fireTouchEvent();
 	}
 
 	public static void touchUp(int pointer) {
-		getInstance().currentlyTouchedFinger.remove(pointer + 1);
+		int index = getInstance().currentlyTouchingIndices.get(pointer);
+		getInstance().isTouching.set(index, false);
+		getInstance().currentlyTouchingIndices.remove(pointer);
 	}
 
-	public static boolean isFingerTouching(int pointer) {
-		return getInstance().currentlyTouchedFinger.containsKey(pointer);
+	public static boolean isFingerTouching(int index) {
+		if(index < 1 || index > getInstance().isTouching.size()){
+			return false;
+		}
+		return getInstance().isTouching.get(index - 1);
 	}
 
 	public static int getLastTouchIndex() {
-		return getInstance().lastTouchIndex;
+		return getInstance().touches.size();
 	}
 
-	public static float getX(int pointer) {
-		if (isFingerTouching(pointer)) {
-			return getInstance().currentlyTouchedFinger.get(pointer).x;
+	public static float getX(int index) {
+		if (index < 1 || index > getInstance().isTouching.size()) {
+			return 0.0f;
 		}
 
-		return 0.0f;
+		return getInstance().touches.get(index - 1).x;
 	}
 
-	public static float getY(int pointer) {
-		if (isFingerTouching(pointer)) {
-			return getInstance().currentlyTouchedFinger.get(pointer).y;
+	public static float getY(int index) {
+		if (index < 1 || index > getInstance().isTouching.size()) {
+			return 0.0f;
 		}
 
-		return 0.0f;
+		return getInstance().touches.get(index - 1).y;
 	}
 
 	private void fireTouchEvent() {

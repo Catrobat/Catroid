@@ -986,10 +986,10 @@
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
-    <string name="formula_editor_function_multi_finger_x">finger_x</string>
-    <string name="formula_editor_function_multi_finger_y">finger_y</string>
-    <string name="formula_editor_function_is_multi_finger_touching">is_finger_touching</string>
-    <string name="formula_editor_function_index_of_last_finger">index_of_last_finger</string>
+    <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+    <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+    <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+    <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
     <string name="formula_editor_function_list_item">element</string>
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>

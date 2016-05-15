@@ -56,6 +56,7 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
@@ -92,6 +93,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		setContentView(R.layout.activity_prestage);
+
+		TouchUtil.reset();
 
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
