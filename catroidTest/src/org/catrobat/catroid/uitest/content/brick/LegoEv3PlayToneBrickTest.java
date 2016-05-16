@@ -46,6 +46,8 @@ public class LegoEv3PlayToneBrickTest extends BaseActivityInstrumentationTestCas
 	private static final double SET_DURATION = 0.2;
 	private static final int INITIAL_FREQUENCY = 20;
 	private static final int SET_FREQUENCY = 100;
+	private static final int INITIAL_VOLUME = 99;
+	private static final int SET_VOLUME = 22;
 
 	private Project project;
 	private LegoEv3PlayToneBrick playToneBrick;
@@ -63,7 +65,7 @@ public class LegoEv3PlayToneBrickTest extends BaseActivityInstrumentationTestCas
 		super.setUp();
 	}
 
-	public void testNXTPlayToneBrick() {
+	public void testEv3PlayToneBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -84,6 +86,9 @@ public class LegoEv3PlayToneBrickTest extends BaseActivityInstrumentationTestCas
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.brick_ev3_tone_freq_edit_text, SET_FREQUENCY, Brick.BrickField.LEGO_EV3_FREQUENCY, playToneBrick);
+
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_ev3_tone_volume_edit_text, SET_VOLUME, Brick.BrickField.LEGO_EV3_VOLUME, playToneBrick);
 	}
 
 	private void createProject() {
@@ -91,8 +96,7 @@ public class LegoEv3PlayToneBrickTest extends BaseActivityInstrumentationTestCas
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
 
-		// TODO: add volume
-		playToneBrick = new LegoEv3PlayToneBrick(INITIAL_FREQUENCY, (float) INITIAL_DURATION);
+		playToneBrick = new LegoEv3PlayToneBrick(INITIAL_FREQUENCY, (float) INITIAL_DURATION, INITIAL_VOLUME);
 
 		script.addBrick(playToneBrick);
 

@@ -39,7 +39,7 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 
 	private Formula hertz;
 	private Formula durationInSeconds;
-	//private Formula volumeInPercent;
+	private Formula volumeInPercent;
 	private Sprite sprite;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
@@ -64,13 +64,12 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
-// 
-//		try {
-//			volumeInterpretation = volumeInPercent.interpretInteger(sprite);
-//		} catch (InterpretationException interpretationException) {
-//			volumeInterpretation = 0;
-//			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-//		}
+		try {
+			volumeInterpretation = volumeInPercent.interpretInteger(sprite);
+		} catch (InterpretationException interpretationException) {
+			volumeInterpretation = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 
 		LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
 		if (ev3 == null) {
@@ -78,8 +77,6 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 		}
 
 		int durationInMs = (int) (durationInterpretation * 1000);
-
-		volumeInterpretation = 100;
 
 		ev3.playTone(hertzInterpretation * 100, durationInMs, volumeInterpretation);
 	}
@@ -92,9 +89,9 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 		this.durationInSeconds = durationInSeconds;
 	}
 
-//	public void setVolumeInPercent(Formula volumeInPercent) {
-//		this.volumeInPercent = volumeInPercent;
-//	}
+	public void setVolumeInPercent(Formula volumeInPercent) {
+		this.volumeInPercent = volumeInPercent;
+	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;

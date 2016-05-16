@@ -320,12 +320,12 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createLegoEv3PlayToneAction(Sprite sprite, Formula hertz, Formula
-			durationInSeconds/*, Formula volumeInPercent*/) {
+			durationInSeconds, Formula volumeInPercent) {
 		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
-//		action.setVolumeInPercent(volumeInPercent);
+		action.setVolumeInPercent(volumeInPercent);
 		return action;
 	}
 

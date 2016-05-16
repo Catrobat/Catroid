@@ -856,8 +856,8 @@
 
     <string name="ev3_play_tone">Play EV3 tone</string>
     <string name="ev3_tone_duration_for">for</string>
-    <!--<string name="ev3_tone_volume">Volume</string>-->
-    <!--<string name="ev3_tone_percent">%</string>-->
+    <string name="ev3_tone_volume">Volume</string>
+    <string name="ev3_tone_percent">%</string>
 
     <string name="ev3_motor_stop">Stop EV3 motor</string>
 
@@ -869,17 +869,6 @@
     <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
     <string name="ev3_motor_move_by">by</string>
 
-
-    <!--<string name="ev3_motor_power_ramp_up_period">Power ramp up period</string>-->
-    <!--<string name="ev3_motor_power_constant_period">Power constant period</string>-->
-    <!--<string name="ev3_motor_power_down_period">Power down period</string>-->
-    <!--<string name="ev3_motor_rotations">Rotations</string>-->
-    <!--<string name="ev3_motor_time_in_seconds">Seconds</string>-->
-
-    <!--<string name="ev3_motor_degree">Degree</string>-->
-    <!--<string name="ev3_motor_brake">Brake enabled</string>-->
-
-    <!--<string name="ev3_motor_move_period">Period</string>-->
     <string name="ev3_seconds">Seconds</string>
 
     <string name="ev3_set_led_status">Set EV3 LED Status</string>

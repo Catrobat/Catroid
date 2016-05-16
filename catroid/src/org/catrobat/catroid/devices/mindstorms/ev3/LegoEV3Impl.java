@@ -48,6 +48,9 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 
 	private static final int KEEP_ALIVE_TIME = 5;
 
+	private static final int NUMBER_VOLUME_LEVELS = 13;
+	private static final int VOLUME_LEVEL_INCR = 8;
+
 	private boolean isInitialized = false;
 
 	protected MindstormsConnection mindstormsConnection;
@@ -82,7 +85,13 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 	@Override
 	public void playTone(int frequencyInHz, int durationInMs, int volumeInPercent) {
 
-		if (durationInMs <= 0) {
+		if (volumeInPercent > 100) {
+			volumeInPercent = 100;
+		} else if (volumeInPercent < 0) {
+			volumeInPercent = 0;
+		}
+
+		if (durationInMs <= 0 | volumeInPercent == 0) {
 			return;
 		}
 
@@ -91,15 +100,20 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 			frequencyInHz = 10000;
 		} else if (frequencyInHz < 250) {
 			frequencyInHz = 250;
-		} else if (volumeInPercent > 100) {
-			volumeInPercent = 100;
+		}
+
+		int volumeLevel = NUMBER_VOLUME_LEVELS;
+		for (int volLevel = 0; volLevel < NUMBER_VOLUME_LEVELS; volLevel++) {
+			if (volumeInPercent > (volLevel * VOLUME_LEVEL_INCR)) {
+				volumeLevel = volLevel + 1;
+			}
 		}
 
 		EV3Command command = new EV3Command(mindstormsConnection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_NO_REPLY, 0, 0, EV3CommandOpCode.OP_SOUND);
 		mindstormsConnection.incCommandCounter();
 
 		command.append(EV3CommandByteCode.SOUND_PLAY_TONE);
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, volumeInPercent);
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, volumeLevel);
 		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, frequencyInHz);
 		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, durationInMs);
 
