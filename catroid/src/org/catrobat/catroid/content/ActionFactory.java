@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
+import org.catrobat.catroid.content.actions.ChangeColorByNAction;
 import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
 import org.catrobat.catroid.content.actions.ChangeTransparencyByNAction;
 import org.catrobat.catroid.content.actions.ChangeVariableAction;
@@ -95,6 +96,7 @@ import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
+import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
@@ -171,6 +173,13 @@ public class ActionFactory extends Actions {
 		ChangeBrightnessByNAction action = Actions.action(ChangeBrightnessByNAction.class);
 		action.setSprite(sprite);
 		action.setBrightness(changeBrightness);
+		return action;
+	}
+
+	public Action createChangeColorByNAction(Sprite sprite, Formula changeColor) {
+		ChangeColorByNAction action = Actions.action(ChangeColorByNAction.class);
+		action.setSprite(sprite);
+		action.setColor(changeColor);
 		return action;
 	}
 
@@ -430,6 +439,13 @@ public class ActionFactory extends Actions {
 		SetBrightnessAction action = Actions.action(SetBrightnessAction.class);
 		action.setSprite(sprite);
 		action.setBrightness(brightness);
+		return action;
+	}
+
+	public Action createSetColorAction(Sprite sprite, Formula color) {
+		SetColorAction action = Actions.action(SetColorAction.class);
+		action.setSprite(sprite);
+		action.setColor(color);
 		return action;
 	}
 

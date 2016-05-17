@@ -47,13 +47,13 @@ public class MindstormsEV3TestModel implements DeviceModel {
 			EV3Sensor.Sensor.NO_SENSOR, EV3Sensor.Sensor.NO_SENSOR };
 	private byte[] portSensorMode = { 0, 0, 0, 0 };
 	private int[] portSensorValue = { 255, 255, 255, 255 };
-	private boolean[] portSensorActive = {false, false, false, false};
+	private boolean[] portSensorActive = { false, false, false, false };
 	private int keepAliveTime = 0;
 	private boolean keepAliveSet = false;
 
 	protected byte[] createResponseFromClientRequest(byte[] message) {
 
-		byte[] msgNumber = {0, 0};
+		byte[] msgNumber = { 0, 0 };
 		msgNumber[0] = message[0];
 		msgNumber[1] = message[1];
 
@@ -120,7 +120,7 @@ public class MindstormsEV3TestModel implements DeviceModel {
 		}
 
 		if (msgValid && (message[6] == EV3CommandByte.EV3CommandByteCode.INPUT_DEVICE_READY_RAW.getByte()
-						|| message[6] == EV3CommandByte.EV3CommandByteCode.INPUT_DEVICE_GET_RAW.getByte())) {
+				|| message[6] == EV3CommandByte.EV3CommandByteCode.INPUT_DEVICE_GET_RAW.getByte())) {
 
 			reply = new byte[4];
 

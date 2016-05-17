@@ -548,6 +548,8 @@
     <string name="brick_change_ghost_effect">"Change transparency "</string>
     <string name="brick_set_brightness">"Set brightness "</string>
     <string name="brick_change_brightness">"Change brightness "</string>
+    <string name="brick_set_color">"Set color "</string>
+    <string name="brick_change_color">"Change color "</string>
     <string name="by_label">by</string>
     <string name="to_label">to</string>
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -1001,6 +1003,7 @@
     <string name="formula_editor_function_log_parameter">(0)</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
+    <string name="formula_editor_object_color">color</string>
     <string name="formula_editor_function_sqrt">sqrt</string>
     <string name="formula_editor_function_sqrt_parameter">(0)</string>
     <string name="formula_editor_function_rand">random</string>
@@ -1188,4 +1191,11 @@
         camera\" brick and change to your device\'s back camera. "</string>
     <!-- -->
 
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">Rate Pocket Code</string>
+    <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+    <string name="rating_dialog_rate_now">Now</string>
+    <string name="rating_dialog_rate_later">Later</string>
+    <string name="rating_dialog_rate_never">Never</string>
+    <!--  -->
 </resources>

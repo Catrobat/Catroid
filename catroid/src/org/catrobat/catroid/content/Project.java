@@ -70,13 +70,13 @@ public class Project implements Serializable {
 
 		xmlHeader.setlandscapeMode(landscapeMode);
 
+		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+			Utils.updateScreenWidthAndHeight(context);
+		}
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
 		} else {
 			ifLandscapeSwitchWidthAndHeight();
-		}
-		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			Utils.updateScreenWidthAndHeight(context);
 		}
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;

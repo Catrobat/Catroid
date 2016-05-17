@@ -67,7 +67,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = currentActivity.getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(currentActivity.getComponentName(),
-				PackageManager.GET_ACTIVITIES);
+				PackageManager.GET_META_DATA);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
@@ -186,6 +186,13 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in ScriptActivity", ScriptActivity.class);
+	}
+
+	public void testMainMenuItemsNotVisible() {
+		solo.sendKey(Solo.MENU);
+		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
+		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
+		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
 	}
 
 	private void checkMainMenuButton() {

@@ -207,13 +207,13 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		int expectedSize = (FACE_RIGHT - FACE_LEFT) * 100 * 2 / FACE_RECT_SIZE;
 		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);
 
-		int expectedXPosition = (FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH * (-1)
-				/ FACE_RECT_SIZE;
-		assertEquals("Unexpected x position of face", expectedXPosition, detectedFaces[X_POSITION_INDEX]);
+		int expectedXPosition = Math.abs((FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH
+				/ FACE_RECT_SIZE);
+		assertEquals("Unexpected x position of face", expectedXPosition, Math.abs(detectedFaces[X_POSITION_INDEX]));
 
-		int expectedYPosition = (FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT
-				/ FACE_RECT_SIZE;
-		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
+		int expectedYPosition = Math.abs((FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT
+				/ FACE_RECT_SIZE);
+		assertEquals("Unexpected y position of face", expectedYPosition, Math.abs(detectedFaces[Y_POSITION_INDEX]));
 
 		detector.onFaceDetection(faces, null);
 		assertTrue("Face Detection Listener reveices too many calls", detectedFaces[COUNTER_INDEX] <= 6);
