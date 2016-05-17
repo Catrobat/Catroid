@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -83,20 +82,6 @@ public class LegoEv3MotorTurnAngleBrickTest extends BaseActivityInstrumentationT
 
 		String[] motors = getActivity().getResources().getStringArray(R.array.ev3_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 5);
-
-		int legoSpinnerIndex = 0;
-
-		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
-		solo.pressSpinnerItem(legoSpinnerIndex, 0);
-		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, 1);
-		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, 1);
-		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, 1);
-		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, 1);
-		assertEquals("Wrong item in spinner!", motors[4], currentSpinner.getSelectedItem());
 	}
 
 	private void createProject() {

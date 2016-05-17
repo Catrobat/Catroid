@@ -86,12 +86,6 @@
         <item >@string/ev3_motor_b_and_c</item >
         <item >@string/ev3_motor_all</item >
     </string-array >
-    <string-array name="ev3_single_motor_chooser" >
-        <item >@string/ev3_motor_a</item >
-        <item >@string/ev3_motor_b</item >
-        <item >@string/ev3_motor_c</item >
-        <item >@string/ev3_motor_d</item >
-    </string-array >
     <string-array name="ev3_led_status_chooser" >
         <item >@string/ev3_led_status_off</item>
         <item >@string/ev3_led_status_green</item>

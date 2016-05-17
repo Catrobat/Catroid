@@ -34,7 +34,6 @@ import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 public class LegoEv3SetLedAction extends TemporalAction {
 
 	private LedStatus ledStatusEnum;
-//	private Sprite sprite;
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 	@Override
@@ -86,8 +85,4 @@ public class LegoEv3SetLedAction extends TemporalAction {
 	public void setLedStatusEnum(LedStatus ledStatusEnum) {
 		this.ledStatusEnum = ledStatusEnum;
 	}
-
-//	public void setSprite(Sprite sprite) {
-//		this.sprite = sprite;
-//	}
 }

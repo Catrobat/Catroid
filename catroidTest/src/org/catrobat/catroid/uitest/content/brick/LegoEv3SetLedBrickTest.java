@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -75,32 +74,8 @@ public class LegoEv3SetLedBrickTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.ev3_set_led_status)));
 
-		String[] motors = getActivity().getResources().getStringArray(R.array.ev3_led_status_chooser);
-		assertTrue("Spinner items list too short!", motors.length == 10);
-
-		int legoSpinnerIndex = 0;
-
-		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
-		solo.pressSpinnerItem(legoSpinnerIndex, 10);
-		assertEquals("Wrong item in spinner!", motors[9], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[8], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[7], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[6], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[5], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[4], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, -1);
-		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
+		String[] ledStatus = getActivity().getResources().getStringArray(R.array.ev3_led_status_chooser);
+		assertTrue("Spinner items list too short!", ledStatus.length == 10);
 	}
 
 	private void createProject() {

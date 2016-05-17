@@ -69,11 +69,11 @@ import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorStopAction;
 import org.catrobat.catroid.content.actions.LegoEv3MotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoEv3PlayToneAction;
 import org.catrobat.catroid.content.actions.LegoEv3SetLedAction;
-import org.catrobat.catroid.content.actions.LegoEv3SingleMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
@@ -114,10 +114,10 @@ import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
-import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -298,8 +298,8 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createLegoEv3SingleMotorMoveAction(Sprite sprite,
-			LegoEv3SingleMotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
-		LegoEv3SingleMotorMoveAction action = action(LegoEv3SingleMotorMoveAction.class);
+			LegoEv3MotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
+		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
 		action.setSprite(sprite);
 		action.setMotorEnum(motorEnum);
 		action.setPower(power);

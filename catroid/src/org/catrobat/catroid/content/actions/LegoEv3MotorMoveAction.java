@@ -31,12 +31,12 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick.Motor;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick.Motor;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class LegoEv3SingleMotorMoveAction extends TemporalAction {
+public class LegoEv3MotorMoveAction extends TemporalAction {
 	private static final int MIN_POWER = -100;
 	private static final int MAX_POWER = 100;
 
@@ -91,6 +91,9 @@ public class LegoEv3SingleMotorMoveAction extends TemporalAction {
 				break;
 			case MOTOR_D:
 				outputField = (byte) 0x08;
+				break;
+			case MOTOR_B_C:
+				outputField = (byte) 0x06;
 				break;
 		}
 

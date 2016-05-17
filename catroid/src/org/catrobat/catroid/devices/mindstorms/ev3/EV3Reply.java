@@ -48,7 +48,7 @@ public class EV3Reply extends MindstormsReply {
 
 	@Override
 	public byte getCommandByte() {
-		return 0x00; // TODO: not req. for ev3/ not in reply
+		return 0x00;
 	}
 
 	public boolean isValid(int commandCounter) {

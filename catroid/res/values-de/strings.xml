@@ -96,9 +96,6 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT Bausteine</string>
   <string name="preference_description_mindstorms_nxt_bricks">Erlaube Steuerung von Lego Mindstorms NXT Robotern</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensoren</string>
-  <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 Bausteine</string>
-  <string name="preference_description_mindstorms_ev3_bricks">Erlaube Steuerung von Lego Mindstorms EV3 Robotern</string>
-  <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensoren</string>
   <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
   <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>

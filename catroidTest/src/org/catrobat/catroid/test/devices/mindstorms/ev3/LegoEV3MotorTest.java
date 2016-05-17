@@ -54,7 +54,7 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		ev3.setConnection(logger.getConnectionProxy());
 	}
 
-	public void testSingleMotorMoveTest() {
+	public void testMotorMoveTest() {
 		int inputPower = -70;
 		int timeInMs = 1500;
 		byte outputField = (byte) 0x01;
@@ -74,9 +74,6 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 
 		assertEquals("Expected OutputField(Motor) doesn't match input", expectedOutputField, setOutputState[offset]);
 		offset += 1;
-
-		//byteToAppend = data & 0x00FF;
-		//secondByteToAppend = (data & 0xFF00) >> 8;
 
 		assertEquals("Expected control byte for power-value doesn't match", LONG_PARAMETER_BYTE_ONE_FOLLOW,
 				setOutputState[offset]);

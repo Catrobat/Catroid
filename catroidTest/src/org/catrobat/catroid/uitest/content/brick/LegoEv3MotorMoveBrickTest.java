@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -33,7 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.LegoEv3SingleMotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -41,7 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class LegoEv3SingleMotorMoveBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class LegoEv3MotorMoveBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private static final int INITIAL_POWER = -70;
 	private static final int SET_POWER = 25;
@@ -49,9 +48,9 @@ public class LegoEv3SingleMotorMoveBrickTest extends BaseActivityInstrumentation
 	private static final double SET_DURATION = 0.2;
 
 	private Project project;
-	private LegoEv3SingleMotorMoveBrick motorBrick;
+	private LegoEv3MotorMoveBrick motorBrick;
 
-	public LegoEv3SingleMotorMoveBrickTest() {
+	public LegoEv3MotorMoveBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -64,7 +63,7 @@ public class LegoEv3SingleMotorMoveBrickTest extends BaseActivityInstrumentation
 		super.setUp();
 	}
 
-	public void testEV3SingleMotorMoveBrick() {
+	public void testEV3MotorMoveBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -82,33 +81,16 @@ public class LegoEv3SingleMotorMoveBrickTest extends BaseActivityInstrumentation
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.ev3_motor_power_to)));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.ev3_motor_move_for_period)));
 
-		// TODO: Increase when added B+C option for motor-spinner
-		String[] motors = getActivity().getResources().getStringArray(R.array.ev3_single_motor_chooser);
-		assertTrue("Spinner items list too short!", motors.length == 4);
+		String[] motors = getActivity().getResources().getStringArray(R.array.ev3_motor_chooser);
+		assertTrue("Spinner items list too short!", motors.length == 5);
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_ev3_single_motor_move_power_edit_text, SET_POWER, Brick.BrickField.LEGO_EV3_POWER,
+				R.id.brick_ev3_motor_move_power_edit_text, SET_POWER, Brick.BrickField.LEGO_EV3_POWER,
 				motorBrick);
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_ev3_single_motor_move_period_edit_text, SET_DURATION,
+				R.id.brick_ev3_motor_move_period_edit_text, SET_DURATION,
 				Brick.BrickField.LEGO_EV3_PERIOD_IN_SECONDS, motorBrick);
-
-		int legoSpinnerIndex = 0;
-
-		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
-		solo.pressSpinnerItem(legoSpinnerIndex, 0);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, 1);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, 1);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(legoSpinnerIndex, 1);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
 	}
 
 	private void createProject() {
@@ -116,7 +98,7 @@ public class LegoEv3SingleMotorMoveBrickTest extends BaseActivityInstrumentation
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
 
-		motorBrick = new LegoEv3SingleMotorMoveBrick(LegoEv3SingleMotorMoveBrick.Motor.MOTOR_A,
+		motorBrick = new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A,
 				INITIAL_POWER, (float) INITIAL_DURATION);
 
 		script.addBrick(motorBrick);

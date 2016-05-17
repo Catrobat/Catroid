@@ -26,14 +26,9 @@ package org.catrobat.catroid.devices.mindstorms.ev3;
 import org.catrobat.catroid.devices.mindstorms.MindstormsMotor;
 
 public class EV3Motor implements MindstormsMotor {
-
-	//private static final String TAG = EV3Motor.class.getSimpleName();
-
-	//private int port;
 	private byte outputField;
 
 	public EV3Motor(int port) {
-		//this.port = port;
 
 		switch (port) {
 			case 0:
