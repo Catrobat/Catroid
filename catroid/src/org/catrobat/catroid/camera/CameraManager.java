@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.stage.CameraSurface;
 import org.catrobat.catroid.stage.DeviceCameraControl;
@@ -60,15 +61,13 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	private int backCameraID = NO_CAMERA;
 	private int defaultCameraID = NO_CAMERA;
 	private boolean hasFlashBack = false;
+	private boolean hasFlashFront = false;
 	private int cameraCount = 0;
 
 	private int orientation = 0;
 
 	StageActivity stageActivity = null;
 	CameraSurface cameraSurface = null;
-
-	private boolean updateBackgroundToTransparent = false;
-	private boolean updateBackgroundToNotTransparent = false;
 
 	public final Object cameraChangeLock = new Object();
 	private final Object cameraBaseLock = new Object();
@@ -104,7 +103,6 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			}
 			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
 				frontCameraID = id;
-				//Adapt to support front flash
 			}
 			defaultCameraID = id;
 		}
@@ -179,20 +177,13 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 				camera.setDisplayOrientation(90);
 			}
 
-			Camera.Parameters p = camera.getParameters();
-			List<Camera.Size> previewSizes = p.getSupportedPreviewSizes();
-			int previewHeight = 0;
-			int previewWidth = 0;
-			for (int i = 0; i < previewSizes.size(); i++) {
-				Log.d(TAG, "Supported size: " + previewSizes.get(i).width + " x " + previewSizes
-						.get(i).height);
-				if (previewSizes.get(i).height > previewHeight) {
-					previewHeight = previewSizes.get(i).height;
-					previewWidth = previewSizes.get(i).width;
-				}
-			}
-			p.setPreviewSize(previewWidth, previewHeight);
-			camera.setParameters(p);
+			Camera.Parameters cameraParameters = camera.getParameters();
+
+			previewHeight = ScreenValues.SCREEN_HEIGHT;
+			previewWidth = ScreenValues.SCREEN_WIDTH;
+
+			cameraParameters.setPreviewSize(previewWidth, previewHeight);
+			camera.setParameters(cameraParameters);
 		} catch (RuntimeException runtimeException) {
 			Log.e(TAG, "Creating camera failed!", runtimeException);
 			return false;
@@ -417,29 +408,11 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			if (state == CameraState.previewRunning
 					&& newState != CameraState.prepare) {
 				stopPreviewAsync();
-				updateBackgroundToNotTransparent = true;
 			} else if (state == CameraState.notUsed
 					&& newState != CameraState.stopped) {
-				updateBackgroundToTransparent = true;
 				prepareCameraAsync();
 			}
 		}
-	}
-
-	public void setUpdateBackgroundToTransparent(boolean updateBackgroundToTransparent) {
-		this.updateBackgroundToTransparent = updateBackgroundToTransparent;
-	}
-
-	public boolean isUpdateBackgroundToTransparent() {
-		return updateBackgroundToTransparent;
-	}
-
-	public boolean isUpdateBackgroundToNotTransparent() {
-		return updateBackgroundToNotTransparent;
-	}
-
-	public void setUpdateBackgroundToNotTransparent(boolean updateBackgroundToNotTransparent) {
-		this.updateBackgroundToNotTransparent = updateBackgroundToNotTransparent;
 	}
 
 	private void updateCamera(int cameraId) {
@@ -453,8 +426,11 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 			currentCameraID = cameraId;
 
-			if (FlashUtil.isOn() && !isFacingBack()) {
-				Log.w(TAG, "destroy Stage because flash isOn and front Camera was chosen");
+			boolean changingCameraWithoutFlash = (isFacingFront() && !hasFlashFront())
+					|| (isFacingBack() && !hasFlashBlack());
+
+			if (FlashUtil.isOn() && changingCameraWithoutFlash) {
+				Log.w(TAG, "destroy Stage because flash isOn while chaning camera");
 				CameraManager.getInstance().destroyStage();
 				return;
 			}
@@ -498,8 +474,12 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		}
 	}
 
-	public boolean hasFlash() {
+	public boolean hasFlashBlack() {
 		return hasFlashBack;
+	}
+
+	public boolean hasFlashFront() {
+		return hasFlashFront;
 	}
 
 	private boolean hasCameraFlash(int cameraID) {
@@ -520,7 +500,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 			List<String> supportedFlashModes = parameters.getSupportedFlashModes();
 			if (supportedFlashModes == null || supportedFlashModes.isEmpty()
-					|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+					|| (supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF))) {
 				camera.release();
 				return false;
 			}
