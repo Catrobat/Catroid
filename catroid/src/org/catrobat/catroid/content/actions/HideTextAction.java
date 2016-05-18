@@ -47,7 +47,6 @@ public class HideTextAction extends TemporalAction {
 
 		Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 
 		for (UserVariable variable : variableList) {
 			if (variable.getName().equals(variableName)) {
@@ -55,10 +54,14 @@ public class HideTextAction extends TemporalAction {
 				break;
 			}
 		}
-		for (UserVariable variable : spriteVariableList) {
-			if (variable.getName().equals(variableName)) {
-				variable.setVisible(false);
-				break;
+
+		if (currentSprite != null) {
+			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
+			for (UserVariable variable : spriteVariableList) {
+				if (variable.getName().equals(variableName)) {
+					variable.setVisible(false);
+					break;
+				}
 			}
 		}
 	}
