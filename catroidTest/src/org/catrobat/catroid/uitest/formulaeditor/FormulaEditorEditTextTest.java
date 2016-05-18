@@ -103,6 +103,13 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		clickOnFormulaEditorEditText();
 	}
 
+	private int getAbsoluteCursorPosition() {
+		Object position = Reflection.getPrivateField(solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX),
+				"absoluteCursorPosition");
+		assertTrue("Cursor position not valid", position instanceof Number);
+		return ((Number) position).intValue();
+	}
+
 	private void doubleClickOnFormulaEditorEditText() {
 		Rect globalVisibleRect = new Rect();
 		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getGlobalVisibleRect(globalVisibleRect);
@@ -259,6 +266,19 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Text deletion was wrong!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
+	}
+
+	public void testTryDeleteFunctionComma() {
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_rand));
+		int commaPosition = 11;
+		setAbsoluteCursorPosition(commaPosition);
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Function parameter modification failed", solo.getString(R.string.formula_editor_function_rand)
+				+ "( 0 , 1 ) ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
+		assertEquals("Wrong cursor position", commaPosition - 1, getAbsoluteCursorPosition());
 	}
 
 	public void testBracketValueSelectionAndModification() {
