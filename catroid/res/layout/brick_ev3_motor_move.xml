@@ -89,7 +89,7 @@
                 </TextView >
 
                 <TextView
-                    android:id="@+id/brick_ev3_motor_move_power_edit_text"
+                    android:id="@+id/ev3_motor_move_power_edit_text"
                     style="@style/BrickEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 </TextView >
 
                 <TextView
-                    android:id="@+id/brick_ev3_motor_move_period_edit_text"
+                    android:id="@+id/ev3_motor_move_period_edit_text"
                     style="@style/BrickEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -155,9 +155,9 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 		});
 
 		TextView textPower = (TextView) view.findViewById(R.id.brick_ev3_motor_move_power_prototype_text_view);
-		TextView editPower = (TextView) view.findViewById(R.id.brick_ev3_motor_move_power_edit_text);
+		TextView editPower = (TextView) view.findViewById(R.id.ev3_motor_move_power_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_POWER)
-				.setTextFieldId(R.id.brick_ev3_motor_move_power_edit_text);
+				.setTextFieldId(R.id.ev3_motor_move_power_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_POWER).refreshTextField(view);
 
 		textPower.setVisibility(View.GONE);
@@ -166,9 +166,9 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 		editPower.setOnClickListener(this);
 
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_ev3_motor_move_period_prototype_text_view);
-		TextView editDuration = (TextView) view.findViewById(R.id.brick_ev3_motor_move_period_edit_text);
+		TextView editDuration = (TextView) view.findViewById(R.id.ev3_motor_move_period_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS)
-				.setTextFieldId(R.id.brick_ev3_motor_move_period_edit_text);
+				.setTextFieldId(R.id.ev3_motor_move_period_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS).refreshTextField(view);
 
 		textDuration.setVisibility(View.GONE);
@@ -212,10 +212,10 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
-			case R.id.brick_ev3_motor_move_power_edit_text:
+			case R.id.ev3_motor_move_power_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_POWER);
 				break;
-			case R.id.brick_ev3_motor_move_period_edit_text:
+			case R.id.ev3_motor_move_period_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_PERIOD_IN_SECONDS);
 				break;
 		}
@@ -242,8 +242,8 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 			textSingleMotorMovePeriod.setTextColor(textSingleMotorMovePeriod.getTextColors().withAlpha(alphaValue));
 			textSingleMotorMoveSecond.setTextColor(textSingleMotorMoveSecond.getTextColors().withAlpha(alphaValue));
 
-			TextView editSingleMotorMovePower = (TextView) view.findViewById(R.id.brick_ev3_motor_move_power_edit_text);
-			TextView editSingleMotorMovePeriod = (TextView) view.findViewById(R.id.brick_ev3_motor_move_period_edit_text);
+			TextView editSingleMotorMovePower = (TextView) view.findViewById(R.id.ev3_motor_move_power_edit_text);
+			TextView editSingleMotorMovePeriod = (TextView) view.findViewById(R.id.ev3_motor_move_period_edit_text);
 
 			editSingleMotorMovePower.setTextColor(editSingleMotorMovePower.getTextColors().withAlpha(alphaValue));
 			editSingleMotorMovePower.getBackground().setAlpha(alphaValue);

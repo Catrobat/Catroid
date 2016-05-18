@@ -85,11 +85,11 @@ public class LegoEv3MotorMoveBrickTest extends BaseActivityInstrumentationTestCa
 		assertTrue("Spinner items list too short!", motors.length == 5);
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_ev3_motor_move_power_edit_text, SET_POWER, Brick.BrickField.LEGO_EV3_POWER,
+				R.id.ev3_motor_move_power_edit_text, SET_POWER, Brick.BrickField.LEGO_EV3_POWER,
 				motorBrick);
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_ev3_motor_move_period_edit_text, SET_DURATION,
+				R.id.ev3_motor_move_period_edit_text, SET_DURATION,
 				Brick.BrickField.LEGO_EV3_PERIOD_IN_SECONDS, motorBrick);
 	}
 
