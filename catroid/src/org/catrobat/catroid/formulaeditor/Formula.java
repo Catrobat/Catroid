@@ -255,7 +255,10 @@ public class Formula implements Serializable {
 			}
 			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
 			return context.getString(logicalFormulaResultIdentifier);
-		} else if (formulaTree.getElementType() == ElementType.STRING) {
+		} else if (formulaTree.getElementType() == ElementType.STRING
+				|| (formulaTree.getElementType() == ElementType.FUNCTION
+				&& (Functions.getFunctionByValue(formulaTree.getValue()) == Functions.LETTER
+				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.JOIN))) {
 			try {
 				return interpretString(sprite);
 			} catch (InterpretationException interpretationException) {
