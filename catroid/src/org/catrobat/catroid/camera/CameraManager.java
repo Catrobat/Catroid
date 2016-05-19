@@ -144,6 +144,17 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		return true;
 	}
 
+	public boolean hasCurrentCameraFlash() {
+		if (isFacingBack() && hasFlashBack()) {
+			return true;
+		}
+
+		if (isFacingFront() && hasFlashFront()) {
+			return true;
+		}
+		return false;
+	}
+
 	public CameraState getState() {
 		return state;
 	}
@@ -179,8 +190,8 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 			Camera.Parameters cameraParameters = camera.getParameters();
 
-			previewHeight = ScreenValues.SCREEN_HEIGHT;
 			previewWidth = ScreenValues.SCREEN_WIDTH;
+			previewHeight = ScreenValues.SCREEN_HEIGHT;
 
 			cameraParameters.setPreviewSize(previewWidth, previewHeight);
 			camera.setParameters(cameraParameters);
@@ -427,7 +438,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			currentCameraID = cameraId;
 
 			boolean changingCameraWithoutFlash = (isFacingFront() && !hasFlashFront())
-					|| (isFacingBack() && !hasFlashBlack());
+					|| (isFacingBack() && !hasFlashBack());
 
 			if (FlashUtil.isOn() && changingCameraWithoutFlash) {
 				Log.w(TAG, "destroy Stage because flash isOn while chaning camera");
@@ -474,7 +485,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		}
 	}
 
-	public boolean hasFlashBlack() {
+	public boolean hasFlashBack() {
 		return hasFlashBack;
 	}
 
