@@ -497,8 +497,12 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void flashInitialize() {
-		if (CameraManager.getInstance().hasFlash()) {
+		if (CameraManager.getInstance().hasFlashBlack()) {
 			CameraManager.getInstance().setToBackCamera();
+			FlashUtil.initializeFlash();
+			resourceInitialized();
+		} else if (CameraManager.getInstance().hasFlashFront()) {
+			CameraManager.getInstance().setToFrontCamera();
 			FlashUtil.initializeFlash();
 			resourceInitialized();
 		} else {
@@ -524,4 +528,3 @@ public class PreStageActivity extends BaseActivity {
 		resourceInitialized();
 	}
 }
-
