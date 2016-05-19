@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_turn_right_checkbox"
@@ -43,32 +43,32 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
         <TextView
             android:id="@+id/brick_turn_right_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_turn_right" >
-        </TextView >
+            android:text="@string/brick_turn_right">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_turn_right_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
+            style="@style/BrickPrototypeTextView">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_turn_right_edit_text"
             style="@style/BrickEditText"
+            android:maxEms="5"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:maxEms="5" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_turn_right_degree_text_view"
             style="@style/BrickText.SingleLine"
-            android:text="@string/degree_symbol" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:text="@string/degrees">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>
