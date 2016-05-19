@@ -2,10 +2,10 @@
 
 Catroid, also known as **Pocket Code**, is an on-device visual programming system for Android devices.
 
-**Catrobat** is a visual programming language and set of creativity tools for smartphones, tablets, and mobile browsers. 
+**Catrobat** is a visual programming language and a set of creativity tools for smartphones, tablets, and mobile browsers. 
 Catrobat programs can be written by using the Catroid programming system on Android phones and tablets.
 
-For more information oriented towards developers please visit our [developers page](http://developer.catrobat.org/).
+For more information [oriented towards developers], check out our [developers page](http://developer.catrobat.org/).
 
 # Issues #
 
@@ -19,7 +19,7 @@ After you've created a pull request we will review your code and do a full testr
 
 If you want to implement a new feature, please ask about the details in JIRA or our IRC channel (#catrobat or #catrobatdev) first.
 
-Let's start to set up the working environment using the instructions in our  [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)!
+Start setting up the working environment by following the instructions in our  [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)!
 
 Also make sure to read our guidelines for [creating a pull request](https://github.com/Catrobat/Catroid/wiki/Creating-a-pull-request)
 
