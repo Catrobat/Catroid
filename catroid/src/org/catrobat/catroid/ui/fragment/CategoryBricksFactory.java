@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -138,7 +137,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-//import org.catrobat.catroid.content.bricks.DroneSetAltitudeBrick;
 
 public class CategoryBricksFactory {
 
@@ -284,9 +282,8 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
 			motionBrickList.add(new ComeToFrontBrick());
 		}
-		if (BuildConfig.FEATURE_VIBRATION_BRICK_ENABLED) {
-			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
-		}
+
+		motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 
 		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
 		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
@@ -350,9 +347,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetColorBrick(BrickValues.SET_COLOR_TO));
 		looksBrickList.add(new ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
-		if (BuildConfig.FEATURE_FLASH_BRICK_ENABLED) {
-			looksBrickList.add(new FlashBrick());
-		}
+		looksBrickList.add(new FlashBrick());
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
