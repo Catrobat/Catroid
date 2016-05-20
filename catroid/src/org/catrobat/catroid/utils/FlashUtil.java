@@ -112,6 +112,10 @@ public final class FlashUtil {
 
 	public static void flashOn() {
 		Log.d(TAG, "flashOn()");
+		if (!CameraManager.getInstance().hasCurrentCameraFlash()) {
+			currentFlashValue = false;
+			CameraManager.getInstance().destroyStage();
+		}
 		CameraManager.getInstance().setFlashParams(paramsOn);
 		currentFlashValue = true;
 	}
