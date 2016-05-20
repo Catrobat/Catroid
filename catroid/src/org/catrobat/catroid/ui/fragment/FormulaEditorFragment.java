@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -320,11 +321,22 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		getView().requestFocus();
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
+
+			final Handler handler = new Handler();
+
+			Runnable mLongPressed = new Runnable() {
+				@Override
+				public void run() {
+					formulaEditorEditText.handleKeyEvent(R.id.formula_editor_edit_field_clear, "LONG PRESS DELETE");
+				}
+			};
+
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 					view.setPressed(false);
+					handler.removeCallbacks(mLongPressed);
 					return true;
 				}
 
@@ -384,6 +396,9 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 									NewStringDialog.DIALOG_FRAGMENT_TAG);
 							return true;
 						default:
+							if (view.getId() == R.id.formula_editor_edit_field_clear) {
+								handler.postDelayed(mLongPressed, 1000);
+							}
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return true;
 					}

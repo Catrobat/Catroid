@@ -107,7 +107,6 @@ public class InternFormula {
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
 		if (resourceId == R.id.formula_editor_edit_field_clear || resourceId == R.id.formula_editor_keyboard_delete) {
-
 			cursorTokenPropertiesAfterInput = handleDeletion();
 		} else if (isTokenSelected()) {
 
@@ -267,26 +266,28 @@ public class InternFormula {
 
 			cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.LEFT;
 		} else {
-			switch (cursorTokenPosition) {
-				case LEFT:
-					InternToken firstLeftInternToken = getFirstLeftInternToken(externCursorPosition - 1);
-					if (firstLeftInternToken == null) {
-						cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
-					} else {
+			if (cursorTokenPosition != null) {
+				switch (cursorTokenPosition) {
+					case LEFT:
+						InternToken firstLeftInternToken = getFirstLeftInternToken(externCursorPosition - 1);
+						if (firstLeftInternToken == null) {
+							cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+						} else {
 
-						int firstLeftInternTokenIndex = internTokenFormulaList.indexOf(firstLeftInternToken);
+							int firstLeftInternTokenIndex = internTokenFormulaList.indexOf(firstLeftInternToken);
 
-						cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(firstLeftInternTokenIndex);
-					}
-					break;
+							cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(firstLeftInternTokenIndex);
+						}
+						break;
 
-				case MIDDLE:
-					cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
-					break;
+					case MIDDLE:
+						cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
+						break;
 
-				case RIGHT:
-					cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
-					break;
+					case RIGHT:
+						cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
+						break;
+				}
 			}
 		}
 
@@ -294,7 +295,6 @@ public class InternFormula {
 	}
 
 	private CursorTokenPropertiesAfterModification deleteInternTokenByIndex(int internTokenIndex) {
-
 		InternToken tokenToDelete = internTokenFormulaList.get(internTokenIndex);
 
 		switch (tokenToDelete.getInternTokenType()) {
