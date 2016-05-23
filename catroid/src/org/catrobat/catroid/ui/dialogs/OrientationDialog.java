@@ -27,7 +27,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -57,7 +56,6 @@ public class OrientationDialog extends DialogFragment {
 	private RadioButton landscapeMode;
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
-	private Context context;
 	private boolean openedFromProjectList = false;
 	private boolean createDroneProject = false;
 
@@ -65,7 +63,6 @@ public class OrientationDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 
-		context = getActivity();
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.project_orientation_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -102,7 +99,7 @@ public class OrientationDialog extends DialogFragment {
 
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
-		LoadingOnCreatingProject loadingOnCreatingProject = new LoadingOnCreatingProject(context);
+		LoadingOnCreatingProject loadingOnCreatingProject = new LoadingOnCreatingProject();
 		loadingOnCreatingProject.execute();
 	}
 
@@ -127,29 +124,27 @@ public class OrientationDialog extends DialogFragment {
 	}
 
 	private class LoadingOnCreatingProject extends AsyncTask<String, Void, Boolean> {
-		private ProgressDialog dialog;
+		private ProgressDialog progressDialog;
 
-		protected LoadingOnCreatingProject(Context context) {
-			dialog = new ProgressDialog(context);
+		protected LoadingOnCreatingProject() {
+			progressDialog = new ProgressDialog(getActivity());
 		}
 
 		@Override
 		protected void onPostExecute(Boolean showing) {
-			super.onPostExecute(showing);
-			dialog.dismiss();
+			progressDialog.dismiss();
 		}
 
 		@Override
 		protected void onPreExecute() {
-			super.onPreExecute();
-			this.dialog.setMessage(getResources().getString(R.string.please_wait));
-			this.dialog.show();
+			this.progressDialog.setMessage(getResources().getString(R.string.please_wait));
+			this.progressDialog.show();
 		}
 
 		@Override
 		protected Boolean doInBackground(String... params) {
+
 			try {
-				try {
 					ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
 				} catch (IllegalArgumentException illegalArgumentException) {
 					Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
@@ -169,9 +164,7 @@ public class OrientationDialog extends DialogFragment {
 				getActivity().startActivity(intent);
 				dismiss();
 				return true;
-			} catch (Exception e) {
-				return false;
-			}
+
 		}
 	}
 }
