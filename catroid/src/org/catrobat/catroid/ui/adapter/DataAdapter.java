@@ -104,7 +104,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		this.itemLayout = itemLayout;
 		this.textViewId = textViewId;
 	}
-
+	
 	public int getItemLayout() {
 		return itemLayout;
 	}
