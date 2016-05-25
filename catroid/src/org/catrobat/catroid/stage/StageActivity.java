@@ -297,9 +297,7 @@ public class StageActivity extends AndroidApplication {
 		FaceDetectionHandler.stopFaceDetection();
 		CameraManager.getInstance().stopPreviewAsync();
 		CameraManager.getInstance().releaseCamera();
-
 		CameraManager.getInstance().setToDefaultCamera();
-
 		super.onDestroy();
 	}
 
