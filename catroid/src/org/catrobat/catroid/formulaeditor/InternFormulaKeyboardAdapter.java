@@ -104,6 +104,9 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_exp:
 				return buildSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_power:
+				return buildDoubleParameterFunction(Functions.POWER, InternTokenType.NUMBER, "2",
+						InternTokenType.NUMBER, "3");
 			case R.string.formula_editor_function_floor:
 				return buildSingleParameterFunction(Functions.FLOOR, InternTokenType.NUMBER, "0.7");
 			case R.string.formula_editor_function_ceil:
