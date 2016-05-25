@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,6 +80,10 @@ public class MyProjectsActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+
 			case R.id.copy:
 				projectsListFragment.startCopyActionMode();
 				break;
@@ -102,6 +107,7 @@ public class MyProjectsActivity extends BaseActivity {
 		final ActionBar actionBar = getActionBar();
 		actionBar.setTitle(R.string.my_projects_activity_title);
 		actionBar.setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
