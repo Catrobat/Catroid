@@ -47,6 +47,7 @@
   <string name="error">Napaka</string>
   <string name="please_wait">Prosim, počakajte</string>
   <string name="loading">Nalaganje&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -154,6 +155,8 @@
   <string name="dialog_confirm_delete_object_message">To dejanje ne more biti razveljavljeno!</string>
   <string name="select_all">Izberi vse</string>
   <string name="deselect_all">Deselect all</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopiraj</string>
   <!-- Script activity -->
@@ -165,8 +168,7 @@
   <string name="size">Velikost:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tapnite \"+\" za dodatne skripte</string>
   <string name="dialog_confirm_delete_brick_title">Ali želiš izbrisati ta blok?</string>
@@ -209,6 +211,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">To dejanje ne more biti razveljavljeno!</string>
   <string name="lookname">ime izgleda:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tapnite \"+\" da dodate zvok</string>
   <string name="rename_sound_dialog">Preimenuj zvok</string>
@@ -226,6 +230,8 @@
   <string name="sound_name">ime zvoka:</string>
   <string name="new_sound_name">Ime zvoka:</string>
   <string name="rename_sound_overwrite">Zvok s tem imenom že obstaja!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
   <string name="rename_nfctag_dialog">Rename nfctag</string>
@@ -428,6 +434,23 @@
   <string name="brick_point_to">Kaži proti</string>
   <string name="brick_glide">Drsni</string>
   <string name="brick_glide_to_x">na X:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">physical object</string>
+  <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
+  <string name="brick_set_physics_object_type_fixed">Fixed</string>
+  <string name="brick_set_physics_object_type_no">Ne</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kg</string>
+  <string name="brick_set_gravity_to">"Set gravity to "</string>
+  <string name="brick_set_gravity_unit">step/s²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">step/s</string>
+  <string name="brick_turn_speed_unit">degrees/s</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Preklopi na izgled</string>
   <string name="brick_set_background">Nastavi ozadje</string>
@@ -439,6 +462,8 @@
   <string name="brick_change_ghost_effect">"Spremeni transparentnost "</string>
   <string name="brick_set_brightness">"Postavi svetlost "</string>
   <string name="brick_change_brightness">"Spremeni svetlost "</string>
+  <string name="brick_set_color">"Set color "</string>
+  <string name="brick_change_color">"Change color "</string>
   <string name="by_label">by</string>
   <string name="to_label">do</string>
   <string name="brick_clear_graphic_effect">Izbriši grafične efekte</string>
@@ -466,6 +491,8 @@
     <item quantity="few">"sekunde "</item>
     <item quantity="other">"sekund "</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">Ko sem prejel</string>
   <string name="brick_broadcast">Oddaja</string>
   <string name="brick_broadcast_wait">Oddajanje in počakaj</string>
@@ -483,6 +510,7 @@
   <string name="brick_if_begin_second_part">je res, potem</string>
   <string name="brick_if_else">Sicer</string>
   <string name="brick_if_end">Zaključek pogoja</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Nastavi spremenljivko</string>
   <string name="brick_change_variable">Spremeni spremenljivko</string>
   <string name="brick_variable_spinner_create_new_variable">Novo&#8230;</string>
@@ -600,6 +628,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Napaka pri nalaganju zvoka.</string>
   <string name="error_internet_connection">Neznana napaka. Preverite povezavo z internetom.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Program ni združljiv s to različico Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">Pocket Code verzija je prestara. Ali želite obnoviti?</string>
   <string name="error_copy_project">Pri kopiranju programa je prišlo do napake.</string>
@@ -780,6 +809,7 @@
   <string name="formula_editor_function_log">log</string>
   <string name="formula_editor_function_log_parameter">(0)</string>
   <string name="formula_editor_function_pi">pi</string>
+  <string name="formula_editor_object_color">color</string>
   <string name="formula_editor_function_sqrt">sqrt</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
   <string name="formula_editor_function_rand">random</string>
@@ -855,6 +885,9 @@
   <string name="formula_editor_object_size">Velikost</string>
   <string name="formula_editor_object_rotation">smer</string>
   <string name="formula_editor_object_layer">sloj</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Izračuni</string>
   <string name="formula_editor_object">Objekt</string>
   <string name="formula_editor_math">Funkcije</string>
@@ -945,6 +978,12 @@
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. \"</string>
+  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. "</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>

@@ -47,6 +47,7 @@
   <string name="error">Fehler</string>
   <string name="please_wait">Bitte warten</string>
   <string name="loading">Lade&#8230;</string>
+  <string name="no_internet">Kein Internet</string>
   <string name="loading_check_token">Token wird auf unserem Server überprüft&#8230;</string>
   <string name="loading_check_facebook_data">Facebook Daten werden abgerufen&#8230;</string>
   <string name="loading_check_email">E-Mail-Verfügbarkeit wird auf unserem Server überprüft&#8230;</string>
@@ -70,8 +71,8 @@
   <string name="my_group">Meine Gruppe</string>
   <string name="name">Name:</string>
   <string name="nothing_to_copy">Nichts zu kopieren</string>
-  <string name="nothing_to_backpack_and_unpack">Nichts zum Einpacken und Entpacken</string>
-  <string name="nothing_to_unpack">Nichts zum Entpacken</string>
+  <string name="nothing_to_backpack_and_unpack">Nichts zum Einpacken und Auspacken</string>
+  <string name="nothing_to_unpack">Nichts zum Auspacken</string>
   <string name="nothing_to_delete">Nichts zu löschen</string>
   <string name="nothing_to_rename">Nicht zum Unbenennen</string>
   <string name="unpack_background">Der Hintergrund des Programms wird ersetzt</string>
@@ -96,19 +97,19 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT Bausteine</string>
   <string name="preference_description_mindstorms_nxt_bricks">Erlaube Steuerung von Lego Mindstorms NXT Robotern</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensoren</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
+  <string name="preference_title_drone_config_properties">Drohnen Konfigurationseinstellungen</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
   <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>
   <string name="preference_title_enable_arduino_bricks">Arduino Bausteine</string>
-  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+  <string name="preference_title_enable_nfc_bricks">Nahfeldkommunikation</string>
+  <string name="preference_description_nfc_bricks">NFC-Tags in Programmen zulassen</string>
   <string name="preference_description_arduino_bricks">Erlaubt die Steuerung mit Arduino Bausteinen</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
-  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
-  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
-  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
+  <string name="preference_title_enable_raspi_bricks">Raspberry Pi Bausteine</string>
+  <string name="preference_description_raspi_bricks">Steuern von Raspberry Pi Computern zulassen</string>
+  <string name="preference_raspi_enable_bricks">Raspberry Pi Bausteine aktivieren</string>
+  <string name="preference_raspi_help">Hilfe / Erste Schritte</string>
+  <string name="preference_raspi_help_summary">Hilfe zur Konfiguration der Verbindungseinstellungen</string>
+  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Adresse</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
@@ -129,7 +130,7 @@
   <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen</string>
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Nutzungsbedingungen</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">Du bist dabei Pocket Code in Kombination mit der Parrot’ AR Drohne zu nutzen. Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den Nutzungsrichtlinien von Catrobat Folge zu leisten.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">Du bist dabei Pocket Code in Kombination mit der Parrot AR Drohne zu nutzen. Wir möchten dich daran erinnern, den Nutzungsbedingungen der Drohne sowie den Nutzungsrichtlinien von Catrobat Folge zu leisten.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Nicht nochmal erinnern.</string>
   <!-- About Dialog -->
   <string name="dialog_about_title">Über Pocket Code</string>
@@ -157,6 +158,8 @@
   <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="select_all">Alle auswählen</string>
   <string name="deselect_all">Nichts auswählen</string>
+  <string name="backpack_replace_object">Das Objekt \"%1$s\" befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
+  <string name="backpack_replace_object_multiple">Im Rucksack sind bereits Objekte vorhanden. Möchtest du diese ersetzen?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopie</string>
   <!-- Script activity -->
@@ -174,11 +177,11 @@
   <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
   <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
-  <string name="dialog_confirm_delete_script_group_title">Gruppe löschen?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Gruppe löschen?</string>
+  <string name="dialog_confirm_delete_script_group_title">Diese Gruppe löschen?</string>
+  <string name="dialog_confirm_delete_multiple_script_groups_title">Diese Gruppen löschen?</string>
   <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Lösche %d Bausteine</item>
+    <item quantity="one">Lösche %d Baustein</item>
     <item quantity="other">Lösche %d Bausteine</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
@@ -205,6 +208,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Diese Aussehen löschen?</string>
   <string name="dialog_confirm_delete_look_message">Kann nicht rückgängig gemacht werden!</string>
   <string name="lookname">Name:</string>
+  <string name="backpack_replace_look">Das Aussehen\"%1$s\" befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
+  <string name="backpack_replace_look_multiple">Im Rucksack sind bereits Aussehen vorhanden. Möchtest du diese ersetzen?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tippe auf \"+\" um Klänge hinzuzufügen</string>
   <string name="rename_sound_dialog">Klang umbenennen</string>
@@ -220,20 +225,22 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Diese Klänge löschen?</string>
   <string name="dialog_confirm_delete_sound_message">Dies kann nicht rückgängig gemacht werden!</string>
   <string name="sound_name">Name:</string>
-  <string name="new_sound_name">Klang Name:</string>
+  <string name="new_sound_name">Klangname:</string>
   <string name="rename_sound_overwrite">Klang mit demselben Namen existiert bereits. Bitte wähle einen anderen!</string>
+  <string name="backpack_replace_sound">Der Klang \"%1$s\" befindet sich bereits im Rucksack. Möchtest du ihn ersetzen?</string>
+  <string name="backpack_replace_sound_multiple">Im Rucksack sind bereits Klänge vorhanden. Möchtest du diese ersetzen?</string>
   <!-- NfcTags fragment -->
-  <string name="fragment_nfctag_text_description">Scan tags to add</string>
-  <string name="rename_nfctag_dialog">Rename nfctag</string>
-  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
-  <string name="nfctag_scan">scan</string>
-  <string name="delete_nfctag_dialog">Delete nfctag?</string>
-  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
-  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
-  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
-  <string name="nfctag_name">nfctag name:</string>
-  <string name="nfctag">NFC Tag</string>
-  <string name="nfctags">NFC Tags</string>
+  <string name="fragment_nfctag_text_description">Zum Hinzufügen Tags scannen</string>
+  <string name="rename_nfctag_dialog">NFC-Tag umbenennen</string>
+  <string name="nfctagname_invalid">Dieser NFC-Tag Name ist ungültig</string>
+  <string name="nfctag_scan">Scannen</string>
+  <string name="delete_nfctag_dialog">NFC-Tag löschen?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Diesen NFC-Tag löschen?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Diese NFC-Tags löschen?</string>
+  <string name="dialog_confirm_delete_nfctag_message">Diese Aktion kann nicht rückgängig gemacht werden!</string>
+  <string name="nfctag_name">NFC-Tag Name:</string>
+  <string name="nfctag">NFC-Tag</string>
+  <string name="nfctags">NFC-Tags</string>
   <string name="uid">ID</string>
   <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
@@ -281,10 +288,9 @@
   <string name="prestage_no_camera_available">\u2022 Gesichtserkennung\n</string>
   <string name="prestage_no_front_camera_available">\u2022 Frontkamera\n</string>
   <string name="prestage_default_resource_not_available">\u2022 unbekannte Komponente\n</string>
-  <string name="no_nfc_available">NFC not available</string>
-  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
-  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
-        issues!</string>
+  <string name="no_nfc_available">NFC nicht verfügbar</string>
+  <string name="nfc_not_activated">Bitte aktiviere NFC und drücke zurück, um zur Anwendung zurückzukehren!</string>
+  <string name="nfc_facedetection_support">Die Kombination von NFC und Gesichtserkennung kann zu Leistungsproblemen führen!</string>
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
   <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
@@ -373,7 +379,7 @@
   <string name="dialog_new_broadcast_message_name">Nachricht:</string>
   <!-- NFC spinner -->
   <string name="new_nfc_tag">Neu&#8230;</string>
-  <string name="brick_when_nfc_default_all">all</string>
+  <string name="brick_when_nfc_default_all">Alle</string>
   <!-- Brick categories -->
   <string name="categories">Kategorien</string>
   <string name="category_motion">Bewegung</string>
@@ -413,6 +419,23 @@
   <string name="brick_point_to">Zeige auf</string>
   <string name="brick_glide">Gleite</string>
   <string name="brick_glide_to_x">zu X:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">Mein erstes Physics-Programm</string>
+  <string name="brick_set_physics_object_type">Physics Objekt</string>
+  <string name="brick_set_physics_object_type_dynamic">Dynamisch</string>
+  <string name="brick_set_physics_object_type_fixed">Fixiert</string>
+  <string name="brick_set_physics_object_type_no">Nein</string>
+  <string name="brick_set_mass">"Setze Masse auf "</string>
+  <string name="brick_set_mass_unit">kg</string>
+  <string name="brick_set_gravity_to">"Setze Gravitation auf "</string>
+  <string name="brick_set_gravity_unit">Schritte/s²</string>
+  <string name="brick_set_velocity_to">"Setze Geschwindigkeit auf "</string>
+  <string name="brick_set_velocity_unit">Schritt/s</string>
+  <string name="brick_turn_speed_unit">Grad/s</string>
+  <string name="brick_set_friction">"Setze Reibung auf "</string>
+  <string name="brick_set_bounce_factor">"Setze Aufprallfaktor auf "</string>
+  <string name="brick_rotate_left">"Nach links drehen"</string>
+  <string name="brick_rotate_right">"Nach rechts drehen"</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Setze Aussehen</string>
   <string name="brick_set_background">Setze Hintergrund</string>
@@ -424,6 +447,8 @@
   <string name="brick_change_ghost_effect">"Ändere Transparenz "</string>
   <string name="brick_set_brightness">"Setze Helligkeit "</string>
   <string name="brick_change_brightness">"Ändere Helligkeit "</string>
+  <string name="brick_set_color">"Setze Farbe "</string>
+  <string name="brick_change_color">"Ändere Farbe"</string>
   <string name="by_label">um</string>
   <string name="to_label">auf</string>
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
@@ -444,11 +469,13 @@
   <string name="brick_when_started">Wenn Programm gestartet</string>
   <string name="brick_when">Wenn angetippt</string>
   <string name="brick_wait">Warte</string>
-  <string name="brick_when_nfc">When NFC</string>
+  <string name="brick_when_nfc">Bei NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"Sekunde "</item>
     <item quantity="other">"Sekunden "</item>
   </plurals>
+  <string name="brick_collision_receive">Wenn physische Kollision mit</string>
+  <string name="collision_with_anything">alles andere</string>
   <string name="brick_broadcast_receive">Wenn ich empfange:</string>
   <string name="brick_broadcast">Verschicke an alle:</string>
   <string name="brick_broadcast_wait">Verschicke und warte:</string>
@@ -464,6 +491,7 @@
   <string name="brick_if_begin_second_part">wahr ist, dann</string>
   <string name="brick_if_else">sonst</string>
   <string name="brick_if_end">sonst Ende</string>
+  <string name="brick_broadcast_invalid_symbol">"Die Nachricht ist reserviert für:\n\"Wenn physische Kollision zwischen\"-Brick\nBitte versuche es erneut!"</string>
   <string name="brick_set_variable">Setze Variable</string>
   <string name="brick_change_variable">Ändere Variable</string>
   <string name="brick_variable_spinner_create_new_variable">Neu&#8230;</string>
@@ -507,10 +535,10 @@
   <string name="drone_brick_set_text">Text</string>
   <string name="drone_brick_set_x">X:</string>
   <!-- Drone config spinner values  -->
-  <string name="drone_config_indoor_with_hull">indoor with hull</string>
-  <string name="drone_config_indoor_without_hull">indoor without hull</string>
-  <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
-  <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+  <string name="drone_config_indoor_with_hull">Innen mit Rumpf</string>
+  <string name="drone_config_indoor_without_hull">Innen ohne Rumpf</string>
+  <string name="drone_config_outdoor_with_hull">Im Freien mit Rumpf</string>
+  <string name="drone_config_outdoor_without_hull">Im freien ohne Rumpf</string>
   <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 Meter</string>
   <string name="drone_set_altitude_max_5m">5 Meter</string>
@@ -559,14 +587,14 @@
   <string name="drone_emergency_camera">Eine oder mehrere Kamera(s) reagieren nicht.</string>
   <string name="drone_emergency_ultrasound">Ultraschallsensor reagiert nicht.</string>
   <string name="drone_emergency_angle">AR. Drohnen Euler Winkel überschritten. Motoren wurden heruntergefahren, um ein Fehlverhalten zu verhindern.</string>
-  <string name="drone_emergency_cutout">Ein oder meherere Motor(en) wurden vom Umfeld gestoppt.</string>
+  <string name="drone_emergency_cutout">Ein oder mehrere Motor(en) wurden vom Umfeld gestoppt.</string>
   <string name="drone_alert_battery_low">Akkustand ist zu niedrig, um wieder abzuheben.</string>
   <string name="drone_alert_ultrasound">Ultraschallsensor kann die AR.Dronen Höhe nicht bestimmen.</string>
   <string name="drone_alert_vision">Keine Geschwindigkeitsschätzung der Bodenkamera.</string>
   <string name="drone_emergency_title">Notfall</string>
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
-  <string name="error_no_program_name_entered">Bitte einen Programnamen angeben.</string>
+  <string name="error_no_program_name_entered">Bitte einen Programmnamen angeben.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
   <string name="error_delete_project">Während des Löschens ist ein Fehler aufgetreten</string>
   <string name="error_unknown_project">Ein Programm mit diesem Namen existiert nicht.</string>
@@ -580,6 +608,7 @@
   <string name="error_load_image_special_chars">Bild kann nicht geladen werden. Enthält der Dateiname Sonderzeichen (z. B. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Beim Laden des Klanges ist ein Fehler aufgetreten.</string>
   <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
+  <string name="error_no_internet">Bitte stelle eine Internetverbindung her.</string>
   <string name="error_project_compatability">Das Programm ist nicht mit dieser Version von Pocket Code kompatibel.</string>
   <string name="error_outdated_pocketcode_version">Die Pocket Code Version ist zu alt. Jetzt updaten?</string>
   <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
@@ -613,17 +642,17 @@
   <string name="brick_arduino_select_analog_value">Setze Arduino PWM-Pin</string>
   <string name="brick_arduino_set_pin_value_to">auf</string>
   <!-- Raspi Bricks -->
-  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+  <string name="brick_raspi_select_digital_value">Raspberry Pi Pin setzen</string>
   <string name="brick_raspi_set_pin_value_to">auf</string>
-  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+  <string name="brick_raspi_if_begin">Wenn Raspberry Pi Pin</string>
   <string name="brick_raspi_if_begin_second_part">wahr ist, dann</string>
-  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-  <string name="brick_raspi_when_equals">changes to</string>
-  <string name="brick_raspi_pressed_text">High</string>
-  <string name="brick_raspi_released_text">Low</string>
-  <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+  <string name="brick_raspi_when_begin">Wenn Raspberry Pi Pin</string>
+  <string name="brick_raspi_when_equals">Ändert sich zu</string>
+  <string name="brick_raspi_pressed_text">Hoch</string>
+  <string name="brick_raspi_released_text">Tief</string>
+  <string name="brick_raspi_set_pwm">Raspberry Pi PWM Pin setzen</string>
   <!-- Raspi Settings -->
-  <string name="raspi_settings_title_name">Raspberry Pi Settings</string>
+  <string name="raspi_settings_title_name">Raspberry Pi Einstellungen</string>
   <string name="raspi_settings_gpio_version">GPIO Version</string>
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Setze NXT Motor</string>
@@ -653,10 +682,10 @@
   <string name="nxt_sensor_light_active">NXT Lichtsensor LED aktiv</string>
   <string name="nxt_sensor_ultrasonic">NXT Ultraschallsensor</string>
   <string name="lego_nxt_sensor_config_info_title">NXT Sensoren Konfiguration</string>
-  <string name="preference_disable_nxt_info_dialog">Info Dialog deaktivieren</string>
-  <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Programmes werden programmspezfifische NXT Einstellungen nicht mehr angezeigt.</string>
+  <string name="preference_disable_nxt_info_dialog">Infodialog deaktivieren</string>
+  <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Programmes werden programmspezifische NXT Einstellungen nicht mehr angezeigt.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Die Zuweisung von NXT Sensoren zu deren Port ist programmspezifisch und können nur für geöffnete Programme konfiguriert werden!</string>
-  <string name="preference_title_drone_properties_setting_description">The selection of drone configuration properties is program specific and can only be configured within the program.</string>
+  <string name="preference_title_drone_properties_setting_description">Die Auswahl der Drohnen-Konfigurationseigenschaften ist programmabhängig und kann nur innerhalb des Programmes konfiguriert werden.</string>
   <string name="lego_nxt_sensor_config_info_text">Das geöffnete Programm beinhaltet Lego Mindstorms NXT Bausteine oder Sensoren. Bitte schließe die Sensoren wie folgt an den Roboter an damit das Programm einwandfrei funktioniert</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>
@@ -689,9 +718,9 @@
   <string name="brick_drone_percent_power">% Leistung</string>
   <!-- Phiro bricks -->
   <!-- motor -->
-  <string name="phiro_motor_stop">Stop Phiro motor</string>
-  <string name="brick_phiro_motor_forward_action">Setze Phiro Motor geradeaus</string>
-  <string name="brick_phiro_motor_backward_action">Setze Phiro Motor rückwärts</string>
+  <string name="phiro_motor_stop">Stoppe Phiro Motor</string>
+  <string name="brick_phiro_motor_forward_action">Phiro Motor vorwärts bewegen</string>
+  <string name="brick_phiro_motor_backward_action">Phiro Motor rückwärts bewegen</string>
   <string name="phiro_motor_speed">Geschwindigkeit</string>
   <!-- sensor -->
   <string name="brick_phiro_sensor_begin">Wenn Phiro</string>
@@ -760,6 +789,7 @@
   <string name="formula_editor_function_log">log</string>
   <string name="formula_editor_function_log_parameter">(0)</string>
   <string name="formula_editor_function_pi">pi</string>
+  <string name="formula_editor_object_color">Farbe</string>
   <string name="formula_editor_function_sqrt">Wurzel</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
   <string name="formula_editor_function_rand">Zufall</string>
@@ -835,6 +865,9 @@
   <string name="formula_editor_object_size">Größe</string>
   <string name="formula_editor_object_rotation">Richtung</string>
   <string name="formula_editor_object_layer">Ebene</string>
+  <string name="formula_editor_object_x_velocity">x_Geschwindigkeit</string>
+  <string name="formula_editor_object_y_velocity">y_Geschwindigkeit</string>
+  <string name="formula_editor_object_angular_velocity">Winkel_Geschwindigkeit</string>
   <string name="formula_editor_compute">Berechnen</string>
   <string name="formula_editor_object">Objekt</string>
   <string name="formula_editor_math">Funktionen</string>
@@ -908,8 +941,7 @@
   <string name="merge_info">erfolgreich kopiert in</string>
   <string name="warning">Warnung</string>
   <string name="error_merge_with_self">Achtung! Aktuelles Projekt und ausgewähltes Projekt sind dieselben!</string>
-  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
-        has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Vorsicht! Unterschiedliche Auflösungen erkannt. %1$s hat Auflösung %2$dx%3$d und %4$s hat Auflösung %5$dx%6$d. Auflösung von %1$s wird verwendet.</string>
   <string name="abort">Abbruch</string>
   <string name="merge_conflict">Zusammenfügen nicht möglich</string>
   <string name="merge_conflict_variable">Variable \"%1$s\" wird in beiden Programmen verwendet. Wenn Programme den gleichen Variablennamen verwenden, können nicht sie zusammengeführt werden. Bitte benenne die Variable in einem der Programme um und versuche es erneut.</string>
@@ -921,5 +953,11 @@
   <string name="brick_choose_camera">Verwende Kamera</string>
   <string name="choose_camera_front">vordere</string>
   <string name="choose_camera_back">hintere</string>
-  <string name="error_flash_front_camera">\"Du kannst den Blitz nur mit der hinteren Kamera verwenden. Bitte füge einen \"Verwende Kamera\" Baustein für die hintere Kamera deines Gerätes hinzu.\"</string>
+  <string name="error_flash_front_camera">"Du kannst den Blitz nur mit der hinteren Kamera verwenden. Bitte füge einen \"Verwende Kamera\" Baustein für die hintere Kamera deines Gerätes hinzu."</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Bewerte Pocket Code</string>
+  <string name="rating_dialog_text">Wenn dir Pocket Code gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
+  <string name="rating_dialog_rate_now">Jetzt</string>
+  <string name="rating_dialog_rate_later">Später</string>
+  <string name="rating_dialog_rate_never">Nie</string>
 </resources>
