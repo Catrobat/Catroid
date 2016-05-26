@@ -59,6 +59,13 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
 	private BrightnessContrastHueShader shader;
+	public static final int ROTATION_STYLE_ALL_AROUND = 1;
+	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
+	public static final int ROTATION_STYLE_NONE = 2;
+	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
+	private float rotation = 90f;
+	private float realRotation = rotation;
+	private boolean isFlipped = false;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -68,6 +75,7 @@ public class Look extends Image {
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
 		addListeners();
+		rotation = getDirectionInUserInterfaceDimensionUnit();
 	}
 
 	protected void addListeners() {
@@ -134,6 +142,9 @@ public class Look extends Image {
 		}
 		if (!isLookVisible()) {
 			return false;
+		}
+		if (isFlipped) {
+			x = -x + getWidth();
 		}
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
@@ -330,12 +341,48 @@ public class Look extends Image {
 		return convertStageAngleToCatroidAngle(getRotation());
 	}
 
+	public float getRealDirectionInUserInterfaceDimensionUnit() {
+		return realRotation;
+	}
+
+	public void setRotationMode(int mode) {
+		rotationMode = mode;
+	}
+
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		setRotation(convertCatroidAngleToStageAngle(degrees));
+		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
+		realRotation = convertStageAngleToCatroidAngle(rotation);
+
+		switch (rotationMode) {
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				setRotation(0f);
+				boolean oriented_right = realRotation >= 0;
+				boolean oriented_left = realRotation < 0;
+				if (isFlipped && oriented_right || !isFlipped && oriented_left) {
+					lookData.getTextureRegion().flip(true, false);
+					isFlipped = !isFlipped;
+				}
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				setRotation(rotation);
+				break;
+			case ROTATION_STYLE_NONE:
+				setRotation(0f);
+				break;
+		}
+	}
+
+	public boolean isFlipped() {
+		return isFlipped;
+	}
+
+	public void setFlipped(boolean status) {
+		isFlipped = status;
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation(getRotation() - changeDegrees);
+		setDirectionInUserInterfaceDimensionUnit((getRealDirectionInUserInterfaceDimensionUnit() + changeDegrees) %
+				360);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
