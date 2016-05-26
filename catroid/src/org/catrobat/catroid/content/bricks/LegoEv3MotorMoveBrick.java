@@ -129,7 +129,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	@Override
 	public Brick clone() {
 		return new LegoEv3MotorMoveBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_EV3_POWER).clone(),
-				getFormulaWithBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS));
+				getFormulaWithBrickField(BrickField.LEGO_EV3_PERIOD_IN_SECONDS).clone());
 	}
 
 	@Override
