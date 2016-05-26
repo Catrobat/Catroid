@@ -76,6 +76,7 @@
   <string name="nothing_to_delete">削除するものはありません</string>
   <string name="nothing_to_rename">名前を変更するものはありません</string>
   <string name="unpack_background">プログラムの背景が置き換えられます</string>
+  <string name="degrees">degrees</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">新しい</string>
   <string name="main_menu_continue">続行</string>
@@ -408,17 +409,17 @@
   <string name="brick_glide_to_x">x：</string>
   <!-- Physics -->
   <string name="default_project_name_physics">私の最初の物理学プログラム</string>
-  <string name="brick_set_physics_object_type">物理オブジェクト</string>
-  <string name="brick_set_physics_object_type_dynamic">動的</string>
-  <string name="brick_set_physics_object_type_fixed">固定</string>
-  <string name="brick_set_physics_object_type_no">いいえ</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
   <string name="brick_set_mass">"質量を設定 "</string>
-  <string name="brick_set_mass_unit">kg</string>
-  <string name="brick_set_gravity_to">"重力を設定 "</string>
-  <string name="brick_set_gravity_unit">ステップ/秒²</string>
+  <string name="brick_set_mass_unit">kilogram</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
   <string name="brick_set_velocity_to">"速度を設定 "</string>
-  <string name="brick_set_velocity_unit">ステップ/秒</string>
-  <string name="brick_turn_speed_unit">度/秒</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
   <string name="brick_set_friction">"摩擦を設定 "</string>
   <string name="brick_set_bounce_factor">"跳ね返り率を設定 "</string>
   <string name="brick_rotate_left">"左に回転 "</string>
@@ -535,15 +536,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/秒</string>
   <string name="drone_set_vertical_max">2000 mm/秒</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 °/秒</string>
-  <string name="drone_set_rotation_indoor">100 °/秒</string>
-  <string name="drone_set_rotation_outdoor">200 °/秒</string>
-  <string name="drone_set_rotation_max">350 °/秒</string>
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 °</string>
-  <string name="drone_set_tilt_indoor">12 °</string>
-  <string name="drone_set_tilt_outdoor">20 ° </string>
-  <string name="drone_set_tilt_max">30 °</string>
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">値を入力してください</string>
   <string name="notification_screenshot_ok">スクリーン ショットが保存した</string>

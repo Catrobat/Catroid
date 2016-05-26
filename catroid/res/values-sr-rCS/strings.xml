@@ -76,6 +76,7 @@
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
+  <string name="degrees">degrees</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Novi</string>
   <string name="main_menu_continue">Nastavi</string>
@@ -434,17 +435,17 @@
   <string name="brick_glide_to_x">to X:</string>
   <!-- Physics -->
   <string name="default_project_name_physics">My first physics program</string>
-  <string name="brick_set_physics_object_type">physical object</string>
-  <string name="brick_set_physics_object_type_dynamic">Dynamic</string>
-  <string name="brick_set_physics_object_type_fixed">Fixed</string>
-  <string name="brick_set_physics_object_type_no">Ne</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
   <string name="brick_set_mass">"Set mass to "</string>
-  <string name="brick_set_mass_unit">kg</string>
-  <string name="brick_set_gravity_to">"Set gravity to "</string>
-  <string name="brick_set_gravity_unit">step/s²</string>
+  <string name="brick_set_mass_unit">kilogram</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
   <string name="brick_set_velocity_to">"Set velocity to "</string>
-  <string name="brick_set_velocity_unit">step/s</string>
-  <string name="brick_turn_speed_unit">degrees/s</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
   <string name="brick_set_friction">"Set friction to "</string>
   <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
   <string name="brick_rotate_left">"Rotate left "</string>
@@ -565,15 +566,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 °/s</string>
-  <string name="drone_set_rotation_indoor">100 °/s</string>
-  <string name="drone_set_rotation_outdoor">200 °/s</string>
-  <string name="drone_set_rotation_max">350 °/s</string>
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 °</string>
-  <string name="drone_set_tilt_indoor">12 °</string>
-  <string name="drone_set_tilt_outdoor">20 ° </string>
-  <string name="drone_set_tilt_max">30 °</string>
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Please enter a value</string>
   <string name="notification_screenshot_ok">Preview image saved</string>

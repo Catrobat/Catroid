@@ -76,6 +76,7 @@
   <string name="nothing_to_delete">چیزی برای حذف نیست</string>
   <string name="nothing_to_rename">چیزی برای تغییر نام نیست</string>
   <string name="unpack_background">پس زمینه برنامه جایگزین خواهد شد</string>
+  <string name="degrees">degrees</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">جدید</string>
   <string name="main_menu_continue">ادامه</string>
@@ -411,17 +412,17 @@
   <string name="brick_glide_to_x">به x:</string>
   <!-- Physics -->
   <string name="default_project_name_physics">My first physics program</string>
-  <string name="brick_set_physics_object_type">شی فیزیکی</string>
-  <string name="brick_set_physics_object_type_dynamic">حرکتی</string>
-  <string name="brick_set_physics_object_type_fixed">ثابت شده</string>
-  <string name="brick_set_physics_object_type_no">خیر</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
   <string name="brick_set_mass">"Set mass to "</string>
-  <string name="brick_set_mass_unit">کیلوگرم</string>
-  <string name="brick_set_gravity_to">"تنظیم جاذبه به "</string>
-  <string name="brick_set_gravity_unit">مرحله/s²</string>
+  <string name="brick_set_mass_unit">kilogram</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
   <string name="brick_set_velocity_to">"تنظیم سرعت به"</string>
-  <string name="brick_set_velocity_unit">مرحله/s</string>
-  <string name="brick_turn_speed_unit">درجات/s</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
   <string name="brick_set_friction">"تنظیم اصطکاک به "</string>
   <string name="brick_set_bounce_factor">"تنظیم ضریب تاثیر به "</string>
   <string name="brick_rotate_left">"چرخش به چپ "</string>
@@ -538,15 +539,15 @@
   <string name="drone_set_vertical_outdoor">۱۰۰۰ میلیمتر بر ثانیه</string>
   <string name="drone_set_vertical_max">۲۰۰۰ میلیمتر بر ثانیه</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">۴۰ درجه بر ثانیه</string>
-  <string name="drone_set_rotation_indoor">۱۰۰ درجه بر ثانیه</string>
-  <string name="drone_set_rotation_outdoor">۲۰۰ درجه بر ثانیه</string>
-  <string name="drone_set_rotation_max">۳۵۰ درجه بر ثانیه</string>
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">۵°</string>
-  <string name="drone_set_tilt_indoor">۱۲°</string>
-  <string name="drone_set_tilt_outdoor">۲۰° </string>
-  <string name="drone_set_tilt_max">۳۰°</string>
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">لطفا یک مقدار را وارد کن</string>
   <string name="notification_screenshot_ok">پیش نمایش تصویر ذخیره شد</string>

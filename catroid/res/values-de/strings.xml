@@ -76,6 +76,7 @@
   <string name="nothing_to_delete">Nichts zu löschen</string>
   <string name="nothing_to_rename">Nicht zum Unbenennen</string>
   <string name="unpack_background">Der Hintergrund des Programms wird ersetzt</string>
+  <string name="degrees">Grad</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Neu</string>
   <string name="main_menu_continue">Fortsetzen</string>
@@ -421,17 +422,17 @@
   <string name="brick_glide_to_x">zu X:</string>
   <!-- Physics -->
   <string name="default_project_name_physics">Mein erstes Physics-Programm</string>
-  <string name="brick_set_physics_object_type">Physics Objekt</string>
-  <string name="brick_set_physics_object_type_dynamic">Dynamisch</string>
-  <string name="brick_set_physics_object_type_fixed">Fixiert</string>
-  <string name="brick_set_physics_object_type_no">Nein</string>
+  <string name="brick_set_physics_object_type">Setze Bewegungstyp auf</string>
+  <string name="brick_set_physics_object_type_dynamic">Aufprallen mit Gravitation</string>
+  <string name="brick_set_physics_object_type_fixed">andere prallen davon ab</string>
+  <string name="brick_set_physics_object_type_no">ohne Aufprallen</string>
   <string name="brick_set_mass">"Setze Masse auf "</string>
-  <string name="brick_set_mass_unit">kg</string>
-  <string name="brick_set_gravity_to">"Setze Gravitation auf "</string>
-  <string name="brick_set_gravity_unit">Schritte/s²</string>
+  <string name="brick_set_mass_unit">Kilogramm</string>
+  <string name="brick_set_gravity_to">"Setze Gravitation für alle Objekte auf "</string>
+  <string name="brick_set_gravity_unit">Schritt/Sekunde²</string>
   <string name="brick_set_velocity_to">"Setze Geschwindigkeit auf "</string>
-  <string name="brick_set_velocity_unit">Schritt/s</string>
-  <string name="brick_turn_speed_unit">Grad/s</string>
+  <string name="brick_set_velocity_unit">Schritt/Sekunde</string>
+  <string name="brick_turn_speed_unit">Grad/Sekunde</string>
   <string name="brick_set_friction">"Setze Reibung auf "</string>
   <string name="brick_set_bounce_factor">"Setze Aufprallfaktor auf "</string>
   <string name="brick_rotate_left">"Nach links drehen"</string>
@@ -550,15 +551,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 °/s</string>
-  <string name="drone_set_rotation_indoor">100 °/s</string>
-  <string name="drone_set_rotation_outdoor">200 °/s</string>
-  <string name="drone_set_rotation_max">350 °/s</string>
+  <string name="drone_set_rotation_min">40 Grad/s</string>
+  <string name="drone_set_rotation_indoor">100 Grad/s</string>
+  <string name="drone_set_rotation_outdoor">200 Grad/s</string>
+  <string name="drone_set_rotation_max">350 Grad/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 °</string>
-  <string name="drone_set_tilt_indoor">12 °</string>
-  <string name="drone_set_tilt_outdoor">20 ° </string>
-  <string name="drone_set_tilt_max">30 °</string>
+  <string name="drone_set_tilt_min">5 Grad</string>
+  <string name="drone_set_tilt_indoor">12 Grad</string>
+  <string name="drone_set_tilt_outdoor">20 Grad </string>
+  <string name="drone_set_tilt_max">30 Grad</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
   <string name="notification_screenshot_ok">Bildvorschau gespeichert</string>
