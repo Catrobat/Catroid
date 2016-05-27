@@ -28,8 +28,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.koushikdutta.async.ByteBufferList;
+import com.koushikdutta.async.DataEmitter;
+import com.koushikdutta.async.callback.DataCallback;
+import com.koushikdutta.async.http.AsyncHttpClient;
+import com.koushikdutta.async.http.AsyncHttpClient.WebSocketConnectCallback;
+import com.koushikdutta.async.http.WebSocket;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.ScratchSearchProjectsListFragment;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScratchConverterActivity extends BaseActivity {
 
@@ -49,7 +61,7 @@ public class ScratchConverterActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_scratch_projects, menu);
+		getMenuInflater().inflate(R.menu.menu_scratch_projects, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -75,7 +87,70 @@ public class ScratchConverterActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setUpActionBar() {
+	private boolean started = false;
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		AsyncHttpClient.getDefaultInstance().websocket("ws://scratch2.catrob.at/convertersocket", null, new
+				WebSocketConnectCallback() {
+			@Override
+			public void onCompleted(Exception ex, final WebSocket webSocket) {
+				if (ex != null) {
+					ex.printStackTrace();
+					return;
+				}
+				Log.d(TAG, "Sending set_client_ID request!");
+
+				final int clientID = 7;
+				Map<String, Object> map = new HashMap<String, Object>() {{
+					put("cmd", "set_client_ID");
+					put("args", new HashMap<String, String>() {{ put("clientID", String.valueOf(clientID)); }});
+				}};
+				JSONObject jsonObject = new JSONObject(map);
+				Log.d(TAG, "Sending: " + jsonObject.toString());
+				webSocket.send(jsonObject.toString());
+				webSocket.setStringCallback(new WebSocket.StringCallback() {
+					public void onStringAvailable(String s) {
+						if (! started) {
+							Log.d(TAG, "Sending start job!");
+							Map<String, Object> map = new HashMap<String, Object>() {{
+								put("cmd", "schedule_job");
+								put("args", new HashMap<String, String>() {{
+									put("clientID", String.valueOf(clientID));
+									put("url", "https://scratch.mit.edu/projects/82443924");
+									put("force", "1");
+								}});
+							}};
+							JSONObject jsonObject = new JSONObject(map);
+							String message = jsonObject.toString().replace("\\", "");
+							Log.d(TAG, "Sending: " + message);
+							webSocket.send(message);
+							started = true;
+						}
+						Log.d(TAG, s);
+					}
+				});
+				/*
+				webSocket.setDataCallback(new DataCallback() {
+					public void onDataAvailable(DataEmitter emitter, ByteBufferList byteBufferList) {
+						if (! started) {
+							Log.d(TAG, "Sending start job!");
+							webSocket.send("{'cmd':'schedule_job','args':{'clientID':'7','url':" +
+									"'https://scratch.mit.edu/projects/82443924/','force':True}}");
+							started = true;
+						}
+						Log.d(TAG, "I got some bytes!");
+						// note that this data has been read
+						byteBufferList.recycle();
+					}
+				});
+				*/
+			}
+		});
+	}
+
+	private void setUpActionBar() {
         final ActionBar actionBar = getActionBar();
         actionBar.setTitle(R.string.title_activity_scratch_converter);
         actionBar.setHomeButtonEnabled(true);
