@@ -35,11 +35,8 @@ import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class PhysicsObject {
 
@@ -86,16 +83,7 @@ public class PhysicsObject {
 		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
 		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
 		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-
-		List<Brick> brickList = sprite.getAllBricks();
-		PhysicsObject.Type type = PhysicsObject.Type.NONE;
-		for (Brick brick : brickList) {
-			if (!(brick instanceof SetGravityBrick) && (brick.getRequiredResources() & Brick.PHYSICS) > 0) {
-				type = PhysicsObject.Type.DYNAMIC;
-				break;
-			}
-		}
-		setType(type);
+		setType(Type.NONE);
 
 		tmpVertice = new Vector2();
 	}

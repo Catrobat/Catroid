@@ -89,7 +89,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
-				PackageManager.GET_ACTIVITIES);
+				PackageManager.GET_META_DATA);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
@@ -173,7 +173,6 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
 		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
-
 	}
 
 	public void testMainMenuItemsNotVisibleInProgramActivity() {
@@ -184,7 +183,6 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
 		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
-
 	}
 
 	public void testMenuItemSettings() {

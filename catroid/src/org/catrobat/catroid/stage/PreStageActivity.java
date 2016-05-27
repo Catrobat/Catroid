@@ -165,6 +165,15 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
+		if ((requiredResources & Brick.VIDEO) > 0) {
+			if (CameraManager.getInstance().hasFrontCamera()
+					|| CameraManager.getInstance().hasBackCamera()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.VIDEO);
+			}
+		}
+
 		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
 			flashInitialize();
 		}
@@ -488,8 +497,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void flashInitialize() {
-		if (CameraManager.getInstance().hasFlash()) {
-			CameraManager.getInstance().setToBackCamera();
+		if (CameraManager.getInstance().switchToCameraWithFlash()) {
 			FlashUtil.initializeFlash();
 			resourceInitialized();
 		} else {
@@ -515,4 +523,3 @@ public class PreStageActivity extends BaseActivity {
 		resourceInitialized();
 	}
 }
-

@@ -47,7 +47,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			CameraManager.getInstance().startCamera();
 		}
 
-		Camera camera = CameraManager.getInstance().getCamera();
+		Camera camera = CameraManager.getInstance().getCurrentCamera();
 		if (camera == null) {
 			return false;
 		}
@@ -63,7 +63,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			return;
 		}
 		running = false;
-		CameraManager.getInstance().getCamera().stopFaceDetection();
+		CameraManager.getInstance().getCurrentCamera().stopFaceDetection();
 	}
 
 	@Override

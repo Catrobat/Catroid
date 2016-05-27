@@ -100,20 +100,25 @@ public final class FlashUtil {
 			CameraManager.getInstance().startCamera();
 		}
 
-		paramsOn = CameraManager.getInstance().getCamera().getParameters();
+		paramsOn = CameraManager.getInstance().getCurrentCamera().getParameters();
 		if (paramsOn != null) {
 			paramsOn.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 		}
-		paramsOff = CameraManager.getInstance().getCamera().getParameters();
+		paramsOff = CameraManager.getInstance().getCurrentCamera().getParameters();
 		if (paramsOff != null) {
-			paramsOff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			paramsOff.setFlashMode("off");
 		}
 	}
 
 	public static void flashOn() {
 		Log.d(TAG, "flashOn()");
-		CameraManager.getInstance().setFlashParams(paramsOn);
-		currentFlashValue = true;
+		if (!CameraManager.getInstance().hasCurrentCameraFlash()) {
+			currentFlashValue = false;
+			CameraManager.getInstance().destroyStage();
+		} else {
+			CameraManager.getInstance().setFlashParams(paramsOn);
+			currentFlashValue = true;
+		}
 	}
 
 	public static void flashOff() {

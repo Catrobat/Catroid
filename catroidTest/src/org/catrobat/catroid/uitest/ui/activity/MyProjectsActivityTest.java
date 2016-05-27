@@ -66,9 +66,7 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,7 +75,6 @@ import java.util.Locale;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";
 	private static final int IMAGE_RESOURCE_1 = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
 	private static final int IMAGE_RESOURCE_2 = org.catrobat.catroid.test.R.drawable.background_white;
 	private static final int IMAGE_RESOURCE_3 = org.catrobat.catroid.test.R.drawable.background_black;
@@ -158,7 +155,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
-				PackageManager.GET_ACTIVITIES);
+				PackageManager.GET_META_DATA);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
@@ -224,48 +221,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			imageFile = new File(currentLookData.getAbsolutePath());
 			assertFalse("Imagefile should be deleted", imageFile.exists());
 		}
-	}
-
-	public void testInvalidProject() {
-		//unzip = true;
-		//saveProjectsToZip();
-		try {
-			DefaultProjectHandler.createAndSaveDefaultProject(getActivity());
-		} catch (IOException e) {
-			Log.e(TAG, "Standard Project not created", e);
-			fail("Standard Project not created");
-		}
-		UiTestUtils.createTestProject();
-		solo.sleep(600);
-
-		String myProjectsText = solo.getString(R.string.main_menu_programs);
-		assertTrue("Main-Menu not shown in 5 secs!", solo.waitForText(myProjectsText, 0, 5000));
-		solo.clickOnButton(myProjectsText);
-
-		String defaultProjectName = solo.getString(R.string.default_project_name);
-		assertTrue("Program name not shown in 5 secs!", solo.waitForText(defaultProjectName, 0, 5000));
-		UiTestUtils.clickOnTextInList(solo, defaultProjectName);
-
-		String backgroundName = solo.getString(R.string.default_project_background_name);
-
-		assertTrue("Program does not open within 5 secs!", solo.waitForText(backgroundName));
-
-		UiTestUtils.addNewSprite(solo, "testSprite", lookFile, null);
-		solo.goBack();
-
-		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		solo.sleep(200);
-		assertTrue("No error message was shown", solo.searchText(solo.getString(R.string.error_load_project)));
-
-		solo.clickOnButton(0);
-		solo.goBack();
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
 	@Device
@@ -846,7 +801,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
 		assertFalse("terms of use is visible", solo.waitForText(solo.getString(R.string.main_menu_terms_of_use), 1, 1000, false));
 		assertFalse("about pocket-code is visible", solo.waitForText(solo.getString(R.string.main_menu_about_pocketcode), 1, 1000, false));
-
 	}
 
 	public void testConfirmDeleteProgramDialogTitleChange() {
@@ -2098,20 +2052,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			}
 		}
 		return pixel;
-	}
-
-	private void corruptProjectXML(String projectName) {
-		String projectPath = Utils.buildPath(Constants.DEFAULT_ROOT, projectName, Constants.PROJECTCODE_NAME);
-		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(projectPath);
-			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-			outputStreamWriter.write(INVALID_PROJECT_MODIFIER);
-			outputStreamWriter.flush();
-			outputStreamWriter.close();
-		} catch (IOException e) {
-			Log.e(TAG, e.toString());
-			fail("corrupting project failed due to IOException");
-		}
 	}
 
 	private void createProjects() {
