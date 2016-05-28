@@ -221,12 +221,14 @@ public final class ServerCalls {
 			JSONArray remixes = jsonObject.getJSONArray("remixes");
 			for (int i = 0; i < remixes.length(); ++i) {
 				JSONObject remixJson = remixes.getJSONObject(i);
+				long remixId = remixJson.getLong("id");
 				String remixTitle = remixJson.getString("title");
 				String remixOwner = remixJson.getString("owner");
 				String imageUrl = remixJson.getString("image"); // TODO: replace 144x108 by...
 				imageUrl = imageUrl.replace("200x200", "150x150");
 				WebImage webImage = new WebImage(Uri.parse(imageUrl), 150, 150);
-				projectData.addRemixProject(new ScratchProjectData.ScratchRemixProjectData(remixTitle, remixOwner, webImage));
+				projectData.addRemixProject(new ScratchProjectData.ScratchRemixProjectData(remixId, remixTitle,
+						remixOwner, webImage));
 			}
 			return projectData;
 		} catch (InterruptedIOException exception) {

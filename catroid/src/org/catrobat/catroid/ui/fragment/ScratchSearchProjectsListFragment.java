@@ -363,8 +363,8 @@ public class ScratchSearchProjectsListFragment extends Fragment
     public void onProjectEdit(int position) {
         Intent intent = new Intent(getActivity(), ScratchProjectDetailsActivity.class);
         intent.putExtra(Constants.SCRATCH_PROJECT_DATA, (Parcelable) scratchProjectAdapter.getItem(position));
-
         getActivity().startActivity(intent);
+        // searchResultsListView.setSelectionAfterHeaderView(); // scroll to top...
     }
 
     public void startConvertActionMode() {
@@ -449,7 +449,8 @@ public class ScratchSearchProjectsListFragment extends Fragment
         searchView.setVisibility(View.VISIBLE);
         audioButton.setVisibility(View.VISIBLE);
         int marginTop = getActivity().getResources().getDimensionPixelSize(R.dimen.scratch_project_search_list_view_margin_top);
-        setSearchResultsListViewMargin(0, marginTop, 0, 0);
+        int marginBottom = getActivity().getResources().getDimensionPixelSize(R.dimen.scratch_project_search_list_view_margin_bottom);
+        setSearchResultsListViewMargin(0, marginTop, 0, marginBottom);
     }
 
     private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {

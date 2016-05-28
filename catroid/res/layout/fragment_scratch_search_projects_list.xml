@@ -72,6 +72,7 @@
     android:layout_centerHorizontal="true"
     android:layout_below="@+id/mic_button_image_scratch"
     android:layout_marginTop="@dimen/scratch_project_search_list_view_margin_top"
+    android:layout_marginBottom="@dimen/scratch_project_search_list_view_margin_bottom"
     android:dividerHeight="1dp"
     android:divider="@color/transparent" />
 

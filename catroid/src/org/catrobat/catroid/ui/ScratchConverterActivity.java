@@ -92,6 +92,7 @@ public class ScratchConverterActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		/*
 		AsyncHttpClient.getDefaultInstance().websocket("ws://scratch2.catrob.at/convertersocket", null, new
 				WebSocketConnectCallback() {
 			@Override
@@ -131,6 +132,7 @@ public class ScratchConverterActivity extends BaseActivity {
 						Log.d(TAG, s);
 					}
 				});
+		*/
 				/*
 				webSocket.setDataCallback(new DataCallback() {
 					public void onDataAvailable(DataEmitter emitter, ByteBufferList byteBufferList) {
@@ -146,8 +148,8 @@ public class ScratchConverterActivity extends BaseActivity {
 					}
 				});
 				*/
-			}
-		});
+		/*	}
+		}); */
 	}
 
 	private void setUpActionBar() {

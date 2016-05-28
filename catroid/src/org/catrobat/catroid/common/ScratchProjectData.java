@@ -34,8 +34,34 @@ public class ScratchProjectData implements Serializable {
     public static class ScratchRemixProjectData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        public ScratchRemixProjectData(String title, String owner, WebImage projectImage) {
+        private long id;
 
+        private String title;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getOwner() {
+            return owner;
+        }
+
+        public WebImage getProjectImage() {
+            return projectImage;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        private String owner;
+        private WebImage projectImage;
+
+        public ScratchRemixProjectData(long id, String title, String owner, WebImage projectImage) {
+            this.id = id;
+            this.title = title;
+            this.owner = owner;
+            this.projectImage = projectImage;
         }
     }
 

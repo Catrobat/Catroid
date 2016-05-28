@@ -24,13 +24,19 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.common.base.Preconditions;
@@ -38,27 +44,36 @@ import com.google.common.base.Preconditions;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProjectData;
+import org.catrobat.catroid.common.ScratchProjectData.ScratchRemixProjectData;
 import org.catrobat.catroid.common.ScratchProjectPreviewData;
 import org.catrobat.catroid.transfers.FetchScratchProjectDetailsTask;
+import org.catrobat.catroid.ui.adapter.ScratchRemixedProjectAdapter;
 import org.catrobat.catroid.utils.ExpiringDiskCache;
 import org.catrobat.catroid.utils.ExpiringLruMemoryImageCache;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.WebImageLoader;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import uk.co.deanwild.flowtextview.FlowTextView;
 
 import static android.view.View.*;
 
 public class ScratchProjectDetailsActivity extends BaseActivity
-        implements FetchScratchProjectDetailsTask.ScratchProjectListTaskDelegate {
+        implements FetchScratchProjectDetailsTask.ScratchProjectListTaskDelegate,
+        ScratchRemixedProjectAdapter.OnScratchRemixedProjectEditListener {
 
     private static final String TAG = ScratchProjectDetailsActivity.class.getSimpleName();
+    private int imageWidth;
+    private int imageHeight;
 
     private TextView titleTextView;
     private TextView ownerTextView;
     private ImageView imageView;
-    private TextView instructionsTextView;
+    private FlowTextView instructionsFlowTextView;
     private TextView notesAndCreditsLabelView;
     private TextView notesAndCreditsTextView;
     private TextView favoritesTextView;
@@ -69,15 +84,16 @@ public class ScratchProjectDetailsActivity extends BaseActivity
     private TextView modifiedTextView;
     private Button convertButton;
     private WebImageLoader webImageLoader;
+    private ListView remixedProjectsListView;
     private ProgressDialog progressDialog;
     private FetchScratchProjectDetailsTask currentTask = null;
+    private ScratchRemixedProjectAdapter scratchRemixedProjectAdapter;
+    private ScrollView mainScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scratch_project_details);
-
-        ScratchProjectPreviewData scratchProjectData = getIntent().getParcelableExtra(Constants.SCRATCH_PROJECT_DATA);
 
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         webImageLoader = new WebImageLoader(
@@ -86,11 +102,15 @@ public class ScratchProjectDetailsActivity extends BaseActivity
                 executorService
         );
 
-        Log.i(TAG, scratchProjectData.getTitle());
+        imageWidth = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_width);
+        imageHeight = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_height);
         titleTextView = (TextView) findViewById(R.id.scratch_project_title);
         ownerTextView = (TextView) findViewById(R.id.scratch_project_owner);
+        mainScrollView = (ScrollView) findViewById(R.id.scratch_project_scroll_view);
         imageView = (ImageView) findViewById(R.id.scratch_project_image_view);
-        instructionsTextView = (TextView) findViewById(R.id.scratch_project_instructions_text);
+        imageView.getLayoutParams().width = imageWidth;
+        imageView.getLayoutParams().height = imageHeight;
+        instructionsFlowTextView = (FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text);
         notesAndCreditsLabelView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_label);
         notesAndCreditsTextView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_text);
         favoritesTextView = (TextView) findViewById(R.id.scratch_project_favorites_text);
@@ -99,18 +119,25 @@ public class ScratchProjectDetailsActivity extends BaseActivity
         tagsTextView = (TextView) findViewById(R.id.scratch_project_tags_text);
         sharedTextView = (TextView) findViewById(R.id.scratch_project_shared_text);
         modifiedTextView = (TextView) findViewById(R.id.scratch_project_modified_text);
+        remixedProjectsListView = (ListView) findViewById(R.id.scratch_project_remixes_list_view);
         convertButton = (Button) findViewById(R.id.scratch_project_convert_button);
 
-        instructionsTextView.setText("-");
-        notesAndCreditsLabelView.setVisibility(INVISIBLE);
-        notesAndCreditsTextView.setVisibility(INVISIBLE);
-        tagsTextView.setVisibility(INVISIBLE);
+        ScratchProjectPreviewData scratchProjectData = getIntent().getParcelableExtra(Constants.SCRATCH_PROJECT_DATA);
+        loadData(scratchProjectData);
+    }
 
-        int width = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_width);
-        int height = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_height);
+    private void loadData(ScratchProjectPreviewData scratchProjectData) {
+        Log.i(TAG, scratchProjectData.getTitle());
+        instructionsFlowTextView.setText("-");
+        notesAndCreditsLabelView.setVisibility(GONE);
+        notesAndCreditsTextView.setVisibility(GONE);
+        tagsTextView.setVisibility(GONE);
 
         // TODO: use LRU cache!
-        // TODO: show remixes! button and show in separate activity???
+
+        if (scratchRemixedProjectAdapter != null) {
+            scratchRemixedProjectAdapter.clear();
+        }
 
         if (scratchProjectData != null) {
             titleTextView.setText(scratchProjectData.getTitle());
@@ -118,7 +145,7 @@ public class ScratchProjectDetailsActivity extends BaseActivity
             if (scratchProjectData.getProjectImage() != null) {
                 webImageLoader.fetchAndShowImage(
                         scratchProjectData.getProjectImage().getUrl().toString(),
-                        imageView, width, height
+                        imageView, imageWidth, imageHeight
                 );
             }
         }
@@ -137,6 +164,31 @@ public class ScratchProjectDetailsActivity extends BaseActivity
         if (currentTask != null) {
             currentTask.cancel(true);
         }
+    }
+
+    private void initRemixAdapter(List<ScratchRemixProjectData> scratchRemixedProjectsData) {
+        if (scratchRemixedProjectsData == null) {
+            scratchRemixedProjectsData = new ArrayList<>();
+        }
+        scratchRemixedProjectAdapter = new ScratchRemixedProjectAdapter(this,
+                R.layout.fragment_scratch_project_list_item,
+                R.id.scratch_projects_list_item_title,
+                scratchRemixedProjectsData);
+        remixedProjectsListView.setAdapter(scratchRemixedProjectAdapter);
+        scratchRemixedProjectAdapter.setOnScratchRemixedProjectEditListener(this);
+        setListViewHeightBasedOnItems(remixedProjectsListView);
+    }
+
+    public void onProjectEdit(int position) {
+        // TODO: improve this
+        Log.d(TAG, "Clicked on remix at position: " + position);
+        ScratchRemixProjectData scratchRemixProjectData = scratchRemixedProjectAdapter.getItem(position);
+        Log.d(TAG, "" + scratchRemixProjectData.getId());
+        ScratchProjectPreviewData scratchProjectPreviewData = new ScratchProjectPreviewData(
+                scratchRemixProjectData.getId(),
+                scratchRemixProjectData.getTitle(), null, null);
+        scratchProjectPreviewData.setProjectImage(scratchRemixProjectData.getProjectImage());
+        loadData(scratchProjectPreviewData);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -179,14 +231,22 @@ public class ScratchProjectDetailsActivity extends BaseActivity
 
                 activity.titleTextView.setText(projectData.getTitle());
                 activity.ownerTextView.setText(activity.getString(R.string.by) + " " + projectData.getOwner());
-                final String instructionsText = projectData.getInstructions().replace("\n\n", "\n");
+                String temp = projectData.getInstructions().replace("\n\n", "\n");
+                final String instructionsText = (temp.length() > 0) ? temp : "-";
                 final String notesAndCredits = projectData.getNotesAndCredits().replace("\n\n", "\n");
-                activity.instructionsTextView.setText((instructionsText.length() > 0) ? instructionsText : "-");
+
                 if (notesAndCredits.length() > 0) {
                     activity.notesAndCreditsTextView.setText(notesAndCredits);
                     activity.notesAndCreditsLabelView.setVisibility(VISIBLE);
                     activity.notesAndCreditsTextView.setVisibility(VISIBLE);
                 }
+                activity.instructionsFlowTextView.setText(instructionsText);
+
+                float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, activity.getResources()
+                        .getDisplayMetrics());
+                activity.instructionsFlowTextView.setTextSize(textSize);
+                activity.instructionsFlowTextView.setTextColor(Color.LTGRAY);
+
                 activity.favoritesTextView.setText(shortNumber(projectData.getFavorites()));
                 activity.lovesTextView.setText(shortNumber(projectData.getLoves()));
                 activity.viewsTextView.setText(shortNumber(projectData.getViews()));
@@ -204,9 +264,13 @@ public class ScratchProjectDetailsActivity extends BaseActivity
                 Log.d(TAG, projectData.getSharedDate());
                 activity.sharedTextView.setText(activity.getString(R.string.shared) + ": " + projectData.getSharedDate());
                 activity.modifiedTextView.setText(activity.getString(R.string.modified) + ": " + projectData.getModifiedDate());
+                activity.initRemixAdapter(projectData.getRemixes());
+                activity.mainScrollView.fullScroll(ScrollView.FOCUS_UP); // scroll to top
             }
         });
     }
+
+
 
     // TODO: improve and move this helper method to Util class
     private static String shortNumber(final int number) {
@@ -219,6 +283,34 @@ public class ScratchProjectDetailsActivity extends BaseActivity
             return Integer.toString(number/1_000) + "k";
         }
         return Integer.toString(number/1_000_000) + "M";
+    }
+
+    // TODO: move this helper method to Util class
+    public static boolean setListViewHeightBasedOnItems(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+            int numberOfItems = listAdapter.getCount();
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
