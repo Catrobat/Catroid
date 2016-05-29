@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
@@ -376,6 +377,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				}
 			}
 
+			if (!draggedBrick.isCommentedOut()) {
+				enableCorrespondingScriptBrick(to);
+			}
+
 			if (draggedBrick instanceof UserBrick) {
 				((UserBrick) draggedBrick).updateUserBrickParametersAndVariables();
 			}
@@ -390,6 +395,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				} else {
 					moveExistingProjectBrick(fromBeginDrag, toEndDrag);
 				}
+			}
+
+			if (!draggedBrick.isCommentedOut()) {
+				enableCorrespondingScriptBrick(toEndDrag);
 			}
 		}
 
@@ -770,7 +779,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
 			if (script != null) {
 
-				Brick brick = script.getBrick(temp[1]);
+				BrickBaseType brick = (BrickBaseType) script.getBrick(temp[1]);
 				if (brick instanceof NestingBrick) {
 					for (NestingBrick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 						script.removeBrick((Brick) tempBrick);
@@ -784,7 +793,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			}
 		} else {
 
-			Brick brick = script.getBrick(getPositionInUserScript(index));
+			BrickBaseType brick = (BrickBaseType) script.getBrick(getPositionInUserScript(index));
 			if (brick instanceof NestingBrick) {
 				for (NestingBrick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 					script.removeBrick((Brick) tempBrick);
@@ -853,6 +862,13 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			if (draggedBrick == null) {
 				scriptBrickView.setOnClickListener(this);
 			}
+
+			if (((BrickBaseType) item).isCommentedOut()) {
+				((BrickBaseType) item).setCommentedOutAppearance();
+			} else {
+				((BrickBaseType) item).doPadding();
+			}
+
 			return scriptBrickView;
 		}
 
@@ -872,6 +888,12 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			} else {
 				currentBrickView = ((Brick) item).getView(context, position, this);
 			}
+		}
+
+		if (((BrickBaseType) item).isCommentedOut()) {
+			((BrickBaseType) item).setCommentedOutAppearance();
+		} else {
+			((BrickBaseType) item).doPadding();
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
@@ -1022,6 +1044,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (brickHasAFormula(brickList.get(itemPosition))) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
 		}
+		if (brickList.get(itemPosition).isCommentedOut()) {
+			items.add(context.getText(R.string.brick_context_dialog_comment_in));
+		} else {
+			items.add(context.getText(R.string.brick_context_dialog_comment_out));
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -1074,6 +1101,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					}
 					List<String> backPackedScriptGroups = BackPackListManager.getInstance().getAllBackPackedScriptGroups();
 					showNewGroupBackPackDialog(backPackedScriptGroups, false);
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_in))) {
+					setCommentOutStatus(brickList.get(itemPosition), false);
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_out))) {
+					setCommentOutStatus(brickList.get(itemPosition), true);
 				}
 			}
 		});
@@ -1084,11 +1115,83 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
+	private void setCommentOutStatus(Brick brick, boolean commentOut) {
+		int indexBegin, indexEnd;
+
+		if (brick instanceof NestingBrick) {
+			NestingBrick nestingBrick = (NestingBrick) brick;
+			List<NestingBrick> nestingList = nestingBrick.getAllNestingBrickParts(true);
+
+			indexBegin = brickList.indexOf(nestingList.get(0));
+			indexEnd = brickList.indexOf(nestingList.get(nestingList.size() - 1));
+		} else if (brick instanceof ScriptBrick) {
+			brick.setCommentedOut(commentOut);
+			indexBegin = brickList.indexOf(brick);
+			indexEnd = indexBegin;
+		} else {
+			indexBegin = brickList.indexOf(brick);
+			indexEnd = indexBegin;
+		}
+
+		for (int i = indexBegin; i <= indexEnd; i++) {
+			brickList.get(i).setCommentedOut(commentOut);
+		}
+
+		for (int i = indexBegin; i <= indexEnd; i++) {
+			((BrickBaseType) brickList.get(i)).setCommentedOutAppearance();
+		}
+
+		// if script gets commented in, the corresponding script brick must be commented in as well
+		if (!commentOut) {
+			enableCorrespondingScriptBrick(indexBegin);
+		}
+
+		if (!(brick instanceof ScriptBrick)) {
+			for (int i = indexBegin - 1; i >= 0; i--) {
+				BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
+				if (currentBrick.isCommentedOut() != commentOut) {
+					currentBrick.setCommentedOutAppearance();
+					break;
+				}
+				currentBrick.setCommentedOutAppearance();
+				if (currentBrick instanceof ScriptBrick) {
+					break;
+				}
+			}
+		}
+
+		for (int i = indexEnd + 1; i < brickList.size(); i++) {
+			BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
+			if (currentBrick.isCommentedOut() != commentOut || currentBrick instanceof ScriptBrick) {
+				break;
+			}
+		}
+		for (int i = indexEnd + 1; i < brickList.size(); i++) {
+			BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
+			currentBrick.setCommentedOutAppearance();
+			if (currentBrick.isCommentedOut() != commentOut || currentBrick instanceof ScriptBrick) {
+				break;
+			}
+		}
+	}
+
+	void enableCorrespondingScriptBrick(int indexBegin) {
+		for (int i = indexBegin; i >= 0; i--) {
+			Brick currentBrick = brickList.get(i);
+			if (currentBrick instanceof ScriptBrick) {
+				currentBrick.setCommentedOut(false);
+				((BrickBaseType) currentBrick).setCommentedOutAppearance();
+				break;
+			}
+		}
+	}
+
 	protected void copyBrickListAndProject(int itemPosition) {
 		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
 		Brick copy;
 		try {
 			copy = origin.clone();
+			copy.setCommentedOut(origin.isCommentedOut());
 			addNewBrick(itemPosition, copy, true);
 			notifyDataSetChanged();
 		} catch (CloneNotSupportedException exception) {
