@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -846,6 +847,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (draggedBrick == null) {
 				scriptBrickView.setOnClickListener(this);
 			}
+
+			if (((Brick) item).isCommentedOut()) {
+				BrickBaseType.grayOutBrickView(scriptBrickView);
+			}
+
 			return scriptBrickView;
 		}
 
@@ -865,6 +871,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			} else {
 				currentBrickView = ((Brick) item).getView(context, position, this);
 			}
+		}
+
+		if (((Brick) item).isCommentedOut()) {
+			BrickBaseType.grayOutBrickView(currentBrickView);
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
@@ -1015,6 +1025,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (brickHasAFormula(brickList.get(itemPosition))) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
 		}
+		if (brickList.get(itemPosition).isCommentedOut()) {
+			items.add(context.getText(R.string.brick_context_dialog_comment_in));
+		} else {
+			items.add(context.getText(R.string.brick_context_dialog_comment_out));
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -1066,6 +1081,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						currentPosition++;
 					}
 					showNewGroupBackPackDialog();
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_in))) {
+					setCommentOutStatus(brickList.get(itemPosition), false);
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_out))) {
+					setCommentOutStatus(brickList.get(itemPosition), true);
 				}
 			}
 		});
@@ -1074,6 +1093,42 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();
 		}
+	}
+
+	private void setCommentOutStatus(Brick brick, boolean isCommentedOut) {
+		if (brick instanceof NestingBrick) {
+			NestingBrick nestingBrick = (NestingBrick) brick;
+			List<NestingBrick> nestingList = nestingBrick.getAllNestingBrickParts(true);
+
+			int indexBegin = brickList.indexOf(nestingList.get(0));
+			int indexEnd = brickList.indexOf(nestingList.get(nestingList.size() - 1));
+
+			for (int i = indexBegin; i <= indexEnd; i++) {
+				if (isCommentedOut) {
+					brickList.get(i).commentOut();
+				} else {
+					brickList.get(i).commentIn();
+				}
+			}
+		} else if (brick instanceof ScriptBrick) {
+			((ScriptBrick) brick).getScriptSafe().setScriptCommentedOutStatus(isCommentedOut);
+		}
+
+		if (isCommentedOut) {
+			brick.commentOut();
+		} else {
+			brick.commentIn();
+
+			int indexBegin = brickList.indexOf(brick);
+			for (int i = indexBegin; i >= 0; i--) {
+				Brick currentBrick = brickList.get(i);
+				if (currentBrick instanceof ScriptBrick) {
+					currentBrick.commentIn();
+					break;
+				}
+			}
+		}
+
 	}
 
 	protected void copyBrickListAndProject(int itemPosition) {

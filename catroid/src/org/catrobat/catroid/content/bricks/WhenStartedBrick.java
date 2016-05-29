@@ -43,6 +43,10 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	public WhenStartedBrick(Script script) {
 		this.script = script;
+
+		if (script != null && script.isCommentedOut()) {
+			commentOut();
+		}
 	}
 
 	public WhenStartedBrick() {

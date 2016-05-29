@@ -23,6 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -46,6 +50,70 @@ public abstract class BrickBaseType implements Brick {
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
+
+	protected boolean commentedOut;
+
+	@Override
+	public boolean isCommentedOut() {
+		return commentedOut;
+	}
+
+	@Override
+	public void commentOut() {
+		this.commentedOut = true;
+
+		BrickBaseType.grayOutBrickView(view);
+	}
+
+	@Override
+	public void commentIn() {
+		this.commentedOut = false;
+
+		if (view == null || !(view instanceof ViewGroup)) {
+			return;
+		}
+		ViewGroup viewGroup = (ViewGroup) view;
+
+		for (int index = 0; index < viewGroup.getChildCount(); index++) {
+			View child = viewGroup.getChildAt(index);
+
+			if (child instanceof BrickLayout) {
+				Drawable background = child.getBackground();
+				if (background != null) {
+					background.clearColorFilter();
+					background.setAlpha(255);
+				}
+			}
+		}
+	}
+
+	public static void grayOutBrickView(View brickView) {
+		if (!(brickView instanceof ViewGroup))
+			return;
+
+		ViewGroup viewGroup = (ViewGroup) brickView;
+
+		for (int index = 0; index < viewGroup.getChildCount(); index++) {
+			View child = viewGroup.getChildAt(index);
+
+			if (child instanceof BrickLayout) {
+				Drawable background = child.getBackground();
+
+				if (background == null) {
+					return;
+				}
+
+				ColorMatrix matrix = new ColorMatrix();
+				matrix.setSaturation(0);
+
+				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+
+				background.setColorFilter(filter);
+				background.setAlpha(200);
+			}
+		}
+
+	}
 
 	@Override
 	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {

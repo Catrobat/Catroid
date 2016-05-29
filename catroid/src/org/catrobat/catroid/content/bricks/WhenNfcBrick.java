@@ -80,6 +80,10 @@ public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTag
 		this.oldSelectedNfcTag = null;
 		this.nfcTag = script.getNfcTag();
 		this.whenNfcScript = script;
+
+		if (script != null && script.isCommentedOut()) {
+			commentOut();
+		}
 	}
 
 	@Override

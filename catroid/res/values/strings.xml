@@ -358,6 +358,8 @@
     <string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
+    <string name="brick_context_dialog_comment_in">Enable Brick</string>
+    <string name="brick_context_dialog_comment_out">Disable Brick</string>
     <!--  -->
 
 
