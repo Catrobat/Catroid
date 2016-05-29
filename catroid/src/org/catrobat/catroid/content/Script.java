@@ -48,6 +48,8 @@ public abstract class Script implements Serializable {
 
 	protected transient ScriptBrick brick;
 
+	protected boolean commentedOut = false;
+
 	private transient volatile boolean paused;
 
 	public Script() {
@@ -59,8 +61,12 @@ public abstract class Script implements Serializable {
 
 	public void doCopy(Sprite copySprite, Script cloneScript) {
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
+		cloneScript.commentedOut = commentedOut;
 		for (Brick brick : getBrickList()) {
 			Brick copiedBrick = brick.copyBrickForSprite(copySprite);
+			if (!(copiedBrick instanceof ScriptBrick)) {
+				copiedBrick.setCommentedOut(brick.isCommentedOut());
+			}
 
 			if (copiedBrick instanceof IfLogicEndBrick) {
 				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
@@ -85,9 +91,16 @@ public abstract class Script implements Serializable {
 	}
 
 	public void run(Sprite sprite, SequenceAction sequence) {
-		ArrayList<SequenceAction> sequenceList = new ArrayList<>();
+		if (this.isCommentedOut()) {
+			return;
+		}
+
+		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
+			if (brickList.get(i).isCommentedOut()) {
+				continue;
+			}
 			List<SequenceAction> actions = brickList.get(i).addActionToSequence(sprite,
 					sequenceList.get(sequenceList.size() - 1));
 			if (actions != null) {
@@ -161,7 +174,9 @@ public abstract class Script implements Serializable {
 		int resources = Brick.NO_RESOURCES;
 
 		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
+			if (!brick.isCommentedOut()) {
+				resources |= brick.getRequiredResources();
+			}
 		}
 		return resources;
 	}
@@ -239,5 +254,25 @@ public abstract class Script implements Serializable {
 
 		copiedLoopBeginBrick.setLoopEndBrick(copiedBrick);
 		copiedBrick.setLoopBeginBrick(copiedLoopBeginBrick);
+	}
+
+	public boolean isCommentedOut() {
+		return commentedOut;
+	}
+
+	public void setCommentedOut(boolean commentedOut) {
+		this.commentedOut = commentedOut;
+		if (commentedOut) {
+			for (Brick brick : brickList) {
+				brick.setCommentedOut(commentedOut);
+			}
+		}
+	}
+
+	public void setAllCommentedOut(boolean commentedOut) {
+		this.commentedOut = commentedOut;
+		for (Brick brick : brickList) {
+			brick.setCommentedOut(commentedOut);
+		}
 	}
 }

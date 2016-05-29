@@ -489,4 +489,10 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 			}
 		}
 	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
+	}
 }

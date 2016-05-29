@@ -78,6 +78,7 @@ public final class BackPackScriptController {
 				Script scriptToAdd = ((ScriptBrick) currentBrick).getScriptSafe().copyScriptForSprite(
 						ProjectManager.getInstance().getCurrentSprite());
 				ProjectManager.getInstance().checkCurrentScript(scriptToAdd, false);
+				scriptToAdd.setCommentedOut(original.isCommentedOut());
 				for (Brick brickOfScript : scriptToAdd.getBrickList()) {
 					brickOfScript.storeDataForBackPack(spriteToBackpack);
 				}

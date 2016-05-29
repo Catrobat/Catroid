@@ -570,7 +570,9 @@ public class Sprite implements Serializable, Cloneable {
 		int resources = Brick.NO_RESOURCES;
 
 		for (Script script : scriptList) {
-			resources |= script.getRequiredResources();
+			if (!script.isCommentedOut()) {
+				resources |= script.getRequiredResources();
+			}
 		}
 
 		for (LookData lookData : getLookDataList()) {
