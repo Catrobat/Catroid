@@ -49,7 +49,7 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
-		camera = CameraManager.getInstance().getCamera();
+		camera = CameraManager.getInstance().getCurrentCamera();
 	}
 
 	@Override

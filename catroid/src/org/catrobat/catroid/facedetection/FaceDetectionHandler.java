@@ -145,7 +145,7 @@ public final class FaceDetectionHandler {
 				CameraManager.getInstance().startCamera();
 			}
 
-			Camera camera = CameraManager.getInstance().getCamera();
+			Camera camera = CameraManager.getInstance().getCurrentCamera();
 			possibleFaces = getMaxNumberOfFaces(camera);
 
 			if (!cameraReady) {

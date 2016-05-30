@@ -67,8 +67,8 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		int width = bitmap.getHeight();
 
 		Matrix rotateAndInvertX = new Matrix();
-		int rotationAngle = CameraManager.getInstance().getOrientation();
-		boolean invertX = CameraManager.getInstance().isFacingBack();
+		int rotationAngle = 0;
+		boolean invertX = CameraManager.getInstance().isCurrentCameraFacingBack();
 		rotateAndInvertX.postRotate(rotationAngle);
 		rotateAndInvertX.postScale(invertX ? -1 : 1, 1);
 		Bitmap portraitBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
