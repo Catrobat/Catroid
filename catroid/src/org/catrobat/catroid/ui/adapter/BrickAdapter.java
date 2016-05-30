@@ -851,6 +851,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (((Brick) item).isCommentedOut()) {
 				BrickBaseType.grayOutBrickView(scriptBrickView);
 			}
+			((BrickBaseType) item).doPadding();
 
 			return scriptBrickView;
 		}
@@ -872,6 +873,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				currentBrickView = ((Brick) item).getView(context, position, this);
 			}
 		}
+
+		((BrickBaseType) item).doPadding();
 
 		if (((Brick) item).isCommentedOut()) {
 			BrickBaseType.grayOutBrickView(currentBrickView);
@@ -1127,6 +1130,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					break;
 				}
 			}
+		}
+
+		for (Brick current : brickList) {
+			((BrickBaseType) current).doPadding();
 		}
 
 	}

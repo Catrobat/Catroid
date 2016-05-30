@@ -115,6 +115,21 @@ public abstract class BrickBaseType implements Brick {
 
 	}
 
+	public void doPadding() {
+		if (adapter == null || view == null) {
+			return;
+		}
+
+		int next = adapter.getBrickList().indexOf(this) + 1;
+		boolean hasNext = next < adapter.getBrickList().size();
+
+		if (hasNext && (this.isCommentedOut() != adapter.getBrickList().get(next).isCommentedOut())) {
+			view.setPadding(isCommentedOut() ? 50 : 0, 0, 0, 50);
+		} else {
+			view.setPadding(isCommentedOut() ? 50 : 0, 0, 0, 0);
+		}
+	}
+
 	@Override
 	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
 		if (this.getClass().equals(brick.getClass())) {
