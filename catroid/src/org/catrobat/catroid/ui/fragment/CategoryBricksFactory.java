@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -39,6 +38,7 @@ import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
@@ -95,6 +95,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -135,8 +136,6 @@ import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-//import org.catrobat.catroid.content.bricks.DroneSetAltitudeBrick;
 
 public class CategoryBricksFactory {
 
@@ -282,9 +281,8 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
 			motionBrickList.add(new ComeToFrontBrick());
 		}
-		if (BuildConfig.FEATURE_VIBRATION_BRICK_ENABLED) {
-			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
-		}
+
+		motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 
 		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
 		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
@@ -345,10 +343,10 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
+		looksBrickList.add(new SetColorBrick(BrickValues.SET_COLOR_TO));
+		looksBrickList.add(new ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
-		if (BuildConfig.FEATURE_FLASH_BRICK_ENABLED) {
-			looksBrickList.add(new FlashBrick());
-		}
+		looksBrickList.add(new FlashBrick());
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));

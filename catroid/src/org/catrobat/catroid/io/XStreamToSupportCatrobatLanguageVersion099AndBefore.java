@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
@@ -98,6 +99,7 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
@@ -148,14 +150,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion099AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion098AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion099AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion098AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion099AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -190,6 +192,10 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		brickInfo = new BrickInfo(ChangeBrightnessByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("changeBrightness", BrickField.BRIGHTNESS_CHANGE);
 		brickInfoMap.put("changeBrightnessByNBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ChangeColorByNBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("changeColor", BrickField.COLOR_CHANGE);
+		brickInfoMap.put("changeColorByNBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ChangeTransparencyByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("changeTransparency", BrickField.TRANSPARENCY_CHANGE);
@@ -364,6 +370,10 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		brickInfo = new BrickInfo(SetBrightnessBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("brightness", BrickField.BRIGHTNESS);
 		brickInfoMap.put("setBrightnessBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetColorBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("color", BrickField.COLOR);
+		brickInfoMap.put("setColorBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetTransparencyBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);

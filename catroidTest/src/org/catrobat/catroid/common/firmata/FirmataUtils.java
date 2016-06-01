@@ -39,10 +39,6 @@ public final class FirmataUtils {
 
 	private final ConnectionDataLogger logger;
 
-	public static final int ANALOG_MESSAGE_SIZE = 3;
-	public static final int SET_PIN_MODE_MESSAGE_SIZE = 3;
-	public static final int REPORT_ANALOG_PIN_MESSAGE_SIZE = 2;
-
 	public FirmataUtils(ConnectionDataLogger logger) {
 
 		this.logger = logger;

@@ -47,6 +47,7 @@
   <string name="error">غلطي</string>
   <string name="please_wait">مهرباني ڪري ترسو</string>
   <string name="loading">لوڊ ٿي رهيو آهي&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -75,6 +76,7 @@
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
+  <string name="degrees">degrees</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">نئون</string>
   <string name="main_menu_continue">جاري رکو</string>
@@ -158,6 +160,8 @@
   <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
   <string name="select_all">Select all</string>
   <string name="deselect_all">Deselect all</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Copy</string>
   <!-- Script activity -->
@@ -169,8 +173,7 @@
   <string name="size">Size:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
   <string name="dialog_confirm_delete_brick_title">Delete this Brick?</string>
@@ -207,6 +210,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
   <string name="lookname">Look name:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
   <string name="rename_sound_dialog">Rename Sound</string>
@@ -224,6 +229,8 @@
   <string name="sound_name">Sound name:</string>
   <string name="new_sound_name">Sound name:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
   <string name="rename_nfctag_dialog">Rename nfctag</string>
@@ -418,6 +425,23 @@
   <string name="brick_point_to">Point towards</string>
   <string name="brick_glide">Glide</string>
   <string name="brick_glide_to_x">to X:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kilogram</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Switch to look</string>
   <string name="brick_set_background">Set background</string>
@@ -429,6 +453,8 @@
   <string name="brick_change_ghost_effect">"Change transparency "</string>
   <string name="brick_set_brightness">"Set brightness "</string>
   <string name="brick_change_brightness">"Change brightness "</string>
+  <string name="brick_set_color">"Set color "</string>
+  <string name="brick_change_color">"Change color "</string>
   <string name="by_label">by</string>
   <string name="to_label">to</string>
   <string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -454,6 +480,8 @@
     <item quantity="one">"second "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">When I receive</string>
   <string name="brick_broadcast">Broadcast</string>
   <string name="brick_broadcast_wait">Broadcast and wait</string>
@@ -469,6 +497,7 @@
   <string name="brick_if_begin_second_part">is true then</string>
   <string name="brick_if_else">Else</string>
   <string name="brick_if_end">End If</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Set variable</string>
   <string name="brick_change_variable">Change variable</string>
   <string name="brick_variable_spinner_create_new_variable">New&#8230;</string>
@@ -527,15 +556,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 °/s</string>
-  <string name="drone_set_rotation_indoor">100 °/s</string>
-  <string name="drone_set_rotation_outdoor">200 °/s</string>
-  <string name="drone_set_rotation_max">350 °/s</string>
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 °</string>
-  <string name="drone_set_tilt_indoor">12 °</string>
-  <string name="drone_set_tilt_outdoor">20 ° </string>
-  <string name="drone_set_tilt_max">30 °</string>
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Please enter a value</string>
   <string name="notification_screenshot_ok">Preview image saved</string>
@@ -586,6 +615,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">An error occurred while loading the sound.</string>
   <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">The program is not compatible with this version of Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">The Pocket Code version is outdated. Update now?</string>
   <string name="error_copy_project">An error occurred while copying the program.</string>
@@ -767,6 +797,7 @@
   <string name="formula_editor_function_log">log</string>
   <string name="formula_editor_function_log_parameter">(0)</string>
   <string name="formula_editor_function_pi">pi</string>
+  <string name="formula_editor_object_color">color</string>
   <string name="formula_editor_function_sqrt">sqrt</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
   <string name="formula_editor_function_rand">random</string>
@@ -842,6 +873,9 @@
   <string name="formula_editor_object_size">size</string>
   <string name="formula_editor_object_rotation">direction</string>
   <string name="formula_editor_object_layer">layer</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Compute</string>
   <string name="formula_editor_object">Object</string>
   <string name="formula_editor_math">Functions</string>
@@ -930,6 +964,12 @@
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. \"</string>
+  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. "</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>

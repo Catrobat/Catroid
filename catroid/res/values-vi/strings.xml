@@ -47,6 +47,7 @@
   <string name="error">Lỗi</string>
   <string name="please_wait">Vui lòng chờ</string>
   <string name="loading">Đang tải&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -75,6 +76,7 @@
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
+  <string name="degrees">degrees</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Mới</string>
   <string name="main_menu_continue">Tiếp tục</string>
@@ -156,6 +158,8 @@
   <string name="dialog_confirm_delete_object_message">Điều này không thể thực hiện!</string>
   <string name="select_all">Chọn tất cả</string>
   <string name="deselect_all">Deselect all</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Sao chép</string>
   <!-- Script activity -->
@@ -167,8 +171,7 @@
   <string name="size">Kích cỡ:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Bấm vào \"+\" để thêm kịch bản</string>
   <string name="dialog_confirm_delete_brick_title">Xóa gạch này?</string>
@@ -202,6 +205,8 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Điều này không thể thực hiện!</string>
   <string name="lookname">tên giao diện:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Bấm vào \"+\" để thêm âm thanh</string>
   <string name="rename_sound_dialog">Đổi tên âm thanh</string>
@@ -219,6 +224,8 @@
   <string name="sound_name">tên tệp âm thanh:</string>
   <string name="new_sound_name">Tên tệp âm thanh:</string>
   <string name="rename_sound_overwrite">Âm thanh với cùng tên đã tồn tại!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
   <string name="rename_nfctag_dialog">Rename nfctag</string>
@@ -406,6 +413,23 @@
   <string name="brick_point_to">Điểm hướng tới</string>
   <string name="brick_glide">Lướt</string>
   <string name="brick_glide_to_x">để X:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kilogram</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">Chuyển sang xem xét</string>
   <string name="brick_set_background">Thiết lập nền</string>
@@ -417,6 +441,8 @@
   <string name="brick_change_ghost_effect">"Thay đổi độ trong suốt "</string>
   <string name="brick_set_brightness">"Thiết lập độ sáng "</string>
   <string name="brick_change_brightness">"Thay đổi độ sáng "</string>
+  <string name="brick_set_color">"Set color "</string>
+  <string name="brick_change_color">"Change color "</string>
   <string name="by_label">bởi</string>
   <string name="to_label">đến</string>
   <string name="brick_clear_graphic_effect">Hiệu ứng đồ họa rõ ràng</string>
@@ -441,6 +467,8 @@
   <plurals name="second_plural">
     <item quantity="other">"giây "</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">Khi tôi nhận được</string>
   <string name="brick_broadcast">Phát sóng</string>
   <string name="brick_broadcast_wait">Phát sóng và đợi</string>
@@ -455,6 +483,7 @@
   <string name="brick_if_begin_second_part">đúng thì</string>
   <string name="brick_if_else">Nếu không</string>
   <string name="brick_if_end">Kết thúc nếu</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Đặt biến</string>
   <string name="brick_change_variable">Thay đổi biến</string>
   <string name="brick_variable_spinner_create_new_variable">Mới&#8230;</string>
@@ -513,15 +542,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 °/s</string>
-  <string name="drone_set_rotation_indoor">100 °/s</string>
-  <string name="drone_set_rotation_outdoor">200 °/s</string>
-  <string name="drone_set_rotation_max">350 °/s</string>
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 °</string>
-  <string name="drone_set_tilt_indoor">12 °</string>
-  <string name="drone_set_tilt_outdoor">20 ° </string>
-  <string name="drone_set_tilt_max">30 °</string>
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Vui lòng nhập một giá trị</string>
   <string name="notification_screenshot_ok">Xem trước hình ảnh được lưu</string>
@@ -572,6 +601,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Lỗi xuất hiện khi tải âm thanh.</string>
   <string name="error_internet_connection">Lỗi đã xảy ra. Kiểm tra kết nối Internet của bạn.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">Chương trình không tương thích với phiên bản của Pocket Code.</string>
   <string name="error_outdated_pocketcode_version">Phiên bản Pocket Code quá cũ. Cập nhật bây giờ?</string>
   <string name="error_copy_project">Một lỗi xảy ra trong khi sao chép chương trình.</string>
@@ -752,6 +782,7 @@
   <string name="formula_editor_function_log">log</string>
   <string name="formula_editor_function_log_parameter">(0)</string>
   <string name="formula_editor_function_pi">pi</string>
+  <string name="formula_editor_object_color">color</string>
   <string name="formula_editor_function_sqrt">sqrt</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
   <string name="formula_editor_function_rand">ngẫu nhiên</string>
@@ -827,6 +858,9 @@
   <string name="formula_editor_object_size">kích thước</string>
   <string name="formula_editor_object_rotation">hướng</string>
   <string name="formula_editor_object_layer">lớp</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Tính toán</string>
   <string name="formula_editor_object">Đối tượng</string>
   <string name="formula_editor_math">Chức năng</string>
@@ -914,6 +948,12 @@
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. \"</string>
+  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. "</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>

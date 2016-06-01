@@ -35,17 +35,5 @@
         android:id="@+id/menu_about"
         android:showAsAction="withText"
         android:title="@string/main_menu_about_pocketcode" />
-    <item
-        android:id="@+id/settings"
-        android:showAsAction="never"
-        android:title="@string/settings" />
-    <item
-        android:id="@+id/menu_logout"
-        android:showAsAction="never"
-        android:title="@string/main_menu_logout"/>
-    <item
-        android:id="@+id/menu_login"
-        android:showAsAction="never"
-        android:title="@string/main_menu_login"/>
 
 </menu>

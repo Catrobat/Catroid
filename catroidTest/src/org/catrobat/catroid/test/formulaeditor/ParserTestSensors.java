@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.graphics.Point;
-import android.hardware.SensorEvent;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -86,8 +85,14 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		SensorHandler.registerListener(null);
 		SensorHandler.unregisterListener(null);
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		assertEquals("SensorHandler not initialized value error", 0d,
-				SensorHandler.getSensorValue(Sensors.X_ACCELERATION));
+
+		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+			assertEquals("SensorHandler not initialized value error", 0d,
+					Math.abs(SensorHandler.getSensorValue(Sensors.Y_ACCELERATION)));
+		} else {
+			assertEquals("SensorHandler not initialized value error", 0d,
+					Math.abs(SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
+		}
 	}
 
 	public void testSensorHandlerWithLookSensorValue() {
@@ -149,14 +154,23 @@ public class ParserTestSensors extends InstrumentationTestCase {
 				"Unexpected sensor value for face size (= width of the face (range: 0 to 100, where at 100 the face fills half the width of the cameras view)",
 				expectedFaceSize, interpretFormula(formula7), delta);
 
-		assertEquals(
-				"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
-				expectedFaceXPosition, interpretFormula(formula9), delta);
+		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+			assertEquals(
+					"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
+					expectedFaceXPosition, interpretFormula(formula9), delta);
 
-		assertEquals(
-				"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
-				expectedFaceYPosition, interpretFormula(formula8), delta);
+			assertEquals(
+					"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
+					expectedFaceYPosition, -interpretFormula(formula8), delta);
+		} else {
+			assertEquals(
+					"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
+					expectedFaceXPosition, interpretFormula(formula8), delta);
 
+			assertEquals(
+					"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
+					expectedFaceYPosition, interpretFormula(formula9), delta);
+		}
 		SensorHandler.stopSensorListeners();
 	}
 
@@ -171,26 +185,6 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		assertEquals("LoudnessSensor dit not start recording, isRecording()", true, simulatedSoundRecorder.isRecording());
 		SensorHandler.stopSensorListeners();
 		assertEquals("LoudnessSensor did not stop recording, isRecording()", false, simulatedSoundRecorder.isRecording());
-	}
-
-	private boolean checkValidRotationValues(SensorEvent sensorEvent) {
-		float[] rotationMatrix = new float[16];
-		float[] rotationVector = new float[3];
-		float[] orientations = new float[3];
-
-		rotationVector[0] = sensorEvent.values[0];
-		rotationVector[1] = sensorEvent.values[1];
-		rotationVector[2] = sensorEvent.values[2];
-
-		android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
-		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
-
-		for (float orientation : orientations) {
-			if (Float.compare(orientation, Float.NaN) == 0) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor) {

@@ -47,6 +47,7 @@
   <string name="error">خطأ</string>
   <string name="please_wait">من فضلك إنتظر</string>
   <string name="loading">تحميل&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -57,13 +58,13 @@
   <string name="loading_facebook_login">Facebook login is completed on our server&#8230;</string>
   <string name="loading_google_exchange_code">Google+ code is exchanged on our server&#8230;</string>
   <string name="loading_google_login">Google+ login is completed on our server&#8230;</string>
-  <string name="background">خلفية</string>
+  <string name="background">خلفية الشاشة</string>
   <string name="stage">المرحلة</string>
   <string name="ok">موافق</string>
   <string name="settings">إعدادات</string>
   <string name="redo">الإعادة</string>
   <string name="undo">التراجع عن</string>
-  <string name="name_exists">Name already exists</string>
+  <string name="name_exists">الاسم موجود بالفعل</string>
   <string name="no_name">No name</string>
   <string name="is_empty">is empty</string>
   <string name="new_group">New group</string>
@@ -75,6 +76,7 @@
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
+  <string name="degrees">degrees</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">جديد</string>
   <string name="main_menu_continue">متابعة</string>
@@ -139,20 +141,22 @@
   <string name="project_name">البرنامج:</string>
   <string name="my_projects_activity_title">البرامج</string>
   <string name="number_of_scripts">النص:</string>
-  <string name="number_of_bricks">الطوب:</string>
-  <string name="number_of_looks">المشاهد:</string>
+  <string name="number_of_bricks">اللّبنات:</string>
+  <string name="number_of_looks">المشهد:</string>
   <string name="number_of_sounds">الأصوات:</string>
   <string name="show_details">إظهار التفاصيل</string>
   <string name="hide_details">إخفاء التفاصيل</string>
   <string name="insert_below">إدراج أدناه</string>
   <string name="sprite">كائن</string>
-  <string name="sprites">كائنات</string>
+  <string name="sprites">الكائنات</string>
   <string name="spritelist_background_headline">خلفية</string>
-  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
+  <string name="dialog_confirm_delete_object_title">هل تريد حذف هذا الكائن؟</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">هل تريد حذف هذه الكائنات؟</string>
   <string name="dialog_confirm_delete_object_message">لا يمكن التراجع عن هذا!</string>
   <string name="select_all">حدد كافة</string>
-  <string name="deselect_all">Deselect all</string>
+  <string name="deselect_all">إلغاء تحديد الكل</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_نسخ</string>
   <!-- Script activity -->
@@ -164,13 +168,12 @@
   <string name="size">الحجم:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one
-        !</string>
+  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة البرامج النصية</string>
   <string name="dialog_confirm_delete_brick_title">هل تريد حذف هذا الطوب؟</string>
   <string name="dialog_confirm_delete_script_title">هل تريد حذف هذا النص؟</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">هل تريد حذف هذا الطوب؟</string>
+  <string name="dialog_confirm_delete_multiple_bricks_title">هل تريد حذف هذه اللّبنة؟</string>
   <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
   <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">لا يمكن التراجع عن هذا!</string>
@@ -210,10 +213,12 @@
   <string name="select_look_from_gallery">قم بإختيارالصورة</string>
   <string name="select_look_from_camera">قم بتحديد الصورة</string>
   <string name="look_measure">القياس:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
+  <string name="dialog_confirm_delete_look_title">هل تريد حذف هذا المشهد؟</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">هل تريد حذف هذه المشاهد؟</string>
   <string name="dialog_confirm_delete_look_message">لا يمكن التراجع عن هذا!</string>
   <string name="lookname">اسم المشهد:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
   <string name="rename_sound_dialog">إعادة تسمية الصوت</string>
@@ -231,6 +236,8 @@
   <string name="sound_name">اسم الصوت:</string>
   <string name="new_sound_name">اسم الصوت:</string>
   <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
   <!-- NfcTags fragment -->
   <string name="fragment_nfctag_text_description">Scan tags to add</string>
   <string name="rename_nfctag_dialog">Rename nfctag</string>
@@ -270,7 +277,7 @@
     <item quantity="other">Scripts</item>
   </plurals>
   <!-- My Projects activity -->
-  <string name="last_used">أخر وصول :</string>
+  <string name="last_used">تاريخ آخر وصول:</string>
   <string name="description">الوصف:</string>
   <string name="set_description">وصف مجموعة</string>
   <string name="rename_project">إعادة تسمية البرنامج</string>
@@ -323,14 +330,14 @@
   <string name="add_look_draw_new_image">رسم صورة </string>
   <string name="add_look_choose_image">اختر الصورة</string>
   <string name="add_look_media_library">Media Library</string>
-  <string name="new_look_name">Look Name:</string>
+  <string name="new_look_name">اسم المشهد:</string>
   <string name="look_rename_overwrite">Look with this name already exists. Please choose a different one
         !</string>
   <string name="add_look_drone_video">Drone Video</string>
   <!-- New Sound dialog -->
-  <string name="new_sound_dialog_title">Add Sound</string>
+  <string name="new_sound_dialog_title">إضافة صوت</string>
   <string name="add_sound_from_recorder">Record Sound</string>
-  <string name="add_sound_choose_file">Select File</string>
+  <string name="add_sound_choose_file">اختيار ملف</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">برنامج جديد</string>
   <string name="new_project_dialog_hint">البرنامج الخاص بي</string>
@@ -339,7 +346,7 @@
   <string name="new_project_empty">إنشاء برنامج فارغ</string>
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
-  <string name="project_orientation_title">Orientation:</string>
+  <string name="project_orientation_title">الإتجاه:</string>
   <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">الكائن الخاص بي</string>
   <string name="new_sprite_dialog_title">كائن جديد</string>
@@ -349,13 +356,13 @@
   <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">اسم الكائن:</string>
   <!-- Sign In dialogs -->
-  <string name="sign_in_dialog_title">Sign In</string>
+  <string name="sign_in_dialog_title">تسجيل الدخول</string>
   <string name="username">اسم المستخدم:</string>
   <string name="password">كلمة المرور:</string>
   <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">إنشاء حساب جديد</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">Invalid login</string>
+  <string name="register_error">تسجيل الدخول غير صحيح</string>
   <string name="register_terms">بالتسجيل، يمكنك الموافقة على موقعنا</string>
   <string name="register_pocketcode_terms_of_use_text">شروط الاستخدام</string>
   <string name="login">تسجيل الدخول</string>
@@ -378,12 +385,12 @@
   <!-- OverwriteRenameMediaDialog -->
   <string name="overwrite_replace_look">Replace existing Look</string>
   <string name="overwrite_rename_look">Rename downloaded Look</string>
-  <string name="overwrite_replace_sound">Replace existing Sound</string>
+  <string name="overwrite_replace_sound">قم باستبدال ملف الصوت الموجود</string>
   <string name="overwrite_rename_sound">Rename downloaded Sound</string>
   <string name="overwrite_replace_default">Replace existing media</string>
   <string name="overwrite_rename_default">Rename existing media</string>
   <!-- Stage menu dialog -->
-  <string name="stage_dialog_back">الى الخلف</string>
+  <string name="stage_dialog_back">الخلفية</string>
   <string name="stage_dialog_resume">استمرار</string>
   <string name="stage_dialog_restart">اعادة تشغيل</string>
   <string name="stage_dialog_axes_on">المحاور في</string>
@@ -403,7 +410,7 @@
   <string name="category_looks">المشاهد</string>
   <string name="category_sound">الصوت</string>
   <string name="category_control">التحكم</string>
-  <string name="category_user_bricks">الطوبة الخاصة بي</string>
+  <string name="category_user_bricks">اللّبنة الخاصة بي</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">ليغو NXT</string>
   <string name="category_drone">أردروني</string>
@@ -444,6 +451,23 @@
   <string name="brick_point_to">أشر باتجاه</string>
   <string name="brick_glide">إنزلق خلال</string>
   <string name="brick_glide_to_x">إلى س:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kilogram</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
   <!-- Looks bricks -->
   <string name="brick_set_look">إنتقل الى المشهد</string>
   <string name="brick_set_background">تعيين خلفية</string>
@@ -455,14 +479,16 @@
   <string name="brick_change_ghost_effect">"تغيير الشفافية"</string>
   <string name="brick_set_brightness">"ضبط السطوع "</string>
   <string name="brick_change_brightness">"تغيير السطوع "</string>
+  <string name="brick_set_color">"Set color "</string>
+  <string name="brick_change_color">"تغيير اللون "</string>
   <string name="by_label">إلى</string>
   <string name="to_label">إلى</string>
   <string name="brick_clear_graphic_effect">مسح التأثيرات الرسومية</string>
   <string name="brick_next_look">المشهد التالي</string>
   <string name="brick_next_background">الخلفية التالية</string>
   <string name="brick_flash">Turn flashlight</string>
-  <string name="brick_flash_on">on</string>
-  <string name="brick_flash_off">off</string>
+  <string name="brick_flash_on">تعمل</string>
+  <string name="brick_flash_off">لا تعمل</string>
   <string name="brick_vibration">يهتز لـفترة</string>
   <!-- Sound bricks -->
   <string name="brick_play_sound">بدء تشغيل الصوت</string>
@@ -474,24 +500,26 @@
   <!-- Control bricks -->
   <string name="brick_when_started">عند بدء تشغيل البرنامج</string>
   <string name="brick_when">عند النقر</string>
-  <string name="brick_wait">انتظر</string>
+  <string name="brick_wait">انتظار</string>
   <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
-    <item quantity="zero">"ثوان "</item>
-    <item quantity="one">"second "</item>
+    <item quantity="zero">"ثانية "</item>
+    <item quantity="one">"ثانية "</item>
     <item quantity="two">"seconds "</item>
     <item quantity="few">"seconds "</item>
     <item quantity="many">"seconds "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">عندما أستقبل</string>
   <string name="brick_broadcast">بث رسالة</string>
   <string name="brick_broadcast_wait">البث والانتظار</string>
   <string name="brick_note">ملاحظة</string>
-  <string name="brick_forever">إلى الأبد</string>
+  <string name="brick_forever">تكرار لا نهائي</string>
   <string name="brick_repeat">تكرار</string>
   <plurals name="time_plural">
-    <item quantity="zero">وقت</item>
+    <item quantity="zero">مرات</item>
     <item quantity="one">time</item>
     <item quantity="two">times</item>
     <item quantity="few">times</item>
@@ -503,16 +531,17 @@
   <string name="brick_if_begin_second_part">صحيحاً ثم</string>
   <string name="brick_if_else">غير ذلك</string>
   <string name="brick_if_end">إنهاء إذا</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">قم بتعيين متغير</string>
   <string name="brick_change_variable">تغيير متغير</string>
   <string name="brick_variable_spinner_create_new_variable">جديد&#8230;</string>
   <string name="brick_note_default_value">"أضف تعليق هنا…"</string>
   <string name="brick_broadcast_default_value">"رسالة 1"</string>
-  <string name="brick_add_item_to_userlist_add">Add</string>
+  <string name="brick_add_item_to_userlist_add">إضافة</string>
   <string name="brick_add_item_to_userlist">to list</string>
-  <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
+  <string name="brick_delete_item_from_userlist_delete">حذف عنصر من قائمة</string>
   <string name="brick_delete_item_from_userlist">at position</string>
-  <string name="brick_insert_item_into_userlist_insert_into">Insert</string>
+  <string name="brick_insert_item_into_userlist_insert_into">إدراج</string>
   <string name="brick_insert_item_into_userlist_into_list">into list</string>
   <string name="brick_insert_item_into_userlist_at_position">at position</string>
   <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
@@ -520,7 +549,7 @@
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <!-- defaultValues -->
   <string name="default_project_name">برنامجي الأول</string>
-  <string name="default_project_background_name">خلفية</string>
+  <string name="default_project_background_name">خلفية الشاشة</string>
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
   <string name="default_project_cloud_sprite_name_2">Clouds2</string>
@@ -539,7 +568,7 @@
   <string name="default_drone_project_sprites_left">اليسار</string>
   <string name="default_drone_project_sprites_right">اليمين</string>
   <string name="default_drone_project_sprites_forward">الأمام</string>
-  <string name="default_drone_project_sprites_back">الى الخلف</string>
+  <string name="default_drone_project_sprites_back">الخلفية</string>
   <string name="default_drone_project_sprites_turn_left">إتجه إلى اليسار</string>
   <string name="default_drone_project_sprites_turn_right">إتجه إلى اليمين</string>
   <string name="default_drone_project_sprites_emergency">Emergency</string>
@@ -561,15 +590,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 °/s</string>
-  <string name="drone_set_rotation_indoor">100 °/s</string>
-  <string name="drone_set_rotation_outdoor">200 °/s</string>
-  <string name="drone_set_rotation_max">350 °/s</string>
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 °</string>
-  <string name="drone_set_tilt_indoor">12 °</string>
-  <string name="drone_set_tilt_outdoor">20 ° </string>
-  <string name="drone_set_tilt_max">30 °</string>
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">الرجاء إدخال قيمة</string>
   <string name="notification_screenshot_ok">تم حفظ لقطة شاشة </string>
@@ -620,6 +649,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">حدث خطأ أثناء تحميل الصوت.</string>
   <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">البرنامج غير متوافق مع هذا الإصدار من \"النص البرمجي لجهاز الجيب\".</string>
   <string name="error_outdated_pocketcode_version">إصدار \"النص البرمجي لجهاز الجيب\" قديم جداً. قم بالتحديث الآن؟</string>
   <string name="error_copy_project">حدث خطأ أثناء نسخ البرنامج.</string>
@@ -668,7 +698,7 @@
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">إلى</string>
-  <string name="nxt_motor_speed">speed</string>
+  <string name="nxt_motor_speed">السرعة</string>
   <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
   <string name="nxt_motor_move_by">إلى</string>
   <string name="nxt_motor_stop">Stop NXT motor</string>
@@ -800,6 +830,7 @@
   <string name="formula_editor_function_log">log</string>
   <string name="formula_editor_function_log_parameter">(0)</string>
   <string name="formula_editor_function_pi">pi</string>
+  <string name="formula_editor_object_color">color</string>
   <string name="formula_editor_function_sqrt">الجذر التربيعي</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
   <string name="formula_editor_function_rand">عشوائي</string>
@@ -875,6 +906,9 @@
   <string name="formula_editor_object_size">الحجم</string>
   <string name="formula_editor_object_rotation">الاتجاه</string>
   <string name="formula_editor_object_layer">طبقة</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">حساب</string>
   <string name="formula_editor_object">كائن</string>
   <string name="formula_editor_math">Functions</string>
@@ -945,7 +979,7 @@
   <string name="new_user_brick_variable">متغير 1</string>
   <string name="recursive_user_brick_forbidden">إضافة طوبة مستخدم الى طوبة مستخدم غير مسموح به حتى الآن!</string>
   <string name="brick_single">طوبة</string>
-  <string name="brick_multiple">الطوب</string>
+  <string name="brick_multiple">اللّبنات</string>
   <!-- Merge strings -->
   <string name="merge_button">Merge with</string>
   <string name="name_merge_result">Enter name for result</string>
@@ -962,11 +996,17 @@
     name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
   <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
-  <string name="video_brick_camera_on">on</string>
-  <string name="video_brick_camera_off">off</string>
+  <string name="video_brick_camera_on">تعمل</string>
+  <string name="video_brick_camera_off">لا تعمل</string>
   <string name="brick_choose_camera">Use camera</string>
-  <string name="choose_camera_front">front</string>
-  <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"The flash can be used with the back camera only. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. \"</string>
+  <string name="choose_camera_front">الأمامية</string>
+  <string name="choose_camera_back">الخلفية</string>
+  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. "</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
 </resources>

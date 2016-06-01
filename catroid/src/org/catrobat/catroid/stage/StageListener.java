@@ -34,8 +34,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -155,7 +153,6 @@ public class StageListener implements ApplicationListener {
 	public boolean axesOn = false;
 
 	private byte[] thumbnail;
-	private LookData whiteBackground = null;
 
 	StageListener() {
 	}
@@ -186,7 +183,7 @@ public class StageListener implements ApplicationListener {
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
-			sprite.look.createBrightnessContrastShader();
+			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -211,8 +208,6 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
-
-		whiteBackground = createWhiteBackgroundLookData();
 	}
 
 	void menuResume() {
@@ -300,7 +295,11 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-		Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
+		if (CameraManager.getInstance().getState() == CameraManager.CameraState.previewRunning) {
+			Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
+		} else {
+			Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
+		}
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (reloadProject) {
 			int spriteSize = sprites.size();
@@ -312,15 +311,12 @@ public class StageListener implements ApplicationListener {
 
 			physicsWorld = project.resetPhysicsWorld();
 
-			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(whiteBackground);
-			}
-
 			Sprite sprite;
+
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
-				sprite.look.createBrightnessContrastShader();
+				sprite.look.createBrightnessContrastHueShader();
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -339,9 +335,6 @@ public class StageListener implements ApplicationListener {
 		if (firstStart) {
 			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 			int spriteSize = sprites.size();
-			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(whiteBackground);
-			}
 
 			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
@@ -397,8 +390,6 @@ public class StageListener implements ApplicationListener {
 
 		if (!finished) {
 			stage.draw();
-
-			updateCameraEvents();
 		}
 
 		if (makeAutomaticScreenshot) {
@@ -436,23 +427,6 @@ public class StageListener implements ApplicationListener {
 		if (makeTestPixels) {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
-		}
-	}
-
-	private void updateCameraEvents() {
-		if (CameraManager.getInstance().isUpdateBackgroundToTransparent()) {
-			//Set the transparency of the Background to 100% if there was no background image specified or 50% if so
-			if (sprites.get(0).look.getLookData().equals(whiteBackground)) {
-				sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(99f);
-			} else {
-				sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(50f);
-			}
-			CameraManager.getInstance().setUpdateBackgroundToTransparent(false);
-		}
-
-		if (CameraManager.getInstance().isUpdateBackgroundToNotTransparent()) {
-			sprites.get(0).look.setTransparencyInUserInterfaceDimensionUnit(0f);
-			CameraManager.getInstance().setUpdateBackgroundToNotTransparent(false);
 		}
 	}
 
@@ -678,18 +652,6 @@ public class StageListener implements ApplicationListener {
 		viewPort.update(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, false);
 		camera.position.set(0, 0, 0);
 		camera.update();
-	}
-
-	private LookData createWhiteBackgroundLookData() {
-		LookData whiteBackground = new LookData();
-		Pixmap whiteBackgroundPixmap = new Pixmap((int) virtualWidth, (int) virtualHeight, Format.RGBA8888);
-		whiteBackgroundPixmap.setColor(1, 1, 1, 1);
-		whiteBackgroundPixmap.fill();
-		whiteBackground.setPixmap(whiteBackgroundPixmap);
-		whiteBackground.setTextureRegion();
-		whiteBackground.setLookName("white");
-		whiteBackground.setLookFilename("0123456789abcdefghijklmnopqrstuvwxyz");
-		return whiteBackground;
 	}
 
 	private void disposeTextures() {
