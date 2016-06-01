@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class PhysicsCollision implements ContactListener {
 
-	public static final String COLLISION_MESSAGE_ESCAPE_CHAR = "\0";
+	public static final String COLLISION_MESSAGE_ESCAPE_CHAR = "\t";
 	public static final String COLLISION_MESSAGE_CONNECTOR = "<" + COLLISION_MESSAGE_ESCAPE_CHAR
 			+ "-" + COLLISION_MESSAGE_ESCAPE_CHAR + ">";
 	public static final String COLLISION_WITH_ANYTHING_IDENTIFIER = COLLISION_MESSAGE_ESCAPE_CHAR
