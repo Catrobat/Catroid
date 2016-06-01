@@ -134,7 +134,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP
+				if (event.getAction() == MotionEvent.ACTION_DOWN
 						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(DeleteItemOfUserListBrick.this);
@@ -152,6 +152,9 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(DeleteItemOfUserListBrick.this);
+					int spinnerPos = ((UserListAdapterWrapper) parent.getAdapter())
+							.getPositionOfItem(userList);
+					dialog.setUserVariableIfCancel(spinnerPos);
 					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
