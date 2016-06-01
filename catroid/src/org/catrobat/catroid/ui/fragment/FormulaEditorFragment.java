@@ -88,7 +88,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private Context context;
 	private FormulaEditorEditText formulaEditorEditText;
 	private PercentRelativeLayout formulaEditorKeyboard;
-	private ImageButton formulaEditorFieldDeleteButton;
 	private LinearLayout formulaEditorBrick;
 	private View brickView;
 	private View fragmentView;
@@ -269,8 +268,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
 
-		formulaEditorFieldDeleteButton = (ImageButton) fragmentView.findViewById(R.id.formula_editor_edit_field_clear);
-
 		context = getActivity();
 
 		brickView = getBrickOrCustomView();
@@ -297,11 +294,9 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	private void handleCustomView() {
 		if (showCustomView) {
-			formulaEditorFieldDeleteButton.setVisibility(View.GONE);
 			formulaEditorEditText.setVisibility(View.GONE);
 			formulaEditorKeyboard.setVisibility(View.GONE);
 		} else {
-			formulaEditorFieldDeleteButton.setVisibility(View.VISIBLE);
 			formulaEditorEditText.setVisibility(View.VISIBLE);
 			formulaEditorKeyboard.setVisibility(View.VISIBLE);
 		}
@@ -318,7 +313,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	@Override
 	public void onStart() {
 		formulaEditorKeyboard.setClickable(true);
-		formulaEditorFieldDeleteButton.setClickable(true);
 
 		getView().requestFocus();
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
@@ -397,7 +391,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		for (int index = 0; index < formulaEditorKeyboard.getChildCount(); index++) {
 			formulaEditorKeyboard.getChildAt(index).setOnTouchListener(touchListener);
 		}
-		formulaEditorFieldDeleteButton.setOnTouchListener(touchListener);
 
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 
@@ -719,16 +712,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
 		getActivity().invalidateOptionsMenu();
 
-		ImageButton backspaceEditText = (ImageButton) getActivity().findViewById(R.id.formula_editor_edit_field_clear);
 		ImageButton backspaceOnKeyboard = (ImageButton) getActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
-			backspaceEditText.setImageResource(R.drawable.icon_backspace_disabled);
-			backspaceEditText.setEnabled(false);
 			backspaceOnKeyboard.setAlpha(255 / 3);
 			backspaceOnKeyboard.setEnabled(false);
 		} else {
-			backspaceEditText.setImageResource(R.drawable.icon_backspace);
-			backspaceEditText.setEnabled(true);
 			backspaceOnKeyboard.setAlpha(255);
 			backspaceOnKeyboard.setEnabled(true);
 		}
