@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
@@ -72,6 +73,25 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
+
+		for (Brick brick : ProjectManager.getInstance().getCurrentSprite().getAllBricks()) {
+			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() == null) {
+				if (brick instanceof SetVariableBrick) {
+					Spinner spinner = (Spinner) ((SetVariableBrick) brick).view.findViewById(R.id.set_variable_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				} else if (brick instanceof ShowTextBrick) {
+					Spinner spinner = (Spinner) ((ShowTextBrick) brick).view.findViewById(R.id.show_text_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				} else if (brick instanceof HideTextBrick) {
+					Spinner spinner = (Spinner) ((HideTextBrick) brick).view.findViewById(R.id.hide_text_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				} else if (brick instanceof ChangeVariableBrick) {
+					Spinner spinner = (Spinner) ((ChangeVariableBrick) brick).view.findViewById(R.id
+							.change_variable_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				}
+			}
+		}
 	}
 
 	public void setInUserBrick(boolean inUserBrick) {
