@@ -125,6 +125,7 @@ import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -147,6 +148,7 @@ import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
@@ -194,8 +196,9 @@ public final class UiTestUtils {
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
-	public static final String TEST_USER_BRICK_NAME = "New Brick 1";
-	public static final String TEST_USER_BRICK_VARIABLE = "Variable 1";
+	public static final String TEST_USER_BRICK_NAME = "New Brick 0";
+	public static final String SECOND_TEST_USER_BRICK_NAME = "New Brick 1";
+	public static final String TEST_USER_BRICK_VARIABLE = "Variable 0";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2 = "../*T?E\"S/T:%22T<E>S?T\\T\\E|S%äö|üß";
 	public static final String JUST_SPECIAL_CHAR_PROJECT_NAME = "*\"/:<>?\\|";
@@ -704,6 +707,9 @@ public final class UiTestUtils {
 		if (categoryStringId == R.string.category_user_bricks) {
 			solo.sleep(300);
 			clickOnBottomBar(solo, R.id.button_add);
+			solo.waitForDialogToOpen();
+			solo.clickOnText(solo.getCurrentActivity().getString(R.string.ok));
+			solo.waitForDialogToClose();
 		}
 		solo.sleep(600);
 		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName, false);
@@ -757,30 +763,6 @@ public final class UiTestUtils {
 				.getString(R.string.brick_context_dialog_show_source);
 		solo.waitForText(stringOnShowSourceButton);
 		solo.clickOnText(stringOnShowSourceButton);
-
-		boolean addBrickShowedUp = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 2000);
-		if (!addBrickShowedUp) {
-			fail("addBrickFragment should have showed up");
-		}
-
-		solo.sleep(1000);
-
-//		if (brickName.equals(UiTestUtils.TEST_USER_BRICK_NAME)) {
-//			clickOnBottomBar(solo, R.id.button_add);
-//		}
-		boolean clicked = UiTestUtils.clickOnBrickInAddBrickFragment(solo, brickName, false);
-		if (!clicked) {
-			fail("was unable to click on " + brickName + "!");
-		}
-
-		String stringOnEditButton = solo.getCurrentActivity().getString(R.string.brick_context_dialog_edit_brick);
-
-		boolean editButtonShowedUp = solo.waitForText(stringOnEditButton, 0, 3000);
-		if (!editButtonShowedUp) {
-			fail(stringOnEditButton + " should have showed up");
-		}
-
-		solo.clickOnText(stringOnEditButton);
 
 		boolean activityShowedUp = solo.waitForActivity(UserBrickScriptActivity.class, 3000);
 		if (!activityShowedUp) {
@@ -1029,6 +1011,7 @@ public final class UiTestUtils {
 
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
+		Sprite secondSprite = new Sprite("second_sprite");
 
 		Script testScript = new StartScript();
 
@@ -1036,7 +1019,7 @@ public final class UiTestUtils {
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 		brickList.add(new HideBrick());
 		brickList.add(new ShowBrick());
 		brickList.add(new SetSizeToBrick(size));
@@ -1050,7 +1033,7 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		UserBrick firstUserBrick = new UserBrick(0);
+		UserBrick firstUserBrick = new UserBrick();
 		firstSprite.addUserBrick(firstUserBrick);
 		firstUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME);
 		firstUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE);
@@ -1059,6 +1042,8 @@ public final class UiTestUtils {
 		testScript.addBrick(firstUserBrick);
 
 		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		firstUserBrick.updateUserBrickParametersAndVariables();
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		StorageHandler.getInstance().saveProject(project);
@@ -1076,13 +1061,13 @@ public final class UiTestUtils {
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
-		UserBrick firstUserBrick = new UserBrick(0);
+		UserBrick firstUserBrick = new UserBrick(new UserScriptDefinitionBrick());
 		firstUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME + "2");
 		firstUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE + "2");
 		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
 		firstSprite.addUserBrick(firstUserBrick);
 
-		UserBrick secondUserBrick = new UserBrick(1);
+		UserBrick secondUserBrick = new UserBrick(new UserScriptDefinitionBrick());
 		secondUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME);
 		secondUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE);
 		secondUserBrick.appendBrickToScript(firstUserBrick);
@@ -1748,7 +1733,7 @@ public final class UiTestUtils {
 	 * with a given index
 	 */
 	public static ArrayList<Integer> getListItemYPositions(final Solo solo, int listViewIndex) {
-		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
+		ArrayList<Integer> yPositionList = new ArrayList<>();
 		if (!solo.waitForView(ListView.class, 0, 10000, false)) {
 			fail("ListView not shown in 10 secs!");
 		}
@@ -2019,9 +2004,13 @@ public final class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
+		return getListView(solo, 0);
+	}
+
+	public static ListView getListView(Solo solo, int index) {
 		ArrayList<ListView> listOfListViews = solo.getCurrentViews(ListView.class);
 		assertTrue("no ListView found!", listOfListViews.size() > 0);
-		return listOfListViews.get(0);
+		return listOfListViews.get(index);
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
@@ -2415,6 +2404,7 @@ public final class UiTestUtils {
 		solo.sleep(100);
 		solo.waitForText(solo.getString(R.string.unpack));
 		solo.clickOnText(solo.getString(R.string.unpack));
+		solo.waitForDialogToClose();
 		solo.sleep(500);
 	}
 
@@ -2452,6 +2442,7 @@ public final class UiTestUtils {
 		BackPackListManager.getInstance().clearBackPackSounds();
 		BackPackListManager.getInstance().clearBackPackScripts();
 		BackPackListManager.getInstance().clearBackPackSprites();
+		BackPackListManager.getInstance().clearBackPackUserBricks();
 		if (deleteBackPackDirectories) {
 			clearBackPackJson();
 			StorageHandler.getInstance().clearBackPackLookDirectory();
@@ -2508,5 +2499,12 @@ public final class UiTestUtils {
 		((AddItemToUserListBrick) bricks.get(5)).setUserList(projectUserList);
 		((SetVariableBrick) bricks.get(6)).setUserVariable(spriteUserVariable);
 		((ChangeVariableBrick) bricks.get(7)).setUserVariable(projectUserVariable);
+	}
+
+	public static void getIntoUserBrickOverView(Solo solo) {
+		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
+		solo.waitForActivity(UserBrickScriptActivity.class);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
 	}
 }

@@ -148,7 +148,6 @@ import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
@@ -402,7 +401,6 @@ public final class StorageHandler {
 		xstream.alias("brick", RaspiIfLogicBeginBrick.class);
 		xstream.alias("brick", RaspiPwmBrick.class);
 
-		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
 
@@ -790,7 +788,12 @@ public final class StorageHandler {
 		if (selectedSoundInfo == null) {
 			return null;
 		}
-		String inputFilePath = selectedSoundInfo.getAbsolutePath();
+		String inputFilePath;
+		if (copyFromBackpack) {
+			inputFilePath = selectedSoundInfo.getAbsoluteBackPackPath();
+		} else {
+			inputFilePath = selectedSoundInfo.getAbsoluteProjectPath();
+		}
 		return copyFileBackPack(SOUND_DIRECTORY, BACKPACK_SOUND_DIRECTORY, inputFilePath, newTitle, copyFromBackpack);
 	}
 
@@ -799,7 +802,12 @@ public final class StorageHandler {
 		if (selectedLookData == null) {
 			return null;
 		}
-		String inputFilePath = selectedLookData.getAbsolutePath();
+		String inputFilePath;
+		if (copyFromBackpack) {
+			inputFilePath = selectedLookData.getAbsoluteBackPackPath();
+		} else {
+			inputFilePath = selectedLookData.getAbsoluteProjectPath();
+		}
 		return copyFileBackPack(IMAGE_DIRECTORY, BACKPACK_IMAGE_DIRECTORY, inputFilePath, newName, copyFromBackpack);
 	}
 

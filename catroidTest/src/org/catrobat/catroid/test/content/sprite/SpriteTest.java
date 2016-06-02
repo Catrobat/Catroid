@@ -25,6 +25,8 @@ package org.catrobat.catroid.test.content.sprite;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -76,176 +78,6 @@ public class SpriteTest extends AndroidTestCase {
 		project.getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
 
 		ProjectManager.getInstance().setProject(project);
-	}
-
-	public void testSpriteCloneWithLocalVariable() {
-		Script script = new StartScript();
-		Brick brick = new ChangeBrightnessByNBrick(new Formula(new FormulaElement(ElementType.USER_VARIABLE,
-				LOCAL_VARIABLE_NAME, null)));
-		script.addBrick(brick);
-		sprite.addScript(script);
-		Sprite clonedSprite = sprite.clone();
-
-		UserVariable clonedVariable = project.getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, clonedSprite);
-		assertNotNull("local variable isn't copied properly", clonedVariable);
-		assertEquals("variable not cloned properly", LOCAL_VARIABLE_NAME, clonedVariable.getName());
-		assertEquals("variable not cloned properly", LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
-
-		List<UserVariable> userVariableList = project.getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
-		Set<String> hashSet = new HashSet<String>();
-		for (UserVariable userVariable : userVariableList) {
-			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
-		}
-	}
-
-	public void testSpriteCloneWithUserBrick() {
-		Integer moveValue = 0;
-		Integer secondMoveValue = 4;
-		int numberOfBricks = 0;
-
-		UserBrick outerBrick = new UserBrick(0);
-		numberOfBricks++;
-		outerBrick.getDefinitionBrick().addUIText("outerBrick");
-		outerBrick.updateUserBrickParameters(null);
-
-		UserBrick innerBrick = new UserBrick(1);
-		numberOfBricks++;
-		innerBrick.getDefinitionBrick().addUIText("innerBrick");
-		innerBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
-
-		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerBrick, sprite);
-
-		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
-		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
-		innerBrick.updateUserBrickParameters(null);
-
-		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
-		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
-		setOneFormula(innerBrickCopyInOuterScript, ElementType.USER_VARIABLE, "outerBrickVariable", null, 1);
-		outerScript.addBrick(innerBrickCopyInOuterScript);
-
-		StartScript startScript = new StartScript();
-		sprite.addScript(startScript);
-
-		UserBrick outerBrickCopy = outerBrick.copyBrickForSprite(sprite);
-		setOneFormula(outerBrickCopy, ElementType.NUMBER, moveValue.toString(), (float) moveValue, 0);
-		startScript.addBrick(outerBrickCopy);
-
-		Sprite clonedSprite = sprite.clone();
-
-		int minId = 9999;
-		int maxId = -9999;
-
-		for (UserBrick clonedBrick : clonedSprite.getUserBrickList()) {
-			for (UserBrick brick : sprite.getUserBrickList()) {
-				assertNotSame("Cloned brick == original brick!", brick, clonedBrick);
-
-				if (minId > clonedBrick.getUserBrickId()) {
-					minId = clonedBrick.getUserBrickId();
-				}
-				if (minId > brick.getUserBrickId()) {
-					minId = brick.getUserBrickId();
-				}
-				if (maxId < clonedBrick.getUserBrickId()) {
-					maxId = clonedBrick.getUserBrickId();
-				}
-				if (maxId < brick.getUserBrickId()) {
-					maxId = brick.getUserBrickId();
-				}
-
-				if (clonedBrick.getUserBrickId() - numberOfBricks == brick.getUserBrickId()) {
-					UserScriptDefinitionBrick originalDefinitionBrick = brick.getDefinitionBrick();
-					UserScriptDefinitionBrick clonedDefinitionBrick = clonedBrick.getDefinitionBrick();
-
-					assertNotSame("Cloned definition brick == original definition brick! Id:" + brick.getUserBrickId(),
-							originalDefinitionBrick, clonedDefinitionBrick);
-
-					assertNotSame("Cloned script == original script! Id:" + brick.getUserBrickId(),
-							originalDefinitionBrick.getUserScript(), clonedDefinitionBrick.getUserScript());
-
-					assertNotSame("Cloned userBrickElements == original userBrickElements. Id:" + brick.getUserBrickId(), brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList(),
-							clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList());
-
-					assertEquals("Cloned userBrickElements size != original userBrickElements size. Id:" + brick.getUserBrickId(),
-							brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(), clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size());
-
-					for (int i = 0; i < brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(); i++) {
-						assertNotSame("Cloned userBrickElements element == original userBrickElements element. Id:" + brick.getUserBrickId()
-								+ ". arrayId: " + i, brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i), clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i));
-
-						boolean equivalent = checkArrayElementEquivalence(brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i),
-								clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i));
-						assertTrue("Cloned userBrickElements element not equivalent to original userBrickElements element. Id:"
-								+ brick.getUserBrickId() + ". arrayId: " + i, equivalent);
-					}
-				}
-			}
-		}
-
-		UserBrick clonedOuterBrick = (UserBrick) clonedSprite.getScript(0).getBrickList().get(0);
-		setOneFormula(clonedOuterBrick, ElementType.NUMBER, secondMoveValue.toString(), (float) secondMoveValue, 1);
-
-		assertEquals("unexpected minimum Id:", 0, minId);
-		assertEquals("unexpected maximum Id:", (numberOfBricks * 2) - 1, maxId);
-
-//		runScriptOnSprite(sprite, 0, moveValue);
-//		runScriptOnSprite(clonedSprite, 0, secondMoveValue);
-
-//		runScriptOnSprite(sprite, moveValue, moveValue);
-//		runScriptOnSprite(clonedSprite, secondMoveValue, secondMoveValue);
-//
-//		runScriptOnSprite(sprite, moveValue * 2, moveValue);
-//		runScriptOnSprite(clonedSprite, secondMoveValue * 2, secondMoveValue);
-	}
-
-//	private void runScriptOnSprite(Sprite theSprite, float expectedOrignalX, float expectedDeltaX) {
-//		assertEquals("Script has more than one script", 1, theSprite.getNumberOfScripts());
-//		Script startScript = theSprite.getScript(0);
-//
-//		SequenceAction sequence = new SequenceAction();
-//		startScript.run(sequence);
-//
-//		float x = theSprite.look.getXInUserInterfaceDimensionUnit();
-//		float y = theSprite.look.getYInUserInterfaceDimensionUnit();
-//
-//		assertEquals("Unexpected initial sprite x position: ", expectedOrignalX, x);
-//		assertEquals("Unexpected initial sprite y position: ", 0f, y);
-//
-//		sequence.act(1f);
-//
-//		x = theSprite.look.getXInUserInterfaceDimensionUnit();
-//		y = theSprite.look.getYInUserInterfaceDimensionUnit();
-//
-//		assertEquals("Unexpected final sprite x position: ", expectedOrignalX + expectedDeltaX,
-//				theSprite.look.getXInUserInterfaceDimensionUnit());
-//		assertEquals("Unexpected final sprite y position: ", 0f, theSprite.look.getYInUserInterfaceDimensionUnit());
-//	}
-
-	private void setOneFormula(UserBrick subject, ElementType elementType, String value, Float expectedValue, int expectedFormulaListSize) {
-		List<Formula> formulaList = subject.getFormulas();
-		assertEquals("formulaList.size() after innerBrick.updateUserBrickParameters()" + formulaList.size(), expectedFormulaListSize,
-				formulaList.size());
-		for (Formula formula : formulaList) {
-			formula.setRoot(new FormulaElement(elementType, value, null));
-			if (expectedValue != null) {
-				try {
-					assertEquals("Unexpected value from interpretFloat: ", expectedValue, formula.interpretFloat(sprite));
-				} catch (InterpretationException interpretationException) {
-					Log.e(TAG, "InterpretationException!", interpretationException);
-				}
-			}
-		}
-	}
-
-	private boolean checkArrayElementEquivalence(UserScriptDefinitionBrickElement leftHandSide, UserScriptDefinitionBrickElement rightHandSide) {
-		boolean foundProblem = false;
-
-		foundProblem = foundProblem || (leftHandSide.isEditModeLineBreak != rightHandSide.isEditModeLineBreak);
-		foundProblem = foundProblem || (leftHandSide.isVariable != rightHandSide.isVariable);
-		foundProblem = foundProblem || (leftHandSide.newLineHint != rightHandSide.newLineHint);
-		foundProblem = foundProblem || (leftHandSide.name != rightHandSide.name);
-
-		return !foundProblem;
 	}
 
 	public void testAddScript() {
@@ -310,7 +142,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Indexes do not match", 1, sprite.getScriptIndex(secondScript));
 	}
 
-	public void testPauseUnPause() throws InterruptedException {
+	public void testPauseResume() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -339,5 +171,148 @@ public class SpriteTest extends AndroidTestCase {
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
 		}
+	}
+
+	public void testSpriteCloneWithLocalVariable() {
+		Script script = new StartScript();
+		Brick brick = new ChangeBrightnessByNBrick(new Formula(new FormulaElement(ElementType.USER_VARIABLE,
+				LOCAL_VARIABLE_NAME, null)));
+		script.addBrick(brick);
+		sprite.addScript(script);
+		Sprite clonedSprite = sprite.clone();
+
+		UserVariable clonedVariable = project.getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, clonedSprite);
+		assertNotNull("local variable isn't copied properly", clonedVariable);
+		assertEquals("variable not cloned properly", LOCAL_VARIABLE_NAME, clonedVariable.getName());
+		assertEquals("variable not cloned properly", LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
+
+		List<UserVariable> userVariableList = project.getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
+		Set<String> hashSet = new HashSet<>();
+		for (UserVariable userVariable : userVariableList) {
+			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
+		}
+	}
+
+	public void testSpriteCloneWithUserBrick() {
+		Integer moveValue = 0;
+		Integer secondMoveValue = 4;
+
+		UserBrick outerUserBrick = new UserBrick(new UserScriptDefinitionBrick());
+		outerUserBrick.getDefinitionBrick().addUIText("outerBrick");
+		outerUserBrick.updateUserBrickParametersAndVariables();
+
+		UserBrick innerUserBrick = new UserBrick(new UserScriptDefinitionBrick());
+		innerUserBrick.getDefinitionBrick().addUIText("innerBrick");
+		innerUserBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
+		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerUserBrick, sprite);
+		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
+		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
+		innerUserBrick.updateUserBrickParametersAndVariables();
+
+		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerUserBrick, sprite);
+		UserBrick innerBrickCopyInOuterScript = innerUserBrick.copyBrickForSprite(sprite);
+		setOneFormula(innerBrickCopyInOuterScript, ElementType.USER_VARIABLE, "outerBrickVariable", null, 1);
+		outerScript.addBrick(innerBrickCopyInOuterScript);
+
+		StartScript startScript = new StartScript();
+		sprite.addScript(startScript);
+
+		UserBrick outerBrickCopy = outerUserBrick.copyBrickForSprite(sprite);
+		setOneFormula(outerBrickCopy, ElementType.NUMBER, moveValue.toString(), (float) moveValue, 0);
+		startScript.addBrick(outerBrickCopy);
+		startScript.addBrick(innerBrickCopyInOuterScript);
+
+		Sprite clonedSprite = sprite.clone();
+		checkUserBrickSpriteClones(sprite, clonedSprite, 0);
+		checkUserBrickSpriteClones(sprite, clonedSprite, 1);
+
+		UserBrick clonedInnerBrick = (UserBrick) clonedSprite.getScript(0).getBrickList().get(1);
+		setOneFormula(clonedInnerBrick, ElementType.NUMBER, secondMoveValue.toString(), (float) secondMoveValue, 1);
+
+		runScriptOnSprite(sprite, 0, moveValue);
+		runScriptOnSprite(clonedSprite, 0, secondMoveValue);
+
+		runScriptOnSprite(sprite, moveValue, moveValue);
+		runScriptOnSprite(clonedSprite, secondMoveValue, secondMoveValue);
+
+		runScriptOnSprite(sprite, moveValue * 2, moveValue);
+		runScriptOnSprite(clonedSprite, secondMoveValue * 2, secondMoveValue);
+	}
+
+	private void checkUserBrickSpriteClones(Sprite originalSprite, Sprite clonedSprite, int indexOfUserbrick) {
+		UserBrick brick = originalSprite.getUserBrickList().get(indexOfUserbrick);
+		UserBrick clonedBrick = clonedSprite.getUserBrickList().get(indexOfUserbrick);
+
+		assertNotSame("Cloned brick == original brick!", brick, clonedBrick);
+
+		UserScriptDefinitionBrick originalDefinitionBrick = brick.getDefinitionBrick();
+		UserScriptDefinitionBrick clonedDefinitionBrick = clonedBrick.getDefinitionBrick();
+
+		assertNotSame("Cloned definition brick == original definition brick!", originalDefinitionBrick, clonedDefinitionBrick);
+
+		assertNotSame("Cloned script == original script!", originalDefinitionBrick.getUserScript(), clonedDefinitionBrick.getUserScript());
+
+		assertNotSame("Cloned userBrickElements == original userBrickElements.",
+				brick.getUserScriptDefinitionBrickElements(), clonedBrick.getUserScriptDefinitionBrickElements());
+
+		assertEquals("Cloned userBrickElements size != original userBrickElements size.",
+				brick.getUserScriptDefinitionBrickElements().size(), clonedBrick.getUserScriptDefinitionBrickElements().size());
+
+		for (int elementPosition = 0; elementPosition < brick.getUserScriptDefinitionBrickElements().size(); elementPosition++) {
+			UserScriptDefinitionBrickElement originalElement = brick.getUserScriptDefinitionBrickElements().get(elementPosition);
+			UserScriptDefinitionBrickElement clonedElement = clonedBrick.getUserScriptDefinitionBrickElements().get(elementPosition);
+			assertNotSame("Cloned userBrickElements element == original userBrickElements element." + ". arrayId: " + elementPosition,
+					originalElement, clonedElement);
+
+			boolean equivalent = checkArrayElementEquivalence(originalElement, clonedElement);
+			assertTrue("Cloned userBrickElements element not equivalent to original userBrickElements element. "
+					+ ". arrayId: " + elementPosition, equivalent);
+		}
+	}
+
+	private void runScriptOnSprite(Sprite sprite, float expectedOriginalX, float expectedDeltaX) {
+		assertEquals("Script has more than one script", 1, sprite.getNumberOfScripts());
+		Script startScript = sprite.getScript(0);
+
+		SequenceAction sequence = new SequenceAction();
+		startScript.run(sprite, sequence);
+
+		float x = sprite.look.getXInUserInterfaceDimensionUnit();
+		float y = sprite.look.getYInUserInterfaceDimensionUnit();
+
+		assertEquals("Unexpected initial sprite x position: ", expectedOriginalX, x);
+		assertEquals("Unexpected initial sprite y position: ", 0f, y);
+
+		sequence.act(1f);
+
+		assertEquals("Unexpected final sprite x position: ", expectedOriginalX + expectedDeltaX,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected final sprite y position: ", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	private void setOneFormula(UserBrick subject, ElementType elementType, String value, Float expectedValue, int expectedFormulaListSize) {
+		List<Formula> formulaList = subject.getFormulas();
+		assertEquals("formulaList.size() after innerBrick.updateUserBrickParameters()" + formulaList.size(), expectedFormulaListSize,
+				formulaList.size());
+		for (Formula formula : formulaList) {
+			formula.setRoot(new FormulaElement(elementType, value, null));
+			if (expectedValue != null) {
+				try {
+					assertEquals("Unexpected value from interpretFloat: ", expectedValue, formula.interpretFloat(sprite));
+				} catch (InterpretationException interpretationException) {
+					Log.e(TAG, "InterpretationException!", interpretationException);
+				}
+			}
+		}
+	}
+
+	private boolean checkArrayElementEquivalence(UserScriptDefinitionBrickElement leftHandSide, UserScriptDefinitionBrickElement rightHandSide) {
+		boolean foundProblem;
+		foundProblem = (leftHandSide.isLineBreak() != rightHandSide.isLineBreak());
+		foundProblem = foundProblem || (leftHandSide.isVariable() != rightHandSide.isVariable());
+		foundProblem = foundProblem || (leftHandSide.isNewLineHint() != rightHandSide.isNewLineHint());
+		foundProblem = foundProblem || (!leftHandSide.getText().equals(rightHandSide.getText()));
+
+		return !foundProblem;
 	}
 }

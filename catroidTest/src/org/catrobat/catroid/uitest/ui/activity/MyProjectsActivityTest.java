@@ -115,7 +115,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	@Override
 	public void tearDown() throws Exception {
-		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", true);
 
 //		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
 //		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2)));
@@ -921,7 +921,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testRenameProject() {
 		createProjects();
-		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", false);
 		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
@@ -1448,7 +1448,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testSetDescription() {
 		createProjects();
-		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", false);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);

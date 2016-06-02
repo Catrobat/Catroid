@@ -172,8 +172,8 @@
   <string name="dialog_confirm_delete_brick_title">Eliminare questo mattoncino?</string>
   <string name="dialog_confirm_delete_script_title">Eliminare questo script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Eliminare questi mattoncini?</string>
-  <string name="dialog_confirm_delete_script_group_title">Eliminare questo gruppo?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Eliminare questi gruppi?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Eliminare questo gruppo?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Eliminare questi gruppi?</string>
   <string name="dialog_confirm_delete_brick_message">Questa azione non può essere annullata!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Elimina %d mattoncino</item>

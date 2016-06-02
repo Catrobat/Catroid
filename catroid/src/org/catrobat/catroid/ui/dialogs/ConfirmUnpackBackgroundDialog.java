@@ -54,12 +54,14 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 	private boolean delete;
 	private boolean keepCurrentSprite;
 	private boolean fromHiddenBackPack;
+	private boolean asBackground;
 
-	public ConfirmUnpackBackgroundDialog(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite, boolean fromHiddenBackPack) {
+	public ConfirmUnpackBackgroundDialog(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite, boolean fromHiddenBackPack, boolean asBackground) {
 		this.selectedSprite = selectedSprite;
 		this.delete = delete;
 		this.keepCurrentSprite = keepCurrentSprite;
 		this.fromHiddenBackPack = fromHiddenBackPack;
+		this.asBackground = asBackground;
 	}
 
 	@Override
@@ -110,7 +112,7 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 		}
 
 		Sprite unpackedSprite = BackPackSpriteController.getInstance().unpack(selectedSprite, delete,
-				keepCurrentSprite, fromHiddenBackPack);
+				keepCurrentSprite, fromHiddenBackPack, asBackground);
 		unpackedSprite.setName(getActivity().getString(R.string.background));
 		returnToProjectActivity();
 

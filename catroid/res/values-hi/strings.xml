@@ -179,8 +179,8 @@
   <string name="dialog_confirm_delete_brick_title">इस ईंट को हटाएँ?</string>
   <string name="dialog_confirm_delete_script_title">इस स्क्रिप्ट को हटाएँ?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">इन ईंटों को हटाए?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">इसे पूर्ववत् नहीं किया जा सकता!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>

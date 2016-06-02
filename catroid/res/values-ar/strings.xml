@@ -173,9 +173,9 @@
   <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة البرامج النصية</string>
   <string name="dialog_confirm_delete_brick_title">هل تريد حذف هذا الطوب؟</string>
   <string name="dialog_confirm_delete_script_title">هل تريد حذف هذا النص؟</string>
-  <string name="dialog_confirm_delete_multiple_bricks_title">هل تريد حذف هذه اللّبنة؟</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+  <string name="dialog_confirm_delete_multiple_bricks_title">هل تريد حذف هذا الطوب؟</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">لا يمكن التراجع عن هذا!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="zero">Delete %d Bricks</item>
