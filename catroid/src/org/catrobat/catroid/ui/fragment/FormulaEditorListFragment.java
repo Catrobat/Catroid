@@ -164,6 +164,10 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
 	}
 
+	public static int[] getLogicItems() {
+		return LOGIC_ITEMS;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
