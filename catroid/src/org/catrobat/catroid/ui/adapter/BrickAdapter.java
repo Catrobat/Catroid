@@ -849,9 +849,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 
 			if (((Brick) item).isCommentedOut()) {
-				BrickBaseType.grayOutBrickView(scriptBrickView);
+				((BrickBaseType) item).commentOut();
 			}
-			((BrickBaseType) item).doPadding();
+			((BrickBaseType) item).doPaddingAndImgForCmtOut();
 
 			return scriptBrickView;
 		}
@@ -874,10 +874,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 
-		((BrickBaseType) item).doPadding();
+		((BrickBaseType) item).doPaddingAndImgForCmtOut();
 
 		if (((Brick) item).isCommentedOut()) {
-			BrickBaseType.grayOutBrickView(currentBrickView);
+			((BrickBaseType) item).commentOut();
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
@@ -1133,7 +1133,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		for (Brick current : brickList) {
-			((BrickBaseType) current).doPadding();
+			((BrickBaseType) current).doPaddingAndImgForCmtOut();
 		}
 
 	}
