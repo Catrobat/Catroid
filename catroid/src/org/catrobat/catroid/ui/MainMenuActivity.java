@@ -256,15 +256,12 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
 
-		PreStageActivity.shutdownPersistentResources();
 		if (!STANDALONE_MODE) {
+			PreStageActivity.shutdownPersistentResources();
 			setMainMenuButtonContinueText();
 			findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		} else {
-			FlashUtil.initializeFlash();
 		}
-		/*setMainMenuButtonContinueText();
-		findViewById(R.id.main_menu_button_continue).setEnabled(true);*/
+
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			loadProjectInBackground(projectName);
