@@ -518,13 +518,13 @@
         <item name="android:background">@drawable/formula_editor_keyboard_button</item >
         <item name="android:textColor">@color/formula_editor_keyboard_text_color</item >
         <item name="android:lines">1</item >
+        <item name="android:layout_height">match_parent</item >
         <item name="android:textSize">@dimen/text_size_medium</item >
         <item name="android:ellipsize">end</item >
     </style>
 
     <style name="FormulaEditorImageButton" >
         <item name="android:background" >@drawable/formula_editor_keyboard_button</item >
-        <item name="android:layout_height" >wrap_content</item >
         <item name="android:layout_marginBottom" >@dimen/key_margin</item >
         <item name="android:layout_marginRight" >@dimen/key_margin</item >
     </style >
