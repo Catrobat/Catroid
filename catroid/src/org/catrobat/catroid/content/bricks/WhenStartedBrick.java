@@ -45,7 +45,7 @@ public class WhenStartedBrick extends ScriptBrick {
 		this.script = script;
 
 		if (script != null && script.isCommentedOut()) {
-			commentOut();
+			setCommentedOutAppearance();
 		}
 	}
 

@@ -57,7 +57,7 @@ public class WhenRaspiPinChangedBrick extends ScriptBrick {
 			eventString = script.getEventValue();
 
 			if (script.isCommentedOut()) {
-				commentOut();
+				setCommentedOutAppearance();
 			}
 		}
 	}

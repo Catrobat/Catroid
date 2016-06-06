@@ -61,7 +61,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		this.receiveScript = receiveScript;
 
 		if (receiveScript != null && receiveScript.isCommentedOut()) {
-			commentOut();
+			setCommentedOutAppearance();
 		}
 	}
 

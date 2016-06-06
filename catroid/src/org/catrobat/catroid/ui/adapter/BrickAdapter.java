@@ -848,10 +848,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				scriptBrickView.setOnClickListener(this);
 			}
 
-			if (((Brick) item).isCommentedOut()) {
-				((BrickBaseType) item).commentOut();
+			if((((BrickBaseType) item)).isCommentedOut()) {
+				((BrickBaseType) item).setCommentedOutAppearance();
+			} else {
+				((BrickBaseType) item).doPadding();
 			}
-			((BrickBaseType) item).doPaddingAndImgForCmtOut();
 
 			return scriptBrickView;
 		}
@@ -874,10 +875,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 
-		((BrickBaseType) item).doPaddingAndImgForCmtOut();
-
-		if (((Brick) item).isCommentedOut()) {
-			((BrickBaseType) item).commentOut();
+		if((((BrickBaseType) item)).isCommentedOut()) {
+			((BrickBaseType) item).setCommentedOutAppearance();
+		} else {
+			((BrickBaseType) item).doPadding();
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
@@ -1098,42 +1099,70 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
-	private void setCommentOutStatus(Brick brick, boolean isCommentedOut) {
+	private void setCommentOutStatus(Brick brick, boolean commentOut) {
+		int indexBegin, indexEnd;
+
 		if (brick instanceof NestingBrick) {
 			NestingBrick nestingBrick = (NestingBrick) brick;
 			List<NestingBrick> nestingList = nestingBrick.getAllNestingBrickParts(true);
 
-			int indexBegin = brickList.indexOf(nestingList.get(0));
-			int indexEnd = brickList.indexOf(nestingList.get(nestingList.size() - 1));
-
-			for (int i = indexBegin; i <= indexEnd; i++) {
-				if (isCommentedOut) {
-					brickList.get(i).commentOut();
-				} else {
-					brickList.get(i).commentIn();
-				}
-			}
+			indexBegin = brickList.indexOf(nestingList.get(0));
+			indexEnd = brickList.indexOf(nestingList.get(nestingList.size() - 1));
 		} else if (brick instanceof ScriptBrick) {
-			((ScriptBrick) brick).getScriptSafe().setScriptCommentedOutStatus(isCommentedOut);
+			((ScriptBrick) brick).getScriptSafe().setScriptCommentedOutStatus(commentOut); // TODO: maybe override
+			indexBegin = brickList.indexOf(brick);
+			indexEnd = indexBegin;
+		}
+		else {
+			indexBegin = brickList.indexOf(brick);
+			indexEnd = indexBegin;
 		}
 
-		if (isCommentedOut) {
-			brick.commentOut();
-		} else {
-			brick.commentIn();
+		for (int i = indexBegin; i <= indexEnd; i++) {
+			brickList.get(i).setCommentedOut(commentOut);
+		}
 
-			int indexBegin = brickList.indexOf(brick);
+
+		// if script gets commented in, the corresponding script brick must be commented in as well
+		if (!commentOut) {
 			for (int i = indexBegin; i >= 0; i--) {
 				Brick currentBrick = brickList.get(i);
 				if (currentBrick instanceof ScriptBrick) {
-					currentBrick.commentIn();
+					currentBrick.setCommentedOut(false);
 					break;
 				}
 			}
 		}
 
-		for (Brick current : brickList) {
-			((BrickBaseType) current).doPaddingAndImgForCmtOut();
+
+		if (!(brick instanceof ScriptBrick)) {
+			for (int i = indexBegin - 1; i >= 0; i--) {
+				BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
+				if (currentBrick.isCommentedOut() != commentOut) {
+					currentBrick.setCommentedOutAppearance();
+					break;
+				}
+				currentBrick.setVisibility(View.VISIBLE);
+				currentBrick.setCommentedOutAppearance();
+				if(currentBrick instanceof ScriptBrick) {
+					break;
+				}
+			}
+		}
+
+		for (int i = indexEnd + 1; i < brickList.size(); i++) {
+			BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
+			currentBrick.setVisibility(View.VISIBLE);
+			if (currentBrick.isCommentedOut() != commentOut || currentBrick instanceof ScriptBrick) {
+				break;
+			}
+		}
+		for (int i = indexEnd + 1; i < brickList.size(); i++) {
+			BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
+			currentBrick.setCommentedOutAppearance();
+			if (currentBrick.isCommentedOut() != commentOut || currentBrick instanceof ScriptBrick) {
+				break;
+			}
 		}
 
 	}

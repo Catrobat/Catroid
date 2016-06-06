@@ -64,7 +64,7 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 		this.selectedMessage = "";
 
 		if (collisionScript != null && collisionScript.isCommentedOut()) {
-			commentOut();
+			setCommentedOutAppearance();
 		}
 	}
 

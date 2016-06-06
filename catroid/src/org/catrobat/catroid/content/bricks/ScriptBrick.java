@@ -43,14 +43,9 @@ public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterD
 	public abstract Brick clone();
 
 	@Override
-	public void commentOut() {
-		super.commentOut();
-		getScriptSafe().setCommentedOut(true);
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 
-	@Override
-	public void commentIn() {
-		super.commentIn();
-		getScriptSafe().setCommentedOut(false);
-	}
 }

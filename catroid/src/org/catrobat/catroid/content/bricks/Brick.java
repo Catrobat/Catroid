@@ -109,9 +109,7 @@ public interface Brick extends Serializable, Cloneable {
 
 	boolean isCommentedOut();
 
-	void commentOut();
-
-	void commentIn();
+	void setCommentedOut(boolean commentedOut);
 
 	void setCheckedBoolean(boolean newValue);
 

@@ -188,16 +188,6 @@ public abstract class Script implements Serializable {
 		return resources;
 	}
 
-	public void setScriptCommentedOutStatus(boolean isScriptCommentedOut) {
-		for (Brick brick : brickList) {
-			if (isScriptCommentedOut) {
-				brick.commentOut();
-			} else {
-				brick.commentIn();
-			}
-		}
-	}
-
 	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
 			//Log.i(TAG, brick.REQUIRED_RESSOURCES + "");
@@ -271,4 +261,13 @@ public abstract class Script implements Serializable {
 	public void setCommentedOut(boolean commentedOut) {
 		this.commentedOut = commentedOut;
 	}
+
+	public void setScriptCommentedOutStatus(boolean isScriptCommentedOut) {
+		for (Brick brick : brickList) {
+			brick.setCommentedOut(isScriptCommentedOut);
+			brick.setCommentedOut(isScriptCommentedOut);
+		}
+	}
+
+	// TODO: check if we really need two methods
 }

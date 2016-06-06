@@ -44,7 +44,7 @@ public class WhenBrick extends ScriptBrick {
 		this.whenScript = whenScript;
 
 		if (whenScript != null && whenScript.isCommentedOut()) {
-			commentOut();
+			setCommentedOutAppearance();
 		}
 	}
 
