@@ -108,6 +108,10 @@ public interface Brick extends Serializable, Cloneable {
 
 	boolean isChecked();
 
+	boolean isCommentedOut();
+
+	void setCommentedOut(boolean commentedOut);
+
 	void setCheckedBoolean(boolean newValue);
 
 	void setCheckboxView(int id);

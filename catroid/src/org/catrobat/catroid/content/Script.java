@@ -48,6 +48,8 @@ public abstract class Script implements Serializable {
 
 	protected transient ScriptBrick brick;
 
+	protected boolean commentedOut = false;
+
 	private transient volatile boolean paused;
 
 	public Script() {
@@ -107,9 +109,16 @@ public abstract class Script implements Serializable {
 	}
 
 	public void run(Sprite sprite, SequenceAction sequence) {
+		if (this.isCommentedOut()) {
+			return;
+		}
+
 		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
+			if (brickList.get(i).isCommentedOut()) {
+				continue;
+			}
 			List<SequenceAction> actions = brickList.get(i).addActionToSequence(sprite,
 					sequenceList.get(sequenceList.size() - 1));
 			if (actions != null) {
@@ -244,4 +253,21 @@ public abstract class Script implements Serializable {
 		copiedLoopBeginBrick.setLoopEndBrick(copiedBrick);
 		copiedBrick.setLoopBeginBrick(copiedLoopBeginBrick);
 	}
+
+	public boolean isCommentedOut() {
+		return commentedOut;
+	}
+
+	public void setCommentedOut(boolean commentedOut) {
+		this.commentedOut = commentedOut;
+	}
+
+	public void setScriptCommentedOutStatus(boolean isScriptCommentedOut) {
+		for (Brick brick : brickList) {
+			brick.setCommentedOut(isScriptCommentedOut);
+			brick.setCommentedOut(isScriptCommentedOut);
+		}
+	}
+
+	// TODO: check if we really need two methods
 }

@@ -23,16 +23,23 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -46,6 +53,261 @@ public abstract class BrickBaseType implements Brick {
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
+
+	protected boolean commentedOut;
+	private transient int visibility = View.VISIBLE;
+
+	@Override
+	public boolean isCommentedOut() {
+		return commentedOut;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		this.commentedOut = commentedOut;
+		setCommentedOutAppearance();
+
+	}
+
+	public void setCommentedOutAppearance() {
+		if (view == null) {
+			return;
+		}
+
+		if (commentedOut) {
+			view.setVisibility(visibility);
+			grayscaleBackground();
+			setCmtOutImage();
+		}
+		else {
+			view.setVisibility(View.VISIBLE);
+			undoGrayscaleBackground();
+			removeCommentedOutImage();
+		}
+		doPadding();
+	}
+
+	private void removeCommentedOutImage() {
+		ViewGroup viewGroup = (ViewGroup) view;
+		View first = viewGroup.getChildAt(0);
+
+		if (first instanceof ImageView) {
+			first.setVisibility(View.GONE);
+		}
+	}
+
+	private void grayscaleBackground() {
+
+		ViewGroup viewGroup = (ViewGroup) view;
+		for (int index = 0; index < viewGroup.getChildCount(); index++) {
+			View child = viewGroup.getChildAt(index);
+
+			if (child instanceof BrickLayout) {
+				Drawable background = child.getBackground();
+
+				if (background == null) {
+					return;
+				}
+
+				ColorMatrix matrix = new ColorMatrix();
+				matrix.setSaturation(0);
+
+				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+
+				background.setColorFilter(filter);
+			}
+		}
+
+
+	}
+
+	private void undoGrayscaleBackground() {
+
+		ViewGroup viewGroup = (ViewGroup) view;
+
+		for (int index = 0; index < viewGroup.getChildCount(); index++) {
+			View child = viewGroup.getChildAt(index);
+
+			if (child instanceof BrickLayout) {
+				Drawable background = child.getBackground();
+				if (background != null) {
+					background.clearColorFilter();
+				}
+			}
+		}
+	}
+
+	private void setNeighboringCommentedOutBricksVisible() {
+
+		if (adapter == null || adapter.getBrickList() == null) {
+			return;
+		}
+
+		int indexOfThisBrick = adapter.getBrickList().indexOf(this);
+
+
+		/*
+		if (!(this instanceof ScriptBrick)) {
+			for (int i = indexOfThisBrick - 1; i > 0; i--) {
+				BrickBaseType current = ((BrickBaseType) adapter.getBrickList().get(i));
+				if (!current.isHidden()) {
+					if (!current.isCommentedOut()) {
+						return;
+					}
+
+					if (current.view == null) {
+						setVisibilityForCommentedOutBricksStartingWith(i + 1, View.VISIBLE);
+						return;
+					}
+
+					View first = ((ViewGroup) current.view).getChildAt(0);
+					if (first instanceof ImageView) {
+						doShow(i + 1);
+					}
+
+					return;
+				}
+			}
+		}
+		setVisibilityForCommentedOutBricksStartingWith(indexOfThisBrick + 1, View.VISIBLE);
+
+		*/
+	}
+
+	private void setCmtOutImage() {
+
+		ViewGroup viewGroup = (ViewGroup) view;
+
+		final ImageView imageView;
+		if (viewGroup.getChildAt(0) instanceof ImageView) {
+			imageView = (ImageView) viewGroup.getChildAt(0);
+		} else {
+			imageView = new ImageView(view.getContext());
+			viewGroup.addView(imageView, 0);
+			imageView.setPadding(15, 0, 15, 0);
+		}
+
+		imageView.setVisibility(View.VISIBLE);
+
+		int previous = adapter.getBrickList().indexOf(this) - 1;
+		final int next = adapter.getBrickList().indexOf(this) + 1;
+		boolean hasNext = next < adapter.getBrickList().size();
+
+
+		boolean isFirstCommentedOutBrick = this instanceof ScriptBrick || !adapter.getBrickList().get(previous).isCommentedOut();
+
+		if (isFirstCommentedOutBrick) {
+
+			boolean isOnlyOneCommentedOutBrick = !hasNext || (hasNext && (!adapter.getBrickList().get(next).isCommentedOut()) ||
+					(adapter.getBrickList().get(next) instanceof ScriptBrick));
+
+			if (isOnlyOneCommentedOutBrick) {
+				imageView.setImageResource(R.drawable.plus);
+				imageView.setVisibility(View.INVISIBLE);
+			} else {  // multiple commented out bricks
+
+				imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT));
+
+				boolean isCollapsed = ((BrickBaseType) adapter.getBrickList().get(next)).isHidden();
+				if (isCollapsed) {
+					imageView.setImageResource(R.drawable.plus);
+					imageView.setOnClickListener(getShowClickListener(next));
+					view.setPadding(0, view.getPaddingTop(), 0, 50);
+				} else {
+					imageView.setImageResource(R.drawable.minus);
+					imageView.setOnClickListener(getHideClickListener(next));
+					view.setPadding(0, view.getPaddingTop(), 0, 0);
+				}
+
+
+			}
+
+
+		} else { // is not first commented out brick
+			imageView.setImageResource(R.drawable.line);
+
+			imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.MATCH_PARENT));
+
+			imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+		}
+
+	}
+
+	public boolean isHidden() {
+		return visibility == View.GONE;
+	}
+
+	private void setVisibilityForCommentedOutBricksStartingWith(int start, int visibility) {
+		for (int i = start; i < adapter.getBrickList().size(); i++) {
+			BrickBaseType currentBrick = (BrickBaseType) adapter.getBrickList().get(i);
+
+			if (!currentBrick.isCommentedOut() || currentBrick instanceof ScriptBrick) {
+				break;
+			}
+
+			currentBrick.setVisibility(visibility);
+		}
+	}
+
+	public void setVisibility(int visibility) {
+		this.visibility = visibility;
+		if (view == null) {
+			return;
+		}
+		view.setVisibility(visibility);
+	}
+
+	private View.OnClickListener getHideClickListener(final int next) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				doHide(next);
+
+			}
+		};
+	}
+
+	private void doHide(int next) {
+		setVisibilityForCommentedOutBricksStartingWith(next, View.GONE);
+		setCmtOutImage();
+	}
+
+	private View.OnClickListener getShowClickListener(final int next) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				v.setOnClickListener(getHideClickListener(next));
+				doShow(next);
+			}
+		};
+	}
+
+	private void doShow(int next) {
+		setVisibilityForCommentedOutBricksStartingWith(next, View.VISIBLE);
+		setCmtOutImage();
+	}
+
+	public void doPadding() {
+		if (adapter == null) {
+			return;
+		}
+
+		int next = adapter.getBrickList().indexOf(this) + 1;
+		boolean hasNext = next < adapter.getBrickList().size();
+		boolean nextCommentStateDifferent = hasNext && (this.isCommentedOut() != adapter.getBrickList().get(next).isCommentedOut());
+		boolean nextIsHidden = hasNext && !this.isHidden() && ((BrickBaseType) adapter.getBrickList().get(next)).isHidden();
+		boolean nextIsScriptbrick = hasNext && adapter.getBrickList().get(next) instanceof ScriptBrick;
+
+
+		if (nextCommentStateDifferent || nextIsHidden || nextIsScriptbrick) {
+			view.setPadding(0, view.getPaddingTop(), 0, 50);
+		} else {
+			view.setPadding(0, view.getPaddingTop(), 0, 0);
+		}
+	}
 
 	@Override
 	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
