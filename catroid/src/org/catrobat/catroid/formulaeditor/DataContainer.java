@@ -165,6 +165,14 @@ public class DataContainer implements Serializable {
 		return addedUserList;
 	}
 
+	public UserList renameSpriteUserList(String newName, String oldName) {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<UserList> varList = getOrCreateUserListListForSprite(currentSprite);
+		UserList userListToRename = findUserList(oldName, varList);
+		userListToRename.setName(newName);
+		return userListToRename;
+	}
+
 	public UserVariable addUserBrickUserVariableToUserBrick(int userBrickId, String userVariableName, Object userVariableValue) {
 		List<UserVariable> varList = getOrCreateVariableListForUserBrick(userBrickId);
 		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
@@ -175,6 +183,14 @@ public class DataContainer implements Serializable {
 	public UserVariable addSpriteUserVariable(String userVariableName) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		return addSpriteUserVariableToSprite(currentSprite, userVariableName);
+	}
+
+	public UserVariable renameSpriteUserVariable(String newName, String oldName) {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<UserVariable> varList = getOrCreateVariableListForSprite(currentSprite);
+		UserVariable userVariableToRename = findUserVariable(oldName, varList);
+		userVariableToRename.setName(newName);
+		return userVariableToRename;
 	}
 
 	public UserVariable addSpriteUserVariableToSprite(Sprite sprite, String userVariableName) {
@@ -188,6 +204,12 @@ public class DataContainer implements Serializable {
 		UserVariable userVariableToAdd = new UserVariable(userVariableName);
 		projectVariables.add(userVariableToAdd);
 		return userVariableToAdd;
+	}
+
+	public UserVariable renameProjectUserVariable(String newName, String oldName) {
+		UserVariable userVariableToRename = findUserVariable(oldName, projectVariables);
+		userVariableToRename.setName(newName);
+		return userVariableToRename;
 	}
 
 	/**
@@ -363,6 +385,12 @@ public class DataContainer implements Serializable {
 		UserList userListToAdd = new UserList(userListName);
 		projectLists.add(userListToAdd);
 		return userListToAdd;
+	}
+
+	public UserList renameProjectUserList(String newName, String oldName) {
+		UserList userListToRename = findUserList(oldName, projectLists);
+		userListToRename.setName(newName);
+		return userListToRename;
 	}
 
 	public void deleteUserListByName(String userListName) {

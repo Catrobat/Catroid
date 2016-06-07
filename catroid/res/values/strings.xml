@@ -1062,6 +1062,7 @@
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
     <string name="formula_editor_data_dialog_title">New</string>
+    <string name="formula_editor_rename_variable_dialog_title">Rename</string>
     <string name="formula_editor_existing_data_item">Name already in use!</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>

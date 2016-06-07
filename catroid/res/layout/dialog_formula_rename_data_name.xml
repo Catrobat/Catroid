@@ -21,14 +21,23 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DefaultDialog"
+    android:paddingBottom="0dp" >
 
-    <item
-        android:id="@+id/context_formula_editor_userlist_delete"
-        android:title="@string/delete"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dialog_item_margin" >
 
-    <item
-        android:id="@+id/context_formula_editor_userlist_rename"
-        android:title="@string/rename"/>
+        <EditText
+            android:id="@+id/dialog_formula_rename_variable_name_edit_text"
+            style="@style/DefaultDialog.EditText"
+            android:ems="10"
+            android:hint="@string/formula_editor_data_dialog_hint"
+            android:inputType="text" />
 
-</menu>
+    </LinearLayout>
+
+</ScrollView>
