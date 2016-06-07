@@ -121,7 +121,10 @@ import org.catrobat.catroid.content.actions.ShowAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
+import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
+import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.UserBrickAction;
@@ -943,5 +946,18 @@ public class ActionFactory extends Actions {
 		PreviousLookAction action = action(PreviousLookAction.class);
 		action.setSprite(sprite);
 		return action;
+	}
+
+	public Action createStopScriptAction(int spinnerSelection, Action currentAction) {
+		switch (spinnerSelection) {
+			case BrickValues.STOP_THIS_SCRIPT:
+				return Actions.action(StopThisScriptAction.class);
+			case BrickValues.STOP_OTHER_SCRIPTS:
+				StopOtherScriptsAction action = Actions.action(StopOtherScriptsAction.class);
+				action.setCurrentAction(currentAction);
+				return action;
+			default:
+				return Actions.action(StopAllScriptsAction.class);
+		}
 	}
 }

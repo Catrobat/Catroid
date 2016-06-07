@@ -648,6 +648,11 @@
     <string name="brick_when_becomes_true">becomes true</string>
     <string name="brick_wait">Wait</string>
     <string name="brick_when_nfc">When NFC</string>
+    <string name="brick_stop_script">Stop script/s</string>
+    <string name="brick_stop_this_script">Stop this script</string>
+    <string name="brick_stop_all_scripts">Stop all scripts</string>
+    <string name="brick_stop_other_scripts">Stop other scripts of this object</string>
+
 
     <plurals name="second_plural">
         <item quantity="one">"second "</item>
