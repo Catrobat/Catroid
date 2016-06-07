@@ -42,6 +42,8 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
+import java.util.Calendar;
+
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
 	private static final String TAG = SensorHandler.class.getSimpleName();
@@ -70,6 +72,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
 	private boolean inclinationAvailable = true;
+	private boolean dateAvailable = true;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -119,6 +122,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		return this.inclinationAvailable;
 	}
 
+	public boolean dateAvailable() {
+		return this.dateAvailable;
+	}
+
 	public static SensorHandler getInstance(Context context) {
 		if (instance == null) {
 			instance = new SensorHandler(context);
@@ -136,6 +143,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		instance.registerListener(instance);
 
 		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
+		instance.sensorManager.registerListener(instance, Sensors.DATE_YEAR);
+		instance.sensorManager.registerListener(instance, Sensors.DATE_MONTH);
+		instance.sensorManager.registerListener(instance, Sensors.DATE_DAY);
+		instance.sensorManager.registerListener(instance, Sensors.DATE_WEEKDAY);
+		instance.sensorManager.registerListener(instance, Sensors.TIME_HOUR);
+		instance.sensorManager.registerListener(instance, Sensors.TIME_MINUTE);
+		instance.sensorManager.registerListener(instance, Sensors.TIME_SECOND);
 		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
 		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
 	}
@@ -337,6 +351,20 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
+			case DATE_YEAR:
+				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+			case DATE_MONTH:
+				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH));
+			case DATE_DAY:
+				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+			case DATE_WEEKDAY:
+				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+			case TIME_HOUR:
+				return Double.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+			case TIME_MINUTE:
+				return Double.valueOf(Calendar.getInstance().get(Calendar.MINUTE));
+			case TIME_SECOND:
+				return Double.valueOf(Calendar.getInstance().get(Calendar.SECOND));
 
 			case NXT_SENSOR_1:
 			case NXT_SENSOR_2:
