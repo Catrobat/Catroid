@@ -123,17 +123,26 @@ public class OrientationDialog extends DialogFragment {
 		createDroneProject = isChecked;
 	}
 
-	private class LoadingOnCreatingProject extends AsyncTask<String, Void, Boolean> {
-		private ProgressDialog progressDialog;
+    private class LoadingOnCreatingProject extends AsyncTask<String, Void, Void> {
+        private ProgressDialog progressDialog;
 
 		protected LoadingOnCreatingProject() {
 			progressDialog = new ProgressDialog(getActivity());
 		}
 
 		@Override
-		protected void onPostExecute(Boolean showing) {
-			progressDialog.dismiss();
-		}
+        protected void onPostExecute(Void result) {
+            Intent intent = new Intent(getActivity(), ProjectActivity.class);
+            intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+            if (isOpenedFromProjectList()) {
+                intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+            }
+
+            getActivity().startActivity(intent);
+            dismiss();
+            progressDialog.dismiss();
+        }
 
 		@Override
 		protected void onPreExecute() {
@@ -142,29 +151,18 @@ public class OrientationDialog extends DialogFragment {
 		}
 
 		@Override
-		protected Boolean doInBackground(String... params) {
+        protected Void doInBackground(String... params) {
 
-			try {
-					ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
-				} catch (IllegalArgumentException illegalArgumentException) {
+            try {
+                ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
+            } catch (IllegalArgumentException illegalArgumentException) {
 					Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 				} catch (IOException ioException) {
 					Utils.showErrorDialog(getActivity(), R.string.error_new_project);
 					Log.e(TAG, Log.getStackTraceString(ioException));
 					dismiss();
 				}
-
-				Intent intent = new Intent(getActivity(), ProjectActivity.class);
-				intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-				if (isOpenedFromProjectList()) {
-					intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-				}
-
-				getActivity().startActivity(intent);
-				dismiss();
-				return true;
-
-		}
-	}
+            return null;
+        }
+    }
 }
