@@ -24,12 +24,14 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,6 +45,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.dialogs.LegoNXTSensorPortConfigDialog;
 
 import java.util.Arrays;
 
@@ -110,9 +113,9 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction };
 
-	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
-			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
-			R.string.formula_editor_sensor_lego_nxt_4 };
+	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_touch,
+			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
+			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic };
 
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
@@ -154,14 +157,58 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
+		if (isNXTItem(position)) {
+			DialogFragment dialog = new LegoNXTSensorPortConfigDialog(itemsIds[position]);
+			dialog.setTargetFragment(this, getTargetRequestCode());
+			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+			if (formulaEditor != null) {
+				formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+				formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+			}
+			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
+			onKey(null, keyEvent.getKeyCode(), keyEvent);
+		}
+	}
+
+	private boolean isNXTItem(int position) {
+		String clickedItem = getString(itemsIds[position]);
+		for (int index = 0; index < NXT_SENSOR_ITEMS.length; index++) {
+			if (getString(NXT_SENSOR_ITEMS[index]).equals(clickedItem)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		if (formulaEditor != null) {
-			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+		int item = getNXTPort(resultCode);
+		if (formulaEditor != null && item != -1) {
+			formulaEditor.addResourceToActiveFormula(item);
 			formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		}
 		KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
+	}
+
+	private int getNXTPort(int port) {
+		switch (port) {
+			case 0:
+				return R.string.formula_editor_sensor_lego_nxt_1;
+			case 1:
+				return R.string.formula_editor_sensor_lego_nxt_2;
+			case 2:
+				return R.string.formula_editor_sensor_lego_nxt_3;
+			case 3:
+				return R.string.formula_editor_sensor_lego_nxt_4;
+			default:
+				return -1;
+		}
 	}
 
 	@Override
