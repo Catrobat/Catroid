@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -176,6 +177,7 @@ public class ScriptActivity extends BaseActivity {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 			finish();
 		}
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -292,6 +294,10 @@ public class ScriptActivity extends BaseActivity {
 		}
 
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+
 			case R.id.backpack:
 				showBackPackChooser();
 				break;
