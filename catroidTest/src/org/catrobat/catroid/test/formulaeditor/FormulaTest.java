@@ -149,4 +149,23 @@ public class FormulaTest extends InstrumentationTestCase {
 		formula = new Formula(parseTree);
 		assertFalse("Should NOT be a single number formula", formula.isSingleNumberFormula());
 	}
+
+	public void testComputeDialogResult() {
+		FormulaElement helloStringFormulaElement = new FormulaElement(ElementType.STRING, "hello", null);
+		FormulaElement worldStringFormulaElement = new FormulaElement(ElementType.STRING, "world", null);
+		FormulaElement joinFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
+				Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
+
+		Formula joinFormular = new Formula(joinFunctionFormulaElement);
+		String computeDialogResult = joinFormular.getResultForComputeDialog(null);
+		assertEquals("ComputeDialogResult for join function not working", "helloworld", computeDialogResult);
+
+		FormulaElement indexFormulaElement = new FormulaElement(ElementType.NUMBER, "1", null);
+		FormulaElement letterFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
+				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
+
+		Formula letterFormular = new Formula(letterFunctionFormulaElement);
+		computeDialogResult = letterFormular.getResultForComputeDialog(null);
+		assertEquals("ComputeDialogResult for letter function not working", "h", computeDialogResult);
+	}
 }
