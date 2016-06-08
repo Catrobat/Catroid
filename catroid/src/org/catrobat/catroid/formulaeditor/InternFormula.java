@@ -273,6 +273,10 @@ public class InternFormula {
 					if (firstLeftInternToken == null) {
 						cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 					} else {
+						if (firstLeftInternToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
+							setExternCursorPositionLeftTo(internTokenFormulaList.indexOf(firstLeftInternToken));
+							break;
+						}
 
 						int firstLeftInternTokenIndex = internTokenFormulaList.indexOf(firstLeftInternToken);
 
@@ -285,6 +289,12 @@ public class InternFormula {
 					break;
 
 				case RIGHT:
+					InternToken internToken = getFirstLeftInternToken(externCursorPosition);
+					if (internToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
+						setExternCursorPositionLeftTo(internTokenFormulaList.indexOf(internToken));
+						break;
+					}
+
 					cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
 					break;
 			}
