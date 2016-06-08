@@ -26,8 +26,10 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +56,6 @@ public class OrientationDialog extends DialogFragment {
 	private RadioButton landscapeMode;
 	private boolean createEmptyProject;
 	private boolean createLandscapeProject = false;
-
 	private boolean openedFromProjectList = false;
 	private boolean createDroneProject = false;
 
@@ -98,30 +99,8 @@ public class OrientationDialog extends DialogFragment {
 
 	protected void handleOkButtonClick() {
 		createLandscapeProject = landscapeMode.isChecked();
-
-		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
-			return;
-		}
-
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-		if (isOpenedFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		}
-
-		getActivity().startActivity(intent);
-
-		dismiss();
+		LoadingOnCreatingProject loadingOnCreatingProject = new LoadingOnCreatingProject();
+		loadingOnCreatingProject.execute();
 	}
 
 	public boolean isOpenedFromProjectList() {
@@ -143,4 +122,47 @@ public class OrientationDialog extends DialogFragment {
 	public void setCreateDroneProject(boolean isChecked) {
 		createDroneProject = isChecked;
 	}
+
+    private class LoadingOnCreatingProject extends AsyncTask<String, Void, Void> {
+        private ProgressDialog progressDialog;
+
+		protected LoadingOnCreatingProject() {
+			progressDialog = new ProgressDialog(getActivity());
+		}
+
+		@Override
+        protected void onPostExecute(Void result) {
+            Intent intent = new Intent(getActivity(), ProjectActivity.class);
+            intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+            if (isOpenedFromProjectList()) {
+                intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+            }
+
+            getActivity().startActivity(intent);
+            dismiss();
+            progressDialog.dismiss();
+        }
+
+		@Override
+		protected void onPreExecute() {
+			this.progressDialog.setMessage(getResources().getString(R.string.please_wait));
+			this.progressDialog.show();
+		}
+
+		@Override
+        protected Void doInBackground(String... params) {
+
+            try {
+                ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, createDroneProject, createLandscapeProject);
+            } catch (IllegalArgumentException illegalArgumentException) {
+					Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+				} catch (IOException ioException) {
+					Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+					Log.e(TAG, Log.getStackTraceString(ioException));
+					dismiss();
+				}
+            return null;
+        }
+    }
 }
