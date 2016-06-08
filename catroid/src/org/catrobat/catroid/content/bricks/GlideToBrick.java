@@ -161,9 +161,9 @@ public class GlideToBrick extends FormulaBrick {
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
-		textX.setText(String.valueOf(BrickValues.X_POSITION));
-		textY.setText(String.valueOf(BrickValues.Y_POSITION));
-		textDuration.setText(String.valueOf(BrickValues.DURATION));
+		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
+		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
+		textDuration.setText(Utils.getNumberStringForBricks(BrickValues.DURATION));
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
 		return prototypeView;

@@ -453,6 +453,15 @@ public class InternFormula {
 		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
 	}
 
+	public String trimExternFormulaString(Context context) {
+		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context);
+
+		internToExternGenerator.trimExternString(internTokenFormulaList);
+		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
+		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
+		return externFormulaString;
+	}
+
 	private void selectCursorPositionInternToken(TokenSelectionType internTokenSelectionType) {
 
 		internFormulaTokenSelection = null;
