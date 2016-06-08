@@ -191,7 +191,7 @@ public final class LookController {
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-		String[] projection = {MediaStore.MediaColumns.DATA};
+		String[] projection = { MediaStore.MediaColumns.DATA };
 		return new CursorLoader(activity, imageUri, projection, null, null, null);
 	}
 
@@ -290,7 +290,7 @@ public final class LookController {
 	}
 
 	private void copyImageToCatroid(String originalImagePath, Activity activity, List<LookData> lookDataList,
-									LookFragment fragment) {
+			LookFragment fragment) {
 		try {
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 
@@ -358,7 +358,7 @@ public final class LookController {
 		Uri imageUri = intent.getData();
 		if (imageUri != null) {
 
-			Cursor cursor = activity.getContentResolver().query(imageUri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
+			Cursor cursor = activity.getContentResolver().query(imageUri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
 
 			if (cursor != null) {
 				cursor.moveToFirst();

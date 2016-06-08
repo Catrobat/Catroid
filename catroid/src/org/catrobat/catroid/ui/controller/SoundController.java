@@ -607,21 +607,10 @@ public final class SoundController {
 		soundOnSdCard.delete();
 	}
 
-	public void handleAddButtonFromNew(SoundFragment soundFragment) {
-		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
-		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
-				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
-			soundFragment.handleAddButton();
-		}
-	}
-
-	public void switchToScriptFragment(SoundFragment soundFragment) {
-		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
+	public void switchToScriptFragment(SoundFragment fragment, ScriptActivity scriptActivity) {
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-
 		FragmentTransaction fragmentTransaction = scriptActivity.getFragmentManager().beginTransaction();
-		fragmentTransaction.hide(soundFragment);
+		fragmentTransaction.hide(fragment);
 		fragmentTransaction.show(scriptActivity.getFragmentManager().findFragmentByTag(ScriptFragment.TAG));
 		fragmentTransaction.commit();
 
