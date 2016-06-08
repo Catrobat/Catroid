@@ -545,6 +545,19 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				notDeletedSprite.getName());
 	}
 
+	public void testDustbinNotVisible() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		solo.sleep(200);
+
+		ArrayList<View> views = solo.getCurrentViews();
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (View view : views) {
+			ids.add(view.getId());
+		}
+
+		assertFalse("Dustbin icon found in Actionbar", ids.contains(R.id.delete));
+	}
+
 	public void testChooseNoOnDeleteQuestion() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
