@@ -179,6 +179,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
 				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
+			case R.string.formula_editor_nfc_tag_id:
+				return buildSensor(Sensors.NFC_TAG_ID);
 
 			//NXT SENSOR
 			case R.string.formula_editor_sensor_lego_nxt_1:
