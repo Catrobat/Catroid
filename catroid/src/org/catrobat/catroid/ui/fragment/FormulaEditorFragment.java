@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.percent.PercentRelativeLayout;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -322,11 +323,43 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		getView().requestFocus();
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
+			private Handler handler;
+			private Runnable deleteAction;
+
+			private boolean handleLongClick(final View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					if (handler == null) {
+						return true;
+					}
+					handler.removeCallbacks(deleteAction);
+					handler = null;
+				}
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					deleteAction = new Runnable() {
+						@Override
+						public void run() {
+							handler.postDelayed(this, 100);
+							if (formulaEditorEditText.isThereSomethingToDelete()) {
+								formulaEditorEditText.handleKeyEvent(view.getId(), "");
+							}
+						}
+					};
+
+					if (handler != null) {
+						return true;
+					}
+					handler = new Handler();
+					handler.postDelayed(deleteAction, 400);
+				}
+				return true;
+			}
+
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 					view.setPressed(false);
+					handleLongClick(view, event);
 					return true;
 				}
 
@@ -385,6 +418,9 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 							((NewStringDialog) dialogFragment).show(fragmentManager,
 									NewStringDialog.DIALOG_FRAGMENT_TAG);
 							return true;
+						case R.id.formula_editor_keyboard_delete:
+							formulaEditorEditText.handleKeyEvent(view.getId(), "");
+							return handleLongClick(view, event);
 						default:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return true;

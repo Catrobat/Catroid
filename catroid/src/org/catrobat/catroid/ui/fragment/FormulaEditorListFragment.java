@@ -41,8 +41,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorPortConfigDialog;
@@ -67,6 +69,12 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
 			R.string.formula_editor_object_angular_velocity};
+	private static final int[] OBJECT_ITEMS_BACKGROUND = {
+			R.string.formula_editor_object_background_number,
+			R.string.formula_editor_object_background_name };
+	private static final int[] OBJECT_ITEMS_LOOK = {
+			R.string.formula_editor_object_look_number,
+			R.string.formula_editor_object_look_name };
 
 	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
@@ -229,6 +237,14 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 		if (tag.equals(OBJECT_TAG)) {
 			itemsIds = OBJECT_ITEMS;
+			Context context = this.getActivity().getApplicationContext();
+			ProjectManager projectManager = ProjectManager.getInstance();
+			Sprite currentSprite = projectManager.getCurrentSprite();
+			if (projectManager.getCurrentProject().isBackgroundObject(currentSprite)) {
+				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_BACKGROUND);
+			} else {
+				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_LOOK);
+			}
 		} else if (tag.equals(FUNCTION_TAG)) {
 			itemsIds = FUNCTIONS_ITEMS;
 		} else if (tag.equals(LOGIC_TAG)) {
