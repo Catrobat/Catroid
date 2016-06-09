@@ -189,7 +189,6 @@ public class Formula implements Serializable {
 		refreshTextField(view, getTrimmedFormulaString(view.getContext()));
 	}
 
-
 	public void refreshTextField(View view, String formulaString) {
 		if (formulaTextFieldId != null && formulaTree != null && view != null) {
 			TextView formulaTextField = (TextView) view.findViewById(formulaTextFieldId);
