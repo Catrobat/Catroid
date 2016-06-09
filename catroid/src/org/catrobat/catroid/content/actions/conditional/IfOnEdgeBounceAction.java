@@ -39,7 +39,7 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 
 		int halfVirtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
 		int halfVirtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
-		float newDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		float newDirection = sprite.look.getRealDirectionInUserInterfaceDimensionUnit();
 
 		if (xPosition < -halfVirtualScreenWidth + width / 2) {
 			if (isLookingLeft(newDirection)) {

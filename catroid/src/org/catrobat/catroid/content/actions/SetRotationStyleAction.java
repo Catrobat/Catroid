@@ -26,24 +26,36 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class MoveNStepsAction extends TemporalAction {
+public class SetRotationStyleAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula steps;
+	private Formula mode;
 
 	@Override
-	protected void update(float percent) {
+	protected void update(float delta) {
 		try {
-			Double stepsValue = steps == null ? Double.valueOf(0d) : steps.interpretDouble(sprite);
-			double radians = Math.toRadians(sprite.look.getRealDirectionInUserInterfaceDimensionUnit());
-			sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
-			sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+			Integer newMode = (mode == null) ? Integer.valueOf(0) : mode.interpretInteger(sprite);
+
+			sprite.look.setRotationMode(newMode);
+			if (newMode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && sprite.look.isFlipped()) {
+				sprite.look.getLookData().getTextureRegion().flip(true, false);
+				sprite.look.setFlipped(false);
+			}
+			boolean oriented_left = sprite.look.getRealDirectionInUserInterfaceDimensionUnit() < 0;
+			if (newMode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && oriented_left) {
+				sprite.look.getLookData().getTextureRegion().flip(true, false);
+				sprite.look.setFlipped(true);
+			}
+
+			sprite.look.setDirectionInUserInterfaceDimensionUnit(sprite.look.getRealDirectionInUserInterfaceDimensionUnit());
 		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			Log.e(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
+					interpretationException);
 		}
 	}
 
@@ -51,7 +63,7 @@ public class MoveNStepsAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
-	public void setSteps(Formula steps) {
-		this.steps = steps;
+	public void setRotationStyle(Formula mode) {
+		this.mode = mode;
 	}
 }
