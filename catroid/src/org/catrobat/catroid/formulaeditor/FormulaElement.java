@@ -27,9 +27,11 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
@@ -697,6 +699,11 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Object returnValue = 0d;
+		LookData lookData = sprite.look.getLookData();
+		List <LookData> lookDataList = sprite.getLookDataList();
+		if (lookData == null && lookDataList.size() > 0) {
+			lookData = lookDataList.get(0);
+		}
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
@@ -730,6 +737,18 @@ public class FormulaElement implements Serializable {
 				break;
 			case OBJECT_Y_VELOCITY:
 				returnValue = (double) sprite.look.getYVelocityInUserInterfaceDimensionUnit();
+				break;
+			case OBJECT_LOOK_NUMBER:
+				returnValue = 1.0d + ((lookData != null) ? lookDataList.indexOf(lookData) : 0);
+				break;
+			case OBJECT_LOOK_NAME:
+				returnValue = (lookData != null) ? lookData.getLookName() : null;
+				break;
+			case OBJECT_BACKGROUND_NUMBER:
+				returnValue = 1.0d + ((lookData != null) ? lookDataList.indexOf(lookData) : 0);
+				break;
+			case OBJECT_BACKGROUND_NAME:
+				returnValue = (lookData != null) ? lookData.getLookName() : null;
 				break;
 		}
 		return returnValue;
