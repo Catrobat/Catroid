@@ -396,6 +396,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				break;
 
 			case R.id.context_menu_upload:
+				Log.d("Lausi", "ProjectListFRagment: onContextItemSlected");
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
 				break;
 			case R.string.merge_button:

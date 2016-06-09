@@ -239,6 +239,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleUploadButton(View view) {
+
 		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
 			return;
 		}

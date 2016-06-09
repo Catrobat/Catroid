@@ -170,24 +170,25 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
 	}
 
-	public void testRatingDialog() throws Throwable {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		sharedPreferences.edit().putInt(UploadProjectDialog.NUMBER_OF_UPLOADED_PROJECTS, 0)
-				.commit();
+	public void testUploadProjectWithTags() throws Throwable {
+
+		int maxNumberChecked = 3;
 		UiTestUtils.createValidUser(getActivity());
-		createTestProject();
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.waitForText(uploadDialogTitle);
 
-		solo.clickOnButton(solo.getString(R.string.upload_button));
-		solo.waitForDialogToOpen();
-		solo.clickOnButton(solo.getString(R.string.upload_button));
-		solo.waitForDialogToClose();
+		solo.clickOnText(solo.getString(R.string.ok));
 
-		solo.clickOnButton(solo.getString(R.string.upload_button));
-		solo.waitForDialogToOpen();
-		solo.clickOnButton(solo.getString(R.string.upload_button));
-		solo.waitForDialogToClose();
+		boolean tagDialogShown = solo.waitForText(solo.getString(R.string.upload_tag_dialog_title));
+		assertTrue("tag dialog not shown", tagDialogShown);
 
-		assertTrue("rating dialog", solo.waitForText(solo.getString(R.string.rating_dialog_rate_now)));
+		for (int i = maxNumberChecked; i > 0; i++) {
+			solo.clickOnCheckBox(i);
+		}
+		solo.clickOnCheckBox(0);
+		assertFalse("The number of checked tags should be limited to 3!", solo.isCheckBoxChecked(0));
+
+		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
 
 	private void createTestProject() {

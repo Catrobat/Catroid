@@ -704,6 +704,9 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
+    <!-- tags -->
+    <string name="upload_tag_dialog_title">Choose up to three categories</string>
+
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -1149,4 +1152,5 @@
     <string name="rating_dialog_rate_later">Later</string>
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
+
 </resources>

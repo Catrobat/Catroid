@@ -38,6 +38,7 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -49,6 +50,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -56,9 +58,10 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UploadProjectDialog extends DialogFragment {
-
+public class UploadProjectDialog extends DialogFragment implements GetTagsTask.AsyncResponse {
 	private String openAuthProvider = Constants.NO_OAUTH_PROVIDER;
 
 	@SuppressLint("ParcelCreator")
@@ -91,6 +94,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_upload_project";
 	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
+	public final int OFFSET_TO_TAGS = 2;
 
 	private EditText projectUploadName;
 	private EditText projectDescriptionField;
@@ -101,11 +105,24 @@ public class UploadProjectDialog extends DialogFragment {
 	private String currentProjectDescription;
 	private String newProjectName;
 	private Activity activity;
+	private Dialog tagDialog;
+
+	private List<Integer> tagsChecked = new ArrayList<Integer>();
+	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
+	public String[] tags;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project, null);
 
+		try {
+			GetTagsTask task = new GetTagsTask(getActivity());
+			task.setOnTagsResponseListener(this);
+			task.execute();
+		} catch (Exception e) {
+			Log.e("UploadProjectDialog", "No Tags available" + e.toString());
+		}
+
+		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project, null);
 		projectRename = (TextView) dialogView.findViewById(R.id.tv_project_rename);
 		projectDescriptionField = (EditText) dialogView.findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) dialogView.findViewById(R.id.project_upload_name);
@@ -121,6 +138,7 @@ public class UploadProjectDialog extends DialogFragment {
 				.setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						activity = getActivity();
 						handleUploadButtonClick();
 					}
 				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
@@ -146,6 +164,36 @@ public class UploadProjectDialog extends DialogFragment {
 		});
 
 		initControls();
+
+		tagDialog = new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.upload_tag_dialog_title)
+				.setMultiChoiceItems(tags, null, new DialogInterface.OnMultiChoiceClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
+						if (isChecked) {
+							if (tagsChecked.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
+								((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
+							} else {
+								tagsChecked.add(indexSelected);
+							}
+						} else if (tagsChecked.contains(indexSelected)) {
+							tagsChecked.remove(Integer.valueOf(indexSelected));
+							((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
+						}
+					}
+				}).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						ProjectManager.getInstance().getCurrentProject().setTags(getStringsForCheckedItems());
+						uploadProject(projectUploadName.getText().toString(), projectDescriptionField.getText().toString());
+					}
+				}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						handleCancelButtonClick();
+					}
+				}).create();
+		tagDialog.show();
 
 		return dialog;
 	}
@@ -212,25 +260,35 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void handleUploadButtonClick() {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		if (checkInputOfUploadDialog(projectUploadName.getText().toString(), projectDescriptionField.getText().toString())) {
+			tagDialog.show();
+		} else {
+			tagDialog.dismiss();
+		}
+	}
 
-		String uploadName = projectUploadName.getText().toString();
-		String projectDescription = projectDescriptionField.getText().toString();
+	private void handleCancelButtonClick() {
+		Utils.invalidateLoginTokenIfUserRestricted(getActivity());
+		dismiss();
+	}
+
+	private boolean checkInputOfUploadDialog(String uploadName, String projectDescription) {
+		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (uploadName.isEmpty()) {
 			Utils.showErrorDialog(getActivity(), R.string.error_no_program_name_entered);
-			return;
+			return false;
 		}
 
 		if (uploadName.equals(getString(R.string.default_project_name))) {
 			Utils.showErrorDialog(getActivity(), R.string.error_upload_project_with_default_name);
-			return;
+			return false;
 		}
 
 		Context context = getActivity().getApplicationContext();
 		if (Utils.isStandardProject(projectManager.getCurrentProject(), context)) {
 			Utils.showErrorDialog(getActivity(), R.string.error_upload_default_project);
-			return;
+			return false;
 		}
 
 		boolean needsRenaming;
@@ -244,22 +302,36 @@ public class UploadProjectDialog extends DialogFragment {
 				boolean renamed = projectManager.renameProject(newProjectName, getActivity());
 				if (!renamed) {
 					projectManager.getCurrentProject().setDescription(oldDescription);
-					return;
+					return false;
 				}
 			}
 		}
 
 		projectManager.getCurrentProject().setDeviceData(getActivity());
+		return true;
+	}
+
+	private String[] getStringsForCheckedItems() {
+
+		String[] checkedTags = new String[tagsChecked.size()];
+		for (int i = 0; i < tagsChecked.size(); i++) {
+			checkedTags[i] = tags[tagsChecked.get(i)];
+		}
+		return checkedTags;
+	}
+
+	private void uploadProject(String uploadName, String projectDescription) {
 
 		dismiss();
+		ProjectManager projectManager = ProjectManager.getInstance();
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
+		Intent uploadIntent = new Intent(activity, ProjectUploadService.class);
 
-		// TODO check this extras - e.g. project description isn't used by web 
+		// TODO check this extras - e.g. project description isn't used by web
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
 		uploadIntent.putExtra("uploadName", uploadName);
 		uploadIntent.putExtra("projectDescription", projectDescription);
@@ -268,10 +340,9 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("token", token);
 		uploadIntent.putExtra("provider", openAuthProvider);
 
-		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getActivity(),
+		int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(activity,
 				uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
-		activity = getActivity();
 		activity.startService(uploadIntent);
 		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0);
 		numberOfUploadedProjects = numberOfUploadedProjects + 1;
@@ -283,8 +354,16 @@ public class UploadProjectDialog extends DialogFragment {
 		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
 	}
 
-	private void handleCancelButtonClick() {
-		Utils.invalidateLoginTokenIfUserRestricted(getActivity());
-		dismiss();
+	private String[] extractTagsFromResponse(String response) {
+		String[] parts = response.split(":");
+		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("[", "");
+		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("]", "");
+		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("}", "");
+		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("\"", "");
+		return parts[OFFSET_TO_TAGS].split(",");
+	}
+	@Override
+	public void onTagsReceived(String tags) {
+		this.tags = extractTagsFromResponse(tags);
 	}
 }

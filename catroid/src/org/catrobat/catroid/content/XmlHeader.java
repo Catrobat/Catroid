@@ -61,7 +61,7 @@ public class XmlHeader implements Serializable {
 	private String programLicense = "";
 	@SuppressWarnings("unused")
 	private String remixOf = "";
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private String tags = "";
 	@SuppressWarnings("unused")
 	private String url = "";
@@ -189,5 +189,13 @@ public class XmlHeader implements Serializable {
 
 	public void setlandscapeMode(boolean landscapeMode) {
 		this.landscapeMode = landscapeMode;
+	}
+
+	public String getTags() {
+		return this.tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 }
