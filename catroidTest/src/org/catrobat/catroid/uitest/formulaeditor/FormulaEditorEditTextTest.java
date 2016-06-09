@@ -312,6 +312,27 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 				.getText().toString());
 	}
 
+	public void testLongClickDeletion() {
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
+		solo.clickLongOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		assertEquals("Long click deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
+				.toString());
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
+		setAbsoluteCursorPosition(2);
+		solo.clickLongOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		assertEquals("Long click deletion failed!", "34 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
+				.toString());
+	}
+
 	public void testFunctionDeletion() {
 		int functionRandomLength = solo.getCurrentActivity().getText(R.string.formula_editor_function_rand).length();
 
