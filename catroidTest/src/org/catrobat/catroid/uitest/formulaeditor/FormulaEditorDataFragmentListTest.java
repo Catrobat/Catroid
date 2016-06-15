@@ -363,7 +363,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		UiTestUtils.createUserListFromDataFragment(solo, itemString2nd, true);
 		UiTestUtils.createUserListFromDataFragment(solo, itemString3rd, true);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_data_item_delete));
+		String delete = solo.getString(R.string.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete, getActivity());
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -458,8 +459,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 			ids.add(view.getId());
 		}
 
-		assertTrue("MenuItem should have been found!", solo.getView(R.id.formula_editor_data_item_delete) != null);
-
+		assertFalse("MenuItem should not be found!", ids.contains(R.id.formula_editor_data_item_delete));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.copy));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.cut));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.insert_below));
@@ -482,15 +482,15 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 
 		solo.enterText(editText, "");
-		Button ok = solo.getButton(solo.getString(R.string.ok));
+		Button ok = solo.getButton(solo.getString(R.string.ok), true);
 		assertFalse("Ok-Button should not be enabled!", ok.isEnabled());
 
 		solo.enterText(editText, "easy");
-		ok = solo.getButton(solo.getString(R.string.ok));
+		ok = solo.getButton(solo.getString(R.string.ok), true);
 		assertTrue("Ok-Button should be enabled!", ok.isEnabled());
 
 		solo.enterText(editText, "");
-		ok = solo.getButton(solo.getString(R.string.ok));
+		ok = solo.getButton(solo.getString(R.string.ok), true);
 		assertFalse("Ok-Button should not be enabled!", ok.isEnabled());
 	}
 
@@ -586,6 +586,6 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 	}
 
 	private ListView getDataListListView() {
-		return solo.getCurrentViews(ListView.class).get(1);
+		return solo.getCurrentViews(ListView.class, solo.getView(R.id.formula_editor_data_list)).get(0);
 	}
 }
