@@ -869,9 +869,9 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Beräkna</string>
   <string name="formula_editor_object">Objekt</string>
-  <string name="formula_editor_math">Matematik</string>
+  <string name="formula_editor_functions">Matematik</string>
   <string name="formula_editor_logic">Logik</string>
-  <string name="formula_editor_sensors">Sensorer</string>
+  <string name="formula_editor_device">Sensorer</string>
   <string name="formula_editor_variables">Variabler</string>
   <string name="formula_editor_string">abc</string>
   <string name="formula_editor_logic_notequal">≠</string>

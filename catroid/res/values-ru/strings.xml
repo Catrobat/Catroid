@@ -877,9 +877,9 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Вычислить</string>
   <string name="formula_editor_object">объект</string>
-  <string name="formula_editor_math">Функции</string>
+  <string name="formula_editor_functions">Функции</string>
   <string name="formula_editor_logic">Логические</string>
-  <string name="formula_editor_sensors">Сенсоры</string>
+  <string name="formula_editor_device">Сенсоры</string>
   <string name="formula_editor_variables">Переменные</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>

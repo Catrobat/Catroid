@@ -854,9 +854,9 @@
   <string name="formula_editor_object_angular_velocity">각속도</string>
   <string name="formula_editor_compute">계산하기</string>
   <string name="formula_editor_object">스프라이트</string>
-  <string name="formula_editor_math">함수</string>
+  <string name="formula_editor_functions">함수</string>
   <string name="formula_editor_logic">로직</string>
-  <string name="formula_editor_sensors">센서</string>
+  <string name="formula_editor_device">센서</string>
   <string name="formula_editor_variables">변수</string>
   <string name="formula_editor_string">글자</string>
   <string name="formula_editor_logic_notequal">≠</string>

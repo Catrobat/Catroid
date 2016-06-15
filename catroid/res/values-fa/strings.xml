@@ -859,9 +859,9 @@
   <string name="formula_editor_object_angular_velocity">سرعت_زاویه ای</string>
   <string name="formula_editor_compute">محاسبه</string>
   <string name="formula_editor_object">شی</string>
-  <string name="formula_editor_math">توابع</string>
+  <string name="formula_editor_functions">توابع</string>
   <string name="formula_editor_logic">منطق</string>
-  <string name="formula_editor_sensors">سنسورها</string>
+  <string name="formula_editor_device">سنسورها</string>
   <string name="formula_editor_variables">متغیرها</string>
   <string name="formula_editor_string">الفبا</string>
   <string name="formula_editor_logic_notequal">≠</string>

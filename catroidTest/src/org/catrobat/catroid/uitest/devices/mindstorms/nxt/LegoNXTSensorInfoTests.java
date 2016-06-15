@@ -175,10 +175,10 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(300);
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
 		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_touch), 1, true);
 		solo.clickOnText(solo.getString(R.string.nxt_sensor_light));
 		solo.clickOnText(solo.getString(R.string.yes));

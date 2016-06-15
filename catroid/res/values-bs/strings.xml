@@ -880,9 +880,9 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Izračunaj</string>
   <string name="formula_editor_object">Objekat</string>
-  <string name="formula_editor_math">Functions</string>
+  <string name="formula_editor_functions">Functions</string>
   <string name="formula_editor_logic">Logika</string>
-  <string name="formula_editor_sensors">Senzori</string>
+  <string name="formula_editor_device">Senzori</string>
   <string name="formula_editor_variables">Varijable</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
