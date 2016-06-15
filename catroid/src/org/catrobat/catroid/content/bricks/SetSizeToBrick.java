@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -101,7 +102,7 @@ public class SetSizeToBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
-		textSetSizeTo.setText(String.valueOf(BrickValues.SET_SIZE_TO));
+		textSetSizeTo.setText(Utils.getNumberStringForBricks(BrickValues.SET_SIZE_TO));
 		return prototypeView;
 	}
 

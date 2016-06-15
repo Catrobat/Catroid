@@ -827,6 +827,7 @@
     <string name="nxt_sensor_light">NXT light sensor</string>
     <string name="nxt_sensor_light_active">NXT light sensor active</string>
     <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
+    <string name="nxt_sensor_not_found">Sensor not found!</string>
 
     <string name="lego_nxt_sensor_config_info_title">NXT Sensor Configuration</string>
     <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
@@ -839,6 +840,8 @@
     <string name="nxt_port_3">Port 3</string>
     <string name="nxt_port_4">Port 4</string>
     <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
+    <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
+    <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
     <!--  -->
 
 
@@ -1020,6 +1023,11 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+    <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+    <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+    <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+    <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -1038,10 +1046,23 @@
     <string name="formula_editor_object_angular_velocity">angular_velocity</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
-    <string name="formula_editor_math">Functions</string>
+    <string name="formula_editor_functions">Functions</string>
     <string name="formula_editor_logic">Logic</string>
-    <string name="formula_editor_sensors">Sensors</string>
+    <string name="formula_editor_device">Device</string>
     <string name="formula_editor_variables">Variables</string>
+    <string name="formula_editor_functions_maths">Maths</string>
+    <string name="formula_editor_functions_strings">Strings</string>
+    <string name="formula_editor_functions_lists">Lists</string>
+    <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
+    <string name="formula_editor_logic_comparison">comparison operators</string>
+    <string name="formula_editor_object_general">general properties</string>
+    <string name="formula_editor_object_physical">physical properties</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_lego">Lego</string>
+    <string name="formula_editor_device_arduino">Arduino</string>
+    <string name="formula_editor_device_phiro">Phiro</string>
+    <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+    <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -1068,6 +1089,7 @@
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
     <string name="formula_editor_data_dialog_title">New</string>
+    <string name="formula_editor_rename_variable_dialog_title">Rename</string>
     <string name="formula_editor_existing_data_item">Name already in use!</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
@@ -1146,4 +1168,12 @@
     <string name="rating_dialog_rate_later">Later</string>
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
+
+    <!-- Delete User Variable Alert Dialog -->
+    <string name="deletion_alert_title">Warning!</string>
+    <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
+    <string name="deletion_alert_yes">Yes, delete anyway!</string>
+    <string name="deletion_alert_no">No.</string>
+    <!--  -->
+
 </resources>

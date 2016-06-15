@@ -21,19 +21,25 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/formula_editor_data_list"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content"
+    android:longClickable="true"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@android:id/list"
-        style="@style/ListViewShadowed"
+    <include layout="@layout/fragment_formula_editor_categorylist_headline" />
+
+    <TextView
+        android:id="@+id/fragment_formula_editor_list_item"
+        style="@style/sound_fragment_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:cacheColorHint="#00000000"
-        android:divider="@android:color/transparent" />
+        android:layout_height="50dp"
+        android:background="@drawable/button_background_selector"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="6dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/sound_fragment_text_main_color" />
 
-</RelativeLayout>
+</LinearLayout>

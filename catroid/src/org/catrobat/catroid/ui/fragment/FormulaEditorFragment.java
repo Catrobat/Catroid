@@ -36,6 +36,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.percent.PercentRelativeLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -86,7 +88,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	private Context context;
 	private FormulaEditorEditText formulaEditorEditText;
-	private LinearLayout formulaEditorKeyboard;
+	private PercentRelativeLayout formulaEditorKeyboard;
 	private ImageButton formulaEditorFieldDeleteButton;
 	private LinearLayout formulaEditorBrick;
 	private View brickView;
@@ -244,6 +246,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	}
 
 	private void onUserDismiss() {
+		refreshFormulaPreviewString(currentFormula.getTrimmedFormulaString(getActivity()));
 		formulaEditorEditText.endEdit();
 		currentFormula.prepareToRemove();
 
@@ -278,7 +281,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		formulaEditorEditText = (FormulaEditorEditText) fragmentView.findViewById(R.id.formula_editor_edit_field);
 
-		formulaEditorKeyboard = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
+		formulaEditorKeyboard = (PercentRelativeLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
 		formulaEditorEditText.init(this);
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -320,11 +323,43 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		getView().requestFocus();
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
+			private Handler handler;
+			private Runnable deleteAction;
+
+			private boolean handleLongClick(final View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					if (handler == null) {
+						return true;
+					}
+					handler.removeCallbacks(deleteAction);
+					handler = null;
+				}
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					deleteAction = new Runnable() {
+						@Override
+						public void run() {
+							handler.postDelayed(this, 100);
+							if (formulaEditorEditText.isThereSomethingToDelete()) {
+								formulaEditorEditText.handleKeyEvent(view.getId(), "");
+							}
+						}
+					};
+
+					if (handler != null) {
+						return true;
+					}
+					handler = new Handler();
+					handler.postDelayed(deleteAction, 400);
+				}
+				return true;
+			}
+
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 					view.setPressed(false);
+					handleLongClick(view, event);
 					return true;
 				}
 
@@ -348,20 +383,20 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 							computeDialog.show();
 							return true;
 						case R.id.formula_editor_keyboard_function:
-							showFormulaEditorListFragment(FormulaEditorListFragment.FUNCTION_TAG,
-									R.string.formula_editor_math);
+							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.FUNCTION_TAG,
+									R.string.formula_editor_functions);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
-							showFormulaEditorListFragment(FormulaEditorListFragment.LOGIC_TAG,
+							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.LOGIC_TAG,
 									R.string.formula_editor_logic);
 							return true;
 						case R.id.formula_editor_keyboard_object:
-							showFormulaEditorListFragment(FormulaEditorListFragment.OBJECT_TAG,
+							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.OBJECT_TAG,
 									R.string.formula_editor_choose_object_variable);
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
-							showFormulaEditorListFragment(FormulaEditorListFragment.SENSOR_TAG,
-									R.string.formula_editor_sensors);
+							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.SENSOR_TAG,
+									R.string.formula_editor_device);
 							return true;
 						case R.id.formula_editor_keyboard_data:
 							showFormulaEditorDataFragment(FormulaEditorDataFragment.USER_DATA_TAG,
@@ -383,6 +418,9 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 							((NewStringDialog) dialogFragment).show(fragmentManager,
 									NewStringDialog.DIALOG_FRAGMENT_TAG);
 							return true;
+						case R.id.formula_editor_keyboard_delete:
+							formulaEditorEditText.handleKeyEvent(view.getId(), "");
+							return handleLongClick(view, event);
 						default:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return true;
@@ -393,11 +431,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		};
 
 		for (int index = 0; index < formulaEditorKeyboard.getChildCount(); index++) {
-			LinearLayout child = (LinearLayout) formulaEditorKeyboard.getChildAt(index);
-			for (int nestedIndex = 0; nestedIndex < child.getChildCount(); nestedIndex++) {
-				View view = child.getChildAt(nestedIndex);
-				view.setOnTouchListener(touchListener);
-			}
+			formulaEditorKeyboard.getChildAt(index).setOnTouchListener(touchListener);
 		}
 		formulaEditorFieldDeleteButton.setOnTouchListener(touchListener);
 
@@ -604,20 +638,20 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		}
 	}
 
-	private void showFormulaEditorListFragment(String tag, int actionbarResId) {
+	private void showFormularEditorCategorylistFragment(String tag, int actionbarResId) {
 		FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
-			fragment = new FormulaEditorListFragment();
+			fragment = new FormulaEditorCategoryListFragment();
 			Bundle bundle = new Bundle();
-			bundle.putString(FormulaEditorListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+			bundle.putString(FormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));
-			bundle.putString(FormulaEditorListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
+			bundle.putString(FormulaEditorCategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
 		}
-		((FormulaEditorListFragment) fragment).showFragment(context);
+		((FormulaEditorCategoryListFragment) fragment).showFragment(context);
 	}
 
 	@Override

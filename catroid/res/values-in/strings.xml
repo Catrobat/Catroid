@@ -853,9 +853,9 @@
   <string name="formula_editor_object_angular_velocity">sudut_percepatan</string>
   <string name="formula_editor_compute">Menghitung</string>
   <string name="formula_editor_object">Objek</string>
-  <string name="formula_editor_math">Fungsi</string>
+  <string name="formula_editor_functions">Fungsi</string>
   <string name="formula_editor_logic">Logika</string>
-  <string name="formula_editor_sensors">Sensor</string>
+  <string name="formula_editor_device">Sensor</string>
   <string name="formula_editor_variables">Variabel</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>

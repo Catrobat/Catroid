@@ -856,9 +856,9 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">計算</string>
   <string name="formula_editor_object">物件</string>
-  <string name="formula_editor_math">函數</string>
+  <string name="formula_editor_functions">函數</string>
   <string name="formula_editor_logic">邏輯</string>
-  <string name="formula_editor_sensors">感應器</string>
+  <string name="formula_editor_device">感應器</string>
   <string name="formula_editor_variables">變數</string>
   <string name="formula_editor_string">字串</string>
   <string name="formula_editor_logic_notequal">≠</string>

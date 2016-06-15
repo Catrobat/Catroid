@@ -871,9 +871,9 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Kiszámítás</string>
   <string name="formula_editor_object">Objektum</string>
-  <string name="formula_editor_math">Math</string>
+  <string name="formula_editor_functions">Math</string>
   <string name="formula_editor_logic">Logika</string>
-  <string name="formula_editor_sensors">Érzékelők</string>
+  <string name="formula_editor_device">Érzékelők</string>
   <string name="formula_editor_variables">Változók</string>
   <string name="formula_editor_string">ABC</string>
   <string name="formula_editor_logic_notequal">≠</string>

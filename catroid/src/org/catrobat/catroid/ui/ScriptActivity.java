@@ -61,9 +61,9 @@ import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
@@ -413,8 +413,8 @@ public class ScriptActivity extends BaseActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		FragmentManager fragmentManager = getFragmentManager();
 
-		for (String tag : FormulaEditorListFragment.TAGS) {
-			FormulaEditorListFragment fragment = (FormulaEditorListFragment) fragmentManager.findFragmentByTag(tag);
+		for (String tag : FormulaEditorCategoryListFragment.TAGS) {
+			FormulaEditorCategoryListFragment fragment = (FormulaEditorCategoryListFragment) fragmentManager.findFragmentByTag(tag);
 			if (fragment != null && fragment.isVisible()) {
 				return fragment.onKey(null, keyCode, event);
 			}

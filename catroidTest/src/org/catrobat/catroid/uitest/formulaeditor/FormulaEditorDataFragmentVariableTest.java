@@ -304,7 +304,8 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		UiTestUtils.createUserVariableFromDataFragment(solo, itemString2nd, true);
 		UiTestUtils.createUserVariableFromDataFragment(solo, itemString3rd, false);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_data_item_delete));
+		String delete = solo.getString(R.string.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete, getActivity());
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
