@@ -94,6 +94,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_function_round, R.string.formula_editor_function_mod,
 			R.string.formula_editor_function_arcsin, R.string.formula_editor_function_arccos,
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
+			R.string.formula_editor_function_power,
 			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min };
 
@@ -105,6 +106,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_function_round_parameter, R.string.formula_editor_function_mod_parameter,
 			R.string.formula_editor_function_arcsin_parameter, R.string.formula_editor_function_arccos_parameter,
 			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
+			R.string.formula_editor_function_power_parameter,
 			R.string.formula_editor_function_floor_parameter, R.string.formula_editor_function_ceil_parameter,
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter };
 
