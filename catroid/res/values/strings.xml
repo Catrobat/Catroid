@@ -1162,4 +1162,12 @@
     <string name="rating_dialog_rate_later">Later</string>
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
+
+    <!-- Delete User Variable Alert Dialog -->
+    <string name="deletion_alert_title">Warning!</string>
+    <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
+    <string name="deletion_alert_yes">Yes, delete anyway!</string>
+    <string name="deletion_alert_no">No.</string>
+    <!--  -->
+
 </resources>
