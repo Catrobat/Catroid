@@ -1042,4 +1042,8 @@
         camera\" brick and change to your device\'s back camera. "</string>
     <!-- -->
 
+    <!-- Pocket Code crashed dialog -->
+    <string name="crashed_title">Pocked Code has crashed!</string>
+    <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+    <!--  -->
 </resources>
