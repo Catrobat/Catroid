@@ -23,25 +23,32 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-import com.koushikdutta.async.ByteBufferList;
-import com.koushikdutta.async.DataEmitter;
-import com.koushikdutta.async.callback.DataCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpClient.WebSocketConnectCallback;
 import com.koushikdutta.async.http.WebSocket;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.ScratchSearchProjectsListFragment;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ScratchConverterActivity extends BaseActivity {
 
@@ -162,5 +169,27 @@ public class ScratchConverterActivity extends BaseActivity {
         scratchSearchProjectsListFragment.setShowDetails(showDetails);
         item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
     }
+
+	public void displaySpeechRecognizer() {
+		// Create an intent that can start the Speech Recognizer activity
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		// Start the activity, the intent will be populated with the speech text
+		startActivityForResult(intent, SPEECH_REQUEST_CODE);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode,
+			Intent data) {
+		// This callback is invoked when the Speech Recognizer returns.
+		// This is where you process the intent and extract the speech text from the intent.
+		if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+			List<String> results = data.getStringArrayListExtra(
+					RecognizerIntent.EXTRA_RESULTS);
+			String spokenText = results.get(0);
+			scratchSearchProjectsListFragment.searchAndUpdateText(spokenText);
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 
 }

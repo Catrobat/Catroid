@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -201,6 +202,13 @@ public class ScratchSearchProjectsListFragment extends Fragment
         //textView.setHintTextColor(Color.GRAY);
         textView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
+        audioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.displaySpeechRecognizer();
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -217,28 +225,35 @@ public class ScratchSearchProjectsListFragment extends Fragment
                     searchResultsListView.setVisibility(View.INVISIBLE);
                     return false;
                 }
-
-                // TODO: consider pagination for cache!
-                ScratchSearchResult cachedResult = scratchSearchResultCache.get(newText);
-                if (cachedResult != null) {
-                    Log.d(TAG, "Cache hit!");
-                    onPostExecute(cachedResult);
-                    return false;
-                }
-
-                // cache miss
-                Log.d(TAG, "Cache miss!");
-                if (currentTask != null) {
-                    currentTask.cancel(true);
-                }
-                currentTask = new FetchScratchProjectsTask();
-                currentTask.setDelegate(fragment).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, newText);
+                search(newText);
                 return false;
             }
         });
         // TODO: >> powered by "https://www.google.com/uds/css/small-logo.png" Custom Search << (grey)
         rootView.clearFocus();
         return rootView;
+    }
+
+    public void searchAndUpdateText(final String text) {
+        searchView.setQuery(text, false);
+    }
+
+    public void search(final String text) {
+        // TODO: consider pagination for cache!
+        ScratchSearchResult cachedResult = scratchSearchResultCache.get(text);
+        if (cachedResult != null) {
+            Log.d(TAG, "Cache hit!");
+            onPostExecute(cachedResult);
+            return;
+        }
+
+        // cache miss
+        Log.d(TAG, "Cache miss!");
+        if (currentTask != null) {
+            currentTask.cancel(true);
+        }
+        currentTask = new FetchScratchProjectsTask();
+        currentTask.setDelegate(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, text);
     }
 
     @Override
@@ -319,7 +334,9 @@ public class ScratchSearchProjectsListFragment extends Fragment
             case R.id.context_menu_convert:
                 Log.d(TAG, "Clicked convert item in context menu for scratch project '"
                         + scratchProjectToEdit.getTitle() + "'");
-                this.getActivity();
+                ArrayList<ScratchProjectPreviewData> projectList = new ArrayList<>();
+                projectList.add(scratchProjectToEdit);
+                convertProjects(projectList);
                 break;
         }
         return super.onContextItemSelected(item);
