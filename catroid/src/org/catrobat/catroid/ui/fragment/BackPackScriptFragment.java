@@ -124,8 +124,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(true);
 		}
+		menu.findItem(R.id.unpacking_keep).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -146,10 +146,12 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_unpacking_keep:
-				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(), false);
+				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(),
+						false);
 				break;
 			case R.id.context_menu_unpacking:
-				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, true, true, getActivity(), false);
+				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(),
+						false);
 				break;
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();

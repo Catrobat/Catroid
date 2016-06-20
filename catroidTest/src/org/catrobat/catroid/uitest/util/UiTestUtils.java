@@ -2415,6 +2415,7 @@ public final class UiTestUtils {
 		solo.sleep(100);
 		solo.waitForText(solo.getString(R.string.unpack));
 		solo.clickOnText(solo.getString(R.string.unpack));
+		solo.waitForDialogToClose();
 		solo.sleep(500);
 	}
 
