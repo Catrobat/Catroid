@@ -111,6 +111,29 @@ dependencies {
     checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
 
+def getBuildNumberParameter = { ->
+    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+    return code
+}
+
+def generateVersionName(version, buildNumber) {
+    def versionName
+    if (buildNumber == -1) {
+        versionName = getGitDescribe() + " " + getCurrentGitBranch()
+    } else {
+        versionName = version + "." + buildNumber
+    }
+    return versionName
+}
+
+def getGitDescribe() {
+    try {
+        return 'git describe --tags'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+    }
+}
+
 def getCurrentGitBranch() {
     try {
         return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
