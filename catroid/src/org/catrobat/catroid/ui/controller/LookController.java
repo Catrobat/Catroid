@@ -316,7 +316,7 @@ public final class LookController {
 			} else {
 				imageName = oldFile.getName();
 			}
-
+			imageName = Utils.getUniqueLookName(imageName, lookDataList);
 			String imageFileName = imageFile.getName();
 			// if pixmap cannot be created, image would throw an Exception in stage
 			// so has to be loaded again with other Config
@@ -588,7 +588,8 @@ public final class LookController {
 		if (BackPackListManager.getInstance().backPackedLooksContain(currentLookData, false)) {
 			return currentLookData;
 		}
-		String newLookDataName = Utils.getUniqueLookName(currentLookData, true);
+		String newLookDataName = Utils.getUniqueLookName(currentLookData.getLookName(),
+				BackPackListManager.getInstance().getAllBackPackedLooks());
 		return backPack(currentLookData, newLookDataName, true);
 	}
 
@@ -605,7 +606,8 @@ public final class LookController {
 		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentSprite().containsLookData(selectedLookDataBackPack)) {
 			return selectedLookDataBackPack;
 		}
-		String newLookDataName = Utils.getUniqueLookName(selectedLookDataBackPack, false);
+		String newLookDataName = Utils.getUniqueLookName(selectedLookDataBackPack.getLookName(),
+				ProjectManager.getInstance().getCurrentSprite().getLookDataList());
 		String existingFileNameInProjectDirectory = lookFileAlreadyInProjectDirectory(selectedLookDataBackPack);
 		if (existingFileNameInProjectDirectory == null) {
 			Log.d(TAG, "copyLookBackPack" + newLookDataName);
