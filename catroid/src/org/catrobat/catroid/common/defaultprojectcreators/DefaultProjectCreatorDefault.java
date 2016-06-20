@@ -174,6 +174,9 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 
 			PlaceAtBrick placeAtBrick1 = new PlaceAtBrick(0, 0);
 			PlaceAtBrick placeAtBrick2 = new PlaceAtBrick(ScreenValues.SCREEN_WIDTH, 0);
+			PlaceAtBrick placeAtBrick3 = new PlaceAtBrick(ScreenValues.SCREEN_WIDTH, 0);
+			PlaceAtBrick placeAtBrick4 = new PlaceAtBrick(ScreenValues.SCREEN_WIDTH, 0);
+			PlaceAtBrick placeAtBrick5 = new PlaceAtBrick(ScreenValues.SCREEN_WIDTH, 0);
 
 			cloudSpriteScript1.addBrick(placeAtBrick1);
 			cloudSpriteScript2.addBrick(placeAtBrick2);
@@ -181,7 +184,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			GlideToBrick glideToBrick1 = new GlideToBrick(-ScreenValues.SCREEN_WIDTH, 0, 5000);
 			cloudSpriteScript1.addBrick(glideToBrick1);
 
-			cloudSpriteScript1.addBrick(placeAtBrick2);
+			cloudSpriteScript1.addBrick(placeAtBrick3);
 
 			ForeverBrick foreverBrick = new ForeverBrick();
 			cloudSpriteScript1.addBrick(foreverBrick);
@@ -190,10 +193,10 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			GlideToBrick glideToBrick2 = new GlideToBrick(-ScreenValues.SCREEN_WIDTH, 0, 10000);
 
 			cloudSpriteScript1.addBrick(glideToBrick2);
-			cloudSpriteScript1.addBrick(placeAtBrick2);
+			cloudSpriteScript1.addBrick(placeAtBrick4);
 
 			cloudSpriteScript2.addBrick(glideToBrick2);
-			cloudSpriteScript2.addBrick(placeAtBrick2);
+			cloudSpriteScript2.addBrick(placeAtBrick5);
 
 			LoopEndlessBrick loopEndlessBrick = new LoopEndlessBrick(foreverBrick);
 			cloudSpriteScript1.addBrick(loopEndlessBrick);
