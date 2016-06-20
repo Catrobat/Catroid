@@ -122,8 +122,31 @@ public class ScratchProjectDetailsActivity extends BaseActivity
         remixedProjectsListView = (ListView) findViewById(R.id.scratch_project_remixes_list_view);
         convertButton = (Button) findViewById(R.id.scratch_project_convert_button);
 
-        ScratchProjectPreviewData scratchProjectData = getIntent().getParcelableExtra(Constants.SCRATCH_PROJECT_DATA);
-        loadData(scratchProjectData);
+        final ScratchProjectPreviewData projectData = getIntent().getParcelableExtra(Constants.SCRATCH_PROJECT_DATA);
+        final ScratchProjectDetailsActivity activity = this;
+
+        convertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: check if this is already running on UI-thread?
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO: create websocket connection and set up receiver
+                        Log.i(TAG, "Converting project:");
+                        ScratchConverterActivity.ScratchConverterClient client = ScratchConverterActivity.ScratchConverterClient
+                                .getInstance();
+                        Log.i(TAG, projectData.getTitle());
+                        // TODO: send convert command
+                        client.convertProject(projectData.getId(), projectData.getTitle());
+                        ToastUtil.showSuccess(activity, activity.getString(R.string.scratch_conversion_started));
+                        activity.finish(); // dismiss current activity!
+                    }
+                });
+            }
+        });
+
+        loadData(projectData);
     }
 
     private void loadData(ScratchProjectPreviewData scratchProjectData) {
@@ -232,7 +255,8 @@ public class ScratchProjectDetailsActivity extends BaseActivity
                 activity.titleTextView.setText(projectData.getTitle());
                 activity.ownerTextView.setText(activity.getString(R.string.by) + " " + projectData.getOwner());
                 String temp = projectData.getInstructions().replace("\n\n", "\n");
-                final String instructionsText = (temp.length() > 0) ? temp : "-";
+                final String instructionsText = (temp.length() > 0) ? temp : "--";
+                Log.d(TAG, "Instructions: " + instructionsText);
                 final String notesAndCredits = projectData.getNotesAndCredits().replace("\n\n", "\n");
 
                 if (notesAndCredits.length() > 0) {

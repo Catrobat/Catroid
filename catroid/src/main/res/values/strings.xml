@@ -134,6 +134,7 @@
 
     <string name="title_activity_scratch_converter">Convert Scratch project BETA</string>
     <string name="error_scratch_project_data_not_available">Error: Scratch project data not available, please try later</string>
+    <string name="scratch_conversion_started">Started to convert Scratch project...</string>
     <string name="convert">Convert</string>
     <string name="show_description">Show description</string>
     <string name="title">Title</string>

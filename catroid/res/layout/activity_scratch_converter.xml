@@ -147,6 +147,17 @@
             android:layout_height="1dp"
             android:background="@color/spritelist_separation_line_color" />
 
+        <TextView
+            android:id="@+id/scratch_convert_panel_console"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minLines="20"
+            android:maxLines="80"
+            android:scrollbars = "vertical"
+            android:background="@color/black"
+            android:textColor="@color/white"
+            android:gravity="bottom" />
+
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"

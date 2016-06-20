@@ -23,9 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -64,7 +62,6 @@ import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.ScratchProjectDetailsActivity;
 import org.catrobat.catroid.ui.adapter.ScratchProjectAdapter;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.ExpiringLruMemoryObjectCache;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -134,7 +131,8 @@ public class ScratchSearchProjectsListFragment extends Fragment
             if (scratchProjectAdapter.getAmountOfCheckedProjects() == 0) {
                 clearCheckedProjectsAndEnableButtons();
             } else {
-                showConfirmConvertDialog();
+                convertCheckedProjects();
+                clearCheckedProjectsAndEnableButtons();
             }
         }
     };
@@ -399,51 +397,18 @@ public class ScratchSearchProjectsListFragment extends Fragment
         */
     }
 
-    private void showConfirmConvertDialog() {
-        int titleId;
-        if (scratchProjectAdapter.getAmountOfCheckedProjects() == 1) {
-            titleId = R.string.dialog_confirm_delete_program_title;
-        } else {
-            titleId = R.string.dialog_confirm_delete_multiple_programs_title;
-        }
-
-        AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-        builder.setTitle(titleId);
-        builder.setMessage(R.string.dialog_confirm_delete_program_message);
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                convertCheckedProjects();
-                clearCheckedProjectsAndEnableButtons();
-            }
-        });
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                clearCheckedProjectsAndEnableButtons();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
     private void convertProjects(List<ScratchProjectPreviewData> projectList) {
         // TODO: create websocket connection and set up receiver
         Log.i(TAG, "Converting projects:");
+        ScratchConverterActivity.ScratchConverterClient client = ScratchConverterActivity.ScratchConverterClient
+                .getInstance();
         for (ScratchProjectPreviewData projectData : projectList) {
             Log.i(TAG, projectData.getTitle());
             //convertProject(scratchProjectToEdit);
             // TODO: send convert command
+            client.convertProject(projectData.getId(), projectData.getTitle());
         }
+        ToastUtil.showSuccess(getActivity(), getActivity().getString(R.string.scratch_conversion_started));
     }
 
     private void convertCheckedProjects() {
