@@ -485,7 +485,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 					}
 					break;
 				case LookController.REQUEST_TAKE_PICTURE:
-					String defLookName = getString(R.string.default_look_name);
+					String defLookName = Utils.getUniqueLookName(getString(R.string.default_look_name), lookDataList);
 					lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri, defLookName);
 					LookController.getInstance().loadPictureFromCameraIntoCatroid(lookFromCameraUri, activity,
 							lookDataList, this);
@@ -624,10 +624,11 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			return;
 		}
 
+		String lookName = Utils.getUniqueLookName(getString(R.string.default_look_name), lookDataList);
 		Bundle bundleForPocketPaint = new Bundle();
 		bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
 		bundleForPocketPaint
-				.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, getString(R.string.default_look_name));
+				.putString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, lookName);
 		intent.putExtras(bundleForPocketPaint);
 
 		intent.addCategory("android.intent.category.LAUNCHER");

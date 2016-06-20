@@ -76,6 +76,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -418,31 +419,20 @@ public final class Utils {
 		return newName;
 	}
 
-	public static String getUniqueLookName(LookData lookData, boolean forBackPack) {
-		return searchForNonExistingLookName(lookData, 0, forBackPack);
-	}
-
-	private static String searchForNonExistingLookName(LookData originalLookData, int nextNumber, boolean
-			forBackPack) {
-		String newName;
-		List<LookData> lookDataList;
-		if (forBackPack) {
-			lookDataList = BackPackListManager.getInstance().getAllBackPackedLooks();
-		} else {
-			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+	public static String getUniqueLookName(String defaultName, List<LookData> presentList) {
+		List<String> lookNamesPresent = new ArrayList<>();
+		for (LookData lookData : presentList) {
+			lookNamesPresent.add(lookData.getLookName());
 		}
 
-		if (nextNumber == 0) {
-			newName = originalLookData.getLookName();
-		} else {
-			newName = originalLookData.getLookName() + nextNumber;
+		String finalName = defaultName;
+		int enumerator = 1;
+		while (lookNamesPresent.contains(finalName)) {
+			finalName = defaultName + enumerator;
+			enumerator++;
 		}
-		for (LookData lookData : lookDataList) {
-			if (lookData.getLookName().equals(newName)) {
-				return searchForNonExistingLookName(originalLookData, ++nextNumber, forBackPack);
-			}
-		}
-		return newName;
+
+		return finalName;
 	}
 
 	public static String getUniqueSpriteName(Sprite sprite) {
