@@ -92,6 +92,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
@@ -337,6 +338,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupSoundCategoryList(Context context) {
 		List<Brick> soundBrickList = new ArrayList<>();
 		soundBrickList.add(new PlaySoundBrick());
+		soundBrickList.add(new PlaySoundAndWaitBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
