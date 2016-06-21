@@ -232,6 +232,10 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
 	}
 
+	public static int[] getLogicItems() {
+		return LOGIC_BOOLEAN_OPERATORS_ITEMS;
+	}
+
 	@Override
 	public void onStart() {
 		super.onStart();

@@ -24,10 +24,13 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -36,6 +39,7 @@ import android.view.View.OnTouchListener;
 import android.widget.EditText;
 
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
+import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
@@ -297,7 +301,22 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
-		setText(newExternFormulaString);
+
+		int[] logicItemIDs = FormulaEditorCategoryListFragment.getLogicItems();
+		SpannableStringBuilder sb = new SpannableStringBuilder(newExternFormulaString);
+		for (int index = 0; index < logicItemIDs.length; index++) {
+			String currentSearchItem = getResources().getString(logicItemIDs[index]);
+			int lastIndex = 0;
+			while (lastIndex != -1) {
+				lastIndex = newExternFormulaString.indexOf(currentSearchItem, lastIndex);
+				if (lastIndex != -1) {
+					sb.setSpan(new ForegroundColorSpan(Color.BLUE), lastIndex, lastIndex + currentSearchItem.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					lastIndex += currentSearchItem.length();
+				}
+			}
+		}
+		setText(sb);
+
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
