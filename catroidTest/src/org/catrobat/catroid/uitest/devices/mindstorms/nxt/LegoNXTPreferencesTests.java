@@ -53,7 +53,7 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		UiTestUtils.prepareStageForTest();
 
 		applicationContext = getInstrumentation().getTargetContext().getApplicationContext();
-		SettingsActivity.disableLegoMindstormsSensorInfoDialog(applicationContext);
+		SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(applicationContext);
 	}
 
 	public void testNXTAllBricksAvailable() throws InterruptedException {
@@ -288,9 +288,15 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		solo.sleep(300);
 
-		assertTrue("NXT sensor 1 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_1)));
-		assertTrue("NXT sensor 2 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_2)));
-		assertTrue("NXT sensor 3 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_3)));
-		assertTrue("NXT sensor 4 not available!", solo.searchText(solo.getString(R.string.formula_editor_sensor_lego_nxt_4)));
+		assertTrue("NXT sensor light not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_light)));
+		assertTrue("NXT sensor light active not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_light_active)));
+		assertTrue("NXT sensor sound not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_sound)));
+		assertTrue("NXT sensor touch not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_touch)));
+		assertTrue("NXT sensor ultrasonic not available!", solo.searchText(solo.getString(R.string
+				.formula_editor_sensor_lego_nxt_ultrasonic)));
 	}
 }

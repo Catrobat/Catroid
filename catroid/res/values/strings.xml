@@ -853,6 +853,11 @@
     <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
     <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
 
+    <string name="lego_ev3_sensor_config_info_title">EV3 Sensor Configuration</string>
+    <string name="preference_disable_ev3_info_dialog_description">Program specific EV3 settings are not shown when opening a program.</string>
+    <string name="preference_title_mindstorms_ev3_sensors_description">The mapping of EV3 sensors to ports is program specific and can only be configured for opened programs!</string>
+    <string name="lego_ev3_sensor_config_info_text">The current program uses Lego Mindstorms EV3 bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
+
     <string name="ev3_choose_sensor_1">Sensor connected on port 1</string>
     <string name="ev3_choose_sensor_2">Sensor connected on port 2</string>
     <string name="ev3_choose_sensor_3">Sensor connected on port 3</string>
