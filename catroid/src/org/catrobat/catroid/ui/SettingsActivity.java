@@ -47,6 +47,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
+	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
@@ -372,6 +373,20 @@ public class SettingsActivity extends PreferenceActivity {
 		return sensorMapping;
 	}
 
+	public static EV3Sensor.Sensor[] getLegoMindstormsEV3SensorMapping(Context context) {
+
+		final String[] sensorPreferences =
+				new String[] { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
+
+		EV3Sensor.Sensor[] sensorMapping = new EV3Sensor.Sensor[4];
+		for (int i = 0; i < 4; i++) {
+			String sensor = getSharedPreferences(context).getString(sensorPreferences[i], null);
+			sensorMapping[i] = EV3Sensor.Sensor.getSensorFromSensorCode(sensor);
+		}
+
+		return sensorMapping;
+	}
+
 	public static String getRaspiHost(Context context) {
 		return getSharedPreferences(context).getString(RASPI_HOST, null);
 	}
@@ -468,6 +483,12 @@ public class SettingsActivity extends PreferenceActivity {
 		editor.commit();
 	}
 
+	public static void enableLegoMindstormsEV3Bricks(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true);
+		editor.commit();
+	}
+
 	public static boolean getMindstormsNXTSensorChooserEnabled(Context context) {
 		SharedPreferences preferences = getSharedPreferences(context);
 		return preferences.getBoolean("mindstorms_nxt_sensor_chooser_in_settings", false);
@@ -489,15 +510,26 @@ public class SettingsActivity extends PreferenceActivity {
 		return preferences.getBoolean(SETTINGS_DRONE_CHOOSER, false);
 	}
 
-	public static void disableLegoMindstormsSensorInfoDialog(Context context) {
+	public static void disableLegoMindstormsNXTSensorInfoDialog(Context context) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, true);
 		editor.commit();
 	}
 
-	public static boolean getShowLegoMindstormsSensorInfoDialog(Context context) {
+	public static void disableLegoEV3MindstormsSensorInfoDialog(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, true);
+		editor.commit();
+	}
+
+	public static boolean getShowLegoNXTMindstormsSensorInfoDialog(Context context) {
 		SharedPreferences preferences = getSharedPreferences(context);
 		return preferences.getBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
+	}
+
+	public static boolean getShowLegoEV3MindstormsSensorInfoDialog(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 	}
 
 	public static void resetSharedPreferences(Context context) {

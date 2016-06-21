@@ -75,7 +75,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
 
-		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(applicationContext);
+		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
 
 		if (!nxtBricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
@@ -212,7 +212,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 	public void testNXTSensorConfigurationDialog() throws InterruptedException {
 		createBrickTestproject(projectNameNxt);
 		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
-		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(applicationContext);
+		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
 
 		if (!nxtBricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
