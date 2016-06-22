@@ -92,6 +92,7 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -112,6 +113,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
@@ -198,7 +200,9 @@ public class CategoryBricksFactory {
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
+		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
+		controlBrickList.add(new RepeatUntilBrick(new Formula(defaultIf)));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
