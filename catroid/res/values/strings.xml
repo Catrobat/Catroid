@@ -475,6 +475,7 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
+    <string name="category_event">Event</string>
     <string name="category_user_bricks">My Bricks</string>
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
