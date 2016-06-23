@@ -75,6 +75,8 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -252,6 +254,13 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 
 		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
 		brickInfoMap.put("ifLogicEndBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfThenLogicBeginBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("ifCondition", BrickField.IF_CONDITION);
+		brickInfoMap.put("ifThenLogicBeginBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfThenLogicEndBrick.class.getSimpleName());
+		brickInfoMap.put("ifThenLogicEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfOnEdgeBounceBrick.class.getSimpleName());
 		brickInfoMap.put("ifOnEdgeBounceBrick", brickInfo);
