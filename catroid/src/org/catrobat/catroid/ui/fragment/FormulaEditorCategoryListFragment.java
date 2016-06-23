@@ -153,7 +153,21 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position };
 
+	private static final int[] TOUCH_DEDECTION_SENSOR_ITEMS = { R.string.formula_editor_function_finger_x, R.string.formula_editor_function_finger_y,
+			R.string.formula_editor_function_is_finger_touching, R.string.formula_editor_function_multi_finger_x,
+			R.string.formula_editor_function_multi_finger_y,
+			R.string.formula_editor_function_is_multi_finger_touching,
+			R.string.formula_editor_function_index_of_last_finger };
+
+	private static final int[] TOUCH_DEDECTION_PARAMETERS = { R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_touch_parameter,
+			R.string.formula_editor_function_touch_parameter,
+			R.string.formula_editor_function_touch_parameter,
+			R.string.formula_editor_function_no_parameter };
+
 	private static final int[] RASPBERRY_SENSOR_ITEMS = { R.string.formula_editor_function_raspi_read_pin_value_digital };
+
+	private static final int[] RASPBERRY_SENSOR_PARAMETERS = { R.string.formula_editor_function_pin_default_parameter };
 
 	private int[] concatAll(int[] first, int[]... rest) {
 		int totalLength = first.length;
@@ -269,62 +283,86 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		} else if (tag.equals(SENSOR_TAG)) {
 			header.put(0, getString(R.string.formula_editor_device));
 			itemsIds = DEFAULT_SENSOR_ITEMS;
+			parameterIds = createEmptyParametersList(DEFAULT_SENSOR_ITEMS.length);
 
 			Context context = this.getActivity().getApplicationContext();
 
 			if (SensorHandler.getInstance(context).accelerationAvailable()) {
 				itemsIds = concatAll(itemsIds, ACCELERATION_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(ACCELERATION_SENSOR_ITEMS.length));
 			}
 
 			if (SensorHandler.getInstance(context).inclinationAvailable()) {
 				itemsIds = concatAll(itemsIds, INCLINATION_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(INCLINATION_SENSOR_ITEMS.length));
 			}
 
 			if (SensorHandler.getInstance(context).compassAvailable()) {
 				itemsIds = concatAll(itemsIds, COMPASS_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
 			}
+
+			header.put(itemsIds.length, getString(R.string.formula_editor_device_touch_detection));
+			itemsIds = concatAll(itemsIds, TOUCH_DEDECTION_SENSOR_ITEMS);
+			parameterIds = concatAll(parameterIds, TOUCH_DEDECTION_PARAMETERS);
 
 			if (CameraManager.getInstance().hasBackCamera() || CameraManager.getInstance().hasFrontCamera()) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_face_detection));
 				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(FACE_DETECTION_SENSOR_ITEMS.length));
 			}
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego));
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(NXT_SENSOR_ITEMS.length));
 			}
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_phiro));
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(PHIRO_SENSOR_ITEMS.length));
 			}
 
 			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_arduino));
 				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(ARDUINO_SENSOR_ITEMS.length));
 			}
 
 			if (SettingsActivity.isDroneSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_drone));
 				itemsIds = concatAll(itemsIds, SENSOR_ITEMS_DRONE);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(SENSOR_ITEMS_DRONE.length));
 			}
 
 			if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_raspberry));
 				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, RASPBERRY_SENSOR_PARAMETERS);
 			}
 		}
 
 		List<String> items = new ArrayList<>();
 
 		for (int index = 0; index < itemsIds.length; index++) {
-			items.add(tag.equals(FUNCTION_TAG) ? getString(itemsIds[index]) + getString(parameterIds[index])
+			items.add(index < parameterIds.length ? getString(itemsIds[index]) + getString(parameterIds[index])
 					: getString(itemsIds[index]));
 		}
 
 		adapter = new CategoryListAdapter(getActivity(), items, header);
 		setListAdapter(adapter);
 		adapter.setOnListItemClickListener(this);
+	}
+
+	private int[] createEmptyParametersList(int length) {
+		int[] noParametersList = new int[length];
+
+		for (int i = 0; i < length; i++) {
+			noParametersList[i] = R.string.formula_editor_function_no_parameter;
+		}
+
+		return noParametersList;
 	}
 
 	@Override

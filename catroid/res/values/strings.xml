@@ -598,6 +598,7 @@
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
+    <string name="brick_when_touched">When screen is touched</string>
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
@@ -1002,6 +1003,16 @@
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+    <string name="formula_editor_function_pin_default_parameter">(3)</string>
+    <string name="formula_editor_function_finger_x">screen_touch_x</string>
+    <string name="formula_editor_function_finger_y">screen_touch_y</string>
+    <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
+    <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+    <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+    <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+    <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+    <string name="formula_editor_function_no_parameter"></string>
+    <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">element</string>
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>
@@ -1062,6 +1073,7 @@
     <string name="formula_editor_object_general">general properties</string>
     <string name="formula_editor_object_physical">physical properties</string>
     <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego">Lego</string>
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
