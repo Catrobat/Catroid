@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -64,7 +65,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		project.addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		UserBrick userBrick = new UserBrick(0);
+		UserBrick userBrick = new UserBrick(new UserScriptDefinitionBrick());
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
 		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
 				.getDataContainer();
@@ -73,40 +74,40 @@ public class ParserTestUserVariables extends AndroidTestCase {
 				USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
 				USER_VARIABLE_3_VALUE_TYPE_STRING);
-		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE, 0d)
+		userVariableContainer.addUserBrickVariableToUserBrick(userBrick, USER_BRICK_VARIABLE, 0d)
 				.setValue(USER_VARIABLE_VALUE3);
 	}
 
 	public void testUserVariableInterpretation() {
 		assertEquals("Formula interpretation of ProjectUserVariable is not as expected",
-				USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUservariable(PROJECT_USER_VARIABLE));
+				USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUserVariable(PROJECT_USER_VARIABLE));
 		assertEquals("Formula interpretation of SpriteUserVariable is not as expected",
-				USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUservariable(SPRITE_USER_VARIABLE));
+				USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUserVariable(SPRITE_USER_VARIABLE));
 		assertEquals("Formula interpretation of ProjectUserVariable2 is not as expected",
-				USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUservariable(PROJECT_USER_VARIABLE_2));
+				USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUserVariable(PROJECT_USER_VARIABLE_2));
 		assertEquals("Formula interpretation of UserBrickVariable is not as expected",
-				USER_VARIABLE_VALUE3, interpretUservariable(USER_BRICK_VARIABLE));
+				USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
-	public void testUserVariableReseting() {
+	public void testUserVariableResetting() {
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 
 		assertEquals("ProjectUserVariable did not reset", USER_VARIABLE_RESET,
-				interpretUservariable(PROJECT_USER_VARIABLE));
+				interpretUserVariable(PROJECT_USER_VARIABLE));
 		assertEquals("SpriteUserVariable did not reset", USER_VARIABLE_RESET,
-				interpretUservariable(SPRITE_USER_VARIABLE));
+				interpretUserVariable(SPRITE_USER_VARIABLE));
 		assertEquals("ProjectUserVariable2 did not reset", USER_VARIABLE_RESET,
-				interpretUservariable(PROJECT_USER_VARIABLE_2));
-		assertEquals("UserBrickVariable didnt reset", USER_VARIABLE_RESET,
-				interpretUservariable(USER_BRICK_VARIABLE));
+				interpretUserVariable(PROJECT_USER_VARIABLE_2));
+		assertEquals("UserBrickVariable was reset, but shouldn't be", USER_VARIABLE_VALUE3,
+				interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
-	public void testNotExistingUservariable() {
+	public void testNotExistingUserVariable() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE", 0);
 	}
 
-	private Object interpretUservariable(String userVariableName) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+	private Object interpretUserVariable(String userVariableName) {
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();

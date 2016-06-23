@@ -23,10 +23,7 @@
 package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
-
-import java.util.List;
 
 public class WhenScript extends Script {
 
@@ -82,9 +79,9 @@ public class WhenScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	public Script copyScriptForSprite(Sprite copySprite) {
 		WhenScript cloneScript = new WhenScript();
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		doCopy(copySprite, cloneScript);
 
 		return cloneScript;
 	}

@@ -20,17 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.ui;
 
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class UserBrickVariable {
-	public UserVariable variable;
-	public Formula formula;
-
-	public UserBrickVariable(UserVariable variable, Formula variableFormula) {
-		this.formula = variableFormula;
-		this.variable = variable;
-	}
+public class BackPackGroupViewHolder {
+	public ImageView backPackGroupImageView;
+	public CheckBox checkbox;
+	public TextView backPackGroupNameTextView;
+	public LinearLayout backPackGroupDetailsLinearLayout;
+	public TextView backPackGroupNumberOfBricksTextView;
+	public TextView backPackGroupNumberOfBricksValue;
+	public RelativeLayout backPackGroupElement;
 }

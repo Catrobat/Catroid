@@ -21,17 +21,29 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item
-        android:id="@+id/context_menu_unpacking_keep"
-        android:title="@string/unpack_keep"
-        android:visible="false"/>
+<ScrollView style="@style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
 
-    <item
-        android:id="@+id/context_menu_unpacking"
-        android:title="@string/unpack" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dialog_item_margin">
 
-    <item
-        android:id="@+id/context_menu_delete"
-        android:title="@string/delete" />
-</menu>
+        <TextView
+            android:id="@+id/dialog_userbrick_name_textview"
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/new_user_brick_name" />
+
+        <EditText
+            android:id="@+id/dialog_userbrick_name_edittext"
+            style="@style/DefaultDialog.EditText"
+            android:inputType="text"
+            android:maxLines="1"
+            android:selectAllOnFocus="true" />
+
+    </LinearLayout>
+
+</ScrollView>

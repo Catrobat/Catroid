@@ -42,6 +42,12 @@
         android:title="@string/unpack" />
 
     <item
+        android:id="@+id/unpacking_object"
+        android:showAsAction="never"
+        android:title="@string/unpack_object"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/copy"
         android:showAsAction="never"
         android:title="@string/copy"/>

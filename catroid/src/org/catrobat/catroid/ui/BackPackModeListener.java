@@ -22,18 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+public interface BackPackModeListener {
 
-public class ScriptGroupViewHolder {
-	public ImageView scriptGroupImageView;
-	public CheckBox checkbox;
-	public TextView scriptGroupNameTextView;
-	public LinearLayout scriptGroupDetailsLinearLayout;
-	public TextView scriptGroupNumberOfBricksTextView;
-	public TextView scriptGroupNumberOfBricksValue;
-	public RelativeLayout scriptGroupElement;
+	void startBackPackActionMode();
 }

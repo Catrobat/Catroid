@@ -159,9 +159,17 @@ public class LookData implements Serializable, Cloneable {
 		}
 	}
 
-	public String getAbsolutePathBackPack() {
+	public String getAbsoluteBackPackPath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
+		} else {
+			return null;
+		}
+	}
+
+	public String getAbsoluteProjectPath() {
+		if (fileName != null) {
+			return Utils.buildPath(getPathToImageDirectory(), fileName);
 		} else {
 			return null;
 		}

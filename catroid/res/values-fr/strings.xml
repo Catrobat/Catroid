@@ -177,8 +177,8 @@ il faut
   <string name="dialog_confirm_delete_brick_title">Supprimer cette brique ?</string>
   <string name="dialog_confirm_delete_script_title">Supprimer ce script ?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Supprimer ces briques ?</string>
-  <string name="dialog_confirm_delete_script_group_title">Supprimer ce groupe ?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Supprimer ces groupes ?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Supprimer ce groupe?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Supprimer ces groupes?</string>
   <string name="dialog_confirm_delete_brick_message">Cette action ne peut pas être annulée!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>

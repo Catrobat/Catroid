@@ -42,6 +42,8 @@
     <string name="packing">Pack</string>
     <string name="unpack">Unpack</string>
     <string name="unpack_keep">Unpack and keep</string>
+    <string name="unpack_bg">Unpack as background</string>
+    <string name="unpack_object">Unpack as object</string>
     <string name="copy_addition">copy</string>
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -199,7 +201,9 @@
     <string name="size">Size:</string>
     <string name="script_group">Script Group</string>
     <string name="script_groups">Script Groups</string>
-    <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
+    <string name="userbrick_group">Userbrick Group</string>
+    <string name="userbrick_groups">Userbrick Groups</string>
+    <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
     <!--  -->
 
 
@@ -208,8 +212,8 @@
     <string name="dialog_confirm_delete_brick_title">Delete this Brick?</string>
     <string name="dialog_confirm_delete_script_title">Delete this Script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these Bricks?</string>
-    <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-    <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+    <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+    <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
     <string name="dialog_confirm_delete_brick_message">This cannot be undone!</string>
 
     <plurals name="number_of_bricks_to_delete">
@@ -301,6 +305,11 @@
         <item quantity="other">Scripts</item>
     </plurals>
 
+    <plurals name="userbricks_plural">
+        <item quantity="one">Userbrick</item>
+        <item quantity="other">Userbricks</item>
+    </plurals>
+
     <!-- My Projects activity -->
     <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
@@ -355,7 +364,7 @@
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
-    <string name="brick_context_dialog_add_to_script">Add to Script</string>
+    <string name="brick_context_dialog_add_to_script">Add to Scripts</string>
     <string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
@@ -719,6 +728,7 @@
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
     <string name="error_no_program_name_entered">Please enter a program name.</string>
+    <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
     <string name="error_project_exists">Please choose another program name.</string>
     <string name="error_delete_project">An error while deleting the program occurred</string>
     <string name="error_unknown_project">A program with that name does not exist.</string>
@@ -1120,7 +1130,8 @@
     <!-- User Bricks strings -->
     <string name="define">define</string>
     <string name="new_user_brick">New Brick</string>
-    <string name="new_user_brick_variable">Variable 1</string>
+    <string name="new_user_brick_variable">Variable</string>
+    <string name="new_user_brick_name">Please choose a userbrick name:</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
     <string name="brick_single">Brick</string>
     <string name="brick_multiple">Bricks</string>

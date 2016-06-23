@@ -74,13 +74,15 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		PlaySoundBrick copyBrick = (PlaySoundBrick) clone();
 
 		if (sound != null && sound.isBackpackSoundInfo) {
-			copyBrick.sound = sound;
+			copyBrick.sound = sound.clone();
+			copyBrick.sound.isBackpackSoundInfo = false;
 			return copyBrick;
 		}
 
 		for (SoundInfo soundInfo : sprite.getSoundList()) {
 			if (sound != null && soundInfo != null && soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
-				copyBrick.sound = soundInfo;
+				copyBrick.sound = soundInfo.clone();
+				copyBrick.sound.isBackpackSoundInfo = true;
 				break;
 			}
 		}
@@ -190,7 +192,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		return new PlaySoundBrick();
 	}
 
-	//for testing purposes:
 	public void setSoundInfo(SoundInfo soundInfo) {
 		this.sound = soundInfo;
 	}
@@ -351,10 +352,12 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		SoundInfo backPackedSoundInfo = SoundController.getInstance().backPackHiddenSound(this.getSound());
-		setSoundInfo(backPackedSoundInfo);
-		if (sprite != null && !sprite.getSoundList().contains(backPackedSoundInfo)) {
-			sprite.getSoundList().add(backPackedSoundInfo);
+		if (sound == null) {
+			return;
+		}
+		sound = SoundController.getInstance().backPackHiddenSound(sound);
+		if (sprite != null && !sprite.getSoundList().contains(sound)) {
+			sprite.getSoundList().add(sound);
 		}
 	}
 }

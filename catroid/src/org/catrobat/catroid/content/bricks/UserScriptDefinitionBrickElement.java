@@ -28,9 +28,71 @@ public class UserScriptDefinitionBrickElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public int key;
-	public boolean isVariable;
-	public boolean isEditModeLineBreak;
-	public boolean newLineHint;
-	public String name = "";
+	private enum UserBrickElementType {
+		VARIABLE(10),
+		LINEBREAK(20),
+		TEXT(30);
+
+		private int value;
+
+		UserBrickElementType(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
+	private String text;
+	private UserBrickElementType elementType;
+	private transient boolean newLineHint;
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String name) {
+		this.text = name;
+	}
+
+	public UserBrickElementType getElementType() {
+		return elementType;
+	}
+
+	public void setElementType(UserBrickElementType elementType) {
+		this.elementType = elementType;
+	}
+
+	public boolean isLineBreak() {
+		return elementType.equals(UserBrickElementType.LINEBREAK);
+	}
+
+	public void setIsLineBreak() {
+		elementType = UserBrickElementType.LINEBREAK;
+	}
+
+	public boolean isVariable() {
+		return elementType.equals(UserBrickElementType.VARIABLE);
+	}
+
+	public void setIsVariable() {
+		elementType = UserBrickElementType.VARIABLE;
+	}
+
+	public boolean isText() {
+		return elementType.equals(UserBrickElementType.TEXT);
+	}
+
+	public void setIsText() {
+		elementType = UserBrickElementType.TEXT;
+	}
+
+	public boolean isNewLineHint() {
+		return newLineHint;
+	}
+
+	public void setNewLineHint(boolean newLineHint) {
+		this.newLineHint = newLineHint;
+	}
 }
