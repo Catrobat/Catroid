@@ -28,10 +28,6 @@
   <string name="cancel_button">Cancelar</string>
   <string name="rename">Mudar nome</string>
   <string name="delete">Apagar</string>
-  <string name="menu_item_move_down">Mover para Baixo</string>
-  <string name="menu_item_move_up">Mover para Cima</string>
-  <string name="menu_item_move_to_top">Mover para o Topo</string>
-  <string name="menu_item_move_to_bottom">Mover para a Base</string>
   <string name="yes">Sim</string>
   <string name="no">Não</string>
   <string name="copy">Copiar</string>

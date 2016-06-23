@@ -28,10 +28,6 @@
   <string name="cancel_button">Отмена</string>
   <string name="rename">Переименовать</string>
   <string name="delete">Удалить</string>
-  <string name="menu_item_move_down">Вниз</string>
-  <string name="menu_item_move_up">Вверх</string>
-  <string name="menu_item_move_to_top">Переместить на первую строку</string>
-  <string name="menu_item_move_to_bottom">Перемисть на последнюю строку</string>
   <string name="yes">Да</string>
   <string name="no">Нет</string>
   <string name="copy">Копировать</string>
