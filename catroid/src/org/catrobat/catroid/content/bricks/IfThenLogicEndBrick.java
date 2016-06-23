@@ -40,19 +40,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
+public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
-	private transient IfLogicElseBrick ifElseBrick;
+	private static final String TAG = IfThenLogicEndBrick.class.getSimpleName();
+	private transient IfThenLogicBeginBrick ifBeginBrick;
 
-	private transient IfLogicBeginBrick ifBeginBrick;
-
-	public IfLogicEndBrick(IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
-		this.ifElseBrick = elseBrick;
+	public IfThenLogicEndBrick(IfThenLogicBeginBrick beginBrick) {
 		this.ifBeginBrick = beginBrick;
-		beginBrick.setIfEndBrick(this);
-		elseBrick.setIfEndBrick(this);
+		beginBrick.setIfThenEndBrick(this);
 	}
 
 	@Override
@@ -60,19 +56,7 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		return NO_RESOURCES;
 	}
 
-	public IfLogicElseBrick getIfElseBrick() {
-		return ifElseBrick;
-	}
-
-	public IfLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
-	}
-
-	public void setIfElseBrick(IfLogicElseBrick ifElseBrick) {
-		this.ifElseBrick = ifElseBrick;
-	}
-
-	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
+	public void setIfThenBeginBrick(IfThenLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
@@ -121,7 +105,7 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public Brick clone() {
-		return new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
+		return new IfThenLogicEndBrick(ifBeginBrick);
 	}
 
 	@Override
@@ -131,12 +115,12 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		return brick != ifElseBrick;
+		return brick != ifBeginBrick;
 	}
 
 	@Override
 	public boolean isInitialized() {
-		return ifElseBrick != null;
+		return ifBeginBrick != null;
 	}
 
 	@Override
@@ -146,18 +130,9 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		if (sorted) {
-			nestingBrickList.add(ifBeginBrick);
-			nestingBrickList.add(ifElseBrick);
-			nestingBrickList.add(this);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifBeginBrick);
-			//nestingBrickList.add(ifElseBrick);
-		}
-
+		nestingBrickList.add(ifBeginBrick);
+		nestingBrickList.add(this);
 		return nestingBrickList;
 	}
 
@@ -175,12 +150,10 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		ifBeginBrick.setIfEndBrick(this);
-		ifElseBrick.setIfEndBrick(this);
+		IfThenLogicEndBrick copyBrick = (IfThenLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		ifBeginBrick.setIfThenEndBrick(this);
 
 		copyBrick.ifBeginBrick = null;
-		copyBrick.ifElseBrick = null;
 		return copyBrick;
 	}
 }

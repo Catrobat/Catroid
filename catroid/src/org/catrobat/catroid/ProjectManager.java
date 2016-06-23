@@ -45,9 +45,10 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
-import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -627,7 +628,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	private void correctAllNestedReferences(Script script) {
 		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
-		ArrayList<PhiroIfLogicBeginBrick> ifSensorBeginList = new ArrayList<>();
 		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<>();
 		for (Brick currentBrick : script.getBrickList()) {
 			if (currentBrick instanceof IfLogicBeginBrick) {
@@ -643,6 +643,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
+			} else if (currentBrick instanceof IfThenLogicEndBrick) {
+				IfThenLogicBeginBrick ifBeginBrick = (IfThenLogicBeginBrick) ifBeginList.get(ifBeginList.size() - 1);
+				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
+				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
+				ifBeginList.remove(ifBeginBrick);
 			} else if (currentBrick instanceof IfLogicEndBrick) {
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
@@ -651,20 +656,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				((IfLogicEndBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
 				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
 				ifBeginList.remove(ifBeginBrick);
-			} else if (currentBrick instanceof PhiroIfLogicBeginBrick) {
-				ifSensorBeginList.add((PhiroIfLogicBeginBrick) currentBrick);
-			} else if (currentBrick instanceof IfLogicElseBrick) {
-				PhiroIfLogicBeginBrick phiroSensorBrick = ifSensorBeginList.get(ifSensorBeginList.size() - 1);
-				phiroSensorBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
-				((IfLogicElseBrick) currentBrick).setIfBeginBrick(phiroSensorBrick);
-			} else if (currentBrick instanceof IfLogicEndBrick) {
-				PhiroIfLogicBeginBrick phiroSensorBrick = ifSensorBeginList.get(ifSensorBeginList.size() - 1);
-				IfLogicElseBrick elseBrick = phiroSensorBrick.getIfElseBrick();
-				phiroSensorBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				((IfLogicEndBrick) currentBrick).setIfBeginBrick(phiroSensorBrick);
-				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
-				ifSensorBeginList.remove(phiroSensorBrick);
 			}
 		}
 	}
