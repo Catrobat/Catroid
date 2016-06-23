@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.camera;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
@@ -76,6 +77,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 	StageActivity stageActivity = null;
 	CameraSurface cameraSurface = null;
+	Context cameraContext = null;
 
 	public final Object cameraChangeLock = new Object();
 	private final Object cameraBaseLock = new Object();
@@ -228,20 +230,31 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			if (currentCamera == null) {
 				boolean success = createCamera();
 				if (!success) {
+					Log.e(TAG, "Creating Camera failed.");
 					return false;
 				}
-			}
-			Camera.Parameters cameraParameters = currentCamera.getParameters();
-			previewFormat = cameraParameters.getPreviewFormat();
-			previewWidth = cameraParameters.getPreviewSize().width;
-			previewHeight = cameraParameters.getPreviewSize().height;
-			try {
-				currentCamera.startPreview();
-			} catch (Exception e) {
-				Log.e(TAG, e.getMessage());
+			} else {
+				Log.e(TAG, "Camera not released.");
 				return false;
 			}
-			return true;
+
+			cameraSurface = new CameraSurface(cameraContext, currentCamera);
+
+			boolean success = false;
+			int maxWaitTime = 2000;
+			int actualWaitTime = 0;
+
+			while (!success && actualWaitTime <= maxWaitTime) {
+				try {
+					Thread.sleep(200);
+					currentCamera.startPreview();
+					success = true;
+				} catch (Exception e) {
+					Log.e(TAG, "Start preview failed: " + e.getMessage());
+				}
+				actualWaitTime += 200;
+			}
+			return success;
 		}
 	}
 
@@ -250,8 +263,18 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 			if (currentCamera == null) {
 				return;
 			}
+
+			try {
+				currentCamera.setPreviewDisplay(null);
+			} catch (IOException e) {
+				Log.e("ERROR", "Camera error on releaseCamera " + e.getMessage());
+			}
+
+			if (cameraSurface != null) {
+				cameraSurface.surfaceDestroyed(null);
+			}
 			currentCamera.setPreviewCallback(null);
-			currentCamera.stopPreview();
+			stopPreview();
 			currentCamera.release();
 			currentCamera = null;
 		}
@@ -263,42 +286,91 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		}
 
 		try {
+			Thread.sleep(100);
 			currentCamera = Camera.open(currentCameraInformation.cameraId);
-			if (ProjectManager.getInstance().getCurrentProject().islandscapeMode()) {
-				currentCamera.setDisplayOrientation(0);
-			} else {
-				currentCamera.setDisplayOrientation(90);
-			}
-
-			Camera.Parameters cameraParameters = currentCamera.getParameters();
-			List<Camera.Size> previewSizes = cameraParameters.getSupportedPreviewSizes();
-			int previewHeight = 0;
-			int previewWidth = 0;
-			for (int i = 0; i < previewSizes.size()
-					&& previewSizes.get(i).height <= ScreenValues.SCREEN_HEIGHT; i++) {
-				if (previewSizes.get(i).height > previewHeight) {
-					previewHeight = previewSizes.get(i).height;
-					previewWidth = previewSizes.get(i).width;
-				}
-			}
-
-			cameraParameters.setPreviewSize(previewWidth, previewHeight);
-			currentCamera.setParameters(cameraParameters);
 		} catch (RuntimeException runtimeException) {
 			Log.e(TAG, "Creating camera caused an exception", runtimeException);
 			return false;
+		} catch (InterruptedException interruptedException) {
+			Log.e(TAG, "Thread sleep caused an exception", interruptedException);
+			return false;
 		}
 
-		currentCamera.setPreviewCallbackWithBuffer(this);
-		if (texture != null) {
-			try {
-				setTexture();
-			} catch (IOException iOException) {
-				Log.e(TAG, "Setting preview texture failed!", iOException);
-				return false;
+		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+			currentCamera.setDisplayOrientation(0);
+		} else {
+			currentCamera.setDisplayOrientation(90);
+		}
+
+		Camera.Parameters cameraParameters = currentCamera.getParameters();
+		List<Camera.Size> previewSizes = cameraParameters.getSupportedPreviewSizes();
+		Camera.Size optimalSize = getOptimalPreviewSize(previewSizes, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		cameraParameters.setPreviewSize(optimalSize.width, optimalSize.height);
+		currentCamera.setParameters(cameraParameters);
+		currentCamera.setPreviewCallback(this);
+
+		return true;
+	}
+
+	static Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+		final double aspectTolerance = 0.1;
+		final double maxDownsize = 1.5;
+
+		double targetRatio = (double) w / h;
+		if (sizes == null) {
+			return null;
+		}
+
+		Camera.Size optimalSize = null;
+		double minDiff = Double.MAX_VALUE;
+
+		int targetHeight = h;
+
+		// Try to find an size match aspect ratio and size
+		for (Camera.Size size : sizes) {
+			double ratio = (double) size.width / size.height;
+			double downsize = (double) size.width / w;
+			if (downsize > maxDownsize) {
+				//if the preview is a lot larger than our display surface ignore it
+				//reason - on some phones there is not enough heap available to show the larger preview sizes
+				continue;
+			}
+			if (Math.abs(ratio - targetRatio) > aspectTolerance) {
+				continue;
+			}
+			if (Math.abs(size.height - targetHeight) < minDiff) {
+				optimalSize = size;
+				minDiff = Math.abs(size.height - targetHeight);
 			}
 		}
-		return true;
+
+		// Cannot find the one match the aspect ratio, ignore the requirement
+		//keep the max_downsize requirement
+		if (optimalSize == null) {
+			minDiff = Double.MAX_VALUE;
+			for (Camera.Size size : sizes) {
+				double downsize = (double) size.width / w;
+				if (downsize > maxDownsize) {
+					continue;
+				}
+				if (Math.abs(size.height - targetHeight) < minDiff) {
+					optimalSize = size;
+					minDiff = Math.abs(size.height - targetHeight);
+				}
+			}
+		}
+		//everything else failed, just take the closest match
+		if (optimalSize == null) {
+			minDiff = Double.MAX_VALUE;
+			for (Camera.Size size : sizes) {
+				if (Math.abs(size.height - targetHeight) < minDiff) {
+					optimalSize = size;
+					minDiff = Math.abs(size.height - targetHeight);
+				}
+			}
+		}
+
+		return optimalSize;
 	}
 
 	public boolean hasCurrentCameraFlash() {
@@ -366,7 +438,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		state = CameraState.previewRunning;
 
 		if (cameraSurface == null) {
-			cameraSurface = new CameraSurface(stageActivity);
+			cameraSurface = new CameraSurface(stageActivity, currentCamera);
 		}
 
 		ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup
@@ -510,6 +582,10 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 	public void setStageActivity(StageActivity stageActivity) {
 		this.stageActivity = stageActivity;
+	}
+
+	public void setCameraContext(Context context) {
+		this.cameraContext = context;
 	}
 
 	public void destroyStage() {

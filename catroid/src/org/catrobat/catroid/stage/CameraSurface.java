@@ -29,54 +29,65 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import org.catrobat.catroid.camera.CameraManager;
+import java.io.IOException;
 
 public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback {
 	private static final String TAG = CameraSurface.class.getSimpleName();
 
-	private Camera camera = null;
+	private SurfaceHolder holder;
+	private Camera camera;
 
 	public CameraSurface(Context context) {
 		super(context);
 
-		// We're implementing the Callback interface and want to get notified
-		// about certain surface events.
-		getHolder().addCallback(this);
-		// We're changing the surface to a PUSH surface, meaning we're receiving
-		// all buffer data from another component - the camera, in this case.
-		getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		camera = Camera.open();
+		holder = getHolder();
+		holder.addCallback(this);
+		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		surfaceCreated(holder);
+	}
+
+	public CameraSurface(Context context, Camera camera) {
+		super(context);
+
+		this.camera = camera;
+		holder = getHolder();
+		holder.addCallback(this);
+		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		surfaceCreated(holder);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
-		camera = CameraManager.getInstance().getCurrentCamera();
+		try {
+			camera.setPreviewDisplay(surfaceHolder);
+		} catch (IOException e) {
+			Log.e("ERROR", "Camera error on surfaceCreated " + e.getMessage());
+		}
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		// This method is called when the surface changes, e.g. when it's size is set.
-		// We use the opportunity to initialize the camera preview display dimensions
+	public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+		if (holder.getSurface() == null) {
+			return;
+		}
 
-		// We also assign the preview display to this surface...
-		synchronized (CameraManager.getInstance().cameraChangeLock) {
-			try {
-				if (camera != null) {
-					camera.stopPreview();
-					camera.setPreviewDisplay(holder);
-					camera.startPreview();
-				}
-			} catch (Exception e) {
-				Log.e(TAG, "Error at surfaceChanged");
-				Log.e(TAG, e.getMessage());
-			}
+		try {
+			camera.stopPreview();
+		} catch (Exception e) {
+			Log.e(TAG, "Camera not running on surfaceChanged ");
+		}
+
+		try {
+			camera.setPreviewDisplay(holder);
+			camera.startPreview();
+		} catch (Exception e) {
+			Log.e("ERROR", "Camera error on surfaceChanged " + e.getMessage());
 		}
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-		this.getHolder().removeCallback(this);
-		//camera.stopPreview();
-		//camera.release();
-		//camera = null;
+		holder.removeCallback(this);
 	}
 }

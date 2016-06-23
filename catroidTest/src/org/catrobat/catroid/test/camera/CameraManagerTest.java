@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.camera;
 
-import android.hardware.Camera;
+import android.content.Context;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.camera.CameraManager;
@@ -31,57 +31,72 @@ import org.catrobat.catroid.uitest.annotation.Device;
 
 public class CameraManagerTest extends AndroidTestCase {
 
-	public void testCameraNotAvailable() {
-		Camera camera = null;
-		camera = Camera.open();
+	private Context cameraContext = null;
 
-		try {
-			boolean started = CameraManager.getInstance().startCamera();
-			assertFalse("Expected camera not to be able to start when hardware already in use", started);
-		} catch (Exception exc) {
-			String errorMsg = "Unavailable camera should not cause an exception \"" + exc.getMessage() + "\"";
-			fail(errorMsg);
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
+	public void testCameraStart() {
+		if (createTestProject()) {
+			boolean success = CameraManager.getInstance().startCamera();
+			assertTrue("Camera was not started properly", success);
+
+			CameraManager.getInstance().releaseCamera();
+			assertFalse("Camera was not released properly", CameraManager.getInstance().isReady());
 		}
 	}
 
 	public void testCameraRelease() {
-		CameraManager.getInstance().startCamera();
-		CameraManager.getInstance().releaseCamera();
+		if (createTestProject()) {
+			boolean success = CameraManager.getInstance().startCamera();
+			assertTrue("Camera was not started properly", success);
 
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Camera was not propperly released");
-		} finally {
-			if (camera != null) {
-				camera.release();
+			CameraManager.getInstance().releaseCamera();
+			assertFalse("Camera was not released properly", CameraManager.getInstance().isReady());
+
+			try {
+				success = CameraManager.getInstance().startCamera();
+				CameraManager.getInstance().releaseCamera();
+				assertTrue("Camera was not started properly after releasing the first one", success);
+				assertFalse("Camera was not released properly", CameraManager.getInstance().isReady());
+			} catch (Exception exc) {
+				fail("Camera was not properly released");
 			}
 		}
 	}
 
 	@Device
 	public void testDoubleStart() {
-		try {
-			DefaultProjectHandler.createAndSaveDefaultProject(getContext());
-		} catch (Exception e) {
-			fail("Could not create and save default project");
+		if (createTestProject()) {
+			boolean success = CameraManager.getInstance().startCamera();
+			assertTrue("Camera was not started properly", success);
+
+			try {
+				success = CameraManager.getInstance().startCamera();
+				CameraManager.getInstance().releaseCamera();
+				assertFalse("Camera was started after not releasing the first one", success);
+				assertFalse("Camera was not released properly", CameraManager.getInstance().isReady());
+			} catch (Exception e) {
+				fail("Second start of camera should be ignored but produced exception: " + e.getMessage());
+			}
 		}
-		boolean success = CameraManager.getInstance().startCamera();
-		assertTrue("Camera was not started properly", success);
-		try {
-			CameraManager.getInstance().startCamera();
-		} catch (Exception e) {
-			fail("Secound start of camera should be ignored but produced exception: " + e.getMessage());
-		}
-		CameraManager.getInstance().releaseCamera();
 	}
 
 	public void testGetInstance() {
 		assertNotNull("Could not get instance of CameraManager", CameraManager.getInstance());
+	}
+
+	private boolean createTestProject() {
+		if (!CameraManager.getInstance().hasFrontCamera() && !CameraManager.getInstance().hasBackCamera()) {
+			return false;
+		}
+		if (cameraContext == null) {
+			cameraContext = getContext();
+		}
+		CameraManager.getInstance().setCameraContext(cameraContext);
+
+		try {
+			DefaultProjectHandler.createAndSaveDefaultProject(cameraContext);
+		} catch (Exception e) {
+			fail("Could not create and save default project");
+		}
+		return true;
 	}
 }

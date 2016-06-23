@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.test.facedetection;
 
+import android.content.Context;
 import android.graphics.PointF;
-import android.hardware.Camera;
 import android.test.InstrumentationTestCase;
 
+import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
@@ -52,37 +54,10 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		super.setUp();
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
-	}
-
-	public void testNotAvailable() {
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-			SlowFaceDetector detector = new SlowFaceDetector();
-			boolean success = detector.startFaceDetection();
-			assertFalse("SlowFaceDetector should not start if camera not available.", success);
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
+		createTestProject();
 	}
 
 	public void testStartAndStop() {
-
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
-
 		SlowFaceDetector detector = new SlowFaceDetector();
 		assertNotNull("Cannot instantiate SlowFaceDetector", detector);
 
@@ -98,15 +73,16 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 			fail("Cannot stop face detection (" + exc.getMessage() + ")");
 		}
 
-		camera = null;
 		try {
-			camera = Camera.open();
+			detector.startFaceDetection();
 		} catch (Exception exc) {
-			fail("Ressources were not propperly released");
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
+			fail("Cannot start face detection (" + exc.getMessage() + ")");
+		}
+
+		try {
+			detector.stopFaceDetection();
+		} catch (Exception exc) {
+			fail("Cannot stop face detection (" + exc.getMessage() + ")");
 		}
 	}
 
@@ -200,5 +176,20 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
 
 		detector.removeOnFaceDetectedListener(detectionListener);
+	}
+
+	private boolean createTestProject() {
+		if (!CameraManager.getInstance().hasFrontCamera() && !CameraManager.getInstance().hasBackCamera()) {
+			return false;
+		}
+		Context cameraContext = getInstrumentation().getTargetContext();
+		CameraManager.getInstance().setCameraContext(cameraContext);
+
+		try {
+			DefaultProjectHandler.createAndSaveDefaultProject(cameraContext);
+		} catch (Exception e) {
+			fail("Could not create and save default project " + e.getMessage());
+		}
+		return true;
 	}
 }
