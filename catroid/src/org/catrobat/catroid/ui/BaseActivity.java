@@ -51,8 +51,6 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
-		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
-		Utils.checkIfCrashRecoveryAndFinishActivity(this);
 	}
 
 	@Override
