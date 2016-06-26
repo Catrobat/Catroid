@@ -83,7 +83,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean asynchronousTask = true;
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
-	private boolean handleCorrectAddButton;
 	private boolean showUploadDialog = false;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
@@ -91,7 +90,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private ProjectManager() {
 		this.comingFromScriptFragmentToSoundFragment = false;
 		this.comingFromScriptFragmentToLooksFragment = false;
-		this.handleCorrectAddButton = false;
 	}
 
 	public static ProjectManager getInstance() {
@@ -112,14 +110,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
 		this.comingFromScriptFragmentToLooksFragment = value;
-	}
-
-	public boolean getHandleCorrectAddButton() {
-		return this.handleCorrectAddButton;
-	}
-
-	public void setHandleCorrectAddButton(boolean value) {
-		this.handleCorrectAddButton = value;
 	}
 
 	public void uploadProject(String projectName, Activity activity) {
@@ -258,10 +248,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return StorageHandler.getInstance().cancelLoadProject();
 	}
 
-	public boolean canLoadProject(String projectName) {
-		return StorageHandler.getInstance().loadProject(projectName) != null;
-	}
-
 	public void saveProject(Context context) {
 		if (project == null) {
 			return;
@@ -311,11 +297,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		currentSprite = null;
 		currentScript = null;
-	}
-
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone)
-			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, drone, false);
 	}
 
 	public Project getCurrentProject() {
@@ -575,7 +556,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	private void checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
+	public void checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
 		int numberOfScripts = currentSprite.getNumberOfScripts();
 		for (int pos = 0; pos < numberOfScripts; pos++) {
 			Script script = currentSprite.getScript(pos);
@@ -583,7 +564,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	private void checkCurrentScript(Script script, boolean assumeWrong) {
+	public boolean checkCurrentScript(Script script, boolean assumeWrong) {
 		boolean scriptCorrect = true;
 		if (assumeWrong) {
 			scriptCorrect = false;
@@ -597,10 +578,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (!scriptCorrect) {
 			correctAllNestedReferences(script);
 		}
+		return scriptCorrect;
 	}
 
 	private boolean checkReferencesOfCurrentBrick(Brick currentBrick) {
-		if (currentBrick instanceof IfLogicBeginBrick) {
+		if (currentBrick instanceof IfThenLogicBeginBrick) {
+			IfLogicEndBrick endBrick = ((IfThenLogicBeginBrick) currentBrick).getIfEndBrick();
+			if (endBrick == null || endBrick.getIfBeginBrick() == null
+					|| !endBrick.getIfBeginBrick().equals(currentBrick)) {
+				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
+						+ currentBrick);
+				return false;
+			}
+		} else if (currentBrick instanceof IfLogicBeginBrick) {
 			IfLogicElseBrick elseBrick = ((IfLogicBeginBrick) currentBrick).getIfElseBrick();
 			IfLogicEndBrick endBrick = ((IfLogicBeginBrick) currentBrick).getIfEndBrick();
 			if (elseBrick == null || endBrick == null || elseBrick.getIfBeginBrick() == null
@@ -628,9 +618,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	private void correctAllNestedReferences(Script script) {
 		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
+		ArrayList<IfThenLogicBeginBrick> ifThenBeginList = new ArrayList<>();
 		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<>();
+
 		for (Brick currentBrick : script.getBrickList()) {
-			if (currentBrick instanceof IfLogicBeginBrick) {
+			if (currentBrick instanceof IfThenLogicBeginBrick) {
+				ifThenBeginList.add((IfThenLogicBeginBrick) currentBrick);
+			} else if (currentBrick instanceof IfLogicBeginBrick) {
 				ifBeginList.add((IfLogicBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopBeginBrick) {
 				loopBeginList.add((LoopBeginBrick) currentBrick);
@@ -644,7 +638,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
 			} else if (currentBrick instanceof IfThenLogicEndBrick) {
-				IfThenLogicBeginBrick ifBeginBrick = (IfThenLogicBeginBrick) ifBeginList.get(ifBeginList.size() - 1);
+				IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
 				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
 				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
 				ifBeginList.remove(ifBeginBrick);

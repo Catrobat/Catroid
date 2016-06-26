@@ -51,8 +51,12 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	public IfLogicEndBrick(IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
 		this.ifElseBrick = elseBrick;
 		this.ifBeginBrick = beginBrick;
-		beginBrick.setIfEndBrick(this);
-		elseBrick.setIfEndBrick(this);
+		if (beginBrick != null) {
+			beginBrick.setIfEndBrick(this);
+		}
+		if (elseBrick != null) {
+			elseBrick.setIfEndBrick(this);
+		}
 	}
 
 	@Override
@@ -176,8 +180,12 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		ifBeginBrick.setIfEndBrick(this);
-		ifElseBrick.setIfEndBrick(this);
+		if (ifBeginBrick != null) {
+			ifBeginBrick.setIfEndBrick(this);
+		}
+		if (ifElseBrick != null) {
+			ifElseBrick.setIfEndBrick(this);
+		}
 
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifElseBrick = null;

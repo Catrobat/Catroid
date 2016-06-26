@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -531,6 +532,24 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("No Brick should have been deleted!", brickListToCheck.size(), numberOfBricks);
 	}
 
+	public void testIfLogicReferences() {
+		UiTestUtils.createTestProject(UiTestUtils.PROJECTNAME1);
+		UiTestUtils.createTestProjectIfBricks();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
+		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		clickOnContextMenuItem(DEFAULT_SCRIPT_GROUP_NAME, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		Script unpackedScript = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(1);
+		assertTrue("if bricks have wrong or no references after unpacking", ProjectManager.getInstance()
+				.checkCurrentScript(unpackedScript, false));
+	}
+
 	public void testDeleteActionModeAllBricks() {
 		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -918,7 +937,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testBackPackScriptsSimpleUnpackingContextMenu() {
-		UiTestUtils.createTestProject();
+		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
 		int numberOfBricksInBrickList = ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks();
@@ -937,6 +956,20 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.openBackPack(solo, getActivity());
 		assertTrue("Script wasn't kept in backpack!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0,
 				TIME_TO_WAIT_BACKPACK));
+	}
+
+	public void testBackPackMultipleUnpackingVariablesWithSameName() {
+		UiTestUtils.createTestProjectWithUserVariables();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		checkNumberOfElementsInDataContainer();
+
+		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
+		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
+		unpackScriptGroup(DEFAULT_SCRIPT_GROUP_NAME, unpack);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
+		solo.sleep(500);
+
+		checkNumberOfElementsInDataContainer();
 	}
 
 	public void testBackPackAndUnPackFromDifferentProgrammes() {
@@ -1656,5 +1689,18 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
 			solo.sleep(200);
 		}
+	}
+
+	private void checkNumberOfElementsInDataContainer() {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+
+		assertTrue("There is not exactly one global variable in the data container!",
+				dataContainer.getProjectVariables().size() == 1);
+		assertTrue("There is not exactly one sprite variable in the data container!",
+				dataContainer.getVariableListForSprite(sprite).size() == 1);
+		assertTrue("There is not exactly one userbrick variable in the data container!",
+				dataContainer.getOrCreateVariableListForUserBrick(userBrick).size() == 1);
 	}
 }

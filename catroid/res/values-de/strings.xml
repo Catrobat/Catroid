@@ -174,8 +174,8 @@
   <string name="size">Größe:</string>
   <string name="script_group">Skript Gruppe</string>
   <string name="script_groups">Skript Gruppen</string>
-  <string name="userbrick_group">Benutzerbaustein Gruppe</string>
-  <string name="userbrick_groups">Benutzerbaustein Gruppen</string>
+  <string name="userbrick_group">Bausteingruppe</string>
+  <string name="userbrick_groups">Bausteingruppen</string>
   <string name="script_group_name_given">Skript Gruppenname existiert bereits. Bitte wähle einen anderen.</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tippe auf \"+\" um Skripte hinzuzufügen</string>
@@ -261,8 +261,8 @@
     <item quantity="other">Skripte</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="one">Benutzerbaustein</item>
-    <item quantity="other">Benutzerbaustein</item>
+    <item quantity="one">Baustein</item>
+    <item quantity="other">Bausteine</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Letzter Zugriff:</string>
@@ -606,7 +606,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
   <string name="error_no_program_name_entered">Bitte einen Programmnamen angeben.</string>
-  <string name="error_no_userbrick_name_entered">Bitte gib einen Benutzerbausteinnamen ein.</string>
+  <string name="error_no_userbrick_name_entered">Bitte gib einen Bausteinnamen ein.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
   <string name="error_delete_project">Während des Löschens ist ein Fehler aufgetreten</string>
   <string name="error_unknown_project">Ein Programm mit diesem Namen existiert nicht.</string>
@@ -976,7 +976,7 @@
   <string name="brick_show_text_pos">"bei "</string>
   <string name="brick_hide_text_var">Verstecke Variable</string>
   <!-- User Bricks strings -->
-  <string name="define">definiere</string>
+  <string name="define">Definiere</string>
   <string name="new_user_brick">Neuer Baustein</string>
   <string name="new_user_brick_variable">Variable 1</string>
   <string name="new_user_brick_name">Bitte wähle einen Benutzerbausteinnamen:</string>
