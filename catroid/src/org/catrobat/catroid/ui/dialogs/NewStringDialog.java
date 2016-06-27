@@ -38,12 +38,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class NewStringDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = NewStringDialog.class.getSimpleName();
 	private EditText newStringEditText;
+	private String previousFormulaString;
 
 	public NewStringDialog() {
 	}
@@ -57,6 +59,13 @@ public class NewStringDialog extends DialogFragment {
 		final ViewGroup root = (ViewGroup) getActivity().getFragmentManager().findFragmentByTag(
 				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG).getView().getRootView();
 		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_formulaeditor_string, root, false);
+
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+		if (formulaEditor != null) {
+			previousFormulaString = formulaEditor.getSelectedFormulaText();
+		}
 
 		Dialog newStringDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.formula_editor_new_string_name)
@@ -72,6 +81,13 @@ public class NewStringDialog extends DialogFragment {
 					}
 				}).create();
 		newStringEditText = (EditText) dialogView.findViewById(R.id.formula_editor_string_name_edit_text);
+
+		if (previousFormulaString != null && !previousFormulaString.trim().isEmpty()) {
+			newStringDialog.setTitle(R.string.formula_editor_dialog_change_text);
+			newStringEditText.setText(previousFormulaString);
+			CapitalizedTextView capitalizedTextView = (CapitalizedTextView) dialogView.findViewById(R.id.string_name);
+			capitalizedTextView.setText(R.string.formula_editor_dialog_change_text);
+		}
 		newStringDialog.setCanceledOnTouchOutside(true);
 		newStringDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -87,12 +103,17 @@ public class NewStringDialog extends DialogFragment {
 	}
 
 	private void handleOkButton() {
-		String stringName = newStringEditText.getText().toString();
+		String userInput = newStringEditText.getText().toString();
 
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
-			formulaEditor.addStringToActiveFormula(stringName);
+
+			if (previousFormulaString != null && !previousFormulaString.trim().isEmpty()) {
+				formulaEditor.overrideSelectedText(userInput);
+			} else {
+				formulaEditor.addStringToActiveFormula(userInput);
+			}
 			formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		}
 	}

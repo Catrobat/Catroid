@@ -756,6 +756,14 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}
 
+	public String getSelectedFormulaText() {
+		return formulaEditorEditText.getSelectedTextFromInternFormula();
+	}
+
+	public void overrideSelectedText(String string) {
+		formulaEditorEditText.overrideSelectedText(string);
+	}
+
 	private class VariableOrUserListDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
