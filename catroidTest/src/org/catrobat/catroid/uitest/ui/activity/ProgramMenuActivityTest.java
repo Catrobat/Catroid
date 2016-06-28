@@ -167,7 +167,6 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 
 	public void testMainMenuItemsNotVisible() {
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-
 		solo.sendKey(Solo.MENU);
 
 		assertFalse("rate us is visible", solo.waitForText(solo.getString(R.string.main_menu_rate_app), 1, 5000, false));
