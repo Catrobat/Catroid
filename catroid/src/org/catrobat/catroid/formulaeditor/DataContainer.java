@@ -22,15 +22,16 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
+import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 
 import java.io.Serializable;
@@ -42,7 +43,6 @@ import java.util.Map;
 
 public class DataContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final int INVALID_ID = -1;
 
 	public static final transient int USER_VARIABLE_SPRITE = 0;
 	public static final transient int USER_VARIABLE_PROJECT = 1;
@@ -57,8 +57,7 @@ public class DataContainer implements Serializable {
 	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	@XStreamAlias("userBrickVariableList")
-	@SuppressLint("UseSparseArrays")
-	private Map<Integer, List<UserVariable>> userBrickVariables = new HashMap<>();
+	private Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
 
 	@XStreamAlias("programListOfLists")
 	private List<UserList> projectLists;
@@ -85,10 +84,6 @@ public class DataContainer implements Serializable {
 		return projectLists;
 	}
 
-	public Map<Integer, List<UserVariable>> getUserBrickVariables() {
-		return userBrickVariables;
-	}
-
 	public DataAdapter createDataAdapter(Context context, Sprite sprite) {
 		List<UserVariable> userBrickVariables = new LinkedList<>();
 		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(sprite);
@@ -96,12 +91,12 @@ public class DataContainer implements Serializable {
 		return new DataAdapter(context, spriteUserList, projectLists, spriteVariables, projectVariables, userBrickVariables);
 	}
 
-	public DataAdapter createDataAdapter(Context context, int userBrickId, Sprite sprite, boolean inUserBrick) {
+	public DataAdapter createDataAdapter(Context context, UserBrick userBrick, Sprite sprite) {
 		List<UserVariable> userBrickVariables;
-		if (userBrickId == INVALID_ID || !inUserBrick) {
+		if (userBrick == null || !(context instanceof UserBrickScriptActivity)) {
 			userBrickVariables = new LinkedList<>();
 		} else {
-			userBrickVariables = getOrCreateVariableListForUserBrick(userBrickId);
+			userBrickVariables = getOrCreateVariableListForUserBrick(userBrick);
 		}
 		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(sprite);
 		List<UserList> spriteUserList = getOrCreateUserListListForSprite(sprite);
@@ -114,14 +109,15 @@ public class DataContainer implements Serializable {
 		if (userVariable == null) {
 			userVariable = findUserVariable(userVariableName, projectVariables);
 		}
-		if (userVariable == null && ProjectManager.getInstance().getCurrentUserBrick() != null) {
-			int id = ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId();
-			userVariable = findUserVariable(userVariableName, getOrCreateVariableListForUserBrick(id));
+
+		UserBrick userBrick = getCurrentUserBrick();
+		if (userVariable == null && userBrick != null) {
+			userVariable = findUserVariable(userVariableName, getOrCreateVariableListForUserBrick(userBrick));
 		}
 		return userVariable;
 	}
 
-	public UserVariable addSpriteVariableIfDontExist(String userVariableName, Sprite sprite) {
+	public UserVariable addSpriteVariableIfDoesNotExist(String userVariableName, Sprite sprite) {
 		UserVariable addedUserVariable = null;
 		List<UserVariable> list = spriteVariables.get(sprite);
 
@@ -143,7 +139,7 @@ public class DataContainer implements Serializable {
 		return addedUserVariable;
 	}
 
-	public UserList addSpriteListIfDontExist(String userListName, Sprite sprite) {
+	public UserList addSpriteListIfDoesNotExist(String userListName, Sprite sprite) {
 		UserList addedUserList = null;
 		List<UserList> lists = spriteListOfLists.get(sprite);
 
@@ -165,8 +161,9 @@ public class DataContainer implements Serializable {
 		return addedUserList;
 	}
 
-	public UserVariable addUserBrickUserVariableToUserBrick(int userBrickId, String userVariableName, Object userVariableValue) {
-		List<UserVariable> varList = getOrCreateVariableListForUserBrick(userBrickId);
+	public UserVariable addUserBrickVariableToUserBrick(UserBrick userBrick, String userVariableName,
+			Object userVariableValue) {
+		List<UserVariable> varList = getOrCreateVariableListForUserBrick(userBrick);
 		UserVariable userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
 		varList.add(userVariableToAdd);
 		return userVariableToAdd;
@@ -175,6 +172,22 @@ public class DataContainer implements Serializable {
 	public UserVariable addSpriteUserVariable(String userVariableName) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		return addSpriteUserVariableToSprite(currentSprite, userVariableName);
+	}
+
+	public UserList renameSpriteUserList(String newName, String oldName) {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<UserList> varList = getOrCreateUserListListForSprite(currentSprite);
+		UserList userListToRename = findUserList(oldName, varList);
+		userListToRename.setName(newName);
+		return userListToRename;
+	}
+
+	public UserVariable renameSpriteUserVariable(String newName, String oldName) {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<UserVariable> varList = getOrCreateVariableListForSprite(currentSprite);
+		UserVariable userVariableToRename = findUserVariable(oldName, varList);
+		userVariableToRename.setName(newName);
+		return userVariableToRename;
 	}
 
 	public UserVariable addSpriteUserVariableToSprite(Sprite sprite, String userVariableName) {
@@ -190,6 +203,12 @@ public class DataContainer implements Serializable {
 		return userVariableToAdd;
 	}
 
+	public UserVariable renameProjectUserVariable(String newName, String oldName) {
+		UserVariable userVariableToRename = findUserVariable(oldName, projectVariables);
+		userVariableToRename.setName(newName);
+		return userVariableToRename;
+	}
+
 	/**
 	 * This function deletes the user variable with userVariableName in the current context.
 	 *
@@ -198,49 +217,25 @@ public class DataContainer implements Serializable {
 	 */
 	public void deleteUserVariableByName(String userVariableName) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = INVALID_ID;
-		if (currentUserBrick != null) {
-			userBrickId = currentUserBrick.getDefinitionBrick().getUserBrickId();
-		}
-		List<UserVariable> context = getUserVariableContext(userVariableName, userBrickId, currentSprite);
+		UserBrick userBrick = getCurrentUserBrick();
+		List<UserVariable> context = getUserVariableContext(userVariableName, userBrick, currentSprite);
 		if (context != null) {
 			UserVariable variableToDelete = findUserVariable(userVariableName, context);
 			if (variableToDelete != null) {
 				context.remove(variableToDelete);
-				if (currentUserBrick != null) {
-					UserScriptDefinitionBrickElements currentElements = currentUserBrick.getUserScriptDefinitionBrickElements();
-					for (int id = 0; id < currentElements.getUserScriptDefinitionBrickElementList().size(); id++) {
-						if (currentElements.getUserScriptDefinitionBrickElementList().get(id).name.equals(userVariableName) && currentElements.getUserScriptDefinitionBrickElementList().get(id).isVariable) {
-							int alpha = currentUserBrick.getAlphaValue();
-//							Context context
-							currentUserBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.getUserScriptDefinitionBrickElementList().get(id).name, currentUserBrick.getDefinitionBrick().getViewWithAlpha(alpha).getContext());
-							currentElements.getUserScriptDefinitionBrickElementList().remove(id);
-							currentElements.incrementVersion();
+				if (userBrick != null) {
+					List<UserScriptDefinitionBrickElement> currentElements = userBrick.getUserScriptDefinitionBrickElements();
+					for (int id = 0; id < currentElements.size(); id++) {
+						if (currentElements.get(id).getText().equals(userVariableName) && currentElements.get(id).isVariable()) {
+							int alpha = userBrick.getAlphaValue();
+							Context alphaView = userBrick.getDefinitionBrick().getViewWithAlpha(alpha).getContext();
+							userBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.get(id).getText(), alphaView);
+							currentElements.remove(id);
 						}
 					}
 				}
 			}
 		}
-	}
-
-	public void deleteUserVariableFromUserBrick(int userBrickId, String userVariableName) {
-		List<UserVariable> context = userBrickVariables.get(userBrickId);
-		UserVariable variableToDelete = findUserVariable(userVariableName, context);
-		if (variableToDelete != null) {
-			context.remove(variableToDelete);
-		}
-	}
-
-	public List<UserVariable> getOrCreateVariableListForUserBrick(int userBrickId) {
-		List<UserVariable> variables = userBrickVariables.get(userBrickId);
-
-		if (variables == null) {
-			variables = new ArrayList<UserVariable>();
-			userBrickVariables.put(userBrickId, variables);
-		}
-
-		return variables;
 	}
 
 	public List<UserVariable> getOrCreateVariableListForSprite(Sprite sprite) {
@@ -257,7 +252,7 @@ public class DataContainer implements Serializable {
 		List<UserVariable> variables = spriteVariables.get(sprite);
 
 		if (variables == null) {
-			variables = new ArrayList<UserVariable>();
+			variables = new ArrayList<>();
 		}
 		return variables;
 	}
@@ -270,8 +265,8 @@ public class DataContainer implements Serializable {
 		spriteVariables.remove(sprite);
 	}
 
-	public UserVariable getUserVariable(String name, int userBrickId, Sprite currentSprite) {
-		List<UserVariable> contextList = getUserVariableContext(name, userBrickId, currentSprite);
+	public UserVariable getUserVariable(String name, UserBrick userBrick, Sprite currentSprite) {
+		List<UserVariable> contextList = getUserVariableContext(name, userBrick, currentSprite);
 		return findUserVariable(name, contextList);
 	}
 
@@ -281,7 +276,7 @@ public class DataContainer implements Serializable {
 	 * The current context consists of all global variables, the sprite variables for the current sprite,
 	 * and the user brick variables for the current user brick.
 	 */
-	public List<UserVariable> getUserVariableContext(String name, int userBrickId, Sprite currentSprite) {
+	public List<UserVariable> getUserVariableContext(String name, UserBrick userBrick, Sprite currentSprite) {
 		UserVariable variableToReturn;
 		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(currentSprite);
 		variableToReturn = findUserVariable(name, spriteVariables);
@@ -289,8 +284,8 @@ public class DataContainer implements Serializable {
 			return spriteVariables;
 		}
 
-		if (userBrickId != INVALID_ID) {
-			List<UserVariable> userBrickVariables = getOrCreateVariableListForUserBrick(userBrickId);
+		if (userBrick != null) {
+			List<UserVariable> userBrickVariables = getOrCreateVariableListForUserBrick(userBrick);
 			variableToReturn = findUserVariable(name, userBrickVariables);
 			if (variableToReturn != null) {
 				return userBrickVariables;
@@ -327,9 +322,6 @@ public class DataContainer implements Serializable {
 		for (Sprite currentSprite : spriteVariables.keySet()) {
 			resetUserVariables(spriteVariables.get(currentSprite));
 		}
-		for (int key : userBrickVariables.keySet()) {
-			resetUserVariables(userBrickVariables.get(key));
-		}
 	}
 
 	private void resetUserVariables(List<UserVariable> userVariableList) {
@@ -365,6 +357,12 @@ public class DataContainer implements Serializable {
 		return userListToAdd;
 	}
 
+	public UserList renameProjectUserList(String newName, String oldName) {
+		UserList userListToRename = findUserList(oldName, projectLists);
+		userListToRename.setName(newName);
+		return userListToRename;
+	}
+
 	public void deleteUserListByName(String userListName) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserList listToDelete;
@@ -383,7 +381,7 @@ public class DataContainer implements Serializable {
 	public List<UserList> getOrCreateUserListListForSprite(Sprite sprite) {
 		List<UserList> userLists = spriteListOfLists.get(sprite);
 		if (userLists == null) {
-			userLists = new ArrayList<UserList>();
+			userLists = new ArrayList<>();
 			spriteListOfLists.put(sprite, userLists);
 		}
 		return userLists;
@@ -392,7 +390,7 @@ public class DataContainer implements Serializable {
 	public List<UserList> getUserListListForSprite(Sprite sprite) {
 		List<UserList> userLists = spriteListOfLists.get(sprite);
 		if (userLists == null) {
-			userLists = new ArrayList<UserList>();
+			userLists = new ArrayList<>();
 		}
 		return userLists;
 	}
@@ -536,18 +534,6 @@ public class DataContainer implements Serializable {
 		return false;
 	}
 
-	public void addUserBrickVariableElements(int key, List<UserVariable> userVariables) {
-		List<UserVariable> allUserVariables = userBrickVariables.get(key);
-
-		if (allUserVariables == null) {
-			allUserVariables = new ArrayList<UserVariable>();
-		} else {
-			userBrickVariables.remove(key);
-		}
-		allUserVariables.addAll(userVariables);
-		userBrickVariables.put(key, allUserVariables);
-	}
-
 	public Integer getTypeOfUserVariable(String userVariableName, Sprite sprite) {
 		UserVariable userVariable;
 		userVariable = findUserVariable(userVariableName, getOrCreateVariableListForSprite(sprite));
@@ -558,9 +544,9 @@ public class DataContainer implements Serializable {
 		if (userVariable != null) {
 			return USER_VARIABLE_PROJECT;
 		}
-		if (ProjectManager.getInstance().getCurrentUserBrick() != null) {
-			int id = ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId();
-			userVariable = findUserVariable(userVariableName, getOrCreateVariableListForUserBrick(id));
+		UserBrick userBrick = getCurrentUserBrick();
+		if (userBrick != null) {
+			userVariable = findUserVariable(userVariableName, getOrCreateVariableListForUserBrick(userBrick));
 			if (userVariable != null) {
 				return USER_VARIABLE_USERBRICK;
 			}
@@ -583,5 +569,49 @@ public class DataContainer implements Serializable {
 
 	public List<UserList> getSpriteListOfLists(Sprite sprite) {
 		return spriteListOfLists.get(sprite);
+	}
+
+	public UserBrick getCurrentUserBrick() {
+		return ProjectManager.getInstance().getCurrentUserBrick();
+	}
+
+	public void deleteUserVariableFromUserBrick(UserBrick userBrick, String userVariableName) {
+		List<UserVariable> context = userBrickVariables.get(userBrick);
+		UserVariable variableToDelete = findUserVariable(userVariableName, context);
+		if (variableToDelete != null) {
+			context.remove(variableToDelete);
+		}
+	}
+
+	public List<UserVariable> getOrCreateVariableListForUserBrick(UserBrick userBrick) {
+		List<UserVariable> variables = userBrickVariables.get(userBrick);
+
+		if (variables == null) {
+			variables = new ArrayList<>();
+			userBrickVariables.put(userBrick, variables);
+		}
+
+		return variables;
+	}
+
+	public String getUniqueVariableName(Context context) {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		String name = context.getResources().getString(R.string.new_user_brick_variable).trim();
+
+		int variableCounter = 0;
+		String originalName = name;
+		name += " " + variableCounter;
+
+		while (getUserVariable(name, currentSprite) != null) {
+			variableCounter++;
+			name = originalName + " " + variableCounter;
+		}
+		name = originalName + " " + variableCounter;
+
+		return name;
+	}
+
+	public void setUserBrickVariables(UserBrick key, List<UserVariable> userVariables) {
+		userBrickVariables.put(key, userVariables);
 	}
 }

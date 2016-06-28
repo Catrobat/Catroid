@@ -39,7 +39,6 @@ apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply from: 'gradle/adb_tasks.gradle'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 
@@ -55,13 +54,7 @@ android {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
@@ -71,13 +64,7 @@ android {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
@@ -98,7 +85,7 @@ configurations {
 dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
     compile 'com.thoughtworks.xstream:xstream:1.4.7'
     def gdxVersion = '1.6.2'
@@ -112,9 +99,10 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:percent:23.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.0.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -123,29 +111,6 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
     checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
-}
-
-def getBuildNumberParameter = { ->
-    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
-    return code
-}
-
-def generateVersionName(version, buildNumber) {
-    def versionName
-    if (buildNumber == -1) {
-        versionName = getGitDescribe() + " " + getCurrentGitBranch()
-    } else {
-        versionName = version + "." + buildNumber
-    }
-    return versionName
-}
-
-def getGitDescribe() {
-    try {
-        return 'git describe --tags'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
 }
 
 def getCurrentGitBranch() {
@@ -158,16 +123,16 @@ def getCurrentGitBranch() {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.0'
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 28
+        versionCode 30
         println "VersionCode is " + versionCode
-        versionName "0.9.21"
+        versionName "0.9.23"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
@@ -194,9 +159,6 @@ android {
             renderscript.srcDirs = ['catroidTest/src']
             res.srcDirs = ['catroidTest/res']
             assets.srcDirs = ['catroidTest/assets']
-            if (file('testexclusions.txt').exists()) {
-                java.exclude file('testexclusions.txt').readLines()
-            }
         }
     }
     lintOptions {

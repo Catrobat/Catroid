@@ -460,10 +460,12 @@ public final class SoundController {
 		newSoundInfo.setTitle(title);
 
 		if (existingFileNameInBackPackDirectory == null) {
-			String fileName = currentSoundInfo.getSoundFileName();
-			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
-			fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
-			newSoundInfo.setSoundFileName(fileName);
+			if (currentSoundInfo != null) {
+				String fileName = currentSoundInfo.getSoundFileName();
+				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
+				fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
+				newSoundInfo.setSoundFileName(fileName);
+			}
 		} else {
 			newSoundInfo.setSoundFileName(existingFileNameInBackPackDirectory);
 		}
@@ -494,7 +496,7 @@ public final class SoundController {
 				BackPackListManager.getInstance().removeItemFromSoundBackPack(soundInfo);
 			}
 			if (!otherSoundInfoItemsHaveAFileReference(soundInfo)) {
-				StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePathBackPack(), true);
+				StorageHandler.getInstance().deleteFile(soundInfo.getAbsoluteBackPackPath(), true);
 			}
 		}
 
@@ -756,7 +758,8 @@ public final class SoundController {
 
 	public SoundInfo backPack(SoundInfo selectedSoundInfo, String newSoundInfoTitle, boolean addToHiddenBackpack) {
 		String existingFileNameInBackPackDirectory = soundFileAlreadyInBackPackDirectory(selectedSoundInfo);
-		if (existingFileNameInBackPackDirectory == null) {
+		if (existingFileNameInBackPackDirectory == null && selectedSoundInfo != null
+				&& selectedSoundInfo.getAbsolutePath() != null && !selectedSoundInfo.getAbsolutePath().isEmpty()) {
 			copySoundBackPack(selectedSoundInfo, newSoundInfoTitle, false);
 		}
 		return updateSoundBackPackAfterInsert(newSoundInfoTitle, selectedSoundInfo,

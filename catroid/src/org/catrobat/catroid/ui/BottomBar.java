@@ -34,6 +34,10 @@ public final class BottomBar {
 		throw new AssertionError();
 	}
 
+	public static boolean isBottomBarVisible(Activity activity) {
+		return activity.findViewById(R.id.bottom_bar).getVisibility() == View.VISIBLE;
+	}
+
 	public static void showBottomBar(Activity activity) {
 		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 	}

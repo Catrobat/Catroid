@@ -50,6 +50,7 @@ import java.util.List;
 
 public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage, Cloneable {
 	private static final long serialVersionUID = 1L;
+	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 
 	private CollisionScript collisionScript;
 	private transient String selectedMessage;
@@ -219,8 +220,6 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 	}
 
 	private String getDisplayedAnythingString(Context context) {
-		return PhysicsCollision.COLLISION_MESSAGE_ESCAPE_CHAR
-				+ context.getString(R.string.collision_with_anything)
-				+ PhysicsCollision.COLLISION_MESSAGE_ESCAPE_CHAR;
+		return ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything) + ANYTHING_ESCAPE_CHAR;
 	}
 }

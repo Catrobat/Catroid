@@ -29,7 +29,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.98f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.99f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -142,6 +142,8 @@ public final class Constants {
 
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";
+
+	public static final String WHATSAPP_URI = "whatsapp://";
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";

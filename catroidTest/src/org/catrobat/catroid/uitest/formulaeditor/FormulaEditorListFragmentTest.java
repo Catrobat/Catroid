@@ -31,8 +31,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.fragment.FormulaEditorCategoryListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -101,8 +101,8 @@ public class FormulaEditorListFragmentTest extends BaseActivityInstrumentationTe
 		solo.clickOnView(solo.getView(R.id.brick_change_size_by_edit_text));
 		assertTrue("FormulaEditorFragment not found", solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG, 1000));
 
-		solo.clickOnText(solo.getString(R.string.formula_editor_math));
-		assertTrue("FormulaEditorListFragment not found", solo.waitForFragmentByTag(FormulaEditorListFragment.FUNCTION_TAG, 1000));
+		solo.clickOnText(solo.getString(R.string.formula_editor_functions));
+		assertTrue("FormulaEditorCategoryListFragment not found", solo.waitForFragmentByTag(FormulaEditorCategoryListFragment.FUNCTION_TAG, 1000));
 
 		int numberOfFunctions = FUNCTIONS_ITEMS.length;
 

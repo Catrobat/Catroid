@@ -56,8 +56,113 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.content.bricks.*;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.CameraBrick;
+import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
+import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
+import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
+import org.catrobat.catroid.content.bricks.LoopBeginBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
+import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
+import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.TurnLeftBrick;
+import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserBrickParameter;
+import org.catrobat.catroid.content.bricks.UserListBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenNfcBrick;
+import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -114,7 +219,7 @@ public final class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	public static final String BACKPACK_FILENAME = "backpack.json";
 
-	private XStreamToSupportCatrobatLanguageVersion098AndBefore xstream;
+	private XStreamToSupportCatrobatLanguageVersion099AndBefore xstream;
 	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
@@ -147,7 +252,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareProgramXstream() {
-		xstream = new XStreamToSupportCatrobatLanguageVersion098AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion099AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
@@ -165,7 +270,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareBackpackGson() {
-		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+		GsonBuilder gsonBuilder = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting();
 		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
 		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackBrickSerializerAndDeserializer());
 		backpackGson = gsonBuilder.create();
@@ -208,6 +313,7 @@ public final class StorageHandler {
 		xstream.alias("script", WhenNfcScript.class);
 		xstream.alias("script", BroadcastScript.class);
 		xstream.alias("script", RaspiInterruptScript.class);
+		xstream.alias("script", WhenTouchDownScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
@@ -232,6 +338,8 @@ public final class StorageHandler {
 		xstream.alias("brick", IfLogicBeginBrick.class);
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
+		xstream.alias("brick", IfThenLogicBeginBrick.class);
+		xstream.alias("brick", IfThenLogicEndBrick .class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);
@@ -252,6 +360,7 @@ public final class StorageHandler {
 		xstream.alias("brick", PointInDirectionBrick.class);
 		xstream.alias("brick", PointToBrick.class);
 		xstream.alias("brick", RepeatBrick.class);
+		xstream.alias("brick", RepeatUntilBrick.class);
 		xstream.alias("brick", ReplaceItemInUserListBrick.class);
 		xstream.alias("brick", SetBrightnessBrick.class);
 		xstream.alias("brick", SetColorBrick.class);
@@ -272,6 +381,7 @@ public final class StorageHandler {
 		xstream.alias("brick", UserScriptDefinitionBrick.class);
 		xstream.alias("brick", VibrationBrick.class);
 		xstream.alias("brick", WaitBrick.class);
+		xstream.alias("brick", WaitUntilBrick.class);
 		xstream.alias("brick", WhenBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
 
@@ -310,7 +420,6 @@ public final class StorageHandler {
 		xstream.alias("brick", RaspiIfLogicBeginBrick.class);
 		xstream.alias("brick", RaspiPwmBrick.class);
 
-		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
 
@@ -698,7 +807,12 @@ public final class StorageHandler {
 		if (selectedSoundInfo == null) {
 			return null;
 		}
-		String inputFilePath = selectedSoundInfo.getAbsolutePath();
+		String inputFilePath;
+		if (copyFromBackpack) {
+			inputFilePath = selectedSoundInfo.getAbsoluteBackPackPath();
+		} else {
+			inputFilePath = selectedSoundInfo.getAbsoluteProjectPath();
+		}
 		return copyFileBackPack(SOUND_DIRECTORY, BACKPACK_SOUND_DIRECTORY, inputFilePath, newTitle, copyFromBackpack);
 	}
 
@@ -707,7 +821,12 @@ public final class StorageHandler {
 		if (selectedLookData == null) {
 			return null;
 		}
-		String inputFilePath = selectedLookData.getAbsolutePath();
+		String inputFilePath;
+		if (copyFromBackpack) {
+			inputFilePath = selectedLookData.getAbsoluteBackPackPath();
+		} else {
+			inputFilePath = selectedLookData.getAbsoluteProjectPath();
+		}
 		return copyFileBackPack(IMAGE_DIRECTORY, BACKPACK_IMAGE_DIRECTORY, inputFilePath, newName, copyFromBackpack);
 	}
 

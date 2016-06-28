@@ -58,6 +58,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
+	public static final String[] NXT_SENSORS = { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 
 	public static final String EV3_SENSOR_1 = "setting_mindstorms_ev3_sensor_1";
 	public static final String EV3_SENSOR_2 = "setting_mindstorms_ev3_sensor_2";

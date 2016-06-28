@@ -65,6 +65,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
+import org.catrobat.catroid.ui.BaseExceptionHandler;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -112,6 +114,30 @@ public final class Utils {
 			return false;
 		}
 		return true;
+	}
+
+	public static boolean checkIfCrashRecoveryAndFinishActivity(final Activity context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (preferences.getBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false)) {
+
+			if (!(context instanceof MainMenuActivity)) {
+				context.finish();
+			} else {
+				preferences.edit().putBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false).commit();
+
+				Builder builder = new CustomAlertDialogBuilder(context);
+				builder.setTitle(R.string.crashed_title);
+				builder.setMessage(R.string.crashed_message);
+				builder.setNeutralButton(R.string.ok, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				});
+				builder.show();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void updateScreenWidthAndHeight(Context context) {
@@ -679,5 +705,9 @@ public final class Utils {
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
+	}
+
+	public static String getNumberStringForBricks(float value) {
+		return (int) value == value ? "" + (int) value : "" + value;
 	}
 }

@@ -77,7 +77,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isFacingFront());
+		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
 	}
 
 	@Device
@@ -103,7 +103,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 				== CameraManager.CameraState.notUsed || CameraManager.getInstance().getState()
 				== CameraManager.CameraState.stopped);
 
-		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isFacingFront());
+		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
 	}
 
 	@Device
@@ -121,7 +121,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isFacingFront());
+		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
 	}
 
 	@Device
@@ -146,7 +146,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isFacingBack());
+		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isCurrentCameraFacingBack());
 	}
 
 	@Device
@@ -173,7 +173,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 				== CameraManager.CameraState.notUsed || CameraManager.getInstance().getState()
 				== CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isFacingBack());
+		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isCurrentCameraFacingBack());
 	}
 
 	@Device
@@ -191,11 +191,11 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
 				!= CameraManager.CameraState.stopped);
 
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isFacingFront());
+		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
 
 		solo.sleep(2000);
 
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isFacingBack());
+		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isCurrentCameraFacingBack());
 
 		solo.sleep(2000);
 
@@ -210,7 +210,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.sleep(2000);
 
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isFacingFront());
+		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
 
 		solo.goBack();
 		solo.goBack();

@@ -33,7 +33,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -125,6 +124,10 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.findItem(R.id.delete).setVisible(false);
 		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.backpack).setVisible(false);
+		if (scriptFragment != null) {
+			((ScriptFragment) scriptFragment).setBackpackMenuIsVisible(false);
+		}
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -144,7 +147,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		List<View> categories = new ArrayList<View>();
+		List<View> categories = new ArrayList<>();
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
@@ -159,7 +162,7 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
+		if (brickAdapter.getUserBrick() == null) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 

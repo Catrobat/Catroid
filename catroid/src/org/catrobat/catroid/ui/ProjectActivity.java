@@ -131,8 +131,6 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
-			menu.findItem(R.id.unpacking).setVisible(false);
-			menu.findItem(R.id.unpacking_keep).setVisible(false);
 			menu.findItem(R.id.backpack).setVisible(true);
 		}
 		return super.onCreateOptionsMenu(menu);

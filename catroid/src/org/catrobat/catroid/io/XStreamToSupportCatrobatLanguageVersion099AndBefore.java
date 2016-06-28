@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
@@ -75,6 +76,8 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -150,14 +153,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion099AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion098AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion099AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion098AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion099AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -252,6 +255,13 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 
 		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
 		brickInfoMap.put("ifLogicEndBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfThenLogicBeginBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("ifCondition", BrickField.IF_CONDITION);
+		brickInfoMap.put("ifThenLogicBeginBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfThenLogicEndBrick.class.getSimpleName());
+		brickInfoMap.put("ifThenLogicEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfOnEdgeBounceBrick.class.getSimpleName());
 		brickInfoMap.put("ifOnEdgeBounceBrick", brickInfo);
@@ -561,6 +571,7 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());
 		scriptInfoMap.put("collisionScript", CollisionScript.class.getSimpleName());
+		scriptInfoMap.put("whenTouchDownScript", WhenTouchDownScript.class.getSimpleName());
 	}
 
 	private void modifyXMLToSupportUnknownFields(File file) {
@@ -576,6 +587,7 @@ public class XStreamToSupportCatrobatLanguageVersion098AndBefore extends XStream
 			deleteChildNodeByName(originalDocument, "scriptList", "object");
 			deleteChildNodeByName(originalDocument, "brickList", "object");
 			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
+			deleteChildNodeByName(originalDocument, "brickList", "inUserBrick");
 
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);

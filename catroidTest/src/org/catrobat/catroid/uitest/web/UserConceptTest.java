@@ -638,8 +638,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		String testEmail = testUser + "@gmail.com";
 		solo.sendKey(Solo.ENTER);
 		EditText eMailEditText = (EditText) solo.getView(R.id.dialog_register_email);
-		assertTrue("The device E-Mail address is not proposed", eMailEditText.getText().toString()
-				.equals(UtilDeviceInfo.getUserEmail(getActivity())));
+		String deviceEmail = UtilDeviceInfo.getUserEmail(getActivity());
+		if (deviceEmail != null) {
+			//Test device should have an account..
+			assertTrue("The device E-Mail address" + deviceEmail + "is not proposed",
+					eMailEditText.getText().toString().equals(UtilDeviceInfo.getUserEmail(getActivity())));
+		}
 		solo.clearEditText(eMailEditText);
 		solo.clickOnView(eMailEditText);
 		solo.enterText(eMailEditText, testEmail);

@@ -42,7 +42,6 @@ import java.util.List;
 
 public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
-	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
 	private transient IfLogicElseBrick ifElseBrick;
@@ -142,7 +141,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public void initialize() {
-		//ifElseBrick = new IfLogicElseBrick(sprite);
 		Log.w(TAG, "Cannot create the IfLogic Bricks from here!");
 	}
 

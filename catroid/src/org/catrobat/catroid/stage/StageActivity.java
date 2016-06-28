@@ -215,7 +215,8 @@ public class StageActivity extends AndroidApplication {
 		}
 
 		if ((requiredResources & Brick.CAMERA_BACK) > 0
-				|| (requiredResources & Brick.CAMERA_FRONT) > 0) {
+				|| (requiredResources & Brick.CAMERA_FRONT) > 0
+				|| (requiredResources & Brick.VIDEO) > 0) {
 			CameraManager.getInstance().resumePreviewAsync();
 		}
 
@@ -296,9 +297,7 @@ public class StageActivity extends AndroidApplication {
 		FaceDetectionHandler.stopFaceDetection();
 		CameraManager.getInstance().stopPreviewAsync();
 		CameraManager.getInstance().releaseCamera();
-
 		CameraManager.getInstance().setToDefaultCamera();
-
 		super.onDestroy();
 	}
 
