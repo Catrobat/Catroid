@@ -89,6 +89,7 @@ import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
@@ -109,6 +110,7 @@ import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
+import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -536,6 +538,21 @@ public class ActionFactory extends Actions {
 	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setRepeatCount(count);
+		action.setAction(repeatedAction);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createWaitUntilAction(Sprite sprite, Formula condition) {
+		WaitUntilAction action = Actions.action(WaitUntilAction.class);
+		action.setSprite(sprite);
+		action.setCondition(condition);
+		return action;
+	}
+
+	public Action createRepeatUntilAction(Sprite sprite, Formula condition, Action repeatedAction) {
+		RepeatUntilAction action = action(RepeatUntilAction.class);
+		action.setRepeatCondition(condition);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
 		return action;
