@@ -173,7 +173,10 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private static final int[] EV3_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_ev3_sensor_touch,
 			R.string.formula_editor_sensor_lego_ev3_sensor_infrared, R.string.formula_editor_sensor_lego_ev3_sensor_color,
 			R.string.formula_editor_sensor_lego_ev3_sensor_color_ambient, R.string
-			.formula_editor_sensor_lego_ev3_sensor_color_reflected};
+			.formula_editor_sensor_lego_ev3_sensor_color_reflected, R.string
+			.formula_editor_sensor_lego_ev3_sensor_hitechnic_color,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f };
 
 	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
@@ -410,13 +413,15 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			itemsIds = concatAll(itemsIds, DATE_AND_TIME_SENSOR_ITEMS);
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
-				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego));
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego_nxt));
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(NXT_SENSOR_ITEMS.length));
 			}
 
 			if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego_ev3));
 				itemsIds = concatAll(itemsIds, EV3_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(EV3_SENSOR_ITEMS.length));
 			}
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {

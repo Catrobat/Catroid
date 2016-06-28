@@ -50,6 +50,8 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 
 	private static final int NUMBER_VOLUME_LEVELS = 13;
 	private static final int VOLUME_LEVEL_INCR = 8;
+	private static final int FREQ_MAX_VAL = 10000;
+	private static final int FREQ_MIN_VAL = 250;
 
 	private boolean isInitialized = false;
 
@@ -95,11 +97,10 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 			return;
 		}
 
-		//different sources suggest different min./max. values
-		if (frequencyInHz > 10000) {
-			frequencyInHz = 10000;
-		} else if (frequencyInHz < 250) {
-			frequencyInHz = 250;
+		if (frequencyInHz > FREQ_MAX_VAL) {
+			frequencyInHz = FREQ_MAX_VAL;
+		} else if (frequencyInHz < FREQ_MIN_VAL) {
+			frequencyInHz = FREQ_MIN_VAL;
 		}
 
 		int volumeLevel = NUMBER_VOLUME_LEVELS;
@@ -261,7 +262,7 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 	}
 
 	@Override
-	public int getSensorValue(Sensors sensor) {
+	public float getSensorValue(Sensors sensor) {
 		switch (sensor) {
 			case EV3_SENSOR_1:
 				if (getSensor1() == null) {

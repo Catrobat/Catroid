@@ -20,30 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.devices.mindstorms.nxt;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.mindstorms.Mindstorms;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
-import org.catrobat.catroid.formulaeditor.Sensors;
+package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 
-public interface LegoNXT extends Mindstorms, BluetoothDevice {
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 
-	void playTone(int frequency, int duration);
+public class HiTechnicColorSensor extends EV3Sensor {
 
-	NXTMotor getMotorA();
-	NXTMotor getMotorB();
-	NXTMotor getMotorC();
+	public static final String TAG = HiTechnicColorSensor.class.getSimpleName();
+	private static final int DEFAULT_VALUE = 0;
+	private static final int SENSOR_VALUE_READ_LENGTH = 1;
 
-	void stopAllMovements();
+	public HiTechnicColorSensor(int port, MindstormsConnection connection, EV3SensorMode mode) {
+		super(port, EV3SensorType.IIC, mode, connection);
+		lastValidValue = DEFAULT_VALUE;
+	}
 
-	float getSensorValue(Sensors sensor);
-
-	int getKeepAliveTime();
-	int getBatteryLevel();
-
-	MindstormsSensor getSensor1();
-	MindstormsSensor getSensor2();
-	MindstormsSensor getSensor3();
-	MindstormsSensor getSensor4();
+	@Override
+	public float getValue() {
+		int color = getRawValue(SENSOR_VALUE_READ_LENGTH)[0] & 0xFF;
+		return color;
+	}
 }

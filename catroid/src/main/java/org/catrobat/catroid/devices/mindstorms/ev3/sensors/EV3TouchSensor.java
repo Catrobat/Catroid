@@ -36,7 +36,7 @@ public class EV3TouchSensor extends EV3Sensor {
 	}
 
 	@Override
-	public int getValue() {
+	public float getValue() {
 		int percent = getPercentValue();
 		if (percent > 50) {
 			return 1;

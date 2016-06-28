@@ -157,6 +157,18 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 					title = getString(R.string.ev3_sensor_color_reflected);
 					ev3Sensor = EV3Sensor.Sensor.COLOR_REFLECT;
 					break;
+				case R.string.formula_editor_sensor_lego_ev3_sensor_hitechnic_color:
+					title = getString(R.string.ev3_sensor_hitechnic_color);
+					ev3Sensor = EV3Sensor.Sensor.HT_NXT_COLOR;
+					break;
+				case R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c:
+					title = getString(R.string.ev3_sensor_nxt_temperature_c);
+					ev3Sensor = EV3Sensor.Sensor.NXT_TEMPERATURE_C;
+					break;
+				case R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f:
+					title = getString(R.string.ev3_sensor_nxt_temperature_f);
+					ev3Sensor = EV3Sensor.Sensor.NXT_TEMPERATURE_F;
+					break;
 				default:
 					title = getString(R.string.nxt_sensor_not_found);
 					ev3Sensor = EV3Sensor.Sensor.NO_SENSOR;

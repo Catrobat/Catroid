@@ -47,6 +47,12 @@ public class EV3SensorFactory {
 				return new EV3ColorSensor(port, connection, EV3SensorMode.MODE1);
 			case TOUCH:
 				return new EV3TouchSensor(port, connection);
+			case HT_NXT_COLOR:
+				return new HiTechnicColorSensor(port, connection, EV3SensorMode.MODE1);
+			case NXT_TEMPERATURE_C:
+				return new TemperatureSensor(port, connection, EV3SensorMode.MODE0);
+			case NXT_TEMPERATURE_F:
+				return new TemperatureSensor(port, connection, EV3SensorMode.MODE1);
 			default:
 				throw new MindstormsException("No valid sensor found!"); // Should never occur
 		}

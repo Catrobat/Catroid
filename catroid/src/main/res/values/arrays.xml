@@ -87,6 +87,9 @@
         <item>@string/ev3_sensor_color_ambient</item>
         <item>@string/ev3_sensor_color_reflected</item>
         <item>@string/ev3_sensor_infrared</item>
+        <item>@string/ev3_sensor_hitechnic_color</item>
+        <item>@string/ev3_sensor_nxt_temperature_c</item>
+        <item>@string/ev3_sensor_nxt_temperature_f</item>
     </string-array>
     <string-array name="ev3_motor_chooser" >
         <item >@string/ev3_motor_a</item >

@@ -37,7 +37,7 @@ public class EV3InfraredSensor extends EV3Sensor {
 	}
 
 	@Override
-	public int getValue() {
+	public float getValue() {
 		return getPercentValue();
 	}
 }

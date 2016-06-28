@@ -48,7 +48,7 @@ public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
 	void setLed(int ledStatus);
 
-	int getSensorValue(Sensors sensor);
+	float getSensorValue(Sensors sensor);
 
 	MindstormsSensor getSensor1();
 	MindstormsSensor getSensor2();

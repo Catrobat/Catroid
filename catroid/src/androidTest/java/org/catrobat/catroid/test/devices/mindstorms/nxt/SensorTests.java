@@ -80,7 +80,7 @@ public class SensorTests extends AndroidTestCase {
 
 		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTTouchSensor(PORT_NR_0, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_0, NXTSensorType.TOUCH, NXTSensorMode.BOOL);
 		testGetInputValuesMessage(PORT_NR_0);
@@ -93,7 +93,7 @@ public class SensorTests extends AndroidTestCase {
 		nxtModel.setSensorValue(expectedSensorValue);
 
 		NXTSensor sensor = new NXTSoundSensor(PORT_NR_1, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_1, NXTSensorType.SOUND_DBA, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_1);
@@ -106,7 +106,7 @@ public class SensorTests extends AndroidTestCase {
 
 		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTLightSensor(PORT_NR_2, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_INACTIVE, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_2);
@@ -119,7 +119,7 @@ public class SensorTests extends AndroidTestCase {
 
 		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTLightSensorActive(PORT_NR_2, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_2);
@@ -133,7 +133,7 @@ public class SensorTests extends AndroidTestCase {
 
 		NXTI2CUltraSonicSensor sensor = new NXTI2CUltraSonicSensor(mindstormsConnection);
 
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfI2CSensor(PORT_NR_3, NXTSensorType.LOW_SPEED_9V, NXTSensorMode.RAW);
 
