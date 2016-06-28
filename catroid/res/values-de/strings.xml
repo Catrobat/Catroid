@@ -491,7 +491,7 @@
   <string name="brick_if_begin">Wenn</string>
   <string name="brick_if_begin_second_part">wahr ist, dann</string>
   <string name="brick_if_else">sonst</string>
-  <string name="brick_if_end">sonst Ende</string>
+  <string name="brick_if_end">Ende Wenn</string>
   <string name="brick_broadcast_invalid_symbol">"Die Nachricht ist reserviert für:\n\"Wenn physische Kollision zwischen\"-Brick\nBitte versuche es erneut!"</string>
   <string name="brick_set_variable">Setze Variable</string>
   <string name="brick_change_variable">Ändere Variable</string>

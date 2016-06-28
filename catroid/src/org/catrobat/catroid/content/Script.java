@@ -28,6 +28,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
@@ -62,6 +64,8 @@ public abstract class Script implements Serializable {
 
 			if (copiedBrick instanceof IfLogicEndBrick) {
 				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
+			} else if (copiedBrick instanceof IfThenLogicEndBrick) {
+				setIfThenBrickReferences((IfThenLogicEndBrick) copiedBrick, (IfThenLogicEndBrick) brick);
 			} else if (copiedBrick instanceof LoopEndBrick) {
 				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
 			}
@@ -218,6 +222,15 @@ public abstract class Script implements Serializable {
 		copiedIfElseBrick.setIfEndBrick(copiedIfEndBrick);
 		copiedIfEndBrick.setIfBeginBrick(copiedIfBeginBrick);
 		copiedIfEndBrick.setIfElseBrick(copiedIfElseBrick);
+	}
+
+	protected void setIfThenBrickReferences(IfThenLogicEndBrick copiedIfEndBrick, IfThenLogicEndBrick
+			originalIfEndBrick) {
+		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
+		IfThenLogicBeginBrick copiedIfBeginBrick = (IfThenLogicBeginBrick) ((IfThenLogicBeginBrick) ifBrickList.get(0)).getCopy();
+
+		copiedIfBeginBrick.setIfThenEndBrick(copiedIfEndBrick);
+		copiedIfEndBrick.setIfThenBeginBrick(copiedIfBeginBrick);
 	}
 
 	protected void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {

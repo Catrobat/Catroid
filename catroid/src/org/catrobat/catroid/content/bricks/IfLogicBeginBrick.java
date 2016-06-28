@@ -48,10 +48,9 @@ import java.util.List;
 public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
-	public static final int EXECUTE_ELSE_PART = -1;
 	protected transient IfLogicElseBrick ifElseBrick;
 	protected transient IfLogicEndBrick ifEndBrick;
-	private transient IfLogicBeginBrick copy;
+	protected transient IfLogicBeginBrick copy;
 
 	public IfLogicBeginBrick() {
 		addAllowedBrickField(BrickField.IF_CONDITION);
@@ -65,7 +64,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		initializeBrickFields(condition);
 	}
 
-	private void initializeBrickFields(Formula ifCondition) {
+	protected void initializeBrickFields(Formula ifCondition) {
 		addAllowedBrickField(BrickField.IF_CONDITION);
 		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
 	}
@@ -139,7 +138,18 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 		ifBeginTextView.setOnClickListener(this);
 
+		removePrototypeElseTextViews(view);
+
 		return view;
+	}
+
+	protected void removePrototypeElseTextViews(View view) {
+		TextView prototypeTextPunctuation = (TextView) view.findViewById(R.id.if_else_prototype_punctuation);
+		TextView prototypeTextElse = (TextView) view.findViewById(R.id.if_prototype_else);
+		TextView prototypeTextPunctuation2 = (TextView) view.findViewById(R.id.if_else_prototype_punctuation2);
+		prototypeTextPunctuation.setVisibility(View.GONE);
+		prototypeTextElse.setVisibility(View.GONE);
+		prototypeTextPunctuation2.setVisibility(View.GONE);
 	}
 
 	@Override
