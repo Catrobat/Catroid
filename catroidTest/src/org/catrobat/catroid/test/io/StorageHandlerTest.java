@@ -253,11 +253,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testPermissionFileWritten() throws IOException {
 
-		String possibleContent = "NO_RESOURCES " +
-				"TEXT_TO_SPEECH " +
-				"BLUETOOTH_LEGO_NXT " +
-				"ARDRONE_SUPPORT " +
-				"CAMERA_LED VIBRATOR";
+		String possibleContent = "NO_RESOURCES "
+				+ "TEXT_TO_SPEECH "
+				+ "BLUETOOTH_LEGO_NXT "
+				+ "ARDRONE_SUPPORT "
+				+ "CAMERA_LED VIBRATOR";
 
 		final Project project = new Project(getContext(), projectName);
 		Sprite firstSprite = new Sprite("first");
@@ -270,7 +270,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		//DroneFlipBrick droneFlipBrick = new DroneFlipBrick(firstSprite);
 		//VibrationBrick vibrationBrick = new VibrationBrick(secondSprite, 2);
 		//LegoNxtPlayToneBrick legoNxtPlayToneBrick = new LegoNxtPlayToneBrick(secondSprite, 1, 1);
-
 
 		//testScript.addBrick(ledOnBrick);
 		//testScript.addBrick(speakBrick);
@@ -295,7 +294,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertTrue(Constants.PROJECTPERMISSIONS_NAME + " is empty!", currentPermissionFile.length() > 0);
 
 		String content = "";
-		String line = "";
+		String line;
 		BufferedReader reader = new BufferedReader(new FileReader(currentPermissionFile), Constants.BUFFER_8K);
 		reader.read();
 		while ((line = reader.readLine()) != null) {
@@ -306,7 +305,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		assertNotNull("empty file!", content);
 	}
-
 
 	// TODO: add XML header validation based on xsd
 
@@ -336,7 +334,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertTrue("File containing the permissions could not be written", permissionsFile.exists());
 
 		//only for assertions. Add future permission; Vibration and LED not activated
-		Set<String> permissions = new HashSet<String>();
+		Set<String> permissions = new HashSet<>();
 		permissions.add(Constants.ARDRONE_SUPPORT);
 		permissions.add(Constants.BLUETOOTH_LEGO_NXT);
 		permissions.add(Constants.TEXT_TO_SPEECH);

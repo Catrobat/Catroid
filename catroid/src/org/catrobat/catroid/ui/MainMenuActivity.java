@@ -60,7 +60,6 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -173,8 +172,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		for (String filename : files) {
 			if (filename.contains(ZIP_FILE_NAME)) {
-				InputStream in = null;
-				OutputStream out = null;
+				InputStream in;
+				OutputStream out;
 				try {
 					in = assetManager.open(filename);
 					File outFile = new File(Constants.DEFAULT_ROOT, filename);
@@ -183,8 +182,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 					out.flush();
 					out.close();
 					in.close();
-					in = null;
-					out = null;
 				} catch (IOException e) {
 					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
 				}

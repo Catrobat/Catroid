@@ -38,12 +38,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.utils.ToastUtil;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MarketingActivity extends Activity {
@@ -72,7 +72,7 @@ public class MarketingActivity extends Activity {
 				try {
 					startActivity(myAppLinkToMarket);
 				} catch (ActivityNotFoundException e) {
-					Toast.makeText(MarketingActivity.this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
+					ToastUtil.showError(MarketingActivity.this, R.string.main_menu_play_store_not_installed);
 				}
 			}
 		});
@@ -100,7 +100,7 @@ public class MarketingActivity extends Activity {
 				try {
 					startActivity(myAppLinkToMarket);
 				} catch (ActivityNotFoundException e) {
-					Toast.makeText(MarketingActivity.this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
+					ToastUtil.showError(MarketingActivity.this, R.string.main_menu_play_store_not_installed);
 				}
 			}
 		});
