@@ -119,7 +119,7 @@ def copyAndRename() {
     }
     copy {
         from screenshot.getPath()
-        into 'catroid/res/drawable'
+        into 'catroid/res/drawable-nodpi'
         rename { String fileName ->
             fileName.replace(screenshot.getName(), 'icon.png')
         }
@@ -127,7 +127,7 @@ def copyAndRename() {
 
     copy {
         from screenshot.getPath();
-        into 'catroid/res/drawable'
+        into 'catroid/res/drawable-nodpi'
         rename { String fileName ->
             fileName.replace(screenshot.getName(), 'splash_screen.png')
         }
