@@ -42,8 +42,8 @@ ext {
 apply plugin: 'com.android.application'
 android {
     defaultConfig {
-        buildConfigField "String", "START_PROJECT", "\"WHACK A MOLE\""
-        multiDexEnabled true
+        //buildConfigField "String", "START_PROJECT", "\"WHACK A MOLE\""
+        //multiDexEnabled true
     }
 
     productFlavors {
@@ -51,6 +51,7 @@ android {
             applicationId 'org.catrobat.catroid'
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
         }
 
         standalone {
@@ -59,6 +60,7 @@ android {
             versionName '1.0-standalone'
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectNameFromXML()}\"";
             buildConfigField "String", "START_PROJECT", "\"${getZipFileNameWithoutEnding()}\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
         }
     }
 }
@@ -144,7 +146,7 @@ def messUpIntentFilters() {
 }
 
 def unzipProject(File tmp) {
-    ArchiverFactory.createArchiver(ZIP).extract(tmp, new File("catroid/assets/standalone/"))
+    ArchiverFactory.createArchiver("zip").extract(tmp, new File("catroid/assets/standalone/"))
 }
 
 def managePermissions() {
