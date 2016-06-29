@@ -64,7 +64,7 @@ public class PocketMusicTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
-				PackageManager.GET_ACTIVITIES);
+				PackageManager.GET_META_DATA);
 
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
