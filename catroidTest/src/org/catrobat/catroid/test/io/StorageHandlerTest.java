@@ -266,7 +266,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		//Script testScript = new StartScript(firstSprite);
 		//Script otherScript = new StartScript(secondSprite);
 		//LedOnBrick ledOnBrick = new LedOnBrick(firstSprite);
-		SpeakBrick speakBrick = new SpeakBrick();
+		//SpeakBrick speakBrick = new SpeakBrick();
 		//DroneFlipBrick droneFlipBrick = new DroneFlipBrick(firstSprite);
 		//VibrationBrick vibrationBrick = new VibrationBrick(secondSprite, 2);
 		//LegoNxtPlayToneBrick legoNxtPlayToneBrick = new LegoNxtPlayToneBrick(secondSprite, 1, 1);

@@ -114,7 +114,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			setContentView(R.layout.activity_main_menu_splashscreen);
-			unzipProgramme();
+			unzipProgram();
 		} else {
 			setContentView(R.layout.activity_main_menu);
 
@@ -134,7 +134,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 	}
 
-	private void unzipProgramme() {
+	private void unzipProgram() {
 
 		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
 		copyProgramZip();
@@ -145,7 +145,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		try {
 			archiver.extract(new File(zipFileString), unpackedDirectory);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.d("STANDALONE", "Can't extract program", e);
 		}
 
 		File destination = new File(Constants.DEFAULT_ROOT + "/"
