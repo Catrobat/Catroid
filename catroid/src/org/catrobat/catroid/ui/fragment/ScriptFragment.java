@@ -228,8 +228,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = (DragAndDropListView) rootView.findViewById(android.R.id.list);
-		setupUiForUserBricks();
 
+		setupUiForUserBricks();
 		return rootView;
 	}
 
@@ -370,14 +370,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (sprite == null) {
 			return;
 		}
-
-		getActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				handleAddButton();
-			}
-		});
 
 		adapter = new BrickAdapter(this, sprite, listView);
 		adapter.setOnBrickCheckedListener(this);

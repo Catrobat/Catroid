@@ -80,6 +80,7 @@ public class NewSoundDialog extends DialogFragment {
 		super.onDismiss(dialog);
 		if (onDismissListener != null) {
 			onDismissListener.onDismiss(dialog);
+			dialog.dismiss();
 		}
 	}
 
@@ -93,9 +94,9 @@ public class NewSoundDialog extends DialogFragment {
 		recordButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-					fragment.addSoundRecord();
-					NewSoundDialog.this.dismiss();
-				}
+				fragment.addSoundRecord();
+				NewSoundDialog.this.dismiss();
+			}
 		});
 	}
 
