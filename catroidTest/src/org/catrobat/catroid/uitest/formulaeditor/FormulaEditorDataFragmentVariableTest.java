@@ -246,7 +246,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		String editTextString = text.getText().toString();
 		assertEquals("Wrong text in EditText", itemString, editTextString.substring(0, itemString.length()));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName("zzz");
 	}
@@ -268,7 +268,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		itemString = QUOTE + itemString + QUOTE;
 		Log.i(TAG, "editText: " + text.getText().toString());
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_data));
 		itemString = itemString.replace(QUOTE, "");

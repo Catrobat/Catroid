@@ -25,11 +25,8 @@ package org.catrobat.catroid.content;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-
-import java.util.List;
 
 public class RaspiInterruptScript extends BroadcastScript {
 
@@ -77,10 +74,10 @@ public class RaspiInterruptScript extends BroadcastScript {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	public Script copyScriptForSprite(Sprite copySprite) {
 		RaspiInterruptScript cloneScript = new RaspiInterruptScript(pin, eventValue);
 
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		doCopy(copySprite, cloneScript);
 		return cloneScript;
 	}
 

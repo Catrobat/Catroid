@@ -147,6 +147,8 @@ public final class Constants {
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";
 
+	public static final String WHATSAPP_URI = "whatsapp://";
+
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";

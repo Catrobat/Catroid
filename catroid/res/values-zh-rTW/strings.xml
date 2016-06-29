@@ -170,8 +170,8 @@
   <string name="dialog_confirm_delete_brick_title">刪除此程式塊?</string>
   <string name="dialog_confirm_delete_script_title">刪除此腳本?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">刪除這些程式塊?</string>
-  <string name="dialog_confirm_delete_script_group_title">刪除此群組?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">刪除這些群組?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">刪除此群組?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">刪除這些群組?</string>
   <string name="dialog_confirm_delete_brick_message">此操作無法復原</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">刪除 %d 程式塊</item>

@@ -172,8 +172,8 @@
   <string name="dialog_confirm_delete_brick_title">このブロックを削除しますか？</string>
   <string name="dialog_confirm_delete_script_title">このスクリプトを削除しますか？</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">これらのブロックを削除しますか？</string>
-  <string name="dialog_confirm_delete_script_group_title">このグループを削除しますか?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">これらのグループを削除しますか?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">このグループを削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">これらのグループを削除しますか?</string>
   <string name="dialog_confirm_delete_brick_message">元に戻すことができない ！</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">%d 個のブロックを削除</item>

@@ -30,6 +30,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
@@ -86,6 +87,26 @@ public final class BackPackListManager {
 		allScripts.putAll(getBackpack().backpackedScripts);
 		allScripts.putAll(getBackpack().hiddenBackpackedScripts);
 		return allScripts;
+	}
+
+	public void clearBackPackUserBricks() {
+		getBackpack().backpackedUserBricks.clear();
+	}
+
+	public void removeItemFromUserBrickBackPack(String userBrickGroup) {
+		getBackpack().backpackedUserBricks.remove(userBrickGroup);
+	}
+
+	public ArrayList<String> getBackPackedUserBrickGroups() {
+		return new ArrayList<>(getBackpack().backpackedUserBricks.keySet());
+	}
+
+	public void addUserBrickToBackPack(String userBrickGroup, List<UserBrick> userBricks) {
+		getBackpack().backpackedUserBricks.put(userBrickGroup, userBricks);
+	}
+
+	public HashMap<String, List<UserBrick>> getBackPackedUserBricks() {
+		return getBackpack().backpackedUserBricks;
 	}
 
 	public void clearBackPackLooks() {
@@ -148,7 +169,9 @@ public final class BackPackListManager {
 	}
 
 	public void removeItemFromSpriteBackPackByName(String name) {
-		for (Sprite sprite : getBackpack().backpackedSprites) {
+		List<Sprite> sprites = getBackpack().backpackedSprites;
+		for (int spritePosition = 0; spritePosition < sprites.size(); spritePosition++) {
+			Sprite sprite = getBackpack().backpackedSprites.get(spritePosition);
 			if (sprite.getName().equals(name)) {
 				getBackpack().backpackedSprites.remove(sprite);
 			}
@@ -292,6 +315,13 @@ public final class BackPackListManager {
 		loadTask.execute();
 	}
 
+	public Backpack getBackpack() {
+		if (backpack == null) {
+			backpack = new Backpack();
+		}
+		return backpack;
+	}
+
 	private class SaveBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -326,12 +356,5 @@ public final class BackPackListManager {
 				}
 			}
 		}
-	}
-
-	public Backpack getBackpack() {
-		if (backpack == null) {
-			backpack = new Backpack();
-		}
-		return backpack;
 	}
 }

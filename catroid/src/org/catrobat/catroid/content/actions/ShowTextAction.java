@@ -35,6 +35,7 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -46,11 +47,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ShowTextAction extends TemporalAction {
+	public static final String TAG = ShowTextAction.class.getSimpleName();
 	private Formula endX;
 	private Formula endY;
 	private String variableName;
-	public static final String TAG = ShowTextAction.class.getSimpleName();
-
 	private Sprite sprite;
 	private ShowTextActor actor;
 
@@ -60,13 +60,15 @@ public class ShowTextAction extends TemporalAction {
 			int x = endX.interpretInteger(sprite);
 			int y = endY.interpretInteger(sprite);
 
-			DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject()
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject()
 					.getDataContainer();
-			List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
+			List<UserVariable> variableList = dataContainer.getProjectVariables();
+			UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
-			Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
+			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
+			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(currentUserBrick);
 			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 			ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0);
 
@@ -82,22 +84,23 @@ public class ShowTextAction extends TemporalAction {
 			actor = new ShowTextActor(variableName, x, y);
 			StageActivity.stageListener.addActor(actor);
 
-			for (UserVariable userVariable : variableList) {
-				if (userVariable.getName().equals(variableName)) {
-					userVariable.setVisible(true);
-					break;
-				}
-			}
-			if (spriteVariableList != null) {
-				for (UserVariable variable : spriteVariableList) {
-					if (variable.getName().equals(variableName)) {
-						variable.setVisible(true);
-						break;
-					}
-				}
-			}
+			setVariablesVisible(variableList);
+			setVariablesVisible(spriteVariableList);
+			setVariablesVisible(userBrickVariableList);
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException: " + e);
+		}
+	}
+
+	private void setVariablesVisible(List<UserVariable> variableList) {
+		if (variableList == null) {
+			return;
+		}
+		for (UserVariable userVariable : variableList) {
+			if (userVariable.getName().equals(variableName)) {
+				userVariable.setVisible(true);
+				break;
+			}
 		}
 	}
 

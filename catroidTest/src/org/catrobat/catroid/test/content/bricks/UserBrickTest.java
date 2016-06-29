@@ -73,7 +73,7 @@ public class UserBrickTest extends AndroidTestCase {
 	}
 
 	public void testSpriteHasOneUserBrickAfterAddingAUserBrick() {
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 		brick.getDefinitionBrick().addUIText("test0");
 		brick.getDefinitionBrick().addUILocalizedVariable("test1");
 
@@ -90,9 +90,10 @@ public class UserBrickTest extends AndroidTestCase {
 	public void testSpriteMovedCorrectly() {
 		int moveValue = 0;
 
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 		brick.getDefinitionBrick().addUIText("test0");
 		brick.getDefinitionBrick().addUILocalizedVariable("test1");
+		brick.updateUserBrickParametersAndVariables();
 
 		Script userScript = TestUtils.addUserBrickToSpriteAndGetUserScript(brick, sprite);
 
@@ -109,9 +110,6 @@ public class UserBrickTest extends AndroidTestCase {
 
 		sequence.act(1f);
 
-		x = sprite.look.getXInUserInterfaceDimensionUnit();
-		y = sprite.look.getYInUserInterfaceDimensionUnit();
-
 		assertEquals("Unexpected initial sprite x position: ", (float) moveValue,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position: ", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -120,12 +118,12 @@ public class UserBrickTest extends AndroidTestCase {
 	public void testSpriteMovedCorrectlyWithNestedBricks() {
 		Integer moveValue = 0;
 
-		UserBrick outerBrick = new UserBrick(0);
+		UserBrick outerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		outerBrick.getDefinitionBrick().addUIText("test2");
 		outerBrick.getDefinitionBrick().addUILocalizedVariable("outerBrickVariable");
-		outerBrick.updateUserBrickParameters(null);
+		outerBrick.updateUserBrickParametersAndVariables();
 
-		UserBrick innerBrick = new UserBrick(1);
+		UserBrick innerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		innerBrick.getDefinitionBrick().addUIText("test0");
 		innerBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
 
@@ -135,7 +133,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
 
-		innerBrick.updateUserBrickParameters(null);
+		innerBrick.updateUserBrickParametersAndVariables();
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -184,14 +182,13 @@ public class UserBrickTest extends AndroidTestCase {
 		x = sprite.look.getXInUserInterfaceDimensionUnit();
 		y = sprite.look.getYInUserInterfaceDimensionUnit();
 
-		assertEquals("Unexpected initial sprite x position: ", (float) moveValue,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position: ", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected initial sprite x position: ", (float) moveValue, x);
+		assertEquals("Unexpected initial sprite y position: ", 0f, y);
 	}
 
 	public void testGetRequiredResources() {
 
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 
 		assertEquals("brick.getRequiredResources(): ", UserBrick.NO_RESOURCES, brick.getRequiredResources());
 
@@ -207,12 +204,12 @@ public class UserBrickTest extends AndroidTestCase {
 	}
 
 	public void testDeleteBrick() {
-		UserBrick outerBrick = new UserBrick(0);
+		UserBrick outerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		outerBrick.getDefinitionBrick().addUIText("test2");
 		outerBrick.getDefinitionBrick().addUILocalizedVariable("outerBrickVariable");
-		outerBrick.updateUserBrickParameters(null);
+		outerBrick.updateUserBrickParametersAndVariables();
 
-		UserBrick innerBrick = new UserBrick(1);
+		UserBrick innerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		innerBrick.getDefinitionBrick().addUIText("test0");
 		innerBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
 
@@ -220,7 +217,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
-		innerBrick.updateUserBrickParameters(null);
+		innerBrick.updateUserBrickParametersAndVariables();
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		Brick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -249,7 +246,7 @@ public class UserBrickTest extends AndroidTestCase {
 	}
 
 	public void testBrickCloneWithFormula() {
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 		brick.getDefinitionBrick().addUIText("test0");
 		brick.getDefinitionBrick().addUILocalizedVariable("test1");
 

@@ -56,9 +56,9 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BackPackActivity;
+import org.catrobat.catroid.ui.BackPackGroupViewHolder;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.ScriptGroupViewHolder;
 import org.catrobat.catroid.ui.adapter.BackPackScriptAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackScriptController;
@@ -95,7 +95,7 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_scripts_backpack, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_groups_backpack, container, false);
 		return rootView;
 	}
 
@@ -108,8 +108,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		registerForContextMenu(listView);
 		listView.setLongClickable(false);
 
-		adapter = new BackPackScriptAdapter(getActivity(), R.layout.fragment_script_backpack_item, R.id
-				.fragment_script_backpack_item_name_text_view, BackPackListManager.getInstance()
+		adapter = new BackPackScriptAdapter(getActivity(), R.layout.fragment_group_backpack_item, R.id
+				.fragment_group_backpack_item_name_text_view, BackPackListManager.getInstance()
 				.getBackPackedScriptGroups(), this);
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
@@ -124,8 +124,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(true);
 		}
+		menu.findItem(R.id.unpacking_keep).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -146,10 +146,12 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_unpacking_keep:
-				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(), false);
+				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(),
+						false);
 				break;
 			case R.id.context_menu_unpacking:
-				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, true, true, getActivity(), false);
+				BackPackScriptController.getInstance().unpack(selectedScriptGroupBackPack, false, true, getActivity(),
+						false);
 				break;
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
@@ -161,9 +163,9 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 	private void showConfirmDeleteDialog() {
 		int titleId;
 		if (adapter.getAmountOfCheckedItems() == 1) {
-			titleId = R.string.dialog_confirm_delete_script_group_title;
+			titleId = R.string.dialog_confirm_delete_backpack_group_title;
 		} else {
-			titleId = R.string.dialog_confirm_delete_multiple_script_groups_title;
+			titleId = R.string.dialog_confirm_delete_multiple_backpack_groups_title;
 		}
 
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
@@ -377,29 +379,29 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 	}
 
 	public View getView(final int position, View convertView) {
-		ScriptGroupViewHolder holder;
+		BackPackGroupViewHolder holder;
 
 		if (convertView == null) {
-			convertView = View.inflate(getActivity(), R.layout.fragment_script_backpack_item, null);
+			convertView = View.inflate(getActivity(), R.layout.fragment_group_backpack_item, null);
 
-			holder = new ScriptGroupViewHolder();
+			holder = new BackPackGroupViewHolder();
 
-			holder.scriptGroupImageView = (ImageView) convertView.findViewById(R.id.fragment_script_backpack_item_image_view);
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_script_backpack_item_checkbox);
-			holder.scriptGroupNameTextView = (TextView) convertView.findViewById(R.id.fragment_script_backpack_item_name_text_view);
-			holder.scriptGroupDetailsLinearLayout = (LinearLayout) convertView
-					.findViewById(R.id.fragment_script_backpack_item_detail_linear_layout);
-			holder.scriptGroupNumberOfBricksTextView = (TextView) holder.scriptGroupDetailsLinearLayout
-					.findViewById(R.id.fragment_script_backpack_item_number_bricks_text_view);
-			holder.scriptGroupNumberOfBricksValue = (TextView) holder.scriptGroupDetailsLinearLayout
-					.findViewById(R.id.fragment_script_backpack_item_number_bricks_value);
-			holder.scriptGroupElement = (RelativeLayout) convertView.findViewById(R.id.fragment_script_backpack_item_relative_layout);
+			holder.backPackGroupImageView = (ImageView) convertView.findViewById(R.id.fragment_group_backpack_item_image_view);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_group_backpack_item_checkbox);
+			holder.backPackGroupNameTextView = (TextView) convertView.findViewById(R.id.fragment_group_backpack_item_name_text_view);
+			holder.backPackGroupDetailsLinearLayout = (LinearLayout) convertView
+					.findViewById(R.id.fragment_group_backpack_item_detail_linear_layout);
+			holder.backPackGroupNumberOfBricksTextView = (TextView) holder.backPackGroupDetailsLinearLayout
+					.findViewById(R.id.fragment_group_backpack_item_number_bricks_text_view);
+			holder.backPackGroupNumberOfBricksValue = (TextView) holder.backPackGroupDetailsLinearLayout
+					.findViewById(R.id.fragment_group_backpack_item_number_bricks_value);
+			holder.backPackGroupElement = (RelativeLayout) convertView.findViewById(R.id.fragment_group_backpack_item_relative_layout);
 			convertView.setTag(holder);
 		} else {
-			holder = (ScriptGroupViewHolder) convertView.getTag();
+			holder = (BackPackGroupViewHolder) convertView.getTag();
 		}
 
-		holder.scriptGroupElement.setOnTouchListener(new View.OnTouchListener() {
+		holder.backPackGroupElement.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -518,10 +520,10 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 
 	private void checkEmptyBackgroundBackPack() {
 		if (BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
-			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_scripts_backpack_text_heading);
+			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_groups_backpack_text_heading);
 			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
 			emptyViewHeading.setText(R.string.backpack);
-			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.fragment_scripts_backpack_text_description);
+			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.fragment_groups_backpack_text_description);
 			emptyViewDescription.setText(R.string.is_empty);
 		}
 	}

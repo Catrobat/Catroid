@@ -183,7 +183,13 @@ public class WebViewActivity extends BaseActivity {
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			if (checkIfWebViewVisitExternalWebsite(url)) {
+			if (url != null && url.startsWith(Constants.WHATSAPP_URI)) {
+				Uri uri = Uri.parse(url);
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				startActivity(intent);
+				return true;
+			} else if (checkIfWebViewVisitExternalWebsite(url)) {
 				Uri uri = Uri.parse(url);
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);

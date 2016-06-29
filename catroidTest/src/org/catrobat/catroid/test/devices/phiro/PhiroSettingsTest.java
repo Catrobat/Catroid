@@ -86,7 +86,7 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		sprite.addScript(startScript);
 		projectPhiro.addSprite(sprite);
 
-		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronTask", false);
+		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronousTask", false);
 		ProjectManager.getInstance().setProject(projectPhiro);
 		ProjectManager.getInstance().saveProject(context);
 		ProjectManager.getInstance().setProject(null);

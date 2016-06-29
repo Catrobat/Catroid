@@ -172,8 +172,8 @@
   <string name="dialog_confirm_delete_brick_title">Verwijder deze steen?</string>
   <string name="dialog_confirm_delete_script_title">Verwijder dit script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Verwijderen deze stenen?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Dit kan niet ongedaan worden gemaakt!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>

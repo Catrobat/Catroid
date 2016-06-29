@@ -106,7 +106,7 @@ public class InternFormula {
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		if (resourceId == R.id.formula_editor_edit_field_clear || resourceId == R.id.formula_editor_keyboard_delete) {
+		if (resourceId == R.id.formula_editor_keyboard_delete) {
 
 			cursorTokenPropertiesAfterInput = handleDeletion();
 		} else if (isTokenSelected()) {
@@ -929,6 +929,40 @@ public class InternFormula {
 		}
 
 		return externSelectionEndIndex;
+	}
+
+	private InternToken getSelectedToken() {
+		if (internFormulaTokenSelection == null || internFormulaTokenSelection.getTokenSelectionType() != TokenSelectionType.USER_SELECTION) {
+			return null;
+		}
+		int currentIndex = 0;
+		for (InternToken token : internTokenFormulaList) {
+			if (token.getInternTokenType() == InternTokenType.STRING
+					&& internFormulaTokenSelection.getStartIndex() == currentIndex) {
+				return token;
+			}
+			currentIndex++;
+		}
+		return null;
+	}
+
+	public String getSelectedText() {
+		InternToken token = getSelectedToken();
+		if (token == null) {
+			return null;
+		}
+
+		return token.getTokenStringValue();
+	}
+
+	public void overrideSelectedText(String string, Context context) {
+		InternToken token = getSelectedToken();
+		if (token == null) {
+			return;
+		}
+
+		token.setTokenStringValue(string);
+		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
 	public String getExternFormulaString() {

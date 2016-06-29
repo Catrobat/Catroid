@@ -92,7 +92,9 @@ public class NewDataDialog extends DialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 		userListDialogListenerListFinishNewUserListDialog(null);
-		spinnerToUpdate.setSelection(spinnerPositionIfCancel);
+		if (spinnerToUpdate != null) {
+			spinnerToUpdate.setSelection(spinnerPositionIfCancel);
+		}
 	}
 
 	@Override

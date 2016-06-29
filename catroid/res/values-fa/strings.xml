@@ -174,8 +174,8 @@
   <string name="dialog_confirm_delete_brick_title">این آجر را حذف کنم؟</string>
   <string name="dialog_confirm_delete_script_title">این اسکریپت را حذف کنم؟</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">این آجر ها را حذف کنم؟</string>
-  <string name="dialog_confirm_delete_script_group_title">این گروه حذف شود؟</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">این گروه ها حذف شود؟</string>
+  <string name="dialog_confirm_delete_backpack_group_title">ین گروه حذف شود؟</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">این گروه ها حذف شود؟</string>
   <string name="dialog_confirm_delete_brick_message">این کار قابل برگشت نیست!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">حذف %d آجر</item>

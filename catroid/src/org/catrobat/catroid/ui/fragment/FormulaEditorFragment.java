@@ -57,6 +57,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
@@ -87,24 +89,23 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	public static final String BRICKFIELD_BUNDLE_ARGUMENT = "brick_field";
 
 	private Context context;
-	private FormulaEditorEditText formulaEditorEditText;
+	private static FormulaEditorEditText formulaEditorEditText;
 	private PercentRelativeLayout formulaEditorKeyboard;
-	private ImageButton formulaEditorFieldDeleteButton;
-	private LinearLayout formulaEditorBrick;
-	private View brickView;
+	private static LinearLayout formulaEditorBrick;
+	private static View brickView;
 	private View fragmentView;
 
-	private FormulaBrick formulaBrick;
+	private static FormulaBrick formulaBrick;
 	private FormulaBrick clonedFormulaBrick;
-	private Brick.BrickField currentBrickField;
-	private Formula currentFormula;
+	private static Brick.BrickField currentBrickField;
+	private static Formula currentFormula;
 	private Menu currentMenu;
 
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
 	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;
-	private OnFormulaChangedListener onFormulaChangedListener;
+	private static OnFormulaChangedListener onFormulaChangedListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -175,11 +176,41 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			fragTransaction.show(formulaEditorFragment);
 			BottomBar.hideBottomBar(activity);
 		} else {
+			refreshUserBrickParameterValuesIfNecessary(formulaBrick, brickField, formulaEditorFragment);
 			formulaEditorFragment.showCustomView = false;
 			formulaEditorFragment.updateBrickView();
 			formulaEditorFragment.setInputFormula(brickField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 		}
 		fragTransaction.commit();
+	}
+
+	public static boolean saveFormulaForUserBrickParameterChange() {
+		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
+		FormulaElement formulaParseTree = formulaToParse.parseFormula();
+
+		switch (formulaToParse.getErrorTokenIndex()) {
+			case PARSER_OK:
+				currentFormula.setRoot(formulaParseTree);
+				if (onFormulaChangedListener != null) {
+					onFormulaChangedListener.onFormulaChanged(formulaBrick, currentBrickField, currentFormula);
+				}
+				if (formulaEditorBrick != null) {
+					currentFormula.refreshTextField(brickView);
+				}
+				formulaEditorEditText.formulaSaved();
+				return true;
+		}
+		return false;
+	}
+
+	private static void refreshUserBrickParameterValuesIfNecessary(FormulaBrick formulaBrick, Brick.BrickField
+			brickField, FormulaEditorFragment formulaEditorFragment) {
+		if (formulaBrick instanceof UserBrickParameter) {
+			saveFormulaForUserBrickParameterChange();
+			updateUserBricksIfNecessary();
+			formulaEditorFragment.updateBrickViewAndFormula(formulaBrick, brickField);
+			updateUserBricksIfNecessary();
+		}
 	}
 
 	private boolean showCustomView = false;
@@ -220,18 +251,26 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	}
 
 	public void updateBrickView() {
-		formulaEditorBrick.removeAllViews();
-
 		View newBrickView = getBrickOrCustomView();
-
-		formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT));
-
-		brickView = newBrickView;
-
+		setBrickViewSafe(newBrickView, true);
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-
 		handleCustomView();
+	}
+
+	private void setBrickViewSafe(View newBrickView, boolean removeAllViews) {
+		if (newBrickView != null) {
+			if (newBrickView.getParent() != null) {
+				((LinearLayout) newBrickView.getParent()).removeView(newBrickView);
+			}
+
+			if (removeAllViews && formulaEditorBrick.getChildCount() > 0) {
+				formulaEditorBrick.removeAllViews();
+			}
+
+			formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.MATCH_PARENT));
+			brickView = newBrickView;
+		}
 	}
 
 	private void updateBrickViewAndFormula(FormulaBrick newBrick, Brick.BrickField brickField) {
@@ -270,14 +309,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
 
-		formulaEditorFieldDeleteButton = (ImageButton) fragmentView.findViewById(R.id.formula_editor_edit_field_clear);
-
 		context = getActivity();
 
 		brickView = getBrickOrCustomView();
 		formulaEditorBrick = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_brick_space);
-		formulaEditorBrick.addView(brickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT));
+		setBrickViewSafe(brickView, false);
 
 		formulaEditorEditText = (FormulaEditorEditText) fragmentView.findViewById(R.id.formula_editor_edit_field);
 
@@ -298,11 +334,9 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	private void handleCustomView() {
 		if (showCustomView) {
-			formulaEditorFieldDeleteButton.setVisibility(View.GONE);
 			formulaEditorEditText.setVisibility(View.GONE);
 			formulaEditorKeyboard.setVisibility(View.GONE);
 		} else {
-			formulaEditorFieldDeleteButton.setVisibility(View.VISIBLE);
 			formulaEditorEditText.setVisibility(View.VISIBLE);
 			formulaEditorKeyboard.setVisibility(View.VISIBLE);
 		}
@@ -319,7 +353,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	@Override
 	public void onStart() {
 		formulaEditorKeyboard.setClickable(true);
-		formulaEditorFieldDeleteButton.setClickable(true);
 
 		getView().requestFocus();
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
@@ -433,7 +466,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		for (int index = 0; index < formulaEditorKeyboard.getChildCount(); index++) {
 			formulaEditorKeyboard.getChildAt(index).setOnTouchListener(touchListener);
 		}
-		formulaEditorFieldDeleteButton.setOnTouchListener(touchListener);
 
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 
@@ -504,8 +536,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 					}
 				}
 				MenuItem undo = currentMenu.findItem(R.id.menu_undo);
-				undo.setIcon(R.drawable.icon_undo_disabled);
-				undo.setEnabled(false);
+				if (undo != null) {
+					undo.setIcon(R.drawable.icon_undo_disabled);
+					undo.setEnabled(false);
+				}
 
 				MenuItem redo = currentMenu.findItem(R.id.menu_redo);
 				redo.setIcon(R.drawable.icon_redo_disabled);
@@ -618,10 +652,18 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private void endFormulaEditor() {
 		if (formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
+				updateUserBricksIfNecessary();
 				onUserDismiss();
 			}
 		} else {
 			onUserDismiss();
+		}
+	}
+
+	private static void updateUserBricksIfNecessary() {
+		if (formulaBrick instanceof UserBrickParameter) {
+			UserBrick userBrick = ((UserBrickParameter) formulaBrick).getParent();
+			userBrick.updateUserBrickParametersAndVariables();
 		}
 	}
 
@@ -673,11 +715,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
-			if (getActivity().getClass().equals(ScriptActivity.class)) {
-				fragment = new FormulaEditorDataFragment(false);
-			} else {
-				fragment = new FormulaEditorDataFragment(true);
-			}
+			fragment = new FormulaEditorDataFragment();
 			Bundle bundle = new Bundle();
 			bundle.putString(FormulaEditorDataFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));
@@ -718,6 +756,14 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}
 
+	public String getSelectedFormulaText() {
+		return formulaEditorEditText.getSelectedTextFromInternFormula();
+	}
+
+	public void overrideSelectedText(String string) {
+		formulaEditorEditText.overrideSelectedText(string);
+	}
+
 	private class VariableOrUserListDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -755,16 +801,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
 		getActivity().invalidateOptionsMenu();
 
-		ImageButton backspaceEditText = (ImageButton) getActivity().findViewById(R.id.formula_editor_edit_field_clear);
 		ImageButton backspaceOnKeyboard = (ImageButton) getActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
-			backspaceEditText.setImageResource(R.drawable.icon_backspace_disabled);
-			backspaceEditText.setEnabled(false);
 			backspaceOnKeyboard.setAlpha(255 / 3);
 			backspaceOnKeyboard.setEnabled(false);
 		} else {
-			backspaceEditText.setImageResource(R.drawable.icon_backspace);
-			backspaceEditText.setEnabled(true);
 			backspaceOnKeyboard.setAlpha(255);
 			backspaceOnKeyboard.setEnabled(true);
 		}

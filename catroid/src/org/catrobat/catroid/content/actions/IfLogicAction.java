@@ -70,6 +70,9 @@ public class IfLogicAction extends Action {
 		if (ifConditionValue) {
 			return ifAction.act(delta);
 		} else {
+			if (elseAction == null) {
+				return true;
+			}
 			return elseAction.act(delta);
 		}
 	}
@@ -77,7 +80,9 @@ public class IfLogicAction extends Action {
 	@Override
 	public void restart() {
 		ifAction.restart();
-		elseAction.restart();
+		if (elseAction != null) {
+			elseAction.restart();
+		}
 		isInitialized = false;
 		super.restart();
 	}
@@ -102,6 +107,8 @@ public class IfLogicAction extends Action {
 	public void setActor(Actor actor) {
 		super.setActor(actor);
 		ifAction.setActor(actor);
-		elseAction.setActor(actor);
+		if (elseAction != null) {
+			elseAction.setActor(actor);
+		}
 	}
 }

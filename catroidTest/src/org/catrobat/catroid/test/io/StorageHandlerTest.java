@@ -356,7 +356,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
 		};
 
-		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronTask", false);
+		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronousTask", false);
 
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setProject(project);

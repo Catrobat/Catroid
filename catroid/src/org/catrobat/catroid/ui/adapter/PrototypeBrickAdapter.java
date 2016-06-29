@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -33,26 +32,22 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrototypeBrickAdapter extends BaseAdapter {
+public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
-	private Context context;
-	private List<Brick> brickList;
+	private OnBrickCheckedListener addBrickFragmentListener;
 
-	private OnBrickCheckedListener addBrickFragment;
-	private List<Brick> checkedBricks = new ArrayList<Brick>();
-
-	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
+	public PrototypeBrickAdapter(Context context, ScriptFragment scriptFragment, AddBrickFragment addBrickFragment, List<Brick> brickList) {
 		this.context = context;
+		this.scriptFragment = scriptFragment;
+		this.addBrickFragment = addBrickFragment;
 		this.brickList = brickList;
-	}
-
-	public void addBrickToList(Brick brick) {
-		brickList.add(brick);
-		notifyDataSetChanged();
 	}
 
 	@Override
@@ -101,12 +96,32 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public interface OnBrickCheckedListener {
-		void onBrickChecked();
+	public void checkAllItems() {
+		for (Brick brick : brickList) {
+			if (brick.getCheckBox() != null) {
+				brick.getCheckBox().setChecked(true);
+				brick.setCheckedBoolean(true);
+			}
+		}
+	}
+
+	public void backpackSingleUserBrick(UserBrick clickedBrick) {
+		checkedBricks.clear();
+		checkedBricks.add(clickedBrick);
+		startBackPackingOfUserBricks();
+	}
+
+	public void onDestroyActionModeBackPack() {
+		startBackPackingOfUserBricks();
+	}
+
+	private void startBackPackingOfUserBricks() {
+		List<String> backPackedScriptGroups = BackPackListManager.getInstance().getBackPackedUserBrickGroups();
+		showNewGroupBackPackDialog(backPackedScriptGroups, true);
 	}
 
 	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
-		addBrickFragment = listener;
+		addBrickFragmentListener = listener;
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
@@ -118,13 +133,13 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 				checkedBricks.remove(brick);
 			}
 		}
-		if (addBrickFragment != null) {
-			addBrickFragment.onBrickChecked();
+		if (addBrickFragmentListener != null) {
+			addBrickFragmentListener.onBrickChecked();
 		}
 	}
 
 	public List<Brick> getReversedCheckedBrickList() {
-		List<Brick> reverseCheckedList = new ArrayList<Brick>();
+		List<Brick> reverseCheckedList = new ArrayList<>();
 		for (int counter = checkedBricks.size() - 1; counter >= 0; counter--) {
 			reverseCheckedList.add(checkedBricks.get(counter));
 		}
@@ -183,5 +198,9 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		}
 
 		return convertView;
+	}
+
+	public interface OnBrickCheckedListener {
+		void onBrickChecked();
 	}
 }

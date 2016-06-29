@@ -171,8 +171,8 @@
   <string name="dialog_confirm_delete_brick_title">이 블록 삭제?</string>
   <string name="dialog_confirm_delete_script_title">이 스크립트 삭제?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">이 블록들을 삭제?</string>
-  <string name="dialog_confirm_delete_script_group_title">이 그룹을 삭제할까요?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">이 그룹을 삭제할까요?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">이 그룹을 삭제할까요?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">이 그룹을 삭제할까요?</string>
   <string name="dialog_confirm_delete_brick_message">이 작업은 되돌릴 수 없습니다</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">%d 블록 삭제</item>

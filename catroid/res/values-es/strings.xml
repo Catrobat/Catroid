@@ -175,8 +175,8 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_brick_title">¿Desea eliminar este Bloque?</string>
   <string name="dialog_confirm_delete_script_title">¿Desea eliminar este comando?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">¿Desea borrar estos bloques?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Esta operación no se puede deshacer!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>

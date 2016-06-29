@@ -172,14 +172,14 @@
   <string name="size">Größe:</string>
   <string name="script_group">Skript Gruppe</string>
   <string name="script_groups">Skript Gruppen</string>
-  <string name="script_group_name_given">Skript Gruppenname existiert bereits. Bitte wähle einen anderen.</string>
+  <string name="script_group_name_given">Dieser Gruppenname existiert bereits. Bitte wähle einen anderen.</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tippe auf \"+\" um Skripte hinzuzufügen</string>
   <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
   <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
-  <string name="dialog_confirm_delete_script_group_title">Diese Gruppe löschen?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Diese Gruppen löschen?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Diese Gruppe löschen?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Diese Gruppen löschen?</string>
   <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Lösche %d Baustein</item>
@@ -298,7 +298,7 @@
   <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
   <string name="brick_context_dialog_copy_brick">Baustein kopieren</string>
   <string name="brick_context_dialog_animate_bricks">Baustein-Teile animieren</string>
-  <string name="brick_context_dialog_add_to_script">Zum Skript hinzufügen</string>
+  <string name="brick_context_dialog_add_to_script">Zu den Skripts hinzufügen</string>
   <string name="brick_context_dialog_edit_brick">Baustein Bearbeiten</string>
   <string name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
   <string name="brick_context_dialog_delete_script">Skript löschen</string>
@@ -491,7 +491,7 @@
   <string name="brick_if_begin">Wenn</string>
   <string name="brick_if_begin_second_part">wahr ist, dann</string>
   <string name="brick_if_else">sonst</string>
-  <string name="brick_if_end">sonst Ende</string>
+  <string name="brick_if_end">Ende Wenn</string>
   <string name="brick_broadcast_invalid_symbol">"Die Nachricht ist reserviert für:\n\"Wenn physische Kollision zwischen\"-Brick\nBitte versuche es erneut!"</string>
   <string name="brick_set_variable">Setze Variable</string>
   <string name="brick_change_variable">Ändere Variable</string>
@@ -932,7 +932,7 @@
   <!-- User Bricks strings -->
   <string name="define">definiere</string>
   <string name="new_user_brick">Neuer Baustein</string>
-  <string name="new_user_brick_variable">Variable 1</string>
+  <string name="new_user_brick_variable">Variable</string>
   <string name="recursive_user_brick_forbidden">Hinzufügen eines Userbricks in einem Userbrick ist noch nicht erlaubt!</string>
   <string name="brick_single">Baustein</string>
   <string name="brick_multiple">Bausteine</string>

@@ -104,6 +104,9 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_exp:
 				return buildSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_power:
+				return buildDoubleParameterFunction(Functions.POWER, InternTokenType.NUMBER, "2",
+						InternTokenType.NUMBER, "3");
 			case R.string.formula_editor_function_floor:
 				return buildSingleParameterFunction(Functions.FLOOR, InternTokenType.NUMBER, "0.7");
 			case R.string.formula_editor_function_ceil:
@@ -143,6 +146,22 @@ public class InternFormulaKeyboardAdapter {
 			//RaspberryPi
 			case R.string.formula_editor_function_raspi_read_pin_value_digital:
 				return buildSingleParameterFunction(Functions.RASPIDIGITAL, InternTokenType.NUMBER, "0");
+
+			//Finger touching
+			case R.string.formula_editor_function_finger_x:
+				return buildSensor(Sensors.FINGER_X);
+			case R.string.formula_editor_function_finger_y:
+				return buildSensor(Sensors.FINGER_Y);
+			case R.string.formula_editor_function_is_finger_touching:
+				return buildSensor(Sensors.FINGER_TOUCHED);
+			case R.string.formula_editor_function_multi_finger_x:
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_X, InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_multi_finger_y:
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_Y, InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_is_multi_finger_touching:
+				return buildSingleParameterFunction(Functions.MULTI_FINGER_TOUCHED, InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_index_of_last_finger:
+				return buildSensor(Sensors.LAST_FINGER_INDEX);
 
 			//SENSOR
 			case R.string.formula_editor_sensor_x_acceleration:

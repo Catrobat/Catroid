@@ -63,6 +63,7 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ARCCOS.name(), R.string.formula_editor_function_arccos);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ARCTAN.name(), R.string.formula_editor_function_arctan);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.EXP.name(), R.string.formula_editor_function_exp);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.POWER.name(), R.string.formula_editor_function_power);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FLOOR.name(), R.string.formula_editor_function_floor);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.CEIL.name(), R.string.formula_editor_function_ceil);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MAX.name(), R.string.formula_editor_function_max);
@@ -92,6 +93,13 @@ public class InternToExternGenerator {
 				R.string.formula_editor_function_arduino_read_pin_value_analog);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.RASPIDIGITAL.name(), R.string
 				.formula_editor_function_raspi_read_pin_value_digital);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FINGER_X.name(), R.string.formula_editor_function_finger_x);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FINGER_Y.name(), R.string.formula_editor_function_finger_y);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FINGER_TOUCHED.name(), R.string.formula_editor_function_is_finger_touching);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MULTI_FINGER_X.name(), R.string.formula_editor_function_multi_finger_x);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MULTI_FINGER_Y.name(), R.string.formula_editor_function_multi_finger_y);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MULTI_FINGER_TOUCHED.name(), R.string.formula_editor_function_is_multi_finger_touching);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LAST_FINGER_INDEX.name(), R.string.formula_editor_function_index_of_last_finger);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LIST_ITEM.name(), R.string.formula_editor_function_list_item);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.CONTAINS.name(), R.string.formula_editor_function_contains);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(),

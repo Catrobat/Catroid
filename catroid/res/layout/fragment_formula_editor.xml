@@ -56,17 +56,6 @@
             android:singleLine="false"
             android:textColor="@color/solid_black"
             android:textSize="@dimen/text_size_xxlarge" />
-
-        <ImageButton
-            android:id="@+id/formula_editor_edit_field_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="0dp"
-            android:background="@color/white"
-            android:contentDescription="@string/formula_editor_image_button_description_delete"
-            android:src="@drawable/icon_backspace" />
     </FrameLayout>
 
     <View
