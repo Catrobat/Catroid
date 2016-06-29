@@ -279,7 +279,63 @@ public class Formula implements Serializable {
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
-			return String.valueOf(interpretationResult);
+			return DoubleFormatter.roundDoubleToDecimals(interpretationResult, 8);
+		}
+	}
+
+	public static class DoubleFormatter {
+		private static final int MIN_DECIMALS = 0x01;
+		private static final int MAX_DECIMALS = 0xF;
+		private static final int NO_INDEX = 0xFFFFFFFF;
+		private static final String COMMA = ".";
+		private static final String POWER = "E";
+		private static final String SHOW_POWER = "*10^";
+
+		public static String roundDoubleToDecimals(double value, int decimals) {
+
+			if (decimals < MIN_DECIMALS) {
+				decimals = MIN_DECIMALS;
+			}
+
+			if (decimals > MAX_DECIMALS) {
+				decimals = MAX_DECIMALS;
+			}
+
+			String doubleString = String.valueOf(value);
+			int powerIndex = doubleString.indexOf(POWER);
+
+			if (powerIndex == NO_INDEX) {
+				return normalCut(doubleString, decimals);
+			} else {
+				return bigNumberCut(doubleString, powerIndex);
+			}
+		}
+
+		private static String bigNumberCut(String doubleString, int powerIndex) {
+			String returnString = doubleString.substring(0, powerIndex) + SHOW_POWER + doubleString.substring(powerIndex + 1);
+
+			int pointIndex = returnString.indexOf("*");
+			int checkIndex = pointIndex - 1;
+			int comaIndex = returnString.indexOf(".");
+
+			if (comaIndex == checkIndex) {
+				if (comaIndex == 1) {
+					returnString = returnString.charAt(0) + returnString.substring(checkIndex + 1);
+				} else {
+					returnString = returnString.substring(0, checkIndex - 1) + returnString.substring(checkIndex + 1);
+				}
+			}
+			return returnString;
+		}
+
+		private static String normalCut(String doubleString, int decimals) {
+			int decimalIndex = doubleString.indexOf(COMMA);
+			int endIndex = decimalIndex + decimals + 1;
+
+			if (endIndex >= doubleString.length()) {
+				endIndex = doubleString.length();
+			}
+			return doubleString.substring(0, endIndex);
 		}
 	}
 }
