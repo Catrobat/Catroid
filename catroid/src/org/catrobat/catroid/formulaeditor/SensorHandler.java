@@ -36,6 +36,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -345,6 +346,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
 				if (nxt != null) {
 					return Double.valueOf(nxt.getSensorValue(sensor));
+				}
+				break;
+
+			case EV3_SENSOR_1:
+			case EV3_SENSOR_2:
+			case EV3_SENSOR_3:
+			case EV3_SENSOR_4:
+				LegoEV3 ev3 = btService.getDevice(BluetoothDevice.LEGO_EV3);
+				if (ev3 != null) {
+					return Double.valueOf(ev3.getSensorValue(sensor));
 				}
 				break;
 

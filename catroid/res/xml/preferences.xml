@@ -39,26 +39,79 @@
             android:summary="@string/preference_disable_nxt_info_dialog_description"/>
 
         <PreferenceCategory android:title="@string/preference_title_mindstorms_nxt_sensors">
-             <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
+            <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
 
             <ListPreference android:key="setting_mindstorms_nxt_sensor_1"
                 android:title="@string/nxt_choose_sensor_1"
-                android:defaultValue="TOUCH"
+                android:entryValues="@array/nxt_sensor_chooser"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_touch"
                 android:summary="%s"/>
             <ListPreference android:key="setting_mindstorms_nxt_sensor_2"
                 android:title="@string/nxt_choose_sensor_2"
-                android:defaultValue="SOUND"
+                android:entryValues="@array/nxt_sensor_chooser"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_sound"
                 android:summary="%s"/>
             <ListPreference android:key="setting_mindstorms_nxt_sensor_3"
                 android:title="@string/nxt_choose_sensor_3"
-                android:defaultValue="LIGHT_INACTIVE"
+                android:entryValues="@array/nxt_sensor_chooser"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_light"
                 android:summary="%s"/>
             <ListPreference android:key="setting_mindstorms_nxt_sensor_4"
                 android:title="@string/nxt_choose_sensor_4"
-                android:defaultValue="ULTRASONIC"
+                android:entryValues="@array/nxt_sensor_chooser"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_ultrasonic"
                 android:summary="%s"/>
         </PreferenceCategory>
 
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:key="setting_mindstorms_ev3_bricks"
+        android:summary="@string/preference_description_mindstorms_ev3_bricks"
+        android:title="@string/preference_title_enable_mindstorms_ev3_bricks" >
+
+         <CheckBoxPreference android:key="settings_mindstorms_ev3_bricks_enabled"
+             android:defaultValue="false"
+             android:summary="@string/preference_description_mindstorms_ev3_bricks"
+             android:title="@string/preference_title_enable_mindstorms_ev3_bricks" />
+
+        <CheckBoxPreference android:key="settings_mindstorms_ev3_show_sensor_info_box_disabled"
+            android:defaultValue="false"
+            android:title="@string/preference_disable_nxt_info_dialog"
+            android:summary="@string/preference_disable_ev3_info_dialog_description"/>
+
+        <PreferenceCategory android:title="@string/preference_title_mindstorms_ev3_sensors">
+            <Preference android:summary="@string/preference_title_mindstorms_ev3_sensors_description" />
+
+            <ListPreference android:key="setting_mindstorms_ev3_sensor_1"
+                android:title="@string/ev3_choose_sensor_1"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:entries="@array/ev3_sensor_chooser"
+                android:defaultValue="@string/ev3_sensor_touch"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_ev3_sensor_2"
+                android:title="@string/ev3_choose_sensor_2"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:entries="@array/ev3_sensor_chooser"
+                android:defaultValue="@string/ev3_sensor_color"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_ev3_sensor_3"
+                android:title="@string/ev3_choose_sensor_3"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:entries="@array/ev3_sensor_chooser"
+                android:defaultValue="@string/ev3_sensor_infrared"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_ev3_sensor_4"
+                android:title="@string/ev3_choose_sensor_4"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:entries="@array/ev3_sensor_chooser"
+                android:defaultValue="@string/ev3_no_sensor"
+                android:summary="%s"/>
+        </PreferenceCategory>
     </PreferenceScreen>
 
     <PreferenceScreen

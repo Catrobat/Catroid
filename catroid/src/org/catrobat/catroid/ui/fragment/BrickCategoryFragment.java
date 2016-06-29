@@ -158,6 +158,10 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
+		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
+		}
+
 		if (brickAdapter.getUserBrick() == null) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}

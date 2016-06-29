@@ -209,6 +209,15 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_lego_nxt_4:
 				return buildSensor(Sensors.NXT_SENSOR_4);
 
+			case R.string.formula_editor_sensor_lego_ev3_1:
+				return buildSensor(Sensors.EV3_SENSOR_1);
+			case R.string.formula_editor_sensor_lego_ev3_2:
+				return buildSensor(Sensors.EV3_SENSOR_2);
+			case R.string.formula_editor_sensor_lego_ev3_3:
+				return buildSensor(Sensors.EV3_SENSOR_3);
+			case R.string.formula_editor_sensor_lego_ev3_4:
+				return buildSensor(Sensors.EV3_SENSOR_4);
+
 			//DRONE SENSOR
 			case R.string.formula_editor_sensor_drone_battery_status:
 				return buildSensor(Sensors.DRONE_BATTERY_STATUS);

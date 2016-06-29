@@ -78,6 +78,8 @@ public final class BrickValues {
 	public static final int LEGO_SPEED = 100;
 	public static final float LEGO_DURATION = 1.0f;
 	public static final int LEGO_FREQUENCY = 2;
+	public static final int LEGO_VOLUME = 100;
+	public static final int LEGO_POWER = 100;
 
 	//Constants Drone
 	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;

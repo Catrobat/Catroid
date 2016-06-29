@@ -70,6 +70,11 @@ import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.LegoEv3MotorMoveAction;
+import org.catrobat.catroid.content.actions.LegoEv3MotorStopAction;
+import org.catrobat.catroid.content.actions.LegoEv3MotorTurnAngleAction;
+import org.catrobat.catroid.content.actions.LegoEv3PlayToneAction;
+import org.catrobat.catroid.content.actions.LegoEv3SetLedAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
@@ -113,6 +118,10 @@ import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -296,6 +305,47 @@ public class ActionFactory extends Actions {
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
+		return action;
+	}
+
+	public Action createLegoEv3SingleMotorMoveAction(Sprite sprite,
+			LegoEv3MotorMoveBrick.Motor motorEnum, Formula power, Formula period) {
+		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
+		action.setSprite(sprite);
+		action.setMotorEnum(motorEnum);
+		action.setPower(power);
+		action.setPeriod(period);
+		return action;
+	}
+
+	public Action createLegoEv3MotorStopAction(LegoEv3MotorStopBrick.Motor motorEnum) {
+		LegoEv3MotorStopAction action = action(LegoEv3MotorStopAction.class);
+		action.setMotorEnum(motorEnum);
+		return action;
+	}
+
+	public Action createLegoEv3SetLedAction(LegoEv3SetLedBrick.LedStatus ledStatusEnum) {
+		LegoEv3SetLedAction action = action(LegoEv3SetLedAction.class);
+		action.setLedStatusEnum(ledStatusEnum);
+		return action;
+	}
+
+	public Action createLegoEv3PlayToneAction(Sprite sprite, Formula hertz, Formula
+			durationInSeconds, Formula volumeInPercent) {
+		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
+		action.setHertz(hertz);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(durationInSeconds);
+		action.setVolumeInPercent(volumeInPercent);
+		return action;
+	}
+
+	public Action createLegoEv3MotorTurnAngleAction(Sprite sprite,
+			LegoEv3MotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+		LegoEv3MotorTurnAngleAction action = action(LegoEv3MotorTurnAngleAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setDegrees(degrees);
 		return action;
 	}
 

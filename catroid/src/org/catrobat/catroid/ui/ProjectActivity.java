@@ -116,6 +116,7 @@ public class ProjectActivity extends BaseActivity {
 		fragmentTransaction.commit();
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
 	}
 
 	@Override

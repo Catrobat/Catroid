@@ -104,8 +104,11 @@
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
+    <string name="preference_description_mindstorms_ev3_bricks">Allow to control Lego Mindstorms EV3 robots</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
+    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 sensors</string>
     <string name="preference_title_drone_config_properties">Drone configuration properties</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
@@ -487,6 +490,7 @@
     <string name="category_user_bricks">My Bricks</string>
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_lego_ev3">Lego EV3</string>
     <string name="category_drone">ARDrone</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
@@ -848,6 +852,59 @@
     <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
     <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
     <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
+
+    <string name="lego_ev3_sensor_config_info_title">EV3 Sensor Configuration</string>
+    <string name="preference_disable_ev3_info_dialog_description">Program specific EV3 settings are not shown when opening a program.</string>
+    <string name="preference_title_mindstorms_ev3_sensors_description">The mapping of EV3 sensors to ports is program specific and can only be configured for opened programs!</string>
+    <string name="lego_ev3_sensor_config_info_text">The current program uses Lego Mindstorms EV3 bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
+
+    <string name="ev3_choose_sensor_1">Sensor connected on port 1</string>
+    <string name="ev3_choose_sensor_2">Sensor connected on port 2</string>
+    <string name="ev3_choose_sensor_3">Sensor connected on port 3</string>
+    <string name="ev3_choose_sensor_4">Sensor connected on port 4</string>
+
+    <string name="ev3_no_sensor">none</string>
+    <string name="ev3_sensor_touch">EV3 touch sensor</string>
+    <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
+    <string name="ev3_sensor_color">EV3 color sensor</string>
+    <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
+    <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+
+    <string name="ev3_motor_a">A</string>
+    <string name="ev3_motor_b">B</string>
+    <string name="ev3_motor_c">C</string>
+    <string name="ev3_motor_d">D</string>
+    <string name="ev3_motor_b_and_c">B+C</string>
+    <string name="ev3_motor_all">All</string>
+
+    <string name="ev3_play_tone">Play EV3 tone</string>
+    <string name="ev3_tone_duration_for">for</string>
+    <string name="ev3_tone_volume">Volume</string>
+    <string name="ev3_tone_percent">%</string>
+
+    <string name="ev3_motor_stop">Stop EV3 motor</string>
+
+    <string name="ev3_motor_move">Set EV3 motor</string>
+    <string name="ev3_motor_power_to">to</string>
+    <string name="ev3_motor_power">Power</string>
+    <string name="ev3_motor_move_for_period">for</string>
+
+    <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
+    <string name="ev3_motor_move_by">by</string>
+
+    <string name="ev3_seconds">Seconds</string>
+
+    <string name="ev3_set_led_status">Set EV3 LED Status</string>
+    <string name="ev3_led_status_off">Off</string>
+    <string name="ev3_led_status_green">Green</string>
+    <string name="ev3_led_status_red">Red</string>
+    <string name="ev3_led_status_orange">Orange</string>
+    <string name="ev3_led_status_green_flashing">Green flashing</string>
+    <string name="ev3_led_status_red_flashing">Red flashing</string>
+    <string name="ev3_led_status_orange_flashing">Orange flashing</string>
+    <string name="ev3_led_status_green_pulse">Green pulse</string>
+    <string name="ev3_led_status_red_pulse">Red pulse</string>
+    <string name="ev3_led_status_orange_pulse">Orange pulse</string>
     <!--  -->
 
 
@@ -1041,6 +1098,10 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+    <string name="formula_editor_sensor_lego_ev3_1">EV3_sensor_1</string>
+    <string name="formula_editor_sensor_lego_ev3_2">EV3_sensor_2</string>
+    <string name="formula_editor_sensor_lego_ev3_3">EV3_sensor_3</string>
+    <string name="formula_editor_sensor_lego_ev3_4">EV3_sensor_4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
@@ -1052,6 +1113,7 @@
     <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_transparency">transparency</string>
