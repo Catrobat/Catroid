@@ -131,6 +131,8 @@
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.MarketingActivity"
+                  android:screenOrientation="portrait" />
         <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation|screenSize"

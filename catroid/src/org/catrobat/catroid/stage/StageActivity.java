@@ -38,6 +38,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
@@ -50,6 +51,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
@@ -124,8 +126,15 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onBackPressed() {
-		pause();
-		stageDialog.show();
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+
+			Intent marketingIntent = new Intent(StageActivity.this, MarketingActivity.class);
+			startActivity(marketingIntent);
+			finish();
+		} else {
+			pause();
+			stageDialog.show();
+		}
 	}
 
 	public void manageLoadAndFinish() {
