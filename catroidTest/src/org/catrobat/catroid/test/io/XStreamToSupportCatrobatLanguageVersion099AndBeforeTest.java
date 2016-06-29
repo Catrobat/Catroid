@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 public class XStreamToSupportCatrobatLanguageVersion099AndBeforeTest extends InstrumentationTestCase {
 
@@ -122,12 +123,13 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBeforeTest extends Ins
 
 		Project fallingBallsProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_FALLING_BALLS);
 		assertTrue("Cannot load falling balls project", fallingBallsProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_FALLING_BALLS, fallingBallsProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_FALLING_BALLS, fallingBallsProject.getName().toLowerCase(Locale.getDefault()));
 
 		Project colorLeanerBalloonsProject = StorageHandler.getInstance().loadProject(
 				PROJECT_NAME_COLOR_LEANER_BALLOONS);
 		assertTrue("Cannot load color leaner balloons project", colorLeanerBalloonsProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName()
+				.toLowerCase(Locale.getDefault()));
 
 		deleteZipFile(ZIP_FILENAME_FALLING_BALLS, Constants.TMP_PATH);
 		deleteZipFile(ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.TMP_PATH);
@@ -146,11 +148,11 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBeforeTest extends Ins
 
 		Project pongStarterProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_PONG_STARTER);
 		assertTrue("Cannot load pong starter project", pongStarterProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_PONG_STARTER, pongStarterProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_PONG_STARTER, pongStarterProject.getName().toLowerCase(Locale.getDefault()));
 
 		Project whipProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_WHIP);
 		assertTrue("Cannot load whip project", whipProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_WHIP, whipProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_WHIP, whipProject.getName().toLowerCase(Locale.getDefault()));
 
 		deleteZipFile(ZIP_FILENAME_PONG_STARTER, Constants.TMP_PATH);
 		deleteZipFile(ZIP_FILENAME_WHIP, Constants.TMP_PATH);
@@ -172,15 +174,15 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBeforeTest extends Ins
 
 		Project airFightProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_AIR_FIGHT);
 		assertTrue("Cannot load air fight project", airFightProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_AIR_FIGHT, airFightProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_AIR_FIGHT, airFightProject.getName().toLowerCase(Locale.getDefault()));
 
 		Project xRayPhoneProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_XRAY_PHONE);
 		assertTrue("Cannot load X-Ray phone project", xRayPhoneProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_XRAY_PHONE, xRayPhoneProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_XRAY_PHONE, xRayPhoneProject.getName().toLowerCase(Locale.getDefault()));
 
 		Project allBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_ALL_BRICKS);
 		assertTrue("Cannot load All Bricks project", allBricksProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_ALL_BRICKS, allBricksProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_ALL_BRICKS, allBricksProject.getName().toLowerCase(Locale.getDefault()));
 
 		deleteZipFile(ZIP_FILENAME_AIR_FIGHT, Constants.TMP_PATH);
 		deleteZipFile(ZIP_FILENAME_XRAY_PHONE, Constants.TMP_PATH);
@@ -196,7 +198,8 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBeforeTest extends Ins
 
 		Project noteAndSpeakBrickProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 		assertTrue("Cannot load " + PROJECT_NAME_NOTE_AND_SPEAK_BRICK + " project", noteAndSpeakBrickProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName()
+				.toLowerCase(Locale.getDefault()));
 
 		deleteZipFile(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.TMP_PATH);
 		TestUtils.deleteTestProjects(PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
@@ -209,7 +212,8 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBeforeTest extends Ins
 
 		Project ghostBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_GHOST_EFFECT_BRICKS);
 		assertTrue("Cannot load " + PROJECT_NAME_GHOST_EFFECT_BRICKS + " project", ghostBricksProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName()
+				.toLowerCase(Locale.getDefault()));
 
 		deleteZipFile(ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.TMP_PATH);
 		TestUtils.deleteTestProjects(PROJECT_NAME_GHOST_EFFECT_BRICKS);
@@ -222,7 +226,7 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBeforeTest extends Ins
 
 		Project legoProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_LEGO_NXT);
 		assertTrue("Cannot load " + PROJECT_NAME_LEGO_NXT + " project", legoProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_LEGO_NXT, legoProject.getName().toLowerCase());
+		assertEquals("Wrong project loaded", PROJECT_NAME_LEGO_NXT, legoProject.getName().toLowerCase(Locale.getDefault()));
 
 		deleteZipFile(ZIP_FILENAME_LEGO_NXT, Constants.TMP_PATH);
 		TestUtils.deleteTestProjects(PROJECT_NAME_LEGO_NXT);

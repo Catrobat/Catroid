@@ -41,6 +41,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -216,7 +217,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 
 		String categoryTitle = solo.getString(R.string.formula_editor_object_physical);
-		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase()));
+		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase(Locale.getDefault())));
 
 		itemString = solo.getString(R.string.formula_editor_object_x);
 		solo.clickOnText(itemString);
@@ -283,7 +284,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 
 		String categoryTitle = solo.getString(R.string.formula_editor_functions_maths);
-		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase()));
+		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase(Locale.getDefault())));
 
 		itemString = solo.getString(R.string.formula_editor_function_sin);
 		solo.clickOnText(itemString);
@@ -382,7 +383,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_logic));
 
 		String categoryTitle = solo.getString(R.string.formula_editor_logic_comparison);
-		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase()));
+		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase(Locale.getDefault())));
 
 		itemString = solo.getString(R.string.formula_editor_logic_equal);
 		solo.clickOnText(itemString);
@@ -465,7 +466,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 
 		String categoryTitle = solo.getString(R.string.formula_editor_device_face_detection);
-		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase()));
+		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase(Locale.getDefault())));
 
 		itemString = solo.getString(R.string.formula_editor_sensor_x_acceleration);
 		solo.clickOnText(itemString);

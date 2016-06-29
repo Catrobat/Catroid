@@ -42,6 +42,8 @@
   <string name="packing">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
+  <string name="unpack_bg">Unpack as background</string>
+  <string name="unpack_object">Unpack as object</string>
   <string name="copy_addition">kopiér</string>
   <string name="close">Luk</string>
   <string name="error">Fejl</string>
@@ -166,7 +168,9 @@
   <string name="size">Størrelse:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
+  <string name="userbrick_group">Userbrick Group</string>
+  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tryk på \"+\" for at tilføje Manuskripter</string>
   <string name="dialog_confirm_delete_brick_title">Slet denne klods?</string>
@@ -249,6 +253,10 @@
   <plurals name="scripts_plural">
     <item quantity="one">Script</item>
     <item quantity="other">Scripts</item>
+  </plurals>
+  <plurals name="userbricks_plural">
+    <item quantity="one">Userbrick</item>
+    <item quantity="other">Userbricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Sidste login:</string>
@@ -480,6 +488,8 @@
   <string name="brick_note">Bemærk</string>
   <string name="brick_forever">For altid</string>
   <string name="brick_repeat">Gentag</string>
+  <string name="brick_repeat_until">Repeat until</string>
+  <string name="brick_when_touched">When screen is touched</string>
   <plurals name="time_plural">
     <item quantity="one">tid</item>
     <item quantity="other">gange</item>
@@ -593,6 +603,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code kræver skrivbar ekstern lagring som et SD-kort for at køre, men ingen blev fundet.\nDu kan løse dette ved at gøre den eksterne opbevaring skrivbar eller indsætte et SD-kort og prøve igen.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
   <string name="error_project_exists">Et program med samme navn findes allerede.\nVælg et andet navn.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
   <string name="error_unknown_project">A program with that name does not exist.</string>
@@ -680,6 +691,7 @@
   <string name="nxt_sensor_light">NXT light sensor</string>
   <string name="nxt_sensor_light_active">NXT light sensor active</string>
   <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
+  <string name="nxt_sensor_not_found">Sensor not found!</string>
   <string name="lego_nxt_sensor_config_info_title">NXT Sensor Configuration</string>
   <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
@@ -691,6 +703,8 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
   <string name="brick_drone_play_led_animation">Spil LED animation</string>
@@ -807,6 +821,8 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">floor</string>
   <string name="formula_editor_function_floor_parameter">(0.7)</string>
   <string name="formula_editor_function_ceil">ceil</string>
@@ -826,6 +842,15 @@
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+  <string name="formula_editor_function_pin_default_parameter">(3)</string>
+  <string name="formula_editor_function_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contains</string>
@@ -851,6 +876,11 @@
   <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
   <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -871,8 +901,22 @@
   <string name="formula_editor_object">Objekt</string>
   <string name="formula_editor_functions">Functions</string>
   <string name="formula_editor_logic">Logik</string>
-  <string name="formula_editor_device">Sensorer</string>
+  <string name="formula_editor_device">Device</string>
   <string name="formula_editor_variables">Variabler</string>
+  <string name="formula_editor_functions_maths">Maths</string>
+  <string name="formula_editor_functions_strings">Strings</string>
+  <string name="formula_editor_functions_lists">Lists</string>
+  <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
+  <string name="formula_editor_logic_comparison">comparison operators</string>
+  <string name="formula_editor_object_general">general properties</string>
+  <string name="formula_editor_object_physical">physical properties</string>
+  <string name="formula_editor_device_face_detection">Face detection</string>
+  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_arduino">Arduino</string>
+  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+  <string name="formula_editor_device_drone">Drone</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -893,12 +937,14 @@
   <string name="formula_editor_list_dialog_title">New List</string>
   <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
   <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
+  <string name="formula_editor_dialog_change_text">Change text</string>
   <string name="formula_editor_data_dialog_hint">Enter name</string>
   <string name="formula_editor_discard_changes_dialog_message">Ønsker du at gemme ændringerne?</string>
   <string name="formula_editor_discard_changes_dialog_title">Gem ændringer?</string>
   <string name="formula_editor_new_string_name">Ny tekst</string>
   <string name="formula_editor_new_string_dialog_hint">Indtast ny tekst her.</string>
   <string name="formula_editor_data_dialog_title">Ny</string>
+  <string name="formula_editor_rename_variable_dialog_title">Omdøb</string>
   <string name="formula_editor_existing_data_item">Navn allerede i brug!</string>
   <string name="formula_editor_fragment_data_current_items">current items</string>
   <string name="formula_editor_data_dialog_is_list">Make it a list</string>
@@ -931,6 +977,7 @@
   <string name="define">definér</string>
   <string name="new_user_brick">New Klods</string>
   <string name="new_user_brick_variable">Variabel 1</string>
+  <string name="new_user_brick_name">Please choose a userbrick name:</string>
   <string name="recursive_user_brick_forbidden">Tilføjelse af BrugerKlods til BrugerKlods er ikke tilladt endnu!</string>
   <string name="brick_single">Klods</string>
   <string name="brick_multiple">Klodser</string>
@@ -957,10 +1004,20 @@
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. "</string>
+  <string name="brick_wait_until">Wait until</string>
+  <string name="brick_wait_until_second_part">is true</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Rate Pocket Code</string>
   <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
   <string name="rating_dialog_rate_now">Now</string>
   <string name="rating_dialog_rate_later">Later</string>
   <string name="rating_dialog_rate_never">Never</string>
+  <!-- Delete User Variable Alert Dialog -->
+  <string name="deletion_alert_title">Warning!</string>
+  <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
+  <string name="deletion_alert_yes">Yes, delete anyway!</string>
+  <string name="deletion_alert_no">No.</string>
+  <!-- Pocket Code crashed dialog -->
+  <string name="crashed_title">Pocked Code has crashed!</string>
+  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
 </resources>

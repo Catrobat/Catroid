@@ -40,7 +40,7 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;

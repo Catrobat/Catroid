@@ -256,17 +256,17 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
 		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_ultrasonic), 1, true);
 		solo.clickOnText(solo.getString(R.string.nxt_sensor_light));
 		solo.clickOnText(solo.getString(R.string.yes));
 		// Next sensor no replace because set the same sensor
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
 		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_ultrasonic), 1, true);
 		solo.waitForText(solo.getString(R.string.nxt_sensor_ultrasonic));
 		assertTrue("NXT Sensor was not replaced.",
@@ -276,9 +276,9 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 				solo.searchText(solo.getString(R.string.yes)));
 		// Next sensor not replaced
 		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
 		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_light), 1, true);
 		solo.clickOnText(solo.getString(R.string.nxt_sensor_ultrasonic));
 		solo.clickOnText(solo.getString(R.string.no));
@@ -290,10 +290,10 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
 		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_light), 1, true);
 		assertTrue("NXT Sensor was not replaced.",
 				solo.searchText(solo.getString(R.string.nxt_sensor_ultrasonic)));

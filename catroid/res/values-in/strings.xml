@@ -42,6 +42,8 @@
   <string name="packing">Bungkus</string>
   <string name="unpack">Buka</string>
   <string name="unpack_keep">Buka dan jaga</string>
+  <string name="unpack_bg">Bongkar sebagai latar belakang</string>
+  <string name="unpack_object">Bongkar sebagai objek</string>
   <string name="copy_addition">salinan</string>
   <string name="close">Tutup</string>
   <string name="error">Kesalahan</string>
@@ -76,7 +78,7 @@
   <string name="nothing_to_delete">Tidak ada yang dihapus</string>
   <string name="nothing_to_rename">Tidak ada penggantian nama</string>
   <string name="unpack_background">Latar belakang program akan diganti</string>
-  <string name="degrees">degrees</string>
+  <string name="degrees">derajat</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Baru</string>
   <string name="main_menu_continue">Lanjutkan</string>
@@ -164,14 +166,16 @@
   <string name="size">Ukuran:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Group</string>
+  <string name="userbrick_group">Kelompok Userbrick</string>
+  <string name="userbrick_groups">Kelompok Userbrick</string>
   <string name="script_group_name_given">Skrip Group dengan nama ini sudah ada. Pilih yang lainnya!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tekan \"+\" untuk menambahkan skrip</string>
   <string name="dialog_confirm_delete_brick_title">Hapus brick ini?</string>
   <string name="dialog_confirm_delete_script_title">Hapus script ini?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Hapus brick ini?</string>
-  <string name="dialog_confirm_delete_backpack_group_title">Hapus Group ini</string>
-  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Hapus Group-Group ini</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Hapus Kelompok ini?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Hapus Kelompok ini?</string>
   <string name="dialog_confirm_delete_brick_message">Perintah ini tidak dapat dibatalkan!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">Hapus bata %d</item>
@@ -241,6 +245,9 @@
   </plurals>
   <plurals name="scripts_plural">
     <item quantity="other">Naskah</item>
+  </plurals>
+  <plurals name="userbricks_plural">
+    <item quantity="other">Userbrick</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Akses terakhir:</string>
@@ -406,17 +413,17 @@
   <string name="brick_glide_to_x">ke X:</string>
   <!-- Physics -->
   <string name="default_project_name_physics">Program fisika pertama saya</string>
-  <string name="brick_set_physics_object_type">Set motion type to</string>
-  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
-  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
-  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_physics_object_type">Atur jenis gerak ke</string>
+  <string name="brick_set_physics_object_type_dynamic">memantul dengan gravitasi</string>
+  <string name="brick_set_physics_object_type_fixed">lainnya terpental</string>
+  <string name="brick_set_physics_object_type_no">tidak memantul</string>
   <string name="brick_set_mass">"Mengatur massa ke "</string>
   <string name="brick_set_mass_unit">kilogram</string>
-  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
-  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_gravity_to">"Atur gravitasi untuk semua obyek ke "</string>
+  <string name="brick_set_gravity_unit">langkah/detik²</string>
   <string name="brick_set_velocity_to">"Atur kecepatan ke "</string>
-  <string name="brick_set_velocity_unit">steps/second</string>
-  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_velocity_unit">langkah/detik</string>
+  <string name="brick_turn_speed_unit">derajat/detik</string>
   <string name="brick_set_friction">"Atur gesekan ke "</string>
   <string name="brick_set_bounce_factor">"Atur faktor lompat ke "</string>
   <string name="brick_rotate_left">"Putar ke kiri "</string>
@@ -466,6 +473,8 @@
   <string name="brick_note">Catatan</string>
   <string name="brick_forever">Selamanya</string>
   <string name="brick_repeat">Pengulangan</string>
+  <string name="brick_repeat_until">Repeat until</string>
+  <string name="brick_when_touched">When screen is touched</string>
   <plurals name="time_plural">
     <item quantity="other">kali</item>
   </plurals>
@@ -533,15 +542,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 degrees/s</string>
-  <string name="drone_set_rotation_indoor">100 degrees/s</string>
-  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
-  <string name="drone_set_rotation_max">350 degrees/s</string>
+  <string name="drone_set_rotation_min">40 derajat/d</string>
+  <string name="drone_set_rotation_indoor">100 derajat/d</string>
+  <string name="drone_set_rotation_outdoor">200 derajat/d</string>
+  <string name="drone_set_rotation_max">350 derajat/d</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 degrees</string>
-  <string name="drone_set_tilt_indoor">12 degrees</string>
-  <string name="drone_set_tilt_outdoor">20 degrees </string>
-  <string name="drone_set_tilt_max">30 degrees</string>
+  <string name="drone_set_tilt_min">5 derajat</string>
+  <string name="drone_set_tilt_indoor">12 derajat</string>
+  <string name="drone_set_tilt_outdoor">20 derajat </string>
+  <string name="drone_set_tilt_max">30 derajat</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Masukkan nilai</string>
   <string name="notification_screenshot_ok">Pratinjau gambar yang disimpan</string>
@@ -578,6 +587,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code memerlukan penyimpanan eksternal seperti kartu SD supaya berjalan, tetapi tidak ada yang ditemukan. \nAnda dapat memperbaiki hal ini dengan membuat penyimpanan eksternal atau memasukkan kartu SD, kemudian coba lagi.</string>
   <string name="error_no_program_name_entered">Silakan masukkan nama program.</string>
+  <string name="error_no_userbrick_name_entered">Silahkan masukan nama userbrick.</string>
   <string name="error_project_exists">Silakan pilih nama program lain.</string>
   <string name="error_delete_project">Terjadi kesalahan saat menghapus program</string>
   <string name="error_unknown_project">Program dengan nama itu tidak ada.</string>
@@ -664,6 +674,7 @@
   <string name="nxt_sensor_light">Sensor cahaya NXT</string>
   <string name="nxt_sensor_light_active">Sensor cahaya NXT aktif</string>
   <string name="nxt_sensor_ultrasonic">Sensor ultrasonik NXT</string>
+  <string name="nxt_sensor_not_found">Sensor tidak ditemukan!</string>
   <string name="lego_nxt_sensor_config_info_title">Sensor konfigurasi NXT</string>
   <string name="preference_disable_nxt_info_dialog">Mematikan Dialog Info</string>
   <string name="preference_disable_nxt_info_dialog_description">Pengaturan program NXT tertentu tidak ditampilkan ketika membuka program.</string>
@@ -675,6 +686,8 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Jangan tampilkan pesan ini lagi.</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Apakah Anda ingin menimpa Sensor pada port yang dipilih?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Timpa sensor?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Terbang / Mendarat</string>
   <string name="brick_drone_play_led_animation">Bermain animasi flash</string>
@@ -698,7 +711,7 @@
   <string name="brick_drone_set_rotation_speed">Batas kecepatan rotasi</string>
   <string name="brick_drone_set_tilt_limit">Batas Tilt</string>
   <string name="brick_drone_with">dengan</string>
-  <string name="brick_drone_percent_power">% daya</string>
+  <string name="brick_drone_percent_power">% power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Hentikan motor Phiro</string>
@@ -791,6 +804,8 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">lantai</string>
   <string name="formula_editor_function_floor_parameter">(0.7)</string>
   <string name="formula_editor_function_ceil">ceil</string>
@@ -810,6 +825,15 @@
   <string name="formula_editor_function_arduino_read_pin_value_digital">pin_digital_arduino</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">pin_analog_arduino</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">pin_raspberry_pi</string>
+  <string name="formula_editor_function_pin_default_parameter">(3)</string>
+  <string name="formula_editor_function_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">elemen</string>
   <string name="formula_editor_function_list_item_parameter">(1,*daftar nama*)</string>
   <string name="formula_editor_function_contains">berisi</string>
@@ -835,6 +859,11 @@
   <string name="formula_editor_sensor_lego_nxt_2">Sensor_NXT_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">Sensor_NXT_3</string>
   <string name="formula_editor_sensor_lego_nxt_4">Sensor_NXT_4</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
   <string name="formula_editor_phiro_sensor_front_left">sensor_kiri_depan_phiro</string>
   <string name="formula_editor_phiro_sensor_front_right">sensor_kanan_depan_phiro</string>
   <string name="formula_editor_phiro_sensor_side_left">sensor_samping_kiri_phiro</string>
@@ -855,8 +884,22 @@
   <string name="formula_editor_object">Objek</string>
   <string name="formula_editor_functions">Fungsi</string>
   <string name="formula_editor_logic">Logika</string>
-  <string name="formula_editor_device">Sensor</string>
+  <string name="formula_editor_device">Perangkat</string>
   <string name="formula_editor_variables">Variabel</string>
+  <string name="formula_editor_functions_maths">Matematika</string>
+  <string name="formula_editor_functions_strings">String</string>
+  <string name="formula_editor_functions_lists">Daftar</string>
+  <string name="formula_editor_logic_boolean">operator logika (boolean)</string>
+  <string name="formula_editor_logic_comparison">operator perbandingan</string>
+  <string name="formula_editor_object_general">properti umum</string>
+  <string name="formula_editor_object_physical">properti fisik</string>
+  <string name="formula_editor_device_face_detection">Deteksi wajah</string>
+  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_arduino">Arduino</string>
+  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+  <string name="formula_editor_device_drone">Drone</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -877,12 +920,14 @@
   <string name="formula_editor_list_dialog_title">Daftar Baru</string>
   <string name="formula_editor_dialog_for_all_sprites">Untuk semua obyek</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Untuk objek ini saja</string>
+  <string name="formula_editor_dialog_change_text">Change text</string>
   <string name="formula_editor_data_dialog_hint">Masukan nama</string>
   <string name="formula_editor_discard_changes_dialog_message">Apakah Anda ingin menyimpan perubahan?</string>
   <string name="formula_editor_discard_changes_dialog_title">Simpan perubahan?</string>
   <string name="formula_editor_new_string_name">Teks baru</string>
   <string name="formula_editor_new_string_dialog_hint">Masukkan teks baru di sini.</string>
   <string name="formula_editor_data_dialog_title">Baru</string>
+  <string name="formula_editor_rename_variable_dialog_title">Menamai ulang</string>
   <string name="formula_editor_existing_data_item">Nama sudah digunakan!</string>
   <string name="formula_editor_fragment_data_current_items">item saat ini</string>
   <string name="formula_editor_data_dialog_is_list">Membuat daftar</string>
@@ -914,6 +959,7 @@
   <string name="define">menetapkan</string>
   <string name="new_user_brick">Bata Baru</string>
   <string name="new_user_brick_variable">Variabel 1</string>
+  <string name="new_user_brick_name">Silahkan pilih satu nama userbrick:</string>
   <string name="recursive_user_brick_forbidden">Menambahkan UserBrick untuk UserBrick yang belum diperbolehkan!</string>
   <string name="brick_single">Bata</string>
   <string name="brick_multiple">Bata</string>
@@ -936,10 +982,20 @@
   <string name="choose_camera_front">depan</string>
   <string name="choose_camera_back">kembali</string>
   <string name="error_flash_front_camera">"Lampu flash dapat digunakan hanya dengan kamera belakang. Harap tambahkan batu bata \"Menggunakan kamera\" dan ubah ke perangkat kamera belakang Anda. "</string>
+  <string name="brick_wait_until">Wait until</string>
+  <string name="brick_wait_until_second_part">is true</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Beri nilai Pocket Code</string>
   <string name="rating_dialog_text">Jika Anda menikmati Pocket Code, silahkan beri nilai kami di Google Play!</string>
   <string name="rating_dialog_rate_now">Sekarang</string>
   <string name="rating_dialog_rate_later">Lain kali</string>
   <string name="rating_dialog_rate_never">Tidak pernah</string>
+  <!-- Delete User Variable Alert Dialog -->
+  <string name="deletion_alert_title">Peringatan!</string>
+  <string name="deletion_alert_text">Menghapus sebuah variabel yang sementara digunakan itu berbahaya! Anda yakin?</string>
+  <string name="deletion_alert_yes">Ya, hapus saja!</string>
+  <string name="deletion_alert_no">Tidak.</string>
+  <!-- Pocket Code crashed dialog -->
+  <string name="crashed_title">Pocked Code rusak!</string>
+  <string name="crashed_message">Pocked Code telah rusak dan harus direstart.</string>
 </resources>
