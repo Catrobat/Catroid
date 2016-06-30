@@ -53,6 +53,7 @@ public class BaseActivity extends Activity {
 		returnToProjectsList = false;
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		Utils.checkIfCrashRecoveryAndFinishActivity(this);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -89,9 +90,7 @@ public class BaseActivity extends Activity {
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 				} else {
-					Intent intent = new Intent(this, MainMenuActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
+					return false;
 				}
 				break;
 			case R.id.settings:
