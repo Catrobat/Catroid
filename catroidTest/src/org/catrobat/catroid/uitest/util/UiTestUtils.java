@@ -532,6 +532,37 @@ public final class UiTestUtils {
 						.replace(" ", "")), 0.01f);
 	}
 
+	/**
+	 * For tests with multiple formula bricks of the same type
+	 */
+	public static void testBrickWithFormulaEditor(Solo solo, Sprite sprite, int editTextId, double newValue, Brick
+			.BrickField brickField, FormulaBrick theBrick, int match) {
+
+		solo.clickOnView(solo.getView(editTextId, match));
+
+		insertDoubleIntoEditText(solo, newValue);
+
+		assertEquals(
+				"Text not updated within FormulaEditor",
+				newValue,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
+						.replace(',', '.').replace(" ", "")));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+		solo.sleep(200);
+
+		Formula formula = theBrick.getFormulaWithBrickField(brickField);
+		try {
+			assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
+
+		assertEquals("Text not updated in the brick list", newValue,
+				Double.parseDouble(((TextView) solo.getView(editTextId, match)).getText().toString().replace(',', '.')
+						.replace(" ", "")), 0.01f);
+	}
+
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField, FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));

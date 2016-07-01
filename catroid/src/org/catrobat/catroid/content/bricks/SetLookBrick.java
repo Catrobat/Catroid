@@ -86,7 +86,10 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 				break;
 			}
 		}
-		copyBrick.look.isBackpackLookData = false;
+
+		if (copyBrick.look != null) {
+			copyBrick.look.isBackpackLookData = false;
+		}
 		return copyBrick;
 	}
 

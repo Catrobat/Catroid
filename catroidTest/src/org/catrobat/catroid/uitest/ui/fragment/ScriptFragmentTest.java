@@ -37,6 +37,7 @@ import com.robotium.solo.Solo;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DefaultProjectHandler;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -45,7 +46,9 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
@@ -66,6 +69,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -276,6 +280,249 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 
 		assertEquals("No brick has been copied!", 3, numberOfBricks);
+	}
+
+	public void testCopyMultipleScriptBricks() {
+		UiTestUtils.createEmptyProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_change_x_by);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("Creating of bricks failed", 1, numberOfBricks);
+		int numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("Creating of bricks failed", 1, numberOfScripts);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("No brick has been copied!", 2, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("No brick has been copied!", 2, numberOfScripts);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnText(solo.getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("No or not all bricks got copied!", 4, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("No or not all bricks got copied!", 4, numberOfScripts);
+	}
+
+	public void testCopyScriptBricksWithFormula() {
+		UiTestUtils.createEmptyProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_change_x_by);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("Creating of bricks failed", 1, numberOfBricks);
+		int numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("Creating of bricks failed", 1, numberOfScripts);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("No brick has been copied!", 2, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("No brick has been copied!", 2, numberOfScripts);
+
+		ChangeXByNBrick changeXByNBrick = (ChangeXByNBrick) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0)
+				.getAllBricks().get(0);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_change_x_edit_text, 17, Brick.BrickField.X_POSITION_CHANGE, changeXByNBrick);
+
+		ChangeXByNBrick secondChangeXByNBrick = (ChangeXByNBrick) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0)
+				.getAllBricks().get(1);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_change_x_edit_text, 29, Brick.BrickField.X_POSITION_CHANGE, secondChangeXByNBrick, 1);
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+
+		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
+
+		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		int height = ScreenValues.SCREEN_HEIGHT;
+
+		solo.drag(20, 20, 300, height - 20, 100);
+
+		solo.scrollToTop();
+		solo.clickOnScreen(20, yPositionList.get(2));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
+
+		solo.drag(20, 20, 300, 50, 100);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("Number of bricks changed through not deleting any", 2, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("Number of bricks changed through not deleting any", 2, numberOfScripts);
+	}
+
+	public void testCopyScriptBricksWithUserVariable() {
+		UiTestUtils.createEmptyProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_set_variable);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("Creating of bricks failed", 1, numberOfBricks);
+		int numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("Creating of bricks failed", 1, numberOfScripts);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("No brick has been copied!", 2, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("No brick has been copied!", 2, numberOfScripts);
+
+		String userVariableName = "testVariable1";
+
+		solo.clickOnView(solo.getView(R.id.set_variable_spinner));
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
+
+		solo.enterText(editText, userVariableName);
+
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		assertTrue("Variable not set in spinner after creation", solo.searchText(userVariableName));
+
+		String secondUserVariableName = "testVariable2";
+
+		solo.clickOnView(solo.getView(R.id.set_variable_spinner, 1));
+		solo.clickOnText(solo.getString(R.string.brick_variable_spinner_create_new_variable));
+		EditText secondEditText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
+
+		solo.enterText(secondEditText, secondUserVariableName);
+
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		assertTrue("Variable not set in spinner after creation", solo.searchText(secondUserVariableName));
+
+		SetVariableBrick setVariableBrick = (SetVariableBrick) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0)
+				.getAllBricks().get(0);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_variable_edit_text, 17, Brick.BrickField.VARIABLE, setVariableBrick);
+
+		SetVariableBrick secondSetVariableBrick = (SetVariableBrick) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0)
+				.getAllBricks().get(1);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_variable_edit_text, 29, Brick.BrickField.VARIABLE, secondSetVariableBrick, 1);
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+
+		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
+
+		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		int height = ScreenValues.SCREEN_HEIGHT;
+
+		solo.drag(20, 20, 300, height - 20, 100);
+
+		solo.scrollToTop();
+		solo.clickOnScreen(20, yPositionList.get(2));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
+
+		solo.drag(20, 20, 300, 50, 100);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("Number of bricks changed through not deleting any", 2, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("Number of bricks changed through not deleting any", 2, numberOfScripts);
+	}
+
+	public void testCopyScriptBricksWithNestingBricks() {
+		UiTestUtils.createEmptyProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_if_begin);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("Creating of bricks failed", 3, numberOfBricks);
+		int numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("Creating of bricks failed", 1, numberOfScripts);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("No brick has been copied!", 6, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("No brick has been copied!", 2, numberOfScripts);
+
+		IfLogicBeginBrick ifBrick = (IfLogicBeginBrick) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0)
+				.getAllBricks().get(0);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_if_begin_edit_text, 5, Brick.BrickField.IF_CONDITION, ifBrick);
+
+		IfLogicBeginBrick secondIfBrick = (IfLogicBeginBrick) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList().get(0)
+				.getAllBricks().get(3);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_if_begin_edit_text, 7, Brick.BrickField.IF_CONDITION, secondIfBrick, 1);
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+
+		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
+
+		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		int height = ScreenValues.SCREEN_HEIGHT;
+
+		solo.drag(20, 20, 300, height - 20, 100);
+
+		solo.scrollToTop();
+		solo.clickOnScreen(20, yPositionList.get(2));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
+
+		solo.drag(20, 20, 300, 50, 100);
+
+		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+		assertEquals("Number of bricks changed through not deleting any", 6, numberOfBricks);
+		numberOfScripts = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfScripts();
+		assertEquals("Number of bricks changed through not deleting any", 2, numberOfScripts);
 	}
 
 	public void testCreateNewBrickButton() {

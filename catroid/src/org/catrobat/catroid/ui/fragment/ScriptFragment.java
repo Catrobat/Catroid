@@ -170,11 +170,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			List<Brick> checkedBricks = adapter.getCheckedBricks();
+			List<Brick> scriptList = null;
 
 			for (Brick brick : checkedBricks) {
-				copyBrick(brick);
+				if (scriptList == null || !scriptList.contains(brick)) {
+					copyBrick(brick);
+				}
 				if (brick instanceof ScriptBrick) {
-					break;
+					scriptList = ((ScriptBrick) brick).getScriptSafe().getBrickList();
 				}
 			}
 
