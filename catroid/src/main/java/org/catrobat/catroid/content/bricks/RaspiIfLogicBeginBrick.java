@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -83,6 +85,8 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
 
 		ifBeginTextView.setOnClickListener(this);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

@@ -39,6 +39,7 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class NewStringDialog extends DialogFragment {
 
@@ -66,7 +67,7 @@ public class NewStringDialog extends DialogFragment {
 			previousFormulaString = formulaEditor.getSelectedFormulaText();
 		}
 
-		Dialog newStringDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		final Dialog newStringDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.formula_editor_new_string_name)
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
 					@Override
@@ -94,8 +95,11 @@ public class NewStringDialog extends DialogFragment {
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(newStringEditText, InputMethodManager.SHOW_IMPLICIT);
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) newStringDialog.getWindow().getDecorView().getRootView());
 			}
 		});
+
 		return newStringDialog;
 	}
 

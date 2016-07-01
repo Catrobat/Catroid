@@ -31,6 +31,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -159,6 +161,8 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		view = View.inflate(context, R.layout.brick_user_definition, null);
 		setCheckboxView(R.id.brick_user_definition_checkbox);
 		onLayoutChanged();
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

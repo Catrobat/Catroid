@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import org.catrobat.catroid.BuildConfig;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.concurrent.locks.Lock;
 
@@ -90,6 +92,7 @@ public class ProgramMenuActivity extends BaseActivity {
 			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
 			finish();
 		}
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	@Override

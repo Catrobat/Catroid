@@ -25,16 +25,19 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -78,6 +81,9 @@ public class CameraBrick extends BrickBaseType {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
 				spinnerSelectionID = position;
+
+				TextView spinnerText = (TextView) adapterView.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -86,6 +92,8 @@ public class CameraBrick extends BrickBaseType {
 		});
 
 		videoSpinner.setSelection(spinnerSelectionID);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

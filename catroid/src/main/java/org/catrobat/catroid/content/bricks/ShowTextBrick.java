@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
@@ -46,6 +47,7 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -173,6 +175,9 @@ public class ShowTextBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
+
+				TextView spinnerText = (TextView) parent.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -180,6 +185,8 @@ public class ShowTextBrick extends UserVariableBrick {
 				userVariable = (UserVariable) arg0.getItemAtPosition(1);
 			}
 		});
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

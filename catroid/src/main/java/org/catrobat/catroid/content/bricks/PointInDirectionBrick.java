@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -99,6 +101,9 @@ public class PointInDirectionBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.DEGREES).refreshTextField(view);
 
 		setAngleTextField.setOnClickListener(this);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 

@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class RegistrationDialog extends DialogFragment implements OnRegistrationCompleteListener {
@@ -108,6 +110,8 @@ public class RegistrationDialog extends DialogFragment implements OnRegistration
 						handleRegisterButtonClick();
 					}
 				});
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) registrationDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

@@ -27,6 +27,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -35,6 +36,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.GetTagsTask;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -52,7 +54,8 @@ public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTa
 
 		final List<String> checkedTags = new ArrayList<>();
 		final String[] tagChoices = tags.toArray(new String[tags.size()]);
-		Dialog tagDialog = new AlertDialog.Builder(getActivity())
+
+		final Dialog tagDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.upload_tag_dialog_title)
 				.setMultiChoiceItems(tagChoices, null, new DialogInterface.OnMultiChoiceClickListener() {
 					@Override
@@ -83,6 +86,12 @@ public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTa
 		tagDialog.setCanceledOnTouchOutside(false);
 		tagDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		tagDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		tagDialog.setOnShowListener(new OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) tagDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		return tagDialog;
 	}

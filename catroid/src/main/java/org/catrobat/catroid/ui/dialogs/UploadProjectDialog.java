@@ -33,6 +33,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.GetTagsTask;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -77,7 +79,7 @@ public class UploadProjectDialog extends DialogFragment {
 		projectUploadName = (EditText) dialogView.findViewById(R.id.project_upload_name);
 		sizeOfProject = (TextView) dialogView.findViewById(R.id.dialog_upload_size_of_project);
 
-		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		final Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.upload_project_dialog_title)
 				.setPositiveButton(R.string.next_button, new DialogInterface.OnClickListener() {
 					@Override
@@ -97,12 +99,14 @@ public class UploadProjectDialog extends DialogFragment {
 
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
-			public void onShow(DialogInterface dialog) {
+			public void onShow(DialogInterface dialogInterface) {
 				initListeners();
 
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

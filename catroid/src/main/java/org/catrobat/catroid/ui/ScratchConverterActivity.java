@@ -49,6 +49,7 @@ import org.catrobat.catroid.scratchconverter.WebSocketClient;
 import org.catrobat.catroid.scratchconverter.protocol.WebSocketMessageListener;
 import org.catrobat.catroid.ui.fragment.ScratchConverterSlidingUpPanelFragment;
 import org.catrobat.catroid.ui.fragment.SearchScratchSearchProjectsListFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ScratchDataFetcher;
@@ -258,6 +259,7 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 	private void handleShowDetails(boolean showDetails, MenuItem item) {
 		searchProjectsListFragment.setShowDetails(showDetails);
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+		TextSizeUtil.enlargeOptionsItem(item);
 	}
 
 	public void displaySpeechRecognizer() {

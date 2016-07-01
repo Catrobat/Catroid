@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -67,6 +68,8 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 		Brick brick = brickList.get(position);
 		View view = brick.getPrototypeView(context);
 		BrickViewProvider.setSpinnerClickability(view, false);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 }

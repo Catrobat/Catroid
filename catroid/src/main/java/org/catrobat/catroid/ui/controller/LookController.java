@@ -41,6 +41,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -561,7 +563,7 @@ public final class LookController {
 		Resources resources = context.getResources();
 		String replaceLookMessage = resources.getString(R.string.backpack_replace_look_multiple);
 
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
 				.setTitle(R.string.backpack)
 				.setMessage(replaceLookMessage)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -581,6 +583,12 @@ public final class LookController {
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		dialog.show();
 	}
 
@@ -588,7 +596,7 @@ public final class LookController {
 		Resources resources = context.getResources();
 		String replaceLookMessage = resources.getString(R.string.backpack_replace_look, currentLookData.getLookName());
 
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
 				.setTitle(R.string.backpack)
 				.setMessage(replaceLookMessage)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -605,6 +613,12 @@ public final class LookController {
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		dialog.show();
 	}
 

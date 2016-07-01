@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.adapter.LookBaseAdapter.OnLookEditListener;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -385,6 +386,8 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 					.findViewById(R.id.fragment_look_item_measure_text_view);
 			holder.lookElement = (RelativeLayout) convertView.findViewById(R.id.fragment_look_item_relative_layout);
 			convertView.setTag(holder);
+
+			TextSizeUtil.enlargeViewGroup(holder.lookElement);
 		} else {
 			holder = (LookViewHolder) convertView.getTag();
 		}

@@ -26,11 +26,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -40,6 +42,7 @@ import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -105,6 +108,8 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 				} else {
 					broadcastMessage = selectedMessage;
 				}
+				TextView spinnerText = (TextView) adapterView.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -113,6 +118,9 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		});
 
 		setSpinnerSelection(broadcastSpinner);
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 

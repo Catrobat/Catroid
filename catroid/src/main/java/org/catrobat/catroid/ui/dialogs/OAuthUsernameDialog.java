@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.transfers.FacebookLogInTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class OAuthUsernameDialog extends DialogFragment implements CheckUserNameAvailableTask.OnCheckUserNameAvailableCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener, FacebookLogInTask.OnFacebookLogInCompleteListener, GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener, GoogleLogInTask.OnGoogleServerLogInCompleteListener {
 
@@ -88,6 +90,8 @@ public class OAuthUsernameDialog extends DialogFragment implements CheckUserName
 						handleConfirmUsernameButtonClick();
 					}
 				});
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) chooseUsernameDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

@@ -69,6 +69,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteNfcTagDialog;
 import org.catrobat.catroid.ui.dialogs.RenameNfcTagDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -695,6 +696,8 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 			holder.nfcTagDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.fragment_nfctag_item_detail_linear_layout);
 
 			convertView.setTag(holder);
+
+			TextSizeUtil.enlargeViewGroup(holder.nfcTagFragmentButtonLayout);
 		} else {
 			holder = (NfcTagViewHolder) convertView.getTag();
 		}

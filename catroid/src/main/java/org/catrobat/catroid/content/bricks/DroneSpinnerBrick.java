@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -32,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 
@@ -75,6 +77,9 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 				spinnerPosition = position;
 				Log.d(TAG, "selected message = "
 						+ selectedMessage + " on position: " + spinnerPosition);
+
+				TextView spinnerText = (TextView) adapterView.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -84,6 +89,8 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 		TextView label = (TextView) view.findViewById(R.id.brick_drone_spinner_label);
 		label.setText(getBrickLabel(view));
+
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

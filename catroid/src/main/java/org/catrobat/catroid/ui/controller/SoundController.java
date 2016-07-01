@@ -48,6 +48,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -65,6 +66,7 @@ import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -703,7 +705,7 @@ public final class SoundController {
 		Resources resources = context.getResources();
 		String replaceLookMessage = resources.getString(R.string.backpack_replace_sound_multiple);
 
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
 				.setTitle(R.string.backpack)
 				.setMessage(replaceLookMessage)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -723,6 +725,12 @@ public final class SoundController {
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		dialog.show();
 	}
 
@@ -730,7 +738,7 @@ public final class SoundController {
 		Resources resources = context.getResources();
 		String replaceLookMessage = resources.getString(R.string.backpack_replace_sound, currentSoundInfo.getTitle());
 
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
 				.setTitle(R.string.backpack)
 				.setMessage(replaceLookMessage)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -747,6 +755,12 @@ public final class SoundController {
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		dialog.show();
 	}
 

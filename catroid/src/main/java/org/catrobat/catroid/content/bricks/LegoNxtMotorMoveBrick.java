@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -145,6 +147,9 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
+
+				TextView spinnerText = (TextView) arg0.getChildAt(0);
+				TextSizeUtil.enlargeTextView(spinnerText);
 			}
 
 			@Override
@@ -156,6 +161,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 		motorSpinner.setSelection(motorEnum.ordinal());
 		motorSpinner.setGravity(Gravity.CENTER);
 
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 

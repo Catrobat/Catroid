@@ -27,18 +27,21 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_nxt_sensor_config_info";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_nxt_sensor";
 
 	private CheckBox disableShowInfoDialog;
 
@@ -63,7 +66,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 		mapping3.setText(sensorMappingStrings[sensorMapping[2].ordinal()]);
 		mapping4.setText(sensorMappingStrings[sensorMapping[3].ordinal()]);
 
-		Dialog dialog = new AlertDialog.Builder(getActivity())
+		final Dialog dialog = new AlertDialog.Builder(getActivity())
 				.setView(dialogView)
 				.setTitle(R.string.lego_nxt_sensor_config_info_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -75,6 +78,18 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 				}).create();
 
 		dialog.setCanceledOnTouchOutside(true);
+
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				if (getActivity() == null) {
+					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
+					return;
+				}
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		return dialog;
 	}

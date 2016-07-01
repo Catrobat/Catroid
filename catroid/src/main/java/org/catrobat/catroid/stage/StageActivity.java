@@ -37,6 +37,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 
@@ -64,6 +65,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -188,6 +190,13 @@ public class StageActivity extends AndroidApplication {
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		askDialogUnanswered = true;
 		dialog.show();
+
+		stageDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) stageDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 	}
 
 	@Override

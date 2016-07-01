@@ -32,6 +32,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
@@ -119,6 +121,7 @@ public class RenameVariableDialog extends DialogFragment {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				handleOnShow(dialogRenameVariable);
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogRenameVariable.getWindow().getDecorView().getRootView());
 			}
 		});
 

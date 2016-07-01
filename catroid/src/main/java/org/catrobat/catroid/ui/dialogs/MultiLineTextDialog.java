@@ -34,12 +34,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 /**
  * Simple dialog for entering text with ok and cancel button will not permit to
@@ -70,7 +72,7 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 
 		initialize();
 
-		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(getTitle())
+		final Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(getTitle())
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -83,9 +85,10 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 				}).create();
 
 		dialog.setCanceledOnTouchOutside(true);
+
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
-			public void onShow(DialogInterface dialog) {
+			public void onShow(DialogInterface dialogInterface) {
 				if (getDialog() == null) {
 					dismiss();
 				} else {
@@ -100,6 +103,7 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 
 					initTextChangedListener();
 				}
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

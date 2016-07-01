@@ -39,6 +39,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.facebook.AccessToken;
@@ -67,6 +68,7 @@ import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
@@ -139,6 +141,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 				loadProgramFromExternalSource(loadExternalProjectUri);
 			}
 		}
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	@Override
@@ -191,6 +194,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		TextSizeUtil.enlargeOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -351,7 +355,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	private void setMainMenuButtonContinueText() {
 		Button mainMenuButtonContinue = (Button) this.findViewById(R.id.main_menu_button_continue);
-		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
+		TextAppearanceSpan textAppearanceSpan = TextSizeUtil.getTextAppearanceSpanForMainMenue(this);
 		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 		String mainMenuContinue = this.getString(R.string.main_menu_continue);
 

@@ -45,6 +45,7 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackSceneController;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -244,6 +245,7 @@ public class SceneAdapter extends ArrayAdapter<Scene> implements ActionModeActiv
 			clearCheckedScenes();
 		}
 
+		TextSizeUtil.enlargeViewGroup((ViewGroup) sceneView);
 		return sceneView;
 	}
 

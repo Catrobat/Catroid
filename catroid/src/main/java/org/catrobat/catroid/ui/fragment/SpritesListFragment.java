@@ -79,6 +79,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicExpandableListView;
 import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -126,8 +127,10 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
+		View spriteListFragment = inflater.inflate(R.layout.fragment_sprites_list, container, false);
+		TextSizeUtil.enlargeViewGroup((ViewGroup) spriteListFragment);
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
-		return inflater.inflate(R.layout.fragment_sprites_list, container, false);
+		return spriteListFragment;
 	}
 
 	@Override
@@ -1002,7 +1005,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			}
 		});
 
-		AlertDialog alertDialog = builder.create();
+		final AlertDialog alertDialog = builder.create();
 
 		groupNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -1026,6 +1029,12 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		alertDialog.show();
 		okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -1045,10 +1054,16 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			}
 		});
 
-		AlertDialog alertDialog = builder.create();
+		final AlertDialog alertDialog = builder.create();
 
 		alertDialog.setCanceledOnTouchOutside(true);
 		alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) alertDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 
 		alertDialog.show();
 	}

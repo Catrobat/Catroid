@@ -36,6 +36,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -48,6 +49,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -59,7 +61,6 @@ public class NewProjectDialog extends DialogFragment {
 	private static final String TAG = NewProjectDialog.class.getSimpleName();
 
 	private EditText newProjectEditText;
-	private Dialog newProjectDialog;
 	private RadioButton defaultProjectRadioButton;
 	private RadioButton defaultDroneProjectRadioButton;
 	private OrientationDialog orientationDialog;
@@ -74,7 +75,7 @@ public class NewProjectDialog extends DialogFragment {
 
 		newProjectEditText.setText("");
 
-		newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		final Dialog newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.new_project_dialog_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -131,6 +132,8 @@ public class NewProjectDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) newProjectDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

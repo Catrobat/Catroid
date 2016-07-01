@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -35,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -91,6 +93,7 @@ public class StopScriptBrick extends BrickBaseType {
 		});
 
 		stopScriptSpinner.setSelection(spinnerSelection);
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

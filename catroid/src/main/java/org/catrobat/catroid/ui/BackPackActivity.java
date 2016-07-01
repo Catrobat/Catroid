@@ -53,6 +53,7 @@ import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
 import org.catrobat.catroid.ui.fragment.BackPackUserBrickFragment;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SCRIPTS = 0;
@@ -106,6 +107,7 @@ public class BackPackActivity extends BaseActivity {
 			String title = getApplicationContext().getString(R.string.backpack_title);
 			actionBar.setTitle(Html.fromHtml("<font color='#00475E'>" + title + "</font>")); //4D7F8F
 		}
+		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
 	}
 
 	@Override
@@ -129,6 +131,7 @@ public class BackPackActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		TextSizeUtil.enlargeOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -167,6 +170,8 @@ public class BackPackActivity extends BaseActivity {
 		currentFragment.setShowDetails(showDetails);
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
+
+		TextSizeUtil.enlargeOptionsItem(item);
 	}
 
 	public BackPackActivityFragment getFragment(int fragmentPosition) {
@@ -284,7 +289,7 @@ public class BackPackActivity extends BaseActivity {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_delete));
 		}
 
-		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
+		final AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)
 				.setTitle(actionMode)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -295,5 +300,12 @@ public class BackPackActivity extends BaseActivity {
 		actionModeEmptyDialog.setCanceledOnTouchOutside(true);
 		actionModeEmptyDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		actionModeEmptyDialog.show();
+
+		actionModeEmptyDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) actionModeEmptyDialog.getWindow().getDecorView().getRootView());
+			}
+		});
 	}
 }

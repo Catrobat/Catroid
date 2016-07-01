@@ -83,6 +83,7 @@ import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
 import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
@@ -931,6 +932,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 			holder.timePlayedChronometer = (Chronometer) convertView
 					.findViewById(R.id.fragment_sound_item_time_played_chronometer);
+
+			TextSizeUtil.enlargeViewGroup(holder.soundFragmentButtonLayout);
 
 			convertView.setTag(holder);
 		} else {

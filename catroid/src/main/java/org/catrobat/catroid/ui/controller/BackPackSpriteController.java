@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,6 +38,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -72,7 +74,7 @@ public final class BackPackSpriteController {
 		Resources resources = context.getResources();
 		String replaceLookMessage = resources.getString(R.string.backpack_replace_object_multiple);
 
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
 				.setTitle(R.string.backpack)
 				.setMessage(replaceLookMessage)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -92,6 +94,12 @@ public final class BackPackSpriteController {
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		dialog.show();
 	}
 
@@ -99,7 +107,7 @@ public final class BackPackSpriteController {
 		Resources resources = context.getResources();
 		String replaceLookMessage = resources.getString(R.string.backpack_replace_object, currentSprite.getName());
 
-		AlertDialog dialog = new CustomAlertDialogBuilder(context)
+		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
 				.setTitle(R.string.backpack)
 				.setMessage(replaceLookMessage)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -116,6 +124,12 @@ public final class BackPackSpriteController {
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(true);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
+			}
+		});
 		dialog.show();
 	}
 

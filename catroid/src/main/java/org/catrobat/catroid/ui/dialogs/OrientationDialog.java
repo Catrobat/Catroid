@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 
@@ -39,6 +40,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -49,7 +51,6 @@ public class OrientationDialog extends DialogFragment {
 
 	private static final String TAG = OrientationDialog.class.getSimpleName();
 
-	private Dialog orientationDialog;
 	private String projectName;
 	private RadioButton landscapeMode;
 	private boolean createEmptyProject;
@@ -61,7 +62,7 @@ public class OrientationDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 
-		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		final Dialog orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.project_orientation_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -88,6 +89,7 @@ public class OrientationDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
+				TextSizeUtil.enlargeViewGroup((ViewGroup) orientationDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 		landscapeMode = (RadioButton) dialogView.findViewById(R.id.landscape_mode);

@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -45,6 +46,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -107,6 +109,8 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 		setSpinnerSelection(soundbrickSpinner);
 
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 
@@ -151,6 +155,9 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			sound = (SoundInfo) parent.getItemAtPosition(position);
 			oldSelectedSound = sound;
 		}
+
+		TextView spinnerText = (TextView) parent.getChildAt(0);
+		TextSizeUtil.enlargeTextView(spinnerText);
 	}
 
 	@Override

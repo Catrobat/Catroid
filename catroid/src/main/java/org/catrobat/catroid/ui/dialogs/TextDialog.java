@@ -36,6 +36,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 /**
  * Simple dialog for entering text with ok and cancel button will not permit to
@@ -75,7 +77,7 @@ public abstract class TextDialog extends DialogFragment {
 
 		initialize();
 
-		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(getTitle())
+		final Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(getTitle())
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -104,9 +106,10 @@ public abstract class TextDialog extends DialogFragment {
 		});
 
 		dialog.setCanceledOnTouchOutside(true);
+
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
-			public void onShow(DialogInterface dialog) {
+			public void onShow(DialogInterface dialogInterface) {
 				Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 				buttonPositive.setEnabled(getPositiveButtonEnabled());
 
@@ -117,6 +120,8 @@ public abstract class TextDialog extends DialogFragment {
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 
 				initTextChangedListener();
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

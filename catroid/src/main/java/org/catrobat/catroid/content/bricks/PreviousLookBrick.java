@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -77,6 +79,7 @@ public class PreviousLookBrick extends BrickBaseType {
 			textField.setText(R.string.brick_previous_background);
 		}
 
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 

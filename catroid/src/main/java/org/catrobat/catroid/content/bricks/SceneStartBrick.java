@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -103,8 +104,8 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
 		setSpinnerSelection(sceneSpinner);
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 

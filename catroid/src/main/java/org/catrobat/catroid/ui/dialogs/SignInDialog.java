@@ -27,6 +27,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -37,6 +38,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -63,6 +65,7 @@ import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
@@ -173,6 +176,17 @@ public class SignInDialog extends DialogFragment implements
 				} else {
 					Utils.isNetworkAvailable(getActivity(), true);
 				}
+			}
+		});
+
+		signInDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				if (getActivity() == null) {
+					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
+					return;
+				}
+				TextSizeUtil.enlargeViewGroup((ViewGroup) signInDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

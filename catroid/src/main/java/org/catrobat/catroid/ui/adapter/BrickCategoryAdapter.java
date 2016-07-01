@@ -28,6 +28,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.catrobat.catroid.utils.TextSizeUtil;
+
 import java.util.List;
 
 public class BrickCategoryAdapter extends BaseAdapter {
@@ -56,6 +58,10 @@ public class BrickCategoryAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		LinearLayout layout = (LinearLayout) (categories.get(position));
+		TextView textView = (TextView) layout.getChildAt(0);
+		TextSizeUtil.enlargeTextView(textView);
+
 		return categories.get(position);
 	}
 }

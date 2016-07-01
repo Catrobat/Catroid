@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.EditTextImeOverride;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -143,6 +145,11 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 			holder.showOverview = (ImageButton) projectView.findViewById(R.id.my_projects_activity_show_overview);
 			holder.projectOverview = projectView.findViewById(R.id.my_projects_activity_list_item_overview);
 			holder.projectProgressBar = (ProgressBar) projectView.findViewById(R.id.my_projects_activity_list_item_progress_bar);
+			// temporarily removed - because of upcoming release, and bad performance of projectdescription
+			//			holder.description = (TextView) projectView.findViewById(R.id.my_projects_activity_description);
+
+			holder.checkbox.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.checkbox.getTextSize() * TextSizeUtil.getModifier());
+			holder.projectName.setTextSize(TypedValue.COMPLEX_UNIT_PX, holder.projectName.getTextSize() * TextSizeUtil.getModifier());
 			projectView.setTag(holder);
 		} else {
 			holder = (ViewHolder) projectView.getTag();

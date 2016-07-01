@@ -47,6 +47,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -110,6 +111,7 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 		playSoundAndWaitSpinner.setAdapter(spinnerAdapterWrapper);
 
 		setSpinnerSelection(playSoundAndWaitSpinner);
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

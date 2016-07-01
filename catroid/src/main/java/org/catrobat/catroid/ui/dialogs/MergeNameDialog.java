@@ -44,6 +44,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.merge.MergeTask;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class MergeNameDialog extends DialogFragment {
@@ -55,7 +56,6 @@ public class MergeNameDialog extends DialogFragment {
 	private MergeTask task;
 
 	private EditText nameEditText;
-	private Dialog newProjectDialog;
 
 	public MergeNameDialog(MergeTask task) {
 		this.task = task;
@@ -69,7 +69,7 @@ public class MergeNameDialog extends DialogFragment {
 
 		nameEditText.setText("");
 
-		newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		final Dialog newProjectDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.new_project_dialog_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
@@ -126,6 +126,8 @@ public class MergeNameDialog extends DialogFragment {
 						handleOkButtonClick();
 					}
 				});
+
+				TextSizeUtil.enlargeViewGroup((ViewGroup) newProjectDialog.getWindow().getDecorView().getRootView());
 			}
 		});
 		return newProjectDialog;

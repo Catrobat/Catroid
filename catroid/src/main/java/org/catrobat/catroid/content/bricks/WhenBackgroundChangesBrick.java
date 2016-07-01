@@ -47,6 +47,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
@@ -139,6 +140,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		});
 
 		setSpinnerSelection(lookbrickSpinner);
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 
 		return view;
 	}

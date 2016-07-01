@@ -34,6 +34,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -123,6 +125,7 @@ public class NewDataDialog extends DialogFragment {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				handleOnShow(dialogNewData);
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialogNewData.getWindow().getDecorView().getRootView());
 			}
 		});
 

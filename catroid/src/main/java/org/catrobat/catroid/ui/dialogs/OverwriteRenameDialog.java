@@ -35,6 +35,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -90,7 +92,8 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 		projectTextView = (TextView) dialogView.findViewById(R.id.dialog_overwrite_project_edit_text);
 		projectTextLine = dialogView.findViewById(R.id.dialog_overwrite_project_edit_line);
 
-		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(R.string.overwrite_text)
+		final Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(
+				R.string.overwrite_text)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -108,7 +111,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
-			public void onShow(DialogInterface dialog) {
+			public void onShow(DialogInterface dialogInterface) {
 				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
 				positiveButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -116,6 +119,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 						handleOkButton();
 					}
 				});
+				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
 			}
 		});
 

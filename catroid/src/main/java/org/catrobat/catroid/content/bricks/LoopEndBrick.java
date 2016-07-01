@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
@@ -32,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -90,6 +92,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			setCheckboxView(R.id.brick_loop_end_checkbox);
 		}
 
+		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
 		return view;
 	}
 
