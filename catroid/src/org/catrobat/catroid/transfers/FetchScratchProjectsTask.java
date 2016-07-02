@@ -36,75 +36,75 @@ import java.io.InterruptedIOException;
 
 public class FetchScratchProjectsTask extends AsyncTask<String, Void, ScratchSearchResult> {
 
-    private static final String TAG = FetchScratchProjectsTask.class.getSimpleName();
-    private static final int MAX_NUM_OF_RETRIES = 2;
-    private static final int MIN_TIMEOUT = 1_000; // in ms
+	private static final String TAG = FetchScratchProjectsTask.class.getSimpleName();
+	private static final int MAX_NUM_OF_RETRIES = 2;
+	private static final int MIN_TIMEOUT = 1_000; // in ms
 
-    public interface ScratchProjectListTaskDelegate {
-        void onPreExecute();
-        void onPostExecute(ScratchSearchResult result);
-    }
+	public interface ScratchProjectListTaskDelegate {
+		void onPreExecute();
+		void onPostExecute(ScratchSearchResult result);
+	}
 
-    private ScratchProjectListTaskDelegate delegate = null;
+	private ScratchProjectListTaskDelegate delegate = null;
 
-    public FetchScratchProjectsTask setDelegate(ScratchProjectListTaskDelegate delegate) {
-        this.delegate = delegate;
-        return this;
-    }
+	public FetchScratchProjectsTask setDelegate(ScratchProjectListTaskDelegate delegate) {
+		this.delegate = delegate;
+		return this;
+	}
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        if (delegate != null) {
-            delegate.onPreExecute();
-        }
-    }
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		if (delegate != null) {
+			delegate.onPreExecute();
+		}
+	}
 
-    @Override
-    protected ScratchSearchResult doInBackground(String... params) {
-        Preconditions.checkArgument(params.length <= 2, "Invalid number of parameters!");
-        try {
-            return fetchProjectList(params.length > 0 ? params[0] : null);
-        } catch (InterruptedIOException exception) {
-            Log.i(TAG, "Task has been cancelled in the meanwhile!");
-            return null;
-        }
-    }
+	@Override
+	protected ScratchSearchResult doInBackground(String... params) {
+		Preconditions.checkArgument(params.length <= 2, "Invalid number of parameters!");
+		try {
+			return fetchProjectList(params.length > 0 ? params[0] : null);
+		} catch (InterruptedIOException exception) {
+			Log.i(TAG, "Task has been cancelled in the meanwhile!");
+			return null;
+		}
+	}
 
-    public ScratchSearchResult fetchProjectList(String query) throws InterruptedIOException {
-        // exponential backoff
-        int delay;
-        for (int attempt = 0; attempt <= MAX_NUM_OF_RETRIES; attempt++) {
-            if (isCancelled()) {
-                return null;
-            }
-            try {
-                if (query != null) {
-                    ServerCalls.ScratchSearchSortType sortType = ServerCalls.ScratchSearchSortType.RELEVANCE;
-                    return ServerCalls.getInstance().scratchSearch(query, sortType, 20, 0);
-                }
-                return ServerCalls.getInstance().fetchDefaultScratchProjects();
-            } catch (WebconnectionException e) {
-                Log.d(TAG, e.getLocalizedMessage() + "\n" +  e.getStackTrace());
-                delay = MIN_TIMEOUT + (int) (MIN_TIMEOUT * Math.random() * (attempt + 1));
-                Log.i(TAG, "Retry #" + (attempt+1) + " to fetch scratch project list scheduled in "
-                        + delay + " ms due to " + e.getLocalizedMessage());
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e1) {}
-            }
-        }
-        Log.w(TAG, "Maximum number of " + (MAX_NUM_OF_RETRIES + 1)
-                + " attempts exceeded! Server not reachable?!");
-        return null;
-    }
+	public ScratchSearchResult fetchProjectList(String query) throws InterruptedIOException {
+		// exponential backoff
+		int delay;
+		for (int attempt = 0; attempt <= MAX_NUM_OF_RETRIES; attempt++) {
+			if (isCancelled()) {
+				return null;
+			}
+			try {
+				if (query != null) {
+					ServerCalls.ScratchSearchSortType sortType = ServerCalls.ScratchSearchSortType.RELEVANCE;
+					return ServerCalls.getInstance().scratchSearch(query, sortType, 20, 0);
+				}
+				return ServerCalls.getInstance().fetchDefaultScratchProjects();
+			} catch (WebconnectionException e) {
+				Log.d(TAG, e.getLocalizedMessage() + "\n" + e.getStackTrace());
+				delay = MIN_TIMEOUT + (int) (MIN_TIMEOUT * Math.random() * (attempt + 1));
+				Log.i(TAG, "Retry #" + (attempt + 1) + " to fetch scratch project list scheduled in "
+						+ delay + " ms due to " + e.getLocalizedMessage());
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e1) {
+				}
+			}
+		}
+		Log.w(TAG, "Maximum number of " + (MAX_NUM_OF_RETRIES + 1)
+				+ " attempts exceeded! Server not reachable?!");
+		return null;
+	}
 
-    @Override
-    protected void onPostExecute(ScratchSearchResult result) {
-        super.onPostExecute(result);
-        if (delegate != null && ! isCancelled()) {
-            delegate.onPostExecute(result);
-        }
-    }
-
+	@Override
+	protected void onPostExecute(ScratchSearchResult result) {
+		super.onPostExecute(result);
+		if (delegate != null && !isCancelled()) {
+			delegate.onPostExecute(result);
+		}
+	}
 }

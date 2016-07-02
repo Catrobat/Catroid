@@ -38,73 +38,85 @@ import java.io.InterruptedIOException;
 
 public class FetchScratchProjectDetailsTask extends AsyncTask<Long, Void, ScratchProjectData> {
 
-    private static final String TAG = FetchScratchProjectDetailsTask.class.getSimpleName();
-    private static final int MAX_NUM_OF_RETRIES = 2;
-    private static final int MIN_TIMEOUT = 1_000; // in ms
+	public interface ScratchProjectListTaskDelegate {
+		void onPreExecute();
+		void onPostExecute(ScratchProjectData projectData);
+	}
 
-    public interface ScratchProjectListTaskDelegate {
-        void onPreExecute();
-        void onPostExecute(ScratchProjectData projectData);
-    }
+	public interface ScratchProjectDataFetcher {
+		ScratchProjectData fetchScratchProjectDetails(final long projectID) throws WebconnectionException, InterruptedIOException;
+		ScratchSearchResult fetchDefaultScratchProjects() throws WebconnectionException, InterruptedIOException;
+		ScratchSearchResult scratchSearch(final String query, final ServerCalls.ScratchSearchSortType sortType,
+				final int numberOfItems, final int page) throws WebconnectionException, InterruptedIOException;
+	}
 
-    private ScratchProjectListTaskDelegate delegate = null;
+	private static final String TAG = FetchScratchProjectDetailsTask.class.getSimpleName();
+	private static final int MAX_NUM_OF_RETRIES = 2;
+	private static final int MIN_TIMEOUT = 1_000; // in ms
 
-    public FetchScratchProjectDetailsTask setDelegate(ScratchProjectListTaskDelegate delegate) {
-        this.delegate = delegate;
-        return this;
-    }
+	private ScratchProjectListTaskDelegate delegate = null;
+	private ScratchProjectDataFetcher fetcher = null;
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        if (delegate != null) {
-            delegate.onPreExecute();
-        }
-    }
+	public FetchScratchProjectDetailsTask setDelegate(ScratchProjectListTaskDelegate delegate) {
+		this.delegate = delegate;
+		return this;
+	}
 
-    @Override
-    protected ScratchProjectData doInBackground(Long... params) {
-        Preconditions.checkArgument(params.length == 1, "No project ID given!");
-        final long projectID = params[0];
-        Preconditions.checkArgument(projectID > 0, "Invalid project ID given!");
-        try {
-            return fetchProjectData(projectID);
-        } catch (InterruptedIOException exception) {
-            Log.i(TAG, "Task has been cancelled in the meanwhile!");
-            return null;
-        }
-    }
+	public FetchScratchProjectDetailsTask setFetcher(ScratchProjectDataFetcher fetcher) {
+		this.fetcher = fetcher;
+		return this;
+	}
 
-    public ScratchProjectData fetchProjectData(final long projectID) throws InterruptedIOException {
-        // exponential backoff
-        int delay;
-        for (int attempt = 0; attempt <= MAX_NUM_OF_RETRIES; attempt++) {
-            if (isCancelled()) {
-                return null;
-            }
-            try {
-                return ServerCalls.getInstance().fetchScratchProjectDetails(projectID);
-            } catch (WebconnectionException e) {
-                Log.d(TAG, e.getLocalizedMessage() + "\n" +  e.getStackTrace());
-                delay = MIN_TIMEOUT + (int) (MIN_TIMEOUT * Math.random() * (attempt + 1));
-                Log.i(TAG, "Retry #" + (attempt+1) + " to fetch scratch project list scheduled in "
-                        + delay + " ms due to " + e.getLocalizedMessage());
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e1) {}
-            }
-        }
-        Log.w(TAG, "Maximum number of " + (MAX_NUM_OF_RETRIES + 1)
-                + " attempts exceeded! Server not reachable?!");
-        return null;
-    }
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		if (delegate != null) {
+			delegate.onPreExecute();
+		}
+	}
 
-    @Override
-    protected void onPostExecute(ScratchProjectData projectData) {
-        super.onPostExecute(projectData);
-        if (delegate != null && ! isCancelled()) {
-            delegate.onPostExecute(projectData);
-        }
-    }
+	@Override
+	protected ScratchProjectData doInBackground(Long... params) {
+		Preconditions.checkArgument(params.length == 1, "No project ID given!");
+		final long projectID = params[0];
+		Preconditions.checkArgument(projectID > 0, "Invalid project ID given!");
+		try {
+			return fetchProjectData(projectID);
+		} catch (InterruptedIOException exception) {
+			Log.i(TAG, "Task has been cancelled in the meanwhile!");
+			return null;
+		}
+	}
 
+	public ScratchProjectData fetchProjectData(final long projectID) throws InterruptedIOException {
+		// exponential backoff
+		int delay;
+		for (int attempt = 0; attempt <= MAX_NUM_OF_RETRIES; attempt++) {
+			if (isCancelled()) {
+				return null;
+			}
+			try {
+				return fetcher.fetchScratchProjectDetails(projectID);
+			} catch (WebconnectionException e) {
+				Log.d(TAG, e.getLocalizedMessage() + "\n" + e.getStackTrace());
+				delay = MIN_TIMEOUT + (int) (MIN_TIMEOUT * Math.random() * (attempt + 1));
+				Log.i(TAG, "Retry #" + (attempt + 1) + " to fetch scratch project list scheduled in "
+						+ delay + " ms due to " + e.getLocalizedMessage());
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e1) {}
+			}
+		}
+		Log.w(TAG, "Maximum number of " + (MAX_NUM_OF_RETRIES + 1)
+				+ " attempts exceeded! Server not reachable?!");
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(ScratchProjectData projectData) {
+		super.onPostExecute(projectData);
+		if (delegate != null && !isCancelled()) {
+			delegate.onPostExecute(projectData);
+		}
+	}
 }

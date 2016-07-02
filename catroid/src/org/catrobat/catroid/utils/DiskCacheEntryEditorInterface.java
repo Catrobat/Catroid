@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public interface DiskCacheEntryEditorInterface {
-    void abort() throws IOException;
-    void commit() throws IOException;
-    OutputStream newOutputStream(int index) throws IOException;
+	void abort() throws IOException;
+	void commit() throws IOException;
+	OutputStream newOutputStream(int index) throws IOException;
 }

@@ -50,7 +50,7 @@ public class ScratchRemixedProjectAdapter extends ArrayAdapter<ScratchProjectDat
 	private static final int WEBIMAGE_DOWNLOADER_POOL_SIZE = 5;
 
 	private WebImageLoader webImageLoader;
-	private OnScratchRemixedProjectEditListener onScratchRemixedProjectEditListener;
+	private ScratchRemixedProjectEditListener scratchRemixedProjectEditListener;
 
 	private static class ViewHolder {
 		private RelativeLayout background;
@@ -75,8 +75,8 @@ public class ScratchRemixedProjectAdapter extends ArrayAdapter<ScratchProjectDat
 		);
 	}
 
-	public void setOnScratchRemixedProjectEditListener(OnScratchRemixedProjectEditListener listener) {
-		onScratchRemixedProjectEditListener = listener;
+	public void setScratchRemixedProjectEditListener(ScratchRemixedProjectEditListener listener) {
+		scratchRemixedProjectEditListener = listener;
 	}
 
 	@Override
@@ -123,8 +123,8 @@ public class ScratchRemixedProjectAdapter extends ArrayAdapter<ScratchProjectDat
 		holder.background.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (onScratchRemixedProjectEditListener != null) {
-					onScratchRemixedProjectEditListener.onProjectEdit(position);
+				if (scratchRemixedProjectEditListener != null) {
+					scratchRemixedProjectEditListener.onProjectEdit(position);
 				}
 			}
 		});
@@ -133,7 +133,7 @@ public class ScratchRemixedProjectAdapter extends ArrayAdapter<ScratchProjectDat
 		return projectView;
 	}
 
-	public interface OnScratchRemixedProjectEditListener {
+	public interface ScratchRemixedProjectEditListener {
 		void onProjectEdit(int position);
 	}
 

@@ -32,95 +32,96 @@ import java.util.Map;
 
 public class ExpiringLruMemoryCache<K, V> {
 
-    private final long expireTime;
-    private final LruCache<K, V> memoryCache;
-    private final Map<K, Long> expirationTimes;
-    private ClockInterface clock;
-    public interface ClockInterface { long elapsedRealtime(); } // unit testing
+	private final long expireTime;
+	private final LruCache<K, V> memoryCache;
+	private final Map<K, Long> expirationTimes;
+	private ClockInterface clock;
 
-    public ExpiringLruMemoryCache(final long expireTime, final LruCache<K, V> lruCache,
-                                  final ClockInterface clock)
-    {
-        this.expireTime = expireTime;
-        this.expirationTimes = new HashMap<>();
-        this.memoryCache = lruCache;
-        this.clock = clock;
+	public interface ClockInterface {
+		long elapsedRealtime();
+	} // unit testing
 
-        if (clock == null) {
-            this.clock = new ClockInterface() {
-                @Override
-                public long elapsedRealtime() {
-                    return SystemClock.elapsedRealtime();
-                }
-            };
-        }
-    }
+	public ExpiringLruMemoryCache(final long expireTime, final LruCache<K, V> lruCache,
+			final ClockInterface clock) {
+		this.expireTime = expireTime;
+		this.expirationTimes = new HashMap<>();
+		this.memoryCache = lruCache;
+		this.clock = clock;
 
-    public synchronized V get(K key) {
-        V value = memoryCache.get(key);
-        if (value != null && clock.elapsedRealtime() >= getExpiryTime(key)) {
-            remove(key);
-            return null;
-        }
-        return value;
-    }
+		if (clock == null) {
+			this.clock = new ClockInterface() {
+				@Override
+				public long elapsedRealtime() {
+					return SystemClock.elapsedRealtime();
+				}
+			};
+		}
+	}
 
-    public synchronized V put(K key, V value) {
-        V oldValue = memoryCache.put(key, value);
-        expirationTimes.put(key, clock.elapsedRealtime() + expireTime);
-        return oldValue;
-    }
+	public synchronized V get(K key) {
+		V value = memoryCache.get(key);
+		if (value != null && clock.elapsedRealtime() >= getExpiryTime(key)) {
+			remove(key);
+			return null;
+		}
+		return value;
+	}
 
-    public long getExpiryTime(K key) {
-        Long time = expirationTimes.get(key);
-        if (time == null) {
-            return 0;
-        }
-        return time;
-    }
+	public synchronized V put(K key, V value) {
+		V oldValue = memoryCache.put(key, value);
+		expirationTimes.put(key, clock.elapsedRealtime() + expireTime);
+		return oldValue;
+	}
 
-    public void removeExpiryTime(K key) {
-        expirationTimes.remove(key);
-    }
+	public long getExpiryTime(K key) {
+		Long time = expirationTimes.get(key);
+		if (time == null) {
+			return 0;
+		}
+		return time;
+	}
 
-    public V remove(K key) {
-        return memoryCache.remove(key);
-    }
+	public void removeExpiryTime(K key) {
+		expirationTimes.remove(key);
+	}
 
-    public Map<K, V> snapshot() {
-        return memoryCache.snapshot();
-    }
+	public V remove(K key) {
+		return memoryCache.remove(key);
+	}
 
-    public int createCount() {
-        return memoryCache.createCount();
-    }
+	public Map<K, V> snapshot() {
+		return memoryCache.snapshot();
+	}
 
-    public void evictAll() {
-        memoryCache.evictAll();
-    }
+	public int createCount() {
+		return memoryCache.createCount();
+	}
 
-    public int evictionCount() {
-        return memoryCache.evictionCount();
-    }
+	public void evictAll() {
+		memoryCache.evictAll();
+	}
 
-    public int hitCount() {
-        return memoryCache.hitCount();
-    }
+	public int evictionCount() {
+		return memoryCache.evictionCount();
+	}
 
-    public int maxSize() {
-        return memoryCache.maxSize();
-    }
+	public int hitCount() {
+		return memoryCache.hitCount();
+	}
 
-    public int missCount() {
-        return memoryCache.missCount();
-    }
+	public int maxSize() {
+		return memoryCache.maxSize();
+	}
 
-    public int putCount() {
-        return memoryCache.putCount();
-    }
+	public int missCount() {
+		return memoryCache.missCount();
+	}
 
-    public int size() {
-        return memoryCache.size();
-    }
+	public int putCount() {
+		return memoryCache.putCount();
+	}
 
+	public int size() {
+		return memoryCache.size();
+	}
 }

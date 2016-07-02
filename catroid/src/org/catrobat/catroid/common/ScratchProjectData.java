@@ -27,102 +27,103 @@ import com.google.android.gms.common.images.WebImage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ScratchProjectData implements Serializable {
 
-    public static class ScratchRemixProjectData implements Serializable {
-        private static final long serialVersionUID = 1L;
+	public static class ScratchRemixProjectData implements Serializable {
+		private static final long serialVersionUID = 1L;
 
-        private long id;
+		private long id;
 
-        private String title;
+		private String title;
 
-        public String getTitle() {
-            return title;
-        }
+		public String getTitle() {
+			return title;
+		}
 
-        public String getOwner() {
-            return owner;
-        }
+		public String getOwner() {
+			return owner;
+		}
 
-        public WebImage getProjectImage() {
-            return projectImage;
-        }
+		public WebImage getProjectImage() {
+			return projectImage;
+		}
 
-        public long getId() {
-            return id;
-        }
+		public long getId() {
+			return id;
+		}
 
-        private String owner;
-        private WebImage projectImage;
+		private String owner;
+		private WebImage projectImage;
 
-        public ScratchRemixProjectData(long id, String title, String owner, WebImage projectImage) {
-            this.id = id;
-            this.title = title;
-            this.owner = owner;
-            this.projectImage = projectImage;
-        }
-    }
+		public ScratchRemixProjectData(long id, String title, String owner, WebImage projectImage) {
+			this.id = id;
+			this.title = title;
+			this.owner = owner;
+			this.projectImage = projectImage;
+		}
+	}
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private String title;
-    private String owner;
-    private String instructions;
-    private String notesAndCredits;
-    private String projectUrl;
-    private int views;
-    private int favorites;
-    private int loves;
-    private String modifiedDate;
-    private String sharedDate;
-    private List<String> tags;
-    private List<ScratchRemixProjectData> remixes;
+	private long id;
+	private String title;
+	private String owner;
+	private String instructions;
+	private String notesAndCredits;
+	private int views;
+	private int favorites;
+	private int loves;
+	private Date modifiedDate;
+	private Date sharedDate;
+	private List<String> tags;
+	private List<ScratchRemixProjectData> remixes;
 
-    public ScratchProjectData(String title, String owner, String instructions, String notesAndCredits,
-                              String projectUrl, int views, int favorites, int loves,
-                              String modifiedDate, String sharedDate, List<String> tags) {
-        this.title = title;
-        this.owner = owner;
-        this.instructions = instructions;
-        this.notesAndCredits = notesAndCredits;
-        this.projectUrl = projectUrl;
-        this.views = views;
-        this.favorites = favorites;
-        this.loves = loves;
-        this.modifiedDate = modifiedDate;
-        this.sharedDate = sharedDate;
-        this.tags = tags;
-        this.remixes = new ArrayList<>();
-    }
+	public ScratchProjectData(long id, String title, String owner, String instructions, String notesAndCredits,
+			int views, int favorites, int loves, Date modifiedDate, Date sharedDate, List<String> tags) {
+		this.id = id;
+		this.title = title;
+		this.owner = owner;
+		this.instructions = instructions;
+		this.notesAndCredits = notesAndCredits;
+		this.views = views;
+		this.favorites = favorites;
+		this.loves = loves;
+		this.modifiedDate = modifiedDate;
+		this.sharedDate = sharedDate;
+		this.tags = tags;
+		this.remixes = new ArrayList<>();
+	}
 
-    public String getProjectUrl() { return projectUrl; }
+	public long getId() { return id; }
 
-    public String getTitle() { return title; }
+	public String getTitle() { return title; }
 
-    public String getOwner() { return owner; }
+	public String getOwner() { return owner; }
 
-    public String getInstructions() { return instructions; }
+	public String getInstructions() { return instructions; }
 
-    public String getNotesAndCredits() { return notesAndCredits; }
+	public String getNotesAndCredits() { return notesAndCredits; }
 
-    public void addRemixProject(ScratchRemixProjectData remixProjectData) {
-        remixes.add(remixProjectData);
-    }
+	public void addRemixProject(ScratchRemixProjectData remixProjectData) {
+		remixes.add(remixProjectData);
+	}
 
-    public int getViews() { return views; }
+	public int getViews() { return views; }
 
-    public int getFavorites() { return favorites; }
+	public int getFavorites() { return favorites; }
 
-    public int getLoves() { return loves; }
+	public int getLoves() { return loves; }
 
-    public String getModifiedDate() { return modifiedDate; }
+	public Date getModifiedDate() { return modifiedDate; }
 
-    public String getSharedDate() { return sharedDate; }
+	public Date getSharedDate() { return sharedDate; }
 
-    public List<String> getTags() { return tags; }
+	public List<String> getTags() { return tags; }
 
-    public List<ScratchRemixProjectData> getRemixes() { return remixes; }
-
+	public List<ScratchRemixProjectData> getRemixes() {
+		return remixes;
+	}
 }

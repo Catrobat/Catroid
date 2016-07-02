@@ -27,10 +27,10 @@ import java.io.File;
 import java.io.IOException;
 
 public interface DiskCacheBackendInterface {
-    File getDirectory();
-    long maxSize();
-    void delete() throws IOException;
-    DiskCacheSnapshotInterface get(String key) throws IOException;
-    boolean remove(String key) throws IOException;
-    DiskCacheEntryEditorInterface edit(String key) throws IOException;
+	File getDirectory();
+	long maxSize();
+	void delete() throws IOException;
+	DiskCacheSnapshotInterface get(String key) throws IOException;
+	boolean remove(String key) throws IOException;
+	DiskCacheEntryEditorInterface edit(String key) throws IOException;
 }

@@ -113,7 +113,20 @@
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Adresse</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
   <!-- Scratch Converter activity -->
-  <string name="title_activity_scratch_converter">Konvertiere Scratch Projekt</string>
+  <string name="title_activity_scratch_converter">Konvertiere Scratch Projekt BETA</string>
+  <string name="error_scratch_project_data_not_available">Fehler: Die Details des gewünschten Scratchprojekts können
+    derzeit leider nicht abgerufen werden. Bitte probiere es etwas später noch einmal!</string>
+  <string name="scratch_conversion_started">Konvertierung gestartet...</string>
+  <string name="convert">Konvertieren</string>
+  <string name="show_description">Beschreibung anzeigen</string>
+  <string name="title">Titel</string>
+  <string name="by">von</string>
+  <string name="by_author">von User</string>
+  <string name="instructions">Anleitung</string>
+  <string name="notes_and_credits">Anmerkungen und Danksagungen</string>
+  <string name="shared">Veröffentlicht</string>
+  <string name="modified">Zuletzt verändert</string>
+  <string name="remixes">Remixe</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
   <string name="dialog_new_object_gallery">Bild auswählen</string>

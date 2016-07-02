@@ -21,11 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.transfers;
 
-import java.io.InputStream;
-
-public interface DiskCacheSnapshotInterface {
-	InputStream getInputStream(int index);
-	void close();
+public interface ScratchConverterClient {
+	void convertProject(final long scratchProjectID, final String projectTitle);
 }

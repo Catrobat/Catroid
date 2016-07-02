@@ -27,308 +27,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
-import android.support.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.koushikdutta.async.http.AsyncHttpClient;
-import com.koushikdutta.async.http.AsyncHttpClient.WebSocketConnectCallback;
-import com.koushikdutta.async.http.WebSocket;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.ScratchSearchProjectsListFragment;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.catrobat.catroid.transfers.ScratchConverterWebSocketClient;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ScratchConverterActivity extends BaseActivity {
-
-	final public static class ScratchConverterClient {
-
-		public enum NotificationType {
-			ERROR(0),
-			JOB_FAILED(1),
-			JOB_RUNNING(2),
-			JOB_ALREADY_RUNNING(3),
-			JOB_READY(4),
-			JOB_OUTPUT(5),
-			JOB_PROGRESS(6),
-			JOB_FINISHED(7),
-			JOB_DOWNLOAD(8),
-			JOBS_INFO(9),
-			CLIENT_ID(10),
-			RENEW_CLIENT_ID(11);
-
-			private int typeID;
-
-			private static Map<Integer, NotificationType> map = new HashMap<>();
-
-			static {
-				for (NotificationType legEnum : NotificationType.values()) {
-					map.put(legEnum.typeID, legEnum);
-				}
-			}
-
-			private NotificationType(final int typeID) {
-				this.typeID = typeID;
-			}
-
-			public static NotificationType valueOf(int typeID) {
-				return map.get(typeID);
-			}
-		}
-
-		int clientID;
-		String projectTitle;
-		String statusLine;
-		String consoleText;
-		boolean connected;
-		boolean temp;
-		static ScratchConverterClient instance = null;
-
-		public ScratchConverterClient() {
-			this.clientID = 7; // TODO: ...
-			this.connected = false;
-			this.temp = false;
-			this.projectTitle = null;
-			this.consoleText = "";
-		}
-
-		private void reset() {
-			this.consoleText = "";
-			this.clientID = 7; // TODO: ...
-			this.temp = false;
-		}
-
-		@Nullable
-		public static ScratchConverterClient getInstance() {
-			if (instance == null) {
-				// do it in a thread safe way
-				synchronized (ScratchConverterClient.class) {
-					if (instance == null) {
-						try {
-							instance = new ScratchConverterClient();
-						} catch (Exception ex) {
-							Log.w(TAG, "Unable to create disk cache!");
-							return null;
-						}
-					}
-				}
-			}
-			return instance;
-		}
-
-		public void convertProject(final long scratchProjectID, final String projectTitle) {
-			reset();
-			if (connected) {
-				// TODO: handle this...
-			}
-
-			this.projectTitle = projectTitle;
-
-			AsyncHttpClient.getDefaultInstance().websocket("ws://scratch2.catrob.at/convertersocket", null, new
-					WebSocketConnectCallback() {
-						@Override
-						public void onCompleted(Exception ex, final WebSocket webSocket) {
-							if (ex != null) {
-								ex.printStackTrace();
-								return;
-							}
-							connected = true;
-							Log.d(TAG, "Sending set_client_ID request!");
-
-							Map<String, Object> map = new HashMap<String, Object>() {{
-								put("cmd", "set_client_ID");
-								put("args", new HashMap<String, String>() {{
-									put("clientID", String.valueOf(clientID));
-								}});
-							}};
-							JSONObject jsonObject = new JSONObject(map);
-							Log.d(TAG, "Sending: " + jsonObject.toString());
-							webSocket.send(jsonObject.toString());
-							webSocket.setStringCallback(new WebSocket.StringCallback() {
-								public void onStringAvailable(String message) {
-									Log.d(TAG, message);
-									final JSONObject jsonMessage;
-
-									try {
-										if (! temp) {
-											temp = true;
-											Log.d(TAG, "Sending start job!");
-											Map<String, Object> map = new HashMap<String, Object>() {{
-												put("cmd", "schedule_job");
-												put("args", new HashMap<String, String>() {{
-													put("clientID", String.valueOf(clientID));
-													put("url", "https://scratch.mit.edu/projects/" + scratchProjectID);
-													put("force", "1");
-												}});
-											}};
-											JSONObject jsonObject = new JSONObject(map);
-											String sendMessage = jsonObject.toString().replace("\\", "");
-											Log.d(TAG, "Sending: " + sendMessage);
-											webSocket.send(sendMessage);
-											return;
-										}
-
-										jsonMessage = new JSONObject(message);
-										if (jsonMessage.length() == 0) {
-											return;
-										}
-
-										// case ERROR: { "msg" }
-										NotificationType type = NotificationType.valueOf(jsonMessage.getInt("type"));
-										if (type == NotificationType.ERROR) {
-											Log.e(TAG, "ERROR: " + jsonMessage.getString("msg"));
-											return;
-										}
-
-										JSONObject jsonData = jsonMessage.getJSONObject("data");
-										if (jsonData == null) {
-											Log.e(TAG, "ERROR: Invalid message received! Data field is empty.");
-											return;
-										}
-
-										// case JOB_FAILED: { "jobID" }
-										if (type == NotificationType.JOB_FAILED) {
-											if (jsonData.getLong("jobID") != scratchProjectID) {
-												return;
-											}
-											Log.e(TAG, "Job for converting Scratch project '" + scratchProjectID
-													+ "' failed!");
-											return;
-										}
-
-										// case JOB_RUNNING: { "jobID" }
-										if (type == NotificationType.JOB_RUNNING) {
-											Log.i(TAG, "Job running...");
-											statusLine = "Job running...";
-											return;
-										}
-
-										// case JOB_ALREADY_RUNNING: { "jobID" }
-										if (type == NotificationType.JOB_ALREADY_RUNNING) {
-											Log.i(TAG, "Job already running!");
-											statusLine = "Job already running!";
-											return;
-										}
-
-										// case JOB_READY: { "jobID" }
-										if (type == NotificationType.JOB_READY) {
-											Log.i(TAG, "Waiting for worker to process this job...");
-											statusLine = "Waiting for worker to process this job...";
-											return;
-										}
-
-										// case JOB_OUTPUT: { "jobID", "line" }
-										if (type == NotificationType.JOB_OUTPUT) {
-											final String projectIDForMessage = jsonData.getString("jobID");
-											final JSONArray jsonLines = jsonData.getJSONArray("lines");
-											for (int i = 0; i < jsonLines.length(); ++i) {
-												final String line = jsonLines.getString(i);
-												Log.i(TAG, line);
-												consoleText += line + "\n";
-											}
-											return;
-										}
-
-										// case JOB_PROGRESS: { "jobID", "progress" }
-										if (type == NotificationType.JOB_PROGRESS) {
-											final double progress = jsonData.getDouble("progress");
-											final double roundedProgress = Math.round(progress);
-											Log.i(TAG, roundedProgress + "%");
-											statusLine = roundedProgress + "%";
-											return;
-										}
-
-										// case JOB_FINISHED: { "jobID" }
-										if (type == NotificationType.JOB_FINISHED) {
-											Log.i(TAG, "Job finished!");
-											statusLine = "Job finished!";
-											return;
-										}
-
-										// case JOB_DOWNLOAD: { "jobID", "url" }
-										if (type == NotificationType.JOB_DOWNLOAD) {
-											if (jsonData.getLong("jobID") != scratchProjectID) {
-												return;
-											}
-											//var download_url = location.protocol + "//" + location.host + result.data["url"];
-											return;
-										}
-
-										// case JOBS_INFO: { "jobsInfo" }
-										if (type == NotificationType.JOBS_INFO) {
-											// TODO: implement...
-											return;
-										}
-
-										// case CLIENT_ID: { "clientID" }
-										// (retrieve_client_id & set_client_id)
-										if (type == NotificationType.CLIENT_ID) {
-											/*
-											if (socketHandler.clientID != null && socketHandler.clientID != result.data["clientID"]) {
-												alert("Server echoed invalid client ID back. This should never happen!");
-												return;
-											}
-											*/
-											clientID = jsonData.getInt("clientID");
-											/* TODO: store...
-											if (typeof(Storage) !== "undefined") {
-												localStorage.setItem("clientID", socketHandler.clientID);
-											}
-											*/
-											return;
-										}
-
-										// RENEW_CLIENT_ID: { "clientID" }
-										// (set_client_id, if given clientID is not valid any more)
-										if (type == NotificationType.RENEW_CLIENT_ID) {
-											/*
-											if (clientID == 0) {
-												alert("Server sent renew-clientID-request with same client ID back. This should never happen!");
-												return;
-											}
-											*/
-											clientID = jsonData.getInt("clientID");
-											/* TODO: store...
-											if (typeof(Storage) !== "undefined") {
-												localStorage.setItem("clientID", socketHandler.clientID);
-											}
-											*/
-										}
-									} catch (JSONException e) {
-										e.printStackTrace();
-									}
-								}
-							});
-						}
-					});
-				/*
-				webSocket.setDataCallback(new DataCallback() {
-					public void onDataAvailable(DataEmitter emitter, ByteBufferList byteBufferList) {
-						if (! started) {
-							Log.d(TAG, "Sending start job!");
-							webSocket.send("{'cmd':'schedule_job','args':{'clientID':'7','url':" +
-									"'https://scratch.mit.edu/projects/82443924/','force':True}}");
-							started = true;
-						}
-						Log.d(TAG, "I got some bytes!");
-						// note that this data has been read
-						byteBufferList.recycle();
-					}
-				});
-				*/
-		}
-	}
 
     private static final String TAG = ScratchConverterActivity.class.getSimpleName();
 
@@ -405,9 +118,12 @@ public class ScratchConverterActivity extends BaseActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								convertPanelHeadlineView.setText(ScratchConverterClient.getInstance().projectTitle);
-								convertPanelStatusView.setText(ScratchConverterClient.getInstance().statusLine);
-								convertPanelConsoleView.setText(ScratchConverterClient.getInstance().consoleText);
+								convertPanelHeadlineView.setText(ScratchConverterWebSocketClient.getInstance()
+										.getProjectTitle());
+								convertPanelStatusView.setText(ScratchConverterWebSocketClient.getInstance()
+										.getStatusLine());
+								convertPanelConsoleView.setText(ScratchConverterWebSocketClient.getInstance()
+										.getConsoleText());
 								convertPanelConsoleView.setMovementMethod(new ScrollingMovementMethod());
 							}
 						});

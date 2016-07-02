@@ -26,20 +26,20 @@ package org.catrobat.catroid.common;
 import java.util.ArrayList;
 
 public class ScratchSearchResult {
-    private ArrayList<ScratchProjectPreviewData> projectList;
-    private String query;
-    private int currentPageIndex;
-    private int totalNumberOfResults;
+	private ArrayList<ScratchProjectPreviewData> projectList;
+	private String query;
+	private int currentPageIndex;
+	private int totalNumberOfResults;
 
-    public ScratchSearchResult(ArrayList<ScratchProjectPreviewData> projectList, String query, int currentPageIndex, int totalNumberOfResults) {
-        this.query = query;
-        this.projectList = projectList;
-        this.currentPageIndex = currentPageIndex;
-        this.totalNumberOfResults = totalNumberOfResults;
-    }
+	public ScratchSearchResult(ArrayList<ScratchProjectPreviewData> projectList, String query, int currentPageIndex, int totalNumberOfResults) {
+		this.query = query;
+		this.projectList = projectList;
+		this.currentPageIndex = currentPageIndex;
+		this.totalNumberOfResults = totalNumberOfResults;
+	}
 
-    public ArrayList<ScratchProjectPreviewData> getProjectList() { return projectList; }
-    public String getQuery() { return query; }
-    public int getCurrentPageIndex() { return currentPageIndex; }
-    public int getTotalNumberOfResults() { return totalNumberOfResults; }
+	public ArrayList<ScratchProjectPreviewData> getProjectList() { return projectList; }
+	public String getQuery() { return query; }
+	public int getCurrentPageIndex() { return currentPageIndex; }
+	public int getTotalNumberOfResults() { return totalNumberOfResults; }
 }

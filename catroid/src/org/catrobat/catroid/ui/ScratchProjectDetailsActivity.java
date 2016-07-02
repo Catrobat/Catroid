@@ -24,18 +24,20 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -46,15 +48,24 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProjectData;
 import org.catrobat.catroid.common.ScratchProjectData.ScratchRemixProjectData;
 import org.catrobat.catroid.common.ScratchProjectPreviewData;
+import org.catrobat.catroid.scratchconverter.protocol.MessageListener;
 import org.catrobat.catroid.transfers.FetchScratchProjectDetailsTask;
+import org.catrobat.catroid.transfers.FetchScratchProjectDetailsTask.ScratchProjectListTaskDelegate;
+import org.catrobat.catroid.transfers.FetchScratchProjectDetailsTask.ScratchProjectDataFetcher;
+import org.catrobat.catroid.scratchconverter.Client;
+import org.catrobat.catroid.scratchconverter.WebSocketClient;
 import org.catrobat.catroid.ui.adapter.ScratchRemixedProjectAdapter;
+import org.catrobat.catroid.ui.adapter.ScratchRemixedProjectAdapter.ScratchRemixedProjectEditListener;
 import org.catrobat.catroid.utils.ExpiringDiskCache;
 import org.catrobat.catroid.utils.ExpiringLruMemoryImageCache;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.WebImageLoader;
+import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -62,279 +73,248 @@ import uk.co.deanwild.flowtextview.FlowTextView;
 
 import static android.view.View.*;
 
-public class ScratchProjectDetailsActivity extends BaseActivity
-        implements FetchScratchProjectDetailsTask.ScratchProjectListTaskDelegate,
-        ScratchRemixedProjectAdapter.OnScratchRemixedProjectEditListener {
+public class ScratchProjectDetailsActivity extends BaseActivity implements ScratchProjectListTaskDelegate, ScratchRemixedProjectEditListener {
 
-    private static final String TAG = ScratchProjectDetailsActivity.class.getSimpleName();
-    private int imageWidth;
-    private int imageHeight;
+	private static final String TAG = ScratchProjectDetailsActivity.class.getSimpleName();
+	private static ScratchProjectDataFetcher dataFetcher = ServerCalls.getInstance();
+	private static Client converterClient = null;
 
-    private TextView titleTextView;
-    private TextView ownerTextView;
-    private ImageView imageView;
-    private FlowTextView instructionsFlowTextView;
-    private TextView notesAndCreditsLabelView;
-    private TextView notesAndCreditsTextView;
-    private TextView favoritesTextView;
-    private TextView lovesTextView;
-    private TextView viewsTextView;
-    private TextView tagsTextView;
-    private TextView sharedTextView;
-    private TextView modifiedTextView;
-    private Button convertButton;
-    private WebImageLoader webImageLoader;
-    private ListView remixedProjectsListView;
-    private ProgressDialog progressDialog;
-    private FetchScratchProjectDetailsTask currentTask = null;
-    private ScratchRemixedProjectAdapter scratchRemixedProjectAdapter;
-    private ScrollView mainScrollView;
+	private int imageWidth;
+	private int imageHeight;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scratch_project_details);
+	private TextView titleTextView;
+	private TextView ownerTextView;
+	private ImageView imageView;
+	private FlowTextView instructionsFlowTextView;
+	private TextView notesAndCreditsLabelView;
+	private TextView notesAndCreditsTextView;
+	private TextView favoritesTextView;
+	private TextView lovesTextView;
+	private TextView viewsTextView;
+	private TextView tagsTextView;
+	private TextView sharedTextView;
+	private TextView modifiedTextView;
+	private Button convertButton;
+	private WebImageLoader webImageLoader;
+	private ListView remixedProjectsListView;
+	private ProgressDialog progressDialog;
+	private ScratchRemixedProjectAdapter scratchRemixedProjectAdapter;
+	private ScrollView mainScrollView;
+	private RelativeLayout detailsLayout;
+	private TextView remixesLabelView;
+	private FetchScratchProjectDetailsTask fetchDetailsTask = new FetchScratchProjectDetailsTask();
 
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-        webImageLoader = new WebImageLoader(
-                ExpiringLruMemoryImageCache.getInstance(),
-                ExpiringDiskCache.getInstance(this),
-                executorService
-        );
+	// dependency-injection for testing with mock object
+	public static void setDataFetcher(ScratchProjectDataFetcher fetcher) {
+		dataFetcher = fetcher;
+	}
 
-        imageWidth = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_width);
-        imageHeight = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_height);
-        titleTextView = (TextView) findViewById(R.id.scratch_project_title);
-        ownerTextView = (TextView) findViewById(R.id.scratch_project_owner);
-        mainScrollView = (ScrollView) findViewById(R.id.scratch_project_scroll_view);
-        imageView = (ImageView) findViewById(R.id.scratch_project_image_view);
-        imageView.getLayoutParams().width = imageWidth;
-        imageView.getLayoutParams().height = imageHeight;
-        instructionsFlowTextView = (FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text);
-        notesAndCreditsLabelView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_label);
-        notesAndCreditsTextView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_text);
-        favoritesTextView = (TextView) findViewById(R.id.scratch_project_favorites_text);
-        lovesTextView = (TextView) findViewById(R.id.scratch_project_loves_text);
-        viewsTextView = (TextView) findViewById(R.id.scratch_project_views_text);
-        tagsTextView = (TextView) findViewById(R.id.scratch_project_tags_text);
-        sharedTextView = (TextView) findViewById(R.id.scratch_project_shared_text);
-        modifiedTextView = (TextView) findViewById(R.id.scratch_project_modified_text);
-        remixedProjectsListView = (ListView) findViewById(R.id.scratch_project_remixes_list_view);
-        convertButton = (Button) findViewById(R.id.scratch_project_convert_button);
+	public static void setConverterClient(Client client) {
+		converterClient = client;
+	}
 
-        final ScratchProjectPreviewData projectData = getIntent().getParcelableExtra(Constants.SCRATCH_PROJECT_DATA);
-        final ScratchProjectDetailsActivity activity = this;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_scratch_project_details);
 
-        convertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: check if this is already running on UI-thread?
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO: create websocket connection and set up receiver
-                        Log.i(TAG, "Converting project:");
-                        ScratchConverterActivity.ScratchConverterClient client = ScratchConverterActivity.ScratchConverterClient
-                                .getInstance();
-                        Log.i(TAG, projectData.getTitle());
-                        // TODO: send convert command
-                        client.convertProject(projectData.getId(), projectData.getTitle());
-                        ToastUtil.showSuccess(activity, activity.getString(R.string.scratch_conversion_started));
-                        activity.finish(); // dismiss current activity!
-                    }
-                });
-            }
-        });
+		final ScratchProjectPreviewData projectData = getIntent().getParcelableExtra(Constants.SCRATCH_PROJECT_DATA);
+		assert (projectData != null);
 
-        loadData(projectData);
-    }
+		ExecutorService executorService = Executors.newFixedThreadPool(1);
+		webImageLoader = new WebImageLoader(
+				ExpiringLruMemoryImageCache.getInstance(),
+				ExpiringDiskCache.getInstance(this),
+				executorService
+		);
 
-    private void loadData(ScratchProjectPreviewData scratchProjectData) {
-        Log.i(TAG, scratchProjectData.getTitle());
-        instructionsFlowTextView.setText("-");
-        notesAndCreditsLabelView.setVisibility(GONE);
-        notesAndCreditsTextView.setVisibility(GONE);
-        tagsTextView.setVisibility(GONE);
+		imageWidth = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_width);
+		imageHeight = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_height);
+		titleTextView = (TextView) findViewById(R.id.scratch_project_title);
+		ownerTextView = (TextView) findViewById(R.id.scratch_project_owner);
+		mainScrollView = (ScrollView) findViewById(R.id.scratch_project_scroll_view);
+		imageView = (ImageView) findViewById(R.id.scratch_project_image_view);
+		imageView.getLayoutParams().width = imageWidth;
+		imageView.getLayoutParams().height = imageHeight;
+		instructionsFlowTextView = (FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text);
+		notesAndCreditsLabelView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_label);
+		notesAndCreditsTextView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_text);
+		favoritesTextView = (TextView) findViewById(R.id.scratch_project_favorites_text);
+		lovesTextView = (TextView) findViewById(R.id.scratch_project_loves_text);
+		viewsTextView = (TextView) findViewById(R.id.scratch_project_views_text);
+		tagsTextView = (TextView) findViewById(R.id.scratch_project_tags_text);
+		sharedTextView = (TextView) findViewById(R.id.scratch_project_shared_text);
+		modifiedTextView = (TextView) findViewById(R.id.scratch_project_modified_text);
+		remixedProjectsListView = (ListView) findViewById(R.id.scratch_project_remixes_list_view);
+		convertButton = (Button) findViewById(R.id.scratch_project_convert_button);
+		detailsLayout = (RelativeLayout) findViewById(R.id.scratch_project_details_layout);
+		remixesLabelView = (TextView) findViewById(R.id.scratch_project_remixes_label);
 
-        // TODO: use LRU cache!
+		final ScratchConverterContextWrapper contextWrapper = new ScratchConverterContextWrapper(this, converterClient);
 
-        if (scratchRemixedProjectAdapter != null) {
-            scratchRemixedProjectAdapter.clear();
-        }
+		convertButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				contextWrapper.convertProgram(projectData.getId(), projectData.getTitle(), null);
+			}
+		});
+		loadData(projectData);
+	}
 
-        if (scratchProjectData != null) {
-            titleTextView.setText(scratchProjectData.getTitle());
+	private void loadData(ScratchProjectPreviewData scratchProjectData) {
+		Log.i(TAG, scratchProjectData.getTitle());
+		instructionsFlowTextView.setText("-");
+		notesAndCreditsLabelView.setVisibility(GONE);
+		notesAndCreditsTextView.setVisibility(GONE);
+		tagsTextView.setVisibility(GONE);
+		remixesLabelView.setVisibility(GONE);
+		remixedProjectsListView.setVisibility(GONE);
+		detailsLayout.setVisibility(GONE);
 
-            if (scratchProjectData.getProjectImage() != null) {
-                webImageLoader.fetchAndShowImage(
-                        scratchProjectData.getProjectImage().getUrl().toString(),
-                        imageView, imageWidth, imageHeight
-                );
-            }
-        }
+		// TODO: use LRU cache!
 
-        if (currentTask != null) {
-            currentTask.cancel(true);
-        }
-        currentTask = new FetchScratchProjectDetailsTask();
-        currentTask.setDelegate(this).execute(scratchProjectData.getId());
-    }
+		if (scratchRemixedProjectAdapter != null) {
+			scratchRemixedProjectAdapter.clear();
+		}
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        progressDialog.dismiss();
-        if (currentTask != null) {
-            currentTask.cancel(true);
-        }
-    }
+		if (scratchProjectData != null) {
+			titleTextView.setText(scratchProjectData.getTitle());
 
-    private void initRemixAdapter(List<ScratchRemixProjectData> scratchRemixedProjectsData) {
-        if (scratchRemixedProjectsData == null) {
-            scratchRemixedProjectsData = new ArrayList<>();
-        }
-        scratchRemixedProjectAdapter = new ScratchRemixedProjectAdapter(this,
-                R.layout.fragment_scratch_project_list_item,
-                R.id.scratch_projects_list_item_title,
-                scratchRemixedProjectsData);
-        remixedProjectsListView.setAdapter(scratchRemixedProjectAdapter);
-        scratchRemixedProjectAdapter.setOnScratchRemixedProjectEditListener(this);
-        setListViewHeightBasedOnItems(remixedProjectsListView);
-    }
+			if (scratchProjectData.getProjectImage() != null) {
+				webImageLoader.fetchAndShowImage(
+						scratchProjectData.getProjectImage().getUrl().toString(),
+						imageView, imageWidth, imageHeight
+				);
+			}
+		}
+		fetchDetailsTask.setDelegate(this);
+		fetchDetailsTask.setFetcher(dataFetcher);
+		fetchDetailsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, scratchProjectData.getId());
+	}
 
-    public void onProjectEdit(int position) {
-        // TODO: improve this
-        Log.d(TAG, "Clicked on remix at position: " + position);
-        ScratchRemixProjectData scratchRemixProjectData = scratchRemixedProjectAdapter.getItem(position);
-        Log.d(TAG, "" + scratchRemixProjectData.getId());
-        ScratchProjectPreviewData scratchProjectPreviewData = new ScratchProjectPreviewData(
-                scratchRemixProjectData.getId(),
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		fetchDetailsTask.cancel(true);
+		progressDialog.dismiss();
+	}
+
+	private void initRemixAdapter(List<ScratchRemixProjectData> scratchRemixedProjectsData) {
+		if (scratchRemixedProjectsData == null) {
+			scratchRemixedProjectsData = new ArrayList<>();
+		}
+		scratchRemixedProjectAdapter = new ScratchRemixedProjectAdapter(this,
+				R.layout.fragment_scratch_project_list_item,
+				R.id.scratch_projects_list_item_title,
+				scratchRemixedProjectsData);
+		remixedProjectsListView.setAdapter(scratchRemixedProjectAdapter);
+		scratchRemixedProjectAdapter.setScratchRemixedProjectEditListener(this);
+		Utils.setListViewHeightBasedOnItems(remixedProjectsListView);
+	}
+
+	public void onProjectEdit(int position) {
+		// TODO: improve this
+		Log.d(TAG, "Clicked on remix at position: " + position);
+		ScratchRemixProjectData remixData = scratchRemixedProjectAdapter.getItem(position);
+		Log.d(TAG, "" + remixData.getId());
+
+		ScratchProjectPreviewData prevData = new ScratchProjectPreviewData(remixData.getId(), remixData.getTitle(), null);
+		Intent intent = new Intent(this, ScratchProjectDetailsActivity.class);
+		intent.putExtra(Constants.SCRATCH_PROJECT_DATA, (Parcelable) prevData);
+		startActivity(intent);
+
+        /* ScratchProjectPreviewData scratchProjectPreviewData = new ScratchProjectPreviewData(
+				scratchRemixProjectData.getId(),
                 scratchRemixProjectData.getTitle(), null, null);
         scratchProjectPreviewData.setProjectImage(scratchRemixProjectData.getProjectImage());
-        loadData(scratchProjectPreviewData);
-    }
+        loadData(scratchProjectPreviewData); */
+	}
 
-    //----------------------------------------------------------------------------------------------
-    // Scratch Project Details Task Delegate Methods
-    //----------------------------------------------------------------------------------------------
-    @Override
-    public void onPreExecute() {
-        Log.i(TAG, "onPreExecute for FetchScratchProjectsTask called");
-        final ScratchProjectDetailsActivity activity = this;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressDialog = new ProgressDialog(activity);
-                progressDialog.setCancelable(false);
-                progressDialog.getWindow().setGravity(Gravity.CENTER);
-                progressDialog.setMessage(activity.getResources().getString(R.string.loading));
-                progressDialog.show();
-            }
-        });
-    }
+	//----------------------------------------------------------------------------------------------
+	// Scratch Project Details Task Delegate Methods
+	//----------------------------------------------------------------------------------------------
+	@Override
+	public void onPreExecute() {
+		Log.i(TAG, "onPreExecute for FetchScratchProjectsTask called");
+		final ScratchProjectDetailsActivity activity = this;
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				progressDialog = new ProgressDialog(activity);
+				progressDialog.setCancelable(false);
+				progressDialog.getWindow().setGravity(Gravity.CENTER);
+				progressDialog.setMessage(activity.getResources().getString(R.string.loading));
+				progressDialog.show();
+			}
+		});
+	}
 
-    @Override
-    public void onPostExecute(final ScratchProjectData projectData) {
-        Log.i(TAG, "onPostExecute for FetchScratchProjectsTask called");
-        final ScratchProjectDetailsActivity activity = this;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (! Looper.getMainLooper().equals(Looper.myLooper())) {
-                    throw new AssertionError("You should not change the UI from any thread "
-                            + "except UI thread!");
-                }
+	@Override
+	public void onPostExecute(final ScratchProjectData projectData) {
+		Log.i(TAG, "onPostExecute for FetchScratchProjectsTask called");
+		final ScratchProjectDetailsActivity activity = this;
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (!Looper.getMainLooper().equals(Looper.myLooper())) {
+					throw new AssertionError("You should not change the UI from any thread "
+							+ "except UI thread!");
+				}
 
-                Preconditions.checkNotNull(progressDialog, "No progress dialog set/initialized!");
-                progressDialog.dismiss();
-                if (projectData == null) {
-                    ToastUtil.showError(activity, activity.getString(R.string.error_scratch_project_data_not_available));
-                    return;
-                }
+				Preconditions.checkNotNull(progressDialog, "No progress dialog set/initialized!");
+				progressDialog.dismiss();
+				if (projectData == null) {
+					ToastUtil.showError(activity, activity.getString(R.string.error_scratch_project_data_not_available));
+					return;
+				}
 
-                activity.titleTextView.setText(projectData.getTitle());
-                activity.ownerTextView.setText(activity.getString(R.string.by) + " " + projectData.getOwner());
-                String temp = projectData.getInstructions().replace("\n\n", "\n");
-                final String instructionsText = (temp.length() > 0) ? temp : "--";
-                Log.d(TAG, "Instructions: " + instructionsText);
-                final String notesAndCredits = projectData.getNotesAndCredits().replace("\n\n", "\n");
+				activity.titleTextView.setText(projectData.getTitle());
+				activity.ownerTextView.setText(activity.getString(R.string.by) + " " + projectData.getOwner());
+				String temp = projectData.getInstructions().replace("\n\n", "\n");
+				final String instructionsText = (temp.length() > 0) ? temp : "--";
+				Log.d(TAG, "Instructions: " + instructionsText);
+				final String notesAndCredits = projectData.getNotesAndCredits().replace("\n\n", "\n");
 
-                if (notesAndCredits.length() > 0) {
-                    activity.notesAndCreditsTextView.setText(notesAndCredits);
-                    activity.notesAndCreditsLabelView.setVisibility(VISIBLE);
-                    activity.notesAndCreditsTextView.setVisibility(VISIBLE);
-                }
-                activity.instructionsFlowTextView.setText(instructionsText);
+				if (notesAndCredits.length() > 0) {
+					activity.notesAndCreditsTextView.setText(notesAndCredits);
+					activity.notesAndCreditsLabelView.setVisibility(VISIBLE);
+					activity.notesAndCreditsTextView.setVisibility(VISIBLE);
+				}
+				activity.instructionsFlowTextView.setText(instructionsText);
 
-                float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, activity.getResources()
-                        .getDisplayMetrics());
-                activity.instructionsFlowTextView.setTextSize(textSize);
-                activity.instructionsFlowTextView.setTextColor(Color.LTGRAY);
+				float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, activity.getResources()
+						.getDisplayMetrics());
+				activity.instructionsFlowTextView.setTextSize(textSize);
+				activity.instructionsFlowTextView.setTextColor(Color.LTGRAY);
 
-                activity.favoritesTextView.setText(shortNumber(projectData.getFavorites()));
-                activity.lovesTextView.setText(shortNumber(projectData.getLoves()));
-                activity.viewsTextView.setText(shortNumber(projectData.getViews()));
+				activity.favoritesTextView.setText(Utils.humanFriendlyFormattedShortNumber(projectData.getFavorites()));
+				activity.lovesTextView.setText(Utils.humanFriendlyFormattedShortNumber(projectData.getLoves()));
+				activity.viewsTextView.setText(Utils.humanFriendlyFormattedShortNumber(projectData.getViews()));
 
-                StringBuilder tagList = new StringBuilder();
-                int index = 0;
-                for (String tag : projectData.getTags()) {
-                    tagList.append((index++ > 0 ? ", " : "") + tag);
-                }
-                if (tagList.length() > 0) {
-                    activity.tagsTextView.setText(tagList);
-                    activity.tagsTextView.setVisibility(VISIBLE);
-                }
-                Log.d(TAG, projectData.getModifiedDate());
-                Log.d(TAG, projectData.getSharedDate());
-                activity.sharedTextView.setText(activity.getString(R.string.shared) + ": " + projectData.getSharedDate());
-                activity.modifiedTextView.setText(activity.getString(R.string.modified) + ": " + projectData.getModifiedDate());
-                activity.initRemixAdapter(projectData.getRemixes());
-                activity.mainScrollView.fullScroll(ScrollView.FOCUS_UP); // scroll to top
-            }
-        });
-    }
+				StringBuilder tagList = new StringBuilder();
+				int index = 0;
+				for (String tag : projectData.getTags()) {
+					tagList.append((index++ > 0 ? ", " : "") + tag);
+				}
+				if (tagList.length() > 0) {
+					activity.tagsTextView.setText(tagList);
+					activity.tagsTextView.setVisibility(VISIBLE);
+				}
+				final String sharedDateString = Utils.formatDate(projectData.getSharedDate(), Locale.getDefault());
+				final String modifiedDateString = Utils.formatDate(projectData.getModifiedDate(), Locale.getDefault());
+				Log.d(TAG, "Shared: " + sharedDateString);
+				Log.d(TAG, "Modified: " + modifiedDateString);
+				activity.sharedTextView.setText(activity.getString(R.string.shared) + ": " + sharedDateString);
+				activity.modifiedTextView.setText(activity.getString(R.string.modified) + ": " + modifiedDateString);
+				detailsLayout.setVisibility(VISIBLE);
 
-
-
-    // TODO: improve and move this helper method to Util class
-    private static String shortNumber(final int number) {
-        if (number < 1_000) {
-            return Integer.toString(number);
-        } else if (number < 10_000) {
-            return Integer.toString(number/1_000) +
-                    (number%1000 > 100 ? "." + Integer.toString((number%1000)/100) : "") + "k";
-        } else if (number < 1_000_000) {
-            return Integer.toString(number/1_000) + "k";
-        }
-        return Integer.toString(number/1_000_000) + "M";
-    }
-
-    // TODO: move this helper method to Util class
-    public static boolean setListViewHeightBasedOnItems(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter != null) {
-            int numberOfItems = listAdapter.getCount();
-            // Get total height of all items.
-            int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
-                View item = listAdapter.getView(itemPos, null, listView);
-                item.measure(0, 0);
-                totalItemsHeight += item.getMeasuredHeight();
-            }
-
-            // Get total height of all item dividers.
-            int totalDividersHeight = listView.getDividerHeight() *
-                    (numberOfItems - 1);
-
-            // Set list height.
-            ViewGroup.LayoutParams params = listView.getLayoutParams();
-            params.height = totalItemsHeight + totalDividersHeight;
-            listView.setLayoutParams(params);
-            listView.requestLayout();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+				if (projectData.getRemixes() != null && projectData.getRemixes().size() > 0) {
+					remixesLabelView.setVisibility(VISIBLE);
+					remixedProjectsListView.setVisibility(VISIBLE);
+					activity.initRemixAdapter(projectData.getRemixes());
+				}
+				activity.mainScrollView.fullScroll(ScrollView.FOCUS_UP); // scroll to top
+			}
+		});
+	}
 }

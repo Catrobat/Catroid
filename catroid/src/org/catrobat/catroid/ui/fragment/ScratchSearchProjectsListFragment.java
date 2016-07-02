@@ -31,7 +31,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.speech.RecognizerIntent;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -58,6 +57,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProjectPreviewData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.transfers.FetchScratchProjectsTask;
+import org.catrobat.catroid.transfers.ScratchConverterClient;
+import org.catrobat.catroid.transfers.ScratchConverterWebSocketClient;
 import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.ScratchProjectDetailsActivity;
@@ -75,6 +76,7 @@ public class ScratchSearchProjectsListFragment extends Fragment
     private static final String BUNDLE_ARGUMENTS_SCRATCH_PROJECT_DATA = "scratch_project_data";
     private static final String SHARED_PREFERENCE_NAME = "showDetailsScratchProjects";
     private static final String TAG = ScratchSearchProjectsListFragment.class.getSimpleName();
+    private static ScratchConverterClient converterClient = ScratchConverterWebSocketClient.getInstance();
 
     private String convertActionModeTitle;
     private static String singleItemAppendixConvertActionMode;
@@ -92,6 +94,11 @@ public class ScratchSearchProjectsListFragment extends Fragment
     private View selectAllActionModeButton;
     private FetchScratchProjectsTask currentTask = null;
     private boolean selectAll = true;
+
+    // dependency-injection for testing with mock object
+    public static void setConverterClient(ScratchConverterClient client) {
+        converterClient = client;
+    }
 
     private void setSearchResultsListViewMargin(int left, int top, int right, int bottom) {
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)searchResultsListView.getLayoutParams();
@@ -400,13 +407,11 @@ public class ScratchSearchProjectsListFragment extends Fragment
     private void convertProjects(List<ScratchProjectPreviewData> projectList) {
         // TODO: create websocket connection and set up receiver
         Log.i(TAG, "Converting projects:");
-        ScratchConverterActivity.ScratchConverterClient client = ScratchConverterActivity.ScratchConverterClient
-                .getInstance();
         for (ScratchProjectPreviewData projectData : projectList) {
             Log.i(TAG, projectData.getTitle());
             //convertProject(scratchProjectToEdit);
             // TODO: send convert command
-            client.convertProject(projectData.getId(), projectData.getTitle());
+            converterClient.convertProject(projectData.getId(), projectData.getTitle());
         }
         ToastUtil.showSuccess(getActivity(), getActivity().getString(R.string.scratch_conversion_started));
     }

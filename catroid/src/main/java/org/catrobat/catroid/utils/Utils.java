@@ -38,13 +38,10 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.GdxNativesLoader;
-import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.facebook.AccessToken;
-import com.google.common.io.ByteStreams;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -75,6 +72,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -158,6 +157,48 @@ public final class Utils {
 	public static boolean checkForNetworkError(WebconnectionException exception) {
 		return exception != null && exception.getStatusCode() == WebconnectionException
 				.ERROR_NETWORK;
+	}
+
+	public static String formatDate(Date date, Locale locale) {
+		return DateFormat.getDateInstance(DateFormat.LONG, locale).format(date);
+	}
+
+	public static String humanFriendlyFormattedShortNumber(final int number) {
+		if (number < 1_000) {
+			return Integer.toString(number);
+		} else if (number < 10_000) {
+			return Integer.toString(number / 1_000) + (number % 1_000 > 100 ? "."
+					+ Integer.toString((number % 1_000) / 100) : "") + "k";
+		} else if (number < 1_000_000) {
+			return Integer.toString(number / 1_000) + "k";
+		}
+		return Integer.toString(number / 1_000_000) + "M";
+	}
+
+	public static boolean setListViewHeightBasedOnItems(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter != null) {
+			int numberOfItems = listAdapter.getCount();
+			// Get total height of all items.
+			int totalItemsHeight = 0;
+			for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
+				View item = listAdapter.getView(itemPos, null, listView);
+				item.measure(0, 0);
+				totalItemsHeight += item.getMeasuredHeight();
+			}
+
+			// Get total height of all item dividers.
+			int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
+
+			// Set list height.
+			ViewGroup.LayoutParams params = listView.getLayoutParams();
+			params.height = totalItemsHeight + totalDividersHeight;
+			listView.setLayoutParams(params);
+			listView.requestLayout();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -771,7 +812,7 @@ public final class Utils {
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
 	}
 

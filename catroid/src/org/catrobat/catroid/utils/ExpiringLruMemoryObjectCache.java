@@ -29,36 +29,35 @@ import org.catrobat.catroid.common.Constants;
 
 public class ExpiringLruMemoryObjectCache<V> extends ExpiringLruMemoryCache<String, V> {
 
-    private static long EXPIRE_TIME = Constants.MEMORY_OBJECT_CACHE_EXPIRE_TIME;
-    private static int CACHE_SIZE = Constants.MEMORY_OBJECT_CACHE_MAX_SIZE;
+	private static long EXPIRE_TIME = Constants.MEMORY_OBJECT_CACHE_EXPIRE_TIME;
+	private static int CACHE_SIZE = Constants.MEMORY_OBJECT_CACHE_MAX_SIZE;
 
-    private static ExpiringLruMemoryObjectCache instance = null;
+	private static ExpiringLruMemoryObjectCache instance = null;
 
-    private ExpiringLruMemoryObjectCache(final long expireTime, final LruCache<String, V> lruCache,
-                                         final ClockInterface clock) {
-        super(expireTime, lruCache, clock);
-    }
+	private ExpiringLruMemoryObjectCache(final long expireTime, final LruCache<String, V> lruCache,
+			final ClockInterface clock) {
+		super(expireTime, lruCache, clock);
+	}
 
-    final public static <V> ExpiringLruMemoryObjectCache<V> getInstance() {
-        if (instance == null) {
-            // do it in a thread safe way
-            synchronized (ExpiringLruMemoryObjectCache.class) {
-                if (instance == null) {
-                    instance = new ExpiringLruMemoryObjectCache<>(EXPIRE_TIME, new LruCache<String, V>(CACHE_SIZE) {
-                        @Override
-                        protected void entryRemoved(boolean evicted, String key, V oldValue, V newValue) {
-                            instance.removeExpiryTime(key);
-                        }
+	final public static <V> ExpiringLruMemoryObjectCache<V> getInstance() {
+		if (instance == null) {
+			// do it in a thread safe way
+			synchronized (ExpiringLruMemoryObjectCache.class) {
+				if (instance == null) {
+					instance = new ExpiringLruMemoryObjectCache<>(EXPIRE_TIME, new LruCache<String, V>(CACHE_SIZE) {
+						@Override
+						protected void entryRemoved(boolean evicted, String key, V oldValue, V newValue) {
+							instance.removeExpiryTime(key);
+						}
 
-                        @Override
-                        protected int sizeOf(String key, V value) {
-                            return 1;
-                        }
-                    }, null);
-                }
-            }
-        }
-        return instance;
-    }
-
+						@Override
+						protected int sizeOf(String key, V value) {
+							return 1;
+						}
+					}, null);
+				}
+			}
+		}
+		return instance;
+	}
 }

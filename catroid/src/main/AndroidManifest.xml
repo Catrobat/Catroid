@@ -97,11 +97,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
             android:name=".ui.MainMenuActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait">
@@ -203,7 +198,6 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
-
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScratchConverterActivity"
@@ -216,15 +210,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ScratchProjectDetailsActivity"
+            android:name=".ui.ScratchProgramDetailsActivity"
             android:noHistory="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".bluetooth.ConnectBluetoothDeviceActivity"
-
-        <activity
-            android:name=".bluetooth.ConnectBluetoothDeviceActivity"
-            android:theme="@android:style/Theme.Holo.Dialog" />
+            android:name=".bluetooth.ConnectBluetoothDeviceActivity" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="true"

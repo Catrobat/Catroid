@@ -30,37 +30,36 @@ import org.catrobat.catroid.common.Constants;
 
 final public class ExpiringLruMemoryImageCache extends ExpiringLruMemoryCache<String, Bitmap> {
 
-    private final static long EXPIRE_TIME = Constants.MEMORY_IMAGE_CACHE_EXPIRE_TIME;
-    private final static int AVAILABLE_MEMORY = (int) (Runtime.getRuntime().maxMemory() / 1024);
-    private final static int CACHE_SIZE = AVAILABLE_MEMORY / Constants.MEMORY_IMAGE_CACHE_ALLOCATED_FRACTION_OF_TOTAL_AVAILABLE_MEMORY;
+	private final static long EXPIRE_TIME = Constants.MEMORY_IMAGE_CACHE_EXPIRE_TIME;
+	private final static int AVAILABLE_MEMORY = (int) (Runtime.getRuntime().maxMemory() / 1024);
+	private final static int CACHE_SIZE = AVAILABLE_MEMORY / Constants.MEMORY_IMAGE_CACHE_ALLOCATED_FRACTION_OF_TOTAL_AVAILABLE_MEMORY;
 
-    private static ExpiringLruMemoryImageCache instance = null;
+	private static ExpiringLruMemoryImageCache instance = null;
 
-    private ExpiringLruMemoryImageCache(final long expireTime, final LruCache<String, Bitmap> lruCache,
-                                        final ClockInterface clock) {
-        super(expireTime, lruCache, clock);
-    }
+	private ExpiringLruMemoryImageCache(final long expireTime, final LruCache<String, Bitmap> lruCache,
+			final ClockInterface clock) {
+		super(expireTime, lruCache, clock);
+	}
 
-    final public static ExpiringLruMemoryImageCache getInstance() {
-        if (instance == null) {
-            // do it in a thread safe way
-            synchronized (ExpiringLruMemoryImageCache.class) {
-                if (instance == null) {
-                    instance = new ExpiringLruMemoryImageCache(EXPIRE_TIME, new LruCache<String, Bitmap>(CACHE_SIZE) {
-                        @Override
-                        protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
-                            instance.removeExpiryTime(key);
-                        }
+	final public static ExpiringLruMemoryImageCache getInstance() {
+		if (instance == null) {
+			// do it in a thread safe way
+			synchronized (ExpiringLruMemoryImageCache.class) {
+				if (instance == null) {
+					instance = new ExpiringLruMemoryImageCache(EXPIRE_TIME, new LruCache<String, Bitmap>(CACHE_SIZE) {
+						@Override
+						protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+							instance.removeExpiryTime(key);
+						}
 
-                        @Override
-                        protected int sizeOf(String key, Bitmap bitmap) {
-                            return bitmap.getByteCount() / 1024;
-                        }
-                    }, null);
-                }
-            }
-        }
-        return instance;
-    }
-
+						@Override
+						protected int sizeOf(String key, Bitmap bitmap) {
+							return bitmap.getByteCount() / 1024;
+						}
+					}, null);
+				}
+			}
+		}
+		return instance;
+	}
 }

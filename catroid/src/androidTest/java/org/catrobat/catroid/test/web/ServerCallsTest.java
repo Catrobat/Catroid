@@ -69,7 +69,7 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 		super.tearDown();
 	}
 
-    public void testScratchSearchWithEmptyQueryParam() {
+	public void testScratchSearchWithEmptyQueryParam() {
 		try {
 			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", ServerCalls.ScratchSearchSortType.RELEVANCE, 20, 0);
 			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
@@ -78,25 +78,21 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 			for (ScratchProjectPreviewData project : projectList) {
 				assertNotNull(project.getTitle());
 				assertNotNull(project.getContent());
-				assertNotNull(project.getProjectUrl());
-				assertTrue("Project URL " + project.getProjectUrl() + " is invalid or not reachable",
-						TestUtils.isUrlValidAndReachable(project.getProjectUrl()));
 			}
 
 			assertNotNull("No search result returned", searchResult);
 			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
 			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
 			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
-
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
 			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getLocalizedMessage());
 		}
-    }
+	}
 
-    public void testScratchSearchWithQueryParam() {
+	public void testScratchSearchWithQueryParam() {
 		try {
 			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.RELEVANCE, 20, 0);
 			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
@@ -105,25 +101,21 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 			for (ScratchProjectPreviewData project : projectList) {
 				assertNotNull(project.getTitle());
 				assertNotNull(project.getContent());
-				assertNotNull(project.getProjectUrl());
-				assertTrue("Project URL " + project.getProjectUrl() + " is invalid or not reachable",
-						TestUtils.isUrlValidAndReachable(project.getProjectUrl()));
 			}
 
 			assertNotNull("No search result returned", searchResult);
 			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
 			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
 			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
-
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
 			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getLocalizedMessage());
 		}
-    }
+	}
 
-    public void testScratchSearchNumberOfItemsParam() {
+	public void testScratchSearchNumberOfItemsParam() {
 		try {
 			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.RELEVANCE, 10, 0);
 			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
@@ -132,25 +124,21 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 			for (ScratchProjectPreviewData project : projectList) {
 				assertNotNull(project.getTitle());
 				assertNotNull(project.getContent());
-				assertNotNull(project.getProjectUrl());
-				assertTrue("Project URL " + project.getProjectUrl() + " is invalid or not reachable",
-						TestUtils.isUrlValidAndReachable(project.getProjectUrl()));
 			}
 
 			assertNotNull("No search result returned", searchResult);
 			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
 			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
 			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 10);
-
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
 			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getLocalizedMessage());
 		}
-    }
+	}
 
-    public void testScratchSearchNextPage() {
+	public void testScratchSearchNextPage() {
 		try {
 			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.RELEVANCE, 20, 1);
 			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
@@ -159,25 +147,21 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 			for (ScratchProjectPreviewData project : projectList) {
 				assertNotNull(project.getTitle());
 				assertNotNull(project.getContent());
-				assertNotNull(project.getProjectUrl());
-				assertTrue("Project URL " + project.getProjectUrl() + " is invalid or not reachable",
-						TestUtils.isUrlValidAndReachable(project.getProjectUrl()));
 			}
 
 			assertNotNull("No search result returned", searchResult);
 			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 1);
 			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
 			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
-
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
 			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getLocalizedMessage());
 		}
-    }
+	}
 
-    public void testScratchSearchAndSortByDate() {
+	public void testScratchSearchAndSortByDate() {
 		try {
 			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.DATE, 20, 0);
 			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
@@ -186,25 +170,21 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 			for (ScratchProjectPreviewData project : projectList) {
 				assertNotNull(project.getTitle());
 				assertNotNull(project.getContent());
-				assertNotNull(project.getProjectUrl());
-				assertTrue("Project URL " + project.getProjectUrl() + " is invalid or not reachable",
-						TestUtils.isUrlValidAndReachable(project.getProjectUrl()));
 			}
 
 			assertNotNull("No search result returned", searchResult);
 			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
 			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
 			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
-
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
 			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getLocalizedMessage());
 		}
-    }
+	}
 
-    public void testRegistrationOk() {
+	public void testRegistrationOk() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pwspws";

@@ -68,10 +68,11 @@
         android:layout_above="@+id/separation_line_bottom">
 
         <RelativeLayout
-            android:id="@+id/scratch_project_text_layout"
+            android:id="@+id/scratch_project_details_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp">
 
             <uk.co.deanwild.flowtextview.FlowTextView
                 android:id="@+id/scratch_project_instructions_flow_text"
@@ -203,7 +204,7 @@
                 android:layout_below="@+id/scratch_project_tags_text"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="20dp"
-                android:text="Shared" />
+                android:text="@string/shared" />
 
             <TextView
                 android:id="@+id/scratch_project_modified_text"
@@ -214,8 +215,7 @@
                 android:layout_below="@+id/scratch_project_tags_text"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="20dp"
-                android:text="Modified" />
-
+                android:text="@string/modified" />
 
             <TextView
                 android:id="@+id/scratch_project_remixes_label"
@@ -225,7 +225,7 @@
                 android:layout_below="@+id/scratch_project_modified_text"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="30dp"
-                android:text="Remixes" />
+                android:text="@string/remixes" />
 
             <ListView
                 style="@style/ListViewShadowed"
@@ -235,7 +235,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/scratch_project_remixes_label"
                 android:layout_marginTop="@dimen/scratch_project_search_list_view_margin_top"
-                android:layout_marginBottom="30dp"
                 android:dividerHeight="1dp"
                 android:divider="@color/transparent"
                 android:scrollbars="none" />
@@ -252,11 +251,10 @@
 
     <Button
         android:id="@+id/scratch_project_convert_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/convert"
-        android:paddingLeft="130dp"
-        android:paddingRight="130dp"
+        android:textAlignment="center"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:layout_alignParentBottom="true"
