@@ -69,6 +69,7 @@ public class SetGravityBrickTest extends ActivityInstrumentationTestCase2<Script
 
 	@Smoke
 	public void testSetGravityByBrick() {
+		solo.waitForText(solo.getString(R.string.brick_when_started), 0, 1000);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 

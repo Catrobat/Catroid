@@ -58,6 +58,7 @@ public class SetBrightnessBrickTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testSetBrightnessBrick() {
+		solo.waitForText(solo.getString(R.string.brick_when_started), 0, 1000);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 

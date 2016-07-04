@@ -60,6 +60,7 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testIfBrick() {
+		solo.waitForText(solo.getString(R.string.brick_when_started), 0, 1000);
 		ListView view = UiTestUtils.getScriptListView(solo);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();

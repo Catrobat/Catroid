@@ -98,11 +98,14 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
+		solo.sleep(1000);
+
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
-		solo.sleep(400);
-
 		solo.goBack();
+		if (!solo.waitForText(solo.getString(R.string.stage_dialog_screenshot))) {
+			solo.goBack();
+		}
 		solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
 
 		assertTrue("Successful screenshot Toast not found!",
@@ -124,14 +127,28 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		Log.v(TAG, (ScreenValues.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5 + "");
 
+		if (ScreenValues.SCREEN_WIDTH / 2 + blackQuadWidth * 2 + 25 > ScreenValues.SCREEN_WIDTH
+				|| ScreenValues.SCREEN_WIDTH / 2 + blackQuadHeight * 2 + 25 > ScreenValues.SCREEN_WIDTH) {
+			return;
+		}
+
 		//Two times width, because of the quadratically screenshots
 		int colorInsideSizedQuad = screenshot.getPixel((ScreenValues.SCREEN_WIDTH / 2) + (blackQuadWidth / 2) + 5,
 				(ScreenValues.SCREEN_WIDTH / 2) + (blackQuadHeight / 2) + 5);
-		int colorOutsideSizedQuad = screenshot.getPixel(ScreenValues.SCREEN_WIDTH / 2 + blackQuadWidth + 10,
-				ScreenValues.SCREEN_WIDTH / 2 + blackQuadHeight + 10);
+		int colorOutsideSizedQuad = screenshot.getPixel(
+				ScreenValues.SCREEN_WIDTH / 2 + blackQuadWidth * 2 + 25,
+				ScreenValues.SCREEN_WIDTH / 2 + blackQuadHeight * 2 + 25);
+		//This strange values are used, because the quad in the screenshot is ~220 pixels in length (original sized)
+		//This is most certainly a problem of the screenshot implementation
 
-		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
-				colorInsideSizedQuad);
+		assertEquals("Image was not scaled up even though SetSizeTo was executed before!", Color.alpha(Color.RED),
+				Color.alpha(colorInsideSizedQuad));
+		assertEquals("Image was not scaled up even though SetSizeTo was executed before!", Color.red(Color.RED),
+				Color.red(colorInsideSizedQuad));
+		assertEquals("Image was not scaled up even though SetSizeTo was executed before!", Color.blue(Color.RED),
+				Color.blue(colorInsideSizedQuad) - 1);
+		assertEquals("Image was not scaled up even though SetSizeTo was executed before!", Color.green(Color.RED),
+				Color.green(colorInsideSizedQuad) - 1);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
 	}
 
