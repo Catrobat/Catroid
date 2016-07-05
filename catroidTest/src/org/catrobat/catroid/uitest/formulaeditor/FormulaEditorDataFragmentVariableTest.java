@@ -116,6 +116,10 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		assertTrue("StageActivity not shown: ", solo.waitForActivity(StageActivity.class.getSimpleName()));
 
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(2000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		assertTrue("ScriptActivity not shown: ", solo.waitForActivity(ScriptActivity.class.getSimpleName()));
@@ -144,8 +148,12 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(250);
+
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(2000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -174,7 +182,12 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(250);
+
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(2000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
@@ -202,8 +215,12 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(250);
+
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(2000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -280,6 +297,10 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.clickLongOnText(itemString);
 		assertTrue("Delete not shown", solo.waitForText(solo.getString(R.string.delete)));
 		solo.clickOnText(solo.getString(R.string.delete));
+
+		solo.waitForText(solo.getString(R.string.deletion_alert_yes));
+		solo.clickOnText(solo.getString(R.string.deletion_alert_yes));
+
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 
 		ListView userVariableListView = getVariableListView();
@@ -310,6 +331,10 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		solo.clickOnImage(ACTIONMODE_INDEX);
+
+		solo.waitForText(solo.getString(R.string.deletion_alert_yes));
+		solo.clickOnText(solo.getString(R.string.deletion_alert_yes));
+
 		solo.sleep(250);
 
 		ListView userVariableListView = getVariableListView();
@@ -340,7 +365,9 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		UiTestUtils.createUserVariableFromDataFragment(solo, itemString2nd, true);
 		UiTestUtils.createUserVariableFromDataFragment(solo, itemString3rd, true);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_data_item_delete));
+		String delete = solo.getString(R.string.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete, getActivity());
+
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -432,8 +459,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 			ids.add(view.getId());
 		}
 
-		assertTrue("MenuItem should have been found!", solo.getView(R.id.formula_editor_data_item_delete) != null);
-
+		assertFalse("MenuItem should not be found!", ids.contains(R.id.formula_editor_data_item_delete));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.copy));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.cut));
 		assertFalse("MenuItem should not be found!", ids.contains(R.id.insert_below));
@@ -493,11 +519,17 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
 
+		solo.waitForText(solo.getString(R.string.deletion_alert_yes));
+		solo.clickOnText(solo.getString(R.string.deletion_alert_yes));
+
 		assertFalse("Global Headline still shown", solo.searchText(globalHeadline, true));
 
 		solo.clickLongOnText(local);
 		solo.waitForText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.delete));
+
+		solo.waitForText(solo.getString(R.string.deletion_alert_yes));
+		solo.clickOnText(solo.getString(R.string.deletion_alert_yes));
 
 		assertFalse("Local Headline still shown", solo.searchText(localHeadline, true));
 	}

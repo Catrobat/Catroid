@@ -117,6 +117,10 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		assertTrue("StageActivity not shown: ", solo.waitForActivity(StageActivity.class.getSimpleName()));
 
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(2000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		assertTrue("ScriptActivity not shown: ", solo.waitForActivity(ScriptActivity.class.getSimpleName()));
@@ -146,7 +150,12 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
+
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(3000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -164,6 +173,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		ListView currentItemsListView = solo.getCurrentViews(ListView.class).get(0);
 		assertEquals("Wrong number of list items in List after stage!", 2, currentItemsListView.getAdapter().getCount());
 		solo.goBack();
+		solo.waitForFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
 
 		ListView listView = getDataListListView();
 
@@ -181,7 +191,12 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
+
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(3000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
@@ -210,7 +225,12 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
+
 		solo.goBack();
+		if (!solo.waitForDialogToOpen(3000)) {
+			solo.goBack();
+		}
+
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -318,6 +338,10 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		solo.clickOnImage(ACTION_MODE_INDEX);
+
+		solo.waitForText(solo.getString(R.string.deletion_alert_yes));
+		solo.clickOnText(solo.getString(R.string.deletion_alert_yes));
+
 		solo.sleep(250);
 
 		ListView userListListView = getDataListListView();
@@ -391,12 +415,15 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
 		solo.goBack();
+		assertTrue("Formula Editor not shown", solo.waitForText(solo.getString(R.string.formula_editor_title)));
 		solo.goBack();
+		assertTrue("Script List not shown", solo.waitForText(firstSprite.getName()));
 		solo.goBack();
+		assertTrue("Scripts not shown", solo.waitForText(solo.getString(R.string.scripts)));
 		solo.goBack();
+		assertTrue("Sprite List not shown", solo.waitForText(project.getName()));
 		solo.goBack();
-
-		solo.sleep(400);
+		assertTrue("Programs not shown", solo.waitForText(solo.getString(R.string.programs)));
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 
@@ -431,7 +458,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.enterText(editText, itemString);
 
 		assertTrue("Toast not shown when UserListName already exists",
-				solo.waitForText(solo.getString(R.string.formula_editor_existing_data_item), 0, 5000));
+				solo.waitForText(solo.getString(R.string.formula_editor_existing_data_item), 0, 8000));
 
 		solo.waitForText(itemString);
 
