@@ -88,10 +88,27 @@ public class WebViewActivity extends BaseActivity {
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
 		webView = (WebView) findViewById(R.id.webView);
-		webView.setWebChromeClient(new WebChromeClient());
+
+		webView.setWebChromeClient(new WebChromeClient() {
+			private ProgressDialog progressCircle;
+
+			@Override
+			public void onProgressChanged(WebView view, int progress) {
+				if (progressCircle == null) {
+					progressCircle = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
+					progressCircle.setCancelable(true);
+					progressCircle.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+					progressCircle.show();
+				}
+
+				if (progress == 100) {
+					progressCircle.dismiss();
+					progressCircle = null;
+				}
+			}
+		});
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
-
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		String flavor = Constants.FLAVOR_DEFAULT;
 		String version = Utils.getVersionName(getApplicationContext());
