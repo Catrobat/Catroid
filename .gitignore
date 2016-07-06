@@ -10,7 +10,6 @@ sed_replace.txt
 
 #IntelliJ IDEA
 .idea
-*.iml
 *.ipr
 *.iws
 out
@@ -18,7 +17,19 @@ workspace.xml
 tasks.xml
 datasources.xml
 dataSources.ids
-.idea/
+.idea/libraries
+.idea/dictionaries
+!.idea/.name
+!.idea/codeStyleSettings.xml
+!.idea/compiler.xml
+!.idea/copyright/Catroid.xml
+!.idea/copyright/profiles_settings.xml
+!.idea/dictionaries/catrobat.xml
+!.idea/encodings.xml
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/scopes/scope_settings.xml
+!.idea/vcs.xml
 
 # files for the dex VM
 *.dex
