@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Chronometer;
@@ -57,6 +58,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -132,5 +134,15 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	private void setViewsToNotRecordingState() {
 		recordButton.setState(RecordButton.RecordState.STOP);
 		recordButton.setImageResource(R.drawable.ic_microphone);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

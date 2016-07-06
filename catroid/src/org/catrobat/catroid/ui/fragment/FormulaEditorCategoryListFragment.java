@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -377,7 +378,17 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
 		getActivity().getActionBar().setTitle(actionBarTitle);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				closeCategoryListFragment();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -400,13 +411,17 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	@Override
 	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			FragmentTransaction fragTransaction = getActivity().getFragmentManager().beginTransaction();
-			fragTransaction.hide(this);
-			fragTransaction.show(getActivity().getFragmentManager()
-					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
-			fragTransaction.commit();
+			closeCategoryListFragment();
 			return true;
 		}
 		return false;
+	}
+
+	private void closeCategoryListFragment() {
+		FragmentTransaction fragTransaction = getActivity().getFragmentManager().beginTransaction();
+		fragTransaction.hide(this);
+		fragTransaction.show(getActivity().getFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+		fragTransaction.commit();
 	}
 }

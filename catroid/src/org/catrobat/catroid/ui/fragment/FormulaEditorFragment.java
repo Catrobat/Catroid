@@ -131,6 +131,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		ActionBar actionBar = getActivity().getActionBar();
 		previousActionBarTitle = ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(R.string.formula_editor_title);
 	}
 
@@ -512,6 +513,16 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				exitFormulaEditorFragment();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	private void setInputFormula(Brick.BrickField brickField, int mode) {
 
 		switch (mode) {
@@ -618,35 +629,39 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	public boolean onKey(View view, int keyCode, KeyEvent event) {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
-				if (formulaEditorEditText.hasChanges()) {
-					AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
-					builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
-							.setMessage(R.string.formula_editor_discard_changes_dialog_message)
-							.setNegativeButton(R.string.no, new OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-
-									showToast(R.string.formula_editor_changes_discarded, false);
-									currentFormula.setDisplayText(null);
-									onUserDismiss();
-								}
-							})
-							.setPositiveButton(R.string.yes, new OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									if (saveFormulaIfPossible()) {
-										onUserDismiss();
-									}
-								}
-							}).create().show();
-				} else {
-					onUserDismiss();
-				}
+				exitFormulaEditorFragment();
 				return true;
 		}
 		return false;
+	}
+
+	private void exitFormulaEditorFragment() {
+		if (formulaEditorEditText.hasChanges()) {
+			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
+					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
+					.setNegativeButton(R.string.no, new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+
+							showToast(R.string.formula_editor_changes_discarded, false);
+							currentFormula.setDisplayText(null);
+							onUserDismiss();
+						}
+					})
+					.setPositiveButton(R.string.yes, new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (saveFormulaIfPossible()) {
+								onUserDismiss();
+							}
+						}
+					}).create().show();
+		} else {
+			onUserDismiss();
+		}
 	}
 
 	private void endFormulaEditor() {
@@ -694,20 +709,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
 		}
 		((FormulaEditorCategoryListFragment) fragment).showFragment(context);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu_undo:
-				formulaEditorEditText.undo();
-				break;
-			case R.id.menu_redo:
-				formulaEditorEditText.redo();
-				break;
-		}
-		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
-		return super.onOptionsItemSelected(item);
 	}
 
 	private void showFormulaEditorDataFragment(String tag, int actionbarResId) {

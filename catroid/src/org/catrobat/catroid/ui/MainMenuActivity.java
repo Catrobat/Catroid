@@ -33,6 +33,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -93,6 +94,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setTitle(R.string.app_name);
 
 		findViewById(R.id.main_menu_button_continue).setEnabled(false);
@@ -152,6 +155,15 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	// needed because of android:onClick in activity_main_menu.xml

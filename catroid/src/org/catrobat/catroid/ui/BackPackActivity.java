@@ -95,6 +95,7 @@ public class BackPackActivity extends BaseActivity {
 		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi >= Build.VERSION_CODES.LOLLIPOP) {
@@ -132,6 +133,10 @@ public class BackPackActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.show_details:
 				handleShowDetails(!currentFragment.getShowDetails(), item);
 				break;

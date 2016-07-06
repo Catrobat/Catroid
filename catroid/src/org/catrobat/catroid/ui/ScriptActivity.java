@@ -180,6 +180,7 @@ public class ScriptActivity extends BaseActivity {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 			finish();
 		}
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -287,14 +288,15 @@ public class ScriptActivity extends BaseActivity {
 			return super.onOptionsItemSelected(item);
 		}
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getFragmentManager()
-				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
-
-		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
+		if (isFormulaEditorFragmentVisible()) {
 			return super.onOptionsItemSelected(item);
 		}
 
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.backpack:
 				showBackPackChooser();
 				break;
@@ -331,6 +333,39 @@ public class ScriptActivity extends BaseActivity {
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private boolean isFormulaEditorFragmentVisible() {
+		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getFragmentManager()
+				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
+
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+		FormulaEditorCategoryListFragment formulaEditorObjectFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.OBJECT_TAG);
+		FormulaEditorCategoryListFragment formulaEditorFunctionFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.FUNCTION_TAG);
+
+		FormulaEditorCategoryListFragment formulaEditorLogicFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.LOGIC_TAG);
+
+		FormulaEditorCategoryListFragment formulaEditorSensorFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.SENSOR_TAG);
+
+		if (formulaEditorFragment != null && formulaEditorFragment.isVisible()
+				|| formulaEditorObjectFragment != null && formulaEditorObjectFragment.isVisible()
+				|| formulaEditorFunctionFragment != null && formulaEditorFunctionFragment.isVisible()
+				|| formulaEditorLogicFragment != null && formulaEditorLogicFragment.isVisible()
+				|| formulaEditorSensorFragment != null && formulaEditorSensorFragment.isVisible()
+				|| formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
+			return true;
+		}
+		return false;
 	}
 
 	private void openBackPack() {
