@@ -45,6 +45,8 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
 
+import java.util.Locale;
+
 public class PhysicsObjectTest extends AndroidTestCase {
 	static {
 		GdxNativesLoader.load();
@@ -432,7 +434,8 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		if (type != PhysicsObject.Type.DYNAMIC) {
 			expectedBodyMass = 0.0f;
 		}
-		assertEquals("Wrong mass for " + type.toString().toLowerCase(), expectedBodyMass, body.getMass(), TestUtils.DELTA);
+		assertEquals("Wrong mass for " + type.toString().toLowerCase(Locale.getDefault()), expectedBodyMass, body.getMass(), TestUtils
+				.DELTA);
 	}
 
 	public void testMassWithNoShapeArea() {
