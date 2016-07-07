@@ -22,14 +22,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:paddingBottom="0dp" >
+    style="@style/DefaultDialog" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/dialog_item_margin" >
+        android:orientation="vertical" >
 
         <EditText
             android:id="@+id/dialog_formula_rename_variable_name_edit_text"

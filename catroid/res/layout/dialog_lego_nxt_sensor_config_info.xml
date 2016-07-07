@@ -23,6 +23,7 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/DefaultDialog" >
+
       <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -47,15 +48,11 @@
 
                 <TextView
                     style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:text="@string/nxt_port_1" />
 
                 <TextView android:id="@+id/lego_nxt_sensor_config_info_port_1_mapping"
-                    style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/DefaultDialog.Mapping" />
 
             </LinearLayout>
 
@@ -66,15 +63,11 @@
 
                 <TextView
                     style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:text="@string/nxt_port_2" />
 
                 <TextView android:id="@+id/lego_nxt_sensor_config_info_port_2_mapping"
-                    style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/DefaultDialog.Mapping" />
 
             </LinearLayout>
 
@@ -85,15 +78,11 @@
 
                 <TextView
                     style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:text="@string/nxt_port_3" />
 
                 <TextView android:id="@+id/lego_nxt_sensor_config_info_port_3_mapping"
-                    style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/DefaultDialog.Mapping" />
 
             </LinearLayout>
 
@@ -104,15 +93,11 @@
 
                 <TextView
                     style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:text="@string/nxt_port_4" />
 
                 <TextView android:id="@+id/lego_nxt_sensor_config_info_port_4_mapping"
-                    style="@style/DefaultDialog.Mapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    style="@style/DefaultDialog.Mapping" />
 
             </LinearLayout>
 
