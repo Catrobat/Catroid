@@ -43,6 +43,8 @@ apply from: 'gradle/intellij_config_tasks.gradle'
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
+apply from: 'buildAPK.gradle'
+
 android {
     dexOptions {
         javaMaxHeapSize "4g"
