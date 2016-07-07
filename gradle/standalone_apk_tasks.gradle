@@ -21,85 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.rauschig.jarchivelib.ArchiverFactory
-
-import static org.rauschig.jarchivelib.ArchiveFormat.ZIP
-
-buildscript {
-    dependencies {
-        repositories {
-            mavenCentral()
-        }
-        classpath 'org.rauschig:jarchivelib:0.7.0'
-    }
-}
-
-ext {
-    projectName = "WHACK A MOLE"
-    id = "1"
-}
-
-apply plugin: 'com.android.application'
-android {
-    defaultConfig {
-        //buildConfigField "String", "START_PROJECT", "\"WHACK A MOLE\""
-        //multiDexEnabled true
-    }
-
-    productFlavors {
-        catroid {
-            applicationId 'org.catrobat.catroid'
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-        }
-
-        standalone {
-            applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
-            versionCode 1
-            versionName '1.0-standalone'
-            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectNameFromXML()}\"";
-            buildConfigField "String", "START_PROJECT", "\"${getZipFileNameWithoutEnding()}\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-        }
-    }
-}
-
-def getProjectNameFromXML() {
-    def xml = new File('catroid/assets/standalone/code.xml')
-    if(xml.exists()) {
-        def program = new XmlSlurper().parseText(xml.text)
-        return program.header.programName.text()
-    } else {
-        return "Default Project"
-    }
-}
-
-def getZipFileNameWithoutEnding() {
-    //return project.ext.projectName
-    def file = new File('temp')
-    if (file.exists()) {
-        def program = file.text
-        println 'zip file name: ' + program;
-        println 'REMOVING unzipped project folder...'
-        delete 'catroid/assets/standalone'
-        println 'removing temp file'
-        delete file
-        return program
-    } else {
-        return "No Project Found"
-    }
-}
-
-def getPackageNameSuffix() {
-    println ':getPackageNameSuffix'
-    if (project.hasProperty("suffix")) {
-        return project["suffix"]
-    } else {
-        return "standalone"
-    }
-}
-
 def getProjectName(String xml) {
     def program = new XmlSlurper().parseText(xml)
     project.ext.projectName = program.header.programName.text()
@@ -193,7 +114,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 6760;//3143; //debugging purpose only
+    def id = 6760;
     def url = "";
     if (project.hasProperty("download")) {
         url = project["download"]
@@ -207,13 +128,8 @@ task downloadProject() << {
     temp.withOutputStream {
         it << new URL(url).content
     }
-
     unzipProject(temp)
 }
-
-task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
-task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
-task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
 
 task testremoveIntentFilters() << {
     messUpIntentFilters()
