@@ -216,28 +216,40 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		maximumDragViewHeight = height / 2;
 	}
 
+	public static Bitmap getBitmapFromView(View view, int width, int height) {
+
+		view.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
+		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		canvas.translate(-view.getScrollX(), -view.getScrollY());
+		view.draw(canvas);
+		return bitmap;
+	}
+
 	@Override
 	public boolean onLongClick(View view) {
-		int itemPosition = calculateItemPositionAndTouchPointY(view);
 
+		int itemPosition = calculateItemPositionAndTouchPointY(view);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
-
 		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
 				.makeMeasureSpec(Utils.getPhysicalPixels(WIDTH_OF_BRICK_PREVIEW_IMAGE, getContext()),
 						MeasureSpec.AT_MOST));
 		view.layout(0, 0, ScreenValues.SCREEN_WIDTH, view.getMeasuredHeight());
-
 		view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
+
 		view.buildDrawingCache(true);
 
+		Bitmap bitmap;
 		if (view.getDrawingCache() == null) {
 			view.setDrawingCacheEnabled(drawingCacheEnabled);
-			return false;
+			bitmap = getBitmapFromView(view, getMeasuredWidth(), view.getHeight());
+		} else {
+			bitmap = Bitmap.createBitmap(view.getDrawingCache());
 		}
 
-		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 		view.setDrawingCacheEnabled(drawingCacheEnabled);
 
 		startDragging(bitmap, touchPointY);

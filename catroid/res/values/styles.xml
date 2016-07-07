@@ -509,10 +509,6 @@
         <item name="android:textColor">@color/nfctag_fragment_text_detail_color</item>
         <item name="android:textSize">14sp</item>
     </style>
-    
-    <style name="NoBackgroundStyle" >
-
-	</style >
 
     <style name="FormulaEditorButton" >
         <item name="android:background">@drawable/formula_editor_keyboard_button</item >
@@ -521,14 +517,6 @@
         <item name="android:textSize">@dimen/text_size_medium</item >
         <item name="android:ellipsize">end</item >
     </style>
-
-    <style name="FormulaEditorImageButton" >
-        <item name="android:background" >@drawable/formula_editor_keyboard_button</item >
-        <item name="android:layout_height" >wrap_content</item >
-        <item name="android:layout_marginBottom" >@dimen/key_margin</item >
-        <item name="android:layout_marginRight" >@dimen/key_margin</item >
-    </style >
-
 
     <style name="formulaeditor_variblelist_fragment_main" parent="fragment_basic_style" >
         <item name="android:textColor" >@color/sound_fragment_text_main_color</item >
@@ -610,12 +598,6 @@
  		<item name="android:background" >@drawable/brick_data_round_rect</item >
  	</style >
 
-    <style name="ScriptActivitySpinnerItemTextAppearance" >
-        <item name="android:textColor" >?android:attr/textColorPrimaryInverse</item >
-        <item name="android:typeface" >normal</item >
-        <item name="android:textSize" >@dimen/text_size_medium</item >
-    </style >
-
     <style name="headlineLinearLayout" >
         <item name="android:clickable" >true</item >
         <item name="android:orientation" >vertical</item >
@@ -666,6 +648,29 @@
          <item name="android:paddingBottom">5dip</item >
          <item name="android:gravity">center</item >
          <item name="android:layout_centerHorizontal">true</item >
+    </style>
+
+     <style name="WebViewLoadingCircle" parent="android:Theme.Holo.Dialog">
+        <item name="android:alertDialogStyle">@style/WebViewLoadingCircleStyle</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:textColorPrimary">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColor">@color/transparent</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="WebViewLoadingCircleStyle">
+        <item name="android:bottomBright">@color/transparent</item>
+        <item name="android:bottomDark">@color/transparent</item>
+        <item name="android:bottomMedium">@color/transparent</item>
+        <item name="android:centerBright">@color/transparent</item>
+        <item name="android:centerDark">@color/transparent</item>
+        <item name="android:centerMedium">@color/transparent</item>
+        <item name="android:fullBright">@color/transparent</item>
+        <item name="android:fullDark">@color/transparent</item>
+        <item name="android:topBright">@color/transparent</item>
+        <item name="android:topDark">@color/transparent</item>
     </style>
 
 </resources>

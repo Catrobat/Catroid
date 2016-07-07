@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -69,7 +70,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-			if (sprite != null) {
+			if (sprite != null && actionBar != null) {
 				String title = sprite.getName();
 				actionBar.setTitle(title);
 				actionBar.setHomeButtonEnabled(true);
@@ -77,6 +78,17 @@ public class ProgramMenuActivity extends BaseActivity {
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
 			finish();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -92,9 +104,9 @@ public class ProgramMenuActivity extends BaseActivity {
 		//Hide NFC if option is not set
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
-			((Button) findViewById(R.id.program_menu_button_nfctags)).setVisibility(View.VISIBLE);
+			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.VISIBLE);
 		} else {
-			((Button) findViewById(R.id.program_menu_button_nfctags)).setVisibility(View.INVISIBLE);
+			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.INVISIBLE);
 		}
 	}
 

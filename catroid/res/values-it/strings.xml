@@ -42,6 +42,8 @@
   <string name="packing">Impacchetta</string>
   <string name="unpack">Spacchetta</string>
   <string name="unpack_keep">Spacchetta e mantieni</string>
+  <string name="unpack_bg">Scompatta come sfondo</string>
+  <string name="unpack_object">Scompatta come oggetto</string>
   <string name="copy_addition">copiare</string>
   <string name="close">Chiudere</string>
   <string name="error">Errore</string>
@@ -76,7 +78,7 @@
   <string name="nothing_to_delete">Nulla da eliminare</string>
   <string name="nothing_to_rename">Nulla da rinominare</string>
   <string name="unpack_background">Lo sfondo verrà sostituito</string>
-  <string name="degrees">degrees</string>
+  <string name="degrees">gradi</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Nuovo</string>
   <string name="main_menu_continue">Attuale</string>
@@ -166,14 +168,16 @@
   <string name="size">Dimensione:</string>
   <string name="script_group">Gruppo di script</string>
   <string name="script_groups">Gruppi di script</string>
+  <string name="userbrick_group">Gruppo di mattoncini personali</string>
+  <string name="userbrick_groups">Gruppi di mattoncini personali</string>
   <string name="script_group_name_given">Nome del gruppo di script già usato. Scegliere un altro nome.</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Clic su \"+\" per aggiungere script</string>
   <string name="dialog_confirm_delete_brick_title">Eliminare questo mattoncino?</string>
   <string name="dialog_confirm_delete_script_title">Eliminare questo script?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Eliminare questi mattoncini?</string>
-  <string name="dialog_confirm_delete_script_group_title">Eliminare questo gruppo?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Eliminare questi gruppi?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Elimina questo gruppo?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Elimina questi gruppi?</string>
   <string name="dialog_confirm_delete_brick_message">Questa azione non può essere annullata!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Elimina %d mattoncino</item>
@@ -249,6 +253,10 @@
   <plurals name="scripts_plural">
     <item quantity="one">Script</item>
     <item quantity="other">Script</item>
+  </plurals>
+  <plurals name="userbricks_plural">
+    <item quantity="one">Mattoncino personale</item>
+    <item quantity="other">Mattoncini personali</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Ultimo accesso:</string>
@@ -416,17 +424,17 @@
   <string name="brick_glide_to_x">Verso X:</string>
   <!-- Physics -->
   <string name="default_project_name_physics">Il mio primo programma che usa il motore fisico</string>
-  <string name="brick_set_physics_object_type">Set motion type to</string>
-  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
-  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
-  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_physics_object_type">Imposta tipo di movimento a</string>
+  <string name="brick_set_physics_object_type_dynamic">rimbalza con gravità</string>
+  <string name="brick_set_physics_object_type_fixed">gli altri vi rimbalzano contro</string>
+  <string name="brick_set_physics_object_type_no">nessun rimbalzo</string>
   <string name="brick_set_mass">"Impostare massa a "</string>
-  <string name="brick_set_mass_unit">kilogram</string>
-  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
-  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_mass_unit">kilogrammi</string>
+  <string name="brick_set_gravity_to">"Per tutti gli oggetti imposta gravità a "</string>
+  <string name="brick_set_gravity_unit">passi/secondo²</string>
   <string name="brick_set_velocity_to">"Imposta velocità a "</string>
-  <string name="brick_set_velocity_unit">steps/second</string>
-  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_velocity_unit">passi/secondo</string>
+  <string name="brick_turn_speed_unit">gradi/secondo</string>
   <string name="brick_set_friction">"Imposta frizione a "</string>
   <string name="brick_set_bounce_factor">"Imposta fattore di rimbalzo a "</string>
   <string name="brick_rotate_left">"Ruota a sinistra "</string>
@@ -477,6 +485,8 @@
   <string name="brick_note">Nota</string>
   <string name="brick_forever">Per sempre</string>
   <string name="brick_repeat">Ripeti</string>
+  <string name="brick_repeat_until">Repeat until</string>
+  <string name="brick_when_touched">When screen is touched</string>
   <plurals name="time_plural">
     <item quantity="one">volta</item>
     <item quantity="other">volte</item>
@@ -545,15 +555,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 degrees/s</string>
-  <string name="drone_set_rotation_indoor">100 degrees/s</string>
-  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
-  <string name="drone_set_rotation_max">350 degrees/s</string>
+  <string name="drone_set_rotation_min">40 gradi/sec</string>
+  <string name="drone_set_rotation_indoor">100 gradi/sec</string>
+  <string name="drone_set_rotation_outdoor">200 gradi/sec</string>
+  <string name="drone_set_rotation_max">350 gradi/sec</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 degrees</string>
-  <string name="drone_set_tilt_indoor">12 degrees</string>
-  <string name="drone_set_tilt_outdoor">20 degrees </string>
-  <string name="drone_set_tilt_max">30 degrees</string>
+  <string name="drone_set_tilt_min">5 gradi</string>
+  <string name="drone_set_tilt_indoor">12 gradi</string>
+  <string name="drone_set_tilt_outdoor">20 gradi </string>
+  <string name="drone_set_tilt_max">30 gradi</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">Immettere un valore</string>
   <string name="notification_screenshot_ok">Screenshot salvato</string>
@@ -590,6 +600,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code richiede un supporto di archiviazione esterno scrivibile come una scheda SD per essere eseguito, ma nessun supporto è stato trovato. \nPuoi risolvere questo problema, rendendo il supporto esterno scrivibile o inserendo una scheda SD, quindi riprovare.</string>
   <string name="error_no_program_name_entered">Inserisci un nome di programma.</string>
+  <string name="error_no_userbrick_name_entered">Inserisci un nome per il mattoncino personale.</string>
   <string name="error_project_exists">Un programma con lo stesso nome esiste già. \nScegliere un nome diverso.</string>
   <string name="error_delete_project">Si è verificato un errore durante la cancellazione del programma</string>
   <string name="error_unknown_project">Non esiste un programma con il nome specificato.</string>
@@ -676,6 +687,7 @@
   <string name="nxt_sensor_light">Sensore di luce NXT</string>
   <string name="nxt_sensor_light_active">Sensore di luce  NXT attivo</string>
   <string name="nxt_sensor_ultrasonic">Sensore ad ultrasuoni NXT</string>
+  <string name="nxt_sensor_not_found">Sensore non trovato!</string>
   <string name="lego_nxt_sensor_config_info_title">Configurazione del sensore NXT</string>
   <string name="preference_disable_nxt_info_dialog">Disattiva finestra di dialogo</string>
   <string name="preference_disable_nxt_info_dialog_description">Le impostazioni specifiche per l\'NXT non vengono mostrare quando si apre un programma.</string>
@@ -687,6 +699,8 @@
   <string name="nxt_port_3">Porta 3</string>
   <string name="nxt_port_4">Porta 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Non mostrare più questo messaggio.</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Si desidera sovrascrivere il Sensore sulla porta scelta?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Sovrascrivere il sensore?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Decolla / Atterra</string>
   <string name="brick_drone_play_led_animation">Illumina i LED</string>
@@ -803,6 +817,8 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">parteintera</string>
   <string name="formula_editor_function_floor_parameter">(0,7)</string>
   <string name="formula_editor_function_ceil">tetto</string>
@@ -822,6 +838,15 @@
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digitale</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_pin_analogico</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+  <string name="formula_editor_function_pin_default_parameter">(3)</string>
+  <string name="formula_editor_function_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">elemento</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">contiene</string>
@@ -847,6 +872,11 @@
   <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
   <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_sensore_frontale_sinistro</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_sensore_frontale_destro</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_sensore_laterale_sinistro</string>
@@ -865,10 +895,24 @@
   <string name="formula_editor_object_angular_velocity">velocità_angolare</string>
   <string name="formula_editor_compute">Calcola</string>
   <string name="formula_editor_object">Oggetto</string>
-  <string name="formula_editor_math">Matematica</string>
+  <string name="formula_editor_functions">Funzioni</string>
   <string name="formula_editor_logic">Logica</string>
-  <string name="formula_editor_sensors">Sensori</string>
+  <string name="formula_editor_device">Periferica</string>
   <string name="formula_editor_variables">Variabili</string>
+  <string name="formula_editor_functions_maths">Matematica</string>
+  <string name="formula_editor_functions_strings">Stringhe</string>
+  <string name="formula_editor_functions_lists">Liste</string>
+  <string name="formula_editor_logic_boolean">operatori logici (booleani)</string>
+  <string name="formula_editor_logic_comparison">operatori di confronto</string>
+  <string name="formula_editor_object_general">proprietà generali</string>
+  <string name="formula_editor_object_physical">proprietà fisiche</string>
+  <string name="formula_editor_device_face_detection">Rilevamento volti</string>
+  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_arduino">Arduino</string>
+  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+  <string name="formula_editor_device_drone">Drone</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -889,12 +933,14 @@
   <string name="formula_editor_list_dialog_title">Nuovo elenco</string>
   <string name="formula_editor_dialog_for_all_sprites">Per tutti gli oggetti</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Per questo oggetto solo</string>
+  <string name="formula_editor_dialog_change_text">Change text</string>
   <string name="formula_editor_data_dialog_hint">Inserisci nome</string>
   <string name="formula_editor_discard_changes_dialog_message">Si desidera salvare le modifiche?</string>
   <string name="formula_editor_discard_changes_dialog_title">Salvare le modifiche?</string>
   <string name="formula_editor_new_string_name">Nuovo testo</string>
   <string name="formula_editor_new_string_dialog_hint">Immetti qui il nuovo testo.</string>
   <string name="formula_editor_data_dialog_title">Nuovo</string>
+  <string name="formula_editor_rename_variable_dialog_title">Rinomina</string>
   <string name="formula_editor_existing_data_item">Nome già in uso!</string>
   <string name="formula_editor_fragment_data_current_items">elementi attuali</string>
   <string name="formula_editor_data_dialog_is_list">Crea un elenco</string>
@@ -927,6 +973,7 @@
   <string name="define">definisci</string>
   <string name="new_user_brick">Nuovo mattoncino</string>
   <string name="new_user_brick_variable">Variabile 1</string>
+  <string name="new_user_brick_name">Scegli un nome per il mattoncino personale:</string>
   <string name="recursive_user_brick_forbidden">Non è ancora possibile aggiungere un mattoncino personalizzato ad un mattoncino personalizzato!</string>
   <string name="brick_single">Mattoncino</string>
   <string name="brick_multiple">Mattoncini</string>
@@ -949,10 +996,20 @@
   <string name="choose_camera_front">anteriore</string>
   <string name="choose_camera_back">posteriore</string>
   <string name="error_flash_front_camera">"È possibile usare il flash solo con la fotocamera posteriore. Aggiungi un mattoncino \"Usa fotocamera\" e imposta l\'uso della fotocamera posteriore."</string>
+  <string name="brick_wait_until">Wait until</string>
+  <string name="brick_wait_until_second_part">is true</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Valuta Pocket Code</string>
   <string name="rating_dialog_text">Se ti piace Pocket Code, valutaci su Google Play!</string>
   <string name="rating_dialog_rate_now">Ora</string>
   <string name="rating_dialog_rate_later">Più tardi</string>
   <string name="rating_dialog_rate_never">Mai</string>
+  <!-- Delete User Variable Alert Dialog -->
+  <string name="deletion_alert_title">Attenzione!</string>
+  <string name="deletion_alert_text">Eliminare di una variabile ancora in uso è pericoloso! Sei sicuro?</string>
+  <string name="deletion_alert_yes">Sì, elimina comunque!</string>
+  <string name="deletion_alert_no">No.</string>
+  <!-- Pocket Code crashed dialog -->
+  <string name="crashed_title">Pocked Code si è bloccato!</string>
+  <string name="crashed_message">Pocket Code si è bloccato e necessita di essere riavviato.</string>
 </resources>

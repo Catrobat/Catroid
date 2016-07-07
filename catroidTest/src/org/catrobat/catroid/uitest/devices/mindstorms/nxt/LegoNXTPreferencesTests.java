@@ -283,8 +283,8 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.clickOnView(solo.getViews().get(0));
 		solo.sleep(300);
 		solo.clickOnText("1");
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 
 		solo.sleep(300);
 

@@ -26,8 +26,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
+        classpath 'com.android.tools.build:gradle:2.1.0'
     }
 }
 
@@ -35,7 +34,6 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
@@ -85,7 +83,7 @@ configurations {
 dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
     compile 'com.thoughtworks.xstream:xstream:1.4.7'
     def gdxVersion = '1.6.2'
@@ -99,10 +97,10 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.android.support:percent:23.1.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:percent:23.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.0.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -123,16 +121,16 @@ def getCurrentGitBranch() {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.0'
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 29
+        versionCode 30
         println "VersionCode is " + versionCode
-        versionName "0.9.22"
+        versionName "0.9.23"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
@@ -159,9 +157,6 @@ android {
             renderscript.srcDirs = ['catroidTest/src']
             res.srcDirs = ['catroidTest/res']
             assets.srcDirs = ['catroidTest/assets']
-            if (file('testexclusions.txt').exists()) {
-                java.exclude file('testexclusions.txt').readLines()
-            }
         }
     }
     lintOptions {

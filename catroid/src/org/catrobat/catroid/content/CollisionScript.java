@@ -23,11 +23,8 @@
 package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
-
-import java.util.List;
 
 public class CollisionScript extends BroadcastScript {
 
@@ -60,10 +57,10 @@ public class CollisionScript extends BroadcastScript {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	public Script copyScriptForSprite(Sprite copySprite) {
 		CollisionScript cloneScript = new CollisionScript(receivedMessage);
 
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		doCopy(copySprite, cloneScript);
 		return cloneScript;
 	}
 

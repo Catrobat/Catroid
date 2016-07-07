@@ -63,6 +63,12 @@
         <item>@string/nxt_sensor_light_active</item>
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
+    <string-array name="nxt_port_chooser">
+        <item>@string/nxt_port_1</item>
+        <item>@string/nxt_port_2</item>
+        <item>@string/nxt_port_3</item>
+        <item>@string/nxt_port_4</item>
+    </string-array>
 
     <!-- Drone settings spinner-->
     <string-array name="drone_setting_default_config" >

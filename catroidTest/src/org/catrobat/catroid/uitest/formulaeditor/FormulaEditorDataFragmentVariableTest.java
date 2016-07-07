@@ -246,7 +246,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		String editTextString = text.getText().toString();
 		assertEquals("Wrong text in EditText", itemString, editTextString.substring(0, itemString.length()));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName("zzz");
 	}
@@ -268,7 +268,7 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		itemString = QUOTE + itemString + QUOTE;
 		Log.i(TAG, "editText: " + text.getText().toString());
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));
-		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_data));
 		itemString = itemString.replace(QUOTE, "");
@@ -304,7 +304,8 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		UiTestUtils.createUserVariableFromDataFragment(solo, itemString2nd, true);
 		UiTestUtils.createUserVariableFromDataFragment(solo, itemString3rd, false);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_data_item_delete));
+		String delete = solo.getString(R.string.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete, getActivity());
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);

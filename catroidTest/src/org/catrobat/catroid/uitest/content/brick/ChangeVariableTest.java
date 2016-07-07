@@ -223,7 +223,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(solo.getString(R.string.brick_change_variable));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 
-		assertTrue("Uservariable in view is not right displayed , maybe clone() is broken...",
+		assertTrue("UserVariable in view is not right displayed , maybe clone() is broken...",
 				solo.searchText(userVariableName, true));
 
 		solo.sleep(2000);

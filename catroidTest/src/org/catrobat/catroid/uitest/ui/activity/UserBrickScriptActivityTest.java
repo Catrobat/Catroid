@@ -27,7 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
+import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -45,32 +45,6 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	public void testNestedUserBrickScriptActivities() throws InterruptedException {
-		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
-
-		String textOnChangeYByNBrick = solo.getCurrentActivity().getString(R.string.brick_change_y_by);
-		boolean foundText = solo.waitForText(textOnChangeYByNBrick, 0, 2000);
-		assertTrue("Did not find '" + textOnChangeYByNBrick + "'", foundText);
-
-		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME + "2", solo);
-
-		String textOnChangeXByNBrick = solo.getCurrentActivity().getString(R.string.brick_change_x_by);
-		foundText = solo.waitForText(textOnChangeXByNBrick, 0, 300);
-		assertTrue("Did not find '" + textOnChangeXByNBrick + "'", foundText);
-
-		solo.goBack();
-		solo.goBack();
-
-		foundText = solo.waitForText(textOnChangeYByNBrick, 0, 300);
-		assertTrue("Did not find '" + textOnChangeYByNBrick + "'", foundText);
-
-		solo.goBack();
-		solo.goBack();
-
-		foundText = solo.waitForText(UiTestUtils.TEST_USER_BRICK_NAME, 0, 300);
-		assertTrue("Did not find '" + UiTestUtils.TEST_USER_BRICK_NAME + "'", foundText);
-	}
-
 	public void testUserBrickVariableScope() throws InterruptedException {
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable("projectVar");
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("spriteVar");
@@ -84,7 +58,6 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 		String textOnChangeXBrickTextField = "" + Math.round(BrickValues.CHANGE_X_BY);
 		checkVariableScope(textOnChangeXBrickTextField, 1, true);
 
-		solo.goBack();
 		solo.goBack();
 
 		checkVariableScope(textOnSetSizeToBrickTextField, 0, false);
@@ -100,7 +73,7 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 		UiTestUtils.dragFloatingBrick(solo, -1);
 
 		boolean wentToDataEditor = solo.waitForFragmentByTag(
-				UserBrickDataEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG, 5000);
+				UserBrickElementEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG, 5000);
 
 		assertTrue("the userBrickDataEditor should not be open!!", !wentToDataEditor);
 	}

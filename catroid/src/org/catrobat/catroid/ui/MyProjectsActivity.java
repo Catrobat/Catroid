@@ -79,6 +79,10 @@ public class MyProjectsActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.copy:
 				projectsListFragment.startCopyActionMode();
 				break;
@@ -102,6 +106,7 @@ public class MyProjectsActivity extends BaseActivity {
 		final ActionBar actionBar = getActionBar();
 		actionBar.setTitle(R.string.my_projects_activity_title);
 		actionBar.setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

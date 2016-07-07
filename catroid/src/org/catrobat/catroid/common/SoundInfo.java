@@ -36,12 +36,10 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = SoundInfo.class.getSimpleName();
-
+	public transient boolean isPlaying;
+	public transient boolean isBackpackSoundInfo;
 	private String name;
 	private String fileName;
-	public transient boolean isPlaying;
-
-	public transient boolean isBackpackSoundInfo;
 
 	public SoundInfo() {
 		isBackpackSoundInfo = false;
@@ -110,7 +108,15 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		}
 	}
 
-	public String getAbsolutePathBackPack() {
+	public String getAbsoluteProjectPath() {
+		if (fileName != null) {
+			return Utils.buildPath(getPathToSoundDirectory(), fileName);
+		} else {
+			return null;
+		}
+	}
+
+	public String getAbsoluteBackPackPath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
 		} else {
@@ -126,12 +132,12 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		this.name = title;
 	}
 
-	public void setSoundFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
 	public String getSoundFileName() {
 		return fileName;
+	}
+
+	public void setSoundFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public String getChecksum() {

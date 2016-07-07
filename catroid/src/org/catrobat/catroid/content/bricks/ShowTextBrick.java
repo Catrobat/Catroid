@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -139,10 +140,9 @@ public class ShowTextBrick extends UserVariableBrick {
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.show_text_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -163,7 +163,7 @@ public class ShowTextBrick extends UserVariableBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP
+				if (event.getAction() == MotionEvent.ACTION_DOWN
 						&& (((Spinner) view).getSelectedItemPosition() == 0
 						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
@@ -214,13 +214,17 @@ public class ShowTextBrick extends UserVariableBrick {
 		}
 	}
 
+	void setUserVariableName(String userVariableName) {
+		this.userVariableName = userVariableName;
+	}
+
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_show_text, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_show_text_prototype_text_view_x);
-		textX.setText(String.valueOf(BrickValues.X_POSITION));
+		textX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_show_text_prototype_text_view_y);
-		textY.setText(String.valueOf(BrickValues.Y_POSITION));
+		textY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
 	}
 

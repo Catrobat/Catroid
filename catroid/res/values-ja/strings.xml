@@ -42,6 +42,8 @@
   <string name="packing">パック</string>
   <string name="unpack">解凍</string>
   <string name="unpack_keep">解凍して残す</string>
+  <string name="unpack_bg">背景として解凍</string>
+  <string name="unpack_object">オブジェクトとして解凍</string>
   <string name="copy_addition">コピー</string>
   <string name="close">閉じる</string>
   <string name="error">エラー</string>
@@ -76,7 +78,7 @@
   <string name="nothing_to_delete">削除するものはありません</string>
   <string name="nothing_to_rename">名前を変更するものはありません</string>
   <string name="unpack_background">プログラムの背景が置き換えられます</string>
-  <string name="degrees">degrees</string>
+  <string name="degrees">度</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">新しい</string>
   <string name="main_menu_continue">続行</string>
@@ -166,14 +168,16 @@
   <string name="size">プログラムのサイズ：</string>
   <string name="script_group">スクリプト グループ</string>
   <string name="script_groups">スクリプト グループ</string>
+  <string name="userbrick_group">ユーザーブロック グループ</string>
+  <string name="userbrick_groups">ユーザーブロック グループ</string>
   <string name="script_group_name_given">スクリプトのグループ名は既に指定されています。別のものを選択してください。</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">スクリプトを追加するために「+」をタップしてください</string>
   <string name="dialog_confirm_delete_brick_title">このブロックを削除しますか？</string>
   <string name="dialog_confirm_delete_script_title">このスクリプトを削除しますか？</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">これらのブロックを削除しますか？</string>
-  <string name="dialog_confirm_delete_script_group_title">このグループを削除しますか?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">これらのグループを削除しますか?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">このグループを削除しますか?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">これらのグループを削除しますか?</string>
   <string name="dialog_confirm_delete_brick_message">元に戻すことができない ！</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="other">%d 個のブロックを削除</item>
@@ -243,6 +247,9 @@
   </plurals>
   <plurals name="scripts_plural">
     <item quantity="other">スクリプト</item>
+  </plurals>
+  <plurals name="userbricks_plural">
+    <item quantity="other">ユーザーブロック</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">最新の使用：</string>
@@ -409,17 +416,17 @@
   <string name="brick_glide_to_x">x：</string>
   <!-- Physics -->
   <string name="default_project_name_physics">私の最初の物理学プログラム</string>
-  <string name="brick_set_physics_object_type">Set motion type to</string>
-  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
-  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
-  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_physics_object_type">動きの種類を設定</string>
+  <string name="brick_set_physics_object_type_dynamic">重力で跳ね返り</string>
+  <string name="brick_set_physics_object_type_fixed">その他の跳ね返り</string>
+  <string name="brick_set_physics_object_type_no">跳ね返りなし</string>
   <string name="brick_set_mass">"質量を設定 "</string>
-  <string name="brick_set_mass_unit">kilogram</string>
-  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
-  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_mass_unit">キログラム</string>
+  <string name="brick_set_gravity_to">"すべてのオブジェクトに重力を設定 "</string>
+  <string name="brick_set_gravity_unit">ステップ/秒²</string>
   <string name="brick_set_velocity_to">"速度を設定 "</string>
-  <string name="brick_set_velocity_unit">steps/second</string>
-  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_velocity_unit">ステップ/秒</string>
+  <string name="brick_turn_speed_unit">度/秒</string>
   <string name="brick_set_friction">"摩擦を設定 "</string>
   <string name="brick_set_bounce_factor">"跳ね返り率を設定 "</string>
   <string name="brick_rotate_left">"左に回転 "</string>
@@ -469,6 +476,8 @@
   <string name="brick_note">注意</string>
   <string name="brick_forever">ずっと</string>
   <string name="brick_repeat">繰り返し：</string>
+  <string name="brick_repeat_until">次まで繰り返し</string>
+  <string name="brick_when_touched">画面にタッチした時</string>
   <plurals name="time_plural">
     <item quantity="other">回</item>
   </plurals>
@@ -536,15 +545,15 @@
   <string name="drone_set_vertical_outdoor">1000 mm/秒</string>
   <string name="drone_set_vertical_max">2000 mm/秒</string>
   <!-- Drone max rotation speed limit values  -->
-  <string name="drone_set_rotation_min">40 degrees/s</string>
-  <string name="drone_set_rotation_indoor">100 degrees/s</string>
-  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
-  <string name="drone_set_rotation_max">350 degrees/s</string>
+  <string name="drone_set_rotation_min">40 度/秒</string>
+  <string name="drone_set_rotation_indoor">100 度/秒</string>
+  <string name="drone_set_rotation_outdoor">200 度/秒</string>
+  <string name="drone_set_rotation_max">350 度/秒</string>
   <!-- Drone max tilt limit values  -->
-  <string name="drone_set_tilt_min">5 degrees</string>
-  <string name="drone_set_tilt_indoor">12 degrees</string>
-  <string name="drone_set_tilt_outdoor">20 degrees </string>
-  <string name="drone_set_tilt_max">30 degrees</string>
+  <string name="drone_set_tilt_min">5度</string>
+  <string name="drone_set_tilt_indoor">12度</string>
+  <string name="drone_set_tilt_outdoor">20度 </string>
+  <string name="drone_set_tilt_max">30度</string>
   <!-- Notifications -->
   <string name="notification_invalid_text_entered">値を入力してください</string>
   <string name="notification_screenshot_ok">スクリーン ショットが保存した</string>
@@ -581,6 +590,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">ポケットコードを実行するためにSDカードが必要ですが、どれも見つかりませんでした\nSDカードを挿入して再試行してください。</string>
   <string name="error_no_program_name_entered">プログラム名を入力してください。</string>
+  <string name="error_no_userbrick_name_entered">ユーザーブロック名を入力してください。</string>
   <string name="error_project_exists">同じ名前のプログラムが既に存在しています\n別の名前を選択してください</string>
   <string name="error_delete_project">プログラムの削除中にエラーが発生しました</string>
   <string name="error_unknown_project">その名前のプログラムは存在しません。</string>
@@ -668,6 +678,7 @@
   <string name="nxt_sensor_light">NXT 光センサー</string>
   <string name="nxt_sensor_light_active">NXT 光センサー アクティブ</string>
   <string name="nxt_sensor_ultrasonic">NXT 超音波センサー</string>
+  <string name="nxt_sensor_not_found">センサーが見つかりません!</string>
   <string name="lego_nxt_sensor_config_info_title">NXT センサー設定</string>
   <string name="preference_disable_nxt_info_dialog">情報ダイアログを無効にする</string>
   <string name="preference_disable_nxt_info_dialog_description">プログラムを開いたとき、プログラムで指定した NXT 設定は表示されません。</string>
@@ -679,6 +690,8 @@
   <string name="nxt_port_3">ポート 3</string>
   <string name="nxt_port_4">ポート 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">このメッセージを次回から表示しません。</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">選択したポートでセンサーを上書きしますか?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">センサーを上書きしますか?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">離陸 / 着陸</string>
   <string name="brick_drone_play_led_animation">LED アニメーションを再生</string>
@@ -702,7 +715,7 @@
   <string name="brick_drone_set_rotation_speed">回転速度の制限</string>
   <string name="brick_drone_set_tilt_limit">傾斜制限</string>
   <string name="brick_drone_with">で</string>
-  <string name="brick_drone_percent_power">% の出力</string>
+  <string name="brick_drone_percent_power">% power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Phiro モーターを停止</string>
@@ -795,6 +808,8 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">指数関数</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_power">電源</string>
+  <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">floor</string>
   <string name="formula_editor_function_floor_parameter">(0.7)</string>
   <string name="formula_editor_function_ceil">ceil</string>
@@ -814,6 +829,15 @@
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+  <string name="formula_editor_function_pin_default_parameter">(3)</string>
+  <string name="formula_editor_function_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*リスト名*)</string>
   <string name="formula_editor_function_contains">contains</string>
@@ -839,6 +863,11 @@
   <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_1</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
   <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_3</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -857,10 +886,24 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">計算</string>
   <string name="formula_editor_object">オブジェクト</string>
-  <string name="formula_editor_math">関数</string>
+  <string name="formula_editor_functions">関数</string>
   <string name="formula_editor_logic">論理</string>
-  <string name="formula_editor_sensors">センサー</string>
+  <string name="formula_editor_device">デバイス</string>
   <string name="formula_editor_variables">変数</string>
+  <string name="formula_editor_functions_maths">数学</string>
+  <string name="formula_editor_functions_strings">文字列</string>
+  <string name="formula_editor_functions_lists">リスト</string>
+  <string name="formula_editor_logic_boolean">論理 (ブール) 演算子</string>
+  <string name="formula_editor_logic_comparison">比較演算子</string>
+  <string name="formula_editor_object_general">全般プロパティ</string>
+  <string name="formula_editor_object_physical">物理プロパティ</string>
+  <string name="formula_editor_device_face_detection">顔検出</string>
+  <string name="formula_editor_device_touch_detection">タッチ検出</string>
+  <string name="formula_editor_device_lego">レゴ</string>
+  <string name="formula_editor_device_arduino">Arduino</string>
+  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+  <string name="formula_editor_device_drone">ドローン</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -881,12 +924,14 @@
   <string name="formula_editor_list_dialog_title">新しいリスト</string>
   <string name="formula_editor_dialog_for_all_sprites">すべてのオブジェクト</string>
   <string name="formula_editor_dialog_for_this_sprite_only">このオブジェクトのみ</string>
+  <string name="formula_editor_dialog_change_text">テキストを変更</string>
   <string name="formula_editor_data_dialog_hint">名前を入力</string>
   <string name="formula_editor_discard_changes_dialog_message">変更内容を保存しますか？</string>
   <string name="formula_editor_discard_changes_dialog_title">変更を保存しますか？</string>
   <string name="formula_editor_new_string_name">新しいテキスト</string>
   <string name="formula_editor_new_string_dialog_hint">ここに新しいテキストを入力します。</string>
   <string name="formula_editor_data_dialog_title">新しい</string>
+  <string name="formula_editor_rename_variable_dialog_title">名前の変更</string>
   <string name="formula_editor_existing_data_item">名前は既に使用しています!</string>
   <string name="formula_editor_fragment_data_current_items">現在のアイテム</string>
   <string name="formula_editor_data_dialog_is_list">リストにする</string>
@@ -918,6 +963,7 @@
   <string name="define">定義</string>
   <string name="new_user_brick">新しいブロック</string>
   <string name="new_user_brick_variable">変数 1</string>
+  <string name="new_user_brick_name">ユーザーブロック名を選択してください:</string>
   <string name="recursive_user_brick_forbidden">まだ、ユーザーブロックをユーザーブロックに追加することはできません!</string>
   <string name="brick_single">ブロック</string>
   <string name="brick_multiple">ブロック</string>
@@ -942,10 +988,20 @@
   <string name="choose_camera_front">前面</string>
   <string name="choose_camera_back">背面</string>
   <string name="error_flash_front_camera">「フラッシュは背面のカメラでのみ使用できます。「使用カメラ」ブロックを追加して、デバイスの背面のカメラに変更します。」</string>
+  <string name="brick_wait_until">次まで待つ</string>
+  <string name="brick_wait_until_second_part">が真</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">ポケットコードを評価する</string>
   <string name="rating_dialog_text">ポケット コードをお楽しみいただけた場合は、Google Play で評価してください!</string>
   <string name="rating_dialog_rate_now">今すぐ</string>
   <string name="rating_dialog_rate_later">後で</string>
   <string name="rating_dialog_rate_never">しない</string>
+  <!-- Delete User Variable Alert Dialog -->
+  <string name="deletion_alert_title">警告!</string>
+  <string name="deletion_alert_text">まだ使用している変数を削除するは危険です! よろしいですか?</string>
+  <string name="deletion_alert_yes">はい、とにかく削除します!</string>
+  <string name="deletion_alert_no">いいえ。</string>
+  <!-- Pocket Code crashed dialog -->
+  <string name="crashed_title">ポケットコードがクラッシュしました!</string>
+  <string name="crashed_message">ポケットコードがクラッシュしたため、再起動する必要がありました。</string>
 </resources>

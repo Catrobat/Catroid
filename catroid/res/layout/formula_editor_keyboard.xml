@@ -116,7 +116,7 @@
         app:layout_widthPercent="30%"
         app:layout_heightPercent="16.66%"
         android:layout_below="@+id/formula_editor_keyboard_object"
-        android:text="@string/formula_editor_math" />
+        android:text="@string/formula_editor_functions" />
 
     <Button
         android:id="@+id/formula_editor_keyboard_4"
@@ -206,7 +206,7 @@
         app:layout_widthPercent="30%"
         app:layout_heightPercent="16.66%"
         android:layout_below="@+id/formula_editor_keyboard_logic"
-        android:text="@string/formula_editor_sensors" />
+        android:text="@string/formula_editor_device" />
 
     <Button
         android:id="@+id/formula_editor_keyboard_decimal_mark"

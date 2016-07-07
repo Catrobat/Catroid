@@ -42,6 +42,8 @@
   <string name="packing">Einpacken</string>
   <string name="unpack">Auspacken</string>
   <string name="unpack_keep">Auspacken und behalten</string>
+  <string name="unpack_bg">Als Hintergrund entpacken</string>
+  <string name="unpack_object">Als Objekt entpacken</string>
   <string name="copy_addition">Kopie</string>
   <string name="close">Schließen</string>
   <string name="error">Fehler</string>
@@ -172,14 +174,16 @@
   <string name="size">Größe:</string>
   <string name="script_group">Skript Gruppe</string>
   <string name="script_groups">Skript Gruppen</string>
+  <string name="userbrick_group">Benutzerbaustein Gruppe</string>
+  <string name="userbrick_groups">Benutzerbaustein Gruppen</string>
   <string name="script_group_name_given">Skript Gruppenname existiert bereits. Bitte wähle einen anderen.</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tippe auf \"+\" um Skripte hinzuzufügen</string>
   <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
   <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
-  <string name="dialog_confirm_delete_script_group_title">Diese Gruppe löschen?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Diese Gruppen löschen?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Diese Gruppe löschen?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Diese Gruppen löschen?</string>
   <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Lösche %d Baustein</item>
@@ -255,6 +259,10 @@
   <plurals name="scripts_plural">
     <item quantity="one">Skript</item>
     <item quantity="other">Skripte</item>
+  </plurals>
+  <plurals name="userbricks_plural">
+    <item quantity="one">Benutzerbaustein</item>
+    <item quantity="other">Benutzerbaustein</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Letzter Zugriff:</string>
@@ -449,7 +457,7 @@
   <string name="brick_set_brightness">"Setze Helligkeit "</string>
   <string name="brick_change_brightness">"Ändere Helligkeit "</string>
   <string name="brick_set_color">"Setze Farbe "</string>
-  <string name="brick_change_color">"Ändere Farbe"</string>
+  <string name="brick_change_color">"Ändere Farbe "</string>
   <string name="by_label">um</string>
   <string name="to_label">auf</string>
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
@@ -483,6 +491,8 @@
   <string name="brick_note">Notiz</string>
   <string name="brick_forever">Wiederhole fortlaufend</string>
   <string name="brick_repeat">Wiederhole</string>
+  <string name="brick_repeat_until">Wiederholen bis</string>
+  <string name="brick_when_touched">Wenn der Bildschirm berührt wird</string>
   <plurals name="time_plural">
     <item quantity="one">mal</item>
     <item quantity="other">mal</item>
@@ -596,6 +606,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
   <string name="error_no_program_name_entered">Bitte einen Programmnamen angeben.</string>
+  <string name="error_no_userbrick_name_entered">Bitte gib einen Benutzerbausteinnamen ein.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
   <string name="error_delete_project">Während des Löschens ist ein Fehler aufgetreten</string>
   <string name="error_unknown_project">Ein Programm mit diesem Namen existiert nicht.</string>
@@ -682,6 +693,7 @@
   <string name="nxt_sensor_light">NXT Lichtsensor</string>
   <string name="nxt_sensor_light_active">NXT Lichtsensor LED aktiv</string>
   <string name="nxt_sensor_ultrasonic">NXT Ultraschallsensor</string>
+  <string name="nxt_sensor_not_found">Sensor nicht gefunden!</string>
   <string name="lego_nxt_sensor_config_info_title">NXT Sensoren Konfiguration</string>
   <string name="preference_disable_nxt_info_dialog">Infodialog deaktivieren</string>
   <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Programmes werden programmspezifische NXT Einstellungen nicht mehr angezeigt.</string>
@@ -693,6 +705,8 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Diese Nachricht nicht mehr anzeigen.</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Möchtest du den Sensor auf dem ausgewählten Port überschreiben?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Sensor überschreiben?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Abheben / Landen</string>
   <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
@@ -809,6 +823,8 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_power">Energie</string>
+  <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">Abrunden</string>
   <string name="formula_editor_function_floor_parameter">(0,7)</string>
   <string name="formula_editor_function_ceil">Aufrunden</string>
@@ -828,6 +844,15 @@
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+  <string name="formula_editor_function_pin_default_parameter">(3)</string>
+  <string name="formula_editor_function_finger_x">bildschirm_berührt_x</string>
+  <string name="formula_editor_function_finger_y">bildschirm_berührt_y</string>
+  <string name="formula_editor_function_is_finger_touching">bildschirm_wurde_berührt</string>
+  <string name="formula_editor_function_multi_finger_x">bildschirm_berührt_x</string>
+  <string name="formula_editor_function_multi_finger_y">bildschirm_berührt_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">bildschirm_wurde_berührt</string>
+  <string name="formula_editor_function_index_of_last_finger">letzte_bildschirm_berührung_index</string>
+  <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">Element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*Listenname*)</string>
   <string name="formula_editor_function_contains">enthält</string>
@@ -853,6 +878,11 @@
   <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
   <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_berührung</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_geräusch</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_licht</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_licht_aktiv</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultraschall</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -871,10 +901,24 @@
   <string name="formula_editor_object_angular_velocity">Winkel_Geschwindigkeit</string>
   <string name="formula_editor_compute">Berechnen</string>
   <string name="formula_editor_object">Objekt</string>
-  <string name="formula_editor_math">Funktionen</string>
+  <string name="formula_editor_functions">Funktionen</string>
   <string name="formula_editor_logic">Logik</string>
-  <string name="formula_editor_sensors">Sensoren</string>
+  <string name="formula_editor_device">Gerät</string>
   <string name="formula_editor_variables">Variablen</string>
+  <string name="formula_editor_functions_maths">Mathematik</string>
+  <string name="formula_editor_functions_strings">Zeichenketten</string>
+  <string name="formula_editor_functions_lists">Listen</string>
+  <string name="formula_editor_logic_boolean">Logische (boolesche) Operatoren</string>
+  <string name="formula_editor_logic_comparison">Vergleichsoperatoren</string>
+  <string name="formula_editor_object_general">Allgemeine Eigenschaften</string>
+  <string name="formula_editor_object_physical">Physikalische Eigenschaften</string>
+  <string name="formula_editor_device_face_detection">Gesichtserkennung</string>
+  <string name="formula_editor_device_touch_detection">Berührungserkennung</string>
+  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_arduino">Arduino</string>
+  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+  <string name="formula_editor_device_drone">Drohne</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -895,12 +939,14 @@
   <string name="formula_editor_list_dialog_title">Neue Liste</string>
   <string name="formula_editor_dialog_for_all_sprites">Für alle Objekte</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
+  <string name="formula_editor_dialog_change_text">Text ändern</string>
   <string name="formula_editor_data_dialog_hint">Name eingeben</string>
   <string name="formula_editor_discard_changes_dialog_message">Möchtest Du deine Änderungen speichern?</string>
   <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
   <string name="formula_editor_new_string_name">Neuer Text</string>
   <string name="formula_editor_new_string_dialog_hint">Neuen Text hier eingeben.</string>
   <string name="formula_editor_data_dialog_title">Neu</string>
+  <string name="formula_editor_rename_variable_dialog_title">Umbenennen</string>
   <string name="formula_editor_existing_data_item">Name wird bereits verwendet!</string>
   <string name="formula_editor_fragment_data_current_items">aktuelle Elemente</string>
   <string name="formula_editor_data_dialog_is_list">Zur Liste machen</string>
@@ -933,6 +979,7 @@
   <string name="define">definiere</string>
   <string name="new_user_brick">Neuer Baustein</string>
   <string name="new_user_brick_variable">Variable 1</string>
+  <string name="new_user_brick_name">Bitte wähle einen Benutzerbausteinnamen:</string>
   <string name="recursive_user_brick_forbidden">Hinzufügen eines Userbricks in einem Userbrick ist noch nicht erlaubt!</string>
   <string name="brick_single">Baustein</string>
   <string name="brick_multiple">Bausteine</string>
@@ -955,10 +1002,20 @@
   <string name="choose_camera_front">vordere</string>
   <string name="choose_camera_back">hintere</string>
   <string name="error_flash_front_camera">"Du kannst den Blitz nur mit der hinteren Kamera verwenden. Bitte füge einen \"Verwende Kamera\" Baustein für die hintere Kamera deines Gerätes hinzu."</string>
+  <string name="brick_wait_until">Warte bis</string>
+  <string name="brick_wait_until_second_part">ist wahr</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Bewerte Pocket Code</string>
   <string name="rating_dialog_text">Wenn dir Pocket Code gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
   <string name="rating_dialog_rate_now">Jetzt</string>
   <string name="rating_dialog_rate_later">Später</string>
   <string name="rating_dialog_rate_never">Nie</string>
+  <!-- Delete User Variable Alert Dialog -->
+  <string name="deletion_alert_title">Achtung!</string>
+  <string name="deletion_alert_text">Löschen einer Variable, die noch in Gebrauch ist, ist gefährlich! Bist du sicher?</string>
+  <string name="deletion_alert_yes">Ja, trotzdem löschen!</string>
+  <string name="deletion_alert_no">Nein.</string>
+  <!-- Pocket Code crashed dialog -->
+  <string name="crashed_title">Pocked Code ist abgestürzt!</string>
+  <string name="crashed_message">Pocked Code ist abgestürzt und musste neu gestartet werden.</string>
 </resources>

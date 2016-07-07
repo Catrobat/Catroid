@@ -40,7 +40,7 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
@@ -51,6 +51,9 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
+		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
+		Utils.checkIfCrashRecoveryAndFinishActivity(this);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -87,9 +90,7 @@ public class BaseActivity extends Activity {
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 				} else {
-					Intent intent = new Intent(this, MainMenuActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
+					return false;
 				}
 				break;
 			case R.id.settings:

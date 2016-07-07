@@ -20,17 +20,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
+package org.catrobat.catroid.ui;
 
-public class UserBrickVariable {
-	public UserVariable variable;
-	public Formula formula;
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
-	public UserBrickVariable(UserVariable variable, Formula variableFormula) {
-		this.formula = variableFormula;
-		this.variable = variable;
+public class BaseExceptionHandler implements
+		java.lang.Thread.UncaughtExceptionHandler {
+
+	private static final String TAG = BaseExceptionHandler.class.getSimpleName();
+
+	public static final int EXIT_CODE = 10;
+	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
+
+	private final SharedPreferences preferences;
+
+	public BaseExceptionHandler(Activity context) {
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	}
+
+	public void uncaughtException(Thread thread, Throwable exception) {
+		Log.e(TAG, "unhandled exception", exception);
+		preferences.edit().putBoolean(RECOVERED_FROM_CRASH, true).commit();
+		System.exit(EXIT_CODE);
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 }
