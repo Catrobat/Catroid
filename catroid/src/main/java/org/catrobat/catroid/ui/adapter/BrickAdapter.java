@@ -64,6 +64,7 @@ import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -104,6 +105,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private AlertDialog alertDialog = null;
 
 	private boolean isBackPackActionMode = false;
+
+	private boolean isCommentOutActionMode = false;
 
 	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, DragAndDropListView listView) {
 		this.scriptFragment = scriptFragment;
@@ -1116,7 +1119,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private void setCommentOutStatus(Brick brick, boolean commentOut) {
-		int indexBegin, indexEnd;
+		int indexBegin;
+		int indexEnd;
 
 		if (brick instanceof NestingBrick) {
 			NestingBrick nestingBrick = (NestingBrick) brick;
@@ -1320,6 +1324,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	@Override
 	public void clearCheckedItems() {
+		isCommentOutActionMode = false;
 		checkedBricks.clear();
 		setCheckboxVisibility(View.GONE);
 		uncheckAllItems();
@@ -1332,6 +1337,16 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			CheckBox checkbox = brick.getCheckBox();
 			if (checkbox != null) {
 				checkbox.setChecked(false);
+			}
+		}
+	}
+
+	public void checkCommentedOutItems() {
+		for (Brick brick : brickList) {
+			CheckBox checkbox = brick.getCheckBox();
+			if (checkbox != null && brick.isCommentedOut()) {
+				checkbox.setChecked(true);
+				smartBrickSelection(brick, true);
 			}
 		}
 	}
@@ -1384,6 +1399,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (brick == null) {
 			return;
 		}
+
+		if (isCommentOutActionMode) {
+			brick.setCommentedOut(isChecked);
+		}
+
 		if (isChecked) {
 			if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 				clearCheckedItems();
@@ -1560,6 +1580,16 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		return checkedBricks;
 	}
 
+	public List<Brick> getUncheckedBricks() {
+		Set<Brick> uncheckedBricksSet = new HashSet<>();
+		uncheckedBricksSet.addAll(brickList);
+		uncheckedBricksSet.removeAll(checkedBricks);
+
+		List<Brick> uncheckedBrickList = new ArrayList<>();
+		uncheckedBrickList.addAll(uncheckedBricksSet);
+		return uncheckedBrickList;
+	}
+
 	public List<Brick> getCheckedBricksFromScriptBrick(ScriptBrick brick) {
 		int brickPosition = checkedBricks.indexOf(brick);
 		if (brickPosition >= 0) {
@@ -1614,5 +1644,9 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public interface OnBrickCheckedListener {
 		void onBrickChecked();
+	}
+
+	public void setCommentOutActionMode(boolean commentOutActionMode) {
+		isCommentOutActionMode = commentOutActionMode;
 	}
 }

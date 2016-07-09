@@ -45,7 +45,7 @@ public class CommentOutTest extends AndroidTestCase {
 		sequence = ActionFactory.sequence();
 	}
 
-	public void testCommentOut() {
+	public void testCommentOutSimple() {
 
 		script.addBrick(new WaitBrick(1));
 		script.addBrick(new WaitBrick(1));
@@ -57,7 +57,18 @@ public class CommentOutTest extends AndroidTestCase {
 
 		script.run(sprite, sequence);
 
-		assertEquals("action of disable brick should not be in sequence:", sequence.getActions().size, 3);
+		assertEquals("action of disabled brick should not be in sequence:", sequence.getActions().size, 3);
+	}
+
+	public void testCommentOutScript() {
+		script.addBrick(new WaitBrick(1));
+		script.addBrick(new WaitBrick(1));
+
+		script.setCommentedOut(true);
+
+		script.run(sprite, sequence);
+
+		assertEquals("no action of a disabled script should be in the sequence:", sequence.getActions().size, 0);
 	}
 }
 

@@ -75,7 +75,8 @@ public final class BackPackScriptController {
 		while (iterator.hasNext()) {
 			Brick currentBrick = iterator.next();
 			if (currentBrick instanceof ScriptBrick) {
-				Script scriptToAdd = ((ScriptBrick) currentBrick).getScriptSafe().copyScriptForSprite(
+				Script original = ((ScriptBrick) currentBrick).getScriptSafe();
+				Script scriptToAdd = original.copyScriptForSprite(
 						ProjectManager.getInstance().getCurrentSprite());
 				ProjectManager.getInstance().checkCurrentScript(scriptToAdd, false);
 				scriptToAdd.setCommentedOut(original.isCommentedOut());
