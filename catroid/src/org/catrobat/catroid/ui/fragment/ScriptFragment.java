@@ -90,6 +90,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private static final int ACTION_MODE_COPY = 0;
 	private static final int ACTION_MODE_DELETE = 1;
 	private static final int ACTION_MODE_BACKPACK = 2;
+	private static final int ACTION_MODE_COMMENT_OUT = 3;
 
 	private static int selectedBrickPosition = Constants.NO_POSITION;
 
@@ -141,6 +142,37 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			} else {
 				showConfirmDeleteDialog(false);
 			}
+		}
+	};
+
+	private ActionMode.Callback commentOutModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			mode.setTag(ACTION_MODE_COMMENT_OUT);
+			addSelectAllActionModeButton(mode, menu);
+
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			return true;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			adapter.setCommentOutActionMode(false);
+			clearCheckedBricksAndEnableButtons();
 		}
 	};
 
@@ -431,6 +463,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		startActionMode(commentOutModeCallBack);
+	}
+
+	@Override
 	public void startDeleteActionMode() {
 		startActionMode(deleteModeCallBack);
 	}
@@ -446,6 +483,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.copy));
 			} else if (actionModeCallback.equals(deleteModeCallBack)) {
 				((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
+			} else if (actionModeCallback.equals(commentOutModeCallBack)) {
+				((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.comment_in_out));
 			} else if (actionModeCallback.equals(backPackModeCallBack)) {
 				if (BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
 					((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.backpack));
@@ -465,6 +504,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.setActionMode(true);
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			updateActionModeTitle();
+
+			if (actionModeCallback.equals(commentOutModeCallBack)) {
+				adapter.checkCommentedOutItems();
+				adapter.setCommentOutActionMode(true);
+			}
 		}
 	}
 
@@ -702,6 +746,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				if (numberOfSelectedItems == 0) {
 					completeTitle = getString(R.string.backpack);
 				}
+				break;
+			case ACTION_MODE_COMMENT_OUT:
+				completeTitle = getString(R.string.comment_in_out);
 				break;
 			default:
 				throw new IllegalArgumentException("Wrong or unhandled tag in ActionMode.");

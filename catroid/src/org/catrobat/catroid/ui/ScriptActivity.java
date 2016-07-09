@@ -313,6 +313,10 @@ public class ScriptActivity extends BaseActivity {
 				currentFragment.startCopyActionMode();
 				break;
 
+			case R.id.comment_in_out:
+				currentFragment.startCommentOutActionMode();
+				break;
+
 			case R.id.cut:
 				break;
 
@@ -844,6 +848,8 @@ public class ScriptActivity extends BaseActivity {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_copy));
 		} else if (actionMode.equals(getString(R.string.rename))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_rename));
+		} else if (actionMode.equals(getString(R.string.comment_in_out))) {
+			actionModeEmptyText.setText(getString(R.string.comment_in_out_impossible));
 		}
 
 		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)

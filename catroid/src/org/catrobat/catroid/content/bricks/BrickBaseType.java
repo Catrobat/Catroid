@@ -78,7 +78,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	private void grayscaleBackground() {
-
 		ViewGroup viewGroup = (ViewGroup) view;
 		for (int index = 0; index < viewGroup.getChildCount(); index++) {
 			View child = viewGroup.getChildAt(index);
@@ -101,9 +100,7 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	private void undoGrayscaleBackground() {
-
 		ViewGroup viewGroup = (ViewGroup) view;
-
 		for (int index = 0; index < viewGroup.getChildCount(); index++) {
 			View child = viewGroup.getChildAt(index);
 
@@ -117,8 +114,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	public void doPadding() {
-		Log.e("foo", "doPadding()");
-
 		if (adapter == null) {
 			return;
 		}
@@ -129,11 +124,8 @@ public abstract class BrickBaseType implements Brick {
 		boolean nextIsScriptbrick = hasNext && adapter.getBrickList().get(next) instanceof ScriptBrick;
 
 		int paddingLeft = isCommentedOut() ? 75 : 0;
-		if (nextCommentStateDifferent && !nextIsScriptbrick) {
-			view.setPadding(paddingLeft, view.getPaddingTop(), 0, 50);
-		} else {
-			view.setPadding(paddingLeft, view.getPaddingTop(), 0, 0);
-		}
+		int paddingBottom = nextCommentStateDifferent && !nextIsScriptbrick ? 50 : 0;
+		view.setPadding(paddingLeft, view.getPaddingTop(), 0, paddingBottom);
 	}
 
 	@Override

@@ -268,11 +268,4 @@ public abstract class Script implements Serializable {
 			}
 		}
 	}
-
-	public void setAllCommentedOut(boolean commentedOut) {
-		this.commentedOut = commentedOut;
-		for (Brick brick : brickList) {
-			brick.setCommentedOut(commentedOut);
-		}
-	}
 }

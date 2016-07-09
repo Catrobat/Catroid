@@ -322,6 +322,11 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		// Comment out not supported
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		startActionMode(renameModeCallBack, true, false);
 	}

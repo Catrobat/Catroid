@@ -46,6 +46,8 @@ public abstract class ScriptActivityFragment extends ListFragment {
 
 	public abstract void startCopyActionMode();
 
+	public abstract void startCommentOutActionMode();
+
 	public abstract void startRenameActionMode();
 
 	public abstract void startDeleteActionMode();

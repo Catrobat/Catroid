@@ -369,6 +369,8 @@
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <string name="brick_context_dialog_comment_in">Enable Brick</string>
     <string name="brick_context_dialog_comment_out">Disable Brick</string>
+    <string name="comment_in_out">Disable/Enable</string>
+    <string name="comment_in_out_impossible">Nothing to Disable/Enable</string>
     <!--  -->
 
 
