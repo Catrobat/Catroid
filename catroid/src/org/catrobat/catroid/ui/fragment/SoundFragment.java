@@ -688,7 +688,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	public void addPocketMusic() {
-		isAddNewSoundButtonClicked = true;
 		Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
 		startActivity(intent);
 	}
