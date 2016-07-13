@@ -715,6 +715,7 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
+    <string name="upload_tag_dialog_title">Choose up to three categories</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -725,7 +726,6 @@
     <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
     <string name="drone_emergency_title">Emergency</string>
     <!--  -->
-
 
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>

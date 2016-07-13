@@ -63,7 +63,9 @@ import okio.Okio;
 public final class ServerCalls {
 
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
+	//"https://web-test.catrob.at/pocketcode/";
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
+	public static final String TEST_FILE_TAG_URL_HTTP = BASE_URL_TEST_HTTPS + "api/tags/getTags.json";
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
 	private static final String TAG = ServerCalls.class.getSimpleName();
@@ -150,7 +152,7 @@ public final class ServerCalls {
 
 	private static final ServerCalls INSTANCE = new ServerCalls();
 
-	public static boolean useTestUrl = false;
+	public static boolean useTestUrl = true;
 	private final OkHttpClient okHttpClient;
 	private final Gson gson;
 	public int oldNotificationId = 0;
@@ -398,6 +400,23 @@ public final class ServerCalls {
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
 		}
+	}
+
+	public String getTagsRequest(String language) {
+		String response = "";
+		try {
+			String serverUrl = TEST_FILE_TAG_URL_HTTP;
+			if (language != null) {
+				serverUrl = serverUrl.concat("?language=" + language);
+			}
+			Log.v(TAG, "TAGURL to use: " + serverUrl);
+			response = getRequest(serverUrl);
+			Log.d(TAG, "TAG-RESPONSE: " + response);
+			return response;
+		} catch (WebconnectionException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		return response;
 	}
 
 	public boolean register(String username, String password, String userEmail, String language,
