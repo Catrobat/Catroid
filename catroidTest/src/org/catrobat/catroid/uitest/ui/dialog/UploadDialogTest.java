@@ -167,7 +167,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Project name field is not a text field", 1, projectUploadNameNumberOfLines);
 
 		int projectUploadDescriptionNumberOfLines = editTextUploadDescription.getMaxLines();
-		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
+		assertTrue("Project description field is not multiline", projectUploadDescriptionNumberOfLines >= 2);
 	}
 
 	public void testRatingDialog() throws Throwable {

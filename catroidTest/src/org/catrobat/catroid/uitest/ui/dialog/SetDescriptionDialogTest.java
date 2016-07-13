@@ -64,6 +64,6 @@ public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCas
 				projectDescriptionNumberOfLines);
 
 		projectDescriptionNumberOfLines = description.getMaxLines();
-		assertEquals("Project description field is not multiline", 3, projectDescriptionNumberOfLines);
+		assertTrue("Project description field is not multiline", projectDescriptionNumberOfLines >= 3);
 	}
 }
