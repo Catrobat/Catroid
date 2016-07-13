@@ -349,6 +349,20 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		if (isRenameActionMode || actionMode == null) {
 			return;
 		}
+		int totalNoOfSprites;
+		if (isBackPackActionMode) {
+			totalNoOfSprites = spriteList.size();
+		} else {
+			totalNoOfSprites = spriteList.size() - 1;
+		}
+		CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+		if (spriteAdapter.getCheckedSprites().size() == totalNoOfSprites) {
+			selectAll = false;
+			selectAllView.setText(R.string.deselect_all);
+		} else {
+			selectAll = true;
+			selectAllView.setText(R.string.select_all);
+		}
 
 		updateActionModeTitle();
 	}

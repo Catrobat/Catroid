@@ -410,6 +410,14 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 
 	@Override
 	public void onProjectChecked() {
+		CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);
+		if (projectList.size() == adapter.getCheckedProjects().size()) {
+			selectAll = false;
+			selectAllView.setText(R.string.deselect_all);
+		} else {
+			selectAll = true;
+			selectAllView.setText(R.string.select_all);
+		}
 		if (adapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE || actionMode == null) {
 			return;
 		}
