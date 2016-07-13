@@ -33,6 +33,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -1020,5 +1021,27 @@ public final class Utils {
 
 	public static String getNumberStringForBricks(float value) {
 		return (int) value == value ? "" + (int) value : "" + value;
+	}
+
+	// http://stackoverflow.com/questions/2711858/is-it-possible-to-set-font-for-entire-application/16883281#16883281
+	public static void setDefaultFont(Context context,
+			String staticTypefaceFieldName, String fontAssetName) {
+		final Typeface regular = Typeface.createFromAsset(context.getAssets(),
+				fontAssetName);
+		replaceFont(staticTypefaceFieldName, regular);
+	}
+
+	private static void replaceFont(String staticTypefaceFieldName,
+			final Typeface newTypeface) {
+		try {
+			final Field staticField = Typeface.class
+					.getDeclaredField(staticTypefaceFieldName);
+			staticField.setAccessible(true);
+			staticField.set(null, newTypeface);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 }
