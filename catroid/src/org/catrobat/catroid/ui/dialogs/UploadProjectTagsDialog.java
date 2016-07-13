@@ -34,7 +34,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
@@ -63,66 +62,60 @@ public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTa
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			super.onReceiveResult(resultCode, resultData);
 			if (resultCode == Constants.UPDATE_UPLOAD_PROGRESS) {
 				long progress = resultData.getLong("currentUploadProgress");
 				boolean endOfFileReached = resultData.getBoolean("endOfFileReached");
-				Integer notificationId = resultData.getInt("notificationId");
+				int notificationId = resultData.getInt("notificationId");
 				String projectName = resultData.getString("projectName");
-				long progressPercent = 0;
+				int progressPercent;
 				if (endOfFileReached) {
 					progressPercent = 100;
 				} else {
-					progressPercent = UtilFile.getProgressFromBytes(projectName, progress);
+					progressPercent = (int) UtilFile.getProgressFromBytes(projectName, progress);
 				}
 
-				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
-						Long.valueOf(progressPercent).intValue());
+				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, progressPercent);
 			}
 		}
 	}
 
 	public static final String DIALOG_TAGGING_FRAGMENT_TAG = "dialog_upload_project_tags";
-	private List<Integer> tagsChecked = new ArrayList<Integer>();
-	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
 	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
-	public static final int OFFSET_TO_TAGS = 2;
-	public String[] tags;
+	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
+	public List<String> tags;
 	private String currentProjectName;
 	private String currentProjectDescription;
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-
 		if (bundle != null) {
 			openAuthProvider = bundle.getString(Constants.CURRENT_OAUTH_PROVIDER);
 		}
 
-		Log.d("Upload", "Lausi Mausi");
+		final List<String> checkedTags = new ArrayList<>();
+		final String[] tagChoices = tags.toArray(new String[tags.size()]);
 		Dialog tagDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.upload_tag_dialog_title)
-				.setMultiChoiceItems(tags, null, new DialogInterface.OnMultiChoiceClickListener() {
+				.setMultiChoiceItems(tagChoices, null, new DialogInterface.OnMultiChoiceClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
-						Log.d("Upload", "Lausi Mausi");
 						if (isChecked) {
-							if (tagsChecked.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
+							if (checkedTags.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
 								((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
 							} else {
-								tagsChecked.add(indexSelected);
+								checkedTags.add(tagChoices[indexSelected]);
 							}
-						} else if (tagsChecked.contains(indexSelected)) {
-							tagsChecked.remove(Integer.valueOf(indexSelected));
-							((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
+						} else {
+							checkedTags.remove(tagChoices[indexSelected]);
 						}
 					}
-				}).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				}).setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						ProjectManager.getInstance().getCurrentProject().setTags(getStringsForCheckedItems());
+						ProjectManager.getInstance().getCurrentProject().setTags(checkedTags);
 						uploadProject(currentProjectName, currentProjectDescription);
 					}
-				}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				}).setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						handleCancelButtonClick();
@@ -141,14 +134,6 @@ public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTa
 	}
 	public void setProjectDescription(String projectDescription) {
 		this.currentProjectDescription = projectDescription;
-	}
-
-	private String[] getStringsForCheckedItems() {
-		String[] checkedTags = new String[tagsChecked.size()];
-		for (int i = 0; i < tagsChecked.size(); i++) {
-			checkedTags[i] = tags[tagsChecked.get(i)];
-		}
-		return checkedTags;
 	}
 
 	private void uploadProject(String uploadName, String projectDescription) {
@@ -185,18 +170,9 @@ public class UploadProjectTagsDialog extends DialogFragment implements GetTagsTa
 		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
 	}
 
-	private String[] extractTagsFromResponse(String response) {
-		String[] parts = response.split(":");
-		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("[", "");
-		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("]", "");
-		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("}", "");
-		parts[OFFSET_TO_TAGS] = parts[OFFSET_TO_TAGS].replace("\"", "");
-		return parts[OFFSET_TO_TAGS].split(",");
-	}
-
 	@Override
-	public void onTagsReceived(String tags) {
-		this.tags = extractTagsFromResponse(tags);
+	public void onTagsReceived(List<String> tags) {
+		this.tags = tags;
 	}
 
 	private void handleCancelButtonClick() {

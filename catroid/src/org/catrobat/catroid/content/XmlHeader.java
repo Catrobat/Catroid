@@ -22,11 +22,14 @@
  */
 package org.catrobat.catroid.content;
 
+import android.text.TextUtils;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.common.ScreenModes;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class XmlHeader implements Serializable {
 
@@ -191,11 +194,7 @@ public class XmlHeader implements Serializable {
 		this.landscapeMode = landscapeMode;
 	}
 
-	public String getTags() {
-		return this.tags;
-	}
-
-	public void setTags(String tags) {
-		this.tags = tags;
+	public void setTags(List<String> tags) {
+		this.tags = TextUtils.join(",", tags);
 	}
 }
