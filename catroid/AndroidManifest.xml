@@ -44,7 +44,7 @@
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!--&lt;!&ndash; drone &ndash;&gt;-->
+    <!-- drone -->
     <uses-feature
         android:name="android.hardware.wifi"
         android:required="false" />
@@ -52,8 +52,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- drone permissions end -->
 
+    <!-- bluetooth -->
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="false" />
