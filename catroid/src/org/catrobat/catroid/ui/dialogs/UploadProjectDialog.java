@@ -31,7 +31,6 @@ import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -69,13 +68,10 @@ public class UploadProjectDialog extends DialogFragment {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_upload_project, null);
 
 		tagDialog = new UploadProjectTagsDialog();
-		try {
-			GetTagsTask task = new GetTagsTask(getActivity());
-			task.setOnTagsResponseListener(tagDialog);
-			task.execute();
-		} catch (Exception e) {
-			Log.e("UploadProjectDialog", "No Tags available" + e.toString());
-		}
+		GetTagsTask task = new GetTagsTask(getActivity());
+		task.setOnTagsResponseListener(tagDialog);
+		task.execute();
+
 		projectRename = (TextView) dialogView.findViewById(R.id.tv_project_rename);
 		projectDescriptionField = (EditText) dialogView.findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) dialogView.findViewById(R.id.project_upload_name);

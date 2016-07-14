@@ -216,15 +216,8 @@ public class Project implements Serializable {
 		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
 	}
 
-	public void setTags(String[] tags) {
-		String tmpTags = "";
-		for (int i = 0; i < tags.length; i++) {
-			tmpTags = tmpTags.concat(tags[i]);
-			if (i != (tags.length - 1)) {
-				tmpTags = tmpTags.concat(",");
-			}
-		}
-		xmlHeader.setTags(tmpTags);
+	public void setTags(List<String> tags) {
+		xmlHeader.setTags(tags);
 	}
 
 	// default constructor for XMLParser
