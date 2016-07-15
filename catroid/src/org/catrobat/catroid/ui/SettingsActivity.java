@@ -46,6 +46,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
@@ -158,7 +159,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 	private void setDronePreferences() {
 
-		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
+		boolean areChoosersEnabled = getDroneChooserEnabled(this);
 
 		final String[] dronePreferences = new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
 		for (String dronePreference : dronePreferences) {
@@ -417,6 +418,17 @@ public class SettingsActivity extends PreferenceActivity {
 	public static boolean getMindstormsNXTSensorChooserEnabled(Context context) {
 		SharedPreferences preferences = getSharedPreferences(context);
 		return preferences.getBoolean("mindstorms_nxt_sensor_chooser_in_settings", false);
+	}
+
+	public static void setDroneChooserEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_DRONE_CHOOSER, enable);
+		editor.commit();
+	}
+
+	public static boolean getDroneChooserEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(SETTINGS_DRONE_CHOOSER, false);
 	}
 
 	public static void disableLegoMindstormsSensorInfoDialog(Context context) {

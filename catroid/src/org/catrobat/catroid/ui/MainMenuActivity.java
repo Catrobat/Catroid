@@ -121,6 +121,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
 
+		SettingsActivity.setDroneChooserEnabled(this, false);
+
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
 
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
