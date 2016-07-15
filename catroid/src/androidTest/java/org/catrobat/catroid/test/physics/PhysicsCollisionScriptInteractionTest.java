@@ -31,6 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.io.StorageHandler;
@@ -68,7 +69,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		firstSprite = new Sprite(FIRST_SPRITE_NAME);
+		firstSprite = new SingleSprite(FIRST_SPRITE_NAME);
 		Script firstSpriteStartScript = new StartScript();
 		firstSpriteStartScript.addBrick(new SetPhysicsObjectTypeBrick());
 		firstSpriteCollisionScript = new CollisionScript("");
@@ -78,7 +79,7 @@ public class PhysicsCollisionScriptInteractionTest extends InstrumentationTestCa
 		firstSprite.addScript(firstSpriteCollisionScript);
 		project.getDefaultScene().addSprite(firstSprite);
 
-		secondSprite = new Sprite(SECOND_SPRITE_NAME);
+		secondSprite = new SingleSprite(SECOND_SPRITE_NAME);
 		Script secondSpriteStartScript = new StartScript();
 		secondSpriteStartScript.addBrick(new SetPhysicsObjectTypeBrick());
 		secondSpriteCollisionScript = new CollisionScript("");

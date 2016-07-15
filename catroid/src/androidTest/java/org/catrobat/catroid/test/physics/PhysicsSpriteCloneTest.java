@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -85,7 +86,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite = new Sprite("TestSprite");
+		sprite = new SingleSprite("TestSprite");
 		project.getDefaultScene().addSprite(sprite);
 	}
 

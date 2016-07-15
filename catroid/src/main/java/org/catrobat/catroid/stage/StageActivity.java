@@ -62,7 +62,7 @@ import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.ArrayList;
@@ -314,7 +314,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void calculateScreenSizes() {
-		Utils.updateScreenWidthAndHeight(getContext());
+		UtilUi.updateScreenWidthAndHeight(getContext());
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {

@@ -36,6 +36,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -83,7 +84,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 	public void testNullBody() {
 		try {
-			new PhysicsObject(null, new Sprite("TestSprite"));
+			new PhysicsObject(null, new SingleSprite("TestSprite"));
 			fail("Creating a physics object with no body doesn't cause a NullPointerException");
 		} catch (NullPointerException exception) {
 			Log.e(TAG, exception.toString());
@@ -482,7 +483,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	public void testIfOnEndgeBounce() {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC,
 				1.0f, 1.0f);
-		Sprite sprite = new Sprite("TestSprite");
+		Sprite sprite = new SingleSprite("TestSprite");
 		physicsObject.setIfOnEdgeBounce(true, sprite);
 
 		assertTrue("If on edge bounce hasn't been set correctly",

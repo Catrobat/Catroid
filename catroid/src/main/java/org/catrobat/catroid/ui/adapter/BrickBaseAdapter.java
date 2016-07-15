@@ -63,9 +63,9 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 	protected void showNewGroupBackPackDialog(final List<String> backPackedItems, final boolean backPackUserBricks) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(R.string.new_group);
-		View view = View.inflate(context, R.layout.backpack_new_group_dialog, null);
+		View view = View.inflate(context, R.layout.new_group_dialog, null);
 		builder.setView(view);
-		final EditText groupNameEditText = (EditText) view.findViewById(R.id.backpack_new_group_dialog_group_name);
+		final EditText groupNameEditText = (EditText) view.findViewById(R.id.new_group_dialog_group_name);
 
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
@@ -123,7 +123,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 	private void showScriptGroupNameAlreadyGivenDialog(final List<String> backPackedItems, final boolean backPackUserBricks) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(R.string.new_group);
-		View view = View.inflate(context, R.layout.backpack_new_group_name_given_dialog, null);
+		View view = View.inflate(context, R.layout.new_group_name_given_dialog, null);
 		builder.setView(view);
 
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

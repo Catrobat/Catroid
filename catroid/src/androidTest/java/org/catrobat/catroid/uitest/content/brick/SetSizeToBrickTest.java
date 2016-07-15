@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -140,7 +141,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		project = new Project(getActivity(), projectName);
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new StartScript();
 		setSizeToBrick = new SetSizeToBrick(100);
 		setLookBrick = new SetLookBrick();

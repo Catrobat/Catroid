@@ -31,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -99,7 +100,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				.getSpriteList().size() - 1);
 		assertEquals("Catroid sprite has wrong number of scripts", 3, bird.getNumberOfScripts());
 
-		Sprite sprite = new Sprite(spriteNameOne);
+		Sprite sprite = new SingleSprite(spriteNameOne);
 		projectManager.addSprite(sprite);
 		projectManager.setCurrentSprite(sprite);
 
@@ -125,7 +126,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
-		Sprite sprite2 = new Sprite(spriteNameTwo);
+		Sprite sprite2 = new SingleSprite(spriteNameTwo);
 		projectManager.addSprite(sprite2);
 		assertTrue("Sprite not in current Project", projectManager.getCurrentScene().getSpriteList()
 				.contains(sprite2));
@@ -211,10 +212,10 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
+		Sprite thirdSprite = new SingleSprite("horse");
+		Sprite fourthSprite = new SingleSprite("pig");
 		testScript = new StartScript();
 		otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();

@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -42,7 +43,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.io.File;
 
@@ -181,7 +182,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		Project project = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		// yellow Sprite
-		Sprite yellowSprite = new Sprite("yellowSprite");
+		Sprite yellowSprite = new SingleSprite("yellowSprite");
 		StartScript yellowStartScript = new StartScript();
 		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
@@ -201,7 +202,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		yellowSprite.addScript(yellowWhenScript);
 
 		// blue Sprite
-		Sprite blueSprite = new Sprite("blueSprite");
+		Sprite blueSprite = new SingleSprite("blueSprite");
 		StartScript blueStartScript = new StartScript();
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
@@ -221,7 +222,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		blueSprite.addScript(blueWhenScript);
 
 		// green Sprite
-		Sprite greenSprite = new Sprite("greenSprite");
+		Sprite greenSprite = new SingleSprite("greenSprite");
 		StartScript greenStartScript = new StartScript();
 		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
@@ -241,7 +242,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		greenSprite.addScript(greenWhenScript);
 
 		// red Sprite
-		Sprite redSprite = new Sprite("redSprite");
+		Sprite redSprite = new SingleSprite("redSprite");
 		StartScript redStartScript = new StartScript();
 		LookData redLookData = new LookData();
 		String redImageName = "red_image.bmp";
@@ -265,7 +266,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		redSprite.addScript(redWhenScript);
 
 		// black Sprite
-		Sprite blackSprite = new Sprite("blackSprite");
+		Sprite blackSprite = new SingleSprite("blackSprite");
 		StartScript blackStartScript = new StartScript();
 		LookData blackLookData = new LookData();
 		String blackImageName = "black_image.bmp";
@@ -317,7 +318,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
-		Utils.updateScreenWidthAndHeight(getActivity());
+		UtilUi.updateScreenWidthAndHeight(getActivity());
 	}
 
 	private void comparePixelColorArrayWithScreenArrayAtProjectCoordinates(byte[] screenArray, byte[] pixelArray, int x, int y) {

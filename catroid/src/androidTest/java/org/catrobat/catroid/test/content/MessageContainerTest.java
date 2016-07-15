@@ -29,6 +29,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -121,7 +122,7 @@ public class MessageContainerTest extends AndroidTestCase {
 	private void createTestProjects() {
 		Project project1 = new Project(getContext(), projectName1);
 
-		Sprite sprite1 = new Sprite("cat");
+		Sprite sprite1 = new SingleSprite("cat");
 		Script script1 = new StartScript();
 		BroadcastBrick brick1 = new BroadcastBrick(broadcastMessage1);
 		script1.addBrick(brick1);
@@ -136,7 +137,7 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		Project project2 = new Project(getContext(), projectName2);
 
-		Sprite sprite2 = new Sprite("cat");
+		Sprite sprite2 = new SingleSprite("cat");
 		Script script2 = new StartScript();
 		BroadcastBrick brick2 = new BroadcastBrick(broadcastMessage2);
 		script2.addBrick(brick2);

@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -184,8 +185,8 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		String message1 = "message1";
 		String message2 = "message2";
 		double degreesToTurn = 15.0f;
-		Sprite secondSprite = new Sprite("sprite2");
-		Sprite thirdSprite = new Sprite("sprite3");
+		Sprite secondSprite = new SingleSprite("sprite2");
+		Sprite thirdSprite = new SingleSprite("sprite3");
 		int initialRotation = UiTestUtils.createSendBroadcastInBroadcastAndWaitProject(message1, message2, degreesToTurn, secondSprite, thirdSprite);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

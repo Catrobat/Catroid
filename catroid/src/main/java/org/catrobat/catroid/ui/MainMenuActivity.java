@@ -68,6 +68,7 @@ import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.rauschig.jarchivelib.Archiver;
@@ -109,7 +110,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		initializeFacebookSdk();
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
-		Utils.updateScreenWidthAndHeight(this);
+		UtilUi.updateScreenWidthAndHeight(this);
 
 		if (STANDALONE_MODE) {
 			/*requestWindowFeature(Window.FEATURE_NO_TITLE);

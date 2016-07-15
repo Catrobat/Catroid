@@ -30,6 +30,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -86,7 +87,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		Project testProject = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		final String alphaTestImageName = "alpha_test_image.png";
 
-		Sprite touchSprite = new Sprite("touchSprite");
+		Sprite touchSprite = new SingleSprite("touchSprite");
 		Script startScript = new StartScript();
 		SetLookBrick setAlphaLookBrick = new SetLookBrick();
 

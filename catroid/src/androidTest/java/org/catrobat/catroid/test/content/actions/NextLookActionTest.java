@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
@@ -83,7 +84,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 
 	public void testNextLook() {
 
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
 		lookData1.setLookFilename(testImage.getName());
@@ -106,7 +107,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 	}
 
 	public void testLastLook() {
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
 		lookData1.setLookFilename(testImage.getName());
@@ -138,7 +139,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 
 	public void testLookGalleryNull() {
 
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		ActionFactory factory = sprite.getActionFactory();
 		Action nextLookAction = factory.createNextLookAction(sprite);
 		nextLookAction.act(1.0f);
@@ -147,7 +148,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 	}
 
 	public void testLookGalleryWithOneLook() {
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
 		lookData1.setLookFilename(testImage.getName());
@@ -167,7 +168,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 
 	public void testNextLookWithNoLookSet() {
 
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action nextLookAction = factory.createNextLookAction(sprite);

@@ -77,6 +77,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -416,7 +417,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	protected void showRenameDialog() {
+	public void showRenameDialog() {
 		//Rename not supported
 	}
 
@@ -495,10 +496,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public void handleCheckBoxClick(View view) {
-	}
-
-	@Override
 	public boolean getActionModeActive() {
 		return actionModeActive;
 	}
@@ -515,7 +512,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	protected void showDeleteDialog() {
+	public void showDeleteDialog() {
 
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
@@ -530,7 +527,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
 				menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
@@ -684,7 +681,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		} else {
 			condition = adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount();
 		}
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, condition);
+		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, condition);
 	}
 
 	private void updateActionModeTitle() {
@@ -754,5 +751,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (isInUserBrickOverview() || getActivity() instanceof UserBrickScriptActivity) {
 			BottomBar.hidePlayButton(getActivity());
 		}
+	}
+
+	@Override
+	public void handleCheckBoxClick(View view) {
+
 	}
 }

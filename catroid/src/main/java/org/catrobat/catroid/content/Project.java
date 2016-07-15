@@ -28,6 +28,7 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
@@ -41,6 +42,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -71,7 +74,7 @@ public class Project implements Serializable {
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			Utils.updateScreenWidthAndHeight(context);
+			UtilUi.updateScreenWidthAndHeight(context);
 		}
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
@@ -360,6 +363,12 @@ public class Project implements Serializable {
 				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
 				return;
 			}
+		}
+	}
+
+	public void refreshSpriteReferences() {
+		for (Scene scene : sceneList) {
+			scene.refreshSpriteReferences();
 		}
 	}
 }

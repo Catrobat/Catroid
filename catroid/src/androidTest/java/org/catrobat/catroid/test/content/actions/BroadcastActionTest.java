@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -44,7 +45,7 @@ import java.util.List;
 public class BroadcastActionTest extends AndroidTestCase {
 
 	public void testBroadcast() {
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 		String message = "simpleTest";
 		BroadcastBrick broadcastBrick = new BroadcastBrick(message);
@@ -74,7 +75,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public void testBroadcastWait() {
-		Sprite sprite = new Sprite("spriteOne");
+		Sprite sprite = new SingleSprite("spriteOne");
 		Script scriptWait = new StartScript();
 		String message = "waitTest";
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(message);
@@ -109,7 +110,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public void testWhenScriptRestartingItself() {
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 
 		String message = "simpleTest";
@@ -153,7 +154,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		String messageTwo = "messageTwo";
 		final int xMovement = 1;
 
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script startScript = new StartScript();
 		BroadcastBrick startBroadcastBrick = new BroadcastBrick(messageOne);
 		startScript.addBrick(startBroadcastBrick);
