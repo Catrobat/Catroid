@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -267,7 +268,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ForeverBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof LoopEndlessBrick);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		UiTestUtils.clickOnCheckBox(solo, 1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -284,7 +285,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_repeat);
 		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 
 		boolean isCheckBoxVisible = false;
 
@@ -299,7 +300,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 
 		isCheckBoxVisible = false;
 
@@ -319,7 +320,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_repeat);
 		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		UiTestUtils.clickOnCheckBox(solo, 2);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -338,12 +339,12 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_repeat);
 		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.clickOnCheckBox(3);
 
 		CheckBox firstRepeatBrickCheckBox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox, 0);
@@ -358,7 +359,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	public void testSelectionActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		CheckBox repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
@@ -371,7 +372,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
@@ -387,7 +388,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		LoopEndBrick endBrick;
 
 		project = new Project(null, "testProject");
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new StartScript();
 
 		RepeatBrick repeatBrick = new RepeatBrick(3);
@@ -433,7 +434,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	private void deleteAllBricks() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		UiTestUtils.clickOnText(solo, solo.getString(R.string.select_all).toUpperCase(Locale.getDefault()));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		UiTestUtils.clickOnText(solo, solo.getString(R.string.yes));

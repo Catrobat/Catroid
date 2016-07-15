@@ -33,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -571,8 +572,8 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
-		Sprite sprite = new Sprite("Dog");
-		Sprite sprite1 = new Sprite("Cat");
+		Sprite sprite = new SingleSprite("Dog");
+		Sprite sprite1 = new SingleSprite("Cat");
 		Script script = new StartScript();
 		Script script1 = new StartScript();
 		sprite.addScript(script);

@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
@@ -42,6 +43,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -72,7 +75,7 @@ public class Project implements Serializable {
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			Utils.updateScreenWidthAndHeight(context);
+			UtilUi.updateScreenWidthAndHeight(context);
 		}
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
@@ -90,7 +93,8 @@ public class Project implements Serializable {
 		if (context == null) {
 			return;
 		}
-		Sprite background = new Sprite(context.getString(R.string.background));
+		Sprite background = new SpriteFactory().newInstance(SingleSprite.class.getSimpleName(),
+				context.getString(R.string.background));
 		background.look.setZIndex(0);
 		addSprite(background);
 	}
@@ -405,13 +409,6 @@ public class Project implements Serializable {
 		return spriteBySpriteName;
 	}
 
-	public boolean isBackgroundObject(Sprite sprite) {
-		if (spriteList.indexOf(sprite) == 0) {
-			return true;
-		}
-		return false;
-	}
-
 	public void replaceBackgroundSprite(Sprite unpackedSprite) {
 		spriteList.set(0, unpackedSprite);
 	}
@@ -423,5 +420,34 @@ public class Project implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	public void addSprite(int spriteIndex, Sprite sprite) {
+		spriteList.add(spriteIndex, sprite);
+	}
+
+	public void refreshSpriteReferences() {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		for (Brick brick : project.getAllBricks()) {
+			if (!(brick instanceof PointToBrick)) {
+				continue;
+			}
+			PointToBrick pointToBrick = (PointToBrick) brick;
+			Sprite pointedSprite = pointToBrick.getPointedObject();
+			if (pointedSprite == null) {
+				continue;
+			}
+
+			Sprite newSprite = getSpriteBySpriteName(pointToBrick.getPointedObject());
+			pointToBrick.setPointedObject(newSprite);
+		}
+	}
+
+	public List<Brick> getAllBricks() {
+		List<Brick> result = new ArrayList<>();
+		for (Sprite sprite : spriteList) {
+			result.addAll(sprite.getAllBricks());
+		}
+		return result;
 	}
 }

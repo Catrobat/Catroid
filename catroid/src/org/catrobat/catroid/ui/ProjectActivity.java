@@ -160,6 +160,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				onBackPressed();
@@ -196,6 +197,10 @@ public class ProjectActivity extends BaseActivity {
 
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
+				break;
+
+			case R.id.groups_create:
+				spritesListFragment.showNewObjectGroupDialog();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -279,10 +284,6 @@ public class ProjectActivity extends BaseActivity {
 		}
 	}
 
-	public void handleCheckBoxClick(View view) {
-		spritesListFragment.handleCheckBoxClick(view);
-	}
-
 	public void handleAddButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
@@ -311,7 +312,7 @@ public class ProjectActivity extends BaseActivity {
 		// Dismiss ActionMode without effecting sounds
 		if (spritesListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
-			SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
+			SpriteAdapter adapter = spritesListFragment.getSpriteAdapter();
 			adapter.clearCheckedItems();
 		}
 

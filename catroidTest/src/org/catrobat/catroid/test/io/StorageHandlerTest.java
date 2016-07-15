@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -116,10 +117,10 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		final float size = 0.8f;
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		Sprite firstSprite = new Sprite("first");
-		Sprite secondSprite = new Sprite("second");
-		Sprite thirdSprite = new Sprite("third");
-		Sprite fourthSprite = new Sprite("fourth");
+		Sprite firstSprite = new SingleSprite("first");
+		Sprite secondSprite = new SingleSprite("second");
+		Sprite thirdSprite = new SingleSprite("third");
+		Sprite fourthSprite = new SingleSprite("fourth");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -199,10 +200,10 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		final float size = 0.8f;
 
 		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		Sprite firstSprite = new Sprite("first");
-		Sprite secondSprite = new Sprite("second");
-		Sprite thirdSprite = new Sprite("third");
-		Sprite fourthSprite = new Sprite("fourth");
+		Sprite firstSprite = new SingleSprite("first");
+		Sprite secondSprite = new SingleSprite("second");
+		Sprite thirdSprite = new SingleSprite("third");
+		Sprite fourthSprite = new SingleSprite("fourth");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -466,8 +467,8 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 	private Project generateMultiplePermissionsProject() {
 		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		Sprite firstSprite = new Sprite("first");
-		Sprite secondSprite = new Sprite("second");
+		Sprite firstSprite = new SingleSprite("first");
+		Sprite secondSprite = new SingleSprite("second");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();

@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -66,8 +67,8 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 	private void createProject(String projectName) throws InterruptedException {
 		project = new Project(null, projectName);
-		firstSprite = new Sprite("firstSprite");
-		secondSprite = new Sprite("secondSprite");
+		firstSprite = new SingleSprite("firstSprite");
+		secondSprite = new SingleSprite("secondSprite");
 		Script startScript1 = new StartScript();
 		Script startScript2 = new StartScript();
 		changeBrick = new ChangeSizeByNBrick(0);

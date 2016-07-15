@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
@@ -44,7 +45,7 @@ public class SpeakActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		text = new Formula(666);
 		text2 = new Formula(888.88);
 		textString = new Formula(SPEAK);

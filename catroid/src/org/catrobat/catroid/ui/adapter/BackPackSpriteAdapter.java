@@ -24,18 +24,22 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
@@ -43,15 +47,122 @@ import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionModeActivityAdapterInterface {
+public class BackPackSpriteAdapter extends ArrayAdapter<Sprite> implements ActionModeActivityAdapterInterface {
 
+	private static LayoutInflater inflater = null;
+	private Context context;
+	private int selectMode;
+	private boolean showDetails;
+	private Set<Integer> checkedSprites = new TreeSet<>();
+	private OnSpriteEditListener onSpriteEditListener;
 	private final BackPackSpriteFragment backpackSpriteFragment;
 
 	public BackPackSpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects,
 			BackPackSpriteFragment backpackSpriteFragment) {
 		super(context, resource, textViewResourceId, objects);
 		this.backpackSpriteFragment = backpackSpriteFragment;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.context = context;
+		selectMode = ListView.CHOICE_MODE_NONE;
+		showDetails = false;
+	}
+
+	public void setOnSpriteEditListener(OnSpriteEditListener listener) {
+		onSpriteEditListener = listener;
+	}
+
+	public void addCheckedSprite(int position) {
+		checkedSprites.add(position);
+	}
+
+	public int getSelectMode() {
+		return selectMode;
+	}
+
+	public void setSelectMode(int selectMode) {
+		this.selectMode = selectMode;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
+	}
+
+	@Override
+	public int getAmountOfCheckedItems() {
+		return checkedSprites.size();
+	}
+
+	@Override
+	public Set<Integer> getCheckedItems() {
+		return checkedSprites;
+	}
+
+	public ArrayList<Sprite> getCheckedSprites() {
+		ArrayList<Sprite> result = new ArrayList<>();
+		for (Integer pos : checkedSprites) {
+			result.add(ProjectManager.getInstance().getCurrentProject().getSpriteList().get(pos));
+		}
+		return result;
+	}
+
+	@Override
+	public void clearCheckedItems() {
+		checkedSprites.clear();
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public void handleHolderViews(final int position, ViewHolder holder) {
+
+		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					if (selectMode == ListView.CHOICE_MODE_SINGLE) {
+						clearCheckedItems();
+					}
+					checkedSprites.add(position);
+				} else {
+					checkedSprites.remove(position);
+				}
+				notifyDataSetChanged();
+
+				if (onSpriteEditListener != null) {
+					onSpriteEditListener.onSpriteChecked();
+				}
+			}
+		});
+
+		if (checkedSprites.contains(position)) {
+			holder.checkbox.setChecked(true);
+		} else {
+			holder.checkbox.setChecked(false);
+		}
+
+		Sprite sprite = getItem(position);
+		holder.text.setText(sprite.getName());
+		setImage(holder, sprite);
+
+		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts).concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
+
+		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks).concat(" ").concat(Integer
+				.toString(sprite.getNumberOfBricks())).concat(Integer.toString(sprite.getNumberOfScripts())));
+
+		holder.looks.setText(context.getResources().getString(R.string.number_of_looks).concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
+
+		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds).concat(" ").concat(Integer.toString(sprite.getSoundList().size())));
+
+		if (!showDetails) {
+			holder.details.setVisibility(View.GONE);
+		} else {
+			holder.details.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
@@ -79,10 +190,10 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 
 		holder.background.setOnTouchListener(new View.OnTouchListener() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN && backpackSpriteFragment != null) {
 					backpackSpriteFragment.setSelectedSpritePosition(position);
-					backpackSpriteFragment.getListView().showContextMenuForChild(v);
+					backpackSpriteFragment.getListView().showContextMenuForChild(view);
 				}
 				return false;
 			}
@@ -104,7 +215,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		holder.backgroundHeadline.setVisibility(View.GONE);
 		holder.objectsHeadline.setVisibility(View.GONE);
 
-		holder.background.setOnClickListener(new OnClickListener() {
+		holder.background.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -153,8 +264,40 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 	}
 
 	public void returnToProjectActivity() {
-		Intent intent = new Intent(getContext(), ProjectActivity.class);
+		Intent intent = new Intent(context, ProjectActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		getContext().startActivity(intent);
+		context.startActivity(intent);
+	}
+
+	protected void setImage(ViewHolder holder, Sprite sprite) {
+		LookData firstLookData = null;
+		if (sprite.getLookDataList().size() > 0) {
+			firstLookData = sprite.getLookDataList().get(0);
+		}
+		if (firstLookData == null) {
+			holder.image.setImageBitmap(null);
+		} else {
+			holder.image.setImageBitmap(firstLookData.getThumbnailBitmap());
+		}
+	}
+
+	public interface OnSpriteEditListener {
+		void onSpriteChecked();
+
+		void onSpriteEdit(int position);
+	}
+
+	protected static class ViewHolder {
+		protected RelativeLayout background;
+		protected CheckBox checkbox;
+		protected TextView text;
+		protected LinearLayout backgroundHeadline;
+		protected LinearLayout objectsHeadline;
+		protected ImageView image;
+		protected TextView scripts;
+		protected TextView bricks;
+		protected TextView looks;
+		protected TextView sounds;
+		protected View details;
 	}
 }

@@ -42,9 +42,11 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,9 +57,14 @@ public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
 
+	private static SpriteFactory spriteFactory = new SpriteFactory();
+
 	public transient Look look = new Look(this);
 	public transient boolean isPaused;
 	public transient boolean isBackpackObject = false;
+	private transient boolean convertToSingleSprite = false;
+	private transient boolean convertToGroupItemSprite = false;
+
 	@XStreamAsAttribute
 	private String name;
 	private List<Script> scriptList = new ArrayList<>();
@@ -66,6 +73,7 @@ public class Sprite implements Serializable, Cloneable {
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private transient ActionFactory actionFactory = new ActionFactory();
+	private transient boolean isMobile = false;
 
 	public Sprite(String name) {
 		this.name = name;
@@ -274,20 +282,21 @@ public class Sprite implements Serializable, Cloneable {
 
 	@Override
 	public Sprite clone() {
-		final Sprite cloneSprite = new Sprite();
+		final Sprite cloneSprite = createSpriteInstance();
 
 		cloneSprite.setName(this.getName());
 		cloneSprite.isBackpackObject = false;
+		cloneSprite.convertToSingleSprite = false;
+		cloneSprite.convertToGroupItemSprite = false;
+		cloneSprite.isMobile = false;
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {
-			throw new RuntimeException("The sprite must be in the current project before cloning it.");
-		}
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project currentProject = projectManager.getCurrentProject();
 
-		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
-		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
+		Sprite originalSprite = projectManager.getCurrentSprite();
+		projectManager.setCurrentSprite(cloneSprite);
 
-		cloneSpriteVariables(currentProject, cloneSprite);
+		cloneSpriteVariables(currentProject.getDataContainer(), cloneSprite);
 		cloneLooks(cloneSprite);
 		cloneSounds(cloneSprite);
 		cloneUserBricks(cloneSprite);
@@ -296,9 +305,68 @@ public class Sprite implements Serializable, Cloneable {
 
 		setUserAndVariableBrickReferences(cloneSprite, userBricks);
 
-		ProjectManager.getInstance().checkCurrentSprite(cloneSprite, false);
-		ProjectManager.getInstance().setCurrentSprite(originalSprite);
+		projectManager.checkCurrentSprite(cloneSprite, false);
+		projectManager.setCurrentSprite(originalSprite);
 
+		return cloneSprite;
+	}
+
+	public Sprite shallowClone() {
+		final Sprite cloneSprite = createSpriteInstance();
+		cloneSprite.setName(this.name);
+
+		cloneSprite.isBackpackObject = false;
+		cloneSprite.convertToSingleSprite = false;
+		cloneSprite.convertToGroupItemSprite = false;
+		cloneSprite.isPaused = false;
+		cloneSprite.isMobile = this.isMobile;
+
+		cloneSprite.look = this.look;
+		cloneSprite.scriptList = this.scriptList;
+		cloneSprite.lookList = this.lookList;
+		cloneSprite.soundList = this.soundList;
+		cloneSprite.userBricks = this.userBricks;
+		cloneSprite.nfcTagList = this.nfcTagList;
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		shallowCloneSpriteVariables(projectManager.getCurrentProject().getDataContainer(), cloneSprite);
+		shallowCloneSpriteLists(projectManager.getCurrentProject().getDataContainer(), cloneSprite);
+
+		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(this)) {
+			projectManager.setCurrentSprite(cloneSprite);
+		}
+
+		return cloneSprite;
+	}
+
+	private void shallowCloneSpriteVariables(DataContainer dataContainer, Sprite cloneSprite) {
+		List<UserVariable> originalSpriteVariables = dataContainer.getOrCreateVariableListForSprite(this);
+		List<UserVariable> clonedSpriteVariables = dataContainer.getOrCreateVariableListForSprite(cloneSprite);
+		for (UserVariable variable : originalSpriteVariables) {
+			clonedSpriteVariables.add(variable);
+		}
+		dataContainer.cleanVariableListForSprite(this);
+	}
+
+	private void shallowCloneSpriteLists(DataContainer dataContainer, Sprite cloneSprite) {
+		List<UserList> originalSpriteLists = dataContainer.getOrCreateUserListListForSprite(this);
+		List<UserList> clonedSpriteLists = dataContainer.getOrCreateUserListListForSprite(cloneSprite);
+		for (UserList list : originalSpriteLists) {
+			clonedSpriteLists.add(list);
+		}
+		dataContainer.cleanUserListForSprite(this);
+	}
+
+	private Sprite createSpriteInstance() {
+		Sprite cloneSprite;
+		if (convertToSingleSprite) {
+			cloneSprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName());
+		} else if (convertToGroupItemSprite) {
+			cloneSprite = spriteFactory.newInstance(GroupItemSprite.class.getSimpleName());
+		} else {
+			cloneSprite = spriteFactory.newInstance(getClass().getSimpleName());
+		}
 		return cloneSprite;
 	}
 
@@ -346,8 +414,7 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedProjectVariables);
 	}
 
-	private void cloneSpriteVariables(Project currentProject, Sprite cloneSprite) {
-		DataContainer userVariables = currentProject.getDataContainer();
+	private void cloneSpriteVariables(DataContainer userVariables, Sprite cloneSprite) {
 		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
 		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
 		for (UserVariable variable : originalSpriteVariables) {
@@ -363,10 +430,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.lookList = cloneLookList;
 
 		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
-		try {
+		if (cloneSprite.getLookDataList().size() > 0) {
 			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
-		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
 	}
 
@@ -408,7 +473,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite cloneForBackPack() {
-		final Sprite cloneSprite = new Sprite();
+		final Sprite cloneSprite = spriteFactory.newInstance(getClass().getSimpleName());
 		cloneSprite.setName(this.getName());
 		return cloneSprite;
 	}
@@ -663,5 +728,23 @@ public class Sprite implements Serializable, Cloneable {
 				}
 			}
 		}
+	}
+
+	public void setConvertToSingleSprite(boolean convertToSingleSprite) {
+		this.convertToGroupItemSprite = false;
+		this.convertToSingleSprite = convertToSingleSprite;
+	}
+
+	public void setConvertToGroupItemSprite(boolean convertToGroupItemSprite) {
+		this.convertToSingleSprite = false;
+		this.convertToGroupItemSprite = convertToGroupItemSprite;
+	}
+
+	public boolean isMobile() {
+		return isMobile;
+	}
+
+	public void setIsMobile(boolean isMobile) {
+		this.isMobile = isMobile;
 	}
 }

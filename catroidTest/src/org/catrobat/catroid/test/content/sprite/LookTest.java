@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
@@ -48,7 +49,7 @@ public class LookTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() {
 		parentGroup = new Group();
-		sprite = new Sprite("test");
+		sprite = new SingleSprite("test");
 		parentGroup.addActor(sprite.look);
 		look = sprite.look;
 	}
@@ -129,7 +130,7 @@ public class LookTest extends InstrumentationTestCase {
 	}
 
 	public void testBreakDownCatroidAngle() {
-		Look look = new Look(new Sprite("testsprite"));
+		Look look = new Look(new SingleSprite("testsprite"));
 
 		float[] posigiveInputAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f };
 		float[] posigiveHighInputAngles = { 360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f };

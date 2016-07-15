@@ -28,6 +28,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.CameraBrick;
@@ -224,7 +225,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 	private void createProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("background");
+		Sprite firstSprite = new SingleSprite("background");
 		Script testScript = new StartScript();
 
 		CameraBrick cameraBrick = new CameraBrick();
@@ -241,7 +242,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 	private void createProjectWithChooseBrick() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("background");
+		Sprite firstSprite = new SingleSprite("background");
 		Script testScript = new StartScript();
 
 		ChooseCameraBrick chooseBrick = new ChooseCameraBrick();
@@ -261,7 +262,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 	private void createComplexVideoTest() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("background");
+		Sprite firstSprite = new SingleSprite("background");
 		Script testScript = new StartScript();
 
 		CameraBrick cameraBrick1 = new CameraBrick(1);

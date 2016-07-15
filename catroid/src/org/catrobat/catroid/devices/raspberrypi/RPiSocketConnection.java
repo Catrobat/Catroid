@@ -26,8 +26,10 @@ import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.BroadcastAction;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -131,7 +133,7 @@ public class RPiSocketConnection {
 	}
 
 	private void callEvent(String broadcastMessage) {
-		Sprite dummySenderSprite = new Sprite();
+		Sprite dummySenderSprite = new SpriteFactory().newInstance(SingleSprite.class.getSimpleName());
 		dummySenderSprite.setName("raspi_interrupt_dummy");
 		BroadcastAction action = (BroadcastAction) ActionFactory.createBroadcastAction(dummySenderSprite,
 				broadcastMessage);

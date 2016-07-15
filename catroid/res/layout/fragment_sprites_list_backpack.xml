@@ -23,14 +23,14 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_sound"
+    android:id="@+id/fragment_sprites_list_backpack"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/fragment_sprites_list_backpack_text_heading"
@@ -52,10 +52,10 @@
             android:textSize="30sp" />
     </RelativeLayout>
 
-  <ListView
-      android:id="@android:id/list"
-      style="@style/ListViewShadowed"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:groupIndicator="@null" />
 
 </FrameLayout>

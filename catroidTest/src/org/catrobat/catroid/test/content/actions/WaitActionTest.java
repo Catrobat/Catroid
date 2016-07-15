@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,7 +48,7 @@ public class WaitActionTest extends AndroidTestCase {
 	}
 
 	public void testPauseResume() throws InterruptedException {
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		float waitOneSecond = 1.0f;
 
 		ActionFactory factory = testSprite.getActionFactory();

@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -56,7 +57,7 @@ public class UserBrickTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		Project project = new Project(null, "testProject");
 
 		project.addSprite(sprite);
@@ -80,7 +81,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		userScript.addBrick(new ChangeXByNBrick(1));
 
-		ArrayList<?> array = (ArrayList<?>) Reflection.getPrivateField(sprite, "userBricks");
+		ArrayList<?> array = (ArrayList<?>) Reflection.getPrivateFieldOfBaseClass(sprite, "userBricks");
 
 		assertTrue("the sprite should have one user brick after we added a user brick to it, has " + array.size(),
 				array.size() == 1);

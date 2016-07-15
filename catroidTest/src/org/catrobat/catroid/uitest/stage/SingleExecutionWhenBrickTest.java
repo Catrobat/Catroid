@@ -28,6 +28,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -131,7 +132,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		projectWhenBrick = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		// yellow Sprite
-		yellowSprite = new Sprite("yellowSprite");
+		yellowSprite = new SingleSprite("yellowSprite");
 
 		StartScript yellowStartScript = new StartScript();
 		SetLookBrick yellowLookBrick = new SetLookBrick();
@@ -153,7 +154,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		yellowSprite.addScript(yellowWhenScript);
 
 		// blue Sprite
-		Sprite blueSprite = new Sprite("blueSprite");
+		Sprite blueSprite = new SingleSprite("blueSprite");
 		StartScript blueStartScript = new StartScript();
 		SetLookBrick blueLookBrick = new SetLookBrick();
 		SetSizeToBrick blueSetSizeToBrick = new SetSizeToBrick(200d);
@@ -177,7 +178,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		blueSprite.addScript(blueWhenScript);
 
 		// green Sprite
-		greenSprite = new Sprite("greenSprite");
+		greenSprite = new SingleSprite("greenSprite");
 		StartScript greenStartScript = new StartScript();
 		SetLookBrick greenLookBrick = new SetLookBrick();
 		SetSizeToBrick greenSetSizeToBrick = new SetSizeToBrick(200d);

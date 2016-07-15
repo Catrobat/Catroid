@@ -56,7 +56,6 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BackPackSpriteAdapter;
-import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.controller.LookController;
@@ -64,9 +63,11 @@ import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.ConfirmUnpackBackgroundDialog;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
-public class BackPackSpriteFragment extends BackPackActivityFragment implements Dialog.OnKeyListener, SpriteBaseAdapter.OnSpriteEditListener {
+public class BackPackSpriteFragment extends BackPackActivityFragment implements Dialog.OnKeyListener,
+		BackPackSpriteAdapter.OnSpriteEditListener {
 
 	public static final String TAG = BackPackSpriteFragment.class.getSimpleName();
 	private static String actionModeTitle;
@@ -161,7 +162,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_back_pack_sprites_list, container, false);
+		return inflater.inflate(R.layout.fragment_sprites_list_backpack, container, false);
 	}
 
 	@Override
@@ -330,7 +331,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 
 		selectAllActionModeButton.setOnClickListener(
 				new View.OnClickListener() {
@@ -489,7 +490,7 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 	@Override
 	public void onSpriteChecked() {
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
 				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
 	}
 

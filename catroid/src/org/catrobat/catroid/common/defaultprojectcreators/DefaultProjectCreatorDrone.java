@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -42,6 +43,7 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.drone.DroneBrickFactory;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -49,6 +51,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
+
+	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public DefaultProjectCreatorDrone() {
 		standardProjectNameID = R.string.default_drone_project_name;
@@ -86,7 +90,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.ic_video, context,
 				true, backgroundImageScaleFactor);
 
-		Sprite sprite = new Sprite(backgroundName);
+		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), backgroundName);
 
 		LookData backgroundLookData = new DroneVideoLookData();
 		backgroundLookData.setLookName(context.getString(R.string.add_look_drone_video));
@@ -230,7 +234,7 @@ public class DefaultProjectCreatorDrone extends DefaultProjectCreator {
 	private Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds, int powerInPercent) {
 
-		Sprite sprite = new Sprite(spriteName);
+		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
 
 		Script whenSpriteTappedScript = new WhenScript();
 

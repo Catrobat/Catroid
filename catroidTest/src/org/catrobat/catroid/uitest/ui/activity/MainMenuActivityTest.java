@@ -42,6 +42,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
@@ -395,10 +396,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		double size = 0.8;
 
 		Project project = new Project(getActivity(), projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
+		Sprite thirdSprite = new SingleSprite("horse");
+		Sprite fourthSprite = new SingleSprite("pig");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();

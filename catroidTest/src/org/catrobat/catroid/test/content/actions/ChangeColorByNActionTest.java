@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -38,7 +39,7 @@ public class ChangeColorByNActionTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		super.setUp();
 
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(INITIALIZED_VALUE)).act(1.0f);

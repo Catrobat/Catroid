@@ -34,6 +34,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -94,7 +95,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		sprite = new Sprite("TestSprite");
+		sprite = new SingleSprite("TestSprite");
 
 		physicsLook = new PhysicsLook(sprite, physicsWorld);
 	}
