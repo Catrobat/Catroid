@@ -22,33 +22,16 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:theme="@android:style/Theme.Light" >
+    style="@style/DefaultDialog">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/string_name"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/formula_editor_new_string_name" />
-
-        <View
-            android:id="@+id/string_name_line"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/string_name" />
+    <LinearLayout style="@style/DefaultDialog.Item">
 
         <EditText
             android:id="@+id/formula_editor_string_name_edit_text"
             style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/string_name_line"
             android:hint="@string/formula_editor_new_string_dialog_hint"
             android:inputType="text"
             android:maxLines="1"
             android:selectAllOnFocus="true" />
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>
