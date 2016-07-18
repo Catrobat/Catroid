@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.controller;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
@@ -86,6 +87,17 @@ public final class NfcTagController {
 		};
 
 		holder.nfcTagFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
+
+		holder.nfcTagFragmentButtonLayout.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					Intent intent = new Intent(ScriptActivity.ACTION_NFC_TOUCH_ACTION_UP);
+					nfcTagAdapter.getContext().sendBroadcast(intent);
+				}
+				return false;
+			}
+		});
 	}
 
 	private void handleDetails(NfcTagBaseAdapter nfcTagAdapter, NfcTagViewHolder holder, NfcTagData nfcTagData) {
@@ -141,9 +153,9 @@ public final class NfcTagController {
 				adapter);
 	}
 
-	public void copyNfcTag(int position, List<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
+	public NfcTagData copyNfcTag(int position, List<NfcTagData> nfcTagDataList, NfcTagBaseAdapter adapter) {
 		NfcTagData nfcTagData = nfcTagDataList.get(position);
-		NfcTagController.getInstance().updateNfcTagAdapter(nfcTagData.getNfcTagName(), nfcTagData.getNfcTagUid(),
+		return NfcTagController.getInstance().updateNfcTagAdapter(nfcTagData.getNfcTagName(), nfcTagData.getNfcTagUid(),
 				nfcTagDataList, adapter);
 	}
 

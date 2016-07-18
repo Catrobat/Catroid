@@ -165,7 +165,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		copy = solo.getString(R.string.copy);
 		unpack = solo.getString(R.string.unpack);
 		backpack = solo.getString(R.string.backpack);
-		backpackAdd = solo.getString(R.string.backpack_add);
+		backpackAdd = solo.getString(R.string.packing);
 		backpackReplaceDialogSingle = resources.getString(R.string.backpack_replace_sound, FIRST_TEST_SOUND_NAME);
 		backpackReplaceDialogMultiple = solo.getString(R.string.backpack_replace_sound_multiple);
 
@@ -184,84 +184,52 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		super.tearDown();
 	}
 
-	public void testMoveSoundUp() {
-		moveSoundUp(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropUp() {
+		for (int i = 0; i < 3; i++) {
+			addSoundInfoWithName("TestSound" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.sounds));
 
-		assertEquals("Sound didn't move up (testMoveSoundUp 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move up (testMoveSoundUp 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound1");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(0) - 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound2");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound1");
 	}
 
-	public void testMoveSoundDown() {
-		moveSoundDown(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropDown() {
+		for (int i = 0; i < 3; i++) {
+			addSoundInfoWithName("TestSound" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.sounds));
 
-		assertEquals("Sound didn't move down (testMoveSoundDown 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move down (testMoveSoundDown 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
-	}
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(1).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound0");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(3).getTitle(), "TestSound1");
+		assertEquals("Wrong List before DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
 
-	public void testMoveSoundToBottom() {
-		moveSoundToBottom(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
 
-		assertEquals("Sound didn't move bottom (testMoveSoundToBottom 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move bottom (testMoveSoundToBottom 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundToTop() {
-		moveSoundToTop(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound didn't move top (testMoveSoundToTop 1)", SECOND_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound didn't move top (testMoveSoundToTop 2)", FIRST_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundUpFirstEntry() {
-		moveSoundUp(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundUpFirstEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundUpFirstEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundDownLastEntry() {
-		moveSoundDown(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundDownLastEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundDownLastEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundToTopFirstEntry() {
-		moveSoundToTop(FIRST_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundToTopFirstEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundToTopFirstEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
-	}
-
-	public void testMoveSoundToBottomLastEntry() {
-		moveSoundToBottom(SECOND_TEST_SOUND_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-
-		assertEquals("Sound moved (testMoveSoundToBottomLastEntry 1)", FIRST_TEST_SOUND_NAME, getSoundTitle(0));
-		assertEquals("Sound moved (testMoveSoundToBottomLastEntry 2)", SECOND_TEST_SOUND_NAME, getSoundTitle(1));
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(0).getTitle(), FIRST_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(1).getTitle(), "TestSound0");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(2).getTitle(), "TestSound1");
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(3).getTitle(), SECOND_TEST_SOUND_NAME);
+		assertEquals("Wrong List after DragAndDropTest", soundInfoList.get(4).getTitle(), "TestSound2");
 	}
 
 	public void testInitialLayout() {
@@ -292,7 +260,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.copy));
+		clickSingleItemActionMode(FIRST_TEST_SOUND_NAME, R.id.copy, solo.getString(R.string.copy));
 
 		solo.waitForDialogToClose(1000);
 
@@ -327,9 +295,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(TIME_TO_WAIT);
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
@@ -343,7 +309,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.delete));
+		clickSingleItemActionMode(SECOND_TEST_SOUND_NAME, R.id.delete, solo.getString(R.string.delete));
 		solo.waitForText(deleteDialogTitle);
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnText(solo.getString(R.string.yes));
@@ -713,7 +679,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
 
-		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(SECOND_TEST_SOUND_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
 		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
@@ -728,7 +694,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		ImageButton playAndStopImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_image_button);
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
 		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
@@ -746,10 +712,10 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testBackpackSoundDoubleContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(SECOND_TEST_SOUND_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, false);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.waitForActivity(BackPackActivity.class);
 		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
@@ -763,7 +729,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testBackPackSoundSimpleUnpackingContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.waitForActivity(BackPackActivity.class);
 		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
@@ -773,14 +739,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
-		deleteSound(firstTestSoundNamePackedAndUnpacked);
-		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		UiTestUtils.openBackPack(solo, getActivity());
-		solo.waitForActivity(BackPackActivity.class);
-		solo.waitForFragmentByTag(BackPackSoundFragment.TAG);
-		solo.sleep(TIME_TO_WAIT_BACKPACK);
-
-		assertTrue("Sound wasn't kept in backpack!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT_BACKPACK));
 	}
 
 	public void testBackPackSoundSimpleUnpackingAndDelete() {
@@ -788,7 +746,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 		deleteSound(FIRST_TEST_SOUND_NAME);
@@ -809,13 +767,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(firstTestSoundNamePacked, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(firstTestSoundNamePackedAndUnpacked, 0, TIME_TO_WAIT_BACKPACK));
-		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(SECOND_TEST_SOUND_NAME, false);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(secondTestSoundNamePacked, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -828,7 +786,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testBackPackAndUnPackFromDifferentProgrammes() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.sounds));
@@ -850,7 +808,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		SoundAdapter adapter = getSoundAdapter();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 		solo.sleep(TIME_TO_WAIT);
@@ -953,9 +911,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.clickOnText(solo, selectAll);
 		solo.sleep(TIME_TO_WAIT);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -1169,13 +1125,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBackPackAlreadyPackedDialogSingleItem() {
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Sound wasn't backpacked!", solo.waitForText(firstTestSoundNamePacked, 0, TIME_TO_WAIT));
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_SOUND_NAME, false);
 		solo.waitForDialogToOpen();
 		assertTrue("Sound already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogSingle, 0, TIME_TO_WAIT));
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -1260,16 +1216,12 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.sound_select_source);
 
-		checkIfContextMenuAppears(true, false);
-
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.waitForText(rename, 1, timeToWait, false, true);
-
-		checkIfContextMenuAppears(false, false);
 
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
@@ -1280,8 +1232,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, false);
 
 		// Test on delete ActionMode
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
@@ -1290,8 +1240,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, true);
-
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
 
@@ -1301,8 +1249,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, true);
 	}
 
 	public void testItemClick() {
@@ -1325,9 +1271,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(TIME_TO_WAIT);
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -1734,7 +1678,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void renameSound(String soundToRename, String newSoundName) {
-		clickOnContextMenuItem(soundToRename, solo.getString(R.string.rename));
+		clickSingleItemActionMode(soundToRename, R.id.rename, solo.getString(R.string.rename));
 		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));
 		assertTrue("No EditText with actual sound name", solo.searchEditText(soundToRename));
 
@@ -1792,6 +1736,25 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		return assertMessageAffix;
 	}
 
+	private void packSingleItem(String soundName, boolean backPackEmpty) {
+		UiTestUtils.openActionMode(solo, backpack, R.id.backpack, getActivity());
+		if (!backPackEmpty) {
+			solo.waitForDialogToOpen();
+			solo.clickOnText(backpackAdd);
+			solo.sleep(TIME_TO_WAIT_BACKPACK);
+		}
+		solo.clickOnText(soundName);
+		solo.sleep(TIME_TO_WAIT);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+	}
+
+	private void clickSingleItemActionMode(String soundName, int menuItem, String itemName) {
+		UiTestUtils.openActionMode(solo, itemName, menuItem, getActivity());
+		solo.clickOnText(soundName);
+		solo.sleep(TIME_TO_WAIT);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+	}
+
 	private void clickOnContextMenuItem(String soundName, String menuItemName) {
 		solo.clickLongOnText(soundName);
 		solo.waitForText(menuItemName);
@@ -1815,62 +1778,30 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
+		int startIndex = 0;
+		if (solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getSoundList().size()) {
+			startIndex = 1;
+		}
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex + 1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}
 
-	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, boolean isDeleteActionMode) {
-		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
-
-		int timeToWait = 200;
-		String assertMessageAffix = "";
-
-		if (contextMenuShouldAppear) {
-			assertMessageAffix = "should appear";
-
-			assertTrue("Context menu with title '" + FIRST_TEST_SOUND_NAME + "' " + assertMessageAffix,
-					solo.waitForText(FIRST_TEST_SOUND_NAME, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
-					solo.waitForText(delete, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
-					solo.waitForText(rename, 1, timeToWait, false, true));
-
-			solo.goBack();
-		} else {
-			assertMessageAffix = "should not appear";
-
-			int minimumMatchesDelete = 1;
-			int minimumMatchesRename = 1;
-
-			if (isDeleteActionMode) {
-				minimumMatchesDelete = 2;
-			} else {
-				minimumMatchesRename = 2;
+	private void checkAllCheckboxes() {
+		boolean skipFirst = solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite()
+				.getSoundList().size();
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (skipFirst) {
+				continue;
 			}
-			assertFalse("Context menu with title '" + FIRST_TEST_SOUND_NAME + "' " + assertMessageAffix,
-					solo.waitForText(FIRST_TEST_SOUND_NAME, 2, timeToWait, false, true));
-			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
-					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
-			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
-					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 		}
 	}
 
-	private void moveSoundDown(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_down));
-	}
-
-	private void moveSoundUp(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveSoundToBottom(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveSoundToTop(String soundToMove) {
-		clickOnContextMenuItem(soundToMove, solo.getString(R.string.menu_item_move_to_top));
+	private void addSoundInfoWithName(String soundName) {
+		SoundInfo soundInfoToAdd = soundInfo.clone();
+		soundInfoToAdd.setTitle(soundName);
+		soundInfoList.add(soundInfoToAdd);
 	}
 }

@@ -103,6 +103,10 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SCRIPT_GROUP_DELETED = "org.catrobat.catroid.SCRIPTGROUP_DELETED";
 	public static final String ACTION_USERBRICK_GROUP_DELETED = "org.catrobat.catroid.USERBRICKGROUP_DELETED";
 	public static final String ACTION_SPRITE_DELETED = "org.catrobat.catroid.SPRITE_DELETED";
+	public static final String ACTION_SPRITE_TOUCH_ACTION_UP = "org.catrobat.catroid.SPRITE_TOUCH_ACTION_UP";
+	public static final String ACTION_LOOK_TOUCH_ACTION_UP = "org.catrobat.catroid.LOOK_TOUCH_ACTION_UP";
+	public static final String ACTION_NFC_TOUCH_ACTION_UP = "org.catrobat.catroid.NFC_TOUCH_ACTION_UP";
+	public static final String ACTION_SOUND_TOUCH_ACTION_UP = "org.catrobat.catroid.SOUND_TOUCH_ACTION_UP";
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;
@@ -134,7 +138,6 @@ public class ScriptActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
 		currentFragmentPosition = FRAGMENT_SCRIPTS;
 
 		if (savedInstanceState == null) {
@@ -153,7 +156,7 @@ public class ScriptActivity extends BaseActivity {
 		setupBottomBar();
 
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
-		updateHandleAddButtonClickListener();
+
 		if (switchToScriptFragment) {
 			LookController.getInstance().switchToScriptFragment(lookFragment, this);
 			switchToScriptFragment = false;
@@ -181,6 +184,7 @@ public class ScriptActivity extends BaseActivity {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 			finish();
 		}
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -202,9 +206,7 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	public void updateHandleAddButtonClickListener() {
-		if (buttonAdd == null) {
-			buttonAdd = (ImageButton) findViewById(R.id.button_add);
-		}
+		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		buttonAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -290,14 +292,15 @@ public class ScriptActivity extends BaseActivity {
 			return super.onOptionsItemSelected(item);
 		}
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getFragmentManager()
-				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
-
-		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
+		if (isFormulaEditorFragmentVisible()) {
 			return super.onOptionsItemSelected(item);
 		}
 
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.backpack:
 				showBackPackChooser();
 				break;
@@ -334,6 +337,39 @@ public class ScriptActivity extends BaseActivity {
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private boolean isFormulaEditorFragmentVisible() {
+		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getFragmentManager()
+				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
+
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+		FormulaEditorCategoryListFragment formulaEditorObjectFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.OBJECT_TAG);
+		FormulaEditorCategoryListFragment formulaEditorFunctionFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.FUNCTION_TAG);
+
+		FormulaEditorCategoryListFragment formulaEditorLogicFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.LOGIC_TAG);
+
+		FormulaEditorCategoryListFragment formulaEditorSensorFragment = (FormulaEditorCategoryListFragment)
+				getFragmentManager()
+						.findFragmentByTag(FormulaEditorCategoryListFragment.SENSOR_TAG);
+
+		if (formulaEditorFragment != null && formulaEditorFragment.isVisible()
+				|| formulaEditorObjectFragment != null && formulaEditorObjectFragment.isVisible()
+				|| formulaEditorFunctionFragment != null && formulaEditorFunctionFragment.isVisible()
+				|| formulaEditorLogicFragment != null && formulaEditorLogicFragment.isVisible()
+				|| formulaEditorSensorFragment != null && formulaEditorSensorFragment.isVisible()
+				|| formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
+			return true;
+		}
+		return false;
 	}
 
 	private void openBackPack() {
@@ -543,6 +579,24 @@ public class ScriptActivity extends BaseActivity {
 			fragmentTransaction.remove(formulaEditorFragment);
 			fragmentTransaction.commit();
 		}
+		if (soundFragment != null && currentFragment != soundFragment) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.remove(soundFragment);
+			fragmentTransaction.commit();
+			soundFragment = null;
+		}
+		if (lookFragment != null && currentFragment != lookFragment) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.remove(lookFragment);
+			fragmentTransaction.commit();
+			lookFragment = null;
+		}
+		if (nfcTagFragment != null && currentFragment != nfcTagFragment) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.remove(nfcTagFragment);
+			fragmentTransaction.commit();
+			nfcTagFragment = null;
+		}
 		BroadcastHandler.clearActionMaps();
 		if (isHoveringActive()) {
 			scriptFragment.getListView().animateHoveringBrick();
@@ -669,8 +723,6 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setIsNfcTagFragmentFromWhenNfcBrickNewFalse() {
 		this.isNfcTagFragmentFromWhenNfcTagBrickNew = false;
-		// TODO quickfix for issue #521 - refactor design (activity and fragment interaction)
-		updateHandleAddButtonClickListener();
 	}
 
 	public boolean getIsNfcTagFragmentHandleAddButtonHandled() {
@@ -687,8 +739,6 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setIsSoundFragmentFromPlaySoundBrickNewFalse() {
 		this.isSoundFragmentFromPlaySoundBrickNew = false;
-		// TODO quickfix for issue #521 - refactor design (activity and fragment interaction)
-		updateHandleAddButtonClickListener();
 	}
 
 	public boolean getIsSoundFragmentHandleAddButtonHandled() {
@@ -705,8 +755,6 @@ public class ScriptActivity extends BaseActivity {
 
 	public void setIsLookFragmentFromSetLookBrickNewFalse() {
 		this.isLookFragmentFromSetLookBrickNew = false;
-		// TODO quickfix for issue #521 - refactor design (activity and fragment interaction)
-		updateHandleAddButtonClickListener();
 	}
 
 	public boolean getIsLookFragmentHandleAddButtonHandled() {
@@ -750,7 +798,6 @@ public class ScriptActivity extends BaseActivity {
 
 			case FRAGMENT_SOUNDS:
 				isSoundFragmentFromPlaySoundBrickNew = true;
-
 				fragmentTransaction.addToBackStack(SoundFragment.TAG);
 				if (soundFragment == null) {
 					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(true);
@@ -812,3 +859,4 @@ public class ScriptActivity extends BaseActivity {
 		actionModeEmptyDialog.show();
 	}
 }
+

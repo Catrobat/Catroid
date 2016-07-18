@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class UtilFileTest extends InstrumentationTestCase {
 	private static final String TAG = UtilFileTest.class.getSimpleName();
@@ -92,7 +93,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		}
 
 		double expectedSizeInKilobytes = 84.2;
-		assertEquals("Unexpected file size String", String.format("%.1f KB", expectedSizeInKilobytes),
+		assertEquals("Unexpected file size String", String.format(Locale.getDefault(), "%.1f KB", expectedSizeInKilobytes),
 				UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {

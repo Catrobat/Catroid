@@ -35,16 +35,49 @@ import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface, SoundController.OnBackpackSoundCompleteListener {
 
+	private static final int INVALID_ID = -1;
+
 	private SoundFragment soundFragment;
+
+	private HashMap<SoundInfo, Integer> idMap = new HashMap<SoundInfo, Integer>();
 
 	public SoundAdapter(final Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails) {
-		super(context, resource, textViewResourceId, items, showDetails);
+		super(context, resource, textViewResourceId, items, showDetails, false);
+		for (int i = 0; i < items.size(); ++i) {
+			idMap.put(items.get(i), i);
+		}
+	}
+
+	@Override
+	public long getItemId(int position) {
+		if (position < 0 || position >= idMap.size()) {
+			return INVALID_ID;
+		}
+		SoundInfo item = getItem(position);
+		return idMap.get(item);
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+		if (getCount() != idMap.size()) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	@Override

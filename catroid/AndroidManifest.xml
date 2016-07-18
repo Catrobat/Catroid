@@ -21,9 +21,10 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.catrobat.catroid"
-    android:installLocation="auto" >
+
+<manifest package="org.catrobat.catroid"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="auto">
 
     <supports-screens
         android:largeScreens="true"
@@ -38,24 +39,32 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!--&lt;!&ndash; drone &ndash;&gt;-->
-    <uses-feature android:name="android.hardware.wifi" android:required="false"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!-- drone permissions end -->
+    <!-- drone -->
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
+    <!-- bluetooth -->
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <!-- nfc -->
-    <uses-feature android:name="android.hardware.nfc" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
     <uses-permission android:name="android.permission.NFC" />
 
     <!-- For testing purposes, this is automatically removed in live builds, but not in jenkins builds -->
@@ -66,24 +75,26 @@
         android:required="true" />
 
     <application
+        android:name=".CatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".CatroidApplication"
-        android:theme="@style/Theme.Catroid" >
+        android:theme="@style/Theme.Catroid">
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
             android:name=".ui.MainMenuActivity"
             android:launchMode="standard"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -125,9 +136,10 @@
         </activity>
         <activity
             android:name=".ui.BackPackActivity"
+            android:noHistory="true"
+
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:noHistory="true"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />
@@ -136,7 +148,7 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/stage"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
             android:name=".drone.DroneStageActivity"
             android:configChanges="orientation"
@@ -148,35 +160,49 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ProjectActivity"
+
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+         <activity
+             android:name=".ui.BaseActivity"
+
+             android:screenOrientation="portrait"
+             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.ProgramMenuActivity"
+
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScriptActivity"
+
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.UserBrickScriptActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="false"
+
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
+
             android:screenOrientation="portrait" />
-        <activity android:name=".bluetooth.ConnectBluetoothDeviceActivity"
+
+        <activity
+            android:name=".bluetooth.ConnectBluetoothDeviceActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="true"
             android:label="@string/soundrecorder_name"
-            android:screenOrientation="portrait" >
+
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
 
@@ -189,7 +215,7 @@
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />
-        <service android:name="com.parrot.freeflight.service.DroneControlService"/>
+        <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
 
     </application>

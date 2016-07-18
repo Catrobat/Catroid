@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -135,6 +136,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_touch,
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
 			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic };
+
+	private static final int[] NFC_TAG_ID_ITEMS = { R.string.formula_editor_nfc_tag_id };
 
 	private static final int[] SENSOR_ITEMS_DRONE = { R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
@@ -308,6 +311,11 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
 			}
 
+			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, NFC_TAG_ID_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ID_ITEMS.length));
+			}
+
 			header.put(itemsIds.length, getString(R.string.formula_editor_device_touch_detection));
 			itemsIds = concatAll(itemsIds, TOUCH_DEDECTION_SENSOR_ITEMS);
 			parameterIds = concatAll(parameterIds, TOUCH_DEDECTION_PARAMETERS);
@@ -385,7 +393,17 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
 		getActivity().getActionBar().setTitle(actionBarTitle);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				closeCategoryListFragment();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -408,13 +426,17 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	@Override
 	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			FragmentTransaction fragTransaction = getActivity().getFragmentManager().beginTransaction();
-			fragTransaction.hide(this);
-			fragTransaction.show(getActivity().getFragmentManager()
-					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
-			fragTransaction.commit();
+			closeCategoryListFragment();
 			return true;
 		}
 		return false;
+	}
+
+	private void closeCategoryListFragment() {
+		FragmentTransaction fragTransaction = getActivity().getFragmentManager().beginTransaction();
+		fragTransaction.hide(this);
+		fragTransaction.show(getActivity().getFragmentManager()
+				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+		fragTransaction.commit();
 	}
 }

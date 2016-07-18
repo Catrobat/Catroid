@@ -136,9 +136,24 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 
 		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
 		getActivity().getActionBar().setTitle(actionBarTitle);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				closeFormulaEditorDataFragment();
+				return true;
+
+			case R.id.formula_editor_data_item_delete:
+				inContextMode = true;
+				contextActionMode = getActivity().startActionMode(contextModeCallback);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -218,19 +233,6 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 				dialog.show(activity.getFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.formula_editor_data_item_delete:
-				inContextMode = true;
-				contextActionMode = getActivity().startActionMode(contextModeCallback);
-				return true;
-
-			default:
-				return super.onOptionsItemSelected(item);
-		}
 	}
 
 	@Override
@@ -330,23 +332,27 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
-				BottomBar.hideBottomBar(getActivity());
-				((ScriptActivity) getActivity()).updateHandleAddButtonClickListener();
-
-				FragmentTransaction fragmentTransaction = getActivity().getFragmentManager()
-						.beginTransaction();
-				fragmentTransaction.hide(this);
-				FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getActivity()
-						.getFragmentManager().findFragmentByTag(
-								FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-				formulaEditorFragment.updateBrickView();
-				fragmentTransaction.show(formulaEditorFragment);
-				fragmentTransaction.commit();
+				closeFormulaEditorDataFragment();
 				return true;
 			default:
 				break;
 		}
 		return false;
+	}
+
+	private void closeFormulaEditorDataFragment() {
+		BottomBar.hideBottomBar(getActivity());
+		((ScriptActivity) getActivity()).updateHandleAddButtonClickListener();
+
+		FragmentTransaction fragmentTransaction = getActivity().getFragmentManager()
+				.beginTransaction();
+		fragmentTransaction.hide(this);
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getActivity()
+				.getFragmentManager().findFragmentByTag(
+						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		formulaEditorFragment.updateBrickView();
+		fragmentTransaction.show(formulaEditorFragment);
+		fragmentTransaction.commit();
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {

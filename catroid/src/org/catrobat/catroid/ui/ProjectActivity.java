@@ -108,6 +108,7 @@ public class ProjectActivity extends BaseActivity {
 		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		setTitleActionBar(programName);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
 				R.id.fragment_container);
@@ -117,6 +118,8 @@ public class ProjectActivity extends BaseActivity {
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
 		SettingsActivity.setLegoMindstormsEV3SensorChooserEnabled(this, true);
+
+		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
 	@Override
@@ -139,6 +142,10 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;

@@ -46,22 +46,25 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ActionM
 	protected static long elapsedMilliSeconds;
 	protected static long currentPlayingBase;
 	protected boolean showDetails;
+	public boolean backPackAdapter;
 
 	protected SortedSet<Integer> checkedSounds = new TreeSet<>();
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
-	public SoundBaseAdapter(final Context context, int currentPlayingposition) {
+	public SoundBaseAdapter(final Context context, int currentPlayingposition, boolean backPackAdapter) {
 		super(context, currentPlayingposition);
+		this.backPackAdapter = backPackAdapter;
 	}
 
 	public SoundBaseAdapter(final Context context, int resource, int textViewResourceId, List<SoundInfo> items,
-			boolean showDetails) {
+			boolean showDetails, boolean backPackAdapter) {
 		super(context, resource, textViewResourceId, items);
 		this.context = context;
 		this.showDetails = showDetails;
 		this.soundInfoItems = items;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
+		this.backPackAdapter = backPackAdapter;
 	}
 
 	public List<SoundInfo> getSoundInfoItems() {

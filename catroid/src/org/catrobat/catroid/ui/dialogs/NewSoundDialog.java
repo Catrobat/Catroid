@@ -80,6 +80,7 @@ public class NewSoundDialog extends DialogFragment {
 		super.onDismiss(dialog);
 		if (onDismissListener != null) {
 			onDismissListener.onDismiss(dialog);
+			dialog.dismiss();
 		}
 	}
 
@@ -93,14 +94,14 @@ public class NewSoundDialog extends DialogFragment {
 		recordButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-					fragment.addSoundRecord();
-					NewSoundDialog.this.dismiss();
-				}
+				fragment.addSoundRecord();
+				NewSoundDialog.this.dismiss();
+			}
 		});
 	}
 
 	private void setupGalleryButton(View parentView) {
-		View galleryButton = parentView.findViewById(R.id.dialog_new_sound_galery);
+		View galleryButton = parentView.findViewById(R.id.dialog_new_sound_gallery);
 
 		galleryButton.setOnClickListener(new View.OnClickListener() {
 
