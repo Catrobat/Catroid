@@ -46,15 +46,13 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
-	private static final int ACTION_MODE_COPY = 0;
-	private static final int ACTION_MODE_DELETE = 1;
-	private static final int ACTION_MODE_RENAME = 2;
 
 	private static final int TIME_TO_WAIT = 100;
 
@@ -194,7 +192,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(testTagName, copy);
+		clickOnContextMenuItem(testTagName, copy, R.string.copy);
 		solo.sleep(300);
 
 		int newCount = adapter.getCount();
@@ -222,7 +220,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(testTagName, solo.getString(R.string.delete));
+		clickOnContextMenuItem(testTagName, solo.getString(R.string.delete), R.string.delete);
 		solo.waitForText(deleteDialogTitle);
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(50);
@@ -273,7 +271,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String newTagName = defaultTagName;
 		String copyAdditionString = "1";
 
-		clickOnContextMenuItem(FIRST_TEST_TAG_NAME, copy);
+		clickOnContextMenuItem(FIRST_TEST_TAG_NAME, copy, R.string.copy);
 
 		renameTag(FIRST_TEST_TAG_NAME, defaultTagName);
 		renameTag(SECOND_TEST_TAG_NAME, defaultTagName);
@@ -296,7 +294,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		renameTag(expectedTagName, newTagName);
 
 		solo.scrollToTop();
-		clickOnContextMenuItem(newTagName, copy);
+		clickOnContextMenuItem(newTagName, copy, R.string.copy);
 
 		copiedTagName = newTagName + "1";
 		renameTag(copiedTagName, defaultTagName);
@@ -323,8 +321,6 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("ID prefix not visible", solo.searchText(tagIdPrefixText, true));
 
-		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
-
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
@@ -332,16 +328,12 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, ACTION_MODE_RENAME);
-
 		solo.clickOnView(playButton);
 		assertFalse("Should not start playing program",
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
 		assertTrue("ID prefix not visible after ActionMode", solo.searchText(tagIdPrefixText, true));
 
@@ -352,16 +344,12 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, ACTION_MODE_DELETE);
-
 		solo.clickOnView(playButton);
 		assertFalse("Should not start playing program",
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, ACTION_MODE_DELETE);
 
 		assertTrue("ID prefix not visible after ActionMode", solo.searchText(tagIdPrefixText, true));
 
@@ -372,16 +360,12 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.waitForText(copy, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, ACTION_MODE_COPY);
-
 		solo.clickOnView(playButton);
 		assertFalse("Should not start playing program",
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, ACTION_MODE_COPY);
 
 		assertTrue("ID prefix not visible after ActionMode", solo.searchText(tagIdPrefixText, true));
 	}
@@ -575,9 +559,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -595,7 +577,8 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sleep(TIME_TO_WAIT);
 
 		List<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
-		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
+		int index = checkBoxList.size() > projectManager.getCurrentSprite().getNfcTagList().size() ? 2 : 1;
+		assertTrue("CheckBox not checked", checkBoxList.get(index).isChecked());
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
@@ -618,7 +601,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("ActionMode didn't disappear", solo.waitForText(copy, 0, TIME_TO_WAIT));
 
 		solo.sleep(300);
-		clickOnContextMenuItem(FIRST_TEST_TAG_NAME, copy);
+		clickOnContextMenuItem(FIRST_TEST_TAG_NAME, copy, R.string.copy);
 		solo.sleep(300);
 
 		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
@@ -647,14 +630,6 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfTagsIsEqual(expectedNumberOfTags);
-	}
-
-	public void testLongClickCancelDeleteAndCopy() {
-		assertFalse("Tag is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
-				R.id.delete, delete, FIRST_TEST_TAG_NAME));
-		solo.goBack();
-		assertFalse("Tag is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
-				R.id.copy, copy, FIRST_TEST_TAG_NAME));
 	}
 
 	public void testCopyActionModeCheckingAndTitle() {
@@ -774,9 +749,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -832,112 +805,56 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 
-	public void testMoveTagUp() {
-		moveTagUp(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropUp() {
+		for (int i = 0; i < 2; i++) {
+			addNFCTagWithName("TestNFC" + i);
+		}
+
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.clickOnText(solo.getString(R.string.nfctags));
 
-		assertEquals("Tag didn't move up (testMoveTagUp 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move up (testMoveTagUp 2)", FIRST_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move up (testMoveTagUp 3)", THIRD_TEST_TAG_NAME, getTagName(2));
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(2).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(3).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(1) - 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(2).getNfcTagName(), "TestNFC1");
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(3).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC0");
 	}
 
-	public void testMoveTagDown() {
-		moveTagDown(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropDown() {
+		for (int i = 0; i < 2; i++) {
+			addNFCTagWithName("TestNFC" + i);
+		}
+
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.clickOnText(solo.getString(R.string.nfctags));
 
-		assertEquals("Tag didn't move down (testMoveTagDown 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move down (testMoveTagDown 2)", FIRST_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move down (testMoveTagDown 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(2).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(3).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
 
-	public void testMoveTagToBottom() {
-		moveTagToBottom(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
 
-		assertEquals("Tag didn't move bottom (testMoveTagToBottom 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move bottom (testMoveTagToBottom 2)", THIRD_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move bottom (testMoveTagToBottom 3)", FIRST_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagToTop() {
-		moveTagToTop(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag didn't move top (testMoveTagToTop 1)", SECOND_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag didn't move top (testMoveTagToTop 2)", FIRST_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag didn't move top (testMoveTagToTop 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagUpFirstEntry() {
-		moveTagUp(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagUpFirstEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagUpFirstEntry 2)", SECOND_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagUpFirstEntry 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagDownLastEntry() {
-		moveTagDown(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagDownLastEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagDownLastEntry 2)", THIRD_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagDownLastEntry 3)", SECOND_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagToTopFirstEntry() {
-		moveTagToTop(FIRST_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagToTopFirstEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagToTopFirstEntry 2)", SECOND_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagToTopFirstEntry 3)", THIRD_TEST_TAG_NAME, getTagName(2));
-	}
-
-	public void testMoveTagToBottomLastEntry() {
-		moveTagToBottom(SECOND_TEST_TAG_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Tag moved (testMoveTagToBottomLastEntry 1)", FIRST_TEST_TAG_NAME, getTagName(0));
-		assertEquals("Tag moved (testMoveTagToBottomLastEntry 2)", THIRD_TEST_TAG_NAME, getTagName(1));
-		assertEquals("Tag moved (testMoveTagToBottomLastEntry 3)", SECOND_TEST_TAG_NAME, getTagName(2));
-	}
-
-	private void moveTagDown(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_down));
-	}
-
-	private void moveTagUp(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveTagToBottom(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveTagToTop(String tagToMove) {
-		clickOnContextMenuItem(tagToMove, solo.getString(R.string.menu_item_move_to_top));
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(2).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(3).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
 	}
 
 	private void renameTag(String tagToRename, String newTagName) {
-		clickOnContextMenuItem(tagToRename, solo.getString(R.string.rename));
+		clickOnContextMenuItem(tagToRename, solo.getString(R.string.rename), R.string.rename);
 		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));
 		assertTrue("No EditText with actual tag name", solo.searchEditText(tagToRename));
 
@@ -980,10 +897,11 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		return assertMessageAffix;
 	}
 
-	private void clickOnContextMenuItem(String tagName, String menuItemName) {
-		solo.clickLongOnText(tagName);
-		solo.waitForText(menuItemName);
-		solo.clickOnText(menuItemName);
+	private void clickOnContextMenuItem(String tagName, String menuItemName, int menuItem) {
+		UiTestUtils.openActionMode(solo, menuItemName, menuItem, getActivity());
+		solo.clickOnText(tagName);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
 	}
 
 	private String getTagName(int tagIndex) {
@@ -991,64 +909,37 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		return tagDataList.get(tagIndex).getNfcTagName();
 	}
 
-	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, int actionModeType) {
-		solo.clickLongOnText(FIRST_TEST_TAG_NAME);
-
-		int timeToWait = 200;
-		String assertMessageAffix = "";
-
-		if (contextMenuShouldAppear) {
-			assertMessageAffix = "should appear";
-
-			assertTrue("Context menu with title '" + FIRST_TEST_TAG_NAME + "' " + assertMessageAffix,
-					solo.waitForText(FIRST_TEST_TAG_NAME, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + copy + "' " + assertMessageAffix,
-					solo.waitForText(copy, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
-					solo.waitForText(delete, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
-					solo.waitForText(rename, 1, timeToWait, false, true));
-
-			solo.goBack();
-		} else {
-			assertMessageAffix = "should not appear";
-
-			int minimumMatchesCopy = 1;
-			int minimumMatchesDelete = 1;
-			int minimumMatchesRename = 1;
-
-			switch (actionModeType) {
-				case ACTION_MODE_COPY:
-					minimumMatchesCopy = 2;
-					break;
-				case ACTION_MODE_DELETE:
-					minimumMatchesDelete = 2;
-					break;
-				case ACTION_MODE_RENAME:
-					minimumMatchesRename = 2;
-					break;
-			}
-			assertTrue("Context menu with title '" + FIRST_TEST_TAG_NAME + "' " + assertMessageAffix,
-					solo.waitForText(FIRST_TEST_TAG_NAME, 3, timeToWait, false, true));
-			assertFalse("Context menu item '" + copy + "' " + assertMessageAffix,
-					solo.waitForText(copy, minimumMatchesCopy, timeToWait, false, true));
-			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
-					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
-			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
-					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
-		}
-	}
-
-	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked, boolean secondCheckboxExpectedChecked) {
+	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
+			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
+		int startIndex = 0;
+		if (solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getNfcTagList().size()) {
+			startIndex = 1;
+		}
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex + 1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
+	}
+
+	private void checkAllCheckboxes() {
+		boolean skipFirst = solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getNfcTagList().size();
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (skipFirst) {
+				continue;
+			}
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
 	}
 
 	private void checkIfNumberOfTagsIsEqual(int expectedNumber) {
 		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 		assertEquals("Number of looks is not as expected", expectedNumber, tagDataList.size());
+	}
+
+	private void addNFCTagWithName(String tagName) {
+		NfcTagData tagDataToAdd = tagData.clone();
+		tagDataToAdd.setNfcTagName(tagName);
+		tagDataList.add(tagDataToAdd);
 	}
 }

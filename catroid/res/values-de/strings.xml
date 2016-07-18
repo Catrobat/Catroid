@@ -28,10 +28,6 @@
   <string name="cancel_button">Abbrechen</string>
   <string name="rename">Umbenennen</string>
   <string name="delete">Löschen</string>
-  <string name="menu_item_move_down">Nach unten</string>
-  <string name="menu_item_move_up">Nach oben</string>
-  <string name="menu_item_move_to_top">Ganz nach oben</string>
-  <string name="menu_item_move_to_bottom">Ganz nach unten</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
   <string name="copy">Kopieren</string>
