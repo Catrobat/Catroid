@@ -103,7 +103,7 @@ public class NewSoundDialog extends DialogFragment {
 	}
 
 	private void setupGalleryButton(View parentView) {
-		View galleryButton = parentView.findViewById(R.id.dialog_new_sound_galery);
+		View galleryButton = parentView.findViewById(R.id.dialog_new_sound_gallery);
 
 		galleryButton.setOnClickListener(new View.OnClickListener() {
 

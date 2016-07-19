@@ -41,9 +41,9 @@ import java.util.HashMap;
 public final class BroadcastHandler {
 
 	private static Multimap<String, String> actionsToRestartMap = ArrayListMultimap.create();
-	private static HashMap<Action, Script> actionScriptMap = new HashMap<Action, Script>();
-	private static HashMap<Script, Sprite> scriptSpriteMap = new HashMap<Script, Sprite>();
-	private static HashMap<String, Action> stringActionMap = new HashMap<String, Action>();
+	private static HashMap<Action, Script> actionScriptMap = new HashMap<>();
+	private static HashMap<Script, Sprite> scriptSpriteMap = new HashMap<>();
+	private static HashMap<String, Action> stringActionMap = new HashMap<>();
 
 	private static final String TAG = "BroadcastHandler";
 

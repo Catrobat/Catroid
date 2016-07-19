@@ -23,11 +23,15 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +44,7 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 
 import java.util.concurrent.locks.Lock;
 
@@ -49,6 +54,7 @@ public class ProgramMenuActivity extends BaseActivity {
 
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private SpriteRenamedReceiver spriteRenamedReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,6 +113,42 @@ public class ProgramMenuActivity extends BaseActivity {
 			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.VISIBLE);
 		} else {
 			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.INVISIBLE);
+		}
+
+		if (spriteRenamedReceiver == null) {
+			spriteRenamedReceiver = new SpriteRenamedReceiver();
+		}
+
+		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptActivity.ACTION_SPRITE_RENAMED);
+		getBaseContext().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (spriteRenamedReceiver != null) {
+			getBaseContext().unregisterReceiver(spriteRenamedReceiver);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+			return super.onCreateOptionsMenu(menu);
+		}
+		getMenuInflater().inflate(R.menu.menu_program_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	private class SpriteRenamedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
+				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
+				ProjectManager.getInstance().getCurrentSprite().setName(newSpriteName);
+				final ActionBar actionBar = getActionBar();
+				actionBar.setTitle(newSpriteName);
+			}
 		}
 	}
 

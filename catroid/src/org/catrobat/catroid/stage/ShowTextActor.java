@@ -43,15 +43,19 @@ public class ShowTextActor extends Actor {
 	private int posX;
 	private int posY;
 	private String variableName;
+	private Sprite sprite;
+	private UserBrick userBrick;
 	private String linkedVariableName;
 	private float scale = 3f;
 	private BitmapFont font;
 
-	public ShowTextActor(String text, int x, int y) {
+	public ShowTextActor(String text, int x, int y, Sprite sprite, UserBrick userBrick) {
 		this.variableName = text;
 		this.posX = x;
 		this.posY = y;
 		this.linkedVariableName = variableName;
+		this.sprite = sprite;
+		this.userBrick = userBrick;
 		init();
 	}
 
@@ -59,13 +63,11 @@ public class ShowTextActor extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
-		Sprite currentSprite = projectManager.getCurrentSprite();
-		UserBrick currentUserBrick = projectManager.getCurrentUserBrick();
 
 		List<UserVariable> projectVariableList = dataContainer.getProjectVariables();
 		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
-		List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(currentUserBrick);
+		List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
+		List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
 
 		if (variableName.equals(Constants.NO_VARIABLE_SELECTED)) {
 			font.draw(batch, variableName, posX, posY);
@@ -107,5 +109,13 @@ public class ShowTextActor extends Actor {
 
 	public String getLinkedVariableName() {
 		return linkedVariableName;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public UserBrick getUserBrick() {
+		return userBrick;
 	}
 }

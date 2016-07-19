@@ -21,62 +21,67 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="style/DefaultDialog"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="0dp" >
+<ScrollView style="style/DefaultDialog"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:id="@+id/dialog_new_sound"
         style="@style/DefaultDialog.Item"
-        android:layout_marginTop="8dp"
-        android:baselineAligned="false" >
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/dialog_new_sound_recorder"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/new_object_dialog_selector"
-            android:drawableTop="@drawable/ic_launcher"
-            android:gravity="center"
-            android:text="@string/add_sound_from_recorder"
-            android:textSize="12sp" />
+        <LinearLayout
+            style="@style/DefaultDialog.Item"
+            android:weightSum="2">
 
-        <TextView
-            android:id="@+id/dialog_new_sound_media_library"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/new_object_dialog_selector"
-            android:drawableTop="@drawable/ic_media_library"
-            android:gravity="center"
-            android:text="@string/add_look_media_library"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/dialog_new_sound_recorder"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_launcher"
+                android:gravity="center"
+                android:text="@string/add_sound_from_recorder"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/dialog_new_sound_galery"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/new_object_dialog_selector"
-            android:drawableTop="@drawable/ic_gallery"
-            android:gravity="center"
-            android:text="@string/add_sound_choose_file"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/dialog_new_sound_media_library"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_media_library"
+                android:gravity="center"
+                android:text="@string/add_look_media_library"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/dialog_new_sound_pocketmusic"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/new_object_dialog_selector"
-            android:drawableTop="@drawable/ic_pocketmusic"
-            android:gravity="center"
-            android:text="@string/add_sound_pocketmusic"
-            android:textSize="12sp" />
-    </LinearLayout >
+        <LinearLayout
+            style="@style/DefaultDialog.Item"
+            android:weightSum="2">
 
+            <TextView
+                android:id="@+id/dialog_new_sound_gallery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_gallery"
+                android:gravity="center"
+                android:text="@string/add_sound_choose_file"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dialog_new_sound_pocketmusic"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/new_object_dialog_selector"
+                android:drawableTop="@drawable/ic_pocketmusic"
+                android:gravity="center"
+                android:text="@string/add_sound_pocketmusic"
+                android:textSize="12sp" />
+        </LinearLayout >
+    </LinearLayout>
 </ScrollView>

@@ -61,7 +61,7 @@ public class RatingDialog extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-						sharedPreferences.edit().putInt(UploadProjectDialog.NUMBER_OF_UPLOADED_PROJECTS, 0).commit();
+						sharedPreferences.edit().putInt(UploadProjectTagsDialog.NUMBER_OF_UPLOADED_PROJECTS, 0).commit();
 					}
 				})
 
@@ -76,4 +76,3 @@ public class RatingDialog extends DialogFragment {
 		return rateUsDialog;
 	}
 }
-

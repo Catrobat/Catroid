@@ -135,6 +135,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -984,7 +985,7 @@ public final class UiTestUtils {
 		brickList.add(firstForeverBrick);
 		brickList.add(new ShowBrick());
 		brickList.add(secondForeverBrick);
-		brickList.add(new ComeToFrontBrick());
+		brickList.add(new SetMassBrick());
 		brickList.add(new LoopEndBrick(secondForeverBrick));
 		brickList.add(new LoopEndBrick(firstForeverBrick));
 
@@ -1091,7 +1092,7 @@ public final class UiTestUtils {
 
 		Script testScript = new StartScript();
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 
 		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(0);
 		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBeginBrick);
@@ -1123,7 +1124,7 @@ public final class UiTestUtils {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript();
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 
 		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(0);
 		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBeginBrick);
@@ -1156,13 +1157,61 @@ public final class UiTestUtils {
 		return brickList;
 	}
 
+	public static List<Brick> createTestProjectWithUserVariables() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		String globalVariableName = "global_var";
+		String spriteVariableName = "sprite_var";
+		String userBrickVariableName = "userbrick_var";
+		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, globalVariableName, null);
+		FormulaElement variableElementSprite = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, spriteVariableName, null);
+		FormulaElement variableElementUserBrick = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, userBrickVariableName, null);
+
+		UserScriptDefinitionBrick definitionBrick = new UserScriptDefinitionBrick();
+		definitionBrick.addUIText("test");
+		definitionBrick.addUILocalizedVariable(userBrickVariableName);
+		ChangeXByNBrick xBrick = new ChangeXByNBrick(new Formula(variableElementUserBrick));
+		definitionBrick.getUserScript().addBrick(xBrick);
+		UserBrick userBrick = new UserBrick(definitionBrick);
+		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
+
+		DataContainer variableContainer = project.getDataContainer();
+		UserVariable globalVariable = variableContainer.addProjectUserVariable(globalVariableName);
+		UserVariable spriteVariable = variableContainer.addSpriteUserVariableToSprite(firstSprite, spriteVariableName);
+
+		Script testScript = new StartScript();
+
+		ArrayList<Brick> brickList = new ArrayList<>();
+		brickList.add(new ChangeVariableBrick(new Formula(variableElementGlobal), globalVariable));
+		brickList.add(new SetVariableBrick(new Formula(variableElementSprite), spriteVariable));
+		brickList.add(userBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		userBrick.updateUserBrickParametersAndVariables();
+
+		return brickList;
+	}
+
 	public static List<Brick> createTestProjectWithEveryBrick() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript();
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 
 		brickList.add(new BroadcastBrick("broadcastMessage1"));
 		brickList.add(new BroadcastWaitBrick("broadcastMessage2"));
@@ -1424,7 +1473,7 @@ public final class UiTestUtils {
 
 		Script firstSpriteScript = new StartScript();
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 		brickList.add(new PlaceAtBrick(11, 12));
 		brickList.add(new SetXBrick(13));
 		brickList.add(new SetYBrick(14));
@@ -1658,7 +1707,7 @@ public final class UiTestUtils {
 		View doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
 
 		solo.clickOnView(doneButton);
-		solo.sleep(200);
+		solo.waitForView(doneButton.getId());
 	}
 
 	/**

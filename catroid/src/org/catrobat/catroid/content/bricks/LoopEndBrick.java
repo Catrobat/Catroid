@@ -50,7 +50,9 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	public LoopEndBrick(LoopBeginBrick loopStartingBrick) {
 		this.loopBeginBrick = loopStartingBrick;
-		loopStartingBrick.setLoopEndBrick(this);
+		if (loopStartingBrick != null) {
+			loopStartingBrick.setLoopEndBrick(this);
+		}
 	}
 
 	public LoopEndBrick() {
@@ -64,7 +66,9 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		LoopEndBrick copyBrick = (LoopEndBrick) clone();
-		loopBeginBrick.setLoopEndBrick(this);
+		if (loopBeginBrick != null) {
+			loopBeginBrick.setLoopEndBrick(this);
+		}
 		return copyBrick;
 	}
 

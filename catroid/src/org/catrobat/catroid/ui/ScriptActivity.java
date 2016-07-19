@@ -103,6 +103,10 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SCRIPT_GROUP_DELETED = "org.catrobat.catroid.SCRIPTGROUP_DELETED";
 	public static final String ACTION_USERBRICK_GROUP_DELETED = "org.catrobat.catroid.USERBRICKGROUP_DELETED";
 	public static final String ACTION_SPRITE_DELETED = "org.catrobat.catroid.SPRITE_DELETED";
+	public static final String ACTION_SPRITE_TOUCH_ACTION_UP = "org.catrobat.catroid.SPRITE_TOUCH_ACTION_UP";
+	public static final String ACTION_LOOK_TOUCH_ACTION_UP = "org.catrobat.catroid.LOOK_TOUCH_ACTION_UP";
+	public static final String ACTION_NFC_TOUCH_ACTION_UP = "org.catrobat.catroid.NFC_TOUCH_ACTION_UP";
+	public static final String ACTION_SOUND_TOUCH_ACTION_UP = "org.catrobat.catroid.SOUND_TOUCH_ACTION_UP";
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;

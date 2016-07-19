@@ -28,10 +28,6 @@
   <string name="cancel_button">Anulare</string>
   <string name="rename">Redenumire</string>
   <string name="delete">Ștergere</string>
-  <string name="menu_item_move_down">Deplasare jos</string>
-  <string name="menu_item_move_up">Deplasare sus</string>
-  <string name="menu_item_move_to_top">Move to top</string>
-  <string name="menu_item_move_to_bottom">Move to bottom</string>
   <string name="yes">Da</string>
   <string name="no">Nu</string>
   <string name="copy">Copie</string>
