@@ -216,6 +216,10 @@ public class Project implements Serializable {
 		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
 	}
 
+	public void setTags(List<String> tags) {
+		xmlHeader.setTags(tags);
+	}
+
 	// default constructor for XMLParser
 	public Project() {
 	}

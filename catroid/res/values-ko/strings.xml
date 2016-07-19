@@ -28,10 +28,6 @@
   <string name="cancel_button">취소</string>
   <string name="rename">이름 바꾸기</string>
   <string name="delete">삭제</string>
-  <string name="menu_item_move_down">아래로 이동하기</string>
-  <string name="menu_item_move_up">위로 이동하기</string>
-  <string name="menu_item_move_to_top">맨 위로 이동하기</string>
-  <string name="menu_item_move_to_bottom">맨 아래로 이동하기</string>
   <string name="yes">예</string>
   <string name="no">아니오</string>
   <string name="copy">복사하기</string>

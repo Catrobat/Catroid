@@ -33,16 +33,58 @@ import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAdapterInterface,
 		LookController.OnBackpackLookCompleteListener {
 
+	private static final int INVALID_ID = -1;
+
 	private LookFragment lookFragment;
+
+	private HashMap<LookData, Integer> idMap = new HashMap<LookData, Integer>();
 
 	public LookAdapter(final Context context, int resource, int textViewResourceId, List<LookData> items,
 			boolean showDetails) {
-		super(context, resource, textViewResourceId, items, showDetails);
+		super(context, resource, textViewResourceId, items, showDetails, false);
+		for (int i = 0; i < items.size(); ++i) {
+			idMap.put(items.get(i), i);
+		}
+	}
+
+	@Override
+	public long getItemId(int position) {
+		if (position < 0 || position >= idMap.size()) {
+			return INVALID_ID;
+		}
+		LookData item = getItem(position);
+		return idMap.get(item);
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+		if (getCount() != idMap.size()) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
+	}
+
+	public void hardSetIdMapForTesting() {
+		if (getCount() != idMap.size()) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	@Override

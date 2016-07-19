@@ -21,27 +21,11 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <item
+        android:id="@+id/menu_rename_sprite"
+        android:showAsAction="withText"
+        android:title="@string/rename_sprite_dialog" />
 
-        <TextView
-            android:id="@+id/dialog_userbrick_name_textview"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/new_user_brick_name" />
-
-        <EditText
-            android:id="@+id/dialog_userbrick_name_edittext"
-            style="@style/DefaultDialog.EditText"
-            android:inputType="text"
-            android:maxLines="1"
-            android:selectAllOnFocus="true" />
-
-    </LinearLayout>
-
-</ScrollView>
+</menu>

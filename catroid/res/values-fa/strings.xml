@@ -28,10 +28,6 @@
   <string name="cancel_button">انصراف</string>
   <string name="rename">تغییر نام</string>
   <string name="delete">حذف</string>
-  <string name="menu_item_move_down">حرکت به پایین</string>
-  <string name="menu_item_move_up">حرکت به بالا</string>
-  <string name="menu_item_move_to_top">حرکت به نوک</string>
-  <string name="menu_item_move_to_bottom">حرکت به کف</string>
   <string name="yes">بله</string>
   <string name="no">خیر</string>
   <string name="copy">کپی کردن</string>

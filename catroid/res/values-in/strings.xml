@@ -28,10 +28,6 @@
   <string name="cancel_button">Batal</string>
   <string name="rename">Menamai ulang</string>
   <string name="delete">Hapus</string>
-  <string name="menu_item_move_down">Pindah ke bawah</string>
-  <string name="menu_item_move_up">Pindah ke atas</string>
-  <string name="menu_item_move_to_top">Pindah ke paling atas</string>
-  <string name="menu_item_move_to_bottom">Pindah ke paling bawah</string>
   <string name="yes">Ya</string>
   <string name="no">Tidak</string>
   <string name="copy">Salin</string>

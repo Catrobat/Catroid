@@ -71,13 +71,12 @@ public final class UtilFile {
 		return size;
 	}
 
-	public static Long getProgressFromBytes(String projectName, Long progress) {
-		Long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
+	public static long getProgressFromBytes(String projectName, Long progress) {
+		long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
 		if (fileByteSize == 0) {
 			return (long) 0;
 		}
-		Long progressValue = progress * 100 / fileByteSize;
-		return progressValue;
+		return progress * 100 / fileByteSize;
 	}
 
 	public static String getSizeAsString(File fileOrDirectory) {

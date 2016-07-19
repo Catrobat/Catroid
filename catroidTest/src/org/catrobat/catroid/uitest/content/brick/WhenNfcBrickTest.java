@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.media.MediaPlayer;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -33,7 +34,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -47,6 +50,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -220,7 +224,6 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 			assertFalse("mediaPlayer is playing", mediaPlayer.isPlaying());
 		}
 		solo.sleep(1000);
-
 		UiTestUtils.fakeNfcTag(solo, FIRST_TEST_TAG_ID, null, null);
 		solo.sleep(2000);
 		mediaPlayer = getMediaPlayers().get(0);
@@ -255,7 +258,60 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 				.equals(programMenuActivityClass));
 	}
 
-	public void selectTag(String newTag, String oldName) {
+	public void testNfcSensorVariable() {
+		String nfcIdString1 = "123456";
+		String nfcIdString2 = "654321";
+		int tagId1 = Integer.valueOf(NfcHandler.byteArrayToHex(nfcIdString1.getBytes()));
+		int tagId2 = Integer.valueOf(NfcHandler.byteArrayToHex(nfcIdString2.getBytes()));
+		int waitingTime = 500;
+		String newText = solo.getString(R.string.new_nfc_tag);
+
+		solo.clickOnText(all);
+		solo.clickOnText(newText);
+		solo.waitForFragmentByTag(NfcTagFragment.TAG);
+		solo.sleep(waitingTime);
+
+		UiTestUtils.fakeNfcTag(solo, nfcIdString1, null, null);
+		solo.sleep(waitingTime);
+		solo.goBack();
+		solo.waitForView(solo.getView(R.id.brick_set_variable_edit_text));
+
+		checkSensorValue(solo.getString(R.string.formula_editor_nfc_tag_id), tagId1);
+		solo.waitForView(solo.getView(R.id.brick_play_sound_label));
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+
+		UiTestUtils.fakeNfcTag(solo, nfcIdString2, null, null);
+		solo.sleep(waitingTime);
+		solo.goBack();
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_back));
+		solo.waitForView(solo.getView(R.id.brick_set_variable_edit_text));
+
+		checkSensorValue(solo.getString(R.string.formula_editor_nfc_tag_id), tagId2);
+	}
+
+	public void checkSensorValue(String sensorName, int expectedValue) {
+		String expectedFloatingPoint = convertIntToRoundedFloatingPoint(expectedValue);
+		solo.clickOnText(sensorName);
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
+		TextView computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
+		String sensorValue = computeTextView.getText().toString();
+
+		boolean sensorContainsExpectedValue = sensorValue.contains(expectedFloatingPoint);
+		assertTrue("Sensor value is:" + sensorValue + " but should be:" + expectedFloatingPoint, sensorContainsExpectedValue);
+		solo.goBack();
+		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
+		solo.goBack();
+	}
+
+	private String convertIntToRoundedFloatingPoint(int input) {
+		DecimalFormat decimalFormat = new DecimalFormat("0.0000000E00");
+		return decimalFormat.format(input).substring(0, 7).replace(",", ".");
+	}
+
+	private void selectTag(String newTag, String oldName) {
 		solo.clickOnText(oldName);
 		solo.clickOnText(newTag);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -276,6 +332,9 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
 		testScript.addBrick(playSoundBrick);
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick(Sensors.NFC_TAG_ID);
+		testScript.addBrick(setVariableBrick);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);

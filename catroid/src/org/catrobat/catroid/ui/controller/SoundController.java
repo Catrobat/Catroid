@@ -45,6 +45,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Chronometer;
@@ -253,6 +254,24 @@ public final class SoundController {
 			}
 		}
 		holder.soundFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
+		setOnTouchListener(holder, soundAdapter);
+	}
+
+	private void setOnTouchListener(SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
+		if (soundAdapter.backPackAdapter) {
+			return;
+		}
+
+		holder.soundFragmentButtonLayout.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					Intent intent = new Intent(ScriptActivity.ACTION_SOUND_TOUCH_ACTION_UP);
+					soundAdapter.getContext().sendBroadcast(intent);
+				}
+				return false;
+			}
+		});
 	}
 
 	private void handleDetails(SoundBaseAdapter soundAdapter, SoundViewHolder holder, SoundInfo soundInfo) {

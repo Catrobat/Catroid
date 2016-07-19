@@ -28,10 +28,6 @@
   <string name="cancel_button">İptal et</string>
   <string name="rename">Yeniden adlandır</string>
   <string name="delete">Sil</string>
-  <string name="menu_item_move_down">Aşağıya git</string>
-  <string name="menu_item_move_up">Yukarı git</string>
-  <string name="menu_item_move_to_top">Move to top</string>
-  <string name="menu_item_move_to_bottom">Move to bottom</string>
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
   <string name="copy">Kopyala</string>

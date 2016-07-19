@@ -1658,7 +1658,7 @@ public final class UiTestUtils {
 		View doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
 
 		solo.clickOnView(doneButton);
-		solo.sleep(200);
+		solo.waitForView(doneButton.getId());
 	}
 
 	/**

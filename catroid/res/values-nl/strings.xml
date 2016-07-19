@@ -28,10 +28,6 @@
   <string name="cancel_button">Annuleren</string>
   <string name="rename">Hernoemen</string>
   <string name="delete">verwijderen</string>
-  <string name="menu_item_move_down">Beweeg omlaag</string>
-  <string name="menu_item_move_up">Beweeg omhoog</string>
-  <string name="menu_item_move_to_top">Move to top</string>
-  <string name="menu_item_move_to_bottom">Move to bottom</string>
   <string name="yes">Ja</string>
   <string name="no">Nee</string>
   <string name="copy">Kopiëren</string>
