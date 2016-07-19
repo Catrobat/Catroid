@@ -202,6 +202,15 @@ public final class Constants {
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
 	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
+	public static final int SAY_BRICK = 0;
+	public static final int THINK_BRICK = 1;
+	public static final int MAX_STRING_LENGTH_BUBBLES = 16;
+	public static final int BORDER_THICKNESS_BUBBLES = 5;
+	public static final int TEXT_SIZE_BUBBLE = 30;
+	public static final int LINE_SPACING_BUBBLES = 3;
+	public static final int PADDING_TOP = 40;
+	public static final int PADDING_LEFT = 30;
+	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;

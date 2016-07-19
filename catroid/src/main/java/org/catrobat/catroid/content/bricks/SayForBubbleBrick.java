@@ -20,30 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.bricks;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.ShowBubbleActor;
-import org.catrobat.catroid.stage.StageActivity;
-
-public class ShowAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float delta) {
-		sprite.look.setLookVisible(true);
-		if (StageActivity.stageListener != null) {
-			ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
-			if (actor != null) {
-				actor.setVisible(true);
-			}
-		}
+public class SayForBubbleBrick extends ThinkForBubbleBrick {
+	public SayForBubbleBrick() {
+		type = Constants.SAY_BRICK;
+		addAllowedBrickField(BrickField.STRING);
+		addAllowedBrickField(BrickField.DURATION_IN_SECONDS);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public SayForBubbleBrick(String text, float duration) {
+		type = Constants.SAY_BRICK;
+		addAllowedBrickField(BrickField.STRING);
+		addAllowedBrickField(BrickField.DURATION_IN_SECONDS);
+		initializeBrickFields(new Formula(text), new Formula(duration));
 	}
 }

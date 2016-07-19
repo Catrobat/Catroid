@@ -22,28 +22,50 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class ShowAction extends TemporalAction {
+public class ThinkSayBubbleAction extends TemporalAction {
 
 	private Sprite sprite;
+	private Formula text;
+	private int type;
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setLookVisible(true);
-		if (StageActivity.stageListener != null) {
-			ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
-			if (actor != null) {
-				actor.setVisible(true);
-			}
+		String textToDisplay;
+		try {
+			textToDisplay = text == null ? "" : text.interpretString(sprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			return;
 		}
+		ShowBubbleActor showBubbleActor = new ShowBubbleActor(textToDisplay, sprite, type);
+
+		if (StageActivity.stageListener.getBubbleActorForSprite(sprite) != null) {
+			StageActivity.stageListener.getStage().getActors().removeValue(StageActivity.stageListener.getBubbleActorForSprite(sprite), true);
+			StageActivity.stageListener.removeBubbleActorForSprite(sprite);
+		}
+		StageActivity.stageListener.addActor(showBubbleActor);
+		StageActivity.stageListener.putBubbleActor(sprite, showBubbleActor);
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public void setText(Formula text) {
+		this.text = text;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

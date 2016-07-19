@@ -170,6 +170,8 @@ public class StageListener implements ApplicationListener {
 
 	private InputListener inputListener = null;
 
+	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
+
 	StageListener() {
 	}
 
@@ -838,6 +840,18 @@ public class StageListener implements ApplicationListener {
 
 	public void removeActor(Look look) {
 		look.remove();
+	}
+
+	public void putBubbleActor(Sprite sprite, ShowBubbleActor actor) {
+		bubbleActorMap.put(sprite, actor);
+	}
+
+	public void removeBubbleActorForSprite(Sprite sprite) {
+		bubbleActorMap.remove(sprite);
+	}
+
+	public ShowBubbleActor getBubbleActorForSprite(Sprite sprite) {
+		return bubbleActorMap.get(sprite);
 	}
 
 	public List<Sprite> getSpritesFromStage() {

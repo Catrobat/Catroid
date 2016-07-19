@@ -112,6 +112,7 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
@@ -134,6 +135,8 @@ import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
+import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
@@ -466,6 +469,24 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(SpeakBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ThinkBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfoMap.put("thinkBubbleBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ThinkBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfoMap.put("sayBubbleBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ThinkForBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
+		brickInfoMap.put("thinkForBubbleBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SayForBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
+		brickInfoMap.put("sayForBubbleBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SpeakAndWaitBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);

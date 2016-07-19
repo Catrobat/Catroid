@@ -83,6 +83,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -452,6 +453,30 @@ public final class Utils {
 		}
 
 		return messageDigest;
+	}
+
+	public static ArrayList<String> formatStringForBubbleBricks(String text) {
+		ArrayList<String> lines = new ArrayList<>();
+
+		int cursorPos = 0;
+		while (cursorPos + Constants.MAX_STRING_LENGTH_BUBBLES < text.length()) {
+			String newLine = text.substring(cursorPos, cursorPos + Constants.MAX_STRING_LENGTH_BUBBLES);
+			int lastWhitespace = newLine.lastIndexOf(' ');
+			if (lastWhitespace < 0) {
+				lastWhitespace = Constants.MAX_STRING_LENGTH_BUBBLES;
+			}
+			newLine = text.substring(cursorPos, cursorPos + lastWhitespace);
+			while (newLine.contains("\n")) {
+				String subLine = newLine.substring(0, newLine.indexOf('\n') + 1);
+				lines.add(subLine);
+				newLine = newLine.replace(subLine, "");
+			}
+			lines.add(newLine);
+			cursorPos += lastWhitespace;
+		}
+		lines.add(text.substring(cursorPos, text.length()));
+
+		return lines;
 	}
 
 	public static String getVersionName(Context context) {
