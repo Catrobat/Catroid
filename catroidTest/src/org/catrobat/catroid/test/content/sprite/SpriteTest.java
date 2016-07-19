@@ -199,34 +199,27 @@ public class SpriteTest extends AndroidTestCase {
 
 		UserBrick outerUserBrick = new UserBrick(new UserScriptDefinitionBrick());
 		outerUserBrick.getDefinitionBrick().addUIText("outerBrick");
+		outerUserBrick.getDefinitionBrick().addUILocalizedVariable("outerBrickVariable");
+		sprite.addUserBrick(outerUserBrick);
 		outerUserBrick.updateUserBrickParametersAndVariables();
 
-		UserBrick innerUserBrick = new UserBrick(new UserScriptDefinitionBrick());
-		innerUserBrick.getDefinitionBrick().addUIText("innerBrick");
-		innerUserBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
-		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerUserBrick, sprite);
-		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
-		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
-		innerUserBrick.updateUserBrickParametersAndVariables();
-
-		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerUserBrick, sprite);
-		UserBrick innerBrickCopyInOuterScript = innerUserBrick.copyBrickForSprite(sprite);
-		setOneFormula(innerBrickCopyInOuterScript, ElementType.USER_VARIABLE, "outerBrickVariable", null, 1);
-		outerScript.addBrick(innerBrickCopyInOuterScript);
+		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "outerBrickVariable", null));
+		outerUserBrick.getDefinitionBrick().getUserScript().addBrick(new ChangeXByNBrick(innerFormula));
 
 		StartScript startScript = new StartScript();
 		sprite.addScript(startScript);
 
 		UserBrick outerBrickCopy = outerUserBrick.copyBrickForSprite(sprite);
-		setOneFormula(outerBrickCopy, ElementType.NUMBER, moveValue.toString(), (float) moveValue, 0);
+		setOneFormula(outerBrickCopy, ElementType.NUMBER, moveValue.toString(), (float) moveValue, 1);
+		startScript.addBrick(outerUserBrick);
 		startScript.addBrick(outerBrickCopy);
-		startScript.addBrick(innerBrickCopyInOuterScript);
+		sprite.addUserBrick(outerBrickCopy);
 
 		Sprite clonedSprite = sprite.clone();
 		checkUserBrickSpriteClones(sprite, clonedSprite, 0);
 		checkUserBrickSpriteClones(sprite, clonedSprite, 1);
 
-		UserBrick clonedInnerBrick = (UserBrick) clonedSprite.getScript(0).getBrickList().get(1);
+		UserBrick clonedInnerBrick = (UserBrick) clonedSprite.getScript(0).getBrickList().get(0);
 		setOneFormula(clonedInnerBrick, ElementType.NUMBER, secondMoveValue.toString(), (float) secondMoveValue, 1);
 
 		runScriptOnSprite(sprite, 0, moveValue);

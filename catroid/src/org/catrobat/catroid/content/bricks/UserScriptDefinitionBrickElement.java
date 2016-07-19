@@ -27,6 +27,7 @@ import java.io.Serializable;
 public class UserScriptDefinitionBrickElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = UserScriptDefinitionBrickElement.class.getSimpleName();
 
 	private enum UserBrickElementType {
 		VARIABLE(10),
@@ -47,6 +48,29 @@ public class UserScriptDefinitionBrickElement implements Serializable {
 	private String text;
 	private UserBrickElementType elementType;
 	private transient boolean newLineHint;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof UserScriptDefinitionBrickElement)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		UserScriptDefinitionBrickElement elementToCompare = (UserScriptDefinitionBrickElement) obj;
+		if (!(elementToCompare.getElementType().getValue() == elementType.getValue())
+				|| !(elementToCompare.getText().equals(text)) || !(elementToCompare.isNewLineHint() == newLineHint)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode() * TAG.hashCode();
+	}
 
 	public String getText() {
 		return text;

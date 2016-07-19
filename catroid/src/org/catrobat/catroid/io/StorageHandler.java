@@ -621,16 +621,25 @@ public final class StorageHandler {
 
 		try {
 			BufferedReader bufferedBackpackReader = new BufferedReader(new FileReader(backpackFile));
-			Backpack backpack = backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
-			return backpack;
+			return backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "Could not find backpack file!");
 			return new Backpack();
 		} catch (JsonSyntaxException | JsonIOException jsonException) {
 			Log.d(TAG, "Could not load backpack file! File will be deleted!");
-			backpackFile.delete();
+			deleteBackpackFile();
 			return new Backpack();
 		}
+	}
+
+	public boolean deleteBackpackFile() {
+		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		if (!backpackFile.exists()) {
+			Log.d(TAG, "Backpack file does not exist!");
+			return false;
+		}
+		Log.d(TAG, "Deleting backpack.json");
+		return backpackFile.delete();
 	}
 
 	public boolean codeFileSanityCheck(String projectName) {

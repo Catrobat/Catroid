@@ -1,0 +1,1538 @@
+{
+  "backpackedLooks": [],
+  "backpackedScripts": {},
+  "backpackedSounds": [],
+  "backpackedSprites": [
+    {
+      "lookList": [
+        {
+          "fileName": "1e5a5d5c9ad52ef9c6a19323e903ad49_Background 1.png",
+          "name": "Background 1"
+        }
+      ],
+      "name": "Hintergrund",
+      "nfcTagList": [],
+      "scriptList": [],
+      "soundList": [],
+      "userBricks": []
+    },
+    {
+      "lookList": [
+        {
+          "fileName": "f006c8afefc8b82287be1b7b47d985a2_Image 2.png",
+          "name": "Image 2"
+        },
+        {
+          "fileName": "f006c8afefc8b82287be1b7b47d985a2_Image 2.png",
+          "name": "Image 1"
+        }
+      ],
+      "name": "Cat",
+      "nfcTagList": [],
+      "scriptList": [
+        {
+          "scripttype": "StartScript",
+          "properties": {
+            "isUserScript": false,
+            "brickList": [
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.UserBrick",
+                "properties": {
+                  "definitionBrick": {
+                    "script": {
+                      "isUserScript": true,
+                      "brickList": []
+                    },
+                    "userScriptDefinitionBrickElements": [
+                      {
+                        "elementType": "TEXT",
+                        "text": "Neuer Baustein 0"
+                      },
+                      {
+                        "elementType": "VARIABLE",
+                        "text": "Variable 1 0"
+                      }
+                    ]
+                  },
+                  "userBrickParameters": [
+                    {
+                      "element": {
+                        "elementType": "VARIABLE",
+                        "text": "Variable 1 0"
+                      },
+                      "formulaMap": {
+                        "USER_BRICK": {
+                          "formulaTree": {
+                            "type": "NUMBER",
+                            "value": "50"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick",
+                "properties": {
+                  "type": "DYNAMIC"
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.SetVelocityBrick",
+                "properties": {
+                  "formulaMap": {
+                    "PHYSICS_VELOCITY_X": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "0.0"
+                      }
+                    },
+                    "PHYSICS_VELOCITY_Y": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "0.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick",
+                "properties": {
+                  "formulaMap": {
+                    "PHYSICS_TURN_LEFT_SPEED": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "15.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.SetFrictionBrick",
+                "properties": {
+                  "formulaMap": {
+                    "PHYSICS_FRICTION": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "20.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.SetBounceBrick",
+                "properties": {
+                  "formulaMap": {
+                    "PHYSICS_BOUNCE_FACTOR": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "80.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.SetMassBrick",
+                "properties": {
+                  "formulaMap": {
+                    "PHYSICS_MASS": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "1.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.SetGravityBrick",
+                "properties": {
+                  "formulaMap": {
+                    "PHYSICS_GRAVITY_Y": {
+                      "formulaTree": {
+                        "rightChild": {
+                          "type": "NUMBER",
+                          "value": "10.0"
+                        },
+                        "type": "OPERATOR",
+                        "value": "MINUS"
+                      }
+                    },
+                    "PHYSICS_GRAVITY_X": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "0.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick",
+                "properties": {
+                  "formulaMap": {
+                    "PHYSICS_TURN_RIGHT_SPEED": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "15.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.PlaceAtBrick",
+                "properties": {
+                  "formulaMap": {
+                    "Y_POSITION": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "200"
+                      }
+                    },
+                    "X_POSITION": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "100"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetXBrick",
+                "properties": {
+                  "formulaMap": {
+                    "X_POSITION": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "100"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetYBrick",
+                "properties": {
+                  "formulaMap": {
+                    "Y_POSITION": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "200"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ChangeXByNBrick",
+                "properties": {
+                  "formulaMap": {
+                    "X_POSITION_CHANGE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "10"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ChangeYByNBrick",
+                "properties": {
+                  "formulaMap": {
+                    "Y_POSITION_CHANGE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "10"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.MoveNStepsBrick",
+                "properties": {
+                  "formulaMap": {
+                    "STEPS": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "10.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.NoteBrick",
+                "properties": {
+                  "formulaMap": {
+                    "NOTE": {
+                      "formulaTree": {
+                        "type": "STRING",
+                        "value": "Test comment"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.TurnLeftBrick",
+                "properties": {
+                  "formulaMap": {
+                    "TURN_LEFT_DEGREES": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "15.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.TurnRightBrick",
+                "properties": {
+                  "formulaMap": {
+                    "TURN_RIGHT_DEGREES": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "15.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.PointInDirectionBrick",
+                "properties": {
+                  "formulaMap": {
+                    "DEGREES": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "90.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.WaitBrick",
+                "properties": {
+                  "formulaMap": {
+                    "TIME_TO_WAIT_IN_SECONDS": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "1.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.PointToBrick",
+                "properties": {
+                  "pointedObject": {
+                    "lookList": [
+                      {
+                        "fileName": "83d4aa413b41e9e2e68a8f860cca338b_Man.png",
+                        "name": "Man"
+                      }
+                    ],
+                    "name": "Man",
+                    "nfcTagList": [],
+                    "scriptList": [],
+                    "soundList": [],
+                    "userBricks": []
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.BroadcastWaitBrick",
+                "properties": {
+                  "broadcastMessage": "Test Message"
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetVariableBrick",
+                "properties": {
+                  "backPackedData": {
+                    "userVariable": {
+                      "name": "Test Var",
+                      "visible": true
+                    },
+                    "userVariableType": 1
+                  },
+                  "userVariable": {
+                    "name": "Test Var",
+                    "visible": true
+                  },
+                  "formulaMap": {
+                    "VARIABLE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "5"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.GlideToBrick",
+                "properties": {
+                  "formulaMap": {
+                    "DURATION_IN_SECONDS": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "1.0"
+                      }
+                    },
+                    "Y_DESTINATION": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "200"
+                      }
+                    },
+                    "X_DESTINATION": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "100"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.GoNStepsBackBrick",
+                "properties": {
+                  "formulaMap": {
+                    "STEPS": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.BroadcastBrick",
+                "properties": {
+                  "broadcastMessage": "Test Message"
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ComeToFrontBrick",
+                "properties": {}
+              }
+            ]
+          }
+        },
+        {
+          "scripttype": "BroadcastScript",
+          "properties": {
+            "receivedMessage": "Test Message",
+            "brickList": [
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.IfLogicBeginBrick",
+                "properties": {
+                  "formulaMap": {
+                    "IF_CONDITION": {
+                      "formulaTree": {
+                        "leftChild": {
+                          "type": "NUMBER",
+                          "value": "5"
+                        },
+                        "rightChild": {
+                          "type": "NUMBER",
+                          "value": "9"
+                        },
+                        "type": "OPERATOR",
+                        "value": "EQUAL"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick",
+                "properties": {
+                  "motor": "MOTOR_B",
+                  "formulaMap": {
+                    "LEGO_NXT_DEGREES": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "180"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick",
+                "properties": {
+                  "motor": "MOTOR_B_C"
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick",
+                "properties": {
+                  "motor": "MOTOR_A",
+                  "formulaMap": {
+                    "LEGO_NXT_SPEED": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "100"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetLookBrick",
+                "properties": {
+                  "look": {
+                    "fileName": "f006c8afefc8b82287be1b7b47d985a2_Image 2.png",
+                    "name": "Image 11"
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetSizeToBrick",
+                "properties": {
+                  "formulaMap": {
+                    "SIZE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "60.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick",
+                "properties": {
+                  "formulaMap": {
+                    "TRANSPARENCY_CHANGE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "25.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick",
+                "properties": {
+                  "formulaMap": {
+                    "LEGO_NXT_DURATION_IN_SECONDS": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "1"
+                      }
+                    },
+                    "LEGO_NXT_FREQUENCY": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.HideBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetTransparencyBrick",
+                "properties": {
+                  "formulaMap": {
+                    "TRANSPARENCY": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "50.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.IfLogicElseBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ShowBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetBrightnessBrick",
+                "properties": {
+                  "formulaMap": {
+                    "BRIGHTNESS": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "50.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.NextLookBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ChangeSizeByNBrick",
+                "properties": {
+                  "formulaMap": {
+                    "SIZE_CHANGE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "10.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.IfLogicEndBrick",
+                "properties": {}
+              }
+            ]
+          }
+        },
+        {
+          "scripttype": "WhenScript",
+          "properties": {
+            "action": "Tapped",
+            "brickList": [
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ForeverBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.PlaySoundBrick",
+                "properties": {
+                  "sound": {
+                    "fileName": "cd8fa8390b0efdd281882533fbfcfcfb_title.mp3",
+                    "name": "title1"
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick",
+                "properties": {
+                  "formulaMap": {
+                    "BRIGHTNESS_CHANGE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "25.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.StopAllSoundsBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick",
+                "properties": {
+                  "formulaMap": {
+                    "VOLUME_CHANGE": {
+                      "formulaTree": {
+                        "rightChild": {
+                          "type": "NUMBER",
+                          "value": "10.0"
+                        },
+                        "type": "OPERATOR",
+                        "value": "MINUS"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.RepeatBrick",
+                "properties": {
+                  "formulaMap": {
+                    "TIMES_TO_REPEAT": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "10"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.ChangeVariableBrick",
+                "properties": {
+                  "backPackedData": {
+                    "userVariable": {
+                      "name": "Test Var",
+                      "visible": true
+                    },
+                    "userVariableType": 1
+                  },
+                  "userVariable": {
+                    "name": "Test Var",
+                    "visible": true
+                  },
+                  "formulaMap": {
+                    "VARIABLE_CHANGE": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "56"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.LoopEndBrick",
+                "properties": {}
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SetVolumeToBrick",
+                "properties": {
+                  "formulaMap": {
+                    "VOLUME": {
+                      "formulaTree": {
+                        "type": "NUMBER",
+                        "value": "60.0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.SpeakBrick",
+                "properties": {
+                  "formulaMap": {
+                    "SPEAK": {
+                      "formulaTree": {
+                        "type": "STRING",
+                        "value": "Hello!"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "bricktype": "org.catrobat.catroid.content.bricks.LoopEndlessBrick",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      ],
+      "soundList": [
+        {
+          "fileName": "cd8fa8390b0efdd281882533fbfcfcfb_title.mp3",
+          "name": "title"
+        }
+      ],
+      "userBricks": []
+    },
+    {
+      "lookList": [
+        {
+          "fileName": "83d4aa413b41e9e2e68a8f860cca338b_Man.png",
+          "name": "Man1"
+        }
+      ],
+      "name": "Man1",
+      "nfcTagList": [],
+      "scriptList": [],
+      "soundList": [],
+      "userBricks": []
+    }
+  ],
+  "backpackedUserBricks": {},
+  "hiddenBackpackedLooks": [
+    {
+      "fileName": "1e5a5d5c9ad52ef9c6a19323e903ad49_Background 1.png",
+      "name": "Background 1"
+    },
+    {
+      "fileName": "f006c8afefc8b82287be1b7b47d985a2_Image 2.png",
+      "name": "Image 2"
+    },
+    {
+      "fileName": "f006c8afefc8b82287be1b7b47d985a2_Image 2.png",
+      "name": "Image 1"
+    },
+    {
+      "fileName": "83d4aa413b41e9e2e68a8f860cca338b_Man.png",
+      "name": "Man"
+    },
+    {
+      "fileName": "f006c8afefc8b82287be1b7b47d985a2_Image 2.png",
+      "name": "Image 11"
+    },
+    {
+      "fileName": "83d4aa413b41e9e2e68a8f860cca338b_Man.png",
+      "name": "Man1"
+    }
+  ],
+  "hiddenBackpackedScripts": {
+    "Cat": [
+      {
+        "scripttype": "StartScript",
+        "properties": {
+          "isUserScript": false,
+          "brickList": [
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.UserBrick",
+              "properties": {
+                "definitionBrick": {
+                  "script": {
+                    "isUserScript": true,
+                    "brickList": []
+                  },
+                  "userScriptDefinitionBrickElements": [
+                    {
+                      "elementType": "TEXT",
+                      "text": "Neuer Baustein 0"
+                    },
+                    {
+                      "elementType": "VARIABLE",
+                      "text": "Variable 1 0"
+                    }
+                  ]
+                },
+                "userBrickParameters": [
+                  {
+                    "element": {
+                      "elementType": "VARIABLE",
+                      "text": "Variable 1 0"
+                    },
+                    "formulaMap": {
+                      "USER_BRICK": {
+                        "formulaTree": {
+                          "type": "NUMBER",
+                          "value": "50"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick",
+              "properties": {
+                "type": "DYNAMIC"
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.SetVelocityBrick",
+              "properties": {
+                "formulaMap": {
+                  "PHYSICS_VELOCITY_X": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "0.0"
+                    }
+                  },
+                  "PHYSICS_VELOCITY_Y": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "0.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick",
+              "properties": {
+                "formulaMap": {
+                  "PHYSICS_TURN_LEFT_SPEED": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "15.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.SetFrictionBrick",
+              "properties": {
+                "formulaMap": {
+                  "PHYSICS_FRICTION": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "20.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.SetBounceBrick",
+              "properties": {
+                "formulaMap": {
+                  "PHYSICS_BOUNCE_FACTOR": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "80.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.SetMassBrick",
+              "properties": {
+                "formulaMap": {
+                  "PHYSICS_MASS": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "1.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.SetGravityBrick",
+              "properties": {
+                "formulaMap": {
+                  "PHYSICS_GRAVITY_Y": {
+                    "formulaTree": {
+                      "rightChild": {
+                        "type": "NUMBER",
+                        "value": "10.0"
+                      },
+                      "type": "OPERATOR",
+                      "value": "MINUS"
+                    }
+                  },
+                  "PHYSICS_GRAVITY_X": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "0.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick",
+              "properties": {
+                "formulaMap": {
+                  "PHYSICS_TURN_RIGHT_SPEED": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "15.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.PlaceAtBrick",
+              "properties": {
+                "formulaMap": {
+                  "Y_POSITION": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "200"
+                    }
+                  },
+                  "X_POSITION": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "100"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetXBrick",
+              "properties": {
+                "formulaMap": {
+                  "X_POSITION": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "100"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetYBrick",
+              "properties": {
+                "formulaMap": {
+                  "Y_POSITION": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "200"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ChangeXByNBrick",
+              "properties": {
+                "formulaMap": {
+                  "X_POSITION_CHANGE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "10"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ChangeYByNBrick",
+              "properties": {
+                "formulaMap": {
+                  "Y_POSITION_CHANGE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "10"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.MoveNStepsBrick",
+              "properties": {
+                "formulaMap": {
+                  "STEPS": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "10.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.NoteBrick",
+              "properties": {
+                "formulaMap": {
+                  "NOTE": {
+                    "formulaTree": {
+                      "type": "STRING",
+                      "value": "Test comment"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.TurnLeftBrick",
+              "properties": {
+                "formulaMap": {
+                  "TURN_LEFT_DEGREES": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "15.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.TurnRightBrick",
+              "properties": {
+                "formulaMap": {
+                  "TURN_RIGHT_DEGREES": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "15.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.PointInDirectionBrick",
+              "properties": {
+                "formulaMap": {
+                  "DEGREES": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "90.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.WaitBrick",
+              "properties": {
+                "formulaMap": {
+                  "TIME_TO_WAIT_IN_SECONDS": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "1.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.PointToBrick",
+              "properties": {
+                "pointedObject": {
+                  "lookList": [
+                    {
+                      "fileName": "83d4aa413b41e9e2e68a8f860cca338b_Man.png",
+                      "name": "Man"
+                    }
+                  ],
+                  "name": "Man",
+                  "nfcTagList": [],
+                  "scriptList": [],
+                  "soundList": [],
+                  "userBricks": []
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.BroadcastWaitBrick",
+              "properties": {
+                "broadcastMessage": "Test Message"
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetVariableBrick",
+              "properties": {
+                "backPackedData": {
+                  "userVariable": {
+                    "name": "Test Var",
+                    "visible": true
+                  },
+                  "userVariableType": 1
+                },
+                "userVariable": {
+                  "name": "Test Var",
+                  "visible": true
+                },
+                "formulaMap": {
+                  "VARIABLE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "5"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.GlideToBrick",
+              "properties": {
+                "formulaMap": {
+                  "DURATION_IN_SECONDS": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "1.0"
+                    }
+                  },
+                  "Y_DESTINATION": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "200"
+                    }
+                  },
+                  "X_DESTINATION": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "100"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.GoNStepsBackBrick",
+              "properties": {
+                "formulaMap": {
+                  "STEPS": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "1"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.BroadcastBrick",
+              "properties": {
+                "broadcastMessage": "Test Message"
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ComeToFrontBrick",
+              "properties": {}
+            }
+          ]
+        }
+      },
+      {
+        "scripttype": "BroadcastScript",
+        "properties": {
+          "receivedMessage": "Test Message",
+          "brickList": [
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.IfLogicBeginBrick",
+              "properties": {
+                "formulaMap": {
+                  "IF_CONDITION": {
+                    "formulaTree": {
+                      "leftChild": {
+                        "type": "NUMBER",
+                        "value": "5"
+                      },
+                      "rightChild": {
+                        "type": "NUMBER",
+                        "value": "9"
+                      },
+                      "type": "OPERATOR",
+                      "value": "EQUAL"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick",
+              "properties": {
+                "motor": "MOTOR_B",
+                "formulaMap": {
+                  "LEGO_NXT_DEGREES": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "180"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick",
+              "properties": {
+                "motor": "MOTOR_B_C"
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick",
+              "properties": {
+                "motor": "MOTOR_A",
+                "formulaMap": {
+                  "LEGO_NXT_SPEED": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "100"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetLookBrick",
+              "properties": {
+                "look": {
+                  "fileName": "f006c8afefc8b82287be1b7b47d985a2_Image 2.png",
+                  "name": "Image 11"
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetSizeToBrick",
+              "properties": {
+                "formulaMap": {
+                  "SIZE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "60.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick",
+              "properties": {
+                "formulaMap": {
+                  "TRANSPARENCY_CHANGE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "25.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick",
+              "properties": {
+                "formulaMap": {
+                  "LEGO_NXT_DURATION_IN_SECONDS": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "1"
+                    }
+                  },
+                  "LEGO_NXT_FREQUENCY": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "2"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.HideBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetTransparencyBrick",
+              "properties": {
+                "formulaMap": {
+                  "TRANSPARENCY": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "50.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.IfLogicElseBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ShowBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetBrightnessBrick",
+              "properties": {
+                "formulaMap": {
+                  "BRIGHTNESS": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "50.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.NextLookBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ChangeSizeByNBrick",
+              "properties": {
+                "formulaMap": {
+                  "SIZE_CHANGE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "10.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.IfLogicEndBrick",
+              "properties": {}
+            }
+          ]
+        }
+      },
+      {
+        "scripttype": "WhenScript",
+        "properties": {
+          "action": "Tapped",
+          "brickList": [
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ForeverBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.PlaySoundBrick",
+              "properties": {
+                "sound": {
+                  "fileName": "cd8fa8390b0efdd281882533fbfcfcfb_title.mp3",
+                  "name": "title1"
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick",
+              "properties": {
+                "formulaMap": {
+                  "BRIGHTNESS_CHANGE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "25.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.StopAllSoundsBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick",
+              "properties": {
+                "formulaMap": {
+                  "VOLUME_CHANGE": {
+                    "formulaTree": {
+                      "rightChild": {
+                        "type": "NUMBER",
+                        "value": "10.0"
+                      },
+                      "type": "OPERATOR",
+                      "value": "MINUS"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.RepeatBrick",
+              "properties": {
+                "formulaMap": {
+                  "TIMES_TO_REPEAT": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "10"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.ChangeVariableBrick",
+              "properties": {
+                "backPackedData": {
+                  "userVariable": {
+                    "name": "Test Var",
+                    "visible": true
+                  },
+                  "userVariableType": 1
+                },
+                "userVariable": {
+                  "name": "Test Var",
+                  "visible": true
+                },
+                "formulaMap": {
+                  "VARIABLE_CHANGE": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "56"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.LoopEndBrick",
+              "properties": {}
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SetVolumeToBrick",
+              "properties": {
+                "formulaMap": {
+                  "VOLUME": {
+                    "formulaTree": {
+                      "type": "NUMBER",
+                      "value": "60.0"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.SpeakBrick",
+              "properties": {
+                "formulaMap": {
+                  "SPEAK": {
+                    "formulaTree": {
+                      "type": "STRING",
+                      "value": "Hello!"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "bricktype": "org.catrobat.catroid.content.bricks.LoopEndlessBrick",
+              "properties": {}
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "hiddenBackpackedSounds": [
+    {
+      "fileName": "cd8fa8390b0efdd281882533fbfcfcfb_title.mp3",
+      "name": "title"
+    },
+    {
+      "fileName": "cd8fa8390b0efdd281882533fbfcfcfb_title.mp3",
+      "name": "title1"
+    }
+  ],
+  "hiddenBackpackedSprites": [
+    {
+      "lookList": [
+        {
+          "fileName": "83d4aa413b41e9e2e68a8f860cca338b_Man.png",
+          "name": "Man"
+        }
+      ],
+      "name": "Man",
+      "nfcTagList": [],
+      "scriptList": [],
+      "soundList": [],
+      "userBricks": []
+    }
+  ]
+}
