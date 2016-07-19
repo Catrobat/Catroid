@@ -26,6 +26,8 @@
     <!-- General terms -->
     <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Cancel</string>
+    <string name="next_button">Next</string>
+     <string name="done_button">Done</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="menu_item_move_down">Move down</string>
@@ -79,6 +81,7 @@
     <string name="nothing_to_rename">Nothing to rename</string>
     <string name="unpack_background">Program\'s background will be replaced</string>
     <string name="degrees">degrees</string>
+
     <!--  -->
 
 
@@ -1203,5 +1206,12 @@
     <!-- Pocket Code crashed dialog -->
     <string name="crashed_title">Pocked Code has crashed!</string>
     <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+    <!--  -->
+
+    <!-- Pocket Code crashed dialog -->
+    <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+     <string name="progress_upload_dialog_show_program">Show program</string>
     <!--  -->
 </resources>
