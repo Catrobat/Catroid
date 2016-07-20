@@ -48,7 +48,6 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,18 +57,14 @@ public class Sprite implements Serializable, Cloneable {
 
 	public transient Look look = new Look(this);
 	public transient boolean isPaused;
-
+	public transient boolean isBackpackObject = false;
 	@XStreamAsAttribute
 	private String name;
-
 	private List<Script> scriptList = new ArrayList<>();
 	private List<LookData> lookList = new ArrayList<>();
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
-
-	public transient boolean isBackpackObject = false;
-
 	private transient ActionFactory actionFactory = new ActionFactory();
 
 	public Sprite(String name) {
@@ -289,24 +284,69 @@ public class Sprite implements Serializable, Cloneable {
 			throw new RuntimeException("The sprite must be in the current project before cloning it.");
 		}
 
-		cloneSpriteAndProjectVariables(currentProject, cloneSprite);
+		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
+		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
+
+		cloneSpriteVariables(currentProject, cloneSprite);
 		cloneLooks(cloneSprite);
 		cloneSounds(cloneSprite);
 		cloneUserBricks(cloneSprite);
 		cloneNfcTags(cloneSprite);
 		cloneScripts(cloneSprite);
-		setVariableReferencesOfClonedSprite(cloneSprite);
+
+		setUserAndVariableBrickReferences(cloneSprite, userBricks);
+
+		ProjectManager.getInstance().checkCurrentSprite(cloneSprite, false);
+		ProjectManager.getInstance().setCurrentSprite(originalSprite);
 
 		return cloneSprite;
+	}
+
+	public void setUserAndVariableBrickReferences(Sprite cloneSprite, List<UserBrick> originalPrototypeUserBricks) {
+		setDefinitionBrickReferences(cloneSprite, originalPrototypeUserBricks);
+		setVariableReferencesOfClonedSprite(cloneSprite);
+	}
+
+	private void setDefinitionBrickReferences(Sprite cloneSprite, List<UserBrick> originalPrototypeUserBricks) {
+		for (int scriptPosition = 0; scriptPosition < cloneSprite.getScriptList().size(); scriptPosition++) {
+			Script clonedScript = cloneSprite.getScript(scriptPosition);
+			for (int brickPosition = 0; brickPosition < clonedScript.getBrickList().size(); brickPosition++) {
+				Brick clonedBrick = clonedScript.getBrick(brickPosition);
+				if (!(clonedBrick instanceof UserBrick)) {
+					continue;
+				}
+				UserBrick clonedUserBrick = ((UserBrick) clonedBrick);
+				UserBrick originalUserBrick = ((UserBrick) getScript(scriptPosition).getBrick(brickPosition));
+				int originalIndexOfDefinitionBrick = 0;
+				for (int prototypeUserBrickPosition = 0; prototypeUserBrickPosition < originalPrototypeUserBricks.size();
+						prototypeUserBrickPosition++) {
+					UserBrick originalPrototypeUserBrick = originalPrototypeUserBricks.get(prototypeUserBrickPosition);
+					if (originalPrototypeUserBrick.getDefinitionBrick().equals(originalUserBrick.getDefinitionBrick())) {
+						originalIndexOfDefinitionBrick = prototypeUserBrickPosition;
+						break;
+					}
+				}
+
+				UserBrick clonedPrototypeUserBrick = cloneSprite.getUserBrickList().get(originalIndexOfDefinitionBrick);
+				UserScriptDefinitionBrick correctClonedDefinitionBrick = clonedPrototypeUserBrick.getDefinitionBrick();
+				clonedUserBrick.setDefinitionBrick(correctClonedDefinitionBrick);
+
+				clonedPrototypeUserBrick.updateUserBrickParametersAndVariables();
+				clonedUserBrick.updateUserBrickParametersAndVariables();
+			}
+		}
 	}
 
 	private void setVariableReferencesOfClonedSprite(Sprite cloneSprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 		List<UserVariable> clonedSpriteVariables = dataContainer.getOrCreateVariableListForSprite(cloneSprite);
 		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedSpriteVariables);
+
+		List<UserVariable> clonedProjectVariables = dataContainer.getProjectVariables();
+		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedProjectVariables);
 	}
 
-	private void cloneSpriteAndProjectVariables(Project currentProject, Sprite cloneSprite) {
+	private void cloneSpriteVariables(Project currentProject, Sprite cloneSprite) {
 		DataContainer userVariables = currentProject.getDataContainer();
 		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
 		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
@@ -340,21 +380,12 @@ public class Sprite implements Serializable, Cloneable {
 
 	private void cloneUserBricks(Sprite cloneSprite) {
 		List<UserBrick> clonedUserBrickList = new ArrayList<>();
-		Map<UserScriptDefinitionBrick, UserScriptDefinitionBrick> definitionBrickMappingList = new HashMap<>();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		for (UserBrick original : userBricks) {
-			UserScriptDefinitionBrick originalDefinitionBrick = original.getDefinitionBrick();
-			if (!definitionBrickMappingList.containsKey(originalDefinitionBrick)) {
-				UserScriptDefinitionBrick clonedDefinitionBrick = (UserScriptDefinitionBrick) originalDefinitionBrick.copyBrickForSprite(currentSprite);
-				definitionBrickMappingList.put(originalDefinitionBrick, clonedDefinitionBrick);
-			}
-
-			UserBrick clonedUserBrick = (UserBrick) original.clone();
-			UserScriptDefinitionBrick clonedDefinitionBrick = definitionBrickMappingList.get(originalDefinitionBrick);
-			clonedUserBrick.setDefinitionBrick(clonedDefinitionBrick);
-			clonedUserBrick.updateUserBrickParametersAndVariables();
+			ProjectManager.getInstance().checkCurrentScript(original.getDefinitionBrick().getScriptSafe(), false);
+			UserBrick clonedUserBrick = original.copyBrickForSprite(cloneSprite);
 			clonedUserBrickList.add(clonedUserBrick);
+			clonedUserBrick.updateUserBrickParametersAndVariables();
 		}
 		cloneSprite.userBricks = clonedUserBrickList;
 	}
@@ -501,6 +532,10 @@ public class Sprite implements Serializable, Cloneable {
 		return lookList;
 	}
 
+	public void setLookDataList(List<LookData> list) {
+		lookList = list;
+	}
+
 	public boolean existLookDataByName(LookData look) {
 		for (LookData lookdata : lookList) {
 			if (lookdata.getLookName().equals(look.getLookName())) {
@@ -521,10 +556,6 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void addLookData(LookData data) {
 		lookList.add(data);
-	}
-
-	public void setLookDataList(List<LookData> list) {
-		lookList = list;
 	}
 
 	public List<SoundInfo> getSoundList() {
@@ -619,7 +650,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void updateUserVariableReferencesInUserVariableBricks(List<UserVariable> variables) {
-		for (Brick brick : getAllBricks()) {
+		for (Brick brick : getListWithAllBricks()) {
 			if (brick instanceof UserVariableBrick) {
 				UserVariableBrick userVariableBrick = (UserVariableBrick) brick;
 				for (UserVariable variable : variables) {

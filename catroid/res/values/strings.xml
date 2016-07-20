@@ -26,6 +26,8 @@
     <!-- General terms -->
     <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Cancel</string>
+    <string name="next_button">Next</string>
+     <string name="done_button">Done</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
@@ -75,6 +77,7 @@
     <string name="nothing_to_rename">Nothing to rename</string>
     <string name="unpack_background">Program\'s background will be replaced</string>
     <string name="degrees">degrees</string>
+
     <!--  -->
 
 
@@ -200,8 +203,8 @@
     <string name="size">Size:</string>
     <string name="script_group">Script Group</string>
     <string name="script_groups">Script Groups</string>
-    <string name="userbrick_group">Userbrick Group</string>
-    <string name="userbrick_groups">Userbrick Groups</string>
+    <string name="userbrick_group">Brick Group</string>
+    <string name="userbrick_groups">Brick Groups</string>
     <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
     <!--  -->
 
@@ -305,8 +308,8 @@
     </plurals>
 
     <plurals name="userbricks_plural">
-        <item quantity="one">Userbrick</item>
-        <item quantity="other">Userbricks</item>
+        <item quantity="one">Brick</item>
+        <item quantity="other">Bricks</item>
     </plurals>
 
     <!-- My Projects activity -->
@@ -386,6 +389,7 @@
     <string name="new_sound_dialog_title">Add Sound</string>
     <string name="add_sound_from_recorder">Record Sound</string>
     <string name="add_sound_choose_file">Select File</string>
+    <string name="add_sound_pocketmusic">Pocketmusic</string>
 
 
     <!-- New project dialog -->
@@ -730,7 +734,7 @@
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
     <string name="error_no_program_name_entered">Please enter a program name.</string>
-    <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
+    <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
     <string name="error_project_exists">Please choose another program name.</string>
     <string name="error_delete_project">An error while deleting the program occurred</string>
     <string name="error_unknown_project">A program with that name does not exist.</string>
@@ -1197,10 +1201,10 @@
     <!-- -->
 
     <!-- User Bricks strings -->
-    <string name="define">define</string>
+    <string name="define">Define</string>
     <string name="new_user_brick">New Brick</string>
     <string name="new_user_brick_variable">Variable</string>
-    <string name="new_user_brick_name">Please choose a userbrick name:</string>
+    <string name="new_user_brick_name">Please choose a brick name:</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
     <string name="brick_single">Brick</string>
     <string name="brick_multiple">Bricks</string>
@@ -1255,5 +1259,12 @@
     <!-- Pocket Code crashed dialog -->
     <string name="crashed_title">Pocked Code has crashed!</string>
     <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+    <!--  -->
+
+    <!-- Pocket Code crashed dialog -->
+    <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+     <string name="progress_upload_dialog_show_program">Show program</string>
     <!--  -->
 </resources>

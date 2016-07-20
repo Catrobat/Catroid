@@ -63,6 +63,7 @@ import java.util.List;
 public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = UserScriptDefinitionBrick.class.getSimpleName();
 	private static final String LINE_BREAK = "linebreak";
 
 	private StartScript script;
@@ -73,6 +74,37 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	public UserScriptDefinitionBrick() {
 		this.script = new StartScript(true);
 		this.userScriptDefinitionBrickElements = new ArrayList<>();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof UserScriptDefinitionBrick)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		UserScriptDefinitionBrick definitionBrick = (UserScriptDefinitionBrick) obj;
+		List<UserScriptDefinitionBrickElement> elements = definitionBrick.getUserScriptDefinitionBrickElements();
+
+		if (userScriptDefinitionBrickElements.size() != elements.size()) {
+			return false;
+		}
+
+		for (int elementPosition = 0; elementPosition < userScriptDefinitionBrickElements.size(); elementPosition++) {
+			UserScriptDefinitionBrickElement elementToCompare = elements.get(elementPosition);
+			UserScriptDefinitionBrickElement element = userScriptDefinitionBrickElements.get(elementPosition);
+			if (!(elementToCompare.equals(element))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode() * TAG.hashCode();
 	}
 
 	public int getRequiredResources() {

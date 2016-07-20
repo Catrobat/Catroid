@@ -38,7 +38,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.CapitalizedTextView;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class NewStringDialog extends DialogFragment {
@@ -85,8 +84,6 @@ public class NewStringDialog extends DialogFragment {
 		if (previousFormulaString != null && !previousFormulaString.trim().isEmpty()) {
 			newStringDialog.setTitle(R.string.formula_editor_dialog_change_text);
 			newStringEditText.setText(previousFormulaString);
-			CapitalizedTextView capitalizedTextView = (CapitalizedTextView) dialogView.findViewById(R.id.string_name);
-			capitalizedTextView.setText(R.string.formula_editor_dialog_change_text);
 		}
 		newStringDialog.setCanceledOnTouchOutside(true);
 		newStringDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

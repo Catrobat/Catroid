@@ -157,6 +157,7 @@ public final class ServerCalls {
 	public int oldNotificationId = 0;
 	private String resultString;
 	private String emailForUiTests;
+	private int projectId;
 
 	private ServerCalls() {
 		okHttpClient = new OkHttpClient();
@@ -234,6 +235,7 @@ public final class ServerCalls {
 			String newToken = uploadResponse.token;
 			String answer = uploadResponse.answer;
 			int status = uploadResponse.statusCode;
+			projectId = uploadResponse.projectId;
 
 			if (status != SERVER_RESPONSE_TOKEN_OK) {
 				throw new WebconnectionException(status, "Upload failed! JSON Response was " + status);
@@ -867,8 +869,12 @@ public final class ServerCalls {
 		ServerCalls.loginBehavior = loginBehavior;
 	}
 
+	public int getProjectId() {
+		return projectId;
+	}
+
 	static class UploadResponse {
-		//		int projectId;
+		int projectId;
 		int statusCode;
 		String answer;
 		String token;

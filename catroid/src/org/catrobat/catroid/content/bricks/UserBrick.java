@@ -77,7 +77,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public UserBrick copyBrickForSprite(Sprite sprite) {
-		return (UserBrick) clone();
+		UserBrick clonedBrick = (UserBrick) clone();
+		clonedBrick.definitionBrick = (UserScriptDefinitionBrick) definitionBrick.copyBrickForSprite(sprite);
+		return clonedBrick;
 	}
 
 	@Override
@@ -173,6 +175,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 				}
 			}
 		}
+
+		if (variables.isEmpty()) {
+			return;
+		}
+
 		dataContainer.setUserBrickVariables(this, variables);
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (currentSprite != null) {
@@ -359,7 +366,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		SequenceAction userSequence = (SequenceAction) actionFactory.createSequence();
 		definitionBrick.getScriptSafe().run(sprite, userSequence);
 		returnActionList.add(userSequence);
-		sequence.addAction(actionFactory.createUserBrickAction(userSequence));
+		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
 		return returnActionList;

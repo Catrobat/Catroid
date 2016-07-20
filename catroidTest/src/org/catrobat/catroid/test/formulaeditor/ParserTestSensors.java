@@ -169,7 +169,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 			assertEquals(
 					"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
-					expectedFaceYPosition, interpretFormula(formula9), delta);
+					expectedFaceYPosition, -interpretFormula(formula9), delta);
 		}
 		SensorHandler.stopSensorListeners();
 	}

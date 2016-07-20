@@ -424,8 +424,4 @@ public class Project implements Serializable {
 		}
 		return false;
 	}
-
-	public boolean islandscapeMode() {
-		return xmlHeader.islandscapeMode();
-	}
 }

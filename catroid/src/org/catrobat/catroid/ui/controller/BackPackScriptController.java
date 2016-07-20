@@ -77,6 +77,7 @@ public final class BackPackScriptController {
 			if (currentBrick instanceof ScriptBrick) {
 				Script scriptToAdd = ((ScriptBrick) currentBrick).getScriptSafe().copyScriptForSprite(
 						ProjectManager.getInstance().getCurrentSprite());
+				ProjectManager.getInstance().checkCurrentScript(scriptToAdd, false);
 				for (Brick brickOfScript : scriptToAdd.getBrickList()) {
 					brickOfScript.storeDataForBackPack(spriteToBackpack);
 				}
@@ -179,24 +180,28 @@ public final class BackPackScriptController {
 		}
 
 		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		UserVariable variable = null;
 		switch (backPackedData.userVariableType) {
 			case DataContainer.USER_VARIABLE_SPRITE:
-				dataContainer.addSpriteUserVariable(brick.getUserVariable().getName());
+				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+				variable = dataContainer.addSpriteVariableIfDoesNotExist(brick.getUserVariable().getName(), currentSprite);
 				break;
 			case DataContainer.USER_VARIABLE_PROJECT:
 				if (dataContainer.findUserVariable(brick.getUserVariable().getName(),
 						dataContainer.getProjectVariables()) == null) {
-					dataContainer.addProjectUserVariable(brick.getUserVariable().getName());
+					variable = dataContainer.addProjectUserVariable(brick.getUserVariable().getName());
 				}
 				break;
 			case DataContainer.USER_VARIABLE_USERBRICK:
 				UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 				UserVariable userVariable = brick.getUserVariable();
 				if (userVariable != null) {
-					dataContainer.addUserBrickVariableToUserBrick(userBrick, userVariable.getName(), userVariable.getValue());
+					variable = dataContainer.addUserBrickVariableToUserBrickIfNotExists(userBrick, userVariable.getName(),
+							userVariable.getValue());
 				}
 				break;
 		}
+		brick.setUserVariable(variable);
 	}
 
 	private void handleVariableListUnpacking(Brick brickOfScript) {
@@ -210,7 +215,8 @@ public final class BackPackScriptController {
 		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
 		switch (backPackedData.userListType) {
 			case DataContainer.USER_LIST_SPRITE:
-				dataContainer.addSpriteUserList(brick.getUserList().getName());
+				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+				dataContainer.addSpriteListIfDoesNotExist(brick.getUserList().getName(), currentSprite);
 				break;
 			case DataContainer.USER_LIST_PROJECT:
 				if (dataContainer.findUserList(brick.getUserList().getName(),
@@ -231,12 +237,11 @@ public final class BackPackScriptController {
 	public void handleUserBrickUnpacking(Brick brickOfScript, boolean deleteUnpackedItems) {
 		UserBrick brick = (UserBrick) brickOfScript;
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		List<UserBrick> scriptUserBricks = currentSprite.getUserBricksByDefinitionBrick(brick.getDefinitionBrick(), false, true);
-		if (scriptUserBricks.isEmpty()) {
-			UserBrick clonedPrototypeUserBrick = (UserBrick) brick.clone();
-			clonedPrototypeUserBrick.updateUserBrickParametersAndVariables();
-			currentSprite.addUserBrick(clonedPrototypeUserBrick);
-		}
+
+		UserBrick clonedPrototypeUserBrick = (UserBrick) brick.clone();
+		clonedPrototypeUserBrick.updateUserBrickParametersAndVariables();
+		currentSprite.addUserBrick(clonedPrototypeUserBrick);
+
 		for (Brick brickOfUserScript : brick.getDefinitionBrick().getUserScript().getBrickList()) {
 			handleBackPackedBricksWithAdditionalData(brickOfUserScript, deleteUnpackedItems);
 		}

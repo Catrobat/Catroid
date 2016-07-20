@@ -91,6 +91,7 @@ public final class Constants {
 	public static final String LIBRARY_BACKGROUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/backgrounds";
 	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
 	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
+	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
@@ -161,6 +162,8 @@ public final class Constants {
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
+	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
+	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;
