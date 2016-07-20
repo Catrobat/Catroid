@@ -232,9 +232,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	@Override
 	public ChangeVariableBrick copyBrickForSprite(Sprite sprite) {
 		ChangeVariableBrick copyBrick = clone();
-		if (userVariable != null) {
-			copyBrick.userVariable = userVariable;
-		}
 		return copyBrick;
 	}
 

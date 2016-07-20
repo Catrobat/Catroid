@@ -264,7 +264,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 		try {
 			currentCamera = Camera.open(currentCameraInformation.cameraId);
-			if (ProjectManager.getInstance().getCurrentProject().islandscapeMode()) {
+			if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 				currentCamera.setDisplayOrientation(0);
 			} else {
 				currentCamera.setDisplayOrientation(90);
