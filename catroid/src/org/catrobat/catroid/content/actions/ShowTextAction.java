@@ -52,6 +52,7 @@ public class ShowTextAction extends TemporalAction {
 	private Formula endY;
 	private String variableName;
 	private Sprite sprite;
+	private UserBrick userBrick;
 	private ShowTextActor actor;
 
 	@Override
@@ -60,29 +61,31 @@ public class ShowTextAction extends TemporalAction {
 			int x = endX.interpretInteger(sprite);
 			int y = endY.interpretInteger(sprite);
 
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject()
-					.getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 			List<UserVariable> variableList = dataContainer.getProjectVariables();
-			UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
 			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
-			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(currentUserBrick);
-			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-			ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0);
+			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
+			if (StageActivity.stageListener != null) {
+				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
+				ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0, sprite, userBrick);
 
-			for (Actor actor : stageActors) {
-				if (actor.getClass().equals(showTextActor.getClass())) {
-					ShowTextActor textActor = (ShowTextActor) actor;
-					if (textActor.getLinkedVariableName().equals(variableName)) {
-						actor.remove();
+				for (Actor actor : stageActors) {
+					if (actor.getClass().equals(showTextActor.getClass())) {
+						ShowTextActor textActor = (ShowTextActor) actor;
+						if (textActor.getLinkedVariableName().equals(variableName)
+								&& textActor.getSprite().equals(sprite)
+								&& textActor.getUserBrick().equals(userBrick)) {
+							actor.remove();
+						}
 					}
 				}
-			}
 
-			actor = new ShowTextActor(variableName, x, y);
-			StageActivity.stageListener.addActor(actor);
+				actor = new ShowTextActor(variableName, x, y, sprite, userBrick);
+				StageActivity.stageListener.addActor(actor);
+			}
 
 			setVariablesVisible(variableList);
 			setVariablesVisible(spriteVariableList);
@@ -110,8 +113,10 @@ public class ShowTextAction extends TemporalAction {
 			int x = endX.interpretInteger(sprite);
 			int y = endY.interpretInteger(sprite);
 
-			actor.setX(x);
-			actor.setY(y);
+			if (actor != null) {
+				actor.setX(x);
+				actor.setY(y);
+			}
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException");
 		}
@@ -128,5 +133,9 @@ public class ShowTextAction extends TemporalAction {
 
 	public void setVariableName(String variableName) {
 		this.variableName = variableName;
+	}
+
+	public void setUserBrick(UserBrick userBrick) {
+		this.userBrick = userBrick;
 	}
 }

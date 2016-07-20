@@ -65,6 +65,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -426,7 +427,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				.getComingFromScriptFragmentToSoundFragment()) {
 
 			getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
-			ProjectManager.getInstance().setHandleCorrectAddButton(true);
 
 			ImageButton addButton = (ImageButton) getActivity().findViewById(R.id.button_add);
 			addButton.setOnClickListener(new OnClickListener() {
@@ -612,6 +612,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
 		startActivityForResult(intent, SoundController.REQUEST_MEDIA_LIBRARY);
+	}
+
+	public void addPocketMusic() {
+		Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
+		startActivity(intent);
 	}
 
 	@TargetApi(19)

@@ -26,8 +26,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
-        classpath 'org.rauschig:jarchivelib:0.7.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
     }
 }
 
@@ -58,6 +57,7 @@ android {
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -67,6 +67,7 @@ android {
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
         }
     }
     productFlavors {
@@ -81,8 +82,9 @@ android {
             applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
             versionCode 1
             versionName '1.0-standalone'
-            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectNameFromXML()}\"";
-            buildConfigField "String", "START_PROJECT", "\"${getZipFileNameWithoutEnding()}\""
+
+            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
+            buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
         }
     }
@@ -133,40 +135,6 @@ def getCurrentGitBranch() {
         return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
     } catch (IOException exception) {
         throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-def getPackageNameSuffix() {
-    println ':getPackageNameSuffix'
-    if (project.hasProperty("suffix")) {
-        return project["suffix"]
-    } else {
-        return "standalone"
-    }
-}
-
-def getProjectNameFromXML() {
-    def xml = new File('catroid/assets/standalone/code.xml')
-    if(xml.exists()) {
-        def program = new XmlSlurper().parseText(xml.text)
-        return program.header.programName.text()
-    } else {
-        return "Default Project"
-    }
-}
-
-def getZipFileNameWithoutEnding() {
-    def file = new File('temp')
-    if (file.exists()) {
-        def program = file.text
-        println 'zip file name: ' + program;
-        println 'REMOVING unzipped project folder...'
-        delete 'catroid/assets/standalone'
-        println 'removing temp file'
-        delete file
-        return program
-    } else {
-        return "No Project Found"
     }
 }
 

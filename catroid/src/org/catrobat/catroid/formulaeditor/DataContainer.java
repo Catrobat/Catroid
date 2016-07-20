@@ -161,6 +161,25 @@ public class DataContainer implements Serializable {
 		return addedUserList;
 	}
 
+	public UserVariable addUserBrickVariableToUserBrickIfNotExists(UserBrick userBrick, String userVariableName, Object userVariableValue) {
+		List<UserVariable> varList = getOrCreateVariableListForUserBrick(userBrick);
+		UserVariable userVariableToAdd = null;
+
+		for (UserVariable existingVariable : varList) {
+			if (existingVariable.getName().equals(userVariableName)) {
+				userVariableToAdd = existingVariable;
+				break;
+			}
+		}
+
+		if (userVariableToAdd == null) {
+			userVariableToAdd = new UserVariable(userVariableName, userVariableValue);
+			varList.add(userVariableToAdd);
+		}
+
+		return userVariableToAdd;
+	}
+
 	public UserVariable addUserBrickVariableToUserBrick(UserBrick userBrick, String userVariableName,
 			Object userVariableValue) {
 		List<UserVariable> varList = getOrCreateVariableListForUserBrick(userBrick);
@@ -551,7 +570,7 @@ public class DataContainer implements Serializable {
 				return USER_VARIABLE_USERBRICK;
 			}
 		}
-		return -1;
+		return USER_VARIABLE_PROJECT;
 	}
 
 	public Integer getTypeOfUserList(String userListName, Sprite sprite) {

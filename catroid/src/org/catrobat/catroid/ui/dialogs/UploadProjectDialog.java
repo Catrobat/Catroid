@@ -79,7 +79,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.upload_project_dialog_title)
-				.setPositiveButton(R.string.upload_button, new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.next_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						handleUploadButtonClick();
@@ -174,8 +174,10 @@ public class UploadProjectDialog extends DialogFragment {
 
 	private void handleUploadButtonClick() {
 		if (checkInputOfUploadDialog(projectUploadName.getText().toString(), projectDescriptionField.getText().toString())) {
-			tagDialog.setProjectName(projectUploadName.getText().toString());
-			tagDialog.setProjectDescription(projectDescriptionField.getText().toString());
+			Bundle args = new Bundle();
+			args.putString(Constants.PROJECT_UPLOAD_NAME, projectUploadName.getText().toString());
+			args.putString(Constants.PROJECT_UPLOAD_DESCRIPTION, projectDescriptionField.getText().toString());
+			tagDialog.setArguments(args);
 			tagDialog.show(getFragmentManager(), UploadProjectTagsDialog.DIALOG_TAGGING_FRAGMENT_TAG);
 		}
 	}
