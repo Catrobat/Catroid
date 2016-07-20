@@ -71,18 +71,13 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		startStageActivity();
 
-		solo.sleep(2000);
+		assertCheckState(5000, "videoStarted");
 
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.stopped);
-
-		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
+		assertCamera(5000, "front");
 	}
 
 	@Device
 	public void testAddVideoBrickOff() {
-
 		createProject();
 
 		UiTestUtils.prepareStageForTest();
@@ -91,19 +86,13 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(videoOn);
 		solo.clickOnText(videoOff);
 
-		solo.sleep(2000);
-
-		assertTrue(videoOff + " is not selected in Spinner", solo.searchText(videoOff));
+		assertSearchText(5000, videoOff);
 
 		startStageActivity();
 
-		solo.sleep(2000);
+		assertCheckState(5000, "videoNotStartedOrStopped");
 
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				== CameraManager.CameraState.notUsed || CameraManager.getInstance().getState()
-				== CameraManager.CameraState.stopped);
-
-		assertTrue("Standarcamera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
+		assertCamera(5000, "front");
 	}
 
 	@Device
@@ -115,13 +104,9 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		startStageActivity();
 
-		solo.sleep(2000);
+		assertCheckState(5000, "videoStarted");
 
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.stopped);
-
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
+		assertCamera(5000, "front");
 	}
 
 	@Device
@@ -134,19 +119,11 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(frontCamera);
 		solo.clickOnText(backCamera);
 
-		solo.sleep(2000);
-
-		assertTrue(videoOn + " is not selected in Spinner", solo.searchText(videoOn));
-
 		startStageActivity();
 
-		solo.sleep(2000);
+		assertCheckState(5000, "videoStarted");
 
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.stopped);
-
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isCurrentCameraFacingBack());
+		assertCamera(5000, "back");
 	}
 
 	@Device
@@ -162,18 +139,13 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(videoOn);
 		solo.clickOnText(videoOff);
 
-		solo.sleep(2000);
+		assertSearchText(5000, videoOff);
 
-		assertTrue(videoOff + " is not selected in Spinner", solo.searchText(videoOff));
 		startStageActivity();
 
-		solo.sleep(2000);
+		assertCheckState(5000, "videoNotStartedOrStopped");
 
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				== CameraManager.CameraState.notUsed || CameraManager.getInstance().getState()
-				== CameraManager.CameraState.stopped);
-
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isCurrentCameraFacingBack());
+		assertCamera(5000, "back");
 	}
 
 	@Device
@@ -185,40 +157,21 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		startStageActivity();
 
-		solo.sleep(1000);
+		assertCheckState(5000, "videoStarted");
 
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.stopped);
+		assertCamera(5000, "front");
 
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
+		assertCamera(5000, "back");
 
-		solo.sleep(2000);
+		assertCheckState(5000, "videoNotStarted");
 
-		assertTrue("chosen camera must be the back camera", CameraManager.getInstance().isCurrentCameraFacingBack());
+		assertCheckState(5000, "videoStarted");
 
-		solo.sleep(2000);
-
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				== CameraManager.CameraState.notUsed);
-
-		solo.sleep(2000);
-
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.notUsed && CameraManager.getInstance().getState()
-				!= CameraManager.CameraState.stopped);
-
-		solo.sleep(2000);
-
-		assertTrue("chosen camera must be the front camera", CameraManager.getInstance().isCurrentCameraFacingFront());
-
+		assertCamera(5000, "front");
 		solo.goBack();
 		solo.goBack();
 
-		solo.sleep(1000);
-
-		assertTrue("Video not started", CameraManager.getInstance().getState()
-				== CameraManager.CameraState.notUsed);
+		assertCheckState(5000, "videoNotStarted");
 	}
 
 	private void createProject() {
@@ -304,5 +257,86 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
+	}
+
+	private boolean isFrontCameraActiveOrNotExisting() {
+		if (CameraManager.getInstance().hasFrontCamera()) {
+			return CameraManager.getInstance().isCurrentCameraFacingFront();
+		} else if (CameraManager.getInstance().hasBackCamera()) {
+			return CameraManager.getInstance().isCurrentCameraFacingBack();
+		}
+		return true;
+	}
+
+	private boolean isBackCameraActiveOrNotExisting() {
+		if (CameraManager.getInstance().hasBackCamera()) {
+			return CameraManager.getInstance().isCurrentCameraFacingBack();
+		} else if (CameraManager.getInstance().hasFrontCamera()) {
+			return CameraManager.getInstance().isCurrentCameraFacingFront();
+		}
+		return true;
+	}
+
+	private void assertCheckState(int timeout, String state) {
+
+		int wait = 0;
+		boolean check = false;
+
+		while (wait < timeout) {
+			if ((state.equals("videoNotStarted")
+					&& CameraManager.getInstance().getState() == CameraManager.CameraState.notUsed)) {
+				check = true;
+				break;
+			} else if ((state.equals("videoStarted")
+					&& CameraManager.getInstance().getState() != CameraManager.CameraState.notUsed
+					&& CameraManager.getInstance().getState() != CameraManager.CameraState.stopped)) {
+				check = true;
+				break;
+			} else if ((state.equals("videoNotStartedOrStopped")
+					&& CameraManager.getInstance().getState() == CameraManager.CameraState.notUsed
+					|| CameraManager.getInstance().getState() == CameraManager.CameraState.stopped)) {
+				check = true;
+				break;
+			}
+			solo.sleep(100);
+			wait += 100;
+		}
+
+		assertTrue("Video not started", check);
+	}
+
+	private void assertCamera(int timeout, String camera) {
+
+		int wait = 0;
+		boolean check = false;
+
+		while (wait < timeout) {
+			if ((camera.equals("front") && isFrontCameraActiveOrNotExisting())
+					|| (camera.equals("back") && isBackCameraActiveOrNotExisting())) {
+				check = true;
+				break;
+			}
+			solo.sleep(100);
+			wait += 100;
+		}
+
+		assertTrue("chosen camera must be the " + camera + " camera", check);
+	}
+
+	private void assertSearchText(int timeout, String text) {
+
+		int wait = 0;
+		boolean check = false;
+
+		while (wait < timeout) {
+			if (solo.searchText(text)) {
+				check = true;
+				break;
+			}
+			solo.sleep(100);
+			wait += 100;
+		}
+
+		assertTrue(text + " is not selected in Spinner", check);
 	}
 }

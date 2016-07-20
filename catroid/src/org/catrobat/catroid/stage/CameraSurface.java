@@ -31,52 +31,66 @@ import android.view.SurfaceView;
 
 import org.catrobat.catroid.camera.CameraManager;
 
+import java.io.IOException;
+
 public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback {
 	private static final String TAG = CameraSurface.class.getSimpleName();
 
-	private Camera camera = null;
+	private SurfaceHolder mHolder;
+	private Camera mCamera;
 
-	public CameraSurface(Context context) {
+	public CameraSurface(Context context, Camera camera){
 		super(context);
 
-		// We're implementing the Callback interface and want to get notified
-		// about certain surface events.
-		getHolder().addCallback(this);
+		mCamera = camera;
+		//mCamera.setDisplayOrientation(90);
+		//get the holder and set this class as the callback, so we can get camera data here
+		mHolder = getHolder();
+		mHolder.addCallback(this);
 		// We're changing the surface to a PUSH surface, meaning we're receiving
 		// all buffer data from another component - the camera, in this case.
-		getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		surfaceCreated(mHolder);
 	}
-
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
-		camera = CameraManager.getInstance().getCurrentCamera();
+		try{
+			//when the surface is created, we can set the camera to draw images in this surfaceholder
+			Log.e(TAG, "Before Preview");
+			mCamera.setPreviewDisplay(surfaceHolder);
+			mCamera.startPreview();
+		} catch (IOException e) {
+			Log.d("ERROR", "Camera error on surfaceCreated " + e.getMessage());
+		}
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		// This method is called when the surface changes, e.g. when it's size is set.
-		// We use the opportunity to initialize the camera preview display dimensions
+	public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+		//before changing the application orientation, you need to stop the preview, rotate and then start it again
+		if(mHolder.getSurface() == null)//check if the surface is ready to receive camera data
+			return;
 
-		// We also assign the preview display to this surface...
-		synchronized (CameraManager.getInstance().cameraChangeLock) {
-			try {
-				if (camera != null) {
-					camera.stopPreview();
-					camera.setPreviewDisplay(holder);
-					camera.startPreview();
-				}
-			} catch (Exception e) {
-				Log.e(TAG, "Error at surfaceChanged");
-				Log.e(TAG, e.getMessage());
-			}
+		try{
+			mCamera.stopPreview();
+		} catch (Exception e){
+			//this will happen when you are trying the camera if it's not running
+		}
+
+		//now, recreate the camera preview
+		try{
+			mCamera.setPreviewDisplay(mHolder);
+			mCamera.startPreview();
+		} catch (IOException e) {
+			Log.d("ERROR", "Camera error on surfaceChanged " + e.getMessage());
 		}
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-		this.getHolder().removeCallback(this);
-		//camera.stopPreview();
-		//camera.release();
-		//camera = null;
+		//our app has only one screen, so we'll destroy the camera in the surface
+		//if you are unsing with more screens, please move this code your activity
+		Log.e(TAG, "On Destruction");
+		mCamera.stopPreview();
+		mHolder.removeCallback(this);
 	}
 }
