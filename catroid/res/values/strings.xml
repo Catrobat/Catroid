@@ -873,7 +873,7 @@
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
     <string name="brick_drone_with">with</string>
-    <string name="brick_drone_percent_power">% power</string>
+    <string name="brick_drone_percent_power">power</string>
     <!--  -->
 
     <!-- Phiro bricks -->
@@ -1204,7 +1204,7 @@
     <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
     <!--  -->
 
-    <!-- Pocket Code crashed dialog -->
+    <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
         and download it.
         You can also download your program as standalone app.</string>
