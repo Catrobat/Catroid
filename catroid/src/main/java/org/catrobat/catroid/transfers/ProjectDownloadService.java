@@ -95,7 +95,7 @@ public class ProjectDownloadService extends IntentService {
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		} finally {
-			DownloadUtil.getInstance().downloadFinished(projectName);
+			DownloadUtil.getInstance().downloadFinished(projectName, url);
 		}
 
 		if (!result) {

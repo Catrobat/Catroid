@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2016 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -46,8 +47,7 @@
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
     <string name="loading">Loading…</string>
-    <string name="search_hint">Search...</string>
-    <string name="search_progress">Searching...</string>
+    <string name="search_hint">Search&#8230;</string>
     <string name="no_internet">No Internet</string>
     <string name="loading_check_token">Token is checked on our server…</string>
     <string name="loading_check_facebook_data">Facebook data is retrieved…</string>
@@ -110,7 +110,7 @@
     <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
-    <string name="preference_title_scratch_converter">Scratch Converter BETA</string>
+    <string name="preference_title_scratch_converter">Scratch Converter</string>
     <string name="preference_description_scratch_converter">Convert your Scratch desktop projects into mobile Pocket Code programs</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
     <string name="preference_title_drone_config_properties">Drone configuration properties</string>
@@ -131,20 +131,92 @@
     <!--  -->
 
     <!-- Scratch Converter activity -->
-
-    <string name="title_activity_scratch_converter">Convert Scratch project BETA</string>
-    <string name="error_scratch_project_data_not_available">Error: Scratch project data not available, please try later</string>
-    <string name="scratch_conversion_started">Started to convert Scratch project...</string>
+    <string name="beta">beta</string>
+    <string name="title_activity_scratch_converter">Convert Scratch program</string>
+    <string name="error_scratch_program_not_accessible_any_more">Whoops! Data of this program is not accessible any
+        more!</string>
+    <string name="error_request_timeout">Whoops! Our server is not reachable at the moment, please try later!</string>
+    <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert Scratch program, please try again
+        later!</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert "%1$s", please try
+        again later!</string>
+    <string name="error_scratch_converter_outdated_pocketcode_version">Your Pocket Code app is outdated. Our Scratch
+        converter only supports the latest Pocket Code version. Please update it on the Google Play Store!</string>
+    <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
+        have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
+        meanwhile!</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert "%1$s"! Older Scratch before %2$s
+        programs are not supported!</string>
+    <plurals name="error_cannot_convert_more_than_x_programs">
+        <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
+        <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
+    </plurals>
+    <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
+        failed!</string>
+    <string name="connection_established">Connection to server established!</string>
+    <string name="search_failed">Search failed, please retry later!</string>
+    <string name="connection_closed">Connection to server closed!</string>
+    <string name="connection_failed">Connection to server failed, please retry later!</string>
+    <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
+    <plurals name="scratch_conversion_scheduled_x">
+        <item quantity="zero">No Scratch programs scheduled!</item>
+        <item quantity="one">Scheduled 1 Scratch program&#8230;</item>
+        <item quantity="other">Scheduled %d Scratch programs&#8230;</item>
+    </plurals>
+    <string name="scratch_conversion_started">Started to convert Scratch program&#8230;</string>
     <string name="convert">Convert</string>
-    <string name="show_description">Show description</string>
+    <string name="converting">Converting&#8230;</string>
+    <string name="status_scheduled">Scheduled</string>
+    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
+    <string name="status_started">Started&#8230;</string>
+    <string name="status_conversion_finished">Conversion finished</string>
+    <plurals name="status_in_progress_x_jobs">
+        <item quantity="one">In progress: 1 job</item>
+        <item quantity="other">In progress: %d jobs</item>
+    </plurals>
+    <plurals name="status_completed_x_jobs">
+        <item quantity="one">Completed: 1 job</item>
+        <item quantity="other">Completed: %d jobs</item>
+    </plurals>
+    <string name="status_conversion_failed">Conversion failed!</string>
+    <string name="status_conversion_canceled">Conversion canceled!</string>
+    <string name="status_downloading">Downloading&#8230;</string>
+    <string name="status_download_finished">Download finished!</string>
+    <string name="status_download_canceled">Download canceled!</string>
+    <string name="list_view_section_title_in_progress">In progress</string>
+    <string name="list_view_section_title_converted_programs">Converted programs</string>
+    <string name="status">Status</string>
     <string name="title">Title</string>
-    <string name="by">by</string>
+    <string name="by_x">by %1$s</string>
     <string name="by_author">by Author</string>
+    <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. Converting it may
+        fail!</string>
     <string name="instructions">Instructions</string>
     <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared">Shared</string>
-    <string name="modified">Modified</string>
+    <string name="shared_at_x">Shared: %1$s</string>
+    <string name="modified_at_x">Modified: %1$s</string>
     <string name="remixes">Remixes</string>
+    <!--  -->
+
+    <!-- ScratchReconvertDialog Strings -->
+    <string name="reconvert_text">This program has been converted %1$s ago.</string>
+    <plurals name="minutes">
+        <item quantity="zero">less than a minute</item>
+        <item quantity="one">1 minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="zero">less than an hour</item>
+        <item quantity="one">1 hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="zero">less than a day</item>
+        <item quantity="one">1 day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="reconvert_dialog_download">Download already converted program</string>
+    <string name="reconvert_dialog_reconvert">Reconvert this program</string>
     <!--  -->
 
 
@@ -796,6 +868,7 @@
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Canceled downloading program</string>
+    <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting program</string>
     <string name="notification_copy_title_pending">"Copying "</string>
     <string name="notification_copy_pending">Copy in progress</string>
     <string name="notification_copy_finished">Copy completed</string>

@@ -352,7 +352,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite cloneForCloneBrick() {
-		final Sprite cloneSprite = new Sprite();
+		final Sprite cloneSprite = new SpriteFactory().newInstance(SpriteFactory.SPRITE_SINGLE);
 
 		cloneSprite.setName(this.getName() + "-c" + StageActivity.getAndIncrementNumberOfClonedSprites());
 		cloneSprite.isClone = true;

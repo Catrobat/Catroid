@@ -28,18 +28,18 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.ScratchProjectPreviewData;
+import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.transfers.DeleteTestUserTask;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.WebScratchProgramException;
 import org.catrobat.catroid.web.WebconnectionException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.InterruptedIOException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
+import java.util.Locale;
 
 /*
  * These tests need an internet connection
@@ -71,42 +71,70 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 	public void testScratchSearchWithEmptyQueryParam() {
 		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", ServerCalls.ScratchSearchSortType.RELEVANCE, 20, 0);
-			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
+			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", 20, 0);
+			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
-			assertNotNull("Invalid search result", projectList);
-			for (ScratchProjectPreviewData project : projectList) {
-				assertNotNull(project.getTitle());
-				assertNotNull(project.getContent());
-			}
-
+			assertNotNull("Invalid search result", programDataList);
+			assertTrue("Empty query should to no results!", programDataList.size() == 0);
 			assertNotNull("No search result returned", searchResult);
-			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
-			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
-			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
+			assertTrue("Wrong page number", searchResult.getPageNumber() == 0);
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
 			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getLocalizedMessage());
 		}
+	}
+
+	private void checkProgramData(ScratchProgramData programData) {
+		final String imageBaseURL = "https://cdn2.scratch.mit.edu/get_image/project/";
+		assertTrue("Invalid program ID", programData.getId() > 0);
+
+		assertNotNull("Invalid program title", programData.getTitle());
+		assertTrue("Invalid program title", programData.getTitle().length() > 0);
+
+		assertNotNull("Program has invalid owner", programData.getOwner());
+		assertTrue("Program has invalid owner", programData.getOwner().length() > 0);
+
+		assertNotNull("Program has invalid notes & credits description", programData.getNotesAndCredits());
+		assertNotNull("Program has invalid instructions-description", programData.getInstructions());
+
+		assertNotNull("Program contains no screenshot-image URL", programData.getImage());
+		assertNotNull("Program contains no screenshot-image URL", programData.getImage().getUrl());
+		assertTrue("Screenshot-image URL does not start with base URL any more: " + imageBaseURL,
+				programData.getImage().getUrl().toString().startsWith(imageBaseURL));
+
+		final int[] imageSize = Utils.extractImageSizeFromScratchImageURL(programData.getImage().getUrl().toString());
+		assertTrue("Invalid width extracated of image URL", programData.getImage().getWidth() == imageSize[0]);
+		assertTrue("Invalid height extracted from image URL", programData.getImage().getHeight() == imageSize[1]);
+		final String imageURLWithoutQuery = programData.getImage().getUrl().toString().split("\\?")[0];
+		final String expectedImageURLWithoutQuery = String.format(Locale.getDefault(), "%s%d_%dx%d.png", imageBaseURL,
+				programData.getId(), imageSize[0], imageSize[1]);
+		assertEquals("Image URL is corrupt!", imageURLWithoutQuery, expectedImageURLWithoutQuery);
+
+		assertNotNull("Program has no modified date", programData.getModifiedDate());
+		assertNotNull("Program has no shared date", programData.getSharedDate());
+
+		assertTrue("View-counter-value of program is invalid", programData.getViews() >= 0);
+		assertTrue("Love-counter-value of program is invalid", programData.getLoves() >= 0);
+		assertTrue("Favorites-counter-value of program is invalid", programData.getFavorites() >= 0);
 	}
 
 	public void testScratchSearchWithQueryParam() {
 		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.RELEVANCE, 20, 0);
-			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
+			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, 0);
+			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
-			assertNotNull("Invalid search result", projectList);
-			for (ScratchProjectPreviewData project : projectList) {
-				assertNotNull(project.getTitle());
-				assertNotNull(project.getContent());
+			assertNotNull("Invalid search result", searchResult);
+			assertNotNull("Invalid search result", programDataList);
+			assertTrue("WTH?? No search results returned!", programDataList.size() > 0);
+			assertTrue("Wrong page number", searchResult.getPageNumber() == 0);
+			assertTrue("No projects found!", searchResult.getProgramDataList().size() > 0);
+			assertTrue("Search result is too big...", searchResult.getProgramDataList().size() <= 20);
+
+			for (ScratchProgramData programData : programDataList) {
+				checkProgramData(programData);
 			}
-
-			assertNotNull("No search result returned", searchResult);
-			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
-			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
-			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
@@ -115,21 +143,23 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 		}
 	}
 
-	public void testScratchSearchNumberOfItemsParam() {
+	public void testScratchSearchMaxNumberOfItemsParam() {
 		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.RELEVANCE, 10, 0);
-			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
+			final int maxNumberOfItems = 10;
 
-			assertNotNull("Invalid search result", projectList);
-			for (ScratchProjectPreviewData project : projectList) {
-				assertNotNull(project.getTitle());
-				assertNotNull(project.getContent());
+			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", maxNumberOfItems, 0);
+			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
+
+			assertNotNull("Invalid search result", searchResult);
+			assertNotNull("Invalid search result", programDataList);
+			assertTrue("WTH?? No search results returned!", programDataList.size() > 0);
+			assertTrue("Wrong page number", searchResult.getPageNumber() == 0);
+			assertTrue("No projects found!", searchResult.getProgramDataList().size() > 0);
+			assertTrue("Search result is too big...", searchResult.getProgramDataList().size() <= maxNumberOfItems);
+
+			for (ScratchProgramData programData : programDataList) {
+				checkProgramData(programData);
 			}
-
-			assertNotNull("No search result returned", searchResult);
-			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
-			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
-			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 10);
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
@@ -138,21 +168,23 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 		}
 	}
 
-	public void testScratchSearchNextPage() {
+	public void testScratchSearchPagination() {
 		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.RELEVANCE, 20, 1);
-			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
+			for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
+				ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, pageIndex);
+				List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
-			assertNotNull("Invalid search result", projectList);
-			for (ScratchProjectPreviewData project : projectList) {
-				assertNotNull(project.getTitle());
-				assertNotNull(project.getContent());
+				assertNotNull("Invalid search result", searchResult);
+				assertNotNull("Invalid search result", programDataList);
+				assertTrue("WTH?? No search results returned!", programDataList.size() > 0);
+				assertTrue("Wrong page number", searchResult.getPageNumber() == pageIndex);
+				assertTrue("No projects found!", searchResult.getProgramDataList().size() > 0);
+				assertTrue("Search result is too big...", searchResult.getProgramDataList().size() <= 20);
+
+				for (ScratchProgramData programData : programDataList) {
+					checkProgramData(programData);
+				}
 			}
-
-			assertNotNull("No search result returned", searchResult);
-			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 1);
-			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
-			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
@@ -161,24 +193,46 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 		}
 	}
 
-	public void testScratchSearchAndSortByDate() {
+	public void testFetchDefaultScratchPrograms() {
 		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", ServerCalls.ScratchSearchSortType.DATE, 20, 0);
-			ArrayList<ScratchProjectPreviewData> projectList = searchResult.getProjectList();
+			ScratchSearchResult searchResult = ServerCalls.getInstance().fetchDefaultScratchPrograms();
+			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
-			assertNotNull("Invalid search result", projectList);
-			for (ScratchProjectPreviewData project : projectList) {
-				assertNotNull(project.getTitle());
-				assertNotNull(project.getContent());
+			assertNotNull("Invalid search result", searchResult);
+			assertNotNull("Invalid search result", programDataList);
+			assertTrue("WTH?? No search results returned!", programDataList.size() > 0);
+			assertTrue("Wrong page number", searchResult.getPageNumber() == 0);
+			assertTrue("No projects found!", searchResult.getProgramDataList().size() > 0);
+
+			for (ScratchProgramData programData : programDataList) {
+				checkProgramData(programData);
 			}
-
-			assertNotNull("No search result returned", searchResult);
-			assertTrue("Wrong page number", searchResult.getCurrentPageIndex() == 0);
-			assertTrue("No projects found!", searchResult.getProjectList().size() > 0);
-			assertTrue("Invalid number of projects", searchResult.getProjectList().size() <= 20);
 		} catch (InterruptedIOException e) {
 			fail("Task has been interrupted/cancelled! This should not happen here!");
 		} catch (WebconnectionException e) {
+			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
+					+ "\nmessage: " + e.getLocalizedMessage());
+		}
+	}
+
+	public void testFetchScratchProgramDetails() {
+		try {
+			final long expectedProgramID = 10205819;
+			final String expectedProgramTitle = "Dancin' in the Castle";
+			final String expectedProgramOwner = "jschombs";
+			ScratchProgramData programData = ServerCalls.getInstance().fetchScratchProgramDetails(expectedProgramID);
+
+			checkProgramData(programData);
+			assertEquals("Invalid program ID", programData.getId(), expectedProgramID);
+			assertEquals("Wrong program title?! Maybe the program owner changed the program title...",
+					programData.getTitle(), expectedProgramTitle);
+			assertEquals("Program has invalid owner", programData.getOwner(), expectedProgramOwner);
+		} catch (InterruptedIOException e) {
+			fail("Task has been interrupted/cancelled! This should not happen here!");
+		} catch (WebconnectionException e) {
+			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
+					+ "\nmessage: " + e.getLocalizedMessage());
+		} catch (WebScratchProgramException e) {
 			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getLocalizedMessage());
 		}

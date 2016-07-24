@@ -26,21 +26,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Rect;
-import android.renderscript.ScriptGroup;
-
-import com.google.common.io.Closeables;
 
 import com.badlogic.gdx.math.Vector2;
+import com.google.common.io.Closeables;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.io.StorageHandler;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 public final class ImageEditing {

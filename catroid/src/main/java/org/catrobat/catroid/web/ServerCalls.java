@@ -47,18 +47,16 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.ScratchProjectData;
-import org.catrobat.catroid.common.ScratchProjectPreviewData;
+import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
+import org.catrobat.catroid.common.ScratchVisibilityState;
 import org.catrobat.catroid.transfers.ProjectUploadService;
-import org.catrobat.catroid.transfers.FetchScratchProjectDetailsTask.ScratchProjectDataFetcher;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,12 +64,15 @@ import java.io.InterruptedIOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okio.BufferedSink;
@@ -79,7 +80,7 @@ import okio.Okio;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
-public final class ServerCalls implements ScratchProjectDataFetcher {
+public final class ServerCalls implements ScratchDataFetcher {
 
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
@@ -188,110 +189,115 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 		return INSTANCE;
 	}
 
-	public ScratchProjectData fetchScratchProjectDetails(final long projectID) throws WebconnectionException, InterruptedIOException {
+	public ScratchProgramData fetchScratchProgramDetails(final long programID) throws WebconnectionException,
+			WebScratchProgramException, InterruptedIOException {
 
-		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
 		try {
-			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL + projectID;
+			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL + programID;
 
 			Log.d(TAG, "URL to use: " + url);
 			resultString = getRequestInterruptable(url);
 			Log.d(TAG, "Result string: " + resultString);
-			System.out.print("URL:" + url);
 
 			final JSONObject jsonObject = new JSONObject(resultString);
 			if (jsonObject.length() == 0) {
 				return null;
 			}
-			boolean accessible = jsonObject.getBoolean("accessible");
-			if (!accessible) {
-				// TODO: FIXME: error handling...
-				throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Project not accessible!");
+
+			if (!jsonObject.getBoolean("accessible")) {
+				throw new WebScratchProgramException(WebScratchProgramException.ERROR_PROGRAM_NOT_ACCESSIBLE,
+						"Program not accessible!");
 			}
 
-			// TODO: enum...
-			int visibility = jsonObject.getInt("visibility");
-			if (visibility != 2) {
-				// Unknown or Private
-				// TODO: FIXME: error handling...
-				throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Project not visible!");
+			final JSONObject jsonData = jsonObject.getJSONObject("projectData");
+			final String title = jsonData.getString("title");
+			final String owner = jsonData.getString("owner");
+			final String imageURL = jsonData.isNull("image_url") ? null : jsonData.getString("image_url");
+			final String instructions = jsonData.isNull("instructions") ? null : jsonData.getString("instructions");
+			final String notesAndCredits = jsonData.isNull("notes_and_credits") ? null : jsonData.getString("notes_and_credits");
+			final String sharedDateString = jsonData.getString("shared_date");
+			final String modifiedDateString = jsonData.getString("modified_date");
+			final int views = jsonData.getInt("views");
+			final int favorites = jsonData.getInt("favorites");
+			final int loves = jsonData.getInt("loves");
+			final ScratchVisibilityState visibilityState = ScratchVisibilityState.valueOf(jsonObject.getInt("visibility"));
+			final JSONArray jsonTags = jsonData.getJSONArray("tags");
+
+			Date sharedDate;
+			try {
+				sharedDate = formatter.parse(sharedDateString);
+			} catch (ParseException ex) {
+				sharedDate = null;
 			}
 
-			final JSONObject jsonProjectData = jsonObject.getJSONObject("projectData");
-			final String title = jsonProjectData.getString("title");
-			final String owner = jsonProjectData.getString("owner");
-			final String instructions = jsonProjectData.getString("instructions");
-			final String notesAndCredits = jsonProjectData.getString("notes_and_credits");
-
-			final String sharedDateString = jsonProjectData.getString("shared_date");
-			final Date sharedDate = formatter.parse(sharedDateString);
-
-			final String modifiedDateString = jsonProjectData.getString("modified_date");
-			final Date modifiedDate = formatter.parse(modifiedDateString);
-
-			final int views = jsonProjectData.getInt("views");
-			final int favorites = jsonProjectData.getInt("favorites");
-			final int loves = jsonProjectData.getInt("loves");
-			List<String> tags = new ArrayList<>();
-			JSONArray jsonTags = jsonProjectData.getJSONArray("tags");
-			for (int i = 0; i < jsonTags.length(); ++i) {
-				tags.add(jsonTags.getString(i));
+			Date modifiedDate;
+			try {
+				modifiedDate = formatter.parse(modifiedDateString);
+			} catch (ParseException ex) {
+				modifiedDate = null;
 			}
 
-			ScratchProjectData projectData = new ScratchProjectData(projectID, title, owner, instructions,
-					notesAndCredits, views, favorites, loves, modifiedDate, sharedDate, tags);
+			WebImage image = null;
+			if (imageURL != null) {
+				int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
+				image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
+			}
 
-			JSONArray remixes = jsonProjectData.getJSONArray("remixes");
+			final ScratchProgramData programData = new ScratchProgramData(programID, title, owner, image);
+			programData.setInstructions(instructions);
+			programData.setNotesAndCredits(notesAndCredits);
+			programData.setModifiedDate(modifiedDate);
+			programData.setSharedDate(sharedDate);
+			programData.setViews(views);
+			programData.setLoves(loves);
+			programData.setFavorites(favorites);
+			programData.setVisibilityState(visibilityState);
+
+			for (int i = 0; i < jsonTags.length(); i++) {
+				programData.addTag(jsonTags.getString(i));
+			}
+
+			JSONArray remixes = jsonData.getJSONArray("remixes");
 			for (int i = 0; i < remixes.length(); ++i) {
 				JSONObject remixJson = remixes.getJSONObject(i);
 				long remixId = remixJson.getLong("id");
 				String remixTitle = remixJson.getString("title");
 				String remixOwner = remixJson.getString("owner");
-				String imageUrl = remixJson.getString("image"); // TODO: replace 144x108 by...
-				imageUrl = imageUrl.replace("200x200", "150x150");
-				WebImage webImage = new WebImage(Uri.parse(imageUrl), 150, 150);
-				projectData.addRemixProject(new ScratchProjectData.ScratchRemixProjectData(remixId, remixTitle,
-						remixOwner, webImage));
+				String remixImageURL = remixJson.isNull("image") ? null : remixJson.getString("image");
+
+				WebImage remixImage = null;
+				if (remixImageURL != null) {
+					int[] remixImageSize = Utils.extractImageSizeFromScratchImageURL(remixImageURL);
+					remixImage = new WebImage(Uri.parse(remixImageURL), remixImageSize[0], remixImageSize[1]);
+				}
+
+				programData.addRemixProgram(new ScratchProgramData(remixId, remixTitle, remixOwner, remixImage));
 			}
-			return projectData;
+			return programData;
+		} catch (WebScratchProgramException exception) {
+			throw exception;
 		} catch (InterruptedIOException exception) {
 			Log.d(TAG, "OK! Request cancelled");
 			throw exception;
 		} catch (Exception exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
 	}
 
-	public ScratchSearchResult fetchDefaultScratchProjects() throws WebconnectionException, InterruptedIOException {
+	public ScratchSearchResult fetchDefaultScratchPrograms() throws WebconnectionException, InterruptedIOException {
 		try {
 			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL;
-
-			ArrayList<ScratchProjectPreviewData> projectList = new ArrayList<>();
 			Log.d(TAG, "URL to use: " + url);
 			resultString = getRequestInterruptable(url);
 			Log.d(TAG, "Result string: " + resultString);
-			System.out.print("URL:" + url);
 
 			final JSONObject jsonObject = new JSONObject(resultString);
 			final JSONArray results = jsonObject.getJSONArray("results");
+			final List<ScratchProgramData> programDataList = extractScratchProgramDataListFromJson(results);
 
-			for (int i = 0; i < results.length(); ++i) {
-				JSONObject projectJson = results.getJSONObject(i);
-				long projectID = projectJson.getLong("id");
-				String title = projectJson.getString("title");
-				String content = projectJson.getString("content");
-
-				ScratchProjectPreviewData projectData = new ScratchProjectPreviewData(projectID, title, content);
-				final String projectImageUrl = projectJson.getString("imageurl");
-				int width = Integer.parseInt(projectJson.getString("imagewidth"));
-				int height = Integer.parseInt(projectJson.getString("imageheight"));
-				WebImage webImage = new WebImage(Uri.parse(projectImageUrl), width, height);
-				projectData.setProjectImage(webImage);
-				projectList.add(projectData);
-			}
-			return new ScratchSearchResult(projectList, null, 0, resultString.length());
+			return new ScratchSearchResult(programDataList, null, 0);
 		} catch (InterruptedIOException exception) {
 			Log.d(TAG, "OK! Request cancelled");
 			throw exception;
@@ -301,44 +307,29 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 		}
 	}
 
-	public enum ScratchSearchSortType {RELEVANCE, DATE}
-
-	public ScratchSearchResult scratchSearch(final String query, final ScratchSearchSortType sortType,
-			final int numberOfItems, final int page)
+	public ScratchSearchResult scratchSearch(final String query, final int numberOfItems, final int pageNumber)
 			throws WebconnectionException, InterruptedIOException {
 		Preconditions.checkNotNull(query, "Parameter query cannot be null!");
 		Preconditions.checkArgument(numberOfItems > 0, "Parameter numberOfItems must be greater than 0");
-		Preconditions.checkArgument(page >= 0, "Parameter page must be greater or equal than 0");
+		Preconditions.checkArgument(pageNumber >= 0, "Parameter page must be greater or equal than 0");
 
 		try {
-			ArrayList<ScratchProjectPreviewData> projectList = new ArrayList<>();
-			int currentPageIndex = 0;
-			int totalNumberOfResults = 0;
-			final HashMap<String, String> httpGetParams = new HashMap<String, String>() {{
-					put("key", "AIzaSyCVAXiUzRYsML1Pv6RwSG1gunmMikTzQqY");
-					put("rsz", "filtered_cse");
-					put("num", Integer.toString(numberOfItems));
-					put("hl", "en");
-					put("prettyPrint", "false");
-					put("source", "gcsc");
-					put("gss", ".com");
-					put("sig", "432dd570d1a386253361f581254f9ca1");
-					put("cx", "006344185922250120026:y4rdkv9uhp4");
-					put("q", URLEncoder.encode(query, "UTF-8") + "%20more%3Aprojects");
-					put("sort", sortType != ScratchSearchSortType.RELEVANCE ? "date" : "");
-					if (page > 0) {
-						put("start", Integer.toString(page * numberOfItems));
-					}
-					put("googlehost", "www.google.com");
-				}};
+			final HashMap<String, String> httpGetParams = new HashMap<String, String>() {
+				{
+					put("limit", Integer.toString(numberOfItems));
+					put("offset", Integer.toString(pageNumber * numberOfItems));
+					put("language", Locale.getDefault().getLanguage());
+					put("q", URLEncoder.encode(query, "UTF-8"));
+				}
+			};
 
 			StringBuilder urlStringBuilder = new StringBuilder(Constants.SCRATCH_SEARCH_URL);
-			urlStringBuilder.append("?");
+			urlStringBuilder.append('?');
 			for (Map.Entry<String, String> entry : httpGetParams.entrySet()) {
 				urlStringBuilder.append(entry.getKey());
-				urlStringBuilder.append("=");
+				urlStringBuilder.append('=');
 				urlStringBuilder.append(entry.getValue());
-				urlStringBuilder.append("&");
+				urlStringBuilder.append('&');
 			}
 			urlStringBuilder.setLength(urlStringBuilder.length() - 1); // removes trailing "&" or "?" character
 
@@ -346,54 +337,11 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 			Log.d(TAG, "URL to use: " + url);
 			resultString = getRequestInterruptable(url);
 			Log.d(TAG, "Result string: " + resultString);
-			System.out.print("URL:" + url);
 
-			JSONObject jsonObject = new JSONObject(resultString);
-			JSONObject cursor = jsonObject.getJSONObject("cursor");
-			currentPageIndex = cursor.getInt("currentPageIndex");
-			JSONArray results = jsonObject.getJSONArray("results");
-			JSONObject context = jsonObject.getJSONObject("context");
-			totalNumberOfResults = context.has("total_results")
-					? Integer.parseInt(context.getString("total_results"))
-					: results.length();
+			final JSONArray results = new JSONArray(resultString);
+			final List<ScratchProgramData> programDataList = extractScratchProgramDataListFromJson(results);
 
-			final String projectBaseUrlHttps = Constants.SCRATCH_PROJECT_BASE_URL_HTTPS;
-			final String projectBaseUrlHttp = projectBaseUrlHttps.replace("https://", "http://");
-
-			for (int i = 0; i < results.length(); ++i) {
-				JSONObject projectJson = results.getJSONObject(i);
-				String title = projectJson.getString("titleNoFormatting").replace(" on Scratch", "");
-				String content = projectJson.getString("contentNoFormatting");
-				String projectUrl = projectJson.getString("url");
-				boolean startsWithBaseUrl = projectUrl.startsWith(projectBaseUrlHttps) || projectUrl.startsWith(projectBaseUrlHttp);
-
-				// TODO: simplify this with regex
-				if ((!startsWithBaseUrl) || projectUrl.contains("/all") || projectUrl.contains("/studios")
-				|| projectUrl.contains("/remixes") || projectUrl.contains("/remixtree")) {
-					// ignore results that are no real projects (e.g. studios or remix-collections)
-					continue;
-				}
-
-				Log.d(TAG, "Project URL: " + projectUrl);
-				String[] urlParts = projectUrl.replace(Constants.SCRATCH_PROJECT_BASE_URL_HTTPS, "").split("/");
-				if (urlParts.length == 0) {
-					continue; // ignore projects that have no valid IDs
-				}
-				String idString = urlParts[0];
-				long id = Long.parseLong(idString);
-				JSONObject richSnippet = projectJson.getJSONObject("richSnippet");
-				JSONObject metatags = richSnippet.getJSONObject("metatags");
-
-				ScratchProjectPreviewData projectData = new ScratchProjectPreviewData(id, title, content);
-				if (metatags.has("ogImage")) {
-					String projectImageUrl = metatags.getString("ogImage");
-					// TODO: extract size from URL!
-					projectImageUrl = projectImageUrl.replace("200x200", "150x150");
-					projectData.setProjectImage(new WebImage(Uri.parse(projectImageUrl), 150, 150));
-				}
-				projectList.add(projectData);
-			}
-			return new ScratchSearchResult(projectList, query, currentPageIndex, totalNumberOfResults);
+			return new ScratchSearchResult(programDataList, query, pageNumber);
 		} catch (InterruptedIOException exception) {
 			Log.d(TAG, "OK! Request cancelled");
 			throw exception;
@@ -401,6 +349,57 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 			Log.e(TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
 		}
+	}
+
+	private List<ScratchProgramData> extractScratchProgramDataListFromJson(final JSONArray jsonArray)
+			throws JSONException, ParseException {
+		final DateFormat iso8601LocalDateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_ISO_8601, Locale.US);
+		ArrayList<ScratchProgramData> programDataList = new ArrayList<>();
+
+		for (int i = 0; i < jsonArray.length(); ++i) {
+			JSONObject programJsonData = jsonArray.getJSONObject(i);
+			final long id = programJsonData.getLong("id");
+			final String title = programJsonData.getString("title");
+			final String notesAndCredits = programJsonData.getString("description");
+			final String instructions = programJsonData.getString("instructions");
+			final String imageURL = programJsonData.isNull("image") ? null : programJsonData.getString("image");
+
+			final JSONObject authorJsonData = programJsonData.getJSONObject("author");
+			// final String ownerUserID = authorJsonData.getString("id"); // reserved for later use!
+			final String ownerUserName = authorJsonData.getString("username");
+
+			final JSONObject historyJsonData = programJsonData.getJSONObject("history");
+			final String createdDateString = historyJsonData.getString("created");
+			final String modifiedDateString = historyJsonData.getString("modified");
+			final String sharedDateString = historyJsonData.getString("shared");
+			final Date createdDate = iso8601LocalDateFormat.parse(createdDateString);
+			final Date modifiedDate = iso8601LocalDateFormat.parse(modifiedDateString);
+			final Date sharedDate = iso8601LocalDateFormat.parse(sharedDateString);
+
+			final JSONObject statisticsJsonData = programJsonData.getJSONObject("stats");
+			final int views = statisticsJsonData.getInt("views");
+			final int loves = statisticsJsonData.getInt("loves");
+			final int favorites = statisticsJsonData.getInt("favorites");
+			// final long comments = statisticsJsonData.getLong("comments"); // reserved for later use!
+
+			WebImage image = null;
+			if (imageURL != null) {
+				int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
+				image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
+			}
+
+			final ScratchProgramData programData = new ScratchProgramData(id, title, ownerUserName, image);
+			programData.setInstructions(instructions);
+			programData.setNotesAndCredits(notesAndCredits);
+			programData.setCreatedDate(createdDate);
+			programData.setModifiedDate(modifiedDate);
+			programData.setSharedDate(sharedDate);
+			programData.setViews(views);
+			programData.setLoves(loves);
+			programData.setFavorites(favorites);
+			programDataList.add(programData);
+		}
+		return programDataList;
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
@@ -502,7 +501,15 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 				.url(url)
 				.build();
 
-		okHttpClient.networkInterceptors().add(new Interceptor() {
+		// do not use default client for NON-HTTPS requests!
+		OkHttpClient httpClient = okHttpClient;
+		if (url.startsWith("http://")) {
+			httpClient = new OkHttpClient();
+			// allow HTTP instead of HTTPS!
+			httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
+		}
+
+		httpClient.networkInterceptors().add(new Interceptor() {
 			@Override
 			public Response intercept(Chain chain) throws IOException {
 				Response originalResponse = chain.proceed(chain.request());
@@ -522,7 +529,7 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 		});
 
 		try {
-			Response response = okHttpClient.newCall(request).execute();
+			Response response = httpClient.newCall(request).execute();
 			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
 			bufferedSink.writeAll(response.body().source());
 			bufferedSink.close();
@@ -569,42 +576,24 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 		}
 	}
 
-	// TODO: move to Util class...
-	@Nullable
-	public static byte[] convertInputStreamToByteArray(final InputStream inputStream) {
-		try {
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			byte[] buffer = new byte[4096];
-			int len;
-			while ((len = inputStream.read(buffer)) > -1) {
-				byteArrayOutputStream.write(buffer, 0, len);
-			}
-			byteArrayOutputStream.flush();
-			return byteArrayOutputStream.toByteArray();
-		} catch (IOException e) {
-			return null;
-		}
-	}
-
 	@Nullable
 	public byte[] downloadFile(final String url) throws Throwable {
-		final int HTTP_TIMEOUT = 30_000;
-
 		InputStream inputStream = null;
 		try {
+			Log.d(TAG, "Downloading file from URL: " + url);
 			URL imageUrl = new URL(url);
 			HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
-			connection.setConnectTimeout(HTTP_TIMEOUT);
-			connection.setReadTimeout(HTTP_TIMEOUT);
+			connection.setConnectTimeout(Constants.DOWNLOAD_FILE_HTTP_TIMEOUT);
+			connection.setReadTimeout(Constants.DOWNLOAD_FILE_HTTP_TIMEOUT);
 			connection.setInstanceFollowRedirects(true);
 			inputStream = connection.getInputStream();
 			if (inputStream == null) {
 				return null;
 			}
-			return convertInputStreamToByteArray(inputStream);
-		} catch (Throwable exc) {
-			exc.printStackTrace();
-			throw exc;
+			return Utils.convertInputStreamToByteArray(inputStream);
+		} catch (Throwable ex) {
+			Log.e(TAG, ex.getMessage());
+			throw ex;
 		} finally {
 			Closeables.closeQuietly(inputStream);
 		}
@@ -689,7 +678,7 @@ public final class ServerCalls implements ScratchProjectDataFetcher {
 			// do not use default client for NON-HTTPS requests!
 			if (url.startsWith("http://")) {
 				httpClient = new OkHttpClient();
-				// allow HTTP instead of HTTPS! TODO: not best solution...
+				// allows HTTP instead of HTTPS!
 				httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
 			}
 

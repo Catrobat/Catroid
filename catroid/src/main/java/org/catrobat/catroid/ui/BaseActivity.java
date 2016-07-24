@@ -25,8 +25,12 @@ package org.catrobat.catroid.ui;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,17 +45,21 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.Locale;
+
 public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
 	private Menu baseMenu;
+	private boolean returnByPressingBackButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
+		returnByPressingBackButton = false;
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		Utils.checkIfCrashRecoveryAndFinishActivity(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,6 +87,21 @@ public abstract class BaseActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		baseMenu = menu;
 		getMenuInflater().inflate(R.menu.menu_base_menu, menu);
+
+		final MenuItem scratchConverterMenuItem = menu.findItem(R.id.menu_scratch_converter);
+		if (scratchConverterMenuItem != null) {
+			if (!(this instanceof MainMenuActivity)) {
+				scratchConverterMenuItem.setVisible(false);
+			} else {
+				final String title = getString(R.string.preference_title_scratch_converter);
+				final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
+				final SpannableString spanTitle = new SpannableString(title + " " + beta);
+				final int begin = title.length() + 1;
+				final int end = begin + beta.length();
+				spanTitle.setSpan(new ForegroundColorSpan(Color.RED), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				scratchConverterMenuItem.setTitle(spanTitle);
+			}
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -90,6 +113,8 @@ public abstract class BaseActivity extends Activity {
 					Intent intent = new Intent(this, MyProjectsActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+				} else if (returnByPressingBackButton) {
+					onBackPressed();
 				} else {
 					return false;
 				}
@@ -99,8 +124,12 @@ public abstract class BaseActivity extends Activity {
 				startActivity(settingsIntent);
 				break;
 			case R.id.menu_scratch_converter:
-				Intent scratchConverterIntent = new Intent(this, ScratchConverterActivity.class);
-				startActivity(scratchConverterIntent);
+				if (Utils.isNetworkAvailable(this)) {
+					final Intent scratchConverterIntent = new Intent(this, ScratchConverterActivity.class);
+					startActivity(scratchConverterIntent);
+				} else {
+					ToastUtil.showError(this, R.string.error_internet_connection);
+				}
 				break;
 			case R.id.menu_rate_app:
 				launchMarket();
@@ -161,6 +190,10 @@ public abstract class BaseActivity extends Activity {
 
 	public void setReturnToProjectsList(boolean returnToProjectsList) {
 		this.returnToProjectsList = returnToProjectsList;
+	}
+
+	public void setReturnByPressingBackButton(boolean returnByPressingBackButton) {
+		this.returnByPressingBackButton = returnByPressingBackButton;
 	}
 
 	public String getTitleActionBar() {
