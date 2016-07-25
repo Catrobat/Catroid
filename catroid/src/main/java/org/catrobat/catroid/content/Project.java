@@ -39,6 +39,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -198,6 +199,14 @@ public class Project implements Serializable {
 
 	public void setName(String name) {
 		xmlHeader.setProgramName(name);
+	}
+
+	public List<Sprite> getSpriteListWithClones() {
+		if (StageActivity.stageListener != null) {
+			return StageActivity.stageListener.getSpritesFromStage();
+		} else { // e.g. for ActionTests there is no Stage, only use sprites from Project
+			return getDefaultScene().getSpriteList();
+		}
 	}
 
 	public String getName() {

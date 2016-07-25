@@ -49,8 +49,10 @@ import org.catrobat.catroid.content.actions.ChangeXByNAction;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ChooseCameraAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
+import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
+import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.DroneEmergencyAction;
 import org.catrobat.catroid.content.actions.DroneFlipAction;
 import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
@@ -390,6 +392,18 @@ public class ActionFactory extends Actions {
 		PointToAction action = Actions.action(PointToAction.class);
 		action.setSprite(sprite);
 		action.setPointedSprite(pointedSprite);
+		return action;
+	}
+
+	public Action createCloneAction(Sprite sprite) {
+		CloneAction action = Actions.action(CloneAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createDeleteThisCloneAction(Sprite sprite) {
+		DeleteThisCloneAction action = Actions.action(DeleteThisCloneAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 

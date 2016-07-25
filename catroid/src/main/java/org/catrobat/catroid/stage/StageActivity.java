@@ -82,6 +82,8 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
 
+	private static int numberOfSpritesCloned;
+
 	public static Handler messageHandler;
 
 	AndroidApplicationConfiguration configuration = null;
@@ -91,6 +93,7 @@ public class StageActivity extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate()");
 
+		numberOfSpritesCloned = 0;
 		setupAskHandler();
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
@@ -424,5 +427,9 @@ public class StageActivity extends AndroidApplication {
 				}
 			}
 		});
+	}
+
+	public static int getAndIncrementNumberOfClonedSprites() {
+		return ++numberOfSpritesCloned;
 	}
 }

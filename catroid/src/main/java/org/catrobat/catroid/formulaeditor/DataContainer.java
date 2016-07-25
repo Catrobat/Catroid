@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -142,6 +143,20 @@ public class DataContainer implements Serializable {
 			project = ProjectManager.getInstance().getCurrentProject();
 		}
 		return project.getProjectLists();
+	}
+
+	public void removeVariablesOfClones() {
+		for (Sprite s : new HashSet<>(spriteVariables.keySet())) {
+			if (s.isClone) {
+				spriteVariables.remove(s);
+			}
+		}
+
+		for (Sprite s : new HashSet<>(spriteListOfLists.keySet())) {
+			if (s.isClone) {
+				spriteListOfLists.remove(s);
+			}
+		}
 	}
 
 	public DataAdapter createDataAdapter(Context context, Sprite sprite) {
@@ -326,6 +341,15 @@ public class DataContainer implements Serializable {
 			spriteVariables.put(sprite, variables);
 		}
 		return variables;
+	}
+
+	public void removeVariableListForSprite(Sprite sprite) {
+		spriteVariables.remove(sprite);
+		spriteListOfLists.remove(sprite);
+
+		for (UserBrick userBrick : sprite.getUserBrickList()) {
+			userBrickVariables.remove(userBrick);
+		}
 	}
 
 	public List<UserVariable> getVariableListForSprite(Sprite sprite) {

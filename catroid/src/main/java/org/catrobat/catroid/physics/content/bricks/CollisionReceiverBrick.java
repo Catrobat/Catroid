@@ -39,7 +39,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.CollisionScript;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -141,13 +140,12 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 	}
 
 	public ArrayAdapter<String> getCollisionObjectAdapter(Context context) {
-		Scene scene = ProjectManager.getInstance().getSceneToPlay();
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 		messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(getDisplayedAnythingString(context));
 		int resources = Brick.NO_RESOURCES;
-		for (Sprite sprite : scene.getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones()) {
 			if (!spriteName.equals(sprite.getName())) {
 				resources |= sprite.getRequiredResources();
 				if ((resources & Brick.PHYSICS) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
