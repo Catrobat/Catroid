@@ -156,7 +156,7 @@ public final class BroadcastHandler {
 	private static boolean handleActionFromBroadcastWait(SequenceAction sequenceActionWithBroadcastNotifyAction) {
 		Action actualAction = sequenceActionWithBroadcastNotifyAction.getActions().get(0);
 
-		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones()) {
 			for (Action actionOfLook : sprites.look.getActions()) {
 				Action actualActionOfLook = null;
 				if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0) {

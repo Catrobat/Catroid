@@ -45,6 +45,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.stage.StageActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class Sprite implements Serializable, Cloneable {
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private transient ActionFactory actionFactory = new ActionFactory();
+	public transient boolean isClone = false;
 
 	public Sprite(String name) {
 		this.name = name;
@@ -219,7 +221,7 @@ public class Sprite implements Serializable, Cloneable {
 	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
 		for (int scriptCounter = 0; scriptCounter < scriptList.size(); scriptCounter++) {
 			Script script = scriptList.get(scriptCounter);
-			if (script instanceof StartScript) {
+			if (script instanceof StartScript && !isClone) {
 				Action sequenceAction = createActionSequence(script);
 				look.addAction(sequenceAction);
 				BroadcastHandler.getActionScriptMap().put(sequenceAction, script);
@@ -302,6 +304,30 @@ public class Sprite implements Serializable, Cloneable {
 		return cloneSprite;
 	}
 
+	public Sprite cloneForCloneBrick() {
+		final Sprite cloneSprite = new Sprite();
+
+		cloneSprite.setName(this.getName() + "-c" + StageActivity.getAndIncrementNumberOfClonedSprites());
+		cloneSprite.isClone = true;
+
+		cloneSprite.soundList = this.soundList;
+		cloneSprite.nfcTagList = this.nfcTagList;
+
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
+		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
+
+		cloneLooks(cloneSprite);
+		cloneUserBricks(cloneSprite);
+		cloneSpriteVariables(currentProject, cloneSprite);
+		cloneScripts(cloneSprite);
+		setUserAndVariableBrickReferences(cloneSprite, userBricks);
+
+		ProjectManager.getInstance().setCurrentSprite(originalSprite);
+
+		return cloneSprite;
+	}
+
 	public void setUserAndVariableBrickReferences(Sprite cloneSprite, List<UserBrick> originalPrototypeUserBricks) {
 		setDefinitionBrickReferences(cloneSprite, originalPrototypeUserBricks);
 		setVariableReferencesOfClonedSprite(cloneSprite);
@@ -349,6 +375,10 @@ public class Sprite implements Serializable, Cloneable {
 	private void cloneSpriteVariables(Project currentProject, Sprite cloneSprite) {
 		DataContainer userVariables = currentProject.getDataContainer();
 		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
+		if (originalSpriteVariables.isEmpty()) {
+			userVariables.removeVariableListForSprite(this);
+			return;
+		}
 		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
 		for (UserVariable variable : originalSpriteVariables) {
 			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
@@ -452,6 +482,17 @@ public class Sprite implements Serializable, Cloneable {
 		ParallelAction whenParallelAction = ActionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenTouchDownScript) {
+				SequenceAction sequence = createActionSequence(s);
+				whenParallelAction.addAction(sequence);
+			}
+		}
+		look.addAction(whenParallelAction);
+	}
+
+	public void createWhenClonedAction() {
+		ParallelAction whenParallelAction = ActionFactory.parallel();
+		for (Script s : scriptList) {
+			if (s instanceof WhenClonedScript) {
 				SequenceAction sequence = createActionSequence(s);
 				whenParallelAction.addAction(sequence);
 			}

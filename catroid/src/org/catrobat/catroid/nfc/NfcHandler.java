@@ -54,7 +54,7 @@ public final class NfcHandler {
 		String uid = getUid(intent);
 		setLastNfcTagId(uid);
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 
 		for (Sprite sprite : spriteList) {
 			sprite.createWhenNfcScriptAction(uid);
