@@ -209,6 +209,26 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.AccessibilityPreferencesActivity"
+            android:label="@string/preference_access_title_activity_access"
+            android:noHistory="false"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name=".ui.AccessibilityPreferencesActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.AccessibilityProfilesActivity"
+            android:label="@string/preference_access_predefined_profiles"
+            android:noHistory="false"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name=".ui.AccessibilityProfilesActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.ScratchProgramDetailsActivity"
             android:noHistory="false"
             android:screenOrientation="portrait" />

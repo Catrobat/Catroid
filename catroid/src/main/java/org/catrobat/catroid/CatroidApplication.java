@@ -22,12 +22,17 @@
  */
 package org.catrobat.catroid;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
+
+import org.catrobat.catroid.ui.SettingsActivity;
 
 public class CatroidApplication extends MultiDexApplication {
 
@@ -46,6 +51,7 @@ public class CatroidApplication extends MultiDexApplication {
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();
+		SettingsActivity.applyAccesibilitySettings(context);
 	}
 
 	@Override
@@ -81,5 +87,14 @@ public class CatroidApplication extends MultiDexApplication {
 
 	public static Context getAppContext() {
 		return CatroidApplication.context;
+	}
+
+	public static void restartApplication(Context context) {
+		int delay = 100;
+		Intent restartIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+		PendingIntent intent = PendingIntent.getActivity(context, 0, restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
+		System.exit(2);
 	}
 }
