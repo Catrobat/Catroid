@@ -179,9 +179,9 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
 		solo.waitForText(solo.getString(R.string.formula_editor_device));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_1));
-		solo.waitForText(solo.getString(R.string.formula_editor_device));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_1), 1, true);
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_touch), 1, true);
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_color));
+		solo.clickOnText(solo.getString(R.string.yes));
 		solo.clickOnText(solo.getString(R.string.ok));
 
 		solo.goBack();
@@ -207,6 +207,107 @@ public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("EV3 Sensor Dialog not shown for Project with EV3 Sensor but no EV3 Brick",
 				solo.waitForText(solo.getString(R.string.lego_ev3_sensor_config_info_title)));
+	}
+
+	public void testEV3SensorConfigurationDialog() throws InterruptedException {
+		createBrickTestproject(projectNameEv3);
+		boolean ev3BricksEnabledStart = SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(applicationContext);
+		boolean ev3DialogDisabledStart = SettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(applicationContext);
+
+		if (!ev3BricksEnabledStart) {
+			solo.clickOnActionBarItem(R.id.settings);
+
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_ev3_bricks);
+			solo.waitForText(preferenceTitle);
+			solo.clickOnText(preferenceTitle);
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
+			solo.clickOnText(preferenceTitle);
+
+			solo.goBack();
+			solo.goBack();
+		}
+
+		if (!ev3DialogDisabledStart) {
+			solo.clickOnActionBarItem(R.id.settings);
+
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_ev3_bricks);
+			solo.waitForText(preferenceTitle);
+			solo.clickOnText(preferenceTitle);
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
+			solo.clickOnText(solo.getString(R.string.preference_disable_nxt_info_dialog));
+
+			solo.goBack();
+			solo.goBack();
+		}
+		setSensors(EV3Sensor.Sensor.COLOR);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.main_menu_programs));
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.programs));
+		solo.clickOnText(projectNameEv3);
+
+		solo.clickOnText(spriteName);
+		solo.waitForText(solo.getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.scripts));
+
+		solo.waitForText(solo.getString(R.string.brick_wait));
+		solo.clickOnText(solo.getString(R.string.brick_wait));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_touch), 1, true);
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_color));
+		solo.clickOnText(solo.getString(R.string.yes));
+		// Next sensor no replace because set the same sensor
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_touch), 1, true);
+		solo.waitForText(solo.getString(R.string.ev3_sensor_touch));
+		assertTrue("EV3 Sensor was not replaced.",
+				solo.searchText(solo.getString(R.string.ev3_sensor_touch)));
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_touch), 2);
+		assertFalse("Replace dialog shown spuriously.",
+				solo.searchText(solo.getString(R.string.yes)));
+		// Next sensor not replaced
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_color), 1, true);
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_touch));
+		solo.clickOnText(solo.getString(R.string.no));
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.no));
+		// Look if ultrasonic sensor ist still mapped
+		solo.waitForText(solo.getString(R.string.brick_wait));
+		solo.clickOnText(solo.getString(R.string.brick_wait));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_color), 1, true);
+		assertTrue("EV3 Sensor was not replaced.",
+				solo.searchText(solo.getString(R.string.ev3_sensor_touch)));
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_touch));
+		solo.clickOnText(solo.getString(R.string.yes));
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.yes));
+
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+
+		assertTrue("not in main menu2", solo.waitForText(solo.getString(R.string.main_menu_continue)));
 	}
 
 	private void createBrickTestproject(String projectName) {
