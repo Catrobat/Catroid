@@ -219,6 +219,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		if (project != null) {
 			project.loadLegoNXTSettingsFromProject(context);
+			project.loadLegoEV3SettingsFromProject(context);
 
 			int resources = project.getRequiredResources();
 
@@ -254,6 +255,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 
 		project.saveLegoNXTSettingsToProject(context);
+		project.saveLegoEV3SettingsToProject(context);
 
 		if (asynchronousTask) {
 			SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
