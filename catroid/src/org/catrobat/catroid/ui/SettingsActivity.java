@@ -67,6 +67,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String EV3_SENSOR_2 = "setting_mindstorms_ev3_sensor_2";
 	public static final String EV3_SENSOR_3 = "setting_mindstorms_ev3_sensor_3";
 	public static final String EV3_SENSOR_4 = "setting_mindstorms_ev3_sensor_4";
+	public static final String[] EV3_SENSORS = { EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4 };
 
 	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
 	public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
@@ -437,6 +438,12 @@ public class SettingsActivity extends PreferenceActivity {
 		editor.commit();
 	}
 
+	public static void setLegoMindstormsEV3SensorMapping(Context context, EV3Sensor.Sensor sensor, String sensorSetting) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putString(sensorSetting, sensor.getSensorCode());
+		editor.commit();
+	}
+
 	public static DroneConfigPreference.Preferences[] getDronePreferenceMapping(Context context) {
 
 		final String[] dronePreferences =
@@ -510,7 +517,7 @@ public class SettingsActivity extends PreferenceActivity {
 		return preferences.getBoolean(SETTINGS_DRONE_CHOOSER, false);
 	}
 
-	public static void disableLegoMindstormsNXTSensorInfoDialog(Context context) {
+	public static void disableLegoNXTMindstormsSensorInfoDialog(Context context) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, true);
 		editor.commit();
