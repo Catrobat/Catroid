@@ -27,6 +27,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.parrot.arsdk.ARSDK;
 import com.parrot.freeflight.settings.ApplicationSettings;
 
 public class CatroidApplication extends MultiDexApplication {
@@ -39,6 +40,7 @@ public class CatroidApplication extends MultiDexApplication {
 	public static final String OS_ARCH = System.getProperty("os.arch");
 
 	public static boolean parrotLibrariesLoaded = false;
+	public static boolean parrotJSLibrariesLoaded = false;
 
 	@Override
 	public void onCreate() {
@@ -71,6 +73,21 @@ public class CatroidApplication extends MultiDexApplication {
 			System.loadLibrary("avformat");
 			System.loadLibrary("avdevice");
 			System.loadLibrary("adfreeflight");
+			parrotLibrariesLoaded = true;
+		} catch (UnsatisfiedLinkError e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			parrotLibrariesLoaded = false;
+		}
+		return parrotLibrariesLoaded;
+	}
+
+	public static synchronized boolean loadSDKLib() {
+		if (parrotJSLibrariesLoaded) {
+			return true;
+		}
+
+		try {
+			ARSDK.loadSDKLibs();
 			parrotLibrariesLoaded = true;
 		} catch (UnsatisfiedLinkError e) {
 			Log.e(TAG, Log.getStackTraceString(e));

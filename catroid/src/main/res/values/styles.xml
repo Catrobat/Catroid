@@ -634,6 +634,11 @@
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_drone</item >
     </style >
 
+    <style name="BrickCategoryText.JumpingSumo" >
+        <item name="android:background" >@drawable/brick_selection_background_drone</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_drone</item >
+    </style >
+
     <style name="BrickCategoryText.Lego" >
         <item name="android:background" >@drawable/brick_selection_background_lego</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_lego</item >

@@ -47,6 +47,8 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_SCRATCH_CONVERTER = "preference_button_scratch_converter";
+	public static final String SETTINGS_SHOW_PARROT_JS_DRONE_BRICKS = "setting_parrot_js_drone_bricks";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -100,6 +102,12 @@ public class SettingsActivity extends PreferenceActivity {
 			PreferenceScreen dronePreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		}
+
+		if (!BuildConfig.FEATURE_PARROT_JS_DRONE_ENABLED) {
+			PreferenceScreen jsPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PARROT_JS_DRONE_BRICKS);
+			jsPreference.setEnabled(false);
+			screen.removePreference(jsPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
@@ -283,6 +291,10 @@ public class SettingsActivity extends PreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
 
+	public static boolean isJSSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_JS_DRONE_BRICKS, context);
+	}
+
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
 	}
@@ -419,6 +431,10 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void enableARDroneBricks(Context context, Boolean newValue) {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
+	}
+
+	public static void enableJSDroneBricks(Context context, Boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_JS_DRONE_BRICKS, newValue).commit();
 	}
 
 	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {

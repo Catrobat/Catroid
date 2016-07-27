@@ -78,6 +78,7 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -200,6 +201,8 @@ public class CategoryBricksFactory {
 			tempList = setupArduinoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
 			tempList = setupDroneCategoryList();
+		} else if (category.equals(context.getString(R.string.category_jumping_sumo))) {
+			tempList = setupJumpingSumoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
 		} else if (category.equals(context.getString(R.string.category_raspi))) {
@@ -486,6 +489,22 @@ public class CategoryBricksFactory {
 				BrickValues.STRING_VALUE));*/
 
 		return droneBrickList;
+	}
+
+	private List<Brick> setupJumpingSumoCategoryList() {
+		List<Brick> jumpingSumoBrickList = new ArrayList<>();
+		jumpingSumoBrickList.add(new JumpingSumoTurnBrick());
+
+		/*
+			 Deprecated
+		     droneBrickList.add(new DroneAdvancedConfigBrick());
+		*/
+
+		// Only for demo purpose
+/*		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
+				BrickValues.STRING_VALUE));*/
+
+		return jumpingSumoBrickList;
 	}
 
 	private List<Brick> setupPhiroProCategoryList() {

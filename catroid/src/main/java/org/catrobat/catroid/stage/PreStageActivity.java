@@ -50,6 +50,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.JumpingSumoInitializer;
+import org.catrobat.catroid.drone.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
@@ -83,6 +85,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
 	private DroneInitializer droneInitializer = null;
+	private JumpingSumoInitializer jumpingSumoInitializer = null;
 
 	private Intent returnToActivityIntent = null;
 
@@ -162,6 +165,16 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			if (CatroidApplication.parrotLibrariesLoaded) {
 				droneInitializer = getDroneInitialiser();
 				droneInitializer.initialise();
+			}
+		}
+
+		Log.i(TAG, "JumpingSumo PS init1");
+		if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
+			Log.i(TAG, "JumpingSumo PS init2");
+			CatroidApplication.loadSDKLib();
+			if(CatroidApplication.parrotJSLibrariesLoaded) {
+				jumpingSumoInitializer = getJumpingSumoInitialiser();
+				jumpingSumoInitializer.initialise();
 			}
 		}
 
@@ -273,10 +286,20 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		return droneInitializer;
 	}
 
+	public JumpingSumoInitializer getJumpingSumoInitialiser() {
+		if (jumpingSumoInitializer == null) {
+			jumpingSumoInitializer = new JumpingSumoInitializer(this);
+		}
+		return jumpingSumoInitializer;
+	}
+
 	@Override
 	public void onResume() {
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityResume();
+		}
+		if (jumpingSumoInitializer != null) {
+			jumpingSumoInitializer.onPrestageActivityResume();
 		}
 
 		super.onResume();
@@ -291,6 +314,9 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityPause();
 		}
+		if (jumpingSumoInitializer != null) {
+			jumpingSumoInitializer.onPrestageActivityPause();
+		}
 
 		super.onPause();
 	}
@@ -299,6 +325,9 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	protected void onDestroy() {
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityDestroy();
+		}
+		if (jumpingSumoInitializer != null) {
+			jumpingSumoInitializer.onPrestageActivityDestroy();
 		}
 
 		super.onDestroy();
