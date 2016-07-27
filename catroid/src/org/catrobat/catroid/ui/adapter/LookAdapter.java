@@ -35,6 +35,7 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAdapterInterface,
 		LookController.OnBackpackLookCompleteListener {
@@ -59,7 +60,14 @@ public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAd
 			return INVALID_ID;
 		}
 		LookData item = getItem(position);
-		return idMap.get(item);
+
+		for (Map.Entry<LookData, Integer> e : idMap.entrySet()) {
+			if (item.equals(e.getKey())) {
+				return e.getValue();
+			}
+		}
+
+		return INVALID_ID;
 	}
 
 	@Override
