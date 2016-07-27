@@ -81,6 +81,7 @@ import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideVariableAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
@@ -882,6 +883,10 @@ public class ActionFactory extends Actions {
 
 	public Action createDroneGoEmergencyAction() {
 		return action(DroneEmergencyAction.class);
+	}
+
+	public Action createJumpingSumoTurnAction() {
+		return action(JumpingSumoTurnAction.class);
 	}
 
 	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {

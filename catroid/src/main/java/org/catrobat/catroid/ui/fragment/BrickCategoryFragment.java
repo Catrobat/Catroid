@@ -169,6 +169,10 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 
+		if (SettingsActivity.isJSSharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_drone_js, null));
+		}
+
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_phiro, null));
 		}
