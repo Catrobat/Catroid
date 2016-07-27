@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Cancel</string>
+  <string name="next_button">Next</string>
+  <string name="done_button">Done</string>
   <string name="rename">Rename</string>
   <string name="delete">Delete</string>
   <string name="yes">Yes</string>
@@ -171,8 +173,8 @@
   <string name="size">Size:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="userbrick_group">Userbrick Group</string>
-  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="userbrick_group">Brick Group</string>
+  <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
@@ -252,7 +254,7 @@
     <item quantity="other">Scripts</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="other">Userbricks</item>
+    <item quantity="other">Bricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Last access:</string>
@@ -584,6 +586,7 @@
   <string name="upload_button">Upload</string>
   <string name="upload_project_dialog_title">Upload program</string>
   <string name="upload_description">Description:</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -596,7 +599,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
-  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
   <string name="error_unknown_project">A program with that name does not exist.</string>
@@ -722,7 +725,7 @@
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">with</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Stop Phiro motor</string>
@@ -881,6 +884,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">position_x</string>
   <string name="formula_editor_object_y">position_y</string>
   <string name="formula_editor_object_transparency">transparency</string>
@@ -967,10 +971,10 @@
   <string name="brick_show_text_pos">"at "</string>
   <string name="brick_hide_text_var">Hide variable</string>
   <!-- User Bricks strings -->
-  <string name="define">define</string>
+  <string name="define">Define</string>
   <string name="new_user_brick">New Brick</string>
   <string name="new_user_brick_variable">Variable</string>
-  <string name="new_user_brick_name">Please choose a userbrick name:</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
   <string name="brick_single">Brick</string>
   <string name="brick_multiple">Bricks</string>
@@ -1013,4 +1017,9 @@
   <!-- Pocket Code crashed dialog -->
   <string name="crashed_title">Pocked Code has crashed!</string>
   <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_show_program">Show program</string>
 </resources>

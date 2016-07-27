@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">ポケット\nコード</string>
   <string name="cancel_button">キャンセル</string>
+  <string name="next_button">次へ</string>
+  <string name="done_button">完了</string>
   <string name="rename">名前の変更</string>
   <string name="delete">削除</string>
   <string name="yes">はい</string>
@@ -574,6 +576,7 @@
   <string name="upload_button">アップロード</string>
   <string name="upload_project_dialog_title">プログラムをアップロード</string>
   <string name="upload_description">デスクリプション：</string>
+  <string name="upload_tag_dialog_title">最大 3 つのカテゴリを選択してください</string>
   <string name="drone_emergency_battery_low">バッテリー残量が少なくなりました (自動着陸)。</string>
   <string name="drone_emergency_camera">1 つまたは複数のカメラが応答していません。</string>
   <string name="drone_emergency_ultrasound">超音波センサーが応答していません。</string>
@@ -711,7 +714,7 @@
   <string name="brick_drone_set_rotation_speed">回転速度の制限</string>
   <string name="brick_drone_set_tilt_limit">傾斜制限</string>
   <string name="brick_drone_with">で</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">電源</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Phiro モーターを停止</string>
@@ -870,6 +873,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">x_位置</string>
   <string name="formula_editor_object_y">y_位置</string>
   <string name="formula_editor_object_transparency">透明度</string>
@@ -1000,4 +1004,8 @@
   <!-- Pocket Code crashed dialog -->
   <string name="crashed_title">ポケットコードがクラッシュしました!</string>
   <string name="crashed_message">ポケットコードがクラッシュしたため、再起動する必要がありました。</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">あなたのプログラムは、私たちのコミュニ ティー ページにアップロードされます。他の人がそれを使用したりダウンロードすることができます。
+スタンドアロン アプリケーションとしてあなたのプログラムをダウンロードすることもできます。</string>
+  <string name="progress_upload_dialog_show_program">プログラムの表示</string>
 </resources>

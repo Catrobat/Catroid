@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Anuluj</string>
+  <string name="next_button">Next</string>
+  <string name="done_button">Zrobione</string>
   <string name="rename">Zmień nazwę</string>
   <string name="delete">Usuń</string>
   <string name="yes">Tak</string>
@@ -164,8 +166,8 @@
   <string name="size">Rozmiar:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="userbrick_group">Userbrick Group</string>
-  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="userbrick_group">Brick Group</string>
+  <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Naciśnij \"+\", aby dodać skrypty</string>
@@ -257,9 +259,9 @@
     <item quantity="other">Scripts</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="one">Userbrick</item>
-    <item quantity="few">Userbricks</item>
-    <item quantity="other">Userbricks</item>
+    <item quantity="one">Brick</item>
+    <item quantity="few">Bricks</item>
+    <item quantity="other">Bricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Ostatni dostęp:</string>
@@ -598,6 +600,7 @@
   <string name="upload_button">Wyślij</string>
   <string name="upload_project_dialog_title">Wyślij program</string>
   <string name="upload_description">Opis:</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -610,7 +613,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Aby działać, Pocket Code potrzebuje zewnętrznej pamięci do zapisu, np. karty SD, ale nie została ona znaleziona.\nMożesz rozwiązać ten problem poprzez zapis w zewnętrznej pamięci lub włożyć kartę SD i spróbować ponownie.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
-  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Program o tej samej nazwie już istnieje. \nProszę wybierz inną nazwę.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
   <string name="error_unknown_project">A program with that name does not exist.</string>
@@ -735,7 +738,7 @@
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">z</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Stop Phiro motor</string>
@@ -894,6 +897,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">pozycja_x</string>
   <string name="formula_editor_object_y">pozycja_y</string>
   <string name="formula_editor_object_transparency">przezroczystość</string>
@@ -985,7 +989,7 @@
   <string name="define">definiuj</string>
   <string name="new_user_brick">Nowy blok</string>
   <string name="new_user_brick_variable">Zmienna 1</string>
-  <string name="new_user_brick_name">Please choose a userbrick name:</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Dodawanie Bloku użytkownika do Bloku użytkownika nie jest jeszcze możliwe!</string>
   <string name="brick_single">Blok</string>
   <string name="brick_multiple">Bloki</string>
@@ -1028,4 +1032,9 @@
   <!-- Pocket Code crashed dialog -->
   <string name="crashed_title">Pocked Code has crashed!</string>
   <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_show_program">Show program</string>
 </resources>
