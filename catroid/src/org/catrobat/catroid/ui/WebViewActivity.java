@@ -46,6 +46,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -86,7 +87,6 @@ public class WebViewActivity extends BaseActivity {
 			url = Constants.BASE_URL_HTTPS;
 		}
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
-
 		webView = (WebView) findViewById(R.id.webView);
 
 		webView.setWebChromeClient(new WebChromeClient() {
@@ -116,6 +116,7 @@ public class WebViewActivity extends BaseActivity {
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform);
 
+		webView.setVisibility(webView.INVISIBLE);
 		webView.loadUrl(url);
 
 		webView.setDownloadListener(new DownloadListener() {
@@ -196,6 +197,22 @@ public class WebViewActivity extends BaseActivity {
 		@Override
 		public void onPageFinished(WebView view, String url) {
 			callMainMenu = true;
+			if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+				view.loadUrl("javascript:(function() { "
+						+ "var x = document.querySelectorAll(\"a[href*='Portrait']\");"
+						+ "for (i = 0; i < x.length; i++) {"
+						+ "    x[i].parentNode.style.display='none';"
+						+ "}"
+						+ "})()");
+			} else {
+				view.loadUrl("javascript:(function() { "
+						+ "var x = document.querySelectorAll(\"a[href*='Landscape']\");"
+						+ "for (i = 0; i < x.length; i++) {"
+						+ "    x[i].parentNode.style.display='none';"
+						+ "}"
+						+ "})()");
+			}
+			webView.setVisibility(webView.VISIBLE);
 		}
 
 		@Override
