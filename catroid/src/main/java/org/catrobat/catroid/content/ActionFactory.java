@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ChangeXByNAction;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ChooseCameraAction;
+import org.catrobat.catroid.content.actions.ClearBackgroundAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
@@ -84,6 +85,8 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
+import org.catrobat.catroid.content.actions.PenDownAction;
+import org.catrobat.catroid.content.actions.PenUpAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveForwardAction;
 import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
@@ -105,6 +108,8 @@ import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetPenColorAction;
+import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
@@ -115,6 +120,7 @@ import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
@@ -390,6 +396,45 @@ public class ActionFactory extends Actions {
 		MoveNStepsAction action = Actions.action(MoveNStepsAction.class);
 		action.setSprite(sprite);
 		action.setSteps(steps);
+		return action;
+	}
+
+	public Action createPenDownAction(Sprite sprite) {
+		PenDownAction action = Actions.action(PenDownAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createPenUpAction(Sprite sprite) {
+		PenUpAction action = Actions.action(PenUpAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createSetPenSizeAction(Sprite sprite, Formula penSize) {
+		SetPenSizeAction action = Actions.action(SetPenSizeAction.class);
+		action.setSprite(sprite);
+		action.setPenSize(penSize);
+		return action;
+	}
+
+	public Action createSetPenColorAction(Sprite sprite, Formula red, Formula green, Formula blue) {
+		SetPenColorAction action = Actions.action(SetPenColorAction.class);
+		action.setSprite(sprite);
+		action.setRed(red);
+		action.setGreen(green);
+		action.setBlue(blue);
+		return action;
+	}
+
+	public Action createClearBackgroundAction() {
+		ClearBackgroundAction action = Actions.action(ClearBackgroundAction.class);
+		return action;
+	}
+
+	public Action createStampAction(Sprite sprite) {
+		StampAction action = Actions.action(StampAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 

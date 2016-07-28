@@ -516,6 +516,7 @@
     <string name="categories">Categories</string>
     <string name="category_motion">Motion</string>
     <string name="category_looks">Looks</string>
+    <string name="category_pen">Pen</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
     <string name="category_event">Event</string>
@@ -610,6 +611,15 @@
     <string name="brick_ask_default_question">\'What\'s your name?\'</string>
     <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
     <string name="brick_ask_dialog_submit">Submit answer</string>
+    <!--  -->
+
+    <!-- Pen bricks -->
+    <string name="brick_pen_down">Pen down</string>
+    <string name="brick_pen_up">Pen up</string>
+    <string name="brick_pen_size">Set pen size to</string>
+    <string name="brick_pen_color">Set pen color to</string>
+    <string name="brick_clear_background">Clear</string>
+    <string name="brick_stamp">Stamp</string>
     <!--  -->
 
 
