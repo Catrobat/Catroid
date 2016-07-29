@@ -64,10 +64,13 @@ public class ParserTest extends AndroidTestCase {
 	public void testNumbers() {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.0", "1.0", testSprite);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1", "1", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, ".1", ".1", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.", "1.", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "+100", "+100", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "-100", "-100", testSprite);
 
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, "", 0);
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".", 0);
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".1", 0);
 	}
 
 	public void testStrings() {

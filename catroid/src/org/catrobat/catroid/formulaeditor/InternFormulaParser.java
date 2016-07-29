@@ -320,7 +320,10 @@ public class InternFormulaParser {
 	private String number() throws InternFormulaParserException {
 		String numberToCheck = currentToken.getTokenStringValue();
 
-		if (!numberToCheck.matches("(\\d)+(\\.(\\d)+)?")) {
+		try {
+			new Formula(numberToCheck).interpretFloat(ProjectManager.getInstance().getCurrentSprite());
+		} catch (InterpretationException e) {
+			Log.e(TAG, "Parse Error: " + e.getMessage());
 			throw new InternFormulaParserException("Parse Error");
 		}
 
