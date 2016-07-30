@@ -22,73 +22,30 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 
 public class SetLookActionTest extends InstrumentationTestCase {
 
-	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private String projectName = "testProject";
 	private File testImage;
-	private Project project;
 
 	@Override
 	protected void setUp() throws Exception {
-
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
-
-		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
-		}
-		super.tearDown();
+		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
+		testImage = new File(imagePath);
 	}
 
 	public void testSetLook() {
 
-		ScreenValues.SCREEN_HEIGHT = 200;
-		ScreenValues.SCREEN_WIDTH = 200;
-
 		Sprite sprite = new Sprite("new sprite");
-		project.addSprite(sprite);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName("testImage");
