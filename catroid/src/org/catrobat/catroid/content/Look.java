@@ -254,6 +254,11 @@ public class Look extends Image {
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
+
+		boolean isBackgroundLook = getZIndex() == 0;
+		if (isBackgroundLook) {
+			BackgroundWaitHandler.fireBackgroundChangedEvent(lookData);
+		}
 	}
 
 	public boolean getAllActionsAreFinished() {
