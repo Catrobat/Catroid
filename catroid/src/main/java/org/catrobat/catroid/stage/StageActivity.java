@@ -51,6 +51,7 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -134,6 +135,8 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus = new StageAudioFocus(this);
 
 		CameraManager.getInstance().setStageActivity(this);
+
+		BackgroundWaitHandler.reset();
 	}
 
 	private void setupAskHandler() {

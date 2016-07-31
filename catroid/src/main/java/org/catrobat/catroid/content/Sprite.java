@@ -600,6 +600,33 @@ public class Sprite implements Serializable, Cloneable {
 		look.addAction(whenParallelAction);
 	}
 
+	public ParallelAction createBackgroundChangedAction(LookData lookData) {
+		ParallelAction whenParallelAction = ActionFactory.parallel();
+		for (Script s : scriptList) {
+			if (s instanceof WhenBackgroundChangesScript
+					&& ((WhenBackgroundChangesScript) s).getLook().equals(lookData)) {
+				SequenceAction sequence = createActionSequence(s);
+				SequenceAction sequenceWithNotifyAtEnd = ActionFactory.sequence(sequence,
+						ActionFactory.createBackgroundNotifyAction(lookData));
+				whenParallelAction.addAction(sequenceWithNotifyAtEnd);
+			}
+		}
+		look.addAction(whenParallelAction);
+
+		return whenParallelAction;
+	}
+
+	public int getNumberOfWhenBackgroundChangesScripts(LookData lookData) {
+		int numberOfScripts = 0;
+		for (Script s : scriptList) {
+			if (s instanceof WhenBackgroundChangesScript
+					&& ((WhenBackgroundChangesScript) s).getLook().equals(lookData)) {
+				numberOfScripts++;
+			}
+		}
+		return numberOfScripts;
+	}
+
 	public void createWhenClonedAction() {
 		ParallelAction whenParallelAction = ActionFactory.parallel();
 		for (Script s : scriptList) {

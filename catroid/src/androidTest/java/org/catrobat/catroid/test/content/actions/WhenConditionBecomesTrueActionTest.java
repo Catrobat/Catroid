@@ -61,21 +61,21 @@ public class WhenConditionBecomesTrueActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(COUNTER_VARIABLE_NAME);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(COUNTER_VARIABLE_NAME);
-		counterVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(COUNTER_VARIABLE_NAME);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(COUNTER_VARIABLE_NAME);
+		counterVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(COUNTER_VARIABLE_NAME, null);
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(CONDITION_VARIABLE_NAME);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(CONDITION_VARIABLE_NAME);
-		conditionVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(CONDITION_VARIABLE_NAME);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(CONDITION_VARIABLE_NAME);
+		conditionVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(CONDITION_VARIABLE_NAME, null);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(COUNTER_VARIABLE_NAME);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(CONDITION_VARIABLE_NAME);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(COUNTER_VARIABLE_NAME);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(CONDITION_VARIABLE_NAME);
 	}
 
 	public void testConditionBecomesTrueOnce() {
@@ -139,7 +139,7 @@ public class WhenConditionBecomesTrueActionTest extends AndroidTestCase {
 
 		testSprite.addScript(whenConditionScript);
 
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(whenConditionScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());

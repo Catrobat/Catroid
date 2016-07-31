@@ -82,6 +82,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Scene sceneToPlay;
 	private Script currentScript;
 	private Sprite currentSprite;
+	private Sprite previousSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronousTask = true;
 	private boolean comingFromScriptFragmentToSoundFragment;
@@ -459,7 +460,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
+		previousSprite = currentSprite;
 		currentSprite = sprite;
+	}
+
+	public Sprite getPreviousSprite() {
+		return previousSprite;
 	}
 
 	public Script getCurrentScript() {

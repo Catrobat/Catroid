@@ -107,6 +107,8 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -131,6 +133,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
@@ -175,7 +178,8 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_sound))) {
 			tempList = setupSoundCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_looks))) {
-			tempList = setupLooksCategoryList(context);
+			boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
+			tempList = setupLooksCategoryList(context, isBackgroundSprite);
 		} else if (category.equals(context.getString(R.string.category_pen))) {
 			tempList = setupPenCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
@@ -217,6 +221,7 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
 		eventBrickList.add(new CollisionReceiverBrick("object"));
+		eventBrickList.add(new WhenBackgroundChangesBrick());
 
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 			eventBrickList.add(new WhenNfcBrick());
@@ -364,10 +369,15 @@ public class CategoryBricksFactory {
 		return soundBrickList;
 	}
 
-	private List<Brick> setupLooksCategoryList(Context context) {
+	private List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> looksBrickList = new ArrayList<>();
 
-		looksBrickList.add(new SetLookBrick());
+		looksBrickList.add(new WhenBackgroundChangesBrick());
+		looksBrickList.add(new SetBackgroundBrick());
+		looksBrickList.add(new SetBackgroundAndWaitBrick());
+		if (!isBackgroundSprite) {
+			looksBrickList.add(new SetLookBrick());
+		}
 		looksBrickList.add(new NextLookBrick());
 		looksBrickList.add(new PreviousLookBrick());
 		looksBrickList.add(new CameraBrick());
