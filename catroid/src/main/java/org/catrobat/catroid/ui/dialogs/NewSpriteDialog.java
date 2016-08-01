@@ -42,9 +42,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import com.google.common.io.Files;
-import com.zed.bdsclient.controller.BDSClientController;
-import org.catrobat.catroid.BuildConfig;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -69,8 +69,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class NewSpriteDialog extends DialogFragment {
 

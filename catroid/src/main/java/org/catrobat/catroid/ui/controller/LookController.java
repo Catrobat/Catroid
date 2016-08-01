@@ -45,14 +45,15 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.badlogic.gdx.graphics.Pixmap;
-import com.zed.bdsclient.controller.BDSClientController;
-import org.catrobat.catroid.BuildConfig;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.LookViewHolder;
@@ -66,8 +67,6 @@ import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -491,7 +490,8 @@ public final class LookController {
 									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
 							activity.startActivity(downloadPocketPaintIntent);
 						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					})
+					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
@@ -532,7 +532,7 @@ public final class LookController {
 		lookDataToDelete.getCollisionInformation().cancelCalculation();
 
 		boolean isBackPackLook = lookDataToDelete.isBackpackLookData;
-		TrackingUtil.trackLook(lookDataToDelete.getLookName(), "DeleteLook");
+		TrackingUtil.trackLook(lookDataToDelete.getLookName(), TrackingConstants.DELETE_LOOK);
 		if (!otherLookDataItemsHaveAFileReference(lookDataToDelete)) {
 			Log.d(TAG, "delete - is bp:" + isBackPackLook);
 			StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath(), isBackPackLook);
@@ -594,40 +594,11 @@ public final class LookController {
 		dialog.show();
 	}
 
-	public void showBackPackReplaceDialog(final LookData currentLookData, final Context context) {
-		Resources resources = context.getResources();
-		String replaceLookMessage = resources.getString(R.string.backpack_replace_look, currentLookData.getLookName());
-
-		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
-				.setTitle(R.string.backpack)
-				.setMessage(replaceLookMessage)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						backPackVisibleLook(currentLookData);
-						onBackpackLookCompleteListener.onBackpackLookComplete(true);
-						dialog.dismiss();
-					}
-				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				}).create();
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialogInterface) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
-			}
-		});
-		dialog.show();
-	}
-
 	public void backPackVisibleLook(LookData currentLookData) {
 		String lookDataName = currentLookData.getLookName();
 		BackPackListManager.getInstance().removeItemFromLookBackPackByLookName(lookDataName);
 		backPack(currentLookData, lookDataName, false);
+		TrackingUtil.trackLook(currentLookData.getLookName(), TrackingConstants.BACKPACK_LOOK);
 	}
 
 	public LookData backPackHiddenLook(LookData currentLookData) {
@@ -651,8 +622,6 @@ public final class LookController {
 
 	public LookData unpack(LookData selectedLookDataBackPack, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
 
-		TrackingUtil.trackLook(selectedLookDataBackPack.getLookName(), "UnpackLook");
-
 		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentSprite().containsLookData(selectedLookDataBackPack)) {
 			return selectedLookDataBackPack;
 		}
@@ -662,6 +631,11 @@ public final class LookController {
 		if (existingFileNameInProjectDirectory == null) {
 			copyLookBackPack(selectedLookDataBackPack, newLookDataName, true);
 		}
+
+		if (!fromHiddenBackPack) {
+			TrackingUtil.trackLook(selectedLookDataBackPack.getLookName(), TrackingConstants.UNPACK_LOOK);
+		}
+
 		return LookController.getInstance().updateLookBackPackAfterUnpacking(selectedLookDataBackPack,
 				BackPackListManager.getInstance().getCurrentLookAdapter(), newLookDataName, deleteUnpackedItems,
 				existingFileNameInProjectDirectory, fromHiddenBackPack);
@@ -733,7 +707,7 @@ public final class LookController {
 			String imageName = lookData.getLookName() + "_" + activity.getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
 
-			TrackingUtil.trackLook(imageName, "CopyLook");
+			TrackingUtil.trackLook(imageName, TrackingConstants.COPY_LOOK);
 
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException ioException) {

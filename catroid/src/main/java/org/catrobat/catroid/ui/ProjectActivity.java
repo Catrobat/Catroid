@@ -127,9 +127,9 @@ public class ProjectActivity extends BaseActivity {
 			}
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
-			currentFragmentPosition =
-					FRAGMENT_SPRITES;
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if (project == null || project.getSceneList() == null || project.getSceneList().size() == 1) {
+			currentFragmentPosition = FRAGMENT_SPRITES;
 		}
 
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -55,11 +55,9 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -78,8 +76,6 @@ import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -131,15 +127,15 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
 		cloneFormulaBrick(formulaBrick);
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
-
-		TrackingUtil.trackFormula(formulaBrick.toString(), currentBrickField.toString(), currentFormula
-				.getResultForComputeDialog(context).toString(), "OpenFormulaEditor");
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		TrackingUtil.trackFormula(formulaBrick, currentBrickField.toString(), currentFormula
+				.getResultForComputeDialog(context), TrackingConstants.OPEN_FORMULA_EDITOR);
 	}
 
 	private void setUpActionBar() {
@@ -618,8 +614,8 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
 
-		TrackingUtil.trackFormula(formulaBrick.toString(), currentBrickField.toString(), formulaEditorEditText.getStringFromInternFormula(),
-				"SaveFormula");
+		TrackingUtil.trackFormula(formulaBrick, currentBrickField.toString(), formulaEditorEditText.getStringFromInternFormula(),
+				TrackingConstants.SAVE_FORMULA);
 
 		switch (formulaToParse.getErrorTokenIndex()) {
 			case PARSER_OK:

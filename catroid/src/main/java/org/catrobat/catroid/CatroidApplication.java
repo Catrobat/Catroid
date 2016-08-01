@@ -40,12 +40,7 @@ public class CatroidApplication extends MultiDexApplication {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
-	private ApplicationSettings settings;
 	protected static Context context;
-	private String appId = "NOLBPocketCode";
-	private String appPassword = "?Z+{_u_mUb72>Sr4";
-
-
 
 	public static final String OS_ARCH = System.getProperty("os.arch");
 
@@ -55,7 +50,6 @@ public class CatroidApplication extends MultiDexApplication {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
-		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();
 		BDSClientController controller = BDSClientController.init(context,
 				BDSClientEnvironments.PRO, appId, appPassword, 1, 0);
@@ -66,10 +60,6 @@ public class CatroidApplication extends MultiDexApplication {
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(base);
 		MultiDex.install(this);
-	}
-
-	public ApplicationSettings getParrotApplicationSettings() {
-		return settings;
 	}
 
 	public static synchronized boolean loadNativeLibs() {

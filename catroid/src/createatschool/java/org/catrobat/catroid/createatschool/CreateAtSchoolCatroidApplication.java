@@ -27,8 +27,8 @@ import android.util.Log;
 import com.zed.bdsclient.controller.BDSClientController;
 import com.zed.bdsclient.environments.BDSClientEnvironments;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +45,6 @@ public class CreateAtSchoolCatroidApplication extends CatroidApplication {
 	public void onCreate() {
 		super.onCreate();
 		initBdsClientController();
-		ToastUtil.showSuccess(context, "initBdsClientController!");
 	}
 
 	private void initBdsClientController() {
@@ -63,7 +62,9 @@ public class CreateAtSchoolCatroidApplication extends CatroidApplication {
 					fileContent.indexOf("/" + NOLB_PASSWORD) - 1);
 
 			BDSClientController.init(context, BDSClientEnvironments.PRO, appId, appPassword, 1, 0);
-
+			if (BuildConfig.DEBUG) {
+				BDSClientController.getInstance().setDebugMode(true);
+			}
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
 		}

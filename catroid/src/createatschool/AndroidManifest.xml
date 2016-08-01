@@ -27,56 +27,22 @@
     android:installLocation="auto">
 
     <application
-        tools:replace="android:name"
         android:name="org.catrobat.catroid.createatschool.CreateAtSchoolCatroidApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Catroid">
+        android:theme="@style/Theme.Catroid"
+        tools:replace="android:name">
 
-        <activity
-            android:name="org.catrobat.catroid.createatschool.ui.CreateAtSchoolMainMenuActivity"
-            android:launchMode="standard"
-            android:screenOrientation="portrait">
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN" />
+            <activity
+                android:name="org.catrobat.catroid.createatschool.ui.TemplatesActivity"
+                android:launchMode="standard"
+                android:screenOrientation="portrait" />
 
-                    <category android:name="android.intent.category.LAUNCHER" />
-                </intent-filter>
-                <intent-filter>
-                    <action android:name="android.intent.action.VIEW" />
+            <activity
+                android:name="org.catrobat.catroid.createatschool.ui.CreateAtSchoolBaseActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustPan" />
 
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <category android:name="android.intent.category.BROWSABLE" />
-
-                    <data
-                        android:host="*"
-                        android:pathPattern="@string/catroid_extension_pathPattern"
-                        android:scheme="http" />
-                </intent-filter>
-                <intent-filter>
-                    <action android:name="android.intent.action.VIEW" />
-
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <category android:name="android.intent.category.BROWSABLE" />
-
-                    <data
-                        android:host="*"
-                        android:pathPattern="@string/catroid_extension_pathPattern"
-                        android:scheme="https" />
-                </intent-filter>
-                <intent-filter>
-                    <action android:name="android.intent.action.VIEW" />
-
-                    <category android:name="android.intent.category.DEFAULT" />
-
-                    <data
-                        android:host="*"
-                        android:mimeType="application/catrobat+zip"
-                        android:pathPattern="@string/catroid_extension_pathPattern"
-                        android:scheme="file" />
-                </intent-filter>
-            </activity>
-            </application>
-
+    </application>
 </manifest>

@@ -79,18 +79,7 @@ public class Project implements Serializable {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
-		xmlHeader.setlandscapeMode(landscapeMode);
-
-		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			UtilUi.updateScreenWidthAndHeight(context);
-		}
-		if (landscapeMode) {
-			ifPortraitSwitchWidthAndHeight();
-		} else {
-			ifLandscapeSwitchWidthAndHeight();
-		}
-		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
-		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+		handleLandscapeMode(landscapeMode, context);
 		setDeviceData(context);
 
 		MessageContainer.clear();
@@ -103,6 +92,21 @@ public class Project implements Serializable {
 					this));
 		}
 		xmlHeader.scenesEnabled = true;
+	}
+
+	public void handleLandscapeMode(boolean landscapeMode, Context context) {
+		xmlHeader.setlandscapeMode(landscapeMode);
+
+		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+			UtilUi.updateScreenWidthAndHeight(context);
+		}
+		if (landscapeMode) {
+			ifPortraitSwitchWidthAndHeight();
+		} else {
+			ifLandscapeSwitchWidthAndHeight();
+		}
+		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
+		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 	}
 
 	public Project(Context context, String name) {

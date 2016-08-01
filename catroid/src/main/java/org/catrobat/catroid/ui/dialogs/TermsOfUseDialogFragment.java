@@ -38,7 +38,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -111,7 +110,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 			termsOfUseUrlStringText = getString(R.string.dialog_terms_of_use_link_text);
 		}
 
-		String termsOfUseUrl = getString(R.string.terms_of_use_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
+		String termsOfUseUrl = getString(R.string.terms_of_use_link_template, getString(R.string.terms_of_use_url),
 				termsOfUseUrlStringText);
 
 		termsOfUseUrlTextView.setText(Html.fromHtml(termsOfUseUrl));

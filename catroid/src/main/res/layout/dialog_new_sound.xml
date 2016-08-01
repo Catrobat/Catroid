@@ -39,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
-                android:drawableTop="@drawable/ic_launcher"
+                android:drawableTop="@drawable/ic_recorder"
                 android:gravity="center"
                 android:text="@string/add_sound_from_recorder"
                 android:textSize="12sp" />

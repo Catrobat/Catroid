@@ -23,24 +23,24 @@
 
 package org.catrobat.catroid.createatschool.ui;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.zed.bdsclient.controller.BDSClientController;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.Utils;
-import org.json.JSONObject;
-import org.json.JSONException;
 
 public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
-
-	private static final String TAG = CreateAtSchoolMainMenuActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,17 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuItem settingsMenuItem = menu.findItem(R.id.settings);
+		if (settingsMenuItem != null) {
+			settingsMenuItem.setVisible(true);
+		}
+
+		return true;
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 
@@ -58,18 +69,36 @@ public class CreateAtSchoolMainMenuActivity extends MainMenuActivity {
 		boolean forceSignIn = sharedPreferences.getBoolean(Constants.FORCE_SIGNIN, false);
 
 		if (!Utils.isUserLoggedIn(this) && forceSignIn) {
-			ProjectManager.getInstance().showSignInDialog(this, false);
-			sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, false).commit();
+			if (!Utils.isNetworkAvailable(this)) {
+				AlertDialog noInternetDialog = new CustomAlertDialogBuilder(this)
+						.setTitle(R.string.no_internet)
+						.setMessage(R.string.error_no_internet)
+						.setPositiveButton(R.string.ok, null)
+						.setCancelable(false)
+						.show();
+
+				noInternetDialog.setCanceledOnTouchOutside(false);
+
+				Button okButton = noInternetDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				okButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						finish();
+					}
+				});
+			} else {
+				ProjectManager.getInstance().showLogInDialog(this, false);
+				sharedPreferences.edit().putBoolean(Constants.FORCE_SIGNIN, false).commit();
+			}
 		}
 	}
-/*
-	@Override
-	public void handleContinueButton() {
-		BDSClientController.getInstance().generateCustomEvent("ContinueButton", ProjectManager.getInstance().getUserID(),
-				System.currentTimeMillis(), null);
-		BDSClientController.getInstance().setDebugMode(true);
-		ToastUtil.showSuccess(this, "generateCustomEvent!");
-		Log.e(TAG, "generateCustomEvent!");
-		super.handleContinueButton();
-	}*/
+
+	public void handleTemplatesButton(View view) {
+		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		Intent intent = new Intent(this, TemplatesActivity.class);
+		startActivity(intent);
+	}
 }

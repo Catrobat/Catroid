@@ -38,11 +38,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -69,6 +67,7 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -399,8 +398,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				((UserBrick) draggedBrick).updateUserBrickParametersAndVariables();
 			}
 
+			TrackingUtil.trackDropBrick(draggedBrick);
 			addingNewBrick = false;
-			TrackingUtil.trackDropBrick(draggedBrick, positionOfInsertedBrick);
 		} else {
 			if (script != null) {
 				moveUserBrick(fromBeginDrag, toEndDrag);
@@ -432,7 +431,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		setSpinnersEnabled(true);
 		isDragging = false;
 
-		SnackbarUtil.showHintSnackbar(((Activity) getContext()), R.string.hint_brick_added);
+		SnackBarUtil.showHintSnackBar(((Activity) getContext()), R.string.hint_brick_added);
 	}
 
 	private void addScriptToProject(int position, ScriptBrick scriptBrick) {
@@ -1081,16 +1080,13 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	protected void copyBrickListAndProject(int itemPosition) {
 		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
 		Brick copy;
-		TrackingUtil.trackBrick(origin.getClass().getSimpleName(), "CopyBrick");
+		TrackingUtil.trackBrick(origin.getClass().getSimpleName(), TrackingConstants.COPY_BRICK);
 
 		try {
 			copy = origin.clone();
 			copy.setCommentedOut(origin.isCommentedOut());
 			addNewBrick(itemPosition, copy, true);
 			notifyDataSetChanged();
-			//TODO: Menu does not close when tracking!
-			//String brickName = getItem(clickItemPosition).getClass().getSimpleName();
-			//TrackingUtil.trackBrick(brickName, "CopyBrick");
 		} catch (CloneNotSupportedException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}
@@ -1114,7 +1110,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			public void onClick(DialogInterface dialog, int id) {
 
 				String brickName = getItem(clickItemPosition).getClass().getSimpleName();
-				TrackingUtil.trackBrick(brickName, "DeleteBrick");
+				TrackingUtil.trackBrick(brickName, TrackingConstants.DELETE_BRICK);
 
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
 					scriptToDelete = ((ScriptBrick) getItem(clickItemPosition)).getScriptSafe();
@@ -1195,6 +1191,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wiki.catrob.at/index"
 				+ ".php?title=" + category + "_Bricks/" + language + "#" + name));
 		getContext().startActivity(browserIntent);
+
+		TrackingUtil.trackUseBrickHelp(brick);
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {

@@ -98,6 +98,14 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
+	public void setMessage(String broadcastMessage) {
+		if (receiveScript != null) {
+			receiveScript.setBroadcastMessage(broadcastMessage);
+		}
+		this.broadcastMessage = broadcastMessage;
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

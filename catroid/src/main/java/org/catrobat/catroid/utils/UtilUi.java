@@ -53,7 +53,7 @@ public final class UtilUi {
 			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
 		} else {
 			//a null-context should never be passed. However, an educated guess is needed in that case.
-			ScreenValues.setToDefaultSreenSize();
+			ScreenValues.setToDefaultScreenSize();
 		}
 	}
 

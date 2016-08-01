@@ -50,7 +50,8 @@ public class InternToken {
 	}
 
 	public void updateVariableReferences(String oldName, String newName) {
-		if (internTokenType == InternTokenType.USER_VARIABLE && tokenStringValue.equals(oldName)) {
+		if ((internTokenType == InternTokenType.USER_VARIABLE || internTokenType == InternTokenType.USER_LIST)
+				&& tokenStringValue.equals(oldName)) {
 			tokenStringValue = newName;
 		}
 	}

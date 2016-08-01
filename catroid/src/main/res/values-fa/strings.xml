@@ -153,7 +153,6 @@
   <string name="dialog_confirm_delete_object_message">این کار قابل برگشت نیست!</string>
   <string name="select_all">انتخاب همه</string>
   <string name="deselect_all">عدم انتخاب همه</string>
-  <string name="backpack_replace_object">شی \"%1$s\" در حال حاضر در کوله پشتی وجود دارد. آیا می خواهی آن را جایگزین کنی؟</string>
   <string name="backpack_replace_object_multiple">در حال حاضر اشیاء در کوله پشتی موجودند. آیا می خواهی آنها را جایگزین کنی؟</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">رونوشت_</string>
@@ -205,7 +204,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">این اشکال حذف شوند؟</string>
   <string name="dialog_confirm_delete_look_message">این کار قابل برگشت نیست!</string>
   <string name="lookname">نام شکل:</string>
-  <string name="backpack_replace_look">در حال حاضر شکل \"%1$s\" در کوله پشتی وجود دارد. آیا می خواهی آن را جایگزین کنی؟</string>
   <string name="backpack_replace_look_multiple">در حال حاضراشکال در کوله پشتی وجود دارند. آیا می خواهی آنها را جایگزین کنی؟</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">برای اضافه کردن صدا روی \"+\" ضربه بزن</string>

@@ -39,11 +39,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import com.zed.bdsclient.controller.BDSClientController;
-import org.catrobat.catroid.BuildConfig;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -51,8 +51,6 @@ import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class UploadProgressDialog extends DialogFragment {
 	public static final String DIALOG_PROGRESS_FRAGMENT_TAG = "dialog_upload_progress_tags";
@@ -88,7 +86,7 @@ public class UploadProgressDialog extends DialogFragment {
 		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program), (DialogInterface
 				.OnClickListener) null);
 
-		TrackingUtil.trackMenuButtonProject(currentProjectName, "UploadProgram");
+		TrackingUtil.trackMenuButtonProject(currentProjectName, TrackingConstants.UPLOAD_PROGRAM);
 
 		return progressBarDialog;
 	}

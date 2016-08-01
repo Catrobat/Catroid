@@ -23,462 +23,501 @@
 package org.catrobat.catroid.utils;
 
 import android.app.Fragment;
-import android.graphics.PointF;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.Pair;
 
 import com.zed.bdsclient.controller.BDSClientController;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.TrackingConstants;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public final class TrackingUtil {
 
-	private static Map<String, Long> startTime = new HashMap<>();
-	private static boolean showEvent = true;
+	private static final String TAG = TrackingUtil.class.getSimpleName();
+
+	private static Map<String, Long> timerMap = new HashMap<>();
 
 	private TrackingUtil() {
 	}
 
-	public static void startTimer(String id) {
-		startTime.put(id, System.currentTimeMillis());
-	}
-
-	public static long stopTimer(String id) {
-		return System.currentTimeMillis() - startTime.get(id);
-	}
-
-	public static void trackCreateProgram(String projectName, boolean landscapeMode, boolean exampleProgram) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				String trackingMsg = "";
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("programname", projectName);
-				jsonObject.put("landscape", landscapeMode);
-				jsonObject.put("exampleProgram", exampleProgram);
-				if (exampleProgram) {
-					trackingMsg = "CreateExampleProgram";
-				} else {
-					trackingMsg = "CreateEmptyProgram";
-				}
-
-				logEvent(trackingMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackCreateProgram(String projectName, Boolean landscapeMode, boolean exampleProgram) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, projectName));
+		trackingData.add(new Pair<>(TrackingConstants.LANDSCAPE, String.valueOf(landscapeMode)));
+		trackingData.add(new Pair<>(TrackingConstants.CREATE_EXAMPLE_PROGRAM, String.valueOf(exampleProgram)));
+		createJsonAndLogCustomEvent(TrackingConstants.CREATE_PROGRAM, trackingData);
 	}
 
 	public static void trackCreateObject(String newSpriteName, String spriteSource) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject1();
-				jsonObject.put("objectname", newSpriteName);
-				jsonObject.put("source", spriteSource);
-
-				logEvent("CreateObject", jsonObject);
-				//trackStopPocketCodeSession
-				if (spriteSource.equals("PocketPaint")) {
-					JSONObject jsonObject2 = createBaseJsonObject1();
-					jsonObject2.put("durationOfPocketPaintSessionInMillis", stopTimer
-							("PocketPaintSessionCreateObject"));
-					logEvent("StopPocketPaintSessionCreateObject", jsonObject2);
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> objectTrackingData = createSceneTrackingList();
+		objectTrackingData.add(new Pair<>(TrackingConstants.SPRITE_NAME, newSpriteName));
+		objectTrackingData.add(new Pair<>(TrackingConstants.SOURCE, spriteSource));
+		createJsonAndLogCustomEvent(TrackingConstants.CREATE_OBJECT, objectTrackingData);
+
+		if (spriteSource.equals(TrackingConstants.POCKET_PAINT)
+				&& timerMap.containsKey(TrackingConstants.SESSION_POCKET_PAINT_CREATE_OBJECT)) {
+			List<Pair<String, String>> pocketPaintTrackingData = createSceneTrackingList();
+			long time = stopTimer(TrackingConstants.SESSION_POCKET_PAINT_CREATE_OBJECT);
+			pocketPaintTrackingData.add(new Pair<>(TrackingConstants.SESSION_DURATION_POCKET_PAINT, String.valueOf(time)));
+			createJsonAndLogCustomEvent(TrackingConstants.SESSION_STOP_POCKET_PAINT_CREATE_OBJECT, pocketPaintTrackingData);
+		}
+	}
+
+	public static void trackStartWebSessionExplore() {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		startTimer(TrackingConstants.SESSION_WEB_EXPLORE);
+		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_WEB_EXPLORE, trackingData);
+	}
+
+	public static void trackStopWebSessionExplore() {
+		if (!BuildConfig.CREATE_AT_SCHOOL || !timerMap.containsKey(TrackingConstants.SESSION_WEB_EXPLORE)) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		long time = stopTimer(TrackingConstants.SESSION_WEB_EXPLORE);
+		trackingData.add(new Pair<>(TrackingConstants.SESSION_DURATION_WEB, String.valueOf(time)));
+		createJsonAndLogCustomEvent(TrackingConstants.SESSION_STOP_WEB_EXPLORE, trackingData);
+	}
+
+	public static void trackStartWebSessionTutorial() {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		startTimer(TrackingConstants.SESSION_WEB_TUTORIAL);
+		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_WEB_TUTORIAL, trackingData);
+	}
+
+	public static void trackStopWebSessionTutorial() {
+		if (!BuildConfig.CREATE_AT_SCHOOL || !timerMap.containsKey(TrackingConstants.SESSION_WEB_TUTORIAL)) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		long time = stopTimer(TrackingConstants.SESSION_WEB_TUTORIAL);
+		trackingData.add(new Pair<>(TrackingConstants.SESSION_DURATION_WEB, String.valueOf(time)));
+		createJsonAndLogCustomEvent(TrackingConstants.SESSION_STOP_WEB_TUTORIAL, trackingData);
 	}
 
 	public static void trackStartPocketPaintSessionCreateObject() {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject1();
-				startTimer("PocketPaintSessionCreateObject");
-				logEvent("StartPocketPaintSessionCreateObject", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSceneTrackingList();
+		startTimer(TrackingConstants.SESSION_POCKET_PAINT_CREATE_OBJECT);
+		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_POCKET_PAINT_CREATE_OBJECT, trackingData);
 	}
 
-	public static void trackStartPocketPaintSessionLook(String timerId, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject2();
-				startTimer(timerId);
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackPocketPaintSessionLook(String timerId, String trackingMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		startTimer(timerId);
+		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
 	public static void trackCreateLook(String lookName, String lookSource, String customEventMessage, String
 			customEventMessageStop, String timerId) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject2();
-				jsonObject.put("lookname", lookName);
-				jsonObject.put("source", lookSource);
-				logEvent(customEventMessage, jsonObject);
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
 
-				if (lookSource.equals("PocketPaint")) {
-					JSONObject jsonObject2 = createBaseJsonObject2();
-					jsonObject2.put("durationOfPocketPaintSessionInMillis", stopTimer
-							(timerId));
-					jsonObject2.put("lookName", lookName);
-					logEvent(customEventMessageStop, jsonObject2);
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		List<Pair<String, String>> lookTrackingData = createSpriteTrackingList();
+		lookTrackingData.add(new Pair<>(TrackingConstants.LOOK_NAME, lookName));
+		lookTrackingData.add(new Pair<>(TrackingConstants.SOURCE, lookSource));
+		createJsonAndLogCustomEvent(customEventMessage, lookTrackingData);
+
+		if (lookSource.equals(TrackingConstants.POCKET_PAINT) && timerMap.containsKey(timerId)) {
+			List<Pair<String, String>> pocketPaintTrackingData = createSpriteTrackingList();
+			long time = stopTimer(timerId);
+			pocketPaintTrackingData.add(new Pair<>(TrackingConstants.SESSION_DURATION_POCKET_PAINT, String.valueOf(time)));
+			pocketPaintTrackingData.add(new Pair<>(TrackingConstants.LOOK_NAME, lookName));
+			createJsonAndLogCustomEvent(customEventMessageStop, pocketPaintTrackingData);
 		}
 	}
 
-	public static void trackCreateSound(String soundName, String soundSource) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject2();
-				jsonObject.put("soundname", soundName);
-				jsonObject.put("source", soundSource);
-
-				logEvent("CreateSound", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackCreateSound(String soundName, String soundSource, long lengthMilliseconds) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.SOUND_NAME, soundName));
+		trackingData.add(new Pair<>(TrackingConstants.SOURCE, soundSource));
+		trackingData.add(new Pair<>(TrackingConstants.LENGTH, String.valueOf(lengthMilliseconds)));
+		createJsonAndLogCustomEvent(TrackingConstants.CREATE_SOUND, trackingData);
 	}
 
 	public static void trackAddBrick(Fragment addBrickFragment, Brick brickToBeAdded) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				String brickCategory = addBrickFragment.getArguments().toString();
-				String brickName = brickToBeAdded.getClass().getSimpleName();
-				int start = brickCategory.indexOf("=");
-				int end = brickCategory.indexOf("}");
-				brickCategory = brickCategory.substring(start + 1, end);
-
-				JSONObject jsonObject = createBaseJsonObject2();
-				jsonObject.put("brickcategory", brickCategory);
-				jsonObject.put("brickname", brickName);
-
-				logEvent("AddBrick", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		Bundle bundle = addBrickFragment.getArguments();
+		if (bundle == null) {
+			return;
+		}
+
+		String brickCategory = bundle.getString(AddBrickFragment.BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
+		String brickName = brickToBeAdded.getClass().getSimpleName();
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.BRICK_CATEGORY, brickCategory));
+		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, brickName));
+		createJsonAndLogCustomEvent(TrackingConstants.ADD_BRICK, trackingData);
 	}
 
-	public static void trackDropBrick(Brick draggedBrick, int positionOfInsertedBrick) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				String brickName = draggedBrick.toString();
-				int end = brickName.indexOf("@");
-				brickName = brickName.substring(36, end);
-
-				JSONObject jsonObject = createBaseJsonObject2();
-				jsonObject.put("brickname", brickName);
-				jsonObject.put("brickposition", positionOfInsertedBrick);
-
-				logEvent("DropBrick", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackBrick(String brickName, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, brickName));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackBrick(String brickName, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			if (showEvent) {
-				try {
-					if(!trackMsg.equals("DeleteBrick")) {
-						int end = brickName.indexOf("@");
-						brickName = brickName.substring(36, end);
-					}
-
-					JSONObject jsonObject = createBaseJsonObject2();
-					jsonObject.put("brickname", brickName);
-					logEvent(trackMsg, jsonObject);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			} else {
-				showEvent = true;
-			}
+	public static void trackData(String name, String variableScope, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.NAME, name));
+		trackingData.add(new Pair<>(TrackingConstants.SCOPE, variableScope));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackData(String name, String variableScope, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject2();
-				jsonObject.put("name", name);
-				jsonObject.put("scope", variableScope);
-
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackMenuButtonProject(String projectName, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, projectName));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackMenuButtonProject(String projectName, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("programname", projectName);
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackProject(String name, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
-	}
 
-	public static void trackMenuButton(String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			logEvent(trackMsg, null);
-		}
-	}
-
-	public static void trackProject(String name, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("programname", name);
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, name));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
 	public static void trackDeleteSprite(Sprite spriteToEdit) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject1();
-				jsonObject.put("objectname", spriteToEdit.getName());
-				jsonObject.put("amountOfBricks", spriteToEdit.getNumberOfBricks());
-				jsonObject.put("amountOfScripts", spriteToEdit.getNumberOfScripts());
-				jsonObject.put("amountOfLooks", spriteToEdit.getLookDataList().size());
-				jsonObject.put("amountOfSounds", spriteToEdit.getSoundList().size());
-
-				logEvent("DeleteObject", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.SPRITE_NAME, spriteToEdit.getName()));
+		trackingData.add(new Pair<>(TrackingConstants.AMOUNT_BRICKS, String.valueOf(spriteToEdit.getNumberOfBricks())));
+		trackingData.add(new Pair<>(TrackingConstants.AMOUNT_SCRIPTS, String.valueOf(spriteToEdit.getNumberOfScripts())));
+		trackingData.add(new Pair<>(TrackingConstants.AMOUNT_LOOKS, String.valueOf(spriteToEdit.getLookDataList().size())));
+		trackingData.add(new Pair<>(TrackingConstants.AMOUNT_SOUNDS, String.valueOf(spriteToEdit.getSoundList().size())));
+		createJsonAndLogCustomEvent(TrackingConstants.DELETE_SPRITE, trackingData);
 	}
 
-	public static void trackSprite(String name, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject1();
-				jsonObject.put("name", name);
-
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackSprite(String name, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSceneTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.NAME, name));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackLook(String lookName, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			if (showEvent) {
-				try {
-					JSONObject jsonObject = createBaseJsonObject2();
-					jsonObject.put("lookname", lookName);
-					logEvent(trackMsg, jsonObject);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
+	public static void trackLook(String lookName, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.LOOK_NAME, lookName));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackSound(String soundName, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			if (showEvent) {
-				try {
-					JSONObject jsonObject = createBaseJsonObject2();
-					jsonObject.put("soundname", soundName);
-					logEvent(trackMsg, jsonObject);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
+	public static void trackSound(String soundName, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.SOUND_NAME, soundName));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
-	public static void trackScene(String projectName, String sceneName, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("programname", projectName);
-				jsonObject.put("scenename", sceneName);
-
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackDropBrick(Brick draggedBrick) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, draggedBrick.getClass().getSimpleName()));
+		createJsonAndLogCustomEvent(TrackingConstants.DROP_BRICK, trackingData);
+	}
+
+	public static void trackScene(String projectName, String sceneName, String trackMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = createSceneTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, projectName));
+		trackingData.add(new Pair<>(TrackingConstants.SCENE_NAME, sceneName));
+		createJsonAndLogCustomEvent(trackMessage, trackingData);
 	}
 
 	public static void trackMerge(String firstProject, String secondProject) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("firstProgramname", firstProject);
-				jsonObject.put("secondProgramname", secondProject);
-				logEvent("MergePrograms", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.FIRST_PROGRAM_NAME, firstProject));
+		trackingData.add(new Pair<>(TrackingConstants.SECOND_PROGRAM_NAME, secondProject));
+		createJsonAndLogCustomEvent(TrackingConstants.MERGE_PROGRAMS, trackingData);
 	}
 
-	public static void trackFormula(String formulaBrick, String brickField, String formula, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				String brickName = formulaBrick.toString();
-				int end = brickName.indexOf("@");
-				brickName = brickName.substring(36, end);
-
-				JSONObject jsonObject = createBaseJsonObject2();
-				jsonObject.put("brickname", brickName);
-				jsonObject.put("brickfield", brickField);
-				jsonObject.put("formula", formula);
-
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackFormula(FormulaBrick formulaBrick, String brickField, String formula, String trackingMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		String brickName = formulaBrick.getClass().getSimpleName();
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, brickName));
+		trackingData.add(new Pair<>(TrackingConstants.BRICK_FIELD, brickField));
+		trackingData.add(new Pair<>(TrackingConstants.FORMULA, formula));
+		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
 	public static void trackStartExecution() {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject1();
-				startTimer("ProgramExecutionSession");
-				logEvent("StartProgramExecutionSession", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSceneTrackingList();
+		startTimer(TrackingConstants.SESSION_PROGRAM_EXECUTION);
+		createJsonAndLogCustomEvent(TrackingConstants.SESSION_START_PROGRAM_EXECUTION, trackingData);
 	}
 
 	public static void trackStopExecution() {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				String programName = ProjectManager.getInstance().getCurrentProject().getName();
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("programname", programName);
-				jsonObject.put("DurationOfProgramSessionInMillis", stopTimer("ProgramExecutionSession"));
-				logEvent("StopProgramExecutioSession", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL || !timerMap.containsKey(TrackingConstants.SESSION_PROGRAM_EXECUTION)) {
+			return;
 		}
+
+		String programName = ProjectManager.getInstance().getCurrentProject().getName();
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, programName));
+		long time = stopTimer(TrackingConstants.SESSION_PROGRAM_EXECUTION);
+		trackingData.add(new Pair<>(TrackingConstants.SESSION_DURATION_PROGRAM_EXECUTION, String.valueOf(time)));
+		createJsonAndLogCustomEvent(TrackingConstants.SESSION_STOP_PROGRAM_EXECUTION, trackingData);
 	}
 
-	public static void trackBackpackSprite(String name, String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject1();
-				jsonObject.put("objectname", name);
-				logEvent(trackMsg, jsonObject);
-				showEvent = false;
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+	public static void trackBackpackSprite(String name, String trackingMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		List<Pair<String, String>> trackingData = createSceneTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.SPRITE_NAME, name));
+		createJsonAndLogCustomEvent(trackingMessage, trackingData);
+	}
+
+	public static void trackBackpackScenes(String name, String trackingMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = createProjectTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.SCENE_NAME, name));
+		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
 	public static void trackMergeScenes(String firstScene, String secondScene, String name) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				String programName = ProjectManager.getInstance().getCurrentProject().getName();
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("programname", programName);
-				jsonObject.put("firstScene", firstScene);
-				jsonObject.put("secondScene", secondScene);
-				jsonObject.put("newScenename", name);
-				logEvent("MergeScenes", jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
 		}
+
+		String programName = ProjectManager.getInstance().getCurrentProject().getName();
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, programName));
+		trackingData.add(new Pair<>(TrackingConstants.FIRST_SCENE_NAME, firstScene));
+		trackingData.add(new Pair<>(TrackingConstants.SECOND_SCENE_NAME, secondScene));
+		trackingData.add(new Pair<>(TrackingConstants.NEW_SCENE_NAME, name));
+		createJsonAndLogCustomEvent(TrackingConstants.MERGE_SCENES, trackingData);
 	}
 
 	public static void trackBackpackBricks(List<Script> scriptsToAdd, int brickAmount, String groupName,
-			String trackMsg) {
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			try {
-				JSONObject jsonObject = createBaseJsonObject2();
-				String scriptName = "";
-				for (int i = 0; i < scriptsToAdd.size(); i++) {
-					String subStr = scriptsToAdd.get(i).toString();
-					int end = subStr.indexOf("@");
-					subStr = subStr.substring(29, end);
-					if (scriptsToAdd.size() > i && scriptName != "") {
-						scriptName += ", " + subStr;
-					} else {
-						scriptName = subStr;
-					}
-				}
+			String trackingMessage) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
 
-				jsonObject.put("amountOfScripts", scriptsToAdd.size());
-				jsonObject.put("scriptname", scriptName);
-				if (brickAmount != 0) {
-					jsonObject.put("amountOfBricks", brickAmount);
-				}
-				jsonObject.put("groupname", groupName);
-
-				logEvent(trackMsg, jsonObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
+		String scriptNames = "";
+		for (int scriptPosition = 0; scriptPosition < scriptsToAdd.size(); scriptPosition++) {
+			String scriptName = scriptsToAdd.get(scriptPosition).getClass().getSimpleName();
+			if (scriptPosition < scriptsToAdd.size() - 1 && !scriptNames.isEmpty()) {
+				scriptNames += ", " + scriptName;
+			} else {
+				scriptNames += scriptName;
 			}
 		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.AMOUNT_SCRIPTS, String.valueOf(scriptsToAdd.size())));
+		trackingData.add(new Pair<>(TrackingConstants.SCRIPT_NAME, scriptNames));
+		if (brickAmount != 0) {
+			trackingData.add(new Pair<>(TrackingConstants.AMOUNT_BRICKS, String.valueOf(brickAmount)));
+		}
+		trackingData.add(new Pair<>(TrackingConstants.GROUP_NAME, groupName));
+		createJsonAndLogCustomEvent(trackingMessage, trackingData);
 	}
 
-	private static JSONObject createBaseJsonObject1() throws JSONException {
-		String programName = ProjectManager.getInstance().getCurrentProject().getName();
-		String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+	public static void trackUseTemplate(String templateName, boolean landscape) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.TEMPLATE_NAME, templateName));
+		trackingData.add(new Pair<>(TrackingConstants.LANDSCAPE, String.valueOf(landscape)));
+		createJsonAndLogCustomEvent(TrackingConstants.USE_TEMPLATE, trackingData);
+	}
+
+	public static void trackUseBrickHelp(Brick brick) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		List<Pair<String, String>> trackingData = createSpriteTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.BRICK_NAME, brick.getClass().getSimpleName()));
+		createJsonAndLogCustomEvent(TrackingConstants.BRICK_HELP, trackingData);
+	}
+
+	private static List<Pair<String, String>> createProjectTrackingList() {
+		Project program = ProjectManager.getInstance().getCurrentProject();
+		String programName = program != null ? program.getName() : TrackingConstants.NO_PROGRAM;
+
+		List<Pair<String, String>> trackingData = new ArrayList<>();
+		trackingData.add(new Pair<>(TrackingConstants.PROGRAM_NAME, programName));
+
+		return trackingData;
+	}
+
+	private static List<Pair<String, String>> createSceneTrackingList() {
+		Scene scene = ProjectManager.getInstance().getCurrentScene();
+		String sceneName = scene != null ? scene.getName() : TrackingConstants.NO_SCENE;
+
+		List<Pair<String, String>> trackingData = createProjectTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.SCENE_NAME, String.valueOf(sceneName)));
+
+		return trackingData;
+	}
+
+	private static List<Pair<String, String>> createSpriteTrackingList() {
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		String objectName = sprite != null ? sprite.getName() : TrackingConstants.NO_SPRITE;
+
+		List<Pair<String, String>> trackingData = createSceneTrackingList();
+		trackingData.add(new Pair<>(TrackingConstants.SPRITE_NAME, objectName));
+
+		return trackingData;
+	}
+
+	public static void trackLoginInitSessionEvent(Context context) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(TrackingConstants.LOGIN_TIME, System.currentTimeMillis()).commit();
+		BDSClientController.getInstance().generateInitSessionEvent(ProjectManager.getInstance().getUserID(),
+				System.currentTimeMillis(), null);
+	}
+
+	static void trackLogoutEndSessionEvent(Context context) {
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			return;
+		}
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		long time = System.currentTimeMillis() - preferences.getLong(TrackingConstants.LOGIN_TIME, 0);
+		preferences.edit().remove(TrackingConstants.LOGIN_TIME).commit();
+		BDSClientController.getInstance().generateEndSessionEvent(ProjectManager.getInstance().getUserID(), time,
+				System.currentTimeMillis(), null);
+	}
+
+	private static void createJsonAndLogCustomEvent(String trackingMessage, List<Pair<String, String>> trackingData) {
 
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("programname", programName);
-		jsonObject.put("scenename", sceneName);
+		try {
+			for (Pair<String, String> data : trackingData) {
+				jsonObject.put(data.first, data.second);
+			}
+		} catch (JSONException exception) {
+			Log.e(TAG, "Could not serialize tracking data: " + exception.getMessage());
+		}
 
-		return jsonObject;
+		logCustomEvent(trackingMessage, jsonObject);
 	}
 
-	private static JSONObject createBaseJsonObject2() throws JSONException {
-		String programName = ProjectManager.getInstance().getCurrentProject().getName();
-		String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
-		String objectName = ProjectManager.getInstance().getCurrentSprite().getName();
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("programname", programName);
-		jsonObject.put("scenename", sceneName);
-		jsonObject.put("objectname", objectName);
-
-		return jsonObject;
-	}
-
-	private static void logEvent(String eventName, JSONObject jsonObject) {
+	private static void logCustomEvent(String eventName, JSONObject jsonObject) {
 		BDSClientController.getInstance().generateCustomEvent(eventName,
 				ProjectManager.getInstance().getUserID(), System.currentTimeMillis(), jsonObject);
-		BDSClientController.getInstance().setDebugMode(true);
+	}
+
+	private static void startTimer(String id) {
+		timerMap.put(id, System.currentTimeMillis());
+	}
+
+	private static long stopTimer(String id) {
+		long time = System.currentTimeMillis() - timerMap.get(id);
+		timerMap.remove(id);
+		return time;
 	}
 }
-

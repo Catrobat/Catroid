@@ -43,20 +43,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-
-import com.zed.bdsclient.controller.BDSClientController;
+import android.widget.RadioGroup;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TemplateData;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -72,6 +70,8 @@ public class NewProjectDialog extends DialogFragment {
 	private OrientationDialog orientationDialog;
 
 	private boolean openedFromProjectList = false;
+	private boolean openedFromTemplatesList = false;
+	private TemplateData templateData;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -146,6 +146,16 @@ public class NewProjectDialog extends DialogFragment {
 		defaultProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_radio_button);
 		defaultDroneProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_default_drone_radio_button);
 
+		if (BuildConfig.CREATE_AT_SCHOOL && openedFromTemplatesList) {
+			RadioGroup radioButtonGroup = (RadioGroup) dialogView.findViewById(R.id.project_radio_group);
+			Button emptyProjectRadioButton = (RadioButton) dialogView.findViewById(R.id.project_empty_radio_button);
+
+			defaultDroneProjectRadioButton.setVisibility(View.GONE);
+			defaultProjectRadioButton.setVisibility(View.GONE);
+			emptyProjectRadioButton.setVisibility(View.GONE);
+			radioButtonGroup.setVisibility(View.GONE);
+		}
+
 		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
 			defaultDroneProjectRadioButton.setVisibility(View.VISIBLE);
 		}
@@ -203,6 +213,8 @@ public class NewProjectDialog extends DialogFragment {
 			orientationDialog = new OrientationDialog();
 			orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
 			orientationDialog.setOpenedFromProjectList(openedFromProjectList);
+			orientationDialog.setTemplateData(templateData);
+			orientationDialog.setOpenedFromTemplatesList(openedFromTemplatesList);
 			orientationDialog.setProjectName(projectName);
 			orientationDialog.setCreateEmptyProject(createEmptyProject);
 
@@ -214,5 +226,13 @@ public class NewProjectDialog extends DialogFragment {
 
 	public void setOpenedFromProjectList(boolean openedFromProjectList) {
 		this.openedFromProjectList = openedFromProjectList;
+	}
+
+	public void setOpenedFromTemplatesList(boolean openedFromTemplatesList) {
+		this.openedFromTemplatesList = openedFromTemplatesList;
+	}
+
+	public void setTemplateData(TemplateData templateData) {
+		this.templateData = templateData;
 	}
 }

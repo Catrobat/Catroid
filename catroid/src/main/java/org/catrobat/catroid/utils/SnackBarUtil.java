@@ -38,14 +38,14 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class SnackbarUtil {
+public final class SnackBarUtil {
 
-	private SnackbarUtil() {
+	private SnackBarUtil() {
 	}
 
 	public static final String SHOWN_HINT_LIST = "shown_hint_list";
 
-	public static void showHintSnackbar(final Activity activity, @StringRes int resourceId) {
+	public static void showHintSnackBar(final Activity activity, @StringRes int resourceId) {
 		final String messageId = activity.getResources().getResourceName(resourceId);
 		final String message = activity.getString(resourceId);
 
@@ -71,7 +71,7 @@ public final class SnackbarUtil {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 		Set<String> hintList = getStringSetFromSharedPreferences(activity);
 		hintList.add(messageId);
-		prefs.edit().putStringSet(SnackbarUtil.SHOWN_HINT_LIST, hintList).commit();
+		prefs.edit().putStringSet(SnackBarUtil.SHOWN_HINT_LIST, hintList).commit();
 	}
 
 	private static boolean wasHintAlreadyShown(Activity activity, String messageId) {
@@ -85,6 +85,6 @@ public final class SnackbarUtil {
 
 	private static Set<String> getStringSetFromSharedPreferences(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		return new HashSet<>(prefs.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
+		return new HashSet<>(prefs.getStringSet(SnackBarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
 	}
 }

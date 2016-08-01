@@ -151,7 +151,6 @@
   <string name="dialog_confirm_delete_object_message">此操作無法復原</string>
   <string name="select_all">全選</string>
   <string name="deselect_all">取消所有選擇</string>
-  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_複製</string>
@@ -200,7 +199,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">刪除這些外觀?</string>
   <string name="dialog_confirm_delete_look_message">此操作無法復原</string>
   <string name="lookname">外觀名稱:</string>
-  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">按下 \"+\" 增加音效</string>

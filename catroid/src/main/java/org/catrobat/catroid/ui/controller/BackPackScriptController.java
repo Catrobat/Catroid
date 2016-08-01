@@ -26,13 +26,13 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import com.zed.bdsclient.controller.BDSClientController;
-import org.catrobat.catroid.BuildConfig;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -52,8 +52,6 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -95,10 +93,10 @@ public final class BackPackScriptController {
 				BackPackListManager.getInstance().addScriptToHiddenBackpack(groupName, scriptsToAdd);
 			} else {
 				BackPackListManager.getInstance().addScriptToBackPack(groupName, scriptsToAdd);
+				TrackingUtil.trackBackpackBricks(scriptsToAdd, checkedBricks.size(), groupName,
+						TrackingConstants.BACKPACK_SCRIPTS);
 			}
 		}
-
-		TrackingUtil.trackBackpackBricks(scriptsToAdd, checkedBricks.size(), groupName,	"BackpackScripts");
 
 		return scriptsToAdd;
 	}
@@ -112,9 +110,6 @@ public final class BackPackScriptController {
 		} else {
 			scriptsInGroup = BackPackListManager.getInstance().getBackPackedScripts().get(selectedScriptGroupBackPack);
 		}
-
-		TrackingUtil.trackBackpackBricks(scriptsInGroup, 0, selectedScriptGroupBackPack,
-				"UnpackScript");
 
 		if (scriptsInGroup == null) {
 			Log.d(TAG, "Attempted to unpack a not existing (maybe previously deleted) script group");
@@ -148,6 +143,10 @@ public final class BackPackScriptController {
 				sharedPreferences.edit().putInt(Constants.NUMBER_OF_BRICKS_INSERTED_FROM_BACKPACK, numberOfBricks).commit();
 				((BackPackActivity) activity)
 						.returnToScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
+			}
+			if (!fromHiddenBackPack) {
+				TrackingUtil.trackBackpackBricks(scriptsInGroup, 0, selectedScriptGroupBackPack,
+						TrackingConstants.UNPACK_SCRIPTS);
 			}
 		}
 	}

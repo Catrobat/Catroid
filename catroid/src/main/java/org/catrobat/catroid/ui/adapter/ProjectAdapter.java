@@ -65,7 +65,7 @@ import java.util.TreeSet;
 public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTextImeOverride.EditTextImeBackListener {
 	private boolean showDetails;
 	private int selectMode;
-	private Set<Integer> checkedProjects = new TreeSet<Integer>();
+	private Set<Integer> checkedProjects = new TreeSet<>();
 	private OnProjectEditListener onProjectEditListener;
 
 	public static class ViewHolder {

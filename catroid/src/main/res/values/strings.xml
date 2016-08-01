@@ -345,7 +345,6 @@
     <string name="dialog_confirm_delete_object_message">This cannot be undone!</string>
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
-    <string name="backpack_replace_object">The object "%1$s" already exists in the backpack. Do you want to replace it?</string>
     <string name="backpack_replace_scene">The scene "%1$s" already exists in the backpack. Do you want to replace
         it?</string>
     <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
@@ -429,7 +428,6 @@
     <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
     <string name="dialog_confirm_delete_look_message">This cannot be undone!</string>
     <string name="lookname">Look name:</string>
-    <string name="backpack_replace_look">The look "%1$s" already exists in the backpack. Do you want to replace it?</string>
     <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
     <!--  -->
 
@@ -1025,6 +1023,7 @@
     <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
+    <string name="error_no_nolb_user">This is a beta-version. You can only use it with a predefined school account.</string>
     <!--  -->
 
 
@@ -1378,7 +1377,6 @@
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="f">New Variable</string>
     <string name="formula_editor_list_dialog_title">New List</string>
     <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
@@ -1483,7 +1481,7 @@
     <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
         and download it.
         You can also download your program as standalone app.</string>
-     <string name="progress_upload_dialog_show_program">Show program</string>
+    <string name="progress_upload_dialog_show_program">Show program</string>
     <!--  -->
 
     <!-- Snackbar hints -->

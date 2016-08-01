@@ -46,6 +46,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
@@ -804,8 +805,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
 			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				String tokenReceived = jsonObject.getString(JSON_TOKEN);
 				if (isInvalidToken(tokenReceived)) {
@@ -823,6 +824,15 @@ public final class ServerCalls implements ScratchDataFetcher {
 			if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
+
+			if (BuildConfig.CREATE_AT_SCHOOL) {
+				boolean createAtSchoolUser = jsonObject.optBoolean(Constants.CREATE_AT_SCHOOL_USER);
+				sharedPreferences.edit().putBoolean(Constants.CREATE_AT_SCHOOL_USER, createAtSchoolUser).commit();
+				if (!createAtSchoolUser) {
+					return false;
+				}
+			}
+
 			return true;
 		} catch (JSONException jsonException) {
 			Log.e(TAG, Log.getStackTraceString(jsonException));

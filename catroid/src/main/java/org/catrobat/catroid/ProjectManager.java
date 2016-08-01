@@ -27,15 +27,9 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
-
-import org.catrobat.catroid.utils.TrackingUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.facebook.AccessToken;
 
@@ -44,6 +38,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -69,8 +64,10 @@ import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListene
 import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.LogInDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -78,7 +75,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import com.zed.bdsclient.controller.BDSClientController;
 
 public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
@@ -162,9 +158,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		userID = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 	}
 
-	  public String getUserID(){
-		 return userID;
-	 }
+	public String getUserID() {
+		return userID;
+	}
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
 			OutdatedVersionProjectException, CompatibilityProjectException {
@@ -321,6 +317,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
+	public void initializeTemplateProject(String projectName, boolean landscapeMode, Context context) {
+		project.setName(projectName);
+
+		fileChecksumContainer = new FileChecksumContainer();
+
+		currentSprite = null;
+		currentScript = null;
+		currentScene = project.getDefaultScene();
+		sceneToPlay = currentScene;
+
+		project.setDeviceData(context);
+	}
+
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
@@ -378,6 +387,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public Scene getCurrentScene() {
+		if (project == null) {
+			return null;
+		}
 		if (currentScene == null) {
 			currentScene = project.getDefaultScene();
 		}
@@ -433,9 +445,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void deleteScene(String projectName, String sceneName) throws IOException {
-		Log.d(TAG, "deleteScene " + sceneName);
-
-		TrackingUtil.trackScene(projectName, sceneName, "DeleteScene");
+		TrackingUtil.trackScene(projectName, sceneName, TrackingConstants.DELETE_SCENE);
 		StorageHandler.getInstance().deleteScene(projectName, sceneName);
 	}
 
@@ -545,16 +555,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public int getCurrentSpritePosition() {
-		return getCurrentScene().getSpriteList().indexOf(currentSprite);
-	}
-
-	public int getCurrentScriptPosition() {
-		int currentSpritePosition = this.getCurrentSpritePosition();
-		if (currentSpritePosition == -1) {
-			return -1;
+		if (getCurrentScene() == null) {
+			return 0;
 		}
 
-		return getCurrentScene().getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
+		return getCurrentScene().getSpriteList().indexOf(currentSprite);
 	}
 
 	private String createTemporaryDirectoryName(String projectDirectoryName) {
@@ -616,14 +621,24 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		facebookExchangeTokenTask.execute();
 	}
 
-	public void showSignInDialog(Activity activity, Boolean showUploadDialogWhenDone) {
+	public void showSignInDialog(Activity activity, boolean showUploadDialog) {
+		this.showUploadDialog = showUploadDialog;
 		if (!Utils.isNetworkAvailable(activity, true)) {
 			return;
 		}
 
-		showUploadDialog = showUploadDialogWhenDone;
 		SignInDialog signInDialog = new SignInDialog();
 		signInDialog.show(activity.getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void showLogInDialog(Activity activity, boolean showUploadDialog) {
+		this.showUploadDialog = showUploadDialog;
+		if (!Utils.isNetworkAvailable(activity, true)) {
+			return;
+		}
+
+		LogInDialog logInDialog = new LogInDialog();
+		logInDialog.show(activity.getFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void showUploadProjectDialog(FragmentManager fragmentManager, Bundle bundle) {

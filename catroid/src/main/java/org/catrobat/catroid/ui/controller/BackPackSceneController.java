@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -41,6 +42,7 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScenesListFragment;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -155,6 +157,8 @@ public final class BackPackSceneController {
 			backPackedScenes.add(backPackScene);
 			BackPackListManager.searchForHiddenScenes(backPackScene, hiddenScenes, false);
 			BackPackListManager.getInstance().addSceneToBackPack(backPackScene);
+
+			TrackingUtil.trackBackpackScenes(sceneToEdit.getName(), TrackingConstants.BACKPACK_SCENES);
 		}
 
 		for (Scene scene : hiddenScenes) {
@@ -212,6 +216,8 @@ public final class BackPackSceneController {
 			unPackedNameMap.put(selectedScene.getName(), unpackedScene.getName());
 
 			BackPackListManager.searchForHiddenScenes(selectedScene, hiddenScenesToUnpack, true);
+
+			TrackingUtil.trackBackpackScenes(unpackedScene.getName(), TrackingConstants.UNPACK_SCENES);
 		}
 
 		clearHiddenScenesToUnpackFromAlreadyUnpacked(hiddenScenesToUnpack, scenes);

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <string name="app_name">Create@School</string>
+    <string name="templates_activity_title">Templates</string>
+
+    <!-- Adventure Template Strings -->
+    <string name="adventure_scene_start">Start</string>
+    <string name="adventure_sprite_background">Hintergrund</string>
+    <string name="adventure_broadcast_message_title">Titel</string>
+    <string name="adventure_sprite_initial_game_variables">Initiale Spielvariablen</string>
+    <string name="adventure_note_todo_set_amount_of_levels_">ToDo: setze Levelanzahl</string>
+    <string name="adventure_sprite_start">Start</string>
+    <string name="adventure_sprite_button_play">Start Schaltfläche</string>
+    <string name="adventure_broadcast_message_game">Spiel</string>
+    <string name="adventure_sprite_button_instruction">Schaltfläche Anleitungen</string>
+    <string name="adventure_broadcast_message_instruction">Anleitung</string>
+    <string name="adventure_sprite_button_back">Schaltfläche zurück</string>
+    <string name="adventure_scene_example_level_1">Beispiel-Level 1</string>
+    <string name="adventure_sprite_sample_level_1_change_looks_and_records">Beispiel-Level 1 (ändere Aussehen und Klänge)</string>
+    <string name="adventure_note_todo_define_the_correct_answer_for_each_level_">ToDo: Definiere die korrekte Antwort für jedes Level</string>
+    <string name="adventure_sprite_game_elements">Spielelemente</string>
+    <string name="adventure_sprite_answer_yes">Antwort ja</string>
+    <string name="adventure_broadcast_message_boost">erhöhen</string>
+    <string name="adventure_sprite_answer_no">Antwort nein</string>
+    <string name="adventure_scene_example_level_2">Beispiel-Level 2</string>
+    <string name="adventure_sprite_sample_level_2___1">Beispiel-Level 2 -  1</string>
+    <string name="adventure_note_todo_define_the_correct_answer_to_your_question_">ToDo: Definiere die korrekte Antwort für die Frage</string>
+    <string name="adventure_sprite_sample_level_22">Beispiel-Level 2-2</string>
+    <string name="adventure_scene_template_level">Template Level</string>
+    <string name="adventure_sprite_template_level">Template Level</string>
+    <string name="adventure_scene_end_last_scene">Ende (Letzte Szene)</string>
+    <string name="adventure_sprite_end_screens">End-Screens</string>
+    <string name="adventure_note_todo_define_an_end_screen_per_level">ToDo: Definiere einen Endscreen pro Level</string>
+    <string name="adventure_sprite_button_play_again">Schaltfläche Spiele erneut</string>
+    <string name="adventure_project_variable_amount_of_levels">Levelanzahl</string>
+    <string name="adventure_project_variable_answer">Antwort</string>
+    <string name="adventure_project_variable_level_number">Levelnummer</string>
+
+</resources>

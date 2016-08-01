@@ -160,7 +160,6 @@
   <string name="dialog_confirm_delete_object_message">इसे पूर्ववत् नहीं किया जा सकता!</string>
   <string name="select_all">सभी का चयन करें</string>
   <string name="deselect_all">Deselect all</string>
-  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_प्रतिलिपि</string>
@@ -212,7 +211,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">इसे पूर्ववत् नहीं किया जा सकता!</string>
   <string name="lookname">नज़ारे का नाम:</string>
-  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">ध्वनियाँ डालने के लिए \"+\" दबाए</string>

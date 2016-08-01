@@ -52,7 +52,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
 	protected String broadcastMessage;
-	protected transient AdapterView<?> adapterView;
 
 	protected Object readResolve() {
 		MessageContainer.addMessage(broadcastMessage);
@@ -83,6 +82,11 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	@Override
 	public String getBroadcastMessage() {
 		return broadcastMessage;
+	}
+
+	@Override
+	public void setMessage(String broadcastMessage) {
+		this.broadcastMessage = broadcastMessage;
 	}
 
 	@Override

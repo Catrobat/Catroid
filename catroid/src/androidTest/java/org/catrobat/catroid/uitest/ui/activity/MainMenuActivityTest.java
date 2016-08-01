@@ -298,7 +298,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	public void testBottombarElementsVisibilty() {
+	public void testBottombarElementsVisibility() {
 		assertFalse("Add button is visible", solo.searchButton(solo.getString(R.id.button_add)));
 		assertFalse("Play button is visible", solo.searchButton(solo.getString(R.id.button_play)));
 	}

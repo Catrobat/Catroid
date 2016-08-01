@@ -64,6 +64,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
@@ -82,9 +83,10 @@ import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.DividerUtil;
-import org.catrobat.catroid.utils.SnackbarUtil;
+import org.catrobat.catroid.utils.SnackBarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
@@ -151,7 +153,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_sounds);
+		SnackBarUtil.showHintSnackBar(getActivity(), R.string.hint_sounds);
 
 		return inflater.inflate(R.layout.fragment_sounds, container, false);
 	}
@@ -427,19 +429,22 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 						getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
 					}
 					if (soundInfoList.size() > 0) {
-						soundName = soundInfoList.get(soundInfoList.size()-1).getTitle();
+						soundName = soundInfoList.get(soundInfoList.size() - 1).getTitle();
 					} else {
 						Log.e(TAG, "Error: soundInfoList is empty! please fix.");
 					}
 					break;
 				case SoundController.REQUEST_MEDIA_LIBRARY:
-					soundSource = "MediaLibrary";
+					soundSource = TrackingConstants.MEDIA_LIBRARY;
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
 					SoundController.getInstance().addSoundFromMediaLibrary(filePath, getActivity(), soundInfoList, this);
-					soundName = soundInfoList.get(soundInfoList.size()-1).getTitle();
+					SoundInfo soundInfo = soundInfoList.get(soundInfoList.size() - 1);
+					soundName = soundInfo.getTitle();
+					long lengthMilliseconds = SoundController.getInstance().getSoundFileLengthInMilliseconds(soundInfo);
+					TrackingUtil.trackCreateSound(soundName, soundSource, lengthMilliseconds);
+					break;
 			}
 			isResultHandled = true;
-			TrackingUtil.trackCreateSound(soundName, soundSource);
 		}
 
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
@@ -618,7 +623,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void addSoundRecord() {
 		Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
 		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);
-		soundSource = "record";
+		soundSource = TrackingConstants.RECORD;
 	}
 
 	public void addSoundChooseFile() {
@@ -629,8 +634,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
-		soundSource = "device";
-		soundName = soundInfoList.get(soundInfoList.size()-1).getTitle();
+		soundSource = TrackingConstants.DEVICE;
+		soundName = soundInfoList.get(soundInfoList.size() - 1).getTitle();
 	}
 
 	public void addSoundMediaLibrary() {
@@ -999,6 +1004,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
 				SoundInfo newSoundInfo = SoundController.getInstance().updateSoundAdapter(soundTitle, fileName,
 						soundInfoList, SoundFragment.this);
+
+				long lengthMilliseconds = SoundController.getInstance().getSoundFileLengthInMilliseconds(newSoundInfo);
+				TrackingUtil.trackCreateSound(newSoundInfo.getTitle(), soundSource, lengthMilliseconds);
 
 				if (soundInfoListChangedAfterNewListener != null) {
 					soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);

@@ -160,7 +160,6 @@
   <string name="dialog_confirm_delete_object_message">פעולה זו אינה ניתנת לביטול!</string>
   <string name="select_all">בחר הכול</string>
   <string name="deselect_all">בטל בחירה של הכל</string>
-  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">העתק</string>
@@ -218,7 +217,6 @@
   <string name="dialog_confirm_delete_multiple_looks_title">האם למחוק את המראה הזה?</string>
   <string name="dialog_confirm_delete_look_message">פעולה זו אינה ניתנת לביטול!</string>
   <string name="lookname">שם המראה:</string>
-  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">הקש על \"+\" כדי להוסיף צליל</string>
@@ -1050,8 +1048,6 @@
   <string name="deletion_alert_yes">Yes, delete anyway!</string>
   <string name="deletion_alert_no">No.</string>
   <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code has crashed!</string>
-  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
         and download it.

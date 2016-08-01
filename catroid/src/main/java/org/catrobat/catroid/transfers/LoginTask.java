@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,6 +30,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -91,6 +93,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			message = webconnectionException.getMessage();
+			exception = webconnectionException;
 		}
 		return false;
 	}
@@ -113,6 +116,13 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
+		if (BuildConfig.CREATE_AT_SCHOOL) {
+			boolean valid = checkCreateAtSchoolUser();
+			if (!valid) {
+				return;
+			}
+		}
+
 		if (userLoggedIn) {
 			ToastUtil.showSuccess(context, R.string.user_logged_in);
 		}
@@ -120,6 +130,21 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		if (onLoginCompleteListener != null) {
 			onLoginCompleteListener.onLoginComplete();
 		}
+	}
+
+	private boolean checkCreateAtSchoolUser() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean isCreateAtSchoolUser = sharedPreferences.getBoolean(Constants.CREATE_AT_SCHOOL_USER, false);
+		if (!isCreateAtSchoolUser) {
+			showNoCreateAtSchoolUserErrorDialog();
+			return false;
+		}
+		return true;
+	}
+
+	private void showNoCreateAtSchoolUserErrorDialog() {
+		new AlertDialog.Builder(context).setTitle(R.string.login)
+				.setMessage(R.string.error_no_nolb_user).setPositiveButton(R.string.ok, null).show();
 	}
 
 	private void showDialog(int messageId) {

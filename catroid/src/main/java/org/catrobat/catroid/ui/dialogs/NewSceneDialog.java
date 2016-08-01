@@ -41,11 +41,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -56,8 +54,6 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class NewSceneDialog extends DialogFragment {
 
@@ -170,7 +166,7 @@ public class NewSceneDialog extends DialogFragment {
 
 		Scene scene = new Scene(getActivity(), sceneName, currentProject);
 
-		TrackingUtil.trackScene(currentProject.getName(), sceneName, "AddScene");
+		TrackingUtil.trackScene(currentProject.getName(), sceneName, TrackingConstants.ADD_SCENE);
 
 		currentProject.addScene(scene);
 		setSceneAndOpenIt(scene);

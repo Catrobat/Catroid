@@ -47,12 +47,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import com.zed.bdsclient.controller.BDSClientController;
-import org.catrobat.catroid.BuildConfig;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -79,8 +79,6 @@ import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -507,8 +505,6 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
 		dialogCopyProject.setParentFragment(parentFragment);
 		dialogCopyProject.show(getActivity().getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
-
-		TrackingUtil.trackProject(projectToEdit.projectName, "CopyProgram");
 	}
 
 	private void showConfirmDeleteDialog() {
@@ -576,12 +572,11 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		for (int position : adapter.getCheckedProjects()) {
 			projectToEdit = (ProjectData) getListView().getItemAtPosition(position - numDeleted);
 
-			TrackingUtil.trackProject(projectToEdit.projectName, "DeleteProgram");
+			TrackingUtil.trackProject(projectToEdit.projectName, TrackingConstants.DELETE_PROGRAM);
 
 			deleteProject(projectToEdit);
 			numDeleted++;
 		}
-
 
 		if (projectList.isEmpty()) {
 			initializeDefaultProjectAfterDelete();

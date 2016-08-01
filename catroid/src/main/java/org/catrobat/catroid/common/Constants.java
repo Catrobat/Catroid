@@ -98,10 +98,7 @@ public final class Constants {
 	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
 	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
 
-	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
-
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
-	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
 
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
@@ -195,6 +192,7 @@ public final class Constants {
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 	public static final String PROJECTNAME_TO_LOAD = "projectNameToLoad";
 	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
+	public static final String PROJECT_OPENED_FROM_TEMPLATES_LIST = "templatesList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
 	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
@@ -215,7 +213,6 @@ public final class Constants {
 	public static final int PADDING_TOP = 40;
 	public static final int PADDING_LEFT = 30;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
-	public static final String FORCE_SIGNIN = "forceSignIn";
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;
@@ -234,6 +231,20 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED = 514;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
+
+	//create@school constants
+	public static final String FORCE_SIGNIN = "forceSignIn";
+	public static final java.lang.String CREATE_AT_SCHOOL_USER = "nolbUser";
+
+	public static final String TRANSLATION_SCENE = "_scene_";
+	public static final String TRANSLATION_SPRITE = "_sprite_";
+	public static final String TRANSLATION_SPRITE_VARIABLE = "_sprite_variable_";
+	public static final String TRANSLATION_SPRITE_LIST = "_sprite_list_";
+	public static final String TRANSLATION_NOTE = "_note_";
+	public static final String TRANSLATION_BROADCAST_MESSAGE = "_broadcast_message_";
+	public static final String TRANSLATION_PROJECT_VARIABLE = "_project_variable_";
+	public static final String TRANSLATION_PROJECT_LIST = "_project_list_";
+	public static final Integer MAX_LOGCAT_OUTPUT_CHARS = 3000;
 
 	// Suppress default constructor for noninstantiability
 	private Constants() {

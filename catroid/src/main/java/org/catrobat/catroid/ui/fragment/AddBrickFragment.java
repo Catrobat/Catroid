@@ -37,9 +37,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -49,16 +46,12 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TrackingUtil;
-import org.catrobat.catroid.utils.Utils;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.catrobat.catroid.utils.UtilUi;
 
 import java.util.List;
 
 public class AddBrickFragment extends ListFragment {
 
-	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
+	public static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = AddBrickFragment.class.getSimpleName();
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;

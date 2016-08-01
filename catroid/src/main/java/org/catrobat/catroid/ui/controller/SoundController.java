@@ -55,13 +55,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
@@ -73,8 +71,6 @@ import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -293,52 +289,59 @@ public final class SoundController {
 		}
 	}
 
-	private void handleSoundInfo(SoundViewHolder holder, SoundInfo soundInfo, SoundBaseAdapter soundAdapter,
-			int position, Context context) {
+	public long getSoundFileLengthInMilliseconds(SoundInfo soundInfo) {
+		MediaPlayer tempPlayer = new MediaPlayer();
 		try {
-			MediaPlayer tempPlayer = new MediaPlayer();
 			tempPlayer.setDataSource(soundInfo.getAbsolutePath());
 			tempPlayer.prepare();
+		} catch (IOException ioException) {
+			Log.e(TAG, "Could not get length of sound file", ioException);
+			return 0;
+		}
 
-			long milliseconds = tempPlayer.getDuration();
-			long seconds = milliseconds / 1000;
-			if (seconds == 0) {
-				seconds = 1;
-			}
-			String timeDisplayed = DateUtils.formatElapsedTime(seconds);
+		int duration = tempPlayer.getDuration();
+		tempPlayer.reset();
+		tempPlayer.release();
 
-			holder.timePlayedChronometer.setText(timeDisplayed);
-			holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
+		return duration;
+	}
+
+	private void handleSoundInfo(SoundViewHolder holder, SoundInfo soundInfo, SoundBaseAdapter soundAdapter,
+			int position, Context context) {
+
+		long milliseconds = getSoundFileLengthInMilliseconds(soundInfo);
+		long seconds = milliseconds / 1000;
+		if (seconds == 0) {
+			seconds = 1;
+		}
+		String timeDisplayed = DateUtils.formatElapsedTime(seconds);
+
+		holder.timePlayedChronometer.setText(timeDisplayed);
+		holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
+
+		if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
+			SoundBaseAdapter.setElapsedMilliSeconds(0);
+		} else {
+			SoundBaseAdapter.setElapsedMilliSeconds(SystemClock.elapsedRealtime()
+					- SoundBaseAdapter.getCurrentPlayingBase());
+		}
+
+		if (soundInfo.isPlaying) {
+			holder.playAndStopButton.setImageResource(R.drawable.ic_media_stop);
+			holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_stop));
 
 			if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
-				SoundBaseAdapter.setElapsedMilliSeconds(0);
-			} else {
-				SoundBaseAdapter.setElapsedMilliSeconds(SystemClock.elapsedRealtime()
-						- SoundBaseAdapter.getCurrentPlayingBase());
-			}
-
-			if (soundInfo.isPlaying) {
-				holder.playAndStopButton.setImageResource(R.drawable.ic_media_stop);
-				holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_stop));
-
-				if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
-					startPlayingSound(holder.timePlayedChronometer, position, soundAdapter);
-				} else if ((position == soundAdapter.getCurrentPlayingPosition())
-						&& (SoundBaseAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
-					stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
-				} else {
-					continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
-				}
-			} else {
-				holder.playAndStopButton.setImageResource(R.drawable.ic_media_play);
-				holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_play));
+				startPlayingSound(holder.timePlayedChronometer, position, soundAdapter);
+			} else if ((position == soundAdapter.getCurrentPlayingPosition())
+					&& (SoundBaseAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
 				stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
+			} else {
+				continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
 			}
-
-			tempPlayer.reset();
-			tempPlayer.release();
-		} catch (IOException ioException) {
-			Log.e(TAG, "Cannot get view.", ioException);
+		} else {
+			holder.playAndStopButton.setImageResource(R.drawable.ic_media_play);
+			holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_play));
+			stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
 		}
 	}
 
@@ -423,17 +426,6 @@ public final class SoundController {
 		return null;
 	}
 
-	public SoundInfo copySound(SoundInfo selectedSoundInfo, List<SoundInfo> soundInfoList, SoundFragment fragment) {
-		try {
-
-			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		return updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
-				fragment);
-	}
-
 	public void copySound(int position, List<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 		SoundInfo soundInfo = soundInfoList.get(position);
 		try {
@@ -443,7 +435,7 @@ public final class SoundController {
 		}
 		String newSoundInfoTitle = Utils.getUniqueSoundName(soundInfo, false);
 		updateSoundAdapter(soundInfo, adapter, newSoundInfoTitle, false, false);
-		TrackingUtil.trackSound(newSoundInfoTitle, "CopySound");
+		TrackingUtil.trackSound(newSoundInfoTitle, TrackingConstants.COPY_SOUND);
 	}
 
 	private void deleteSound(int position, List<SoundInfo> soundInfoList, Activity activity) {
@@ -458,7 +450,7 @@ public final class SoundController {
 		}
 
 		String soundName = soundInfoList.get(position).toString();
-		TrackingUtil.trackSound(soundName, "DeleteSound");
+		TrackingUtil.trackSound(soundName, TrackingConstants.DELETE_SOUND);
 
 		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
@@ -745,40 +737,11 @@ public final class SoundController {
 		dialog.show();
 	}
 
-	public void showBackPackReplaceDialog(final SoundInfo currentSoundInfo, final Context context) {
-		Resources resources = context.getResources();
-		String replaceLookMessage = resources.getString(R.string.backpack_replace_sound, currentSoundInfo.getTitle());
-
-		final AlertDialog dialog = new CustomAlertDialogBuilder(context)
-				.setTitle(R.string.backpack)
-				.setMessage(replaceLookMessage)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						backPackVisibleSound(currentSoundInfo);
-						onBackpackSoundCompleteListener.onBackpackSoundComplete(true);
-						dialog.dismiss();
-					}
-				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				}).create();
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialogInterface) {
-				TextSizeUtil.enlargeViewGroup((ViewGroup) dialog.getWindow().getDecorView().getRootView());
-			}
-		});
-		dialog.show();
-	}
-
 	public void backPackVisibleSound(SoundInfo selectedSoundInfo) {
 		String soundInfoTitle = selectedSoundInfo.getTitle();
 		BackPackListManager.getInstance().removeItemFromSoundBackPackBySoundTitle(soundInfoTitle);
 		backPack(selectedSoundInfo, soundInfoTitle, false);
+		TrackingUtil.trackSound(selectedSoundInfo.getTitle(), TrackingConstants.BACKPACK_SOUND);
 	}
 
 	public SoundInfo backPackHiddenSound(SoundInfo selectedSoundInfo) {
@@ -802,7 +765,9 @@ public final class SoundController {
 	public SoundInfo unpack(SoundInfo currentSoundInfo, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
 
 		String soundName = currentSoundInfo.getSoundFileName();
-		TrackingUtil.trackSound(soundName, "UnpackSound");
+		if (!fromHiddenBackPack) {
+			TrackingUtil.trackSound(soundName, TrackingConstants.UNPACK_SOUND);
+		}
 
 		String newSoundTitle = Utils.getUniqueSoundName(currentSoundInfo, false);
 		if (copySoundBackPack(currentSoundInfo, newSoundTitle, true) != null) {

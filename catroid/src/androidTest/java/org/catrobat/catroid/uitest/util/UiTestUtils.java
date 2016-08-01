@@ -29,6 +29,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,6 +43,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.InstrumentationTestCase;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
@@ -181,6 +183,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
@@ -213,6 +216,9 @@ public final class UiTestUtils {
 	public static final String JUST_SPECIAL_CHAR_PROJECT_NAME2 = "*\"/:<>?\\|%";
 	public static final String JUST_ONE_DOT_PROJECT_NAME = ".";
 	public static final String JUST_TWO_DOTS_PROJECT_NAME = "..";
+	private static final String VALID_FAKE_TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+	private static final String INVALID_FAKE_TOKEN = "x";
+
 	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<>();
 	static {
 		INITIALIZED_LIST_VALUES.add(1.0);
@@ -1799,7 +1805,7 @@ public final class UiTestUtils {
 
 	public static boolean isActionModeItemPresent(Solo solo, String overflowMenuItemName) {
 		openOrCloseMenu(solo);
-		boolean found = solo.searchText(overflowMenuItemName, 0, false, true);
+		boolean found = solo.searchText(overflowMenuItemName, 1, false, true);
 		openOrCloseMenu(solo);
 		return found;
 	}
@@ -1884,6 +1890,25 @@ public final class UiTestUtils {
 			Log.e(TAG, "Error creating test user.", e);
 			fail("Error creating test user.");
 		}
+	}
+
+	public static void fillNativeLoginDialog(Solo solo, String username, String password) {
+		String login = solo.getString(R.string.login);
+		assertNotNull("Login Dialog is not shown.", solo.getText(login));
+		solo.sendKey(Solo.ENTER);
+		// enter a username
+		EditText userNameEditText = (EditText) solo.getView(R.id.dialog_login_username);
+		solo.clearEditText(userNameEditText);
+		solo.enterText(userNameEditText, username);
+		solo.sendKey(Solo.ENTER);
+
+		// enter a password
+		EditText passwordEditText = (EditText) solo.getView(R.id.dialog_login_password);
+		solo.clearEditText(passwordEditText);
+		solo.clickOnView(passwordEditText);
+		solo.enterText(passwordEditText, password);
+		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(login);
 	}
 
 	// Stage methods
@@ -2737,5 +2762,23 @@ public final class UiTestUtils {
 		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
 		solo.waitForActivity(UserBrickScriptActivity.class);
 		solo.waitForFragmentByTag(ScriptFragment.TAG);
+	}
+
+	public static void setServerURLToTestUrl(InstrumentationTestCase instrumentationTestCase) {
+		try {
+			instrumentationTestCase.runTestOnUiThread(new Runnable() {
+				public void run() {
+					ServerCalls.useTestUrl = true;
+				}
+			});
+		} catch (Throwable throwable) {
+			Log.e(TAG, "Could not set server test URL");
+		}
+	}
+
+	public static void setFakeToken(Context context, boolean valid) {
+		String token = valid ? VALID_FAKE_TOKEN : INVALID_FAKE_TOKEN;
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 	}
 }

@@ -30,7 +30,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,18 +39,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.web.ServerCalls;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {
 
@@ -86,10 +82,16 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 			}
 		});
 
-		final AlertDialog loginDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
-				.setTitle(R.string.login).setPositiveButton(R.string.login, null)
-				.setNeutralButton(R.string.password_forgotten, null).create();
-		loginDialog.setCanceledOnTouchOutside(true);
+		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity()).setView(rootView)
+				.setTitle(R.string.login).setPositiveButton(R.string.login, null);
+		boolean canceledOnTouchOutside = false;
+		if (!BuildConfig.CREATE_AT_SCHOOL) {
+			dialogBuilder.setNeutralButton(R.string.password_forgotten, null);
+			canceledOnTouchOutside = true;
+		}
+		final AlertDialog loginDialog = dialogBuilder.create();
+
+		loginDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
 		loginDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		loginDialog.setOnShowListener(new OnShowListener() {
@@ -123,6 +125,20 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+			@Override
+			public boolean onKey(android.content.DialogInterface dialog, int keyCode, android.view.KeyEvent event) {
+				if (keyCode == android.view.KeyEvent.KEYCODE_BACK && BuildConfig.CREATE_AT_SCHOOL) {
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	@Override
 	public void onLoginComplete() {
 		dismiss();
 		Bundle bundle = new Bundle();
@@ -130,11 +146,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
 		ProjectManager.getInstance().setUserID(getActivity());
 
-		if (BuildConfig.NOLB_DATA_TRACKING) {
-			BDSClientController.getInstance().generateInitSessionEvent(ProjectManager.getInstance().getUserID(), System
-					.currentTimeMillis(), null);
-			BDSClientController.getInstance().setDebugMode(true);
-		}
+		TrackingUtil.trackLoginInitSessionEvent(getActivity());
 	}
 
 	private void handleLoginButtonClick() {

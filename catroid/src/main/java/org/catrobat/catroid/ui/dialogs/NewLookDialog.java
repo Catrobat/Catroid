@@ -30,16 +30,12 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zed.bdsclient.controller.BDSClientController;
-
-import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.TrackingConstants;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
@@ -135,8 +131,8 @@ public class NewLookDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
-					TrackingUtil.trackStartPocketPaintSessionLook("PocketPaintSessionCreateLook",
-							"StartPocketPaintSessionCreateLook");
+					TrackingUtil.trackPocketPaintSessionLook(TrackingConstants.SESSION_POCKET_PAINT_CREATE_LOOK,
+							TrackingConstants.SESSION_START_POCKET_PAINT_CREATE_LOOK);
 
 					fragment.addLookDrawNewImage();
 					NewLookDialog.this.dismiss();

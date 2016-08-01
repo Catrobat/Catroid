@@ -107,38 +107,44 @@ public class SignInDialog extends DialogFragment implements
 			((ProjectActivity) getActivity()).setSignInDialog(this);
 		}
 
-		initializeGooglePlus();
-
 		View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_sign_in, null);
-
-		final Button loginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_login);
-		final Button registerButton = (Button) rootView.findViewById(R.id.dialog_sign_in_register);
-		final Button facebookLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_facebook_login_button);
-		Button gplusLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_gplus_login_button);
 		TextView termsOfUseLinkTextView = (TextView) rootView.findViewById(R.id.register_terms_link);
 
-		facebookLoginButton.getViewTreeObserver().addOnGlobalLayoutListener(
-				new ViewTreeObserver.OnGlobalLayoutListener() {
-					@Override
-					public void onGlobalLayout() {
-						int width = facebookLoginButton.getWidth();
-						if (width > 0) {
-							loginButton.getLayoutParams().width = width;
-							registerButton.getLayoutParams().width = width;
-							facebookLoginButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-						}
-					}
-				});
+		initializeGooglePlus();
+		LoginManager.getInstance().setLoginBehavior(ServerCalls.getInstance().getLoginBehavior());
 
-		String termsOfUseUrl = getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
+		initListener(rootView);
+
+		String termsOfUseUrl = getString(R.string.about_link_template, getString(R.string.terms_of_use_url),
 				getString(R.string.register_pocketcode_terms_of_use_text));
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 
 		final AlertDialog signInDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
 				.setTitle(R.string.sign_in_dialog_title).create();
+
 		signInDialog.setCanceledOnTouchOutside(true);
 		signInDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+		signInDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				if (getActivity() == null) {
+					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
+					return;
+				}
+				TextSizeUtil.enlargeViewGroup((ViewGroup) signInDialog.getWindow().getDecorView().getRootView());
+			}
+		});
+
+		return signInDialog;
+	}
+
+	private void initListener(View rootView) {
+		final Button loginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_login);
+		final Button registerButton = (Button) rootView.findViewById(R.id.dialog_sign_in_register);
+		final Button facebookLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_facebook_login_button);
+		Button gPlusLoginButton = (Button) rootView.findViewById(R.id.dialog_sign_in_gplus_login_button);
 
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -154,7 +160,18 @@ public class SignInDialog extends DialogFragment implements
 			}
 		});
 
-		LoginManager.getInstance().setLoginBehavior(ServerCalls.getInstance().getLoginBehavior());
+		facebookLoginButton.getViewTreeObserver().addOnGlobalLayoutListener(
+				new ViewTreeObserver.OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						int width = facebookLoginButton.getWidth();
+						if (width > 0) {
+							loginButton.getLayoutParams().width = width;
+							registerButton.getLayoutParams().width = width;
+							facebookLoginButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+						}
+					}
+				});
 
 		facebookLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -168,7 +185,7 @@ public class SignInDialog extends DialogFragment implements
 			}
 		});
 
-		gplusLoginButton.setOnClickListener(new View.OnClickListener() {
+		gPlusLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				if (Utils.isNetworkAvailable(getActivity())) {
@@ -178,19 +195,6 @@ public class SignInDialog extends DialogFragment implements
 				}
 			}
 		});
-
-		signInDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				if (getActivity() == null) {
-					Log.e(DIALOG_FRAGMENT_TAG, "onShow() Activity was null!");
-					return;
-				}
-				TextSizeUtil.enlargeViewGroup((ViewGroup) signInDialog.getWindow().getDecorView().getRootView());
-			}
-		});
-
-		return signInDialog;
 	}
 
 	private void initializeGooglePlus() {

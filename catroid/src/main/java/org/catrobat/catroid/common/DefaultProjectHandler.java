@@ -108,15 +108,14 @@ public final class DefaultProjectHandler {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 		Project emptyProject = new Project(context, projectName, landscapeMode);
-		emptyProject.setDeviceData(context);
-		StorageHandler.getInstance().saveProject(emptyProject);
-		ProjectManager.getInstance().setProject(emptyProject);
-
+		initNewProject(context, emptyProject);
 		return emptyProject;
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context) {
-		return createAndSaveEmptyProject(projectName, context, false);
+	public static void initNewProject(Context context, Project project) {
+		project.setDeviceData(context);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 	}
 
 	public void setDefaultProjectCreator(ProjectCreatorType type) {

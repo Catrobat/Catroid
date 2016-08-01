@@ -27,11 +27,11 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -104,6 +104,17 @@ public abstract class BaseActivity extends Activity {
 				final int betaLabelColor = ContextCompat.getColor(this, R.color.beta_label_color);
 				spanTitle.setSpan(new ForegroundColorSpan(betaLabelColor), begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				scratchConverterMenuItem.setTitle(spanTitle);
+			}
+		}
+
+		if (BuildConfig.CREATE_AT_SCHOOL) {
+			MenuItem rateAppMenuItem = menu.findItem(R.id.menu_rate_app);
+			if (rateAppMenuItem != null) {
+				rateAppMenuItem.setVisible(false);
+			}
+			MenuItem settingsMenuItem = menu.findItem(R.id.settings);
+			if (settingsMenuItem != null) {
+				settingsMenuItem.setVisible(false);
 			}
 		}
 		TextSizeUtil.enlargeOptionsMenu(menu);
@@ -190,10 +201,6 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 
-	public boolean isReturnToProjectsList() {
-		return returnToProjectsList;
-	}
-
 	public void setReturnToProjectsList(boolean returnToProjectsList) {
 		this.returnToProjectsList = returnToProjectsList;
 	}
@@ -204,10 +211,6 @@ public abstract class BaseActivity extends Activity {
 
 	public String getTitleActionBar() {
 		return titleActionBar;
-	}
-
-	public void setTitleActionBar(String titleActionBar) {
-		this.titleActionBar = titleActionBar;
 	}
 
 	public boolean onPrepareOptionsMenu(Menu menu) {

@@ -46,6 +46,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -192,7 +193,17 @@ public class WebViewActivity extends BaseActivity {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
 			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
-				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
+				Intent intent = null;
+				if (BuildConfig.CREATE_AT_SCHOOL) {
+					try {
+						intent = new Intent(getBaseContext(), Class.forName("org.catrobat.catroid.createatschool.ui"
+								+ ".CreateAtSchoolMainMenuActivity"));
+					} catch (ClassNotFoundException e) {
+						Log.e(TAG, e.getMessage());
+					}
+				} else {
+					intent = new Intent(getBaseContext(), MainMenuActivity.class);
+				}
 				startActivity(intent);
 			}
 		}
