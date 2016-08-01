@@ -35,7 +35,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +50,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-
+import com.zed.bdsclient.controller.BDSClientController;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -73,10 +72,13 @@ import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rauschig.jarchivelib.Archiver;
 import org.rauschig.jarchivelib.ArchiverFactory;
 
@@ -89,7 +91,7 @@ import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
-	private static final String TAG = ProjectActivity.class.getSimpleName();
+	private static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	private static final String START_PROJECT = BuildConfig.START_PROJECT;
 	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
@@ -183,6 +185,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			}
 		};
 		(new Thread(r)).start();
+
 	}
 
 	@Override
@@ -234,7 +237,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			loadProjectInBackground(projectName);
 		}
 		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
-
 		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
 			Intent intent = new Intent(this, ProjectActivity.class);
 			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
@@ -243,7 +245,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 	}
 
-	// needed because of android:onClick in activity_main_menu.xml
+
 	public void handleContinueButton(View view) {
 		handleContinueButton();
 	}
@@ -262,8 +264,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
-		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
@@ -276,7 +276,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
-		lockBackButtonForAsync = false;
 	}
 
 	public void handleNewButton(View view) {
@@ -304,7 +303,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-
+		TrackingUtil.trackMenuButton("MainMenuHelpButton");
 		startWebViewActivity(Constants.CATROBAT_HELP_URL);
 	}
 
@@ -316,7 +315,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-
+		TrackingUtil.trackMenuButton("MainMenuExploreButton");
 		if (Utils.isUserLoggedIn(this)) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
@@ -380,14 +379,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return (keyCode == KeyEvent.KEYCODE_BACK && !lockBackButtonForAsync);
-	}
-
-	@Override
 	public void onLoadProjectFailure() {
-		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
-		lockBackButtonForAsync = false;
 	}
 
 	public void initializeFacebookSdk() {

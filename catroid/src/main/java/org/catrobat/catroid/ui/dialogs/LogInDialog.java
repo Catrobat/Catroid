@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.zed.bdsclient.controller.BDSClientController;
+
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -46,6 +50,8 @@ import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.web.ServerCalls;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LogInDialog extends DialogFragment implements LoginTask.OnLoginCompleteListener {
 
@@ -122,6 +128,13 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.NO_OAUTH_PROVIDER);
 		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
+		ProjectManager.getInstance().setUserID(getActivity());
+
+		if (BuildConfig.NOLB_DATA_TRACKING) {
+			BDSClientController.getInstance().generateInitSessionEvent(ProjectManager.getInstance().getUserID(), System
+					.currentTimeMillis(), null);
+			BDSClientController.getInstance().setDebugMode(true);
+		}
 	}
 
 	private void handleLoginButtonClick() {

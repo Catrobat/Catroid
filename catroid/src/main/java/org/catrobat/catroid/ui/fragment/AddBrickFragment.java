@@ -37,6 +37,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.zed.bdsclient.controller.BDSClientController;
+
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -45,6 +48,11 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.util.List;
 
@@ -173,6 +181,9 @@ public class AddBrickFragment extends ListFragment {
 				fragmentTransaction.remove(addBrickFragment);
 				getFragmentManager().popBackStack();
 			}
+
+			TrackingUtil.trackAddBrick(addBrickFragment, brickToBeAdded);
+
 			fragmentTransaction.commit();
 		} catch (CloneNotSupportedException exception) {
 			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",

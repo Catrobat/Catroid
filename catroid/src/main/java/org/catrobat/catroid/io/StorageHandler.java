@@ -38,7 +38,8 @@ import com.google.gson.JsonSyntaxException;
 import com.parrot.freeflight.utils.FileUtils;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.Constants;
@@ -211,8 +212,11 @@ import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -574,7 +578,9 @@ public final class StorageHandler {
 		}
 
 		assertTrue(codeFileSanityCheck(projectName));
-		Log.d(TAG, "loadProject " + projectName);
+
+		TrackingUtil.trackMenuButtonProject(projectName, "OpenProgram");
+
 		if (!projectExists(projectName)) {
 			return null;
 		}

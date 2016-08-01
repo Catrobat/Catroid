@@ -49,7 +49,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
@@ -82,8 +83,11 @@ import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -414,6 +418,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
 		Log.d(TAG, copiedSprite.toString());
+		TrackingUtil.trackSprite(copiedSprite.toString(), "CopySprite");
 	}
 
 	@Override
@@ -575,6 +580,8 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			currentLookData.getCollisionInformation().cancelCalculation();
 		}
+
+		TrackingUtil.trackDeleteSprite(spriteToEdit);
 
 		deleteSpriteFiles();
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
@@ -1071,6 +1078,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	}
 
 	private void createGroup(String groupName) {
+		TrackingUtil.trackSprite(groupName, "CreateGroup");
 		GroupSprite groupSprite = new GroupSprite(groupName);
 		getSpriteList().add(groupSprite);
 		spriteAdapter.notifyDataSetChanged();

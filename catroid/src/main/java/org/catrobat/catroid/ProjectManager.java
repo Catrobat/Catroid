@@ -27,9 +27,15 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
+
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.facebook.AccessToken;
 
@@ -72,6 +78,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import com.zed.bdsclient.controller.BDSClientController;
 
 public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener, CheckFacebookServerTokenValidityTask.OnCheckFacebookServerTokenValidityCompleteListener, FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
@@ -89,6 +96,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean handleNewSceneFromScriptActivity;
 	private boolean showUploadDialog = false;
+	private String userID = null;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -148,6 +156,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			checkTokenTask.execute();
 		}
 	}
+
+	public void setUserID(Context context) {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		userID = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+	}
+
+	  public String getUserID(){
+		 return userID;
+	 }
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
 			OutdatedVersionProjectException, CompatibilityProjectException {
@@ -324,14 +341,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
-
 		if (empty) {
+			TrackingUtil.trackCreateProgram(projectName, landscapeMode, false);
 			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode);
 		} else {
 			if (drone) {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DRONE);
 			} else {
+				TrackingUtil.trackCreateProgram(projectName, landscapeMode, true);
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);
 			}
@@ -416,6 +434,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void deleteScene(String projectName, String sceneName) throws IOException {
 		Log.d(TAG, "deleteScene " + sceneName);
+
+		TrackingUtil.trackScene(projectName, sceneName, "DeleteScene");
 		StorageHandler.getInstance().deleteScene(projectName, sceneName);
 	}
 

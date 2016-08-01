@@ -26,16 +26,24 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
+import com.zed.bdsclient.controller.BDSClientController;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -85,6 +93,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private DroneInitializer droneInitializer = null;
 
 	private Intent returnToActivityIntent = null;
+	private static long currentTime = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -322,6 +331,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		}
 
 		RaspberryPiService.getInstance().disconnect();
+
+		TrackingUtil.trackStopExecution();
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -436,6 +447,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	public void startStage() {
+		TrackingUtil.trackStartExecution();
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
 			scene.getDataContainer().resetAllDataObjects();

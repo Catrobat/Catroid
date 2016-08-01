@@ -27,6 +27,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -69,6 +70,7 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		// Partly from http://stackoverflow.com/a/5069354
+		Log.d("TAG", "destroy");
 		unbindDrawables(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
 		System.gc();
 

@@ -55,6 +55,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.zed.bdsclient.controller.BDSClientController;
+
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -66,9 +69,12 @@ import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -419,6 +425,7 @@ public final class SoundController {
 
 	public SoundInfo copySound(SoundInfo selectedSoundInfo, List<SoundInfo> soundInfoList, SoundFragment fragment) {
 		try {
+
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
@@ -436,10 +443,12 @@ public final class SoundController {
 		}
 		String newSoundInfoTitle = Utils.getUniqueSoundName(soundInfo, false);
 		updateSoundAdapter(soundInfo, adapter, newSoundInfoTitle, false, false);
+		TrackingUtil.trackSound(newSoundInfoTitle, "CopySound");
 	}
 
 	private void deleteSound(int position, List<SoundInfo> soundInfoList, Activity activity) {
 		if (position < 0 || position >= soundInfoList.size()) {
+
 			Log.d(TAG, "attempted to delete a sound at a position not in soundInfoList");
 			return;
 		}
@@ -447,6 +456,9 @@ public final class SoundController {
 		if (soundInfoToDelete.isBackpackSoundInfo() && !otherSoundInfoItemsHaveAFileReference(soundInfoToDelete)) {
 			StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath(), true);
 		}
+
+		String soundName = soundInfoList.get(position).toString();
+		TrackingUtil.trackSound(soundName, "DeleteSound");
 
 		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
@@ -659,7 +671,6 @@ public final class SoundController {
 			}
 
 			String soundFileName = soundFile.getName();
-
 			updateSoundAdapter(soundName, soundFileName, soundList, fragment);
 		} catch (IOException e) {
 			Utils.showErrorDialog(activity, R.string.error_load_sound);
@@ -789,6 +800,10 @@ public final class SoundController {
 	}
 
 	public SoundInfo unpack(SoundInfo currentSoundInfo, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
+
+		String soundName = currentSoundInfo.getSoundFileName();
+		TrackingUtil.trackSound(soundName, "UnpackSound");
+
 		String newSoundTitle = Utils.getUniqueSoundName(currentSoundInfo, false);
 		if (copySoundBackPack(currentSoundInfo, newSoundTitle, true) != null) {
 			return updateSoundAdapter(currentSoundInfo,

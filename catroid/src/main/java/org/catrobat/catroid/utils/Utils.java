@@ -50,6 +50,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
+import com.zed.bdsclient.controller.BDSClientController;
 import com.google.common.base.Splitter;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.Gson;
@@ -95,6 +96,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public final class Utils {
 
@@ -983,6 +987,13 @@ public final class Utils {
 
 	@SuppressWarnings("unused")
 	public static void logoutUser(Context context) {
+
+		if (BuildConfig.NOLB_DATA_TRACKING) {
+			BDSClientController.getInstance().generateEndSessionEvent(ProjectManager.getInstance().getUserID(), 0,
+					System.currentTimeMillis(), null);
+			BDSClientController.getInstance().setDebugMode(true);
+		}
+
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		LogoutTask logoutTask = new LogoutTask(context, userName);
@@ -1006,6 +1017,7 @@ public final class Utils {
 		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN).commit();
 
 		WebViewActivity.clearCookies(context);
+
 
 		ToastUtil.showSuccess(context, R.string.logout_successful);
 	}

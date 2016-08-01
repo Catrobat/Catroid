@@ -68,6 +68,8 @@ import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,8 +223,8 @@ public class StageActivity extends AndroidApplication {
 	public void manageLoadAndFinish() {
 		stageListener.pause();
 		stageListener.finish();
-
 		PreStageActivity.shutdownResources();
+
 	}
 
 	@Override

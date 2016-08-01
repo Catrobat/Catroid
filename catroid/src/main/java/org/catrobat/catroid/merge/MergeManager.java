@@ -26,7 +26,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-
+import android.util.Log;
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -37,7 +39,10 @@ import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.MergeNameDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public final class MergeManager {
 
@@ -52,6 +57,8 @@ public final class MergeManager {
 			Utils.showErrorDialog(activity, R.string.error_load_project);
 			return;
 		}
+
+		TrackingUtil.trackMerge(firstProject.getName(), secondProject.getName());
 
 		if (firstProject.getName().equals(secondProject.getName())) {
 			Utils.showErrorDialog(activity, R.string.error_merge_with_self);

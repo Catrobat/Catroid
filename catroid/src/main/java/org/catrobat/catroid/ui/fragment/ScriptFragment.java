@@ -47,7 +47,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -78,8 +79,11 @@ import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelected
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -582,6 +586,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void copyBrick(Brick brick) {
+
+		TrackingUtil.trackBrick(brick.toString(), "CopyBrick");
+
 		if (brick instanceof NestingBrick
 				&& (brick instanceof AllowedAfterDeadEndBrick || brick instanceof DeadEndBrick)) {
 			return;
@@ -655,6 +662,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
 
 		for (Brick brick : checkedBricks) {
+			TrackingUtil.trackBrick(brick.toString(), "DeleteBrickMenu");
 			deleteBrick(brick);
 		}
 	}

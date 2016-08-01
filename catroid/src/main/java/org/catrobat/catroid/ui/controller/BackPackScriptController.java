@@ -26,7 +26,8 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -50,6 +51,9 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -93,17 +97,24 @@ public final class BackPackScriptController {
 				BackPackListManager.getInstance().addScriptToBackPack(groupName, scriptsToAdd);
 			}
 		}
+
+		TrackingUtil.trackBackpackBricks(scriptsToAdd, checkedBricks.size(), groupName,	"BackpackScripts");
+
 		return scriptsToAdd;
 	}
 
 	public void unpack(String selectedScriptGroupBackPack, boolean deleteUnpackedItems, boolean
 			handleInsertFromScriptBackPack, Activity activity, boolean fromHiddenBackPack) {
+
 		List<Script> scriptsInGroup;
 		if (fromHiddenBackPack) {
 			scriptsInGroup = BackPackListManager.getInstance().getHiddenBackpackedScripts().get(selectedScriptGroupBackPack);
 		} else {
 			scriptsInGroup = BackPackListManager.getInstance().getBackPackedScripts().get(selectedScriptGroupBackPack);
 		}
+
+		TrackingUtil.trackBackpackBricks(scriptsInGroup, 0, selectedScriptGroupBackPack,
+				"UnpackScript");
 
 		if (scriptsInGroup == null) {
 			Log.d(TAG, "Attempted to unpack a not existing (maybe previously deleted) script group");

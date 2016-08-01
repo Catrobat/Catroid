@@ -82,6 +82,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
@@ -128,6 +129,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
 	private Activity activity;
+	private String soundSource = null;
+	private String soundName = null;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
@@ -135,7 +138,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		soundInfoListChangedAfterNewListener = listener;
 	}
 
-	private void setHandleAddbutton() {
+	private void setHandleAddButton() {
 		ImageButton addButton = (ImageButton) getActivity().findViewById(R.id.button_add);
 		addButton.setOnClickListener(new OnClickListener() {
 
@@ -188,7 +191,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		((SoundAdapter) adapter).setSoundFragment(this);
 
 		Utils.loadProjectIfNeeded(getActivity());
-		//setHandleAddbutton();
+		//setHandleAddButton();
 
 		// set adapter and soundInfoList for ev. unpacking
 		BackPackListManager.getInstance().setCurrentSoundAdapter(adapter);
@@ -272,7 +275,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
 		if (!this.isHidden()) {
-			setHandleAddbutton();
+			setHandleAddButton();
 			handleAddButtonFromNew();
 		}
 		if (isResultHandled) {
@@ -423,16 +426,25 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 					} else {
 						getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
 					}
+					if (soundInfoList.size() > 0) {
+						soundName = soundInfoList.get(soundInfoList.size()-1).getTitle();
+					} else {
+						Log.e(TAG, "Error: soundInfoList is empty! please fix.");
+					}
 					break;
 				case SoundController.REQUEST_MEDIA_LIBRARY:
+					soundSource = "MediaLibrary";
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
 					SoundController.getInstance().addSoundFromMediaLibrary(filePath, getActivity(), soundInfoList, this);
+					soundName = soundInfoList.get(soundInfoList.size()-1).getTitle();
 			}
 			isResultHandled = true;
+			TrackingUtil.trackCreateSound(soundName, soundSource);
 		}
+
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
 			Log.d(TAG, "onActivityResult RequestMusic");
-			setHandleAddbutton();
+			setHandleAddButton();
 		}
 
 		if (resultCode == Activity.RESULT_CANCELED && ProjectManager.getInstance()
@@ -451,6 +463,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			});
 			SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
 		}
+
 		ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
 	}
 
@@ -605,6 +618,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void addSoundRecord() {
 		Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
 		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);
+		soundSource = "record";
 	}
 
 	public void addSoundChooseFile() {
@@ -615,6 +629,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
+		soundSource = "device";
+		soundName = soundInfoList.get(soundInfoList.size()-1).getTitle();
 	}
 
 	public void addSoundMediaLibrary() {

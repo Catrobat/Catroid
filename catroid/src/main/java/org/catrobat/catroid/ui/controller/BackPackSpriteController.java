@@ -26,6 +26,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,8 +40,11 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -175,6 +180,8 @@ public final class BackPackSpriteController {
 		if (backPackedScripts != null && !backPackedScripts.isEmpty()) {
 			backPackSprite.getScriptList().addAll(backPackedScripts);
 		}
+
+		TrackingUtil.trackBackpackSprite(backPackSprite.getName(), "BackpackObject");
 		return backPackSprite;
 	}
 
@@ -226,6 +233,8 @@ public final class BackPackSpriteController {
 				BackPackListManager.getInstance().removeItemFromSpriteBackPack(selectedSprite);
 			}
 		}
+
+		TrackingUtil.trackBackpackSprite(unpackedSprite.getName(), "UnpackObject");
 		return unpackedSprite;
 	}
 

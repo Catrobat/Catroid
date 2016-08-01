@@ -34,11 +34,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zed.bdsclient.controller.BDSClientController;
+
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 public class NewLookDialog extends DialogFragment {
@@ -124,11 +131,13 @@ public class NewLookDialog extends DialogFragment {
 		final Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
 		paintroidButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				if (LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
+					TrackingUtil.trackStartPocketPaintSessionLook("PocketPaintSessionCreateLook",
+							"StartPocketPaintSessionCreateLook");
+
 					fragment.addLookDrawNewImage();
 					NewLookDialog.this.dismiss();
 				}

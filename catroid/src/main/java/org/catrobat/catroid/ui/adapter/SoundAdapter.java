@@ -24,15 +24,21 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,6 +126,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 		if (!soundInfoListToBackpack.isEmpty()) {
 			if (!soundsAlreadyInBackpack) {
 				for (SoundInfo soundInfoToBackpack : soundInfoListToBackpack) {
+					TrackingUtil.trackSound(soundInfoToBackpack.getSoundFileName(), "BackpackSound");
 					SoundController.getInstance().backPackVisibleSound(soundInfoToBackpack);
 					onBackpackSoundComplete(true);
 				}

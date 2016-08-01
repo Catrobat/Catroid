@@ -44,6 +44,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import com.zed.bdsclient.controller.BDSClientController;
+
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -52,6 +55,9 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,10 +192,12 @@ public class NewDataDialog extends DialogFragment {
 			if (!isListNameValid(name)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
 			} else {
+				TrackingUtil.trackData(name, "global", "CreateList");
 				newUserList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.addProjectUserList(name);
 			}
 		} else if (local.isChecked()) {
+			TrackingUtil.trackData(name, "local", "CreateList");
 			newUserList = ProjectManager.getInstance().getCurrentScene().getDataContainer().addSpriteUserList(name);
 		}
 		userListDialogListenerListFinishNewUserListDialog(newUserList);
@@ -201,10 +209,12 @@ public class NewDataDialog extends DialogFragment {
 			if (!isVariableNameValid(name)) {
 				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
+				TrackingUtil.trackData(name, "global", "CreateVariable");
 				newUserVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 						.addProjectUserVariable(name);
 			}
 		} else if (local.isChecked()) {
+			TrackingUtil.trackData(name, "local", "CreateVariable");
 			newUserVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer().addSpriteUserVariable(name);
 		}
 		variableDialogListenerListFinishNewVariableDialog(newUserVariable);

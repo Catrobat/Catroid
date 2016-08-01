@@ -45,9 +45,9 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.badlogic.gdx.graphics.Pixmap;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -63,8 +63,11 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.TextSizeUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -431,7 +434,6 @@ public final class LookController {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, sceneName,
 						pathOfPocketPaintImage,
 						newFileName);
-
 				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath(), false); //reduce usage in container or delete it
 
 				selectedLookData.setLookFilename(newLookFile.getName());
@@ -530,7 +532,7 @@ public final class LookController {
 		lookDataToDelete.getCollisionInformation().cancelCalculation();
 
 		boolean isBackPackLook = lookDataToDelete.isBackpackLookData;
-
+		TrackingUtil.trackLook(lookDataToDelete.getLookName(), "DeleteLook");
 		if (!otherLookDataItemsHaveAFileReference(lookDataToDelete)) {
 			Log.d(TAG, "delete - is bp:" + isBackPackLook);
 			StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath(), isBackPackLook);
@@ -648,6 +650,9 @@ public final class LookController {
 	}
 
 	public LookData unpack(LookData selectedLookDataBackPack, boolean deleteUnpackedItems, boolean fromHiddenBackPack) {
+
+		TrackingUtil.trackLook(selectedLookDataBackPack.getLookName(), "UnpackLook");
+
 		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentSprite().containsLookData(selectedLookDataBackPack)) {
 			return selectedLookDataBackPack;
 		}
@@ -655,7 +660,6 @@ public final class LookController {
 		String newLookDataName = Utils.getUniqueLookName(selectedLookDataBackPack, false);
 		String existingFileNameInProjectDirectory = lookFileAlreadyInProjectDirectory(selectedLookDataBackPack);
 		if (existingFileNameInProjectDirectory == null) {
-			Log.d(TAG, "copyLookBackPack" + newLookDataName);
 			copyLookBackPack(selectedLookDataBackPack, newLookDataName, true);
 		}
 		return LookController.getInstance().updateLookBackPackAfterUnpacking(selectedLookDataBackPack,
@@ -728,6 +732,8 @@ public final class LookController {
 			StorageHandler.getInstance().copyImage(projectName, sceneName, lookData.getAbsolutePath(), null);
 			String imageName = lookData.getLookName() + "_" + activity.getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
+
+			TrackingUtil.trackLook(imageName, "CopyLook");
 
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException ioException) {

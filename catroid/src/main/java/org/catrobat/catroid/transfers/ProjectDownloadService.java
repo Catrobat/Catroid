@@ -27,17 +27,22 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -88,6 +93,9 @@ public class ProjectDownloadService extends IntentService {
 					StorageHandler.getInstance().saveProject(projectTBRenamed);
 				}
 			}
+
+			TrackingUtil.trackMenuButtonProject(projectName, "DownloadProgram");
+
 			StorageHandler.getInstance().updateCodefileOnDownload(projectName);
 			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
 		} catch (IOException ioException) {

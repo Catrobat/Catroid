@@ -24,13 +24,19 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-
+import com.zed.bdsclient.controller.BDSClientController;
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.utils.TrackingUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,6 +121,8 @@ public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAd
 		if (!lookDataListToBackpack.isEmpty()) {
 			if (!looksAlreadyInBackpack) {
 				for (LookData lookDataToBackpack : lookDataListToBackpack) {
+					TrackingUtil.trackLook(lookDataToBackpack.getLookName(), "BackpackLook");
+
 					LookController.getInstance().backPackVisibleLook(lookDataToBackpack);
 					onBackpackLookComplete(true);
 				}

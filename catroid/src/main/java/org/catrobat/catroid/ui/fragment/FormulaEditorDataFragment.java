@@ -52,6 +52,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.zed.bdsclient.controller.BDSClientController;
+
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
@@ -67,8 +70,11 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
+import org.catrobat.catroid.utils.TrackingUtil;
 import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.UtilUi;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
 		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
@@ -416,9 +422,11 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								for (UserList var : adapter.getCheckedUserLists()) {
+									TrackingUtil.trackData(var.getName(), "", "DeleteList");
 									dataContainer.deleteUserListByName(var.getName());
 								}
 								for (UserVariable var : adapter.getCheckedUserVariables()) {
+									TrackingUtil.trackData(var.getName(), "", "DeleteVariable");
 									dataContainer.deleteUserVariableByName(var.getName());
 								}
 
