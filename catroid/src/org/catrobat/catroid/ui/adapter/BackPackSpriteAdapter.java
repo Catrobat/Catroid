@@ -47,7 +47,6 @@ import java.util.List;
 public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionModeActivityAdapterInterface {
 
 	private final BackPackSpriteFragment backpackSpriteFragment;
-	private boolean disableBackgroundSprites;
 
 	public BackPackSpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects,
 			BackPackSpriteFragment backpackSpriteFragment) {
@@ -81,7 +80,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		holder.background.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP && backpackSpriteFragment != null) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN && backpackSpriteFragment != null) {
 					backpackSpriteFragment.setSelectedSpritePosition(position);
 					backpackSpriteFragment.getListView().showContextMenuForChild(v);
 				}
@@ -92,13 +91,7 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		handleHolderViews(position, holder);
 
 		if (selectMode != ListView.CHOICE_MODE_NONE) {
-			if (disableBackgroundSprites && getItem(position).isBackgroundSprite) {
-				holder.checkbox.setVisibility(View.INVISIBLE);
-				enableHolderViews(holder, false);
-				spriteView.setAlpha((float) 0.25);
-			} else {
-				holder.checkbox.setVisibility(View.VISIBLE);
-			}
+			holder.checkbox.setVisibility(View.VISIBLE);
 			holder.background.setBackgroundResource(R.drawable.button_background_shadowed);
 		} else {
 			holder.background.setBackgroundResource(R.drawable.button_background_selector);
@@ -149,12 +142,11 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		}
 
 		for (Sprite sprite : spritesToUnpack) {
-			BackPackSpriteController.getInstance().unpack(sprite, delete, false, false);
+			BackPackSpriteController.getInstance().unpack(sprite, delete, false, false, false);
 		}
 
 		boolean returnToProjectActivity = !checkedSprites.isEmpty();
 		clearCheckedItems();
-		this.disableBackgroundSprites = false;
 		if (returnToProjectActivity) {
 			returnToProjectActivity();
 		}
@@ -164,19 +156,5 @@ public class BackPackSpriteAdapter extends SpriteBaseAdapter implements ActionMo
 		Intent intent = new Intent(getContext(), ProjectActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		getContext().startActivity(intent);
-	}
-
-	public void disableBackgroundSprites() {
-		this.disableBackgroundSprites = true;
-	}
-
-	public int getCountWithBackgroundSprites() {
-		int numberOfBackgroundSprites = 0;
-		for (int position = 0; position < getCount(); position++) {
-			if (getItem(position).isBackgroundSprite) {
-				numberOfBackgroundSprites++;
-			}
-		}
-		return getCount() - numberOfBackgroundSprites;
 	}
 }

@@ -42,7 +42,8 @@
     <style name="DefaultDialog" parent="android:Theme.Dialog" >
         <item name="android:layout_width" >wrap_content</item >
         <item name="android:layout_height" >wrap_content</item >
-        <item name="android:paddingBottom" >@dimen/dialog_item_margin</item >
+        <item name="android:paddingTop" >@dimen/dialog_margin</item >
+        <item name="android:paddingBottom" >@dimen/dialog_margin</item >
         <item name="android:layout_marginLeft" >@dimen/dialog_margin</item >
         <item name="android:layout_marginRight" >@dimen/dialog_margin</item >
         <item name="android:windowBackground" >@null</item >
@@ -57,14 +58,14 @@
     </style >
 
     <style name="DefaultDialog.Mapping" >
-        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_width" >wrap_content</item >
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:layout_marginLeft" >@dimen/dialog_item_margin</item >
-        <item name="android:layout_marginRight" >2dp</item >
+        <item name="android:layout_marginRight" >@dimen/dialog_item_margin</item >
     </style >
 
     <style name="DefaultDialog.TextView" parent="DefaultDialog.Item" >
-        <item name="android:paddingLeft" >8dp</item >
+        <item name="android:paddingLeft" >@dimen/dialog_item_header_alignment_padding</item >
         <item name="android:paddingBottom" >@dimen/dialog_item_header_linepadding</item >
         <item name="android:layout_height" >@dimen/dialog_item_header_height</item >
         <item name="android:textSize" >@dimen/dialog_item_text_size</item >
@@ -312,7 +313,7 @@
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_red_3h</item >
     </style >
-    
+
     <style name="BrickContainer.UserBrick" ></style >
 
     <style name="BrickCategoryText.Data">
@@ -387,6 +388,23 @@
     </style>
 
     <style name="BrickContainer.Arduino.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
+
+    <style name="BrickContainer.Raspi"></style>
+
+    <style name="BrickContainer.Raspi.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Raspi.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+
+    <style name="BrickContainer.Raspi.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_cyan_3h</item>
     </style>
@@ -482,27 +500,24 @@
         <item name="android:textColor" >@color/sound_fragment_text_detail_color</item >
         <item name="android:textSize" >14sp</item >
     </style >
-    
-    <style name="NoBackgroundStyle" >
 
-	</style >
-
-    <style name="FormulaEditorButton" >
-        <item name="android:layout_width">0dp</item >
-        <item name="android:background">@drawable/formula_editor_keyboard_button</item >
-        <item name="android:layout_height">@dimen/key_height</item >
-        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item >
-        <item name="android:lines">1</item >
-        <item name="android:ellipsize">end</item >
+    <style name="nfctag_fragment_main" parent="fragment_basic_style">
+        <item name="android:textColor">@color/nfctag_fragment_text_main_color</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
-    <style name="FormulaEditorImageButton" >
-        <item name="android:layout_width" >0dp</item >
-        <item name="android:background" >@drawable/formula_editor_keyboard_button</item >
-        <item name="android:layout_height" >@dimen/key_height</item >
-        <item name="android:layout_marginBottom" >@dimen/key_margin</item >
-        <item name="android:layout_marginRight" >@dimen/key_margin</item >
-    </style >
+    <style name="nfctag_fragment_detail" parent="fragment_basic_style">
+        <item name="android:textColor">@color/nfctag_fragment_text_detail_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="FormulaEditorButton" >
+        <item name="android:background">@drawable/formula_editor_keyboard_button</item >
+        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item >
+        <item name="android:lines">1</item >
+        <item name="android:textSize">@dimen/text_size_medium</item >
+        <item name="android:ellipsize">end</item >
+    </style>
 
     <style name="formulaeditor_variblelist_fragment_main" parent="fragment_basic_style" >
         <item name="android:textColor" >@color/sound_fragment_text_main_color</item >
@@ -579,16 +594,15 @@
         <item name="android:background">@drawable/brick_selection_background_chromecast</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_chromecast</item>
     </style>
+
+    <style name="BrickCategoryText.Raspi">
+        <item name="android:background">@drawable/brick_selection_background_bluetooth</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_bluetooth</item>
+    </style>
     
     <style name="userBrickDataTextBackground" >
  		<item name="android:background" >@drawable/brick_data_round_rect</item >
  	</style >
-
-    <style name="ScriptActivitySpinnerItemTextAppearance" >
-        <item name="android:textColor" >?android:attr/textColorPrimaryInverse</item >
-        <item name="android:typeface" >normal</item >
-        <item name="android:textSize" >@dimen/text_size_medium</item >
-    </style >
 
     <style name="headlineLinearLayout" >
         <item name="android:clickable" >true</item >
@@ -640,6 +654,29 @@
          <item name="android:paddingBottom">5dip</item >
          <item name="android:gravity">center</item >
          <item name="android:layout_centerHorizontal">true</item >
+    </style>
+
+     <style name="WebViewLoadingCircle" parent="android:Theme.Holo.Dialog">
+        <item name="android:alertDialogStyle">@style/WebViewLoadingCircleStyle</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:textColorPrimary">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColor">@color/transparent</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="WebViewLoadingCircleStyle">
+        <item name="android:bottomBright">@color/transparent</item>
+        <item name="android:bottomDark">@color/transparent</item>
+        <item name="android:bottomMedium">@color/transparent</item>
+        <item name="android:centerBright">@color/transparent</item>
+        <item name="android:centerDark">@color/transparent</item>
+        <item name="android:centerMedium">@color/transparent</item>
+        <item name="android:fullBright">@color/transparent</item>
+        <item name="android:fullDark">@color/transparent</item>
+        <item name="android:topBright">@color/transparent</item>
+        <item name="android:topDark">@color/transparent</item>
     </style>
 
 </resources>

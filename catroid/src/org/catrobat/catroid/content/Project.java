@@ -34,8 +34,13 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -58,19 +63,23 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<>();
 
+
+	private transient PhysicsWorld physicsWorld;
+
 	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
+
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
 		xmlHeader.setlandscapeMode(landscapeMode);
 
+		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+			Utils.updateScreenWidthAndHeight(context);
+		}
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
 		} else {
 			ifLandscapeSwitchWidthAndHeight();
-		}
-		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			Utils.updateScreenWidthAndHeight(context);
 		}
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
@@ -87,7 +96,6 @@ public class Project implements Serializable {
 		if (context == null) {
 			return;
 		}
-
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
 		addSprite(background);
@@ -171,10 +179,22 @@ public class Project implements Serializable {
 	}
 
 	public int getRequiredResources() {
+		//CAST
 		int resources = ProjectManager.getInstance().getCurrentProject().isCastProject() ? Brick.CAST_REQUIRED : Brick.NO_RESOURCES;
+		//develop!!!
+		//int resources = Brick.NO_RESOURCES;
+		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
+		ActionFactory actionFactory = new ActionFactory();
 
 		for (Sprite sprite : spriteList) {
-			resources |= sprite.getRequiredResources();
+			int tempResources = sprite.getRequiredResources();
+			if ((tempResources & Brick.PHYSICS) > 0) {
+				sprite.setActionFactory(physicsActionFactory);
+				tempResources &= ~Brick.PHYSICS;
+			} else {
+				sprite.setActionFactory(actionFactory);
+			}
+			resources |= tempResources;
 		}
 		return resources;
 	}
@@ -204,6 +224,21 @@ public class Project implements Serializable {
 		}
 	}
 
+	public PhysicsWorld getPhysicsWorld() {
+		if (physicsWorld == null) {
+			resetPhysicsWorld();
+		}
+		return physicsWorld;
+	}
+
+	public PhysicsWorld resetPhysicsWorld() {
+		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
+	}
+
+	public void setTags(List<String> tags) {
+		xmlHeader.setTags(tags);
+	}
+
 	// default constructor for XMLParser
 	public Project() {
 	}
@@ -217,7 +252,7 @@ public class Project implements Serializable {
 	}
 
 	public void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new ArrayList<String>();
+		List<String> usedMessages = new ArrayList<>();
 		for (Sprite currentSprite : spriteList) {
 			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
 				Script currentScript = currentSprite.getScript(scriptIndex);
@@ -227,6 +262,14 @@ public class Project implements Serializable {
 
 				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
 					Brick currentBrick = currentScript.getBrick(brickIndex);
+					if (currentBrick instanceof BroadcastMessage) {
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+					}
+				}
+			}
+			for (UserBrick userBrick : currentSprite.getUserBrickList()) {
+				Script userScript = userBrick.getDefinitionBrick().getUserScript();
+				for (Brick currentBrick : userScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
 						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
 					}
@@ -299,7 +342,89 @@ public class Project implements Serializable {
 		}
 	}
 
-	public boolean isBackgroundSprite(Sprite sprite) {
+	public boolean containsSpriteBySpriteName(Sprite searchedSprite) {
+		for (Sprite sprite : spriteList) {
+			if (searchedSprite.getName().equals(sprite.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public UserVariable getProjectVariableWithName(String name) {
+		for (UserVariable variable : dataContainer.getProjectVariables()) {
+			if (name.equals(variable.getName())) {
+				return variable;
+			}
+		}
+		return null;
+	}
+
+	public UserList getProjectListWithName(String name) {
+		for (UserList list : dataContainer.getProjectLists()) {
+			if (name.equals(list.getName())) {
+				return list;
+			}
+		}
+		return null;
+	}
+
+	public boolean existProjectVariable(UserVariable variable) {
+		return dataContainer.existProjectVariable(variable);
+	}
+
+	public boolean existSpriteVariable(UserVariable variable, Sprite sprite) {
+		if (!spriteList.contains(sprite)) {
+			return false;
+		}
+		return dataContainer.existSpriteVariable(variable, sprite);
+	}
+
+	public boolean existProjectList(UserList list) {
+		return dataContainer.existProjectList(list);
+	}
+
+	public boolean existSpriteList(UserList list, Sprite sprite) {
+		if (!spriteList.contains(sprite)) {
+			return false;
+		}
+		return dataContainer.existSpriteList(list, sprite);
+	}
+
+	public Sprite getSpriteByUserVariable(UserVariable variable) {
+		Sprite spriteByUserVariable = null;
+		for (Sprite sprite : spriteList) {
+			if (dataContainer.existSpriteVariable(variable, sprite)) {
+				spriteByUserVariable = sprite;
+				break;
+			}
+		}
+		return spriteByUserVariable;
+	}
+
+	public Sprite getSpriteByUserList(UserList list) {
+		Sprite spriteByUserList = null;
+		for (Sprite sprite : spriteList) {
+			if (dataContainer.existSpriteList(list, sprite)) {
+				spriteByUserList = sprite;
+				break;
+			}
+		}
+		return spriteByUserList;
+	}
+
+	public Sprite getSpriteBySpriteName(Sprite searchedSprite) {
+		Sprite spriteBySpriteName = null;
+		for (Sprite sprite : spriteList) {
+			if (searchedSprite.getName().equals(sprite.getName())) {
+				spriteBySpriteName = sprite;
+				break;
+			}
+		}
+		return spriteBySpriteName;
+	}
+
+	public boolean isBackgroundObject(Sprite sprite) {
 		if (spriteList.indexOf(sprite) == 0) {
 			return true;
 		}
@@ -319,6 +444,7 @@ public class Project implements Serializable {
 		return false;
 	}
 
+	//CAST
 	public boolean isCastProject() {
 		return xmlHeader.isCastProject();
 	}
@@ -326,4 +452,5 @@ public class Project implements Serializable {
 	public boolean islandscapeMode() {
 		return xmlHeader.islandscapeMode();
 	}
+
 }

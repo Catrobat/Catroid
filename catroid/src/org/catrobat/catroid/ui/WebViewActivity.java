@@ -57,6 +57,7 @@ import java.net.URLDecoder;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends BaseActivity {
+	private static final String TAG = WebViewActivity.class.getSimpleName();
 
 	public static final String INTENT_PARAMETER_URL = "url";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
@@ -87,10 +88,27 @@ public class WebViewActivity extends BaseActivity {
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
 		webView = (WebView) findViewById(R.id.webView);
-		webView.setWebChromeClient(new WebChromeClient());
+
+		webView.setWebChromeClient(new WebChromeClient() {
+			private ProgressDialog progressCircle;
+
+			@Override
+			public void onProgressChanged(WebView view, int progress) {
+				if (progressCircle == null) {
+					progressCircle = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
+					progressCircle.setCancelable(true);
+					progressCircle.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+					progressCircle.show();
+				}
+
+				if (progress == 100) {
+					progressCircle.dismiss();
+					progressCircle = null;
+				}
+			}
+		});
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
-
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		String flavor = Constants.FLAVOR_DEFAULT;
 		String version = Utils.getVersionName(getApplicationContext());
@@ -169,7 +187,7 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
-			if (callMainMenu && urlClient.equals(url)) {
+			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
 				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
 				startActivity(intent);
 			}
@@ -182,7 +200,13 @@ public class WebViewActivity extends BaseActivity {
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			if (checkIfWebViewVisitExternalWebsite(url)) {
+			if (url != null && url.startsWith(Constants.WHATSAPP_URI)) {
+				Uri uri = Uri.parse(url);
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				startActivity(intent);
+				return true;
+			} else if (checkIfWebViewVisitExternalWebsite(url)) {
 				Uri uri = Uri.parse(url);
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
@@ -208,7 +232,7 @@ public class WebViewActivity extends BaseActivity {
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
-			if (url.contains(Constants.BASE_URL_HTTPS) || url.contains(Constants.CATROBAT_ABOUT_URL) || url.contains(Constants.LIBRARY_BASE_URL)) {
+			if (url.contains(Constants.BASE_URL_HTTPS) || url.contains(Constants.LIBRARY_BASE_URL)) {
 				return false;
 			}
 			return true;
@@ -256,7 +280,7 @@ public class WebViewActivity extends BaseActivity {
 		try {
 			mediaName = URLDecoder.decode(mediaName, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			Log.e("WebViewActivity", "Could not decode program name: " + mediaName, e);
+			Log.e(TAG, "Could not decode program name: " + mediaName, e);
 			return null;
 		}
 		return mediaName;
@@ -264,13 +288,13 @@ public class WebViewActivity extends BaseActivity {
 
 	private String getMediaTypeFromContentDisposition(String contentDisposition) {
 		String mediaType = null;
-		for (String extension : Constants.IMAGE_EXTENTIONS) {
+		for (String extension : Constants.IMAGE_EXTENSIONS) {
 			if (getExtentionFromContentDisposition(contentDisposition).compareTo(extension) == 0) {
 				mediaType = Constants.MEDIA_TYPE_LOOK;
 			}
 		}
 
-		for (String extention : Constants.SOUND_EXTENTIONS) {
+		for (String extention : Constants.SOUND_EXTENSIONS) {
 			if (getExtentionFromContentDisposition(contentDisposition).compareTo(extention) == 0) {
 				mediaType = Constants.MEDIA_TYPE_SOUND;
 			}
@@ -286,7 +310,8 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	//taken from http://stackoverflow.com/a/28998241/
-	@SuppressWarnings({"deprecation", "NewApi"})
+	@SuppressWarnings("deprecated")
+	@SuppressLint("NewApi")
 	public static void clearCookies(Context context) {
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
 			CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(context);

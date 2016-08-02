@@ -175,11 +175,13 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(300);
-		solo.waitForText(solo.getString(R.string.formula_editor_sensors));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_1), 1, true);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_touch), 1, true);
+		solo.clickOnText(solo.getString(R.string.nxt_sensor_light));
+		solo.clickOnText(solo.getString(R.string.yes));
 		solo.clickOnText(solo.getString(R.string.ok));
 
 		solo.goBack();
@@ -205,6 +207,107 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("NXT Sensor Dialog not shown for Project with NXT Sensor but no NXT Brick",
 				solo.waitForText(solo.getString(R.string.lego_nxt_sensor_config_info_title)));
+	}
+
+	public void testNXTSensorConfigurationDialog() throws InterruptedException {
+		createBrickTestproject(projectNameNxt);
+		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(applicationContext);
+
+		if (!nxtBricksEnabledStart) {
+			solo.clickOnActionBarItem(R.id.settings);
+
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
+			solo.waitForText(preferenceTitle);
+			solo.clickOnText(preferenceTitle);
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+			solo.clickOnText(preferenceTitle);
+
+			solo.goBack();
+			solo.goBack();
+		}
+
+		if (!nxtDialogDisabledStart) {
+			solo.clickOnActionBarItem(R.id.settings);
+
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
+			solo.waitForText(preferenceTitle);
+			solo.clickOnText(preferenceTitle);
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+			solo.clickOnText(solo.getString(R.string.preference_disable_nxt_info_dialog));
+
+			solo.goBack();
+			solo.goBack();
+		}
+		setSensors(NXTSensor.Sensor.LIGHT_ACTIVE);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.main_menu_programs));
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForText(solo.getString(R.string.programs));
+		solo.clickOnText(projectNameNxt);
+
+		solo.clickOnText(spriteName);
+		solo.waitForText(solo.getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.scripts));
+
+		solo.waitForText(solo.getString(R.string.brick_wait));
+		solo.clickOnText(solo.getString(R.string.brick_wait));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_ultrasonic), 1, true);
+		solo.clickOnText(solo.getString(R.string.nxt_sensor_light));
+		solo.clickOnText(solo.getString(R.string.yes));
+		// Next sensor no replace because set the same sensor
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_ultrasonic), 1, true);
+		solo.waitForText(solo.getString(R.string.nxt_sensor_ultrasonic));
+		assertTrue("NXT Sensor was not replaced.",
+				solo.searchText(solo.getString(R.string.nxt_sensor_ultrasonic)));
+		solo.clickOnText(solo.getString(R.string.nxt_sensor_ultrasonic), 2);
+		assertFalse("Replace dialog shown spuriously.",
+				solo.searchText(solo.getString(R.string.yes)));
+		// Next sensor not replaced
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_light), 1, true);
+		solo.clickOnText(solo.getString(R.string.nxt_sensor_ultrasonic));
+		solo.clickOnText(solo.getString(R.string.no));
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.no));
+		// Look if ultrasonic sensor ist still mapped
+		solo.waitForText(solo.getString(R.string.brick_wait));
+		solo.clickOnText(solo.getString(R.string.brick_wait));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
+
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
+		solo.sleep(200);
+		solo.waitForText(solo.getString(R.string.formula_editor_device));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_light), 1, true);
+		assertTrue("NXT Sensor was not replaced.",
+				solo.searchText(solo.getString(R.string.nxt_sensor_ultrasonic)));
+		solo.clickOnText(solo.getString(R.string.nxt_sensor_ultrasonic));
+		solo.clickOnText(solo.getString(R.string.yes));
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.yes));
+
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+
+		assertTrue("not in main menu2", solo.waitForText(solo.getString(R.string.main_menu_continue)));
 	}
 
 	private void createBrickTestproject(String projectName) {

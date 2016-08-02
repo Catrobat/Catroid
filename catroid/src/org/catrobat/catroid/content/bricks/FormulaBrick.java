@@ -26,9 +26,11 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
@@ -64,17 +66,16 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return clonedBrick;
 	}
 
-	public Formula getFormula() {
+	public List<Formula> getFormulas() {
 		if (formulaMap == null) {
 			return null;
 		}
+		List<Formula> formulas = new ArrayList<>();
 
-		Iterator<BrickField> brickFieldIterator = formulaMap.keySet().iterator();
-		if (brickFieldIterator.hasNext()) {
-			return formulaMap.get(brickFieldIterator.next());
-		} else {
-			return null;
+		for (BrickField brickField : formulaMap.keySet()) {
+			formulas.add(formulaMap.get(brickField));
 		}
+		return formulas;
 	}
 
 	@Override
@@ -90,4 +91,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public abstract void showFormulaEditorToEditFormula(View view);
+
+	public abstract void updateReferenceAfterMerge(Project into, Project from);
 }

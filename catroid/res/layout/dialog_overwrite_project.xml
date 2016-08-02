@@ -22,15 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/DefaultDialog"
-            android:orientation="vertical"
-            android:paddingBottom="0dp"
-            android:theme="@android:style/Theme.Light" >
+    style="@style/DefaultDialog"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Light" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dialog_item_margin" >
+        android:layout_height="wrap_content" >
 
         <RadioGroup
             android:id="@+id/dialog_overwrite_project_radiogroup"

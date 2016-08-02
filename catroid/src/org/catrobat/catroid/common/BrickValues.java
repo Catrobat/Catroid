@@ -22,8 +22,15 @@
  */
 package org.catrobat.catroid.common;
 
+import com.badlogic.gdx.math.Vector2;
+
+import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsObject.Type;
+import org.catrobat.catroid.physics.PhysicsWorld;
+
 public final class BrickValues {
 
+	//constants Motions
 	public static final int X_POSITION = 100;
 	public static final int Y_POSITION = 200;
 	public static final int CHANGE_X_BY = 10;
@@ -35,13 +42,24 @@ public final class BrickValues {
 	public static final int GO_BACK = 1;
 	public static final int DURATION = 1;
 
+	//constants Physics
+	public static final PhysicsObject.Type PHYSIC_TYPE = Type.DYNAMIC;
+	public static final Float PHYSIC_MASS = PhysicsObject.DEFAULT_MASS;
+	public static final Float PHYSIC_BOUNCE_FACTOR = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
+	public static final Float PHYSIC_FRICTION = PhysicsObject.DEFAULT_FRICTION;
+	public static final Vector2 PHYSIC_GRAVITY = PhysicsWorld.DEFAULT_GRAVITY;
+	public static final Vector2 PHYSIC_VELOCITY = new Vector2();
+	public static final Float PHYSIC_TURN_DEGREES = TURN_DEGREES;
+
 	//constants Looks
 	public static final Float SET_SIZE_TO = 60f;
 	public static final Float CHANGE_SIZE_BY = 10f;
 	public static final Float SET_TRANSPARENCY = 50f;
-	public static final Float CHANGE_GHOST_EFFECT = 25f;
+	public static final Float CHANGE_TRANSPARENCY_EFFECT = 25f;
 	public static final Float SET_BRIGHTNESS_TO = 50f;
 	public static final Float CHANGE_BRITHNESS_BY = 25f;
+	public static final Float SET_COLOR_TO = 0f;
+	public static final Float CHANGE_COLOR_BY = 25f;
 	public static final Float VIBRATE_SECONDS = 1f;
 
 	//constants Sounds
@@ -111,6 +129,14 @@ public final class BrickValues {
 	public static final int ARDUINO_PWM_INITIAL_PIN_NUMBER = 3;
 	public static final int ARDUINO_DIGITAL_INITIAL_PIN_VALUE = 1;
 	public static final int ARDUINO_DIGITAL_INITIAL_PIN_NUMBER = 13;
+
+	//Constants Raspi
+	public static final int RASPI_DIGITAL_INITIAL_PIN_VALUE = 1;
+	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
+	public static final String RASPI_PRESSED_EVENT = "pressed";
+	public static final String RASPI_RELEASED_EVENT = "released";
+	public static final double RASPI_PWM_INITIAL_PERCENTAGE = 50.0;
+	public static final double RASPI_PWM_INITIAL_FREQUENCY = 100.0;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

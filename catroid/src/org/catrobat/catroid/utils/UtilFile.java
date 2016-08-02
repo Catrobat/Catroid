@@ -71,13 +71,12 @@ public final class UtilFile {
 		return size;
 	}
 
-	public static Long getProgressFromBytes(String projectName, Long progress) {
-		Long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
+	public static long getProgressFromBytes(String projectName, Long progress) {
+		long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
 		if (fileByteSize == 0) {
 			return (long) 0;
 		}
-		Long progressValue = progress * 100 / fileByteSize;
-		return progressValue;
+		return progress * 100 / fileByteSize;
 	}
 
 	public static String getSizeAsString(File fileOrDirectory) {
@@ -285,8 +284,8 @@ public final class UtilFile {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
 		}
 		outputFilename = UtilFile.encodeSpecialCharsForFileSystem(outputFilename);
-		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENTION)) {
-			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENTION;
+		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENSION)) {
+			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENSION;
 		}
 		File copiedFile = copyFromResourceIntoProject(projectName, Constants.IMAGE_DIRECTORY, outputFilename,
 				resourceId, context, false);

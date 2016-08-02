@@ -25,14 +25,11 @@ package org.catrobat.catroid.content;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
-
-import java.util.List;
 
 public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	private String receivedMessage;
+	protected String receivedMessage;
 
 	public BroadcastScript(String broadcastMessage) {
 		super();
@@ -67,10 +64,10 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	public Script copyScriptForSprite(Sprite copySprite) {
 		BroadcastScript cloneScript = new BroadcastScript(receivedMessage);
 
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		doCopy(copySprite, cloneScript);
 		return cloneScript;
 	}
 }

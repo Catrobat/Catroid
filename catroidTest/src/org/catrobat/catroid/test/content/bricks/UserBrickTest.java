@@ -52,13 +52,12 @@ public class UserBrickTest extends AndroidTestCase {
 	private static final String TAG = UserBrickTest.class.getSimpleName();
 
 	private Sprite sprite;
-	private Project project;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		sprite = new Sprite("testSprite");
-		project = new Project(null, "testProject");
+		Project project = new Project(null, "testProject");
 
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
@@ -73,7 +72,7 @@ public class UserBrickTest extends AndroidTestCase {
 	}
 
 	public void testSpriteHasOneUserBrickAfterAddingAUserBrick() {
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 		brick.getDefinitionBrick().addUIText("test0");
 		brick.getDefinitionBrick().addUILocalizedVariable("test1");
 
@@ -90,9 +89,10 @@ public class UserBrickTest extends AndroidTestCase {
 	public void testSpriteMovedCorrectly() {
 		int moveValue = 0;
 
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 		brick.getDefinitionBrick().addUIText("test0");
 		brick.getDefinitionBrick().addUILocalizedVariable("test1");
+		brick.updateUserBrickParametersAndVariables();
 
 		Script userScript = TestUtils.addUserBrickToSpriteAndGetUserScript(brick, sprite);
 
@@ -109,9 +109,6 @@ public class UserBrickTest extends AndroidTestCase {
 
 		sequence.act(1f);
 
-		x = sprite.look.getXInUserInterfaceDimensionUnit();
-		y = sprite.look.getYInUserInterfaceDimensionUnit();
-
 		assertEquals("Unexpected initial sprite x position: ", (float) moveValue,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position: ", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -120,12 +117,12 @@ public class UserBrickTest extends AndroidTestCase {
 	public void testSpriteMovedCorrectlyWithNestedBricks() {
 		Integer moveValue = 0;
 
-		UserBrick outerBrick = new UserBrick(0);
+		UserBrick outerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		outerBrick.getDefinitionBrick().addUIText("test2");
 		outerBrick.getDefinitionBrick().addUILocalizedVariable("outerBrickVariable");
-		outerBrick.updateUserBrickParameters(null);
+		outerBrick.updateUserBrickParametersAndVariables();
 
-		UserBrick innerBrick = new UserBrick(1);
+		UserBrick innerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		innerBrick.getDefinitionBrick().addUIText("test0");
 		innerBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
 
@@ -135,7 +132,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
 
-		innerBrick.updateUserBrickParameters(null);
+		innerBrick.updateUserBrickParametersAndVariables();
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -170,28 +167,12 @@ public class UserBrickTest extends AndroidTestCase {
 			}
 		}
 
-		SequenceAction sequence = new SequenceAction();
-		startScript.run(sprite, sequence);
-
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-
-		assertEquals("Unexpected initial sprite x position: ", 0f, x);
-		assertEquals("Unexpected initial sprite y position: ", 0f, y);
-
-		sequence.act(1f);
-
-		x = sprite.look.getXInUserInterfaceDimensionUnit();
-		y = sprite.look.getYInUserInterfaceDimensionUnit();
-
-		assertEquals("Unexpected initial sprite x position: ", (float) moveValue,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position: ", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		runAndCheckSpritePosition(startScript, moveValue, 0);
 	}
 
 	public void testGetRequiredResources() {
 
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 
 		assertEquals("brick.getRequiredResources(): ", UserBrick.NO_RESOURCES, brick.getRequiredResources());
 
@@ -207,12 +188,12 @@ public class UserBrickTest extends AndroidTestCase {
 	}
 
 	public void testDeleteBrick() {
-		UserBrick outerBrick = new UserBrick(0);
+		UserBrick outerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		outerBrick.getDefinitionBrick().addUIText("test2");
 		outerBrick.getDefinitionBrick().addUILocalizedVariable("outerBrickVariable");
-		outerBrick.updateUserBrickParameters(null);
+		outerBrick.updateUserBrickParametersAndVariables();
 
-		UserBrick innerBrick = new UserBrick(1);
+		UserBrick innerBrick = new UserBrick(new UserScriptDefinitionBrick());
 		innerBrick.getDefinitionBrick().addUIText("test0");
 		innerBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
 
@@ -220,7 +201,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
-		innerBrick.updateUserBrickParameters(null);
+		innerBrick.updateUserBrickParametersAndVariables();
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		Brick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -242,14 +223,15 @@ public class UserBrickTest extends AndroidTestCase {
 
 		sprite.removeUserBrick(innerBrick);
 
-		assertEquals("Start script has wrong number of bricks after deleting.", 1, startScript.getBrickList().size());
-		assertEquals("Start script has wrong brick after deleting.", outerBrickCopy, startScript.getBrick(0));
+		assertEquals("Start script user brick was also deleted", 2, startScript.getBrickList().size());
+		assertEquals("Start script has wrong brick after deleting.", innerBrickCopy, startScript.getBrick(0));
+		assertEquals("Start script has wrong brick after deleting.", outerBrickCopy, startScript.getBrick(1));
 
-		assertEquals("outerScript has wrong number of bricks after deleting.", 0, outerScript.getBrickList().size());
+		assertEquals("outerScript has wrong number of bricks after deleting.", 1, outerScript.getBrickList().size());
 	}
 
 	public void testBrickCloneWithFormula() {
-		UserBrick brick = new UserBrick(0);
+		UserBrick brick = new UserBrick(new UserScriptDefinitionBrick());
 		brick.getDefinitionBrick().addUIText("test0");
 		brick.getDefinitionBrick().addUILocalizedVariable("test1");
 
@@ -258,12 +240,31 @@ public class UserBrickTest extends AndroidTestCase {
 				"definitionBrick");
 		UserScriptDefinitionBrick clonedDef = (UserScriptDefinitionBrick) Reflection.getPrivateField(cloneBrick,
 				"definitionBrick");
-		assertTrue("The cloned brick has a different UserScriptDefinitionBrick than the original brick",
+		assertFalse("The cloned brick has the same UserScriptDefinitionBrick instance as the original brick",
 				definition == clonedDef);
 
 		ArrayList<?> componentArray = (ArrayList<?>) Reflection.getPrivateField(brick, "userBrickParameters");
 		ArrayList<?> clonedComponentArray = (ArrayList<?>) Reflection.getPrivateField(cloneBrick, "userBrickParameters");
 		assertTrue("The cloned brick has a different userBrickElements than the original brick",
 				componentArray != clonedComponentArray);
+	}
+
+	private void runAndCheckSpritePosition(Script startScript, Integer expectedX, Integer expectedY) {
+		SequenceAction sequence = new SequenceAction();
+		startScript.run(sprite, sequence);
+
+		float x = sprite.look.getXInUserInterfaceDimensionUnit();
+		float y = sprite.look.getYInUserInterfaceDimensionUnit();
+
+		assertEquals("Unexpected initial sprite x position: ", 0f, x);
+		assertEquals("Unexpected initial sprite y position: ", 0f, y);
+
+		sequence.act(1f);
+
+		x = sprite.look.getXInUserInterfaceDimensionUnit();
+		y = sprite.look.getYInUserInterfaceDimensionUnit();
+
+		assertEquals("Unexpected sprite x position: ", (float) expectedX, x);
+		assertEquals("Unexpected sprite y position: ", (float) expectedY, y);
 	}
 }

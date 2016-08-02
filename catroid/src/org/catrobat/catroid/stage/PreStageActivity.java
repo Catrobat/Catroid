@@ -26,8 +26,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -44,19 +47,25 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class PreStageActivity extends BaseActivity {
@@ -65,8 +74,8 @@ public class PreStageActivity extends BaseActivity {
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
-
 	private int requiredResourceCounter;
+	private Set<Integer> failedResources;
 
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
@@ -86,8 +95,37 @@ public class PreStageActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_prestage);
 
+		TouchUtil.reset();
+
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
+		failedResources = new HashSet<>();
+
+		SensorHandler sensorHandler = SensorHandler.getInstance(getApplicationContext());
+
+		if ((requiredResources & Brick.SENSOR_ACCELERATION) > 0) {
+			if (sensorHandler.accelerationAvailable()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.SENSOR_ACCELERATION);
+			}
+		}
+
+		if ((requiredResources & Brick.SENSOR_INCLINATION) > 0) {
+			if (sensorHandler.inclinationAvailable()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.SENSOR_INCLINATION);
+			}
+		}
+
+		if ((requiredResources & Brick.SENSOR_COMPASS) > 0) {
+			if (sensorHandler.compassAvailable()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.SENSOR_COMPASS);
+			}
+		}
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -119,16 +157,7 @@ public class PreStageActivity extends BaseActivity {
 			if (CameraManager.getInstance().hasBackCamera()) {
 				resourceInitialized();
 			} else {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.no_back_camera_available)).setCancelable(false)
-						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								resourceFailed();
-							}
-						});
-				AlertDialog alert = builder.create();
-				alert.show();
+				resourceFailed(Brick.CAMERA_BACK);
 			}
 		}
 
@@ -136,16 +165,16 @@ public class PreStageActivity extends BaseActivity {
 			if (CameraManager.getInstance().hasFrontCamera()) {
 				resourceInitialized();
 			} else {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.no_front_camera_available)).setCancelable(false)
-						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								resourceFailed();
-							}
-						});
-				AlertDialog alert = builder.create();
-				alert.show();
+				resourceFailed(Brick.CAMERA_FRONT);
+			}
+		}
+
+		if ((requiredResources & Brick.VIDEO) > 0) {
+			if (CameraManager.getInstance().hasFrontCamera()
+					|| CameraManager.getInstance().hasBackCamera()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.VIDEO);
 			}
 		}
 
@@ -156,12 +185,11 @@ public class PreStageActivity extends BaseActivity {
 		if ((requiredResources & Brick.VIBRATOR) > 0) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			if (vibrator != null) {
-				requiredResourceCounter--;
 				VibratorUtil.setContext(this.getBaseContext());
 				VibratorUtil.activateVibratorThread();
+				resourceInitialized();
 			} else {
-				ToastUtil.showError(PreStageActivity.this, R.string.no_vibrator_available);
-				resourceFailed();
+				resourceFailed(Brick.VIBRATOR);
 			}
 		}
 
@@ -171,16 +199,23 @@ public class PreStageActivity extends BaseActivity {
 			if (success) {
 				resourceInitialized();
 			} else {
+				resourceFailed(Brick.FACE_DETECTION);
+			}
+		}
+		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
+			if ((requiredResources & Brick.FACE_DETECTION) > 0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(getString(R.string.no_camera_available)).setCancelable(false)
+				builder.setMessage(getString(R.string.nfc_facedetection_support)).setCancelable(false)
 						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								resourceFailed();
+								nfcInitialize();
 							}
 						});
 				AlertDialog alert = builder.create();
 				alert.show();
+			} else {
+				nfcInitialize();
 			}
 		}
 
@@ -204,6 +239,10 @@ public class PreStageActivity extends BaseActivity {
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
+
+		if ((requiredResources & Brick.SOCKET_RASPI) > 0) {
+			connectRaspberrySocket();
+		}
 	}
 
 	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
@@ -212,6 +251,18 @@ public class PreStageActivity extends BaseActivity {
 		if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE)
 				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
 			resourceInitialized();
+		}
+	}
+
+	private void connectRaspberrySocket() {
+		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
+		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+
+		if (RaspberryPiService.getInstance().connect(host, port)) {
+			resourceInitialized();
+		} else {
+			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			resourceFailed();
 		}
 	}
 
@@ -229,7 +280,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		super.onResume();
-		if (requiredResourceCounter == 0) {
+		if (requiredResourceCounter == 0 && failedResources.isEmpty()) {
+			Log.d(TAG, "onResume()");
 			finish();
 		}
 	}
@@ -264,6 +316,12 @@ public class PreStageActivity extends BaseActivity {
 		if (FaceDetectionHandler.isFaceDetectionRunning()) {
 			FaceDetectionHandler.stopFaceDetection();
 		}
+
+		if (VibratorUtil.isActive()) {
+			VibratorUtil.pauseVibrator();
+		}
+
+		RaspberryPiService.getInstance().disconnect();
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -294,11 +352,82 @@ public class PreStageActivity extends BaseActivity {
 		finish();
 	}
 
+	public void showResourceFailedErrorDialog() {
+		String failedResourcesMessage = getString(R.string.prestage_resource_not_available_text);
+		Iterator resourceIter = failedResources.iterator();
+		while (resourceIter.hasNext()) {
+			switch ((int) resourceIter.next()) {
+				case Brick.SENSOR_ACCELERATION:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_acceleration_sensor_available);
+					break;
+				case Brick.SENSOR_INCLINATION:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_inclination_sensor_available);
+					break;
+				case Brick.SENSOR_COMPASS:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_compass_sensor_available);
+					break;
+				case Brick.TEXT_TO_SPEECH:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_text_to_speech_error);
+					break;
+				case Brick.CAMERA_BACK:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_back_camera_available);
+					break;
+				case Brick.CAMERA_FRONT:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_front_camera_available);
+					break;
+				case Brick.CAMERA_FLASH:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_flash_available);
+					break;
+				case Brick.VIBRATOR:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_vibrator_available);
+					break;
+				case Brick.FACE_DETECTION:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_camera_available);
+					break;
+				default:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_default_resource_not_available);
+					break;
+			}
+		}
+
+		AlertDialog.Builder failedResourceAlertBuilder = new AlertDialog.Builder(this);
+		failedResourceAlertBuilder.setTitle(R.string.prestage_resource_not_available_title);
+		failedResourceAlertBuilder.setMessage(failedResourcesMessage).setCancelable(false)
+				.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						resourceFailed();
+					}
+				});
+		AlertDialog alert = failedResourceAlertBuilder.create();
+		alert.show();
+	}
+
+	public synchronized void resourceFailed(int failedResource) {
+		Log.d(TAG, "resourceFailed: " + failedResource);
+		failedResources.add(failedResource);
+		resourceInitialized();
+	}
+
 	public synchronized void resourceInitialized() {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
-			Log.d(TAG, "Start Stage");
-			startStage();
+			if (failedResources.isEmpty()) {
+				Log.d(TAG, "Start Stage");
+				startStage();
+			} else {
+				showResourceFailedErrorDialog();
+			}
 		}
 	}
 
@@ -309,7 +438,7 @@ public class PreStageActivity extends BaseActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+		Log.i(TAG, "requestcode " + requestCode + " result code" + resultCode);
 
 		switch (requestCode) {
 
@@ -334,8 +463,7 @@ public class PreStageActivity extends BaseActivity {
 							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
-								ToastUtil.showError(PreStageActivity.this, "Error occurred while initializing Text-To-Speech engine");
-								resourceFailed();
+								resourceFailed(Brick.TEXT_TO_SPEECH);
 							}
 						}
 					});
@@ -347,7 +475,7 @@ public class PreStageActivity extends BaseActivity {
 					}
 				} else {
 					AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
-					builder.setMessage(R.string.text_to_speech_engine_not_installed).setCancelable(false)
+					builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed).setCancelable(false)
 							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
@@ -390,22 +518,29 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void flashInitialize() {
-		if (CameraManager.getInstance().hasFlash()) {
-			CameraManager.getInstance().setToBackCamera();
+		if (CameraManager.getInstance().switchToCameraWithFlash()) {
 			FlashUtil.initializeFlash();
 			resourceInitialized();
 		} else {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(getString(R.string.no_flash_available)).setCancelable(false)
-					.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							resourceFailed();
-						}
-					});
-			AlertDialog alert = builder.create();
-			alert.show();
+			resourceFailed(Brick.CAMERA_FLASH);
 		}
 	}
-}
 
+	private void nfcInitialize() {
+		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
+		if (adapter != null && !adapter.isEnabled()) {
+			ToastUtil.showError(PreStageActivity.this, R.string.nfc_not_activated);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+				startActivity(intent);
+			}
+		} else if (adapter == null) {
+			ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
+			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
+		}
+		resourceInitialized();
+	}
+}

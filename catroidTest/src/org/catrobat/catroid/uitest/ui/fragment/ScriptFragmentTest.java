@@ -49,11 +49,13 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -87,8 +89,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private static final int GONE = View.GONE;
 
 	private String unpack;
-	private String unpackAndKeep;
 	private String backpack;
+	private String backpackAdd;
 	private String backpackTitle;
 
 	private String delete;
@@ -112,15 +114,15 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void setUp() throws Exception {
 		super.setUp();
 
-		unpack = solo.getString(R.string.unpacking);
-		unpackAndKeep = solo.getString(R.string.unpack_keep);
+		unpack = solo.getString(R.string.unpack);
 		backpack = solo.getString(R.string.backpack);
+		backpackAdd = solo.getString(R.string.backpack_add);
 		backpackTitle = solo.getString(R.string.backpack_title);
 
 		delete = solo.getString(R.string.delete);
-		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_script_group_title);
+		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_backpack_group_title);
 
-		UiTestUtils.clearBackPack();
+		UiTestUtils.clearBackPack(true);
 	}
 
 	public void testCopyScript() {
@@ -419,6 +421,25 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
 	}
 
+	public void testDragNDropNestedBrick() {
+		List<Brick> brickListToCheck = UiTestUtils.createTestProjectNestedBricks();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() == 8);
+
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(6) - 3, 20);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(5), brickList.get(0));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(1));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(2), brickList.get(3));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(4));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(5));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(6), brickList.get(6));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(7), brickList.get(7));
+	}
+
 	public void testDeleteActionMode() {
 		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -509,6 +530,24 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getNumberOfBricks();
 
 		assertEquals("No Brick should have been deleted!", brickListToCheck.size(), numberOfBricks);
+	}
+
+	public void testIfLogicReferences() {
+		UiTestUtils.createTestProject(UiTestUtils.PROJECTNAME1);
+		UiTestUtils.createTestProjectIfBricks();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
+		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		clickOnContextMenuItem(DEFAULT_SCRIPT_GROUP_NAME, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		Script unpackedScript = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(1);
+		assertTrue("if bricks have wrong or no references after unpacking", ProjectManager.getInstance()
+				.checkCurrentScript(unpackedScript, false));
 	}
 
 	public void testDeleteActionModeAllBricks() {
@@ -733,20 +772,21 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testBackgroundBricks() {
-		Project standardProject = null;
+		TestUtils.clearProject(solo.getString(R.string.default_project_name));
+		Project defaultProject = null;
 		try {
-			standardProject = DefaultProjectHandler.createAndSaveDefaultProject(
+			defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(
 					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		} catch (IOException e) {
-			Log.e(TAG, "Could not create standard project", e);
-			fail("Could not create standard project");
+			Log.e(TAG, "Could not create default project", e);
+			fail("Could not create default project");
 		}
 
-		if (standardProject == null) {
-			fail("Could not create standard project");
+		if (defaultProject == null) {
+			fail("Could not create default project");
 		}
-		ProjectManager.getInstance().setProject(standardProject);
-		StorageHandler.getInstance().saveProject(standardProject);
+		ProjectManager.getInstance().setProject(defaultProject);
+		StorageHandler.getInstance().saveProject(defaultProject);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		String categoryLooks = solo.getString(R.string.category_looks);
@@ -897,7 +937,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testBackPackScriptsSimpleUnpackingContextMenu() {
-		UiTestUtils.createTestProject();
+		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
 		int numberOfBricksInBrickList = ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks();
@@ -905,22 +945,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
 		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 		unpackScriptGroup(DEFAULT_SCRIPT_GROUP_NAME, unpack);
-
-		assertEquals("Brick count in list view not correct", brickCountInView + 7, UiTestUtils.getScriptListView(solo)
-				.getCount());
-		assertEquals("Brick count in current sprite not correct", numberOfBricksInBrickList + 6,
-				ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks());
-	}
-
-	public void testBackPackScriptsSimpleUnpackingAndUnpackingAndKeepContextMenu() {
-		UiTestUtils.createTestProject();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
-		int numberOfBricksInBrickList = ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks();
-
-		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
-		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
-		unpackScriptGroup(DEFAULT_SCRIPT_GROUP_NAME, unpackAndKeep);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
+		solo.sleep(500);
 
 		assertEquals("Brick count in list view not correct", brickCountInView + 7, UiTestUtils.getScriptListView(solo)
 				.getCount());
@@ -930,15 +956,20 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.openBackPack(solo, getActivity());
 		assertTrue("Script wasn't kept in backpack!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0,
 				TIME_TO_WAIT_BACKPACK));
+	}
 
+	public void testBackPackMultipleUnpackingVariablesWithSameName() {
+		UiTestUtils.createTestProjectWithUserVariables();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		checkNumberOfElementsInDataContainer();
+
+		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
+		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 		unpackScriptGroup(DEFAULT_SCRIPT_GROUP_NAME, unpack);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
+		solo.sleep(500);
 
-		assertEquals("Brick count in list view not correct", brickCountInView + 14, UiTestUtils.getScriptListView(solo)
-				.getCount());
-		assertEquals("Brick count in current sprite not correct", numberOfBricksInBrickList + 12,
-				ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks());
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		assertFalse("Backpack isn't empty!", solo.searchText(unpack));
+		checkNumberOfElementsInDataContainer();
 	}
 
 	public void testBackPackAndUnPackFromDifferentProgrammes() {
@@ -1133,6 +1164,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.goBack();
 		backPackFirstScriptWithContextMenu(SECOND_SCRIPT_GROUP_NAME);
 
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackScriptFragment.TAG);
 		BackPackScriptAdapter adapter = getBackPackScriptAdapter();
 		int oldCount = adapter.getCount();
 
@@ -1163,7 +1196,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.openBackPack(solo, getActivity());
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
-		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -1182,21 +1215,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks());
 
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		solo.sleep(TIME_TO_WAIT_BACKPACK);
-
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
-		UiTestUtils.clickOnText(solo, selectAll);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-
-		solo.waitForActivity(ScriptActivity.class);
-		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		assertEquals("Brick count in list view not correct", brickCountInView, UiTestUtils.getScriptListView(solo)
-				.getCount());
-		assertEquals("Brick count in current sprite not correct", numberOfBricksInBrickList,
-				ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks());
-
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		assertFalse("Backpack items were not cleared!", solo.waitForText(unpack, 1, 1000));
+		assertTrue("Backpack items were cleared!", solo.waitForText(backpackTitle, 1, 1000));
 	}
 
 	public void testBackPackDeleteActionModeCheckingAndTitle() {
@@ -1400,6 +1419,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(DEFAULT_SCRIPT_GROUP_NAME, unpack);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		listView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
@@ -1444,6 +1465,38 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.goBack();
 
 		assertTrue("Sprite was not unpacked!", solo.waitForText("dog", 1, TIME_TO_WAIT_BACKPACK));
+	}
+
+	public void testBackPackScriptWithUserBrick() {
+		UiTestUtils.createTestProjectWithUserBrick();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
+		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.clickOnText(SECOND_SPRITE_NAME);
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		int numberOfBricksInBrickList = ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks();
+
+		UiTestUtils.openBackPackFromEmtpyAdapter(solo, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(DEFAULT_SCRIPT_GROUP_NAME, unpack);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		assertEquals("Brick count in current sprite not correct", numberOfBricksInBrickList + 7,
+				ProjectManager.getInstance().getCurrentSprite().getNumberOfBricks());
+		assertEquals("UserBrick prototype count in current sprite not correct", 1,
+				ProjectManager.getInstance().getCurrentSprite().getUserBrickList().size());
+
+		UiTestUtils.getIntoUserBrickOverView(solo);
+		assertTrue("No UserBrick was unpacked!", solo.waitForText(UiTestUtils.TEST_USER_BRICK_NAME, 0,
+				TIME_TO_WAIT_BACKPACK, false,
+				true));
 	}
 
 	public void testBackPackScriptGroupWithSameName() {
@@ -1492,11 +1545,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
-		solo.waitForDialogToOpen();
-		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
-				.nothing_to_unpack)));
-
 		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
@@ -1532,8 +1580,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForText(brickWhenStarted);
 		solo.clickOnText(brickWhenStarted);
 		solo.waitForDialogToOpen();
-		solo.waitForText(backpack);
-		solo.clickOnText(backpack);
+		solo.waitForText(backpackAdd);
+		solo.clickOnText(backpackAdd);
 
 		fillNewScriptGroupDialog(scriptGroupName);
 	}
@@ -1559,17 +1607,12 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(solo.getString(R.string.ok));
 
 		solo.waitForDialogToClose();
-		solo.sleep(20000);
 	}
 
 	private void clickOnContextMenuItem(String scriptGroupName, String menuItemName) {
-		int match = 1;
-		if (menuItemName.equals(unpack)) {
-			match = 2;
-		}
 		solo.clickLongOnText(scriptGroupName);
 		solo.waitForText(menuItemName);
-		solo.clickOnText(menuItemName, match);
+		solo.clickOnText(menuItemName);
 	}
 
 	private void unpackScriptGroup(String scriptGroupName, String menuItemName) {
@@ -1583,13 +1626,13 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 			int checkBoxVisibility) {
 		solo.sleep(200);
 		assertTrue("Script group image " + getAssertMessageAffix(imageVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_image_view).getVisibility() == imageVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_image_view).getVisibility() == imageVisibility);
 		assertTrue("Script group name " + getAssertMessageAffix(scriptGroupNameVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_name_text_view).getVisibility() == scriptGroupNameVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_name_text_view).getVisibility() == scriptGroupNameVisibility);
 		assertTrue("Script group details " + getAssertMessageAffix(scriptGroupDetailsVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_detail_linear_layout).getVisibility() == scriptGroupDetailsVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_detail_linear_layout).getVisibility() == scriptGroupDetailsVisibility);
 		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility),
-				solo.getView(R.id.fragment_script_backpack_item_checkbox).getVisibility() == checkBoxVisibility);
+				solo.getView(R.id.fragment_group_backpack_item_checkbox).getVisibility() == checkBoxVisibility);
 	}
 
 	private String getAssertMessageAffix(int visibility) {
@@ -1646,5 +1689,18 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
 			solo.sleep(200);
 		}
+	}
+
+	private void checkNumberOfElementsInDataContainer() {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+
+		assertTrue("There is not exactly one global variable in the data container!",
+				dataContainer.getProjectVariables().size() == 1);
+		assertTrue("There is not exactly one sprite variable in the data container!",
+				dataContainer.getVariableListForSprite(sprite).size() == 1);
+		assertTrue("There is not exactly one userbrick variable in the data container!",
+				dataContainer.getOrCreateVariableListForUserBrick(userBrick).size() == 1);
 	}
 }

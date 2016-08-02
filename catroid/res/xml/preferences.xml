@@ -62,7 +62,7 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:key="setting_parrot_airdrone_bricks"
+        android:key="setting_parrot_ar_drone_bricks"
         android:summary="@string/preference_description_quadcopter_bricks"
         android:title="@string/preference_title_enable_quadcopter_bricks" >
 
@@ -105,6 +105,55 @@
         android:key="setting_arduino_bricks"
         android:summary="@string/preference_description_arduino_bricks"
         android:title="@string/preference_title_enable_arduino_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_nfc_bricks"
+        android:summary="@string/preference_description_nfc_bricks"
+        android:title="@string/preference_title_enable_nfc_bricks" />
+
+
+    <PreferenceScreen
+        android:key="settings_raspberry_screen"
+        android:summary="@string/preference_description_raspi_bricks"
+        android:title="@string/preference_title_enable_raspi_bricks" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_raspi_bricks"
+            android:summary="@string/preference_raspi_enable_bricks"
+            android:title="@string/preference_title_enable_raspi_bricks" />
+
+        <PreferenceCategory
+            android:title="@string/raspi_settings_title_name"
+            android:key="setting_raspi_connection_settings_category">
+            <PreferenceScreen
+                android:title="@string/preference_raspi_help"
+                android:summary="@string/preference_raspi_help_summary">
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="@string/preference_raspi_help_link"
+                    />
+            </PreferenceScreen>
+
+            <EditTextPreference android:key="setting_raspi_host_preference"
+                android:title="@string/preference_raspi_host"
+                android:defaultValue="192.168.0.1" />
+
+            <EditTextPreference android:key="setting_raspi_port_preference"
+                android:title="@string/preference_raspi_port"
+                android:inputType="number"
+                android:defaultValue="10000" />
+
+            <ListPreference android:key="setting_raspi_version_preference"
+                android:title="@string/raspi_settings_gpio_version"
+                android:summary="%s"
+                android:entries="@array/raspi_version_spinner_names"
+                android:entryValues="@array/raspi_version_spinner_revisions"
+                android:defaultValue="a01041"/>
+        </PreferenceCategory>
+
+    </PreferenceScreen>
 
     <CheckBoxPreference
         android:defaultValue="false"

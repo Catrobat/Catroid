@@ -34,6 +34,7 @@ public class ClearGraphicEffectAction extends TemporalAction {
 	protected void update(float percent) {
 		sprite.look.setBrightnessInUserInterfaceDimensionUnit(100.0f);
 		sprite.look.setTransparencyInUserInterfaceDimensionUnit(0.0f);
+		sprite.look.setColorInUserInterfaceDimensionUnit(0.0f);
 	}
 
 	public void setSprite(Sprite sprite) {

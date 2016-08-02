@@ -169,6 +169,26 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
 	}
 
+	public void testUploadProjectWithTags() throws Throwable {
+		int maxNumberChecked = 3;
+		UiTestUtils.createValidUser(getActivity());
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.waitForText(uploadDialogTitle);
+
+		solo.clickOnText(solo.getString(R.string.ok));
+
+		boolean tagDialogShown = solo.waitForText(solo.getString(R.string.upload_tag_dialog_title));
+		assertTrue("tag dialog not shown", tagDialogShown);
+
+		for (int i = 0; i < maxNumberChecked; i++) {
+			solo.clickOnCheckBox(i);
+		}
+		solo.clickOnCheckBox(maxNumberChecked);
+		assertFalse("The number of checked tags should be limited to 3!", solo.isCheckBoxChecked(maxNumberChecked));
+
+		solo.clickOnButton(solo.getString(R.string.cancel_button));
+	}
+
 	private void createTestProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		if (directory.exists()) {

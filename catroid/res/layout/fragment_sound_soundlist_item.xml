@@ -42,7 +42,6 @@
         android:id="@+id/fragment_sound_item_main_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false"
         android:longClickable="true"
         android:minHeight="90dp"
         android:orientation="horizontal" >

@@ -105,7 +105,7 @@ public class DragNDropBrickLayout extends BrickLayout {
 
 	@Override
 	protected void allocateLineData() {
-		breaks = new LinkedList<Integer>();
+		breaks = new LinkedList<>();
 		super.allocateLineData();
 	}
 
@@ -117,15 +117,15 @@ public class DragNDropBrickLayout extends BrickLayout {
 		int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
 		int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 
-		int lineThicknessWithorizontalSpacing = 0;
-		int lineThickness = 0;
-		int lineLengthWithHorizontalSpacing = 0;
-		int lineLength = 0;
+		int lineThicknessWithHorizontalSpacing;
+		int lineThickness;
+		int lineLengthWithHorizontalSpacing;
+		int lineLength;
 
-		int prevLinePosition = 0;
+		int prevLinePosition;
 
-		int controlMaxLength = 0;
-		int controlMaxThickness = 0;
+		int controlMaxLength;
+		int controlMaxThickness;
 
 		for (LineData lineData : lines) {
 			lineData.allowableTextFieldWidth = 0;
@@ -142,12 +142,11 @@ public class DragNDropBrickLayout extends BrickLayout {
 			}
 		}
 
-		LineData currentLine = lines.getFirst();
+		LineData currentLine;
 
-		lineThicknessWithorizontalSpacing = 0;
+		lineThicknessWithHorizontalSpacing = 0;
 		lineThickness = 0;
 		lineLengthWithHorizontalSpacing = 0;
-		lineLength = 0;
 
 		prevLinePosition = 0;
 
@@ -200,18 +199,18 @@ public class DragNDropBrickLayout extends BrickLayout {
 			}
 
 			if (lineLength > sizeWidth || previousWasNewLine || forceNewLine) {
-				prevLinePosition = prevLinePosition + lineThicknessWithorizontalSpacing;
+				prevLinePosition = prevLinePosition + lineThicknessWithHorizontalSpacing;
 
 				currentLine = getNextLine(currentLine);
 				elementInLineIndex = 0;
 
 				lineThickness = childHeight;
 				lineLength = childWidth;
-				lineThicknessWithorizontalSpacing = childHeight + verticalSpacing;
+				lineThicknessWithHorizontalSpacing = childHeight + verticalSpacing;
 				lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 			}
 
-			lineThicknessWithorizontalSpacing = Math.max(lineThicknessWithorizontalSpacing, childHeight
+			lineThicknessWithHorizontalSpacing = Math.max(lineThicknessWithHorizontalSpacing, childHeight
 					+ verticalSpacing);
 			lineThickness = Math.max(lineThickness, childHeight);
 

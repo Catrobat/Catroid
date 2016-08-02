@@ -34,10 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -75,10 +76,10 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_change_transparency, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_change_ghost_effect_checkbox);
+		setCheckboxView(R.id.brick_change_transparency_checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -88,10 +89,10 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		TextView editX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_transparency_prototype_text_view);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_transparency_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
-				.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
+				.setTextFieldId(R.id.brick_change_transparency_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
@@ -102,10 +103,10 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
-		TextView textChangeTransparency = (TextView) prototypeView
-				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		textChangeTransparency.setText(String.valueOf(BrickValues.CHANGE_GHOST_EFFECT));
+		prototypeView = View.inflate(context, R.layout.brick_change_transparency, null);
+		TextView textChangeGhostEffect = (TextView) prototypeView
+				.findViewById(R.id.brick_change_transparency_prototype_text_view);
+		textChangeGhostEffect.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		return prototypeView;
 	}
 
@@ -114,15 +115,15 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_change_ghost_effect_layout);
+			View layout = view.findViewById(R.id.brick_change_transparency_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
-			TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
-			TextView editTransparency = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-			textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
-			textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
+			TextView textTransparency = (TextView) view.findViewById(R.id.brick_change_transparency_label);
+			TextView textTransparencyBy = (TextView) view.findViewById(R.id.brick_change_transparency_by);
+			TextView editTransparency = (TextView) view.findViewById(R.id.brick_change_transparency_edit_text);
+			textTransparency.setTextColor(textTransparency.getTextColors().withAlpha(alphaValue));
+			textTransparencyBy.setTextColor(textTransparencyBy.getTextColors().withAlpha(alphaValue));
 			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
 			editTransparency.getBackground().setAlpha(alphaValue);
 
@@ -134,7 +135,7 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeTransparencyByN(sprite,
+		sequence.addAction(sprite.getActionFactory().createChangeTransparencyByNAction(sprite,
 				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)));
 		return null;
 	}
@@ -142,5 +143,9 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.TRANSPARENCY_CHANGE);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

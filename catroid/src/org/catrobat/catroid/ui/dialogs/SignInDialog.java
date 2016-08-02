@@ -51,6 +51,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
@@ -64,6 +65,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.Arrays;
@@ -79,6 +81,7 @@ public class SignInDialog extends DialogFragment implements
 		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
 		GetFacebookUserInfoTask.OnGetFacebookUserInfoTaskCompleteListener {
+	private static final String TAG = SignInDialog.class.getSimpleName();
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_sign_in";
 	private static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
@@ -153,15 +156,23 @@ public class SignInDialog extends DialogFragment implements
 		facebookLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
-				LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+				if (Utils.isNetworkAvailable(getActivity())) {
+					Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
+					LoginManager.getInstance().logInWithReadPermissions(getActivity(), permissions);
+				} else {
+					Utils.isNetworkAvailable(getActivity(), true);
+				}
 			}
 		});
 
 		gplusLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				handleGooglePlusLoginButtonClick(view);
+				if (Utils.isNetworkAvailable(getActivity())) {
+					handleGooglePlusLoginButtonClick(view);
+				} else {
+					Utils.isNetworkAvailable(getActivity(), true);
+				}
 			}
 		});
 
@@ -232,12 +243,20 @@ public class SignInDialog extends DialogFragment implements
 	}
 
 	private void handleLoginButtonClick() {
+		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+			return;
+		}
+
 		LogInDialog logInDialog = new LogInDialog();
 		logInDialog.show(getActivity().getFragmentManager(), LogInDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
 	}
 
 	private void handleRegisterButtonClick() {
+		if (!Utils.isNetworkAvailable(getActivity(), true)) {
+			return;
+		}
+
 		RegistrationDialog registrationDialog = new RegistrationDialog();
 		registrationDialog.show(getActivity().getFragmentManager(), RegistrationDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
@@ -266,7 +285,8 @@ public class SignInDialog extends DialogFragment implements
 			GoogleSignInAccount account = result.getSignInAccount();
 			onGoogleLogInComplete(account);
 		} else {
-			ToastUtil.showError(getActivity(), "There was a problem during Google+ Signin");
+			ToastUtil.showError(getActivity(), "There was a problem during Google+ Signin. Status: "
+					+ result.getStatus());
 		}
 	}
 
@@ -313,15 +333,14 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onCheckOAuthTokenComplete(Boolean tokenAvailable, String provider) {
-
 		if (provider.equals(Constants.FACEBOOK)) {
-			checkOAuthTokenFacebook(tokenAvailable);
+			checkOAuthTokenFacebookComplete(tokenAvailable);
 		} else if (provider.equals(Constants.GOOGLE_PLUS)) {
-			checkOAuthTokenGoogle(tokenAvailable);
+			checkOAuthTokenGoogleComplete(tokenAvailable);
 		}
 	}
 
-	private void checkOAuthTokenFacebook(boolean tokenAvailable) {
+	private void checkOAuthTokenFacebookComplete(boolean tokenAvailable) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (tokenAvailable) {
 			FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
@@ -340,7 +359,7 @@ public class SignInDialog extends DialogFragment implements
 		}
 	}
 
-	private void checkOAuthTokenGoogle(boolean tokenAvailable) {
+	private void checkOAuthTokenGoogleComplete(boolean tokenAvailable) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (tokenAvailable) {
 			GoogleLogInTask googleLogInTask = new GoogleLogInTask(getActivity(),
@@ -432,21 +451,18 @@ public class SignInDialog extends DialogFragment implements
 	@Override
 	public void onFacebookLogInComplete() {
 		dismiss();
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.FACEBOOK);
-		uploadProjectDialog.setArguments(bundle);
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
 	}
 
 	@Override
 	public void onGoogleServerLogInComplete() {
 		dismiss();
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, Constants.GOOGLE_PLUS);
-		uploadProjectDialog.setArguments(bundle);
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().signInFinished(getFragmentManager(), bundle);
 	}
 
 	@Override
@@ -463,11 +479,12 @@ public class SignInDialog extends DialogFragment implements
 
 	@Override
 	public void onGetFacebookUserInfoTaskComplete(String id, String name, String locale, String email) {
-		Log.d("FB", "User Info complete");
+		Log.d(TAG, "FB User Info complete");
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, id).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, name).commit();
 		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, locale).commit();
+
 		//if user has approved email permission, fb-email address is taken, else device email address
 		if (email != null) {
 			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, email).commit();
@@ -479,5 +496,11 @@ public class SignInDialog extends DialogFragment implements
 		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(getActivity(), id, Constants.FACEBOOK);
 		checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
 		checkOAuthTokenTask.execute();
+	}
+
+	@Override
+	public void forceSignIn() {
+		SignInDialog signInDialog = new SignInDialog();
+		signInDialog.show(getActivity().getFragmentManager(), SignInDialog.DIALOG_FRAGMENT_TAG);
 	}
 }

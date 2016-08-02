@@ -22,15 +22,12 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Mégse</string>
   <string name="rename">Átnevezés</string>
   <string name="delete">Törlés</string>
-  <string name="menu_item_move_down">Move Down</string>
-  <string name="menu_item_move_up">Move Up</string>
-  <string name="menu_item_move_to_top">Move To Top</string>
-  <string name="menu_item_move_to_bottom">Move To Bottom</string>
   <string name="yes">Igen</string>
   <string name="no">Nem</string>
   <string name="copy">Másolás</string>
@@ -39,13 +36,16 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Hátizsák</string>
   <string name="packing">Pack</string>
-  <string name="unpacking">Kibontás</string>
+  <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
+  <string name="unpack_bg">Unpack as background</string>
+  <string name="unpack_object">Unpack as object</string>
   <string name="copy_addition">másolat</string>
   <string name="close">Bezárás</string>
   <string name="error">Hiba</string>
   <string name="please_wait">Kérlek, várj</string>
   <string name="loading">Betöltés&#8230;</string>
+  <string name="no_internet">No Internet</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
@@ -65,15 +65,17 @@
   <string name="name_exists">Name already exists</string>
   <string name="no_name">No name</string>
   <string name="is_empty">is empty</string>
-  <string name="new_group">New Group</string>
-  <string name="my_group">My Group</string>
+  <string name="new_group">New group</string>
+  <string name="my_group">My group</string>
   <string name="name">Name:</string>
   <string name="nothing_to_copy">Nothing to copy</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
   <string name="nothing_to_unpack">Nothing to unpack</string>
   <string name="nothing_to_delete">Nothing to delete</string>
   <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program background will be replaced</string>
+  <string name="unpack_background">Program\'s background will be replaced</string>
+  <string name="degrees">degrees</string>
+  <!-- Main menu activity -->
   <string name="main_menu_new">Új</string>
   <string name="main_menu_continue">Folytatás</string>
   <string name="main_menu_programs">Programok</string>
@@ -85,6 +87,9 @@
   <string name="main_menu_rate_app">Értékelj minket!</string>
   <string name="main_menu_play_store_not_installed">Play Store app nem található</string>
   <string name="main_menu_logout">Kijelentkezés</string>
+  <string name="main_menu_login">Bejelentkezés</string>
+  <string name="logout_successful">Logout successful</string>
+  <!-- Settings activity -->
   <string name="preference_title">Beállítások</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 elemek</string>
   <string name="preference_description_quadcopter_bricks">Lehetővé teszi ARDrone 2.0 quadcopter irányítását</string>
@@ -93,9 +98,19 @@
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
   <string name="preference_title_drone_config_properties">Drone configuration properties</string>
   <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
-  <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
+  <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
   <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
-  <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+  <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
+  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
+  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
+  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
+  <string name="preference_raspi_help">Help / Getting started</string>
+  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
+  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
+  <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Kép rajzolása</string>
   <string name="dialog_new_object_gallery">Kép kiválasztása</string>
   <string name="dialog_new_object_camera">Fotó készítése</string>
@@ -103,18 +118,24 @@
   <string name="dialog_new_object_name">Objektum neve</string>
   <string name="dialog_new_object_switch_title">Új objektum létrehozva</string>
   <string name="dialog_new_object_switch_message">Váltás az új objektumra?</string>
+  <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Felhasználási feltételek</string>
   <string name="dialog_terms_of_use_info">A Pocket Code és a Catrobat projekt más projekteinek használatához el kell fogadnia a felhasználási feltételeket, és be kell tartania a benne foglaltakat a Pocket Code és egyéb programjaink használata során. Lásd az alábbi hivatkozást a teljes szöveg megtekintéséhez.\n
 
     </string>
   <string name="dialog_terms_of_use_link_text">Felhasználási feltételek</string>
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+  <!-- Terms of Use Dialog Parrot ARDrone-->
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
+        AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
+        use for Pocket Code.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <!-- About Dialog -->
   <string name="dialog_about_title">A Pocket Code-ról</string>
   <string name="dialog_about_license_info">A Pocket Code a Catrobat vizuális programozási nyelv programozási környezete és fordítója Android eszközökre.\n\n A Pocket Code forráskódja főként GNU AGPL 3.0 licencelésű. Részletes licenc-információkért lásd az alábbi hivatkozást.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Code forráskód-licenc</string>
   <string name="dialog_about_catrobat_link_text">A Catrobatról</string>
+  <!-- Project activity view -->
   <string name="project_name">Program:</string>
   <string name="my_projects_activity_title">Programok</string>
   <string name="number_of_scripts">Szkriptek:</string>
@@ -127,12 +148,16 @@
   <string name="sprite">Objektum</string>
   <string name="sprites">Objektumok</string>
   <string name="spritelist_background_headline">Háttér</string>
-  <string name="dialog_confirm_delete_object_title">Delete this object?</string>
-  <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
+  <string name="dialog_confirm_delete_object_title">Delete this Object?</string>
+  <string name="dialog_confirm_delete_multiple_objects_title">Delete these Objects?</string>
   <string name="dialog_confirm_delete_object_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="select_all">Összes kijelölése</string>
   <string name="deselect_all">Deselect all</string>
+  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+  <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Másolás</string>
+  <!-- Script activity -->
   <string name="scripts">Szkriptek</string>
   <string name="look">Kinézet</string>
   <string name="looks">Kinézetek</string>
@@ -141,26 +166,30 @@
   <string name="size">Méret:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
+  <string name="userbrick_group">Userbrick Group</string>
+  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
+  <!-- Script fragment -->
   <string name="fragment_script_text_description">Érintsd meg a \"+\" jelet szkriptek hozzáadásához</string>
   <string name="dialog_confirm_delete_brick_title">Törlöd ezt az elemet?</string>
   <string name="dialog_confirm_delete_script_title">Törlöd ezt a szkriptet?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Törlöd ezeket az elemeket?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">Ezt a műveletet nem lehet visszavonni!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">%d elem törlése</item>
-    <item quantity="other">%d elem törlése</item>
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">1 elem törlése</item>
-    <item quantity="other">%d elem törlése</item>
+    <item quantity="one">Copy %d Brick</item>
+    <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_backpack">
-    <item quantity="one">Backpack 1 Brick</item>
+    <item quantity="one">Backpack %d Brick</item>
     <item quantity="other">Backpack %d Bricks</item>
   </plurals>
+  <!-- Look fragment -->
   <string name="fragment_look_text_description">Érintsd meg a \"+\" jelet Kinézet hozzáadásához</string>
   <string name="fragment_background_text_description">Érintsd  meg a \"+\" jelet Hátterek hozzáadásához</string>
   <string name="rename_look_dialog">Kinézet átnevezése</string>
@@ -172,10 +201,13 @@
   <string name="select_look_from_gallery">Kép kijelölése</string>
   <string name="select_look_from_camera">Fotó kijelölése</string>
   <string name="look_measure">Méret:</string>
-  <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-  <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
+  <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
+  <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="lookname">kinézet neve:</string>
+  <string name="backpack_replace_look">The look \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
+  <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Érintsd meg a \"+\" jelet hangok hozzáadásához</string>
   <string name="rename_sound_dialog">Hang átnevezése</string>
   <string name="backpack_title">Hátizsák</string>
@@ -190,8 +222,24 @@
   <string name="dialog_confirm_delete_multiple_sounds_title">Törlöd ezeket a hangokat?</string>
   <string name="dialog_confirm_delete_sound_message">Ezt a műveletet nem lehet visszavonni!</string>
   <string name="sound_name">hang neve:</string>
-  <string name="new_sound_name">Sound name:</string>
-  <string name="rename_sound_overwrite">Sound with same name already exists!</string>
+  <string name="new_sound_name">hang neve:</string>
+  <string name="rename_sound_overwrite">Sound with this name already exists. Please choose a different one!</string>
+  <string name="backpack_replace_sound">The sound \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
+  <string name="backpack_replace_sound_multiple">Sounds already exist in the backpack. Do you want to replace them?</string>
+  <!-- NfcTags fragment -->
+  <string name="fragment_nfctag_text_description">Scan tags to add</string>
+  <string name="rename_nfctag_dialog">Rename nfctag</string>
+  <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+  <string name="nfctag_scan">scan</string>
+  <string name="delete_nfctag_dialog">Delete nfctag?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+  <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+  <string name="nfctag_name">nfctag name:</string>
+  <string name="nfctag">NFC Tag</string>
+  <string name="nfctags">NFC Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">lett kicsomagolva!</item>
     <item quantity="other">lett kicsomagolva!</item>
@@ -204,6 +252,11 @@
     <item quantity="one">Script</item>
     <item quantity="other">Scripts</item>
   </plurals>
+  <plurals name="userbricks_plural">
+    <item quantity="one">Userbrick</item>
+    <item quantity="other">Userbricks</item>
+  </plurals>
+  <!-- My Projects activity -->
   <string name="last_used">Utolsó hozzáférés:</string>
   <string name="description">Leírás:</string>
   <string name="set_description">Leírás megadása</string>
@@ -217,13 +270,31 @@
   <string name="details_date_today">Ma</string>
   <string name="details_date_yesterday">Tegnap</string>
   <string name="dialog_copy_project_title">Program másolása</string>
+  <!-- Soundrecorder activity -->
   <string name="soundrecorder_name">Pocket Code hangrögzítő</string>
   <string name="soundrecorder_error">Hangrögzítés sikertelen</string>
   <string name="soundrecorder_recorded_filename">felvétel</string>
   <string name="soundrecorder_text_view">Kattints az ikonra a felvétel elindításához és leállításához.</string>
-  <string name="text_to_speech_engine_not_installed">A Text-to-Speech modul nincs telepítve.\nSzeretnéd telepíteni?</string>
-  <string name="no_flash_available">No flash LED available</string>
-  <string name="no_vibrator_available">Rezgőfunkció nem elérhető</string>
+  <!-- PreStage activity -->
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
+        components are unavailable:\n\n</string>
+  <string name="prestage_no_flash_available">\u2022 Flash\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+  <string name="no_nfc_available">NFC not available</string>
+  <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
+  <string name="nfc_facedetection_support">The combination of NFC and facedetection might lead to performance
+        issues!</string>
+  <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">Elem mozgatása</string>
   <string name="brick_context_dialog_show_source">Forrástégla mutatása</string>
   <string name="brick_context_dialog_delete_brick">Elem törlése</string>
@@ -233,39 +304,45 @@
   <string name="brick_context_dialog_edit_brick">Tégla szerkesztése</string>
   <string name="brick_context_dialog_formula_edit_brick">Képlet szerkesztése</string>
   <string name="brick_context_dialog_delete_script">Szkript törlése</string>
+  <!-- New look dialog -->
   <string name="new_look_dialog_title">Kinézet hozzáadása</string>
   <string name="add_look_from_camera">Fotó készítése</string>
   <string name="add_look_draw_new_image">Képrajzolás</string>
   <string name="add_look_choose_image">Kép kiválasztása</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
-  <string name="look_rename_overwrite">Look Name already exists!</string>
+  <string name="look_rename_overwrite">Look with this name already exists. Please choose a different one
+        !</string>
   <string name="add_look_drone_video">Drone Video</string>
+  <!-- New Sound dialog -->
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
+  <!-- New project dialog -->
   <string name="new_project_dialog_title">Új program</string>
   <string name="new_project_dialog_hint">Saját programom</string>
   <string name="new_project_description_dialog_hint">Saját leírásom</string>
   <string name="new_project_name">Program neve:</string>
   <string name="new_project_empty">Üres program létrehozása</string>
-  <string name="new_project_default">Create example program</string>
-  <string name="new_project_default_drone">Create example drone program</string>
+  <string name="new_project_default">Create example Program</string>
+  <string name="new_project_default_drone">Create example Drone Program</string>
   <string name="project_orientation_title">Orientation:</string>
+  <!-- New sprite dialog -->
   <string name="new_sprite_dialog_default_sprite_name">Saját objektumom</string>
   <string name="new_sprite_dialog_title">Új objektum</string>
   <string name="spritename_already_exists">Az objektumnév már létezik</string>
   <string name="rename_sprite_dialog">Objektum átnevezése</string>
   <string name="spritename_invalid">Az objektumnév helytelen</string>
-  <string name="no_spritename_entered">Please enter a object name.</string>
+  <string name="no_spritename_entered">Please enter an object name.</string>
   <string name="sprite_name">Objektum neve:</string>
+  <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Felhasználónév:</string>
   <string name="password">Jelszó:</string>
-  <string name="password_forgotten">Elfelejtett jelszó</string>
+  <string name="password_forgotten">Password forgotten?</string>
   <string name="new_user_registered">Új fiók létrehozva</string>
   <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">Hiba történt</string>
+  <string name="register_error">Invalid login</string>
   <string name="register_terms">A regisztrációval elfogadod a</string>
   <string name="register_pocketcode_terms_of_use_text">Felhasználási feltételeket</string>
   <string name="login">Bejelentkezés</string>
@@ -277,19 +354,22 @@
   <string name="signin_choose_username">Please choose your username:</string>
   <string name="signin_choose_username_empty">Please enter a username</string>
   <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one.</string>
-  <string name="show_password">Show password</string>
+  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
+  <string name="show_password">Show Password</string>
   <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign In</string>
+  <!-- OverwriteRenameDialog Strings -->
   <string name="overwrite_text">Már létezik program ezzel a névvel!</string>
   <string name="overwrite_replace">Létező program lecserélése</string>
   <string name="overwrite_rename">Letöltött program átnevezése</string>
-  <string name="overwrite_replace_look">Replace existing look</string>
-  <string name="overwrite_rename_look">Rename downloaded look</string>
-  <string name="overwrite_replace_sound">Replace existing sound</string>
-  <string name="overwrite_rename_sound">Rename downloaded sound</string>
+  <!-- OverwriteRenameMediaDialog -->
+  <string name="overwrite_replace_look">Replace existing Look</string>
+  <string name="overwrite_rename_look">Rename downloaded Look</string>
+  <string name="overwrite_replace_sound">Replace existing Sound</string>
+  <string name="overwrite_rename_sound">Rename downloaded Sound</string>
   <string name="overwrite_replace_default">Replace existing media</string>
   <string name="overwrite_rename_default">Rename existing media</string>
+  <!-- Stage menu dialog -->
   <string name="stage_dialog_back">Vissza</string>
   <string name="stage_dialog_resume">Folytatás</string>
   <string name="stage_dialog_restart">Újraindítás</string>
@@ -297,9 +377,14 @@
   <string name="stage_dialog_axes_off">Tengelyek nem láthatók</string>
   <string name="stage_dialog_maximize">Teljes méret/\nSzéthúzás</string>
   <string name="stage_dialog_screenshot">Képernyőkép</string>
+  <!-- Broadcast spinner -->
   <string name="new_broadcast_message">Új&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Új üzenet</string>
   <string name="dialog_new_broadcast_message_name">üzenet:</string>
+  <!-- NFC spinner -->
+  <string name="new_nfc_tag">Új&#8230;</string>
+  <string name="brick_when_nfc_default_all">all</string>
+  <!-- Brick categories -->
   <string name="categories">Kategóriák</string>
   <string name="category_motion">Mozgás</string>
   <string name="category_looks">Kinézetek</string>
@@ -311,6 +396,8 @@
   <string name="category_drone">ARDrone</string>
   <string name="category_phiro">Phiro</string>
   <string name="category_arduino">Arduino</string>
+  <string name="category_raspi">Raspberry Pi</string>
+  <!-- Motion bricks -->
   <string name="brick_place_at">"Ugorj "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -336,6 +423,24 @@
   <string name="brick_point_to">Nézz erre:</string>
   <string name="brick_glide">Csússz</string>
   <string name="brick_glide_to_x">X pozícióba:</string>
+  <!-- Physics -->
+  <string name="default_project_name_physics">My first physics program</string>
+  <string name="brick_set_physics_object_type">Set motion type to</string>
+  <string name="brick_set_physics_object_type_dynamic">bouncing with gravity</string>
+  <string name="brick_set_physics_object_type_fixed">others bounce off it</string>
+  <string name="brick_set_physics_object_type_no">no bouncing</string>
+  <string name="brick_set_mass">"Set mass to "</string>
+  <string name="brick_set_mass_unit">kilogram</string>
+  <string name="brick_set_gravity_to">"Set gravity for all objects to "</string>
+  <string name="brick_set_gravity_unit">steps/second²</string>
+  <string name="brick_set_velocity_to">"Set velocity to "</string>
+  <string name="brick_set_velocity_unit">steps/second</string>
+  <string name="brick_turn_speed_unit">degrees/second</string>
+  <string name="brick_set_friction">"Set friction to "</string>
+  <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
+  <string name="brick_rotate_left">"Rotate left "</string>
+  <string name="brick_rotate_right">"Rotate right "</string>
+  <!-- Looks bricks -->
   <string name="brick_set_look">Kinézet legyen</string>
   <string name="brick_set_background">Háttér legyen</string>
   <string name="brick_set_size_to">Méret legyen</string>
@@ -346,6 +451,8 @@
   <string name="brick_change_ghost_effect">"Átlátszóság módosítása "</string>
   <string name="brick_set_brightness">"Fényerőt állítsd "</string>
   <string name="brick_change_brightness">"Fényerő módosítása "</string>
+  <string name="brick_set_color">"Set color "</string>
+  <string name="brick_change_color">"Change color "</string>
   <string name="by_label">ennyivel:</string>
   <string name="to_label">ennyire:</string>
   <string name="brick_clear_graphic_effect">Töröld a grafikai hatásokat</string>
@@ -355,25 +462,32 @@
   <string name="brick_flash_on">on</string>
   <string name="brick_flash_off">off</string>
   <string name="brick_vibration">Rezgés ennyi ideig:</string>
+  <!-- Sound bricks -->
   <string name="brick_play_sound">Játszd le</string>
   <string name="brick_stop_all_sounds">Minden hangot állíts le</string>
   <string name="brick_set_volume_to">Hangerő legyen</string>
   <string name="brick_change_volume_by">Hangerő módosítása ennyivel:</string>
   <string name="brick_speak">Mondd</string>
   <string name="brick_speak_default_value">"Helló!"</string>
+  <!-- Control bricks -->
   <string name="brick_when_started">Program indításakor</string>
   <string name="brick_when">Érintésekor</string>
   <string name="brick_wait">Várj</string>
+  <string name="brick_when_nfc">When NFC</string>
   <plurals name="second_plural">
     <item quantity="one">"másodpercet "</item>
     <item quantity="other">"másodpercet "</item>
   </plurals>
+  <string name="brick_collision_receive">When physical collision with</string>
+  <string name="collision_with_anything">anything</string>
   <string name="brick_broadcast_receive">Amikor ez az üzenet érkezik:</string>
   <string name="brick_broadcast">Küldd ezt:</string>
   <string name="brick_broadcast_wait">Küldd ezt és várj</string>
   <string name="brick_note">Megjegyzés:</string>
   <string name="brick_forever">Mindig</string>
   <string name="brick_repeat">Ismételd ennyiszer:</string>
+  <string name="brick_repeat_until">Repeat until</string>
+  <string name="brick_when_touched">When screen is touched</string>
   <plurals name="time_plural">
     <item quantity="one">X</item>
     <item quantity="other">X</item>
@@ -383,6 +497,7 @@
   <string name="brick_if_begin_second_part">igaz, akkor</string>
   <string name="brick_if_else">Különben</string>
   <string name="brick_if_end">Feltétel vége</string>
+  <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
   <string name="brick_set_variable">Változó beállítása</string>
   <string name="brick_change_variable">Változó módosítása</string>
   <string name="brick_variable_spinner_create_new_variable">Új&#8230;</string>
@@ -398,6 +513,7 @@
   <string name="brick_replace_item_in_userlist_replace_in_list">Elem cseréje a listában</string>
   <string name="brick_replace_item_in_userlist_item_at_index">pozícióban</string>
   <string name="brick_replace_item_in_userlist_with_value">ezzel</string>
+  <!-- defaultValues -->
   <string name="default_project_name">Első programom</string>
   <string name="default_project_background_name">Háttér</string>
   <string name="default_project_cloud_name">Clouds</string>
@@ -408,8 +524,10 @@
   <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
+  <!-- defaultDroneValues -->
   <string name="default_drone_project_name">Első Drone programom</string>
   <string name="default_drone_project_sprites_takeoff">Felszállás</string>
+  <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
   <string name="default_drone_project_sprites_rotate">Forgatás</string>
   <string name="default_drone_project_sprites_up">Fel</string>
   <string name="default_drone_project_sprites_down">Le</string>
@@ -422,26 +540,32 @@
   <string name="default_drone_project_sprites_emergency">Emergency</string>
   <string name="drone_brick_set_text">Text</string>
   <string name="drone_brick_set_x">X:</string>
+  <!-- Drone config spinner values  -->
   <string name="drone_config_indoor_with_hull">indoor with hull</string>
   <string name="drone_config_indoor_without_hull">indoor without hull</string>
   <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
   <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+  <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 meters</string>
   <string name="drone_set_altitude_max_5m">5 meters</string>
   <string name="drone_set_altitude_max_10m">10 meters</string>
   <string name="drone_set_altitude_max_100m">100 meters</string>
+  <!-- Drone max vertical speed limit values  -->
   <string name="drone_set_vertical_min">200 mm/s</string>
   <string name="drone_set_vertical_indoor">700 mm/s</string>
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
-  <string name="drone_set_rotation_min">40 °/s</string>
-  <string name="drone_set_rotation_indoor">100 °/s</string>
-  <string name="drone_set_rotation_outdoor">200 °/s</string>
-  <string name="drone_set_rotation_max">350 °/s</string>
-  <string name="drone_set_tilt_min">5 °</string>
-  <string name="drone_set_tilt_indoor">12 °</string>
-  <string name="drone_set_tilt_outdoor">20 ° </string>
-  <string name="drone_set_tilt_max">30 °</string>
+  <!-- Drone max rotation speed limit values  -->
+  <string name="drone_set_rotation_min">40 degrees/s</string>
+  <string name="drone_set_rotation_indoor">100 degrees/s</string>
+  <string name="drone_set_rotation_outdoor">200 degrees/s</string>
+  <string name="drone_set_rotation_max">350 degrees/s</string>
+  <!-- Drone max tilt limit values  -->
+  <string name="drone_set_tilt_min">5 degrees</string>
+  <string name="drone_set_tilt_indoor">12 degrees</string>
+  <string name="drone_set_tilt_outdoor">20 degrees </string>
+  <string name="drone_set_tilt_max">30 degrees</string>
+  <!-- Notifications -->
   <string name="notification_invalid_text_entered">Adj meg egy értéket</string>
   <string name="notification_screenshot_ok">Képernyőkép mentve</string>
   <string name="notification_download_project_cancel">Program letöltése megszakítva</string>
@@ -459,7 +583,7 @@
   <string name="notification_download_pending">Letöltés folyamatban</string>
   <string name="notification_download_finished">Letöltés sikeres</string>
   <string name="notification_title_open">"Megnyitás "</string>
-  <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
+  <string name="notification_low_battery">Attention. Battery is low. Current status =</string>
   <string name="project_rename">(A program át lesz nevezve.)</string>
   <string name="size_of_project">Méret:</string>
   <string name="upload_button">Feltöltés</string>
@@ -474,8 +598,10 @@
   <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
   <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
   <string name="drone_emergency_title">Emergency</string>
+  <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">A Pocket Code futtatásához egy írható külső tároló, mint például egy SD-kártya, szükséges, de az jelenleg nem található.\nTegyél írhatóvá egy SD-kártyát vagy helyezz be egy SD-kártyát, majd próbáld újra.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
   <string name="error_project_exists">Már létezik program ezen a néven.\nAdj meg egy másik nevet.</string>
   <string name="error_delete_project">Hiba történt a program törlése során</string>
   <string name="error_unknown_project">Nem létezik ilyen nevű program.</string>
@@ -490,6 +616,7 @@
         characters (e.g. $, %, &amp;, &#8230;)? </string>
   <string name="error_load_sound">Hiba történt a hang betöltése közben.</string>
   <string name="error_internet_connection">Ismeretlen hiba történt. Ellenőrizze az internetkapcsolatot.</string>
+  <string name="error_no_internet">Please establish an Internet connection.</string>
   <string name="error_project_compatability">A program nem kompatibilis a Pocket Code ezen verziójával.</string>
   <string name="error_outdated_pocketcode_version">A Pocket Code ezen verziója elavult. Frissíted most?</string>
   <string name="error_copy_project">Hiba történt a program másolása során.</string>
@@ -506,19 +633,36 @@
   <string name="error_rename_incompatible_project">Egy nem kompatibilis projekt átnevezése nem lehetséges.</string>
   <string name="error_changing_description_of_incompatible_project">Egy nem kompatibilis projekt leírásának módosítása nem lehetséges.</string>
   <string name="error_unknown_error">An unknown error occurred.</string>
+  <!-- Bluetooth Connection Strings -->
   <string name="notification_blueth_err">Bluetooth nem engedélyezett, lépés bezárása</string>
   <string name="title_paired_devices">Párosított eszközök</string>
   <string name="title_other_devices">Új eszközök</string>
-  <string name="searching_devices">Looking for devices &#8230;</string>
+  <string name="searching_devices">Looking for devices&#8230;</string>
   <string name="button_scan">Bluetooth-eszközök keresése</string>
   <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Kapcsolódás az eszközhöz.\nKérlek, várj&#8230;</string>
+  <!-- <string name="pairing_message">After pairing, connect.</string> -->
   <string name="bt_connection_failed">Sikertelen kapcsolódás.</string>
   <string name="none_found">Nem találhatók párosítatlan eszközök</string>
   <string name="none_paired">Nem találhatók párosított eszközök</string>
-  <string name="brick_arduino_select_digital_value">Set Arduino Digital Pin</string>
-  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ Pin</string>
+  <!-- Arduino Bricks -->
+  <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
+  <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">ennyire:</string>
+  <!-- Raspi Bricks -->
+  <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+  <string name="brick_raspi_set_pin_value_to">ennyire:</string>
+  <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+  <string name="brick_raspi_if_begin_second_part">igaz, akkor</string>
+  <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
+  <string name="brick_raspi_when_equals">changes to</string>
+  <string name="brick_raspi_pressed_text">High</string>
+  <string name="brick_raspi_released_text">Low</string>
+  <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+  <!-- Raspi Settings -->
+  <string name="raspi_settings_title_name">Raspberry Pi Settings</string>
+  <string name="raspi_settings_gpio_version">GPIO Version</string>
+  <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Set NXT motor</string>
   <string name="nxt_motor_speed_to">ennyire:</string>
   <string name="nxt_motor_speed">speed</string>
@@ -545,6 +689,7 @@
   <string name="nxt_sensor_light">NXT light sensor</string>
   <string name="nxt_sensor_light_active">NXT light sensor active</string>
   <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
+  <string name="nxt_sensor_not_found">Sensor not found!</string>
   <string name="lego_nxt_sensor_config_info_title">NXT Sensor Configuration</string>
   <string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Program specific NXT settings are not shown when opening a program.</string>
@@ -556,6 +701,9 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
+  <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
   <string name="brick_drone_play_led_animation">LED animáció lejátszása</string>
   <string name="brick_drone_move_left">Mozgás balra</string>
@@ -579,20 +727,26 @@
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">ezzel</string>
   <string name="brick_drone_percent_power">% power</string>
+  <!-- Phiro bricks -->
+  <!-- motor -->
   <string name="phiro_motor_stop">Stop Phiro motor</string>
   <string name="brick_phiro_motor_forward_action">Move Phiro motor forward</string>
   <string name="brick_phiro_motor_backward_action">Move Phiro motor backward</string>
   <string name="phiro_motor_speed">Speed</string>
+  <!-- sensor -->
   <string name="brick_phiro_sensor_begin">If Phiro</string>
   <string name="brick_phiro_sensor_second_part">is activated</string>
+  <!-- tone -->
   <string name="phiro_play_tone">Play Phiro music\n</string>
   <string name="phiro_tone_duration">Duration</string>
   <string name="brick_phiro_select_tone">tone</string>
   <string name="phiro_seconds">seconds</string>
+  <!-- light -->
   <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
   <string name="phiro_rgb_led_red">Vörös</string>
   <string name="phiro_rgb_led_green">Zöld</string>
   <string name="phiro_rgb_led_blue">Kék</string>
+  <!-- Phiro tone strings -->
   <string name="phiro_tone_do">Do</string>
   <string name="phiro_tone_re">Re</string>
   <string name="phiro_tone_mi">Mi</string>
@@ -600,22 +754,27 @@
   <string name="phiro_tone_so">So</string>
   <string name="phiro_tone_la">La</string>
   <string name="phiro_tone_ti">Ti</string>
+  <!-- Phiro motor strings -->
   <string name="phiro_motor_left">Balra</string>
   <string name="phiro_motor_right">Jobbra</string>
   <string name="phiro_motor_both">Both</string>
+  <!-- Phiro light strings -->
   <string name="phiro_light_left">Balra</string>
   <string name="phiro_light_right">Jobbra</string>
   <string name="phiro_light_both">Both</string>
+  <!-- Phiro sensor strings -->
   <string name="phiro_sensor_front_left">Front Left Sensor</string>
   <string name="phiro_sensor_front_right">Front Right Sensor</string>
   <string name="phiro_sensor_side_left">Side Left Sensor</string>
   <string name="phiro_sensor_side_right">Side Right Sensor</string>
   <string name="phiro_sensor_bottom_left">Bottom Left Sensor</string>
   <string name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
+  <!-- Phiro RGBColor Chooser strings -->
   <string name="color_red">Vörös</string>
   <string name="color_green">Zöld</string>
   <string name="color_blue">Kék</string>
   <string name="color_preview">Color Preview</string>
+  <!-- Formula Editor Strings -->
   <string name="formula_editor_data">Adatok</string>
   <string name="formula_editor_true">Igaz</string>
   <string name="formula_editor_false">Hamis</string>
@@ -641,6 +800,7 @@
   <string name="formula_editor_function_log">log</string>
   <string name="formula_editor_function_log_parameter">(0)</string>
   <string name="formula_editor_function_pi">PI</string>
+  <string name="formula_editor_object_color">color</string>
   <string name="formula_editor_function_sqrt">gyök</string>
   <string name="formula_editor_function_sqrt_parameter">(0)</string>
   <string name="formula_editor_function_rand">véletlen</string>
@@ -659,6 +819,8 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">floor</string>
   <string name="formula_editor_function_floor_parameter">(0.7)</string>
   <string name="formula_editor_function_ceil">ceil</string>
@@ -677,6 +839,16 @@
   <string name="formula_editor_function_join_parameter">(\"helló\", \"világ\")</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
+  <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+  <string name="formula_editor_function_pin_default_parameter">(3)</string>
+  <string name="formula_editor_function_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">elem</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">tartalmazza</string>
@@ -702,6 +874,11 @@
   <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
   <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -715,12 +892,29 @@
   <string name="formula_editor_object_size">méret</string>
   <string name="formula_editor_object_rotation">irány</string>
   <string name="formula_editor_object_layer">réteg</string>
+  <string name="formula_editor_object_x_velocity">x_velocity</string>
+  <string name="formula_editor_object_y_velocity">y_velocity</string>
+  <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Kiszámítás</string>
   <string name="formula_editor_object">Objektum</string>
-  <string name="formula_editor_math">Math</string>
+  <string name="formula_editor_functions">Functions</string>
   <string name="formula_editor_logic">Logika</string>
-  <string name="formula_editor_sensors">Érzékelők</string>
+  <string name="formula_editor_device">Device</string>
   <string name="formula_editor_variables">Változók</string>
+  <string name="formula_editor_functions_maths">Maths</string>
+  <string name="formula_editor_functions_strings">Strings</string>
+  <string name="formula_editor_functions_lists">Listák</string>
+  <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
+  <string name="formula_editor_logic_comparison">comparison operators</string>
+  <string name="formula_editor_object_general">general properties</string>
+  <string name="formula_editor_object_physical">physical properties</string>
+  <string name="formula_editor_device_face_detection">Face detection</string>
+  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_arduino">Arduino</string>
+  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+  <string name="formula_editor_device_drone">Drone</string>
   <string name="formula_editor_string">ABC</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -741,12 +935,14 @@
   <string name="formula_editor_list_dialog_title">Új lista</string>
   <string name="formula_editor_dialog_for_all_sprites">Az összes objektumra</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Csak erre az objektumra</string>
+  <string name="formula_editor_dialog_change_text">Change text</string>
   <string name="formula_editor_data_dialog_hint">Add meg a nevet</string>
   <string name="formula_editor_discard_changes_dialog_message">Szeretnéd menteni a módosításokat?</string>
   <string name="formula_editor_discard_changes_dialog_title">Módosítások mentése?</string>
   <string name="formula_editor_new_string_name">Új szöveg</string>
   <string name="formula_editor_new_string_dialog_hint">Ide írd az új szöveget.</string>
   <string name="formula_editor_data_dialog_title">Új</string>
+  <string name="formula_editor_rename_variable_dialog_title">Átnevezés</string>
   <string name="formula_editor_existing_data_item">Név már használatban!</string>
   <string name="formula_editor_fragment_data_current_items">aktuális elemek</string>
   <string name="formula_editor_data_dialog_is_list">Tedd listává</string>
@@ -762,6 +958,7 @@
     <item quantity="one">Elem kijelölve!</item>
     <item quantity="other">Elem kijelölve!</item>
   </plurals>
+  <!-- Brick Data Editor Strings -->
   <string name="brick_data_editor_title">Téglaszerkesztő</string>
   <string name="separator">|</string>
   <string name="add_text">Szöveg hozzáadása</string>
@@ -772,39 +969,53 @@
   <string name="edit_variable">Változó szerkesztése</string>
   <string name="variable_hint">Változó neve</string>
   <string name="brick_show_text_var">Show variable</string>
-  <string name="brick_show_text_pos">"at  "</string>
+  <string name="brick_show_text_pos">"at "</string>
   <string name="brick_hide_text_var">Hide variable</string>
+  <!-- User Bricks strings -->
   <string name="define">meghatározás</string>
   <string name="new_user_brick">Új tégla</string>
   <string name="new_user_brick_variable">Változó 1</string>
+  <string name="new_user_brick_name">Please choose a userbrick name:</string>
   <string name="recursive_user_brick_forbidden">UserBrick hozzáadása UserBrick-hez még nem megengedett!</string>
   <string name="brick_single">Tégla</string>
   <string name="brick_multiple">Építőelemek</string>
-  <string name="merge_button">Merge project into</string>
-  <string name="merge_conflict">Merging not possible</string>
-  <string name="broadcast">Küldd ezt:</string>
-  <string name="project_list">List Item</string>
-  <string name="error_merge_duplicate_names">To merge both projects, please be aware, that following elements can not use the same name:</string>
-  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
-  <string name="error_merge">An error occurred while merging projects!</string>
+  <!-- Merge strings -->
+  <string name="merge_button">Merge with</string>
+  <string name="name_merge_result">Enter name for result</string>
   <string name="merge_info">successfully merged into</string>
-  <string name="error_different_resolutions1">Caution! Different resolutions detected.</string>
-  <string name="error_different_resolutions2">has resolution</string>
-  <string name="error_different_resolutions3">Using resolution of</string>
-  <string name="error_bricks_in_background">Caution! The background is not empty. Images and bricks in the background object will be ignored by matching.</string>
-  <string name="and">and</string>
   <string name="warning">Warning</string>
+  <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+  <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
+        has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
   <string name="abort">Abort</string>
-  <string name="variable">Variable</string>
+  <string name="merge_conflict">Merging not possible</string>
+  <string name="merge_conflict_variable">Variable \"%1$s\" is used in both programs. If programs use the same
+    variable name they cannot be merged. Please rename the variable in one of the programs and try again.</string>
+  <string name="merge_conflict_list">List \"%1$s\" is used in both programs. If programs use the same
+    name for their lists they cannot be merged. Please rename the list in one of the programs and try again.</string>
+  <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>
   <string name="video_brick_camera_on">on</string>
   <string name="video_brick_camera_off">off</string>
   <string name="brick_choose_camera">Use camera</string>
   <string name="choose_camera_front">front</string>
   <string name="choose_camera_back">back</string>
-  <string name="error_flash_front_camera">\"You can use the flash only with the back camera. Please add a \"Use
-        camera\" brick and change to your device\'s back camera. \"</string>
-  <string name="no_back_camera_available">No back facing camera available.</string>
-  <string name="no_camera_available">Facedetection not available.</string>
-  <string name="no_front_camera_available">No front facing camera available.</string>
+  <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
+        camera\" brick and change to your device\'s back camera. "</string>
+  <string name="brick_wait_until">Wait until</string>
+  <string name="brick_wait_until_second_part">is true</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
+  <string name="rating_dialog_rate_now">Now</string>
+  <string name="rating_dialog_rate_later">Later</string>
+  <string name="rating_dialog_rate_never">Never</string>
+  <!-- Delete User Variable Alert Dialog -->
+  <string name="deletion_alert_title">Warning!</string>
+  <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
+  <string name="deletion_alert_yes">Yes, delete anyway!</string>
+  <string name="deletion_alert_no">No.</string>
+  <!-- Pocket Code crashed dialog -->
+  <string name="crashed_title">Pocked Code has crashed!</string>
+  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
 </resources>

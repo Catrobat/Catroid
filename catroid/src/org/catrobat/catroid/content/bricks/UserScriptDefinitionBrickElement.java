@@ -27,10 +27,96 @@ import java.io.Serializable;
 public class UserScriptDefinitionBrickElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = UserScriptDefinitionBrickElement.class.getSimpleName();
 
-	public int key;
-	public boolean isVariable;
-	public boolean isEditModeLineBreak;
-	public boolean newLineHint;
-	public String name = "";
+	private enum UserBrickElementType {
+		VARIABLE(10),
+		LINEBREAK(20),
+		TEXT(30);
+
+		private int value;
+
+		UserBrickElementType(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
+	private String text;
+	private UserBrickElementType elementType;
+	private transient boolean newLineHint;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof UserScriptDefinitionBrickElement)) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+
+		UserScriptDefinitionBrickElement elementToCompare = (UserScriptDefinitionBrickElement) obj;
+		if (!(elementToCompare.getElementType().getValue() == elementType.getValue())
+				|| !(elementToCompare.getText().equals(text)) || !(elementToCompare.isNewLineHint() == newLineHint)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode() * TAG.hashCode();
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String name) {
+		this.text = name;
+	}
+
+	public UserBrickElementType getElementType() {
+		return elementType;
+	}
+
+	public void setElementType(UserBrickElementType elementType) {
+		this.elementType = elementType;
+	}
+
+	public boolean isLineBreak() {
+		return elementType.equals(UserBrickElementType.LINEBREAK);
+	}
+
+	public void setIsLineBreak() {
+		elementType = UserBrickElementType.LINEBREAK;
+	}
+
+	public boolean isVariable() {
+		return elementType.equals(UserBrickElementType.VARIABLE);
+	}
+
+	public void setIsVariable() {
+		elementType = UserBrickElementType.VARIABLE;
+	}
+
+	public boolean isText() {
+		return elementType.equals(UserBrickElementType.TEXT);
+	}
+
+	public void setIsText() {
+		elementType = UserBrickElementType.TEXT;
+	}
+
+	public boolean isNewLineHint() {
+		return newLineHint;
+	}
+
+	public void setNewLineHint(boolean newLineHint) {
+		this.newLineHint = newLineHint;
+	}
 }

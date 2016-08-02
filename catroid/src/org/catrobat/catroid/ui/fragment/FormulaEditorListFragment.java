@@ -44,6 +44,8 @@ import org.catrobat.catroid.ui.SettingsActivity;
 
 import java.util.Arrays;
 
+//THOMAS!!!
+
 public class FormulaEditorListFragment extends ListFragment implements Dialog.OnKeyListener {
 
 	public static final String OBJECT_TAG = "objectFragment";

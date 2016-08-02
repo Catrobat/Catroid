@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,6 +32,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -51,7 +54,6 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -92,6 +94,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setTitle(R.string.app_name);
 
 		findViewById(R.id.main_menu_button_continue).setEnabled(false);
@@ -102,11 +106,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		if (loadExternalProjectUri != null) {
 			loadProgramFromExternalSource(loadExternalProjectUri);
-		}
-
-		if (!BackPackListManager.getInstance().isBackpackFlag()) {
-			BackPackListManager.getInstance().clearBackPackSounds();
-			BackPackListManager.getInstance().clearBackPackLooks();
 		}
 	}
 
@@ -121,6 +120,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		AppEventsLogger.activateApp(this);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
+
+		SettingsActivity.setDroneChooserEnabled(this, false);
 
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
 
@@ -152,6 +153,21 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	// needed because of android:onClick in activity_main_menu.xml
 	public void handleContinueButton(View view) {
 		handleContinueButton();
@@ -167,7 +183,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, true);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
 		loadProjectTask.execute();
 	}
@@ -198,6 +214,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleHelpButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -206,11 +226,14 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleWebButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 
-		/* TOKEN LOGIN
 		if (Utils.isUserLoggedIn(this)) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
@@ -221,9 +244,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		} else {
 			startWebViewActivity(Constants.BASE_URL_HTTPS);
 		}
-		*/
-
-		startWebViewActivity(Constants.BASE_URL_HTTPS);
 	}
 
 	public void startWebViewActivity(String url) {
@@ -233,6 +253,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	public void handleUploadButton(View view) {
+		if (!Utils.isNetworkAvailable(view.getContext(), true)) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}

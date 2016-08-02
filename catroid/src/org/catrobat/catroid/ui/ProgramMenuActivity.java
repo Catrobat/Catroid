@@ -23,12 +23,20 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -36,6 +44,7 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 
 import java.util.concurrent.locks.Lock;
 
@@ -45,6 +54,7 @@ public class ProgramMenuActivity extends BaseActivity {
 
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
 	private Lock viewSwitchLock = new ViewSwitchLock();
+	private SpriteRenamedReceiver spriteRenamedReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +76,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-			if (sprite != null) {
+			if (sprite != null && actionBar != null) {
 				String title = sprite.getName();
 				actionBar.setTitle(title);
 				actionBar.setHomeButtonEnabled(true);
@@ -78,12 +88,67 @@ public class ProgramMenuActivity extends BaseActivity {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
 		} else {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
+		}
+
+		//Hide NFC if option is not set
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
+			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.VISIBLE);
+		} else {
+			findViewById(R.id.program_menu_button_nfctags).setVisibility(View.INVISIBLE);
+		}
+
+		if (spriteRenamedReceiver == null) {
+			spriteRenamedReceiver = new SpriteRenamedReceiver();
+		}
+
+		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptActivity.ACTION_SPRITE_RENAMED);
+		getBaseContext().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (spriteRenamedReceiver != null) {
+			getBaseContext().unregisterReceiver(spriteRenamedReceiver);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+			return super.onCreateOptionsMenu(menu);
+		}
+		getMenuInflater().inflate(R.menu.menu_program_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	private class SpriteRenamedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
+				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
+				ProjectManager.getInstance().getCurrentSprite().setName(newSpriteName);
+				final ActionBar actionBar = getActionBar();
+				actionBar.setTitle(newSpriteName);
+			}
 		}
 	}
 
@@ -120,6 +185,13 @@ public class ProgramMenuActivity extends BaseActivity {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
+	}
+
+	public void handleNfcTagsButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		startScriptActivity(ScriptActivity.FRAGMENT_NFCTAGS);
 	}
 
 	public void handlePlayButton(View view) {

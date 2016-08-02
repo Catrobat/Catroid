@@ -24,17 +24,17 @@ package org.catrobat.catroid.content;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,44 +55,22 @@ public abstract class Script implements Serializable {
 		init();
 	}
 
-	public abstract Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks);
+	public abstract Script copyScriptForSprite(Sprite copySprite);
 
-	public void doCopy(Sprite copySprite, Script cloneScript, List<UserBrick> preCopiedUserBricks) {
+	public void doCopy(Sprite copySprite, Script cloneScript) {
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = null;
-			if (brick instanceof UserBrick) {
-				UserBrick original = ((UserBrick) brick);
-				UserBrick precopiedRootBrick = findBrickWithId(preCopiedUserBricks, original.getUserBrickId());
-				ProjectManager.getInstance().setCurrentUserBrick(precopiedRootBrick);
-				UserBrick copiedUserBrick = precopiedRootBrick.copyBrickForSprite(copySprite);
-				copiedUserBrick
-						.copyFormulasMatchingNames(original.getUserBrickParameters(), copiedUserBrick.getUserBrickParameters());
-
-				copiedBrick = precopiedRootBrick;
-			} else if (brick instanceof UserScriptDefinitionBrick) {
-				UserScriptDefinitionBrick preCopiedDefinitionBrick = findBrickWithId(preCopiedUserBricks, ((UserScriptDefinitionBrick) brick).getUserBrickId()).getDefinitionBrick();
-				cloneScript.addBrick(preCopiedDefinitionBrick);
-			} else {
-				copiedBrick = brick.copyBrickForSprite(copySprite);
-			}
+			Brick copiedBrick = brick.copyBrickForSprite(copySprite);
 
 			if (copiedBrick instanceof IfLogicEndBrick) {
 				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
+			} else if (copiedBrick instanceof IfThenLogicEndBrick) {
+				setIfThenBrickReferences((IfThenLogicEndBrick) copiedBrick, (IfThenLogicEndBrick) brick);
 			} else if (copiedBrick instanceof LoopEndBrick) {
 				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
 			}
 			cloneBrickList.add(copiedBrick);
 		}
-	}
-
-	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
-		for (UserBrick brick : list) {
-			if (brick.getUserBrickId() == id) {
-				return brick;
-			}
-		}
-		return null;
 	}
 
 	protected Object readResolve() {
@@ -107,7 +85,7 @@ public abstract class Script implements Serializable {
 	}
 
 	public void run(Sprite sprite, SequenceAction sequence) {
-		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
+		ArrayList<SequenceAction> sequenceList = new ArrayList<>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
 			List<SequenceAction> actions = brickList.get(i).addActionToSequence(sprite,
@@ -127,18 +105,27 @@ public abstract class Script implements Serializable {
 	public void addBrick(Brick brick) {
 		if (brick != null) {
 			brickList.add(brick);
+			updateUserBricksIfNecessary(brick);
 		}
 	}
 
 	public void addBrick(int position, Brick brick) {
 		if (brick != null) {
 			brickList.add(position, brick);
+			updateUserBricksIfNecessary(brick);
+		}
+	}
+
+	private void updateUserBricksIfNecessary(Brick brick) {
+		if (brick instanceof UserBrick) {
+			UserBrick userBrick = (UserBrick) brick;
+			userBrick.updateUserBrickParametersAndVariables();
 		}
 	}
 
 	public void removeInstancesOfUserBrick(UserBrick userBrickToRemove) {
 
-		LinkedList<Brick> toRemove = new LinkedList<Brick>();
+		LinkedList<Brick> toRemove = new LinkedList<>();
 
 		for (Brick brick : brickList) {
 			if (brick instanceof UserBrick) {
@@ -181,7 +168,7 @@ public abstract class Script implements Serializable {
 
 	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
-			//Log.i("bt", brick.REQUIRED_RESSOURCES + "");
+			//Log.i(TAG, brick.REQUIRED_RESSOURCES + "");
 			if (brick.getClass() == type) {
 				return true;
 			}
@@ -235,6 +222,15 @@ public abstract class Script implements Serializable {
 		copiedIfElseBrick.setIfEndBrick(copiedIfEndBrick);
 		copiedIfEndBrick.setIfBeginBrick(copiedIfBeginBrick);
 		copiedIfEndBrick.setIfElseBrick(copiedIfElseBrick);
+	}
+
+	protected void setIfThenBrickReferences(IfThenLogicEndBrick copiedIfEndBrick, IfThenLogicEndBrick
+			originalIfEndBrick) {
+		List<NestingBrick> ifBrickList = originalIfEndBrick.getAllNestingBrickParts(true);
+		IfThenLogicBeginBrick copiedIfBeginBrick = (IfThenLogicBeginBrick) ((IfThenLogicBeginBrick) ifBrickList.get(0)).getCopy();
+
+		copiedIfBeginBrick.setIfThenEndBrick(copiedIfEndBrick);
+		copiedIfEndBrick.setIfThenBeginBrick(copiedIfBeginBrick);
 	}
 
 	protected void setLoopBrickReferences(LoopEndBrick copiedBrick, LoopEndBrick originalBrick) {

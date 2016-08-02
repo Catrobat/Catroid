@@ -184,7 +184,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = getActivity().getPackageManager();
-		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(), PackageManager.GET_ACTIVITIES);
+		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(), PackageManager.GET_META_DATA);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
@@ -244,7 +244,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.addNewBrick(solo, R.string.brick_drone_move_up);
 		UiTestUtils.dragFloatingBrick(solo, -1.25f);
 		solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		assertTrue("Drone sensors are not showing!", solo.searchText("drone_"));
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class);
@@ -268,7 +268,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		solo.waitForActivity(ScriptActivity.class);
 		solo.clickOnView(solo.getView(R.id.brick_drone_move_edit_text_second));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensors));
+		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		assertFalse("Drone sensors are showing!", solo.searchText("drone_"));
 	}
 }

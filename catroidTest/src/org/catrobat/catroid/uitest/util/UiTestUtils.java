@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.Instrumentation;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -33,9 +34,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -77,6 +81,7 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
@@ -106,6 +111,7 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -119,6 +125,7 @@ import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -128,18 +135,21 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
@@ -156,6 +166,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,6 +176,10 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
+import static org.catrobat.catroid.utils.Utils.buildPath;
 
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -182,8 +197,9 @@ public final class UiTestUtils {
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
-	public static final String TEST_USER_BRICK_NAME = "New Brick 1";
-	public static final String TEST_USER_BRICK_VARIABLE = "Variable 1";
+	public static final String TEST_USER_BRICK_NAME = "New Brick 0";
+	public static final String SECOND_TEST_USER_BRICK_NAME = "New Brick 1";
+	public static final String TEST_USER_BRICK_VARIABLE = "Variable 0";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2 = "../*T?E\"S/T:%22T<E>S?T\\T\\E|S%äö|üß";
 	public static final String JUST_SPECIAL_CHAR_PROJECT_NAME = "*\"/:<>?\\|";
@@ -210,6 +226,7 @@ public final class UiTestUtils {
 	public static final int SCRIPTS_INDEX = 0;
 	public static final int LOOKS_INDEX = 1;
 	public static final int SOUNDS_INDEX = 2;
+	public static final int NFCTAGS_INDEX = 3;
 
 	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<>();
 
@@ -226,8 +243,8 @@ public final class UiTestUtils {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_nfctags);
 	}
-
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("sprite1");
@@ -390,7 +407,7 @@ public final class UiTestUtils {
 	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
-		insertValue(solo, value + "");
+		insertValue(solo, new BigDecimal(value).toPlainString());
 	}
 
 	public static void insertStringIntoEditText(Solo solo, String newValue) {
@@ -499,7 +516,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.').replace(" ", "")));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
@@ -511,7 +529,8 @@ public final class UiTestUtils {
 		}
 
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
+				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')
+						.replace(" ", "")), 0.01f);
 	}
 
 	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField, FormulaBrick theBrick) {
@@ -568,7 +587,7 @@ public final class UiTestUtils {
 	}
 
 	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
-		Log.v("debug", "Solo.Enter clickEnterClose");
+		Log.v(TAG, "Solo.Enter clickEnterClose");
 		solo.enterText(editText, value);
 		solo.waitForText(solo.getString(R.string.ok));
 		solo.clickOnButton(buttonIndex);
@@ -645,6 +664,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_drone_turn_right_magneto, R.string.category_drone);
 
 		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
+		brickCategoryMap.put(R.string.brick_when_nfc, R.string.category_control);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -688,6 +708,9 @@ public final class UiTestUtils {
 		if (categoryStringId == R.string.category_user_bricks) {
 			solo.sleep(300);
 			clickOnBottomBar(solo, R.id.button_add);
+			solo.waitForDialogToOpen();
+			solo.clickOnText(solo.getCurrentActivity().getString(R.string.ok));
+			solo.waitForDialogToClose();
 		}
 		solo.sleep(600);
 		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName, false);
@@ -741,30 +764,6 @@ public final class UiTestUtils {
 				.getString(R.string.brick_context_dialog_show_source);
 		solo.waitForText(stringOnShowSourceButton);
 		solo.clickOnText(stringOnShowSourceButton);
-
-		boolean addBrickShowedUp = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 2000);
-		if (!addBrickShowedUp) {
-			fail("addBrickFragment should have showed up");
-		}
-
-		solo.sleep(1000);
-
-//		if (brickName.equals(UiTestUtils.TEST_USER_BRICK_NAME)) {
-//			clickOnBottomBar(solo, R.id.button_add);
-//		}
-		boolean clicked = UiTestUtils.clickOnBrickInAddBrickFragment(solo, brickName, false);
-		if (!clicked) {
-			fail("was unable to click on " + brickName + "!");
-		}
-
-		String stringOnEditButton = solo.getCurrentActivity().getString(R.string.brick_context_dialog_edit_brick);
-
-		boolean editButtonShowedUp = solo.waitForText(stringOnEditButton, 0, 3000);
-		if (!editButtonShowedUp) {
-			fail(stringOnEditButton + " should have showed up");
-		}
-
-		solo.clickOnText(stringOnEditButton);
 
 		boolean activityShowedUp = solo.waitForActivity(UserBrickScriptActivity.class, 3000);
 		if (!activityShowedUp) {
@@ -986,7 +985,7 @@ public final class UiTestUtils {
 		brickList.add(firstForeverBrick);
 		brickList.add(new ShowBrick());
 		brickList.add(secondForeverBrick);
-		brickList.add(new ComeToFrontBrick());
+		brickList.add(new SetMassBrick());
 		brickList.add(new LoopEndBrick(secondForeverBrick));
 		brickList.add(new LoopEndBrick(firstForeverBrick));
 
@@ -1013,6 +1012,7 @@ public final class UiTestUtils {
 
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
+		Sprite secondSprite = new Sprite("second_sprite");
 
 		Script testScript = new StartScript();
 
@@ -1020,7 +1020,7 @@ public final class UiTestUtils {
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 		brickList.add(new HideBrick());
 		brickList.add(new ShowBrick());
 		brickList.add(new SetSizeToBrick(size));
@@ -1034,15 +1034,17 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		UserBrick firstUserBrick = new UserBrick(0);
+		UserBrick firstUserBrick = new UserBrick();
 		firstSprite.addUserBrick(firstUserBrick);
 		firstUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME);
 		firstUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE);
-		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
+		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(2));
 
 		testScript.addBrick(firstUserBrick);
 
 		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		firstUserBrick.updateUserBrickParametersAndVariables();
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		StorageHandler.getInstance().saveProject(project);
@@ -1060,13 +1062,13 @@ public final class UiTestUtils {
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
-		UserBrick firstUserBrick = new UserBrick(0);
+		UserBrick firstUserBrick = new UserBrick(new UserScriptDefinitionBrick());
 		firstUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME + "2");
 		firstUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE + "2");
 		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
 		firstSprite.addUserBrick(firstUserBrick);
 
-		UserBrick secondUserBrick = new UserBrick(1);
+		UserBrick secondUserBrick = new UserBrick(new UserScriptDefinitionBrick());
 		secondUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME);
 		secondUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE);
 		secondUserBrick.appendBrickToScript(firstUserBrick);
@@ -1090,7 +1092,7 @@ public final class UiTestUtils {
 
 		Script testScript = new StartScript();
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 
 		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(0);
 		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBeginBrick);
@@ -1118,13 +1120,98 @@ public final class UiTestUtils {
 		return brickList;
 	}
 
+	public static List<Brick> createTestProjectNestedBricks() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript();
+		ArrayList<Brick> brickList = new ArrayList<>();
+
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBeginBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(10);
+		LoopEndBrick loopEndBrick = new LoopEndBrick();
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		brickList.add(ifBeginBrick);
+		brickList.add(new ShowBrick());
+		brickList.add(ifElseBrick);
+		brickList.add(new ComeToFrontBrick());
+		brickList.add(ifEndBrick);
+		brickList.add(repeatBrick);
+		brickList.add(new ShowBrick());
+		brickList.add(loopEndBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectWithUserVariables() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		String globalVariableName = "global_var";
+		String spriteVariableName = "sprite_var";
+		String userBrickVariableName = "userbrick_var";
+		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, globalVariableName, null);
+		FormulaElement variableElementSprite = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, spriteVariableName, null);
+		FormulaElement variableElementUserBrick = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, userBrickVariableName, null);
+
+		UserScriptDefinitionBrick definitionBrick = new UserScriptDefinitionBrick();
+		definitionBrick.addUIText("test");
+		definitionBrick.addUILocalizedVariable(userBrickVariableName);
+		ChangeXByNBrick xBrick = new ChangeXByNBrick(new Formula(variableElementUserBrick));
+		definitionBrick.getUserScript().addBrick(xBrick);
+		UserBrick userBrick = new UserBrick(definitionBrick);
+		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
+
+		DataContainer variableContainer = project.getDataContainer();
+		UserVariable globalVariable = variableContainer.addProjectUserVariable(globalVariableName);
+		UserVariable spriteVariable = variableContainer.addSpriteUserVariableToSprite(firstSprite, spriteVariableName);
+
+		Script testScript = new StartScript();
+
+		ArrayList<Brick> brickList = new ArrayList<>();
+		brickList.add(new ChangeVariableBrick(new Formula(variableElementGlobal), globalVariable));
+		brickList.add(new SetVariableBrick(new Formula(variableElementSprite), spriteVariable));
+		brickList.add(userBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		userBrick.updateUserBrickParametersAndVariables();
+
+		return brickList;
+	}
+
 	public static List<Brick> createTestProjectWithEveryBrick() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript();
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 
 		brickList.add(new BroadcastBrick("broadcastMessage1"));
 		brickList.add(new BroadcastWaitBrick("broadcastMessage2"));
@@ -1162,6 +1249,8 @@ public final class UiTestUtils {
 		brickList.add(new TurnLeftBrick(0));
 		brickList.add(new TurnRightBrick(0));
 		brickList.add(new WaitBrick(0));
+		brickList.add(new SetColorBrick(0f));
+		brickList.add(new ChangeColorByNBrick(25f));
 
 		for (Brick brick : brickList) {
 			testScript.addBrick(brick);
@@ -1384,7 +1473,7 @@ public final class UiTestUtils {
 
 		Script firstSpriteScript = new StartScript();
 
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		ArrayList<Brick> brickList = new ArrayList<>();
 		brickList.add(new PlaceAtBrick(11, 12));
 		brickList.add(new SetXBrick(13));
 		brickList.add(new SetYBrick(14));
@@ -1583,6 +1672,7 @@ public final class UiTestUtils {
 	 *
 	 * @param solo                 Use Robotium functionality
 	 * @param overflowMenuItemName Name of the overflow menu item
+	 * @param menuItemId           ID of an action item (icon)
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 
@@ -1599,7 +1689,7 @@ public final class UiTestUtils {
 		} else if (overflowMenuItemName != null) {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 
-			if (overflowMenuItemName.equals(solo.getString(R.string.unpacking))
+			if (overflowMenuItemName.equals(solo.getString(R.string.unpack))
 					|| overflowMenuItemName.equals(solo.getString(R.string.unpack_keep))) {
 				solo.clickOnActionBarItem(menuItemId);
 			} else {
@@ -1617,7 +1707,7 @@ public final class UiTestUtils {
 		View doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
 
 		solo.clickOnView(doneButton);
-		solo.sleep(200);
+		solo.waitForView(doneButton.getId());
 	}
 
 	/**
@@ -1729,7 +1819,7 @@ public final class UiTestUtils {
 	 * with a given index
 	 */
 	public static ArrayList<Integer> getListItemYPositions(final Solo solo, int listViewIndex) {
-		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
+		ArrayList<Integer> yPositionList = new ArrayList<>();
 		if (!solo.waitForView(ListView.class, 0, 10000, false)) {
 			fail("ListView not shown in 10 secs!");
 		}
@@ -1760,7 +1850,7 @@ public final class UiTestUtils {
 	}
 
 	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
-										final float yTo, final int steps) {
+			final float yTo, final int steps) {
 		final Activity activity = solo.getCurrentActivity();
 		Handler handler = new Handler(activity.getMainLooper());
 
@@ -1852,7 +1942,7 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoSpritesFromMainMenu(Solo solo) {
-		Log.d("UiTestUtils", "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
+		Log.d(TAG, "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.sleep(300);
 
 		String continueString = solo.getString(R.string.main_menu_continue);
@@ -1902,6 +1992,27 @@ public final class UiTestUtils {
 		} else {
 			textToClickOn = solo.getString(R.string.looks);
 		}
+		solo.clickOnText(textToClickOn);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+	}
+
+	public static void getIntoNfcTagsFromMainMenu(Solo solo) {
+		getIntoNfcTagsFromMainMenu(solo, 0, false);
+	}
+
+	public static void getIntoNfcTagsFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoNfcTagsFromMainMenu(solo, 0, isBackground);
+	}
+
+	public static void getIntoNfcTagsFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
+		String textToClickOn = "";
+
+		textToClickOn = solo.getString(R.string.nfctags);
+
 		solo.clickOnText(textToClickOn);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
@@ -1979,9 +2090,13 @@ public final class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
+		return getListView(solo, 0);
+	}
+
+	public static ListView getListView(Solo solo, int index) {
 		ArrayList<ListView> listOfListViews = solo.getCurrentViews(ListView.class);
 		assertTrue("no ListView found!", listOfListViews.size() > 0);
-		return listOfListViews.get(0);
+		return listOfListViews.get(index);
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
@@ -2051,7 +2166,7 @@ public final class UiTestUtils {
 				}
 			});
 		} catch (Throwable throwable) {
-			Log.e("CATROID", throwable.getMessage());
+			Log.e(TAG, throwable.getMessage());
 		}
 		solo.sleep(500);
 	}
@@ -2113,16 +2228,18 @@ public final class UiTestUtils {
 		return lookFile;
 	}
 
-	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri, ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner, LookData.LookDataType lookDataType) {
-		if (!(solo.getCurrentActivity() instanceof FragmentActivity)) {
-			fail("Current activity is not a FragmentActivity");
-		}
+	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
+			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
+		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, spinner, false);
+	}
 
+	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
+			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner, boolean isDroneVideo) {
 		if (actionToPerform == null) {
 			actionToPerform = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		}
 
-		FragmentManager fragmentManager = ((FragmentActivity) solo.getCurrentActivity()).getFragmentManager();
+		FragmentManager fragmentManager = solo.getCurrentActivity().getFragmentManager();
 
 		NewSpriteDialog dialog;
 
@@ -2130,9 +2247,10 @@ public final class UiTestUtils {
 		try {
 			Constructor<NewSpriteDialog> constructor = NewSpriteDialog.class.getDeclaredConstructor(
 					NewSpriteDialog.DialogWizardStep.class, Uri.class, String.class, ActionAfterFinished.class,
-					SpinnerAdapterWrapper.class, LookData.LookDataType.class);
+					SpinnerAdapterWrapper.class, boolean.class);
 			constructor.setAccessible(true);
-			dialog = constructor.newInstance(NewSpriteDialog.DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner, lookDataType);
+			dialog = constructor.newInstance(NewSpriteDialog.DialogWizardStep.STEP_2, uri, spriteName,
+					actionToPerform, spinner, isDroneVideo);
 		} catch (Exception e) {
 			fail("Reflection failure. For more information please use Log.e output");
 			Log.e(TAG, "Reflection failure.", e);
@@ -2151,12 +2269,17 @@ public final class UiTestUtils {
 	}
 
 	public static void addNewSprite(Solo solo, String spriteName, File file, ActionAfterFinished actionToPerform) {
+		addNewSprite(solo, spriteName, file, actionToPerform, false);
+	}
+
+	public static void addNewSprite(Solo solo, String spriteName, File file, ActionAfterFinished actionToPerform,
+			boolean isDroneVideo) {
 		if (actionToPerform == null) {
 			actionToPerform = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		}
 
 		Uri uri = Uri.fromFile(file);
-		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, null, LookData.LookDataType.IMAGE);
+		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, null, isDroneVideo);
 
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForDialogToClose();
@@ -2192,6 +2315,46 @@ public final class UiTestUtils {
 	public static boolean searchExactText(Solo solo, String text, boolean onlyVisible) {
 		String regularExpressionForExactClick = "^" + java.util.regex.Pattern.quote(text) + "$";
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
+	}
+
+	public static void fakeNfcTag(Solo solo, String uid, NdefMessage ndefMessage, Tag tag) {
+		Class activityCls = solo.getCurrentActivity().getClass();
+		Context packageContext = solo.getCurrentActivity();
+
+		PendingIntent pendingIntent = PendingIntent.getActivity(packageContext, 0,
+				new Intent(packageContext, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+		String intentAction = NfcAdapter.ACTION_TAG_DISCOVERED;
+		byte[] tagId = uid.getBytes();
+
+		Intent intent = new Intent();
+		intent.setAction(intentAction);
+		if (tag != null) {
+			intent.putExtra(NfcAdapter.EXTRA_TAG, tag);
+		}
+		intent.putExtra(NfcAdapter.EXTRA_ID, tagId);
+		if (ndefMessage != null) {
+			intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, new NdefMessage[] { ndefMessage });
+			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intentAction)) {
+				Uri uri = ndefMessage.getRecords()[0].toUri();
+				String mime = ndefMessage.getRecords()[0].toMimeType();
+				if (uri != null) {
+					intent.setData(uri);
+				} else {
+					intent.setType(mime);
+				}
+			}
+		}
+
+		try {
+			pendingIntent.send(packageContext, Activity.RESULT_OK, intent);
+		} catch (PendingIntent.CanceledException e) {
+			Log.d("fakeNfcTag", e.getMessage());
+		}
+	}
+
+	public static void enableNfcBricks(Context context) {
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(SettingsActivity.SETTINGS_SHOW_NFC_BRICKS, true).commit();
 	}
 
 	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {
@@ -2325,8 +2488,9 @@ public final class UiTestUtils {
 		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
 		solo.waitForDialogToOpen();
 		solo.sleep(100);
-		solo.waitForText(solo.getString(R.string.unpacking));
-		solo.clickOnText(solo.getString(R.string.unpacking));
+		solo.waitForText(solo.getString(R.string.unpack));
+		solo.clickOnText(solo.getString(R.string.unpack));
+		solo.waitForDialogToClose();
 		solo.sleep(500);
 	}
 
@@ -2359,13 +2523,22 @@ public final class UiTestUtils {
 		solo.sleep(300);
 	}
 
-	public static void clearBackPack() {
+	public static void clearBackPack(boolean deleteBackPackDirectories) {
 		BackPackListManager.getInstance().clearBackPackLooks();
-		StorageHandler.getInstance().clearBackPackLookDirectory();
 		BackPackListManager.getInstance().clearBackPackSounds();
-		StorageHandler.getInstance().clearBackPackSoundDirectory();
 		BackPackListManager.getInstance().clearBackPackScripts();
 		BackPackListManager.getInstance().clearBackPackSprites();
+		BackPackListManager.getInstance().clearBackPackUserBricks();
+		if (deleteBackPackDirectories) {
+			clearBackPackJson();
+			StorageHandler.getInstance().clearBackPackLookDirectory();
+			StorageHandler.getInstance().clearBackPackSoundDirectory();
+		}
+	}
+
+	public static void clearBackPackJson() {
+		File backPackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, StorageHandler.BACKPACK_FILENAME));
+		backPackFile.delete();
 	}
 
 	public static void prepareForSpecialBricksTest(Context instrumentationContext, int imageResource,
@@ -2412,5 +2585,12 @@ public final class UiTestUtils {
 		((AddItemToUserListBrick) bricks.get(5)).setUserList(projectUserList);
 		((SetVariableBrick) bricks.get(6)).setUserVariable(spriteUserVariable);
 		((ChangeVariableBrick) bricks.get(7)).setUserVariable(projectUserVariable);
+	}
+
+	public static void getIntoUserBrickOverView(Solo solo) {
+		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
+		solo.waitForActivity(UserBrickScriptActivity.class);
+		solo.waitForFragmentByTag(ScriptFragment.TAG);
 	}
 }

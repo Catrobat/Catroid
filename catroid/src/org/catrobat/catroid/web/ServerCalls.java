@@ -64,6 +64,7 @@ public final class ServerCalls {
 
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
+	public static final String TEST_FILE_TAG_URL_HTTP = BASE_URL_TEST_HTTPS + "api/tags/getTags.json";
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
 	private static final String TAG = ServerCalls.class.getSimpleName();
@@ -156,6 +157,7 @@ public final class ServerCalls {
 	public int oldNotificationId = 0;
 	private String resultString;
 	private String emailForUiTests;
+	private int projectId;
 
 	private ServerCalls() {
 		okHttpClient = new OkHttpClient();
@@ -233,6 +235,7 @@ public final class ServerCalls {
 			String newToken = uploadResponse.token;
 			String answer = uploadResponse.answer;
 			int status = uploadResponse.statusCode;
+			projectId = uploadResponse.projectId;
 
 			if (status != SERVER_RESPONSE_TOKEN_OK) {
 				throw new WebconnectionException(status, "Upload failed! JSON Response was " + status);
@@ -397,6 +400,22 @@ public final class ServerCalls {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
+		}
+	}
+
+	public String getTags(String language) {
+		try {
+			String serverUrl = TEST_FILE_TAG_URL_HTTP;
+			if (language != null) {
+				serverUrl = serverUrl.concat("?language=" + language);
+			}
+			Log.v(TAG, "TAGURL to use: " + serverUrl);
+			String response = getRequest(serverUrl);
+			Log.d(TAG, "TAG-RESPONSE: " + response);
+			return response;
+		} catch (WebconnectionException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+			return "";
 		}
 	}
 
@@ -630,6 +649,9 @@ public final class ServerCalls {
 			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
+			if (jsonObject.has(Constants.JSON_ERROR_CODE)) {
+				return jsonObject;
+			}
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 
 			return jsonObject;
@@ -828,12 +850,12 @@ public final class ServerCalls {
 		}
 	}
 
-	public void logoutCallToServer(String userName) {
+	public void logout(String userName) {
 		try {
 			String serverUrl = Constants.CATROBAT_TOKEN_LOGIN_URL + userName + Constants
 					.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + Constants.NO_TOKEN;
 			Log.v(TAG, "URL to use: " + serverUrl);
-			resultString = getRequest(serverUrl);
+			getRequest(serverUrl);
 		} catch (WebconnectionException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}
@@ -847,8 +869,12 @@ public final class ServerCalls {
 		ServerCalls.loginBehavior = loginBehavior;
 	}
 
+	public int getProjectId() {
+		return projectId;
+	}
+
 	static class UploadResponse {
-		//		int projectId;
+		int projectId;
 		int statusCode;
 		String answer;
 		String token;

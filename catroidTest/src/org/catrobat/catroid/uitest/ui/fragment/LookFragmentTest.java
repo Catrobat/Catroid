@@ -77,14 +77,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int RESOURCE_IMAGE3 = org.catrobat.catroid.test.R.drawable.catroid_sunglasses_jpg;
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
-	private static final int ACTION_MODE_COPY = 0;
-	private static final int ACTION_MODE_DELETE = 1;
-	private static final int ACTION_MODE_RENAME = 2;
 
 	private static final int TIME_TO_WAIT = 400;
 	private static final int TIME_TO_WAIT_BACKPACK = 1000;
 
-	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
+	private static final String FIRST_TEST_LOOK_NAME = "catroid_sunglasses";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
 	private static final String THIRD_TEST_LOOK_NAME = "lookNameTest3";
 	private static final String SPRITE_NAME = "cat";
@@ -116,10 +113,10 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private ProjectManager projectManager;
 
 	private String unpack;
-	private String unpackAndKeep;
 	private String backpack;
 	private String backpackAdd;
 	private String backpackTitle;
+	private String backpackReplaceDialogMultiple;
 
 	public LookFragmentTest() {
 		super(MainMenuActivity.class);
@@ -175,18 +172,19 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 
+		UiTestUtils.clearBackPackJson();
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 
 		copy = solo.getString(R.string.copy);
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
-		unpack = solo.getString(R.string.unpacking);
-		unpackAndKeep = solo.getString(R.string.unpack_keep);
+		unpack = solo.getString(R.string.unpack);
 		backpack = solo.getString(R.string.backpack);
-		backpackAdd = solo.getString(R.string.backpack_add);
+		backpackAdd = solo.getString(R.string.packing);
 		backpackTitle = solo.getString(R.string.backpack_title);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_look_title);
+		backpackReplaceDialogMultiple = solo.getString(R.string.backpack_replace_look_multiple);
 
 		if (getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -268,8 +266,10 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
 
-		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
+		packSingleItem(SECOND_TEST_LOOK_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
 
 		assertTrue("BackPack title didn't show up",
 				solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK));
@@ -279,10 +279,13 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackpackLookDoubleContextMenu() {
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, backpackAdd);
+		packSingleItem(SECOND_TEST_LOOK_NAME, true);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+
 		solo.goBack();
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_LOOK_NAME, false);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up",
@@ -294,7 +297,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackPackLookSimpleUnpackingContextMenu() {
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_LOOK_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 
@@ -304,33 +307,12 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
 	}
 
-	public void testBackPackLookSimpleUnpackingAndUnpackingAndKeepContextMenu() {
-		LookAdapter adapter = getLookAdapter();
-		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
-		solo.sleep(TIME_TO_WAIT_BACKPACK);
-
-		clickOnContextMenuItem(firstTestLookNamePacked, unpackAndKeep);
-		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
-		deleteLook(firstTestLookNamePackedAndUnpacked);
-		solo.sleep(200);
-		UiTestUtils.openBackPack(solo, getActivity());
-
-		assertTrue("Look wasn't kept in backpack!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
-		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		assertFalse("Backpack isn't empty!", solo.searchText(unpack));
-	}
-
 	public void testBackPackLookSimpleUnpackingAndDelete() {
 		LookAdapter adapter = getLookAdapter();
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_LOOK_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 		deleteLook(FIRST_TEST_LOOK_NAME);
@@ -351,16 +333,16 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int oldCount = adapter.getCount();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack_add));
+		packSingleItem(FIRST_TEST_LOOK_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpacking));
+		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePackedAndUnpacked, 0, TIME_TO_WAIT));
-		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack_add));
+		packSingleItem(SECOND_TEST_LOOK_NAME, false);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(secondTestLookNamePacked, solo.getString(R.string.unpacking));
+		clickOnContextMenuItem(secondTestLookNamePacked, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
@@ -372,7 +354,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testBackPackAndUnPackFromDifferentProgrammes() {
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_LOOK_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
@@ -394,11 +376,16 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		LookAdapter adapter = getLookAdapter();
 
 		assertNotNull("Could not get Adapter", adapter);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, backpackAdd);
+		packSingleItem(FIRST_TEST_LOOK_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
+		solo.sleep(200);
 		solo.goBack();
+		solo.sleep(200);
 		solo.goBack();
+		solo.sleep(200);
+
+		solo.waitForText(SECOND_SPRITE_NAME, 1, 1000);
 		solo.clickOnText(SECOND_SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnText(solo.getString(R.string.look));
@@ -493,9 +480,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -515,7 +500,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfFirstBackPackedLook));
 		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfSecondBackPackedLook));
 
-		clickOnContextMenuItem(firstTestLookNamePacked, delete);
+		clickSingleItemActionMode(firstTestLookNamePacked, R.id.delete, delete);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		int newCount = adapter.getCount();
 		solo.sleep(500);
@@ -559,7 +544,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
 
-		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -570,19 +555,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.deleteAllItems(solo, getActivity());
 		assertFalse("Look wasn't deleted!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
 		assertFalse("Look wasn't deleted!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
-
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
-		UiTestUtils.clickOnText(solo, selectAll);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-		solo.waitForActivity(ScriptActivity.class);
-
-		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
-		assertTrue("Look wasn't unpacked!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
-
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
-		assertFalse("Backpack items were not cleared!", solo.waitForText(unpack, 1, 1000));
 	}
 
 	public void testBackPackDeleteActionModeCheckingAndTitle() {
@@ -672,10 +644,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity("BackPackActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
-
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -709,6 +678,51 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
+	public void testBackPackAlreadyPackedDialogSingleItem() {
+		packSingleItem(FIRST_TEST_LOOK_NAME, true);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		packSingleItem(FIRST_TEST_LOOK_NAME, false);
+		solo.waitForDialogToOpen();
+		assertTrue("Look already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogMultiple, 0, TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(200);
+
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look was not replaced!", BackPackListManager.getInstance().getBackPackedLooks().size() == 1);
+	}
+
+	public void testBackPackAlreadyPackedDialogMultipleItems() {
+		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForFragmentByTag(LookFragment.TAG);
+
+		UiTestUtils.openBackPackActionMode(solo, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		UiTestUtils.clickOnText(solo, selectAll);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForDialogToOpen();
+		assertTrue("Look already exists backpack dialog not shown!", solo.waitForText(backpackReplaceDialogMultiple, 0,
+				TIME_TO_WAIT));
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.waitForDialogToClose();
+
+		solo.waitForActivity(BackPackActivity.class.getSimpleName());
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
+		solo.sleep(200);
+		assertTrue("Should be in backpack!", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't backpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look was not replaced!", BackPackListManager.getInstance().getBackPackedLooks().size() == 2);
+	}
+
 	public void testCopyLookContextMenu() {
 		String testLookName = SECOND_TEST_LOOK_NAME;
 
@@ -717,7 +731,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(testLookName, copy);
+		clickSingleItemActionMode(testLookName, R.id.copy, copy);
 		solo.sleep(300);
 
 		int newCount = adapter.getCount();
@@ -735,7 +749,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
 
-		Log.d("TEST", "Look to delete: " + lookToDelete.getLookName());
+		Log.d(TAG, "Look to delete: " + lookToDelete.getLookName());
 
 		String testLookName = SECOND_TEST_LOOK_NAME;
 		assertEquals("The two names should be equal", testLookName, lookToDelete.getLookName());
@@ -745,7 +759,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(testLookName, solo.getString(R.string.delete));
+		clickSingleItemActionMode(testLookName, R.id.delete, delete);
 		solo.waitForText(deleteDialogTitle);
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(200);
@@ -756,7 +770,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("New count is not correct - one look should be deleted", 1, newCount);
 		assertEquals("Count of the lookDataList is not correct", newCount, lookDataList.size());
 
-		Log.d("LookFragmentTest", "path: " + lookToDelete.getAbsolutePath());
+		Log.d(TAG, "path: " + lookToDelete.getAbsolutePath());
 		File deletedFile = new File(lookToDelete.getAbsolutePath());
 		assertFalse("File should be deleted", deletedFile.exists());
 	}
@@ -771,84 +785,52 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
 	}
 
-	public void testMoveLookUp() {
-		moveLookUp(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropDown() {
+		for (int i = 0; i < 3; i++) {
+			addLookWithName("TestLook" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
-		assertEquals("Look didn't move up (testMoveLookUp 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move up (testMoveLookUp 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(1).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook0");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(3).getLookName(), "TestLook1");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook2");
+
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(1).getLookName(), "TestLook0");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook1");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(3).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook2");
 	}
 
-	public void testMoveLookDown() {
-		moveLookDown(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
+	public void testDragAndDropUp() {
+		for (int i = 0; i < 3; i++) {
+			addLookWithName("TestLook" + i);
+		}
+
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
-		assertEquals("Look didn't move down (testMoveLookDown 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move down (testMoveLookDown 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
-	}
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(1).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook0");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(3).getLookName(), "TestLook1");
+		assertEquals("Wrong List before DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook2");
 
-	public void testMoveLookToBottom() {
-		moveLookToBottom(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(1) - 100, 20);
 
-		assertEquals("Look didn't move bottom (testMoveLookToBottom 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move bottom (testMoveLookToBottom 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookToTop() {
-		moveLookToTop(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look didn't move top (testMoveLookToTop 1)", SECOND_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look didn't move top (testMoveLookToTop 2)", FIRST_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookUpFirstEntry() {
-		moveLookUp(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookUpFirstEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookUpFirstEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookDownLastEntry() {
-		moveLookDown(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookDownLastEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookDownLastEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookToTopFirstEntry() {
-		moveLookToTop(FIRST_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookToTopFirstEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookToTopFirstEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
-	}
-
-	public void testMoveLookToBottomLastEntry() {
-		moveLookToBottom(SECOND_TEST_LOOK_NAME);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-
-		assertEquals("Look moved (testMoveLookToBottomLastEntry 1)", FIRST_TEST_LOOK_NAME, getLookName(0));
-		assertEquals("Look moved (testMoveLookToBottomLastEntry 2)", SECOND_TEST_LOOK_NAME, getLookName(1));
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(0).getLookName(), FIRST_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(1).getLookName(), SECOND_TEST_LOOK_NAME);
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(2).getLookName(), "TestLook2");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(3).getLookName(), "TestLook0");
+		assertEquals("Wrong List after DragAndDropTest", lookDataList.get(4).getLookName(), "TestLook1");
 	}
 
 	public void testShowAndHideDetails() {
@@ -1152,8 +1134,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(200);
-		assertNotNull("there must be an Intent", getLookFragment().lastRecivedIntent);
-		Bundle bundle = getLookFragment().lastRecivedIntent.getExtras();
+		assertNotNull("there must be an Intent", getLookFragment().lastReceivedIntent);
+		Bundle bundle = getLookFragment().lastReceivedIntent.getExtras();
 		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
 		assertEquals("Image must by a temp copy", Constants.TMP_IMAGE_PATH, pathOfPocketPaintImage);
 	}
@@ -1286,6 +1268,9 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookDataList.add(lookDataToAdd);
 		projectManager.getFileChecksumContainer().addChecksum(lookDataToAdd.getChecksum(),
 				lookDataToAdd.getAbsolutePath());
+		getLookAdapter().hardSetIdMapForTesting();
+		solo.goBack();
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 
 		solo.sleep(200);
 
@@ -1318,7 +1303,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String newLookName;
 		String copyAdditionString = solo.getString(R.string.copy_addition);
 
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
+		clickSingleItemActionMode(FIRST_TEST_LOOK_NAME, R.id.copy, copy);
 
 		renameLook(FIRST_TEST_LOOK_NAME, defaultLookName);
 		solo.sleep(200);
@@ -1341,7 +1326,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sleep(200);
 
 		solo.scrollToTop();
-		clickOnContextMenuItem(newLookName, copy);
+		clickSingleItemActionMode(newLookName, R.id.copy, copy);
 
 		copiedLookName = newLookName + "_" + copyAdditionString;
 		renameLook(copiedLookName, defaultLookName);
@@ -1404,7 +1389,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
 	}
 
-	public void testBottomBarAndContextMenuOnActionModes() {
+	public void testBottomBarOnActionModes() {
 		if (!getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.show_details), true);
 			solo.sleep(TIME_TO_WAIT);
@@ -1420,16 +1405,12 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertTrue("Measures prefix not visible", solo.searchText(lookResoltionPrefixText, true));
 
-		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
-
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.waitForText(rename, 1, timeToWait, false, true);
-
-		checkIfContextMenuAppears(false, ACTION_MODE_RENAME);
 
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
@@ -1440,8 +1421,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
@@ -1452,8 +1431,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, ACTION_MODE_DELETE);
-
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
 
@@ -1463,8 +1440,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, ACTION_MODE_DELETE);
 
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
@@ -1475,8 +1450,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForText(copy, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, ACTION_MODE_COPY);
-
 		solo.clickOnView(addButton);
 		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
 
@@ -1486,8 +1459,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.goBack();
 		solo.sleep(500);
-
-		checkIfContextMenuAppears(true, ACTION_MODE_COPY);
 
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 	}
@@ -1681,9 +1652,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -1725,7 +1694,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(copy, 0, TIME_TO_WAIT));
 
 		solo.sleep(300);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
+		clickSingleItemActionMode(FIRST_TEST_LOOK_NAME, R.id.copy, copy);
 		solo.sleep(300);
 
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
@@ -1904,9 +1873,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
-		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
-			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
-		}
+		checkAllCheckboxes();
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -2044,11 +2011,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, unpackAndKeep, R.id.unpacking_keep, getActivity());
-		solo.waitForDialogToOpen();
-		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
-				.nothing_to_unpack)));
-
 		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
@@ -2087,28 +2049,12 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	private void renameLook(String lookToRename, String newLookName) {
-		clickOnContextMenuItem(lookToRename, solo.getString(R.string.rename));
+		clickSingleItemActionMode(lookToRename, R.id.rename, rename);
 		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));
 		assertTrue("No EditText with actual look name", solo.searchEditText(lookToRename));
 
 		UiTestUtils.enterText(solo, 0, newLookName);
 		solo.sendKey(Solo.ENTER);
-	}
-
-	private void moveLookDown(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_down));
-	}
-
-	private void moveLookUp(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_up));
-	}
-
-	private void moveLookToBottom(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_to_bottom));
-	}
-
-	private void moveLookToTop(String lookToMove) {
-		clickOnContextMenuItem(lookToMove, solo.getString(R.string.menu_item_move_to_top));
 	}
 
 	private BackPackLookFragment getBackPackLookFragment() {
@@ -2157,14 +2103,31 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		return assertMessageAffix;
 	}
 
-	private void clickOnContextMenuItem(String lookName, String menuItemName) {
-		int match = 1;
-		if (menuItemName.equals(unpack)) {
-			match = 2;
+	private void packSingleItem(String lookName, boolean backPackEmpty) {
+		UiTestUtils.openActionMode(solo, backpack, R.id.backpack, getActivity());
+		if (!backPackEmpty) {
+			solo.waitForDialogToOpen();
+			solo.clickOnText(backpackAdd);
+			solo.sleep(TIME_TO_WAIT_BACKPACK);
 		}
+		solo.clickOnText(lookName);
+		solo.sleep(TIME_TO_WAIT);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+	}
+
+	private void clickSingleItemActionMode(String lookName, int menuItem, String itemName) {
+		UiTestUtils.openActionMode(solo, itemName, menuItem, getActivity());
+		solo.clickOnText(lookName);
+		solo.sleep(TIME_TO_WAIT);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+	}
+
+	private void clickOnContextMenuItem(String lookName, String menuItemName) {
 		solo.clickLongOnText(lookName);
 		solo.waitForText(menuItemName);
-		solo.clickOnText(menuItemName, match);
+		solo.clickOnText(menuItemName);
+		solo.waitForActivity(BackPackActivity.class);
+		solo.waitForFragmentByTag(BackPackLookFragment.TAG);
 	}
 
 	private String getLookName(int lookIndex) {
@@ -2172,61 +2135,27 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		return lookDataList.get(lookIndex).getLookName();
 	}
 
-	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, int actionModeType) {
-		solo.clickLongOnText(FIRST_TEST_LOOK_NAME);
-
-		int timeToWait = 200;
-		String assertMessageAffix = "";
-
-		if (contextMenuShouldAppear) {
-			assertMessageAffix = "should appear";
-
-			assertTrue("Context menu with title '" + FIRST_TEST_LOOK_NAME + "' " + assertMessageAffix,
-					solo.waitForText(FIRST_TEST_LOOK_NAME, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + copy + "' " + assertMessageAffix,
-					solo.waitForText(copy, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
-					solo.waitForText(delete, 1, timeToWait, false, true));
-			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
-					solo.waitForText(rename, 1, timeToWait, false, true));
-
-			solo.goBack();
-		} else {
-			assertMessageAffix = "should not appear";
-
-			int minimumMatchesCopy = 1;
-			int minimumMatchesDelete = 1;
-			int minimumMatchesRename = 1;
-
-			switch (actionModeType) {
-				case ACTION_MODE_COPY:
-					minimumMatchesCopy = 2;
-					break;
-				case ACTION_MODE_DELETE:
-					minimumMatchesDelete = 2;
-					break;
-				case ACTION_MODE_RENAME:
-					minimumMatchesRename = 2;
-					break;
-			}
-			assertFalse("Context menu with title '" + FIRST_TEST_LOOK_NAME + "' " + assertMessageAffix,
-					solo.waitForText(FIRST_TEST_LOOK_NAME, 3, timeToWait, false, true));
-			assertFalse("Context menu item '" + copy + "' " + assertMessageAffix,
-					solo.waitForText(copy, minimumMatchesCopy, timeToWait, false, true));
-			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
-					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
-			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
-					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
-		}
-	}
-
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
+		int startIndex = 0;
+		if (solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getLookDataList().size()) {
+			startIndex = 1;
+		}
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex + 1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
+	}
+
+	private void checkAllCheckboxes() {
+		boolean skipFirst = solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getLookDataList().size();
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			if (skipFirst) {
+				continue;
+			}
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
 	}
 
 	private void checkIfNumberOfLooksIsEqual(int expectedNumber) {
@@ -2235,10 +2164,16 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	private void deleteLook(String lookName) {
-		clickOnContextMenuItem(lookName, delete);
+		clickSingleItemActionMode(lookName, R.id.delete, delete);
 		solo.waitForDialogToOpen();
 		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
+	}
+
+	private void addLookWithName(String lookName) {
+		LookData lookDataToAdd = lookData.clone();
+		lookDataToAdd.setLookName(lookName);
+		lookDataList.add(lookDataToAdd);
 	}
 }

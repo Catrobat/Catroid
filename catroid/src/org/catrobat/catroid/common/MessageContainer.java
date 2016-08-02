@@ -27,6 +27,8 @@ import android.widget.ArrayAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.physics.PhysicsCollision;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,9 +37,11 @@ import java.util.Map;
 
 public final class MessageContainer {
 
-	private static Map<String, List<BroadcastScript>> receiverMap = new HashMap<String, List<BroadcastScript>>();
+	private static Map<String, List<BroadcastScript>> receiverMap = new HashMap<>();
 	private static Map<String, List<BroadcastScript>> backupReceiverMap = null;
 	private static ArrayAdapter<String> messageAdapter = null;
+	private static Map<String, List<CollisionScript>> collisionReceiverMap = new HashMap<>();
+	private static int hiddenEntries = 0;
 
 	// Suppress default constructor for noninstantiability
 	private MessageContainer() {
@@ -46,12 +50,13 @@ public final class MessageContainer {
 
 	public static void clear() {
 		receiverMap.clear();
+		hiddenEntries = 0;
 		messageAdapter = null;
 	}
 
 	public static void createBackup() {
 		backupReceiverMap = receiverMap;
-		receiverMap = new HashMap<String, List<BroadcastScript>>();
+		receiverMap = new HashMap<>();
 	}
 
 	public static void clearBackup() {
@@ -69,9 +74,19 @@ public final class MessageContainer {
 			return;
 		}
 
-		if (!receiverMap.containsKey(message)) {
-			receiverMap.put(message, new ArrayList<BroadcastScript>());
-			addMessageToAdapter(message);
+		if (!PhysicsCollision.isCollisionBroadcastMessage(message)) {
+			if (!receiverMap.containsKey(message)) {
+				receiverMap.put(message, new ArrayList<BroadcastScript>());
+				if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
+					hiddenEntries++;
+				} else {
+					addMessageToAdapter(message);
+				}
+			}
+		} else {
+			if (!collisionReceiverMap.containsKey(message)) {
+				collisionReceiverMap.put(message, new ArrayList<CollisionScript>());
+			}
 		}
 	}
 
@@ -80,8 +95,13 @@ public final class MessageContainer {
 			return;
 		}
 
-		addMessage(message);
-		receiverMap.get(message).add(script);
+		if (!PhysicsCollision.isCollisionBroadcastMessage(message)) {
+			addMessage(message);
+			receiverMap.get(message).add(script);
+		} else if (script instanceof CollisionScript) {
+			addMessage(message);
+			collisionReceiverMap.get(message).add((CollisionScript) script);
+		}
 	}
 
 	private static void addMessageToAdapter(String message) {
@@ -91,20 +111,32 @@ public final class MessageContainer {
 	}
 
 	public static void removeReceiverScript(String message, BroadcastScript script) {
-		if (receiverMap.containsKey(message)) {
-			receiverMap.get(message).remove(script);
+		if (message == null || message.isEmpty()) {
+			return;
+		}
+
+		if (!PhysicsCollision.isCollisionBroadcastMessage(message)) {
+			if (receiverMap.containsKey(message)) {
+				receiverMap.get(message).remove(script);
+			}
+		} else if (collisionReceiverMap.containsKey(message) && script instanceof CollisionScript) {
+			CollisionScript collisionScript = (CollisionScript) script;
+			collisionReceiverMap.get(message).remove(collisionScript);
 		}
 	}
 
 	public static ArrayAdapter<String> getMessageAdapter(Context context) {
 		if (messageAdapter == null) {
-			messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+			messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 			messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			messageAdapter.add(context.getString(R.string.new_broadcast_message));
-			if (receiverMap.isEmpty()) {
+			if (receiverMap.size() == hiddenEntries) {
 				addMessage(context.getString(R.string.brick_broadcast_default_value));
 			} else {
 				for (String message : receiverMap.keySet()) {
+					if (message.startsWith(Constants.RASPI_BROADCAST_PREFIX)) {
+						continue;
+					}
 					addMessageToAdapter(message);
 				}
 			}
@@ -125,7 +157,9 @@ public final class MessageContainer {
 
 	public static void removeUnusedMessages(List<String> usedMessages) {
 		messageAdapter = null;
-		receiverMap = new HashMap<String, List<BroadcastScript>>();
+		receiverMap = new HashMap<>();
+		collisionReceiverMap = new HashMap<>();
+		hiddenEntries = 0;
 
 		for (String message : usedMessages) {
 			addMessage(message);

@@ -29,22 +29,32 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
 
+import junit.framework.Assert;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -69,6 +79,8 @@ public final class TestUtils {
 	public static final String EMPTY_PROJECT = "emptyProject";
 
 	private static final String TAG = TestUtils.class.getSimpleName();
+
+	public static final double DELTA = 0.00001;
 
 	// Suppress default constructor for noninstantiability
 	private TestUtils() {
@@ -313,5 +325,98 @@ public final class TestUtils {
 		SharedPreferences.Editor edit = preferences.edit();
 		edit.remove(key);
 		edit.commit();
+	}
+
+	public static void loadExistingOrCreateDefaultDroneProject(Context context) {
+		String droneDefaultProjectName = context.getString(R.string.default_drone_project_name);
+		try {
+			ProjectManager.getInstance().loadProject(droneDefaultProjectName, context);
+		} catch (ProjectException cannotLoadDroneProjectException) {
+			Log.e(TAG, "Cannot load default drone project", cannotLoadDroneProjectException);
+		}
+
+		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
+		if (!currentName.equals(droneDefaultProjectName)) {
+			try {
+				ProjectManager.getInstance().setProject(createAndSaveDefaultDroneProject(
+						context));
+				return;
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot initialize default drone project.", ioException);
+				Assert.fail("Cannot initialize default drone project.");
+			}
+		}
+		Assert.fail("Cannot initialize default default drone project.");
+	}
+
+	public static Project createAndSaveDefaultDroneProject(Context context) throws IOException {
+		Log.d(TAG, "createAndSaveDefaultDroneProject");
+		String projectName = context.getString(R.string.default_drone_project_name);
+		return createAndSaveDefaultDroneProject(projectName, context);
+	}
+
+	public static Project createAndSaveDefaultDroneProject(String projectName, Context context) throws IOException,
+			IllegalArgumentException {
+		DefaultProjectCreatorDrone defaultProjectCreatorDrone = new DefaultProjectCreatorDrone();
+		return defaultProjectCreatorDrone.createDefaultProject(projectName, context);
+	}
+
+	public static Project createProjectWithGlobalValues(String name, String spriteName, String valueName, Context context) {
+		Project project = new Project(context, name);
+
+		project.getDataContainer().addProjectUserList(valueName);
+		project.getDataContainer().addProjectUserVariable(valueName);
+
+		Sprite sprite = new Sprite(spriteName);
+		Script script = new StartScript();
+
+		SetVariableBrick variableBrick = new SetVariableBrick(new Formula(1), project.getProjectVariableWithName(valueName));
+		AddItemToUserListBrick listBrick = new AddItemToUserListBrick(new Formula(1), project.getProjectListWithName(valueName));
+
+		script.addBrick(variableBrick);
+		script.addBrick(listBrick);
+		sprite.addScript(script);
+		project.getSpriteList().get(0).addScript(script);
+		project.addSprite(sprite);
+
+		return project;
+	}
+
+	public static Project createProjectWithSpriteValues(String name, String spriteName, String valueName, Context context) {
+		Project project = new Project(context, name);
+
+		Sprite sprite = new Sprite(spriteName);
+
+		UserList firstList = project.getDataContainer().addSpriteUserListToSprite(project.getSpriteList().get(0), valueName);
+		UserList secondList = project.getDataContainer().addSpriteUserListToSprite(sprite, valueName);
+		UserVariable firstVariable = project.getDataContainer().addSpriteUserVariableToSprite(project.getSpriteList().get(0), valueName);
+		UserVariable secondVariable = project.getDataContainer().addSpriteUserVariableToSprite(sprite, valueName);
+
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+
+		SetVariableBrick firstVariableBrick = new SetVariableBrick(new Formula(1), firstVariable);
+		SetVariableBrick secondVariableBrick = new SetVariableBrick(new Formula(1), secondVariable);
+		AddItemToUserListBrick firstListBrick = new AddItemToUserListBrick(new Formula(1), firstList);
+		AddItemToUserListBrick secondListBrick = new AddItemToUserListBrick(new Formula(1), secondList);
+
+		firstScript.addBrick(firstVariableBrick);
+		firstScript.addBrick(firstListBrick);
+		secondScript.addBrick(secondVariableBrick);
+		secondScript.addBrick(secondListBrick);
+
+		sprite.addScript(secondScript);
+		project.getSpriteList().get(0).addScript(firstScript);
+		project.addSprite(sprite);
+
+		return project;
+	}
+
+	public static void sleep(int time) {
+		try {
+			Thread.sleep((long) time);
+		} catch (InterruptedException e) {
+			Log.e(TAG, e.getMessage());
+		}
 	}
 }

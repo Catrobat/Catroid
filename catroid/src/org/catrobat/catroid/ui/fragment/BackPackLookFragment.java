@@ -132,9 +132,9 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.unpacking);
+			mode.setTitle(R.string.unpack);
 
-			actionModeTitle = getString(R.string.unpacking);
+			actionModeTitle = getString(R.string.unpack);
 			singleItemAppendixActionMode = getString(R.string.category_looks);
 			multipleItemAppendixActionMode = getString(R.string.looks);
 			addSelectAllActionModeButton(mode, menu);
@@ -164,7 +164,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_look, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_back_pack_look, container, false);
 		return rootView;
 	}
 
@@ -192,8 +192,8 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedLooks().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(true);
 		}
+		menu.findItem(R.id.unpacking_keep).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -217,7 +217,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 				contextMenuUnpacking(false);
 				break;
 			case R.id.context_menu_unpacking:
-				contextMenuUnpacking(true);
+				contextMenuUnpacking(false);
 				break;
 			case R.id.context_menu_delete:
 				deleteLooks();
@@ -248,7 +248,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.showBottomBar(getActivity());
+		BottomBar.hideBottomBar(getActivity());
 	}
 
 	private void initClickListener() {
@@ -313,7 +313,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpacking));
+					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
 				} else if (actionModeCallback.equals(deleteModeCallBack)) {
 					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
 				}
@@ -393,7 +393,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		holder.lookElement.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					selectedLookPosition = position;
 					listView.showContextMenuForChild(view);
 				}
@@ -441,6 +441,8 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
 		}
+
+		BackPackListManager.getInstance().saveBackpack();
 
 		if (lookDeletedReceiver != null) {
 			getActivity().unregisterReceiver(lookDeletedReceiver);

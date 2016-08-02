@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 
 public class LookTest extends InstrumentationTestCase {
 	private Look look;
@@ -64,9 +65,10 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 1f, look.getScaleY());
 		assertEquals("Wrong initialization!", 0f, look.getTransparencyInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 100f, look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Wrong initialization!", 0f, look.getColorInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 100f, look.getSizeInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 0, look.getZIndex());
-		assertEquals("Wrong initialization!", true, look.visible);
+		assertEquals("Wrong initialization!", true, look.isVisible());
 		assertEquals("Wrong initialization!", Touchable.enabled, look.getTouchable());
 		assertEquals("Wrong initialization!", "", look.getImagePath());
 	}
@@ -119,6 +121,152 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong alpha value!", y - height / 2, look.getY());
 	}
 
+	private float convertNegativeZeroToPosigiveZero(float value) {
+		if (value == 0.0f) {
+			return 0.0f;
+		}
+		return value;
+	}
+
+	public void testBreakDownCatroidAngle() {
+		Look look = new Look(new Sprite("testsprite"));
+
+		float[] posigiveInputAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f };
+		float[] posigiveHighInputAngles = { 360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f };
+		float[] posigiveHigherInputAngles = { 720.0f, 765.0f, 810.0f, 855.0f, 900.0f, 945.0f, 990.0f, 1035.0f, 1080.0f };
+
+		float[] expectedPosigiveCatroidAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f };
+
+		for (int index = 0; index < posigiveInputAngles.length; index++) {
+			ParameterList params = new ParameterList(posigiveInputAngles[index]);
+			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
+			assertEquals("positive angle break down to wrong angle", expectedPosigiveCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(catroidAngle));
+		}
+		for (int index = 0; index < posigiveHighInputAngles.length; index++) {
+			ParameterList params = new ParameterList(posigiveHighInputAngles[index]);
+			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
+			assertEquals("high positive angle break down to wrong angle", expectedPosigiveCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(catroidAngle));
+		}
+		for (int index = 0; index < posigiveHigherInputAngles.length; index++) {
+			ParameterList params = new ParameterList(posigiveHigherInputAngles[index]);
+			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
+			assertEquals("higher positive angle break down to wrong angle", expectedPosigiveCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(catroidAngle));
+		}
+
+		float[] negativeInputAngles = { -0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f };
+		float[] negativeHighInputAngles = { -360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
+				-720.0f };
+		float[] negativeHigherInputAngles = { -720.0f, -765.0f, -810.0f, -855.0f, -900.0f, -945.0f, -990.0f, -1035.0f,
+				-1080.0f };
+
+		float[] expectedNegativeCatroidAngles = { 0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f, 45.0f, 0.0f };
+
+		for (int index = 0; index < negativeInputAngles.length; index++) {
+			ParameterList params = new ParameterList(negativeInputAngles[index]);
+			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
+			assertEquals("negative angle break down to wrong angle", expectedNegativeCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(catroidAngle), 0.1);
+		}
+
+		for (int index = 0; index < negativeHighInputAngles.length; index++) {
+			ParameterList params = new ParameterList(negativeHighInputAngles[index]);
+			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
+			assertEquals("high negative angle break down to wrong angle", expectedNegativeCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(catroidAngle));
+		}
+
+		for (int index = 0; index < negativeHigherInputAngles.length; index++) {
+			ParameterList params = new ParameterList(negativeHigherInputAngles[index]);
+			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
+			assertEquals("higher negative angle break down to wrong angle", expectedNegativeCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(catroidAngle));
+		}
+	}
+
+	public void testCatroidAngleToStageAngle() {
+		float[] posigiveCatroidAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f };
+		float[] posigiveHighCatroidAngles = { 360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f };
+		//float[] expectedPosigiveStageAngles = { 90.0f, 45.0f, 0.0f, 315.0f, 270.0f, 225.0f, 180.0f, 135.0f, 90.0f };
+		float[] expectedPosigiveStageAngles = { 90.0f, 45.0f, 0.0f, -45.0f, -90.0f, 225.0f, 180.0f, 135.0f, 90.0f };
+
+		for (int index = 0; index < posigiveCatroidAngles.length; index++) {
+			ParameterList params = new ParameterList(posigiveCatroidAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
+			assertEquals("positive catroid angle converted to wrong stage angle", expectedPosigiveStageAngles[index],
+					convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+
+		for (int index = 0; index < posigiveHighCatroidAngles.length; index++) {
+			ParameterList params = new ParameterList(posigiveHighCatroidAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
+			assertEquals("high positive catroid angle converted to wrong stage angle",
+					expectedPosigiveStageAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+
+		float[] negativeCatroidAngles = { -0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f };
+		float[] negativeHighCatroidAngles = { -360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
+				-720.0f };
+		//float[] expectedNegativeStageAngles = { 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 0.0f, 45.0f, 90.0f };
+		float[] expectedNegativeStageAngles = { 90.0f, 135.0f, 180.0f, 225.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f };
+
+		for (int index = 0; index < negativeCatroidAngles.length; index++) {
+			ParameterList params = new ParameterList(negativeCatroidAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
+			assertEquals("negative catroid angle converted to wrong stage angle", expectedNegativeStageAngles[index],
+					convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+
+		for (int index = 0; index < negativeHighCatroidAngles.length; index++) {
+			ParameterList params = new ParameterList(negativeHighCatroidAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
+			assertEquals("high negative catroid angle converted to wrong stage angle",
+					expectedNegativeStageAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+	}
+
+	public void testStageAngleToCatroidAngle() {
+		float[] posigiveStageAngles = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f };
+		float[] posigiveHighCatroiStagedAngles = { 360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f,
+				720.0f };
+		float[] expectedPosigiveCatroidAngles = { 90.0f, 45.0f, 0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f };
+
+		for (int index = 0; index < posigiveStageAngles.length; index++) {
+			ParameterList params = new ParameterList(posigiveStageAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
+			assertEquals("positive stage angle converted to wrong catroid angle", expectedPosigiveCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+
+		for (int index = 0; index < posigiveHighCatroiStagedAngles.length; index++) {
+			ParameterList params = new ParameterList(posigiveHighCatroiStagedAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
+			assertEquals("high positive stage angle converted to wrong catroid angle",
+					expectedPosigiveCatroidAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+
+		float[] negativeStageAngles = { -0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f };
+		float[] negativeHighStageAngles = { -360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
+				-720.0f };
+		float[] expectedNegativeCatroidAngles = { 90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f };
+
+		for (int index = 0; index < negativeStageAngles.length; index++) {
+			ParameterList params = new ParameterList(negativeStageAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
+			assertEquals("negative stage angle converted to wrong catroid angle", expectedNegativeCatroidAngles[index],
+					convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+
+		for (int index = 0; index < negativeHighStageAngles.length; index++) {
+			ParameterList params = new ParameterList(negativeHighStageAngles[index]);
+			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
+			assertEquals("high negative stage angle converted to wrong catroid angle",
+					expectedNegativeCatroidAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
+		}
+	}
+
 	public void testDirection() {
 		float[] degreesInUserInterfaceDimensionUnit = { 90f, 60f, 30f, 0f, -30f, -60f, -90f, -120f, -150f, 180f, 150f,
 				120f };
@@ -134,8 +282,13 @@ public class LookTest extends InstrumentationTestCase {
 
 		look.setDirectionInUserInterfaceDimensionUnit(90f);
 		look.changeDirectionInUserInterfaceDimensionUnit(10f);
-		assertEquals("Wrong alpha value!", 100f, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals("Wrong alpha value!", -10f, look.getRotation());
+		assertEquals("Wrong degrees value!", 100f, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals("Wrong degrees value!", -10f, look.getRotation());
+
+		look.setDirectionInUserInterfaceDimensionUnit(90f);
+		look.changeDirectionInUserInterfaceDimensionUnit(360f);
+		assertEquals("Wrong degrees value!", 90f, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals("Wrong degrees value!", -360f, look.getRotation());
 	}
 
 	public void testWidthAndHeight() {
@@ -194,5 +347,16 @@ public class LookTest extends InstrumentationTestCase {
 		look.setBrightnessInUserInterfaceDimensionUnit(-10);
 		assertEquals("Wrong brightness value!", 0f, look.getBrightnessInUserInterfaceDimensionUnit());
 		assertEquals("Wrong brightness value!", 0f, Reflection.getPrivateField(look, "brightness"));
+	}
+
+	public void testColor() {
+		int red = -40;
+		int green = 80;
+
+		look.setColorInUserInterfaceDimensionUnit(red);
+		assertEquals("Wrong color value!", 160.0f, look.getColorInUserInterfaceDimensionUnit());
+
+		look.changeColorInUserInterfaceDimensionUnit(green);
+		assertEquals("Wrong color value!", 40.0f, look.getColorInUserInterfaceDimensionUnit());
 	}
 }

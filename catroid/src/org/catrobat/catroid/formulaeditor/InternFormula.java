@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InternFormula {
+	private static final String TAG = InternFormula.class.getSimpleName();
 
 	public static enum CursorTokenPosition {
 		LEFT, MIDDLE, RIGHT
@@ -105,7 +106,7 @@ public class InternFormula {
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		if (resourceId == R.id.formula_editor_edit_field_clear || resourceId == R.id.formula_editor_keyboard_delete) {
+		if (resourceId == R.id.formula_editor_keyboard_delete) {
 
 			cursorTokenPropertiesAfterInput = handleDeletion();
 		} else if (isTokenSelected()) {
@@ -272,6 +273,10 @@ public class InternFormula {
 					if (firstLeftInternToken == null) {
 						cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 					} else {
+						if (firstLeftInternToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
+							setExternCursorPositionLeftTo(internTokenFormulaList.indexOf(firstLeftInternToken));
+							break;
+						}
 
 						int firstLeftInternTokenIndex = internTokenFormulaList.indexOf(firstLeftInternToken);
 
@@ -284,6 +289,12 @@ public class InternFormula {
 					break;
 
 				case RIGHT:
+					InternToken internToken = getFirstLeftInternToken(externCursorPosition);
+					if (internToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
+						setExternCursorPositionLeftTo(internTokenFormulaList.indexOf(internToken));
+						break;
+					}
+
 					cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
 					break;
 			}
@@ -450,6 +461,15 @@ public class InternFormula {
 		internToExternGenerator.generateExternStringAndMapping(internTokenFormulaList);
 		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
 		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
+	}
+
+	public String trimExternFormulaString(Context context) {
+		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context);
+
+		internToExternGenerator.trimExternString(internTokenFormulaList);
+		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
+		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
+		return externFormulaString;
 	}
 
 	private void selectCursorPositionInternToken(TokenSelectionType internTokenSelectionType) {
@@ -716,7 +736,7 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification replaceCursorPositionInternTokenByTokenList(
 			List<InternToken> internTokensToReplaceWith) {
 
-		Log.i("info", "replaceCursorPositionInternTokenByTokenList:enter");
+		Log.i(TAG, "replaceCursorPositionInternTokenByTokenList:enter");
 
 		if (cursorPositionInternToken.isNumber() && internTokensToReplaceWith.size() == 1
 				&& internTokensToReplaceWith.get(0).isOperator()) {
@@ -909,6 +929,40 @@ public class InternFormula {
 		}
 
 		return externSelectionEndIndex;
+	}
+
+	private InternToken getSelectedToken() {
+		if (internFormulaTokenSelection == null || internFormulaTokenSelection.getTokenSelectionType() != TokenSelectionType.USER_SELECTION) {
+			return null;
+		}
+		int currentIndex = 0;
+		for (InternToken token : internTokenFormulaList) {
+			if (token.getInternTokenType() == InternTokenType.STRING
+					&& internFormulaTokenSelection.getStartIndex() == currentIndex) {
+				return token;
+			}
+			currentIndex++;
+		}
+		return null;
+	}
+
+	public String getSelectedText() {
+		InternToken token = getSelectedToken();
+		if (token == null) {
+			return null;
+		}
+
+		return token.getTokenStringValue();
+	}
+
+	public void overrideSelectedText(String string, Context context) {
+		InternToken token = getSelectedToken();
+		if (token == null) {
+			return;
+		}
+
+		token.setTokenStringValue(string);
+		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
 	public String getExternFormulaString() {

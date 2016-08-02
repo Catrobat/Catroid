@@ -34,7 +34,6 @@ import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,9 +41,9 @@ import java.util.HashMap;
 public final class BroadcastHandler {
 
 	private static Multimap<String, String> actionsToRestartMap = ArrayListMultimap.create();
-	private static HashMap<Action, Script> actionScriptMap = new HashMap<Action, Script>();
-	private static HashMap<Script, Sprite> scriptSpriteMap = new HashMap<Script, Sprite>();
-	private static HashMap<String, Action> stringActionMap = new HashMap<String, Action>();
+	private static HashMap<Action, Script> actionScriptMap = new HashMap<>();
+	private static HashMap<Script, Sprite> scriptSpriteMap = new HashMap<>();
+	private static HashMap<String, Action> stringActionMap = new HashMap<>();
 
 	private static final String TAG = "BroadcastHandler";
 
@@ -69,7 +68,9 @@ public final class BroadcastHandler {
 			for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
 				addOrRestartAction(look, action);
 			}
-			BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
+			if (BroadcastWaitSequenceMap.getCurrentBroadcastEvent() != null) {
+				BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
+			}
 		}
 	}
 
@@ -113,14 +114,14 @@ public final class BroadcastHandler {
 		ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
 		BroadcastWaitSequenceMap.setCurrentBroadcastEvent(event);
 		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
-			SequenceAction broadcastWaitAction = ExtendedActions.sequence(action,
-					ExtendedActions.broadcastNotify(event));
+			SequenceAction broadcastWaitAction = ActionFactory.sequence(action,
+					ActionFactory.createBroadcastNotifyAction(event));
 			Script receiverScript = actionScriptMap.get(action);
 			actionScriptMap.put(broadcastWaitAction, receiverScript);
 			Sprite receiverSprite = scriptSpriteMap.get(receiverScript);
 			String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName() + receiverSprite.getScriptIndex(receiverScript);
 			stringActionMap.put(actionName, broadcastWaitAction);
-			if (!handleActionFromBroadcastWait(look, broadcastWaitAction)) {
+			if (!handleActionFromBroadcastWait(broadcastWaitAction)) {
 				event.raiseNumberOfReceivers();
 				actionList.add(broadcastWaitAction);
 				addOrRestartAction(look, broadcastWaitAction);
@@ -152,8 +153,7 @@ public final class BroadcastHandler {
 		return true;
 	}
 
-	private static boolean handleActionFromBroadcastWait(Look look,
-			SequenceAction sequenceActionWithBroadcastNotifyAction) {
+	private static boolean handleActionFromBroadcastWait(SequenceAction sequenceActionWithBroadcastNotifyAction) {
 		Action actualAction = sequenceActionWithBroadcastNotifyAction.getActions().get(0);
 
 		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
@@ -165,16 +165,16 @@ public final class BroadcastHandler {
 				if (sequenceActionWithBroadcastNotifyAction == actionOfLook) {
 					((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
 							.resetNumberOfFinishedReceivers();
-					Look.actionsToRestartAdd(actionOfLook);
+					sprites.look.actionsToRestartAdd(actionOfLook);
 					return true;
 				} else {
 					if (actualActionOfLook != null && actualActionOfLook == actualAction) {
 						((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
 								.resetEventAndResumeScript();
-						Look.actionsToRestartAdd(actionOfLook);
+						sprites.look.actionsToRestartAdd(actionOfLook);
 						return false;
 					} else {
-						addOrRestartAction(look, sequenceActionWithBroadcastNotifyAction);
+						addOrRestartAction(sprites.look, sequenceActionWithBroadcastNotifyAction);
 						return false;
 					}
 				}

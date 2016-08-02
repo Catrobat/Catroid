@@ -32,16 +32,59 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAdapterInterface {
+public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAdapterInterface,
+		LookController.OnBackpackLookCompleteListener {
+
+	private static final int INVALID_ID = -1;
 
 	private LookFragment lookFragment;
 
+	private HashMap<LookData, Integer> idMap = new HashMap<LookData, Integer>();
+
 	public LookAdapter(final Context context, int resource, int textViewResourceId, List<LookData> items,
 			boolean showDetails) {
-		super(context, resource, textViewResourceId, items, showDetails);
+		super(context, resource, textViewResourceId, items, showDetails, false);
+		for (int i = 0; i < items.size(); ++i) {
+			idMap.put(items.get(i), i);
+		}
+	}
+
+	@Override
+	public long getItemId(int position) {
+		if (position < 0 || position >= idMap.size()) {
+			return INVALID_ID;
+		}
+		LookData item = getItem(position);
+		return idMap.get(item);
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+		if (getCount() != idMap.size()) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
+	}
+
+	public void hardSetIdMapForTesting() {
+		if (getCount() != idMap.size()) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	@Override
@@ -54,22 +97,39 @@ public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAd
 	}
 
 	public void onDestroyActionModeBackPack() {
-		Iterator<Integer> iterator = checkedLookPositions.iterator();
-		while (iterator.hasNext()) {
-			int position = iterator.next();
-			LookController.getInstance().backPackLook(lookDataItems.get(position), false);
+		List<LookData> lookDataListToBackpack = new ArrayList<>();
+		for (Integer position : checkedLookPositions) {
+			lookDataListToBackpack.add(lookDataItems.get(position));
 		}
 
-		if (!checkedLookPositions.isEmpty()) {
-			Intent intent = new Intent(lookFragment.getActivity(), BackPackActivity.class);
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
-			lookFragment.getActivity().startActivity(intent);
-		}
+		boolean looksAlreadyInBackpack = LookController.getInstance().checkLookReplaceInBackpack(lookDataListToBackpack);
 
-		lookFragment.clearCheckedLooksAndEnableButtons();
+		if (!lookDataListToBackpack.isEmpty()) {
+			if (!looksAlreadyInBackpack) {
+				for (LookData lookDataToBackpack : lookDataListToBackpack) {
+					LookController.getInstance().backPackVisibleLook(lookDataToBackpack);
+					onBackpackLookComplete(true);
+				}
+			} else {
+				LookController.getInstance().setOnBackpackLookCompleteListener(this);
+				LookController.getInstance().showBackPackReplaceDialog(lookDataListToBackpack, lookFragment.getActivity());
+			}
+		} else {
+			lookFragment.clearCheckedLooksAndEnableButtons();
+		}
 	}
 
 	public void setLookFragment(LookFragment lookFragment) {
 		this.lookFragment = lookFragment;
+	}
+
+	@Override
+	public void onBackpackLookComplete(boolean startBackpackActivity) {
+		if (!checkedLookPositions.isEmpty() && startBackpackActivity) {
+			Intent intent = new Intent(lookFragment.getActivity(), BackPackActivity.class);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_LOOKS);
+			lookFragment.getActivity().startActivity(intent);
+		}
+		lookFragment.clearCheckedLooksAndEnableButtons();
 	}
 }

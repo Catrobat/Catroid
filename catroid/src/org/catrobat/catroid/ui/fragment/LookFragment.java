@@ -45,8 +45,6 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ActionMode;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,9 +52,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -71,6 +66,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.DynamicListView;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
@@ -90,21 +86,20 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 public class LookFragment extends ScriptActivityFragment implements LookBaseAdapter.OnLookEditListener,
-		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
+		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener, LookController.OnBackpackLookCompleteListener {
 
 	public static final String TAG = LookFragment.class.getSimpleName();
 	private static int selectedLookPosition = Constants.NO_POSITION;
 	private static String actionModeTitle;
 	private static String singleItemAppendixActionMode;
 	private static String multipleItemAppendixActionMode;
-	public Intent lastRecivedIntent = null;
+	public Intent lastReceivedIntent = null;
 	private LookBaseAdapter adapter;
 	private List<LookData> lookDataList;
 	private LookData selectedLookData;
@@ -113,6 +108,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	private LookDeletedReceiver lookDeletedReceiver;
 	private LookRenamedReceiver lookRenamedReceiver;
 	private LooksListInitReceiver looksListInitReceiver;
+	private LookListTouchActionUpReceiver lookListTouchActionUpReceiver;
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
@@ -322,6 +318,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			lookDataList = new ArrayList<>();
 		}
 
+		((DynamicListView) getListView()).setDataList(lookDataList);
+
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
 			TextView emptyViewHeading = (TextView) activity.findViewById(R.id.fragment_look_text_heading);
 			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
@@ -353,10 +351,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		menu.findItem(R.id.rename).setVisible(true);
 		menu.findItem(R.id.show_details).setVisible(true);
 		menu.findItem(R.id.settings).setVisible(true);
-		menu.findItem(R.id.context_menu_move_up).setVisible(true);
-		menu.findItem(R.id.context_menu_move_down).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -369,17 +363,15 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		initClickListener();
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(activity)) {
 			return;
+		}
+
+		if (BackPackListManager.getInstance().isBackpackEmpty()) {
+			BackPackListManager.getInstance().loadBackpack();
 		}
 
 		if (lookRenamedReceiver == null) {
@@ -394,6 +386,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			looksListInitReceiver = new LooksListInitReceiver();
 		}
 
+		if (lookListTouchActionUpReceiver == null) {
+			lookListTouchActionUpReceiver = new LookListTouchActionUpReceiver();
+		}
+
 		IntentFilter intentFilterRenameLook = new IntentFilter(ScriptActivity.ACTION_LOOK_RENAMED);
 		activity.registerReceiver(lookRenamedReceiver, intentFilterRenameLook);
 
@@ -402,6 +398,9 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 		IntentFilter intentFilterLooksListInit = new IntentFilter(ScriptActivity.ACTION_LOOKS_LIST_INIT);
 		activity.registerReceiver(looksListInitReceiver, intentFilterLooksListInit);
+
+		IntentFilter intentFilterLookListTouchUp = new IntentFilter(ScriptActivity.ACTION_LOOK_TOUCH_ACTION_UP);
+		activity.registerReceiver(lookListTouchActionUpReceiver, intentFilterLookListTouchUp);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity
 				.getApplicationContext());
@@ -450,6 +449,10 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 			activity.unregisterReceiver(looksListInitReceiver);
 		}
 
+		if (lookListTouchActionUpReceiver != null) {
+			activity.unregisterReceiver(lookListTouchActionUpReceiver);
+		}
+
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
@@ -466,7 +469,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		lastRecivedIntent = data;
+		lastReceivedIntent = data;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case LookController.REQUEST_SELECT_OR_DRAW_IMAGE:
@@ -490,6 +493,11 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
 					LookController.getInstance().loadPictureFromLibraryIntoCatroid(filePath, activity,
 							lookDataList, this);
+					break;
+				case LookController.REQUEST_DRONE_VIDEO:
+					String droneFilePath = getString(R.string.add_look_drone_video);
+					LookController.getInstance().loadDroneVideoImageToProject(droneFilePath,
+							R.drawable.ic_video, this.getActivity(), lookDataList, this);
 			}
 			isResultHandled = true;
 		}
@@ -497,77 +505,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		if (requestCode == LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE) {
 			StorageHandler.getInstance().deleteTempImageCopy();
 		}
-	}
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, view, menuInfo);
-
-		selectedLookData = adapter.getItem(selectedLookPosition);
-		menu.setHeaderTitle(selectedLookData.getLookName());
-		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
-		adapter.notifyDataSetChanged();
-
-		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_move_up).setVisible(true);
-		menu.findItem(R.id.context_menu_move_down).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
-
-		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedLookPosition != lookDataList.size() - 1);
-		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedLookPosition != lookDataList.size() - 1);
-
-		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedLookPosition != 0);
-		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedLookPosition != 0);
-
-		menu.findItem(R.id.context_menu_copy).setVisible(true);
-
-		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
-	}
-
-	@Override
-	public boolean onContextItemSelected(android.view.MenuItem item) {
-
-		switch (item.getItemId()) {
-			case R.id.context_menu_copy:
-				LookController.getInstance().copyLook(selectedLookPosition, lookDataList, activity,
-						LookFragment.this);
-				break;
-
-			case R.id.context_menu_backpack:
-				LookController.getInstance().backPackLook(selectedLookData, false);
-				openBackPack();
-				break;
-
-			case R.id.context_menu_cut:
-				break;
-
-			case R.id.context_menu_insert_below:
-				break;
-
-			case R.id.context_menu_move:
-				break;
-
-			case R.id.context_menu_rename:
-				showRenameDialog();
-				break;
-
-			case R.id.context_menu_delete:
-				showConfirmDeleteDialog();
-				break;
-			case R.id.context_menu_move_down:
-				moveLookDataDown();
-				break;
-			case R.id.context_menu_move_up:
-				moveLookDataUp();
-				break;
-			case R.id.context_menu_move_to_bottom:
-				moveLookDataToBottom();
-				break;
-			case R.id.context_menu_move_to_top:
-				moveLookDataToTop();
-		}
-		return super.onContextItemSelected(item);
 	}
 
 	private void openBackPack() {
@@ -647,8 +584,7 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	}
 
 	public void addLookDroneVideo() {
-
-		LookController.getInstance().loadDroneVideoImageToProject(getString(R.string.add_look_drone_video), R.drawable.ic_video, this.getActivity(), lookDataList, this);
+		onActivityResult(LookController.REQUEST_DRONE_VIDEO, Activity.RESULT_OK, new Intent());
 	}
 
 	@Override
@@ -801,16 +737,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		}
 	}
 
-	private void initClickListener() {
-		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				selectedLookPosition = position;
-				return false;
-			}
-		});
-	}
-
 	private void handleEditLook(View view) {
 		int position = (Integer) view.getTag();
 		Intent intent = new Intent("android.intent.action.MAIN");
@@ -926,30 +852,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void moveLookDataDown() {
-		Collections.swap(lookDataList, selectedLookPosition + 1, selectedLookPosition);
-		adapter.notifyDataSetChanged();
-	}
-
-	private void moveLookDataUp() {
-		Collections.swap(lookDataList, selectedLookPosition - 1, selectedLookPosition);
-		adapter.notifyDataSetChanged();
-	}
-
-	private void moveLookDataToBottom() {
-		for (int i = selectedLookPosition; i < lookDataList.size() - 1; i++) {
-			Collections.swap(lookDataList, i, i + 1);
-		}
-		adapter.notifyDataSetChanged();
-	}
-
-	private void moveLookDataToTop() {
-		for (int i = selectedLookPosition; i > 0; i--) {
-			Collections.swap(lookDataList, i, i - 1);
-		}
-		adapter.notifyDataSetChanged();
-	}
-
 	@Override
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 		switch (keyCode) {
@@ -1029,6 +931,11 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		return lookDataList;
 	}
 
+	@Override
+	public void onBackpackLookComplete(boolean startBackpackActivity) {
+		openBackPack();
+	}
+
 	public interface OnLookDataListChangedAfterNewListener {
 
 		void onLookDataListChangedAfterNew(LookData soundInfo);
@@ -1063,6 +970,15 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_LOOKS_LIST_INIT)) {
 				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	private class LookListTouchActionUpReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_LOOK_TOUCH_ACTION_UP)) {
+				((DynamicListView) getListView()).notifyListItemTouchActionUp();
 			}
 		}
 	}

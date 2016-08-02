@@ -29,7 +29,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.97f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.99f);
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 
@@ -41,12 +41,12 @@ public final class Constants {
 	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
-	public static final String IMAGE_STANDARD_EXTENTION = ".png";
+	public static final String IMAGE_STANDARD_EXTENSION = ".png";
 	public static final String SOUND_STANDARD_EXTENSION = ".wav";
 
 	//Extensions:
-	public static final String[] IMAGE_EXTENTIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
-	public static final String[] SOUND_EXTENTIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
+	public static final String[] IMAGE_EXTENSIONS = { ".png", ".jpg", ".jpeg", ".png", ".gif" };
+	public static final String[] SOUND_EXTENSIONS = { ".wav", ".mp3", ".mpga", ".wav", ".ogy" };
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
@@ -73,6 +73,7 @@ public final class Constants {
 	public static final String CAMERA_FLASH = "CAMERA_FLASH";
 	public static final String VIBRATOR = "VIBRATOR";
 	public static final String FACE_DETECTION = "FACE_DETECTION";
+	public static final String NFC = "NFC";
 
 	public static final int NO_POSITION = -1;
 
@@ -81,8 +82,10 @@ public final class Constants {
 	public static final String BROADCAST_NOTIFY_ACTION = "broadcast_notify";
 	public static final String START_SCRIPT = "start_script";
 	public static final String BROADCAST_SCRIPT = "broadcast_script";
+	public static final String RASPI_SCRIPT = "raspi_pinchange_script";
+	public static final String RASPI_BROADCAST_PREFIX = "#RASPI#";
+	public static final String RASPI_BROADCAST_INTERRUPT_PREFIX = RASPI_BROADCAST_PREFIX + "interrupt ";
 	public static final String OPENING_BRACE = "(";
-	public static final String CLOSING_BRACE = ")";
 
 	//Web:
 	public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";
@@ -90,6 +93,7 @@ public final class Constants {
 	public static final String LIBRARY_BACKGROUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/backgrounds";
 	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
 	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
+	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
@@ -117,6 +121,8 @@ public final class Constants {
 	public static final String NO_FACEBOOK_LOCALE = "NO_FACEBOOK_LOCALE";
 	public static final String FACEBOOK_EMAIL = "FACEBOOK_EMAIL";
 	public static final String NO_FACEBOOK_EMAIL = "NO_FACEBOOK_EMAIL";
+	public static final String JSON_ERROR_CODE = "errorCode";
+	public static final int ERROR_CODE_FACEBOOK_SESSION_EXPIRED = 190;
 
 	public static final String GOOGLE_ID = "GOOGLE_ID";
 	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";
@@ -140,6 +146,8 @@ public final class Constants {
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";
 
+	public static final String WHATSAPP_URI = "whatsapp://";
+
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
@@ -156,6 +164,8 @@ public final class Constants {
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
+	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
+	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;

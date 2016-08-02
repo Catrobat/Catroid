@@ -34,10 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -149,8 +150,8 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		TextView text = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_view);
 		TextView secondText = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
 
-		posX.setText(String.valueOf(BrickValues.X_POSITION));
-		posY.setText(String.valueOf(BrickValues.Y_POSITION));
+		posX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
+		posY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		text.setText(BrickValues.STRING_VALUE);
 		secondText.setText(BrickValues.STRING_VALUE);
 
@@ -219,8 +220,12 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	}
 
 	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+	}
+
+	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setText(sprite, getFormulaWithBrickField(BrickField.X_DESTINATION),
+		sequence.addAction(sprite.getActionFactory().createSetTextAction(sprite, getFormulaWithBrickField(BrickField.X_DESTINATION),
 				getFormulaWithBrickField(BrickField.Y_DESTINATION),
 				getFormulaWithBrickField(BrickField.STRING)));
 		return null;

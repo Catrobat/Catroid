@@ -45,13 +45,13 @@ import java.util.TreeSet;
 
 public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapterInterface {
 	private Context context;
-	private List<UserVariable> userBrickVariables;
 	private List<UserList> spriteLists;
 	private List<UserList> projectLists;
+	private List<UserVariable> userBrickVariables;
 	private List<UserVariable> spriteVariables;
 	private List<UserVariable> projectVariables;
 	private int selectMode;
-	private SortedSet<Integer> checkedItems = new TreeSet<Integer>();
+	private SortedSet<Integer> checkedItems = new TreeSet<>();
 	private OnCheckedChangeListener onCheckedChangeListener = null;
 	private OnListItemClickListener onListItemClickListener = null;
 	private int itemLayout;
@@ -79,13 +79,15 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		private LinearLayout userbrickHeadline;
 	}
 
-	public DataAdapter(Context context, List<UserList> spriteLists, List<UserList> projectLists, List<UserVariable> spriteVariables, List<UserVariable> projectVariables, List<UserVariable> userBrickVariables) {
+	public DataAdapter(Context context, List<UserList> spriteLists, List<UserList> projectLists,
+			List<UserVariable> spriteVariables, List<UserVariable> projectVariables,
+			List<UserVariable> userBrickVariables) {
 		this.spriteLists = spriteLists;
 		this.projectLists = projectLists;
 		this.projectVariables = projectVariables;
 		this.spriteVariables = spriteVariables;
-		this.context = context;
 		this.userBrickVariables = userBrickVariables;
+		this.context = context;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
 		this.itemLayout = R.layout.fragment_formula_editor_data_list_item;
 		this.checkboxId = R.id.fragment_formula_editor_datalist_item_checkbox;
@@ -105,13 +107,9 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		this.textViewId = textViewId;
 	}
 
-	public int getItemLayout() {
-		return itemLayout;
-	}
-
 	@Override
 	public int getCount() {
-		int count = spriteLists.size() + projectLists.size() + spriteVariables.size() + projectVariables.size();
+		int count = getProjectListsLastIndex();
 		if (count == 0) {
 			count = 1;
 		}
@@ -123,21 +121,21 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 	}
 
 	public int getUserVariablesCount() {
-		return spriteVariables.size() + projectVariables.size() + userBrickVariables.size();
+		return getProjectVariablesLastIndex();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		if (position < userBrickVariables.size()) {
+		if (position < getUserBrickVariablesLastIndex()) {
 			return userBrickVariables.get(position);
-		} else if (position < userBrickVariables.size() + spriteVariables.size()) {
-			return spriteVariables.get(position - userBrickVariables.size());
-		} else if (position < userBrickVariables.size() + spriteVariables.size() + projectVariables.size()) {
-			return projectVariables.get(position - (spriteVariables.size() + userBrickVariables.size()));
-		} else if (position < userBrickVariables.size() + spriteVariables.size() + projectVariables.size() + spriteLists.size()) {
-			return spriteLists.get(position - (spriteVariables.size() + projectVariables.size() + userBrickVariables.size()));
-		} else if (position < userBrickVariables.size() + spriteVariables.size() + projectVariables.size() + spriteLists.size() + projectLists.size()) {
-			return projectLists.get(position - (spriteVariables.size() + projectVariables.size() + spriteLists.size() + userBrickVariables.size()));
+		} else if (position < getSpriteVariablesLastIndex()) {
+			return spriteVariables.get(position - getUserBrickVariablesLastIndex());
+		} else if (position < getProjectVariablesLastIndex()) {
+			return projectVariables.get(position - getSpriteVariablesLastIndex());
+		} else if (position < getSpriteListsLastIndex()) {
+			return spriteLists.get(position - getProjectVariablesLastIndex());
+		} else if (position < getProjectListsLastIndex()) {
+			return projectLists.get(position - getSpriteListsLastIndex());
 		}
 		return null;
 	}
@@ -152,10 +150,14 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 	}
 
 	public UserVariable getUserVariableItem(int position) {
-		if (position < spriteVariables.size()) {
+		if (position < getUserBrickVariablesLastIndex()) {
+			return userBrickVariables.get(position);
+		} else if (position < getSpriteVariablesLastIndex()) {
+			position -= userBrickVariables.size();
 			return spriteVariables.get(position);
-		} else if (position < spriteVariables.size() + projectVariables.size()) {
-			return projectVariables.get(position - spriteVariables.size());
+		} else if (position < getProjectVariablesLastIndex()) {
+			position = position - userBrickVariables.size() - spriteVariables.size();
+			return projectVariables.get(position);
 		}
 		return null;
 	}
@@ -183,7 +185,8 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		View view = convertView;
 		ViewHolder holder;
 
-		if (spriteLists.size() + projectLists.size() + spriteVariables.size() + projectVariables.size() + userBrickVariables.size() == 0) {
+		if (spriteLists.isEmpty() && projectLists.isEmpty() && spriteVariables.isEmpty()
+				&& projectVariables.isEmpty() && userBrickVariables.isEmpty()) {
 			view = View.inflate(context, itemLayout, null);
 			holder = new ViewHolder();
 			holder.userListsHeadline = (LinearLayout) view.findViewById(linearLayoutUserListId);
@@ -223,7 +226,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 
 		if (holder.text1 != null) {
 			if (currentDataItem instanceof UserVariable) {
-				holder.text1.setText(nameOfCurrentDataItem + ":");
+				holder.text1.setText(nameOfCurrentDataItem.concat(":"));
 			} else {
 				holder.text1.setText(nameOfCurrentDataItem);
 			}
@@ -260,13 +263,13 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 
 			if (userBrickVariables.size() != 0 && position == 0) {
 				holder.userbrickHeadline.setVisibility(View.VISIBLE);
-			} else if (spriteVariables.size() != 0 && position == userBrickVariables.size()) {
+			} else if (spriteVariables.size() != 0 && position == getUserBrickVariablesLastIndex()) {
 				holder.localHeadline.setVisibility(View.VISIBLE);
-			} else if (projectVariables.size() != 0 && position == userBrickVariables.size() + spriteVariables.size()) {
+			} else if (projectVariables.size() != 0 && position == getSpriteVariablesLastIndex()) {
 				holder.globalHeadline.setVisibility(View.VISIBLE);
-			} else if (spriteLists.size() != 0 && position == userBrickVariables.size() + spriteVariables.size() + projectVariables.size()) {
+			} else if (spriteLists.size() != 0 && position == getProjectVariablesLastIndex()) {
 				holder.localHeadline.setVisibility(View.VISIBLE);
-			} else if (projectLists.size() != 0 && position == userBrickVariables.size() + spriteVariables.size() + projectVariables.size() + spriteLists.size()) {
+			} else if (projectLists.size() != 0 && position == getSpriteListsLastIndex()) {
 				holder.globalHeadline.setVisibility(View.VISIBLE);
 			}
 		}
@@ -401,7 +404,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 	}
 
 	public List<UserList> getCheckedUserLists() {
-		List<UserList> userLists = new ArrayList<UserList>();
+		List<UserList> userLists = new ArrayList<>();
 		for (int pos : getCheckedItems()) {
 			Object checkedItem = getItem(pos);
 			if (checkedItem instanceof UserList) {
@@ -413,7 +416,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 	}
 
 	public List<UserVariable> getCheckedUserVariables() {
-		List<UserVariable> userVariables = new ArrayList<UserVariable>();
+		List<UserVariable> userVariables = new ArrayList<>();
 		if (getCheckedItems().size() == 0) {
 			return userVariables;
 		}
@@ -436,6 +439,9 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 	}
 
 	public int getPositionOfUserVariableItem(UserVariable userVariable) {
+		if (userVariable == null) {
+			return -1;
+		}
 		for (int index = 0; index < getUserVariablesCount(); index++) {
 			if (((UserVariable) getItem(index)).getName().equals(userVariable.getName())) {
 				return index;
@@ -451,6 +457,26 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 	@Override
 	public void clearCheckedItems() {
 		checkedItems.clear();
+	}
+
+	public int getUserBrickVariablesLastIndex() {
+		return userBrickVariables.size();
+	}
+
+	public int getSpriteVariablesLastIndex() {
+		return getUserBrickVariablesLastIndex() + spriteVariables.size();
+	}
+
+	public int getProjectVariablesLastIndex() {
+		return getSpriteVariablesLastIndex() + projectVariables.size();
+	}
+
+	public int getSpriteListsLastIndex() {
+		return getProjectVariablesLastIndex() + spriteLists.size();
+	}
+
+	public int getProjectListsLastIndex() {
+		return getSpriteListsLastIndex() + projectLists.size();
 	}
 
 	public interface OnCheckedChangeListener {

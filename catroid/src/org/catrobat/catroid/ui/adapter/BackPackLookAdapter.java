@@ -41,7 +41,7 @@ public class BackPackLookAdapter extends LookBaseAdapter implements ActionModeAc
 
 	public BackPackLookAdapter(final Context context, int resource, int textViewResourceId, List<LookData> items,
 			boolean showDetails, BackPackLookFragment backPackLookFragment) {
-		super(context, resource, textViewResourceId, items, showDetails);
+		super(context, resource, textViewResourceId, items, showDetails, true);
 		this.backpackLookFragment = backPackLookFragment;
 	}
 

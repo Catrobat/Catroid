@@ -44,6 +44,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -64,6 +65,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -183,9 +185,6 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		double p = (Double) ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable("p", copiedSprite).getValue();
-
-		Log.e("CATROID", "q hat den Wert: " + q);
-		Log.e("CATROID", "p hat den Wert: " + p);
 
 		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
 		assertEquals("The local uservariable p does not exist after copying the sprite!", 0.0, p);
@@ -338,6 +337,54 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				.getBrickList().size(), brickCounter);
 	}
 
+	public void testCopySpriteWithCollisionScript() {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+		Project project = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
+
+		Sprite spriteOne = spriteList.get(1);
+		CollisionScript collisionScript = new CollisionScript("");
+		collisionScript.setAndReturnBroadcastMessage(FIRST_TEST_SPRITE_NAME, SECOND_TEST_SPRITE_NAME);
+		collisionScript.getScriptBrick();
+		spriteOne.addScript(collisionScript);
+
+		Sprite spriteTwo = spriteList.get(2);
+
+		project.addSprite(spriteOne);
+		project.addSprite(spriteTwo);
+		ProjectManager.getInstance().setCurrentSprite(spriteOne);
+		ProjectManager.getInstance().setCurrentScript(collisionScript);
+		storageHandler.saveProject(project);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.clickOnText(UiTestUtils.PROJECTNAME1);
+		solo.sleep(200);
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+		solo.sleep(200);
+		assertEquals("Copy is not in context menu!", true, solo.searchText(getActivity().getString(R.string.copy)));
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(1000);
+
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		Sprite copiedSprite = ((Sprite) spritesList.getItemAtPosition(3));
+
+		List<Script> originScriptList = spriteOne.getScriptList();
+		List<Script> copiedScriptList = copiedSprite.getScriptList();
+
+		assertEquals("Script list is different to origin", originScriptList.size(), copiedScriptList.size());
+		assertTrue("Copied script is no instance of CollisionScript", copiedScriptList.get(0) instanceof CollisionScript);
+
+		CollisionScript copiedCollisionScript = (CollisionScript) copiedScriptList.get(0);
+		String expectedMessage = PhysicsCollision.generateBroadcastMessage(spriteOne.getName().concat(solo.getString(
+				R.string.copy_sprite_name_suffix)), SECOND_TEST_SPRITE_NAME);
+
+		assertEquals(String.format("collision broadcast message of copied collision script is wrong before renaming "
+								+ "second sprite (%s != %s)", expectedMessage,
+						copiedCollisionScript.getBroadcastMessage()), expectedMessage,
+				copiedCollisionScript.getBroadcastMessage());
+	}
+
 	public void testCopySelectAll() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
@@ -439,7 +486,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
-				PackageManager.GET_ACTIVITIES);
+				PackageManager.GET_META_DATA);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
@@ -496,6 +543,19 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Sprite notDeletedSprite = spriteList.get(1);
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", SECOND_TEST_SPRITE_NAME,
 				notDeletedSprite.getName());
+	}
+
+	public void testDustbinNotVisible() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		solo.sleep(200);
+
+		ArrayList<View> views = solo.getCurrentViews();
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (View view : views) {
+			ids.add(view.getId());
+		}
+
+		assertFalse("Dustbin icon found in Actionbar", ids.contains(R.id.delete));
 	}
 
 	public void testChooseNoOnDeleteQuestion() {
@@ -560,7 +620,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		// Add sprite which already exists
 		UiTestUtils.showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(lookFile),
-				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null, LookData.LookDataType.IMAGE);
+				ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT, null);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String errorMessageText = solo.getString(R.string.spritename_already_exists);

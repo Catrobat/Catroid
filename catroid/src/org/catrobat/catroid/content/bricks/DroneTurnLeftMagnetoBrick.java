@@ -30,8 +30,8 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class DroneTurnLeftMagnetoBrick extends DroneMoveBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneTurnLeftMagneto(sprite,
+		sequence.addAction(sprite.getActionFactory().createDroneTurnLeftMagnetoAction(sprite,
 				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
 		return null;
@@ -79,5 +79,9 @@ public class DroneTurnLeftMagnetoBrick extends DroneMoveBrick {
 		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_power);
 		textView.setText(R.string.brick_drone_angle);
 		return prototypeView;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

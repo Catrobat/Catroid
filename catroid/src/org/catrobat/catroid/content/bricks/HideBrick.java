@@ -35,11 +35,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
 public class HideBrick extends BrickBaseType {
+	private static final String TAG = HideBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
 
 	public HideBrick() {
@@ -80,7 +80,7 @@ public class HideBrick extends BrickBaseType {
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			Log.d("TAG", "VIEW != NULL");
+			Log.d(TAG, "VIEW != NULL");
 			View layout = view.findViewById(R.id.brick_hide_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
@@ -105,7 +105,7 @@ public class HideBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.hide(sprite));
+		sequence.addAction(sprite.getActionFactory().createHideAction(sprite));
 		return null;
 	}
 }

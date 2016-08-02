@@ -48,8 +48,7 @@
         <TextView
             android:id="@+id/if_label"
             style="@style/BrickText.Multiple"
-            android:text="@string/brick_if_begin" >
-        </TextView >
+            android:text="@string/brick_if_begin" />
 
         <TextView
             android:id="@+id/brick_if_begin_edit_text"
@@ -65,8 +64,26 @@
             android:id="@+id/if_label_second_part"
             style="@style/BrickText.Multiple"
             android:paddingLeft="5dip"
-            android:text="@string/brick_if_begin_second_part" >
-        </TextView >
+            android:text="@string/brick_if_begin_second_part" />
+
+        <TextView
+            android:id="@+id/if_else_prototype_punctuation"
+            style="@style/BrickText.Multiple"
+            app:layout_newLine="true"
+            android:paddingLeft="5dip"
+            android:text="@string/punctuation_mark" />
+
+         <TextView
+             android:id="@+id/if_prototype_else"
+             style="@style/BrickText.Multiple"
+             android:paddingLeft="5dip"
+             android:text="@string/brick_if_else" />
+
+       <TextView
+           android:id="@+id/if_else_prototype_punctuation2"
+           style="@style/BrickText.Multiple"
+           android:paddingLeft="5dip"
+           android:text="@string/punctuation_mark" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

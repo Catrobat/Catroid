@@ -34,8 +34,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -175,7 +175,7 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.sendDigitalArduinoValue(sprite,
+		sequence.addAction(sprite.getActionFactory().createSendDigitalArduinoValueAction(sprite,
 				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER),
 				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE)));
 		return null;
@@ -183,5 +183,9 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

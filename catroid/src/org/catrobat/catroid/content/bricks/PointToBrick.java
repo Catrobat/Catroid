@@ -48,9 +48,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 
@@ -200,7 +200,7 @@ public class PointToBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.pointTo(sprite, pointedObject));
+		sequence.addAction(sprite.getActionFactory().createPointToAction(sprite, pointedObject));
 		return null;
 	}
 
@@ -404,5 +404,13 @@ public class PointToBrick extends BrickBaseType {
 
 	public void setPointedObject(Sprite pointedObject) {
 		this.pointedObject = pointedObject;
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
+		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getPointedObject());
+		setPointedObject(backPackedSprite);
+		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 }

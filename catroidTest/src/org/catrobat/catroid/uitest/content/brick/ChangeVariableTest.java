@@ -50,6 +50,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.util.ArrayList;
 
 public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = ChangeVariableTest.class.getSimpleName();
 
 	private static final int MAX_ITERATIONS = 10;
 	private Project project;
@@ -222,7 +223,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(solo.getString(R.string.brick_change_variable));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_formula_edit_brick));
 
-		assertTrue("Uservariable in view is not right displayed , maybe clone() is broken...",
+		assertTrue("UserVariable in view is not right displayed , maybe clone() is broken...",
 				solo.searchText(userVariableName, true));
 
 		solo.sleep(2000);
@@ -272,7 +273,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 					solo.clickOnText(solo.getString(R.string.formula_editor_dialog_for_this_sprite_only));
 				}
 			}
-			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
+			Log.i(TAG, "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));
 
 			solo.clickOnButton(solo.getString(R.string.ok));
 			solo.waitForText(solo.getString(R.string.formula_editor_data), 0, 1000);

@@ -27,4 +27,8 @@
         android:id="@+id/context_formula_editor_userlist_delete"
         android:title="@string/delete"/>
 
+    <item
+        android:id="@+id/context_formula_editor_userlist_rename"
+        android:title="@string/rename"/>
+
 </menu>
