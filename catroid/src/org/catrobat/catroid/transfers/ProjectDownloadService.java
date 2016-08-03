@@ -30,6 +30,11 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilZip;
@@ -90,6 +95,20 @@ public class ProjectDownloadService extends IntentService {
 			return;
 		}
 
+		Project project = StorageHandler.getInstance().loadProject(projectName);
+		project.setName(projectName);
+
+		for (Sprite sprite : project.getSpriteList()) {
+			if (!sprite.getListWithAllBricks().isEmpty()) {
+				for (Brick brick : sprite.getListWithAllBricks()) {
+					if (brick instanceof CollisionReceiverBrick) {
+						((CollisionReceiverBrick) brick).correctBroadcastMessage(project);
+					}
+				}
+			}
+		}
+
+		StorageHandler.getInstance().saveProject(project);
 		showToast(R.string.notification_download_finished, false);
 	}
 
