@@ -133,6 +133,10 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction };
 
+	private static final int[] GPS_SENSOR_ITEMS = { R.string.formula_editor_sensor_latitude, R.string
+			.formula_editor_sensor_longitude, R.string.formula_editor_sensor_location_accuracy, R.string
+			.formula_editor_sensor_altitude };
+
 	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_touch,
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
 			R.string.formula_editor_sensor_lego_nxt_light_active, R.string.formula_editor_sensor_lego_nxt_ultrasonic };
@@ -306,6 +310,9 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				itemsIds = concatAll(itemsIds, COMPASS_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
 			}
+
+			itemsIds = concatAll(itemsIds, GPS_SENSOR_ITEMS);
+			parameterIds = concatAll(parameterIds, createEmptyParametersList(GPS_SENSOR_ITEMS.length));
 
 			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NFC_TAG_ID_ITEMS);

@@ -349,6 +349,7 @@
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
@@ -767,6 +768,7 @@
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
         project is not possible.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
+    <string name="error_gps_not_available">Error, GPS was not available.</string>
     <!--  -->
 
 
@@ -1028,6 +1030,10 @@
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
     <string name="formula_editor_sensor_compass_direction">compass_direction</string>
+    <string name="formula_editor_sensor_latitude">latitude</string>
+    <string name="formula_editor_sensor_longitude">longitude</string>
+    <string name="formula_editor_sensor_location_accuracy">location_accuracy</string>
+    <string name="formula_editor_sensor_altitude">altitude</string>
     <string name="formula_editor_sensor_x_inclination">inclination_x</string>
     <string name="formula_editor_sensor_y_inclination">inclination_y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>

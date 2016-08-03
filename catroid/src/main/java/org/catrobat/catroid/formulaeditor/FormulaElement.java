@@ -967,6 +967,13 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.SENSOR_COMPASS;
 					break;
 
+				case LATITUDE:
+				case LONGITUDE:
+				case LOCATION_ACCURACY:
+				case ALTITUDE:
+					resources |= Brick.SENSOR_GPS;
+					break;
+
 				case FACE_DETECTED:
 				case FACE_SIZE:
 				case FACE_X_POSITION:
