@@ -23,6 +23,13 @@
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- CAST BUTTON ALSO IN menu_main_menu.xml-->
+    <item
+        android:id="@+id/cast_button"
+        android:showAsAction="always"
+        android:title="@+id/cast_button_menu_item_title"
+        android:icon="@drawable/ic_cast_white_24dp"
+        android:visible="false"/>
     <item
         android:id="@+id/settings"
         android:showAsAction="never"

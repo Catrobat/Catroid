@@ -495,11 +495,8 @@
     <string name="category_drone">ARDrone</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
-<<<<<<< HEAD
     <string name="category_cast">Cast</string>
-=======
     <string name="category_raspi">Raspberry Pi</string>
->>>>>>> develop
     <!--  -->
 
     <!-- Motion bricks -->
@@ -591,12 +588,9 @@
     <string name="brick_when_started">When program started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
-<<<<<<< HEAD
     <string name="brick_when_gamepad_button" >When gamepad button</string >
     <string name="brick_when_gamepad_button_pressed" >pressed</string >
-=======
     <string name="brick_when_nfc">When NFC</string>
->>>>>>> develop
 
     <plurals name="second_plural">
         <item quantity="one">"second "</item>
@@ -1055,20 +1049,17 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
-<<<<<<< HEAD
     <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
     <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
     <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
     <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_down_pressed</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_left_pressed</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_right_pressed</string>
-=======
     <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
     <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
->>>>>>> develop
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -1208,7 +1199,6 @@
     <string name="brick_wait_until_second_part">is true</string>
     <!-- -->
 
-<<<<<<< HEAD
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
     <string name="cast_gamepad_B">B</string>
@@ -1224,7 +1214,6 @@
     <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
     <!-- -->
 
-=======
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Rate Pocket Code</string>
     <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
@@ -1251,5 +1240,4 @@
         You can also download your program as standalone app.</string>
      <string name="progress_upload_dialog_show_program">Show program</string>
     <!--  -->
->>>>>>> develop
 </resources>

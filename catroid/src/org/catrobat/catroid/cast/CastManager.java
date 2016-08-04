@@ -58,6 +58,7 @@ import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.prefs.Preferences;
 
 public final class CastManager {
 
@@ -342,6 +343,8 @@ public final class CastManager {
 		@Override
 		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
 			synchronized (this) {
+				//CAST
+				//Problem with mExtras!!!
 				selectedDevice = CastDevice.getFromBundle(info.getExtras());
 				startCastService(initializingActivity);
 			}

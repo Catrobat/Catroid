@@ -989,7 +989,7 @@ public class FormulaElement implements Serializable {
 				case PHIRO_BOTTOM_RIGHT:
 					resources |= Brick.BLUETOOTH_PHIRO;
 					break;
-				
+
 				case DRONE_BATTERY_STATUS:
 				case DRONE_CAMERA_READY:
 				case DRONE_EMERGENCY_STATE:

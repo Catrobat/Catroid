@@ -305,7 +305,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (drone) {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DRONE);
-			} else {
+			} else if (castEnabled) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_CAST);
+			}
+			else {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);
 			}

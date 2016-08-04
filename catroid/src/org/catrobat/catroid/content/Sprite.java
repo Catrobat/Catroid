@@ -408,7 +408,8 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhengamepadButtonScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ExtendedActions.parallel();
+		//CAST
+		ParallelAction whenParallelAction = actionFactory.parallel();
 		for (Script s : scriptList) {
 			if (s instanceof WhenGamepadButtonScript && (((WhenGamepadButtonScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);

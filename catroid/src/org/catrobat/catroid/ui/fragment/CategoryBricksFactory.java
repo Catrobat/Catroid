@@ -215,6 +215,7 @@ public class CategoryBricksFactory {
 
 		if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new WhenGampadButtonBrick(null));
+		}
 
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new WhenNfcBrick());

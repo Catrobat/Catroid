@@ -176,7 +176,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_chromecast, null));
-
+		}
 		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
 		}

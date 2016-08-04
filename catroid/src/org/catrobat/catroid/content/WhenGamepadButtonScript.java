@@ -79,10 +79,13 @@ public class WhenGamepadButtonScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	//CAST
+	//public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	public Script copyScriptForSprite(Sprite copySprite) {
 		WhenGamepadButtonScript cloneScript = new WhenGamepadButtonScript();
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
-
+		//CAST
+		//doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		doCopy(copySprite, cloneScript);
 		return cloneScript;
 	}
 }

@@ -214,10 +214,10 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 			items[index] = tag.equals(FUNCTION_TAG) ? getString(itemsIds[index]) + getString(FUNCTIONS_PARAMETERS[index])
 					: getString(itemsIds[index]);
 		}
-
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.fragment_formula_editor_list_item, items);
-		setListAdapter(arrayAdapter);
+		//CAST
+		//ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
+		//		R.layout.fragment_formula_editor_list_item, items);
+		//setListAdapter(arrayAdapter);
 	}
 
 	private static int[] concatAll(int[] first, int[]... rest) {

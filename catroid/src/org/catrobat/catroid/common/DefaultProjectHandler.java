@@ -41,7 +41,7 @@ public final class DefaultProjectHandler {
 	private static final String TAG = DefaultProjectHandler.class.getSimpleName();
 
 	public enum ProjectCreatorType {
-		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS
+		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS, PROJECT_CREATOR_CAST
 	}
 
 	private static DefaultProjectHandler instance = null;
@@ -125,6 +125,11 @@ public final class DefaultProjectHandler {
 				break;
 			case PROJECT_CREATOR_PHYSICS:
 				defaultProjectCreator = new DefaultProjectCreatorPhysics();
+				break;
+			case PROJECT_CREATOR_CAST:
+				if(BuildConfig.FEATURE_CAST_ENABLED) {
+					defaultProjectCreator = new DefaultProjectCreatorDefault();
+				}
 				break;
 		}
 	}
