@@ -47,6 +47,7 @@ import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class UploadProgressDialog extends DialogFragment {
@@ -182,7 +183,7 @@ public class UploadProgressDialog extends DialogFragment {
 
 	private void uploadProject(String uploadName, String projectDescription) {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
+		String projectPath = Utils.buildProjectPath(projectManager.getCurrentProject().getName());
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
