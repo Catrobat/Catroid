@@ -116,6 +116,7 @@ import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
+import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -317,6 +318,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
 		motionBrickList.add(new PointInDirectionBrick(Direction.RIGHT));
 		motionBrickList.add(new PointToBrick(null));
+		motionBrickList.add(new SetRotationStyleBrick());
 		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
 
