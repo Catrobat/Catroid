@@ -60,7 +60,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickListener {
+public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBrick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserScriptDefinitionBrick.class.getSimpleName();

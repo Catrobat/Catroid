@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.StartScript;
 
 import java.util.List;
 
-public class WhenStartedBrick extends ScriptBrick {
+public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Script script;

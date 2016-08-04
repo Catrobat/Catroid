@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.WhenClonedScript;
 import java.util.Collections;
 import java.util.List;
 
-public class WhenClonedBrick extends ScriptBrick {
+public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenClonedScript whenClonedScript;
 	private static final long serialVersionUID = 1L;
 
