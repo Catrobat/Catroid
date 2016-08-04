@@ -43,12 +43,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 
 import java.util.List;
 
-public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage, Cloneable {
+public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage, Cloneable {
 	private static final long serialVersionUID = 1L;
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 

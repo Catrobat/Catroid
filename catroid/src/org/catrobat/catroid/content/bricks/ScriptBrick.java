@@ -22,23 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.content.Script;
 
-public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
-
-	private static final long serialVersionUID = 1L;
-
-	public abstract Script getScriptSafe();
-
-	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		return getView(context, brickId, adapter);
-	}
-
-	@Override
-	public abstract Brick clone();
+public interface ScriptBrick extends AllowedAfterDeadEndBrick, Brick {
+	Script getScriptSafe();
 }

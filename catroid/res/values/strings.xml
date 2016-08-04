@@ -581,6 +581,8 @@
     <!-- Control bricks -->
     <string name="brick_when_started">When program started</string>
     <string name="brick_when">When tapped</string>
+    <string name="brick_when_condition_when">When</string>
+    <string name="brick_when_becomes_true">becomes true</string>
     <string name="brick_wait">Wait</string>
     <string name="brick_when_nfc">When NFC</string>
 
