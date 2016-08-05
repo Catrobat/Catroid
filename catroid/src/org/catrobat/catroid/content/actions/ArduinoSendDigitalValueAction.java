@@ -66,12 +66,7 @@ public class ArduinoSendDigitalValueAction extends TemporalAction {
 					interpretationException);
 		}
 
-		if ((!restart)
-				&& (pinNumberInterpretation == 2)
-				|| (pinNumberInterpretation == 4)
-				|| (pinNumberInterpretation == 8)
-				|| (pinNumberInterpretation == 12)
-				|| (pinNumberInterpretation == 13)) {
+		if (!restart) {
 			this.pin = pinNumberInterpretation;
 			this.value = pinValueInterpretation;
 		}
