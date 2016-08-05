@@ -764,7 +764,7 @@
     <string name="brick_collision_receive">When physical collision with</string>
     <string name="collision_with_anything">anything</string>
 
-    <string name="brick_broadcast_receive">When I receive</string>
+    <string name="brick_broadcast_receive">When you receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_scene_transition">Continue scene</string>
