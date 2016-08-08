@@ -66,6 +66,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -270,6 +271,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
 		motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
 		motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
+		motionBrickList.add(new GoToBrick(null));
 
 		if (!isBackground(sprite)) {
 			motionBrickList.add(new IfOnEdgeBounceBrick());
