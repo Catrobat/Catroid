@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -108,6 +109,8 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 	private LoadProjectTask loadProjectTask;
 	private boolean fragmentStartedFirstTime = true;
+
+	private Parcelable state;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -222,11 +225,17 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
+
+		if (state != null) {
+			getListView().onRestoreInstanceState(state);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		state = getListView().onSaveInstanceState();
 
 		getActivity().getIntent().removeExtra(Constants.PROJECTNAME_TO_LOAD);
 		if (loadProjectTask != null) {
