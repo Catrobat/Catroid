@@ -229,6 +229,8 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		super.onPause();
 
 		getActivity().getIntent().removeExtra(Constants.PROJECTNAME_TO_LOAD);
+		programName = Utils.getCurrentProjectName(getActivity());
+
 		if (loadProjectTask != null) {
 			loadProjectTask.cancel(true);
 			ProjectManager.getInstance().cancelLoadProject();

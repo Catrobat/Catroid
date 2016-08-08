@@ -94,6 +94,25 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
+		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
+				R.id.fragment_container);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		updateFragment(fragmentTransaction);
+		fragmentTransaction.commit();
+
+		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+
+		SettingsActivity.setDroneChooserEnabled(this, true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setActionBarTitle();
+	}
+
+	private void setActionBarTitle() {
+
 		String programName = getString(R.string.app_name);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -106,19 +125,20 @@ public class ProjectActivity extends BaseActivity {
 		}
 
 		final ActionBar actionBar = getActionBar();
-		actionBar.setHomeButtonEnabled(true);
-		setTitleActionBar(programName);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		if (actionBar != null) {
+			actionBar.setHomeButtonEnabled(true);
+			actionBar.setTitle(programName);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+	}
 
-		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		updateFragment(fragmentTransaction);
-		fragmentTransaction.commit();
-
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-
-		SettingsActivity.setDroneChooserEnabled(this, true);
+	@Override
+	public void onPause() {
+		super.onPause();
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			bundle.remove(Constants.PROJECTNAME_TO_LOAD);
+		}
 	}
 
 	@Override
