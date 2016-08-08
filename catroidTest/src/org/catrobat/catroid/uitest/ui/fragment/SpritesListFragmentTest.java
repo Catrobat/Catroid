@@ -47,6 +47,7 @@ import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.adapter.BackPackSpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -57,6 +58,7 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -115,6 +117,9 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	private String backpackAdd;
 	private String backpackTitle;
 	private String backpackReplaceDialogMultiple;
+	private String upload;
+	private String next;
+	private String showProgram;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -147,6 +152,9 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		backpack = solo.getString(R.string.backpack);
 		backpackAdd = solo.getString(R.string.packing);
 		backpackReplaceDialogMultiple = solo.getString(R.string.backpack_replace_object_multiple);
+		upload = solo.getString(R.string.upload_button);
+		next = solo.getString(R.string.next_button);
+		showProgram = solo.getString(R.string.progress_upload_dialog_show_program);
 
 		UiTestUtils.clearBackPack(true);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -1010,6 +1018,34 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 				.getBackpack().backpackedSprites.isEmpty());
 	}
 
+	public void testUploadProjectGoToWebViewActivityAndReturnToSpritesListFragment() throws Throwable {
+		String newProjectName = "newName";
+
+		setServerURLToTestUrl();
+		UiTestUtils.createValidUser(getActivity());
+
+		UiTestUtils.openActionMode(solo, upload, R.id.upload, getActivity());
+		solo.waitForDialogToOpen();
+
+		solo.clearEditText(0);
+		solo.enterText(0, newProjectName);
+		solo.clickOnText(next);
+		solo.waitForText(solo.getString(R.string.upload_tag_dialog_title));
+		solo.clickOnText(next);
+		if (solo.searchText(solo.getString(R.string.rating_dialog_title))) {
+			solo.clickOnText(solo.getString(R.string.rating_dialog_rate_later));
+		}
+		solo.waitForText(showProgram);
+		solo.clickOnText(showProgram);
+
+		solo.waitForActivity(WebViewActivity.class);
+		solo.sleep(1000);
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForFragmentByTag(SpritesListFragment.TAG);
+		assertTrue("Project was renamed correctly after return from WebView!", solo.searchText(newProjectName, 0, false, true));
+	}
+
 	private void clickOnActionModeSingleItem(String spriteName, int menuItem) {
 		String menuItemName = solo.getString(menuItem);
 		UiTestUtils.openActionMode(solo, menuItemName, R.id.delete, getActivity());
@@ -1117,5 +1153,13 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		Sprite spriteToAdd = sprite.clone();
 		spriteToAdd.setName(spriteName);
 		ProjectManager.getInstance().getCurrentProject().addSprite(spriteToAdd);
+	}
+
+	private void setServerURLToTestUrl() throws Throwable {
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				ServerCalls.useTestUrl = true;
+			}
+		});
 	}
 }

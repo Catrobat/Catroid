@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Отмена</string>
+  <string name="next_button">Next</string>
+  <string name="done_button">Готово</string>
   <string name="rename">Переименовать</string>
   <string name="delete">Удалить</string>
   <string name="yes">Да</string>
@@ -163,8 +165,8 @@
   <string name="size">Размер:</string>
   <string name="script_group">Группа для скриптов</string>
   <string name="script_groups">Группы скриптов</string>
-  <string name="userbrick_group">Userbrick Group</string>
-  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="userbrick_group">Brick Group</string>
+  <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">Имя группы для скриптов уже было использовано. Пожалуйста выберите другое имя.</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Нажмите «+» чтобы добавить скрипт</string>
@@ -256,9 +258,9 @@
     <item quantity="other">Скрипт</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="one">Userbrick</item>
-    <item quantity="few">Userbricks</item>
-    <item quantity="other">Userbricks</item>
+    <item quantity="one">Brick</item>
+    <item quantity="few">Bricks</item>
+    <item quantity="other">Bricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Использован:</string>
@@ -594,6 +596,7 @@
   <string name="upload_button">Загрузить</string>
   <string name="upload_project_dialog_title">Загрузить проект</string>
   <string name="upload_description">Описание:</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Уровень батареи мал. Автоматическая выгрузка.</string>
   <string name="drone_emergency_camera">Уровень заряда батареи мал. (Автоматическая выгрузка).</string>
   <string name="drone_emergency_ultrasound">Ультра-звуковой сенсор не отвечает.</string>
@@ -607,7 +610,7 @@
   <string name="error_no_writiable_external_storage_available">Catroid требует наличие SD карты.
         \nПожалуйста введите SD карту и попробуйте еще раз.</string>
   <string name="error_no_program_name_entered">Пожалуйста введите название программы.</string>
-  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Проект с таким названием уже существуетю\nПожалуйста, выберите другое название.</string>
   <string name="error_delete_project">Произошла ошибка при удалении программы</string>
   <string name="error_unknown_project">Программы с таким названием не существует.</string>
@@ -731,7 +734,7 @@
   <string name="brick_drone_set_rotation_speed">Лимит поворачиваемой скорости</string>
   <string name="brick_drone_set_tilt_limit">Лимит наклона</string>
   <string name="brick_drone_with">С</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Остановить Phiro мотор</string>
@@ -890,6 +893,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_боковой_правый_сенсор</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_нижний_левый_сенсор</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_нижний_правый_сенсор</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">координата_x</string>
   <string name="formula_editor_object_y">координата_y</string>
   <string name="formula_editor_object_transparency">прозрачность</string>
@@ -981,7 +985,7 @@
   <string name="define">Означать</string>
   <string name="new_user_brick">Новый кирпич</string>
   <string name="new_user_brick_variable">Переменная 1</string>
-  <string name="new_user_brick_name">Please choose a userbrick name:</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Добавление пользовательского кирпича к пользовательскому кирпичу не разрешается на данный момент!</string>
   <string name="brick_single">Кирпич</string>
   <string name="brick_multiple">Кирпичи</string>
@@ -1020,4 +1024,9 @@
   <!-- Pocket Code crashed dialog -->
   <string name="crashed_title">Pocked Code has crashed!</string>
   <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_show_program">Show program</string>
 </resources>
