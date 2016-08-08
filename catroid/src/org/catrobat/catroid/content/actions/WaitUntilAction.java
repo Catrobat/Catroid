@@ -73,8 +73,7 @@ public class WaitUntilAction extends Action {
 	}
 
 	@Override
-	public void reset() {
-		super.reset();
+	public void restart() {
 		completed = false;
 	}
 }
