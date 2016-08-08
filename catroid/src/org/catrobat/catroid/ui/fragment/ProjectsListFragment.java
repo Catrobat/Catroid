@@ -533,6 +533,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		try {
 			projectManager.deleteProject(project.projectName, getActivity().getApplicationContext());
 			projectList.remove(project);
+			adapter.remove(project);
 		} catch (IOException exception) {
 			Log.e(TAG, "Project could not be deleted", exception);
 			ToastUtil.showError(getActivity(), R.string.error_delete_project);
@@ -562,12 +563,13 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		if (projectList.isEmpty()) {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			projectManager.initializeDefaultProject(getActivity());
+			Project project = projectManager.getCurrentProject();
+			File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(project.getName()), Constants.PROJECTCODE_NAME));
+			projectList.add(new ProjectData(project.getName(), projectCodeFile.lastModified()));
 		} else if (ProjectManager.getInstance().getCurrentProject() == null) {
 			Utils.saveToPreferences(getActivity().getApplicationContext(), Constants.PREF_PROJECTNAME_KEY,
 					projectList.get(0).projectName);
 		}
-
-		initAdapter();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {
