@@ -37,7 +37,6 @@ import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.percent.PercentRelativeLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -52,6 +51,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -90,7 +91,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	private Context context;
 	private static FormulaEditorEditText formulaEditorEditText;
-	private PercentRelativeLayout formulaEditorKeyboard;
+	private TableLayout formulaEditorKeyboard;
 	private static LinearLayout formulaEditorBrick;
 	private static View brickView;
 	private View fragmentView;
@@ -318,7 +319,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		formulaEditorEditText = (FormulaEditorEditText) fragmentView.findViewById(R.id.formula_editor_edit_field);
 
-		formulaEditorKeyboard = (PercentRelativeLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
+		formulaEditorKeyboard = (TableLayout) fragmentView.findViewById(R.id.formula_editor_keyboardview);
 		formulaEditorEditText.init(this);
 
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -465,7 +466,13 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		};
 
 		for (int index = 0; index < formulaEditorKeyboard.getChildCount(); index++) {
-			formulaEditorKeyboard.getChildAt(index).setOnTouchListener(touchListener);
+			View tableRow = formulaEditorKeyboard.getChildAt(index);
+			if (tableRow instanceof TableRow) {
+				TableRow row = (TableRow) tableRow;
+				for (int indexRow = 0; indexRow < row.getChildCount(); indexRow++) {
+					row.getChildAt(indexRow).setOnTouchListener(touchListener);
+				}
+			}
 		}
 
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
