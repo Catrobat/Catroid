@@ -140,11 +140,16 @@ public final class DownloadUtil {
 	}
 
 	public void startDownload(Context context, String url, String programName) {
+		startDownload(context, url, programName, false);
+	}
+
+	public void startDownload(Context context, String url, String programName, boolean renameProject) {
 		programDownloadQueue.add(programName.toLowerCase(Locale.getDefault()));
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
 		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadProjectReceiver(new Handler()));
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);
 		downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
+		downloadIntent.putExtra(ProjectDownloadService.RENAME_AFTER_DOWNLOAD, renameProject);
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
 		int notificationId = manager.createDownloadNotification(context, programName);
 		downloadIntent.putExtra(ProjectDownloadService.ID_TAG, notificationId);
