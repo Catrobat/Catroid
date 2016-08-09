@@ -174,6 +174,12 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	private static final int[] RASPBERRY_SENSOR_PARAMETERS = { R.string.formula_editor_function_pin_default_parameter };
 
+	private static final int[] CHROMECAST_GAMEPAD_SENSOR_ITEMS = {R.string.formula_editor_sensor_gamepad_a_pressed,
+			R.string.formula_editor_sensor_gamepad_b_pressed, R.string.formula_editor_sensor_gamepad_up_pressed,
+			R.string.formula_editor_sensor_gamepad_down_pressed, R.string.formula_editor_sensor_gamepad_left_pressed,
+			R.string.formula_editor_sensor_gamepad_right_pressed
+	};
+
 	private int[] concatAll(int[] first, int[]... rest) {
 		int totalLength = first.length;
 		for (int[] array : rest) {
@@ -350,6 +356,12 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_raspberry));
 				itemsIds = concatAll(itemsIds, RASPBERRY_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, RASPBERRY_SENSOR_PARAMETERS);
+			}
+
+			if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
+				header.put(itemsIds.length, getString(R.string.formula_editor_device_cast));
+				itemsIds = concatAll(itemsIds, CHROMECAST_GAMEPAD_SENSOR_ITEMS);
+				parameterIds = concatAll(parameterIds, createEmptyParametersList(CHROMECAST_GAMEPAD_SENSOR_ITEMS.length));
 			}
 		}
 
