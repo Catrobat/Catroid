@@ -166,6 +166,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowVariableBrick;
+import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
@@ -427,6 +428,7 @@ public final class StorageHandler {
 		xstream.alias("brick", ShowBrick.class);
 		xstream.alias("brick", ShowVariableBrick.class);
 		xstream.alias("brick", SpeakBrick.class);
+		xstream.alias("brick", SpeakAndWaitBrick.class);
 		xstream.alias("brick", StampBrick.class);
 		xstream.alias("brick", StopAllSoundsBrick.class);
 		xstream.alias("brick", TurnLeftBrick.class);
