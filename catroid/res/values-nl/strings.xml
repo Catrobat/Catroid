@@ -38,18 +38,18 @@
   <string name="backpack_add">Add to backpack</string>
   <string name="backpack">Rugzak</string>
   <string name="packing">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_keep">Unpack and keep</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
+  <string name="unpack">Uitpakken</string>
+  <string name="unpack_keep">Uitpakken en houden</string>
+  <string name="unpack_bg">Uitpakken als achtergrond</string>
+  <string name="unpack_object">Uitpakken als object</string>
   <string name="copy_addition">kopieer</string>
   <string name="close">Sluiten</string>
   <string name="error">Fout</string>
   <string name="please_wait">Even geduld</string>
   <string name="loading">Laden&#8230;</string>
-  <string name="no_internet">No Internet</string>
+  <string name="no_internet">Geen internetverbinding</string>
   <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
+  <string name="loading_check_facebook_data">Facebook-gegevens worden opgehaald&#8230;</string>
   <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
   <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
@@ -64,17 +64,17 @@
   <string name="settings">Instellingen</string>
   <string name="redo">Redo</string>
   <string name="undo">Undo</string>
-  <string name="name_exists">Name already exists</string>
-  <string name="no_name">No name</string>
-  <string name="is_empty">is empty</string>
-  <string name="new_group">New group</string>
-  <string name="my_group">My group</string>
-  <string name="name">Name:</string>
-  <string name="nothing_to_copy">Nothing to copy</string>
+  <string name="name_exists">Naam bestaat al</string>
+  <string name="no_name">Geen naam</string>
+  <string name="is_empty">is leeg</string>
+  <string name="new_group">Nieuwe groep</string>
+  <string name="my_group">Mijn groep</string>
+  <string name="name">Naam:</string>
+  <string name="nothing_to_copy">Niets om te kopiëren</string>
   <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
-  <string name="nothing_to_unpack">Nothing to unpack</string>
-  <string name="nothing_to_delete">Nothing to delete</string>
-  <string name="nothing_to_rename">Nothing to rename</string>
+  <string name="nothing_to_unpack">Niets om uit te pakken</string>
+  <string name="nothing_to_delete">Niets te verwijderen</string>
+  <string name="nothing_to_rename">Niets te hernoemen</string>
   <string name="unpack_background">Program\'s background will be replaced</string>
   <string name="degrees">degrees</string>
   <!-- Main menu activity -->
@@ -90,7 +90,7 @@
   <string name="main_menu_play_store_not_installed">Play Store-app niet gevonden</string>
   <string name="main_menu_logout">Logout</string>
   <string name="main_menu_login">Inloggen</string>
-  <string name="logout_successful">Logout successful</string>
+  <string name="logout_successful">Uitloggen succesvol</string>
   <!-- Settings activity -->
   <string name="preference_title">Instellingen</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0-blokken</string>
@@ -318,6 +318,7 @@
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nieuw programma</string>
   <string name="new_project_dialog_hint">Mijn programma</string>

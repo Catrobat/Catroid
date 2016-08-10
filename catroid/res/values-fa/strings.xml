@@ -315,6 +315,7 @@
   <string name="new_sound_dialog_title">اضافه کردن صدا</string>
   <string name="add_sound_from_recorder">ضبط صدا</string>
   <string name="add_sound_choose_file">انتخاب فایل</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">برنامه جدید</string>
   <string name="new_project_dialog_hint">برنامه من</string>

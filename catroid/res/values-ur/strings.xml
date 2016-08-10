@@ -26,7 +26,7 @@
   <!-- General terms -->
   <string name="app_name">پاکٹ کوڈ</string>
   <string name="cancel_button">ختم کریں</string>
-  <string name="next_button">Next</string>
+  <string name="next_button">اگلا</string>
   <string name="done_button">مکمل ہوا</string>
   <string name="rename">نام تبدیل کریں</string>
   <string name="delete">حذف کریں</string>
@@ -34,23 +34,23 @@
   <string name="no">نہيں</string>
   <string name="copy">کاپی</string>
   <string name="cut">کاٹ</string>
-  <string name="move">Move</string>
-  <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">Backpack</string>
-  <string name="packing">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_keep">Unpack and keep</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
+  <string name="move">حرکت دیں</string>
+  <string name="backpack_add">بیک پیک میں ڈالیں</string>
+  <string name="backpack">بیک پیک</string>
+  <string name="packing">پیک</string>
+  <string name="unpack">پیک کھولیں</string>
+  <string name="unpack_keep">پیک کھولیں اور رکھیں</string>
+  <string name="unpack_bg">بطور پس منظر پیک کھولیں</string>
+  <string name="unpack_object">بطور آبجیکٹ پیک کھولیں</string>
   <string name="copy_addition">کاپی</string>
   <string name="close">بند کریں</string>
   <string name="error">خرابی</string>
   <string name="please_wait">براۓ مہربانی انتظار فرمائیے</string>
   <string name="loading">لوڈ ہو رہا ہے&#8230;</string>
-  <string name="no_internet">No Internet</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
+  <string name="no_internet">انٹرنیٹ میسر نہیں</string>
+  <string name="loading_check_token">ہمارے سرور پر ٹوکن چیک کیا گیا&#8230;</string>
+  <string name="loading_check_facebook_data">فیس بک کے کوائف حاصل کئے گئے&#8230;</string>
+  <string name="loading_check_email">ہمارے سرور پر ای میل کی دستیابی کی چیک کی گئی&#8230;</string>
   <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
   <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
   <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
@@ -64,33 +64,33 @@
   <string name="settings">ترتیبات</string>
   <string name="redo">اعادہ کریں</string>
   <string name="undo">کالعدم کریں</string>
-  <string name="name_exists">Name already exists</string>
-  <string name="no_name">No name</string>
-  <string name="is_empty">is empty</string>
-  <string name="new_group">New group</string>
-  <string name="my_group">My group</string>
-  <string name="name">Name:</string>
-  <string name="nothing_to_copy">Nothing to copy</string>
-  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
-  <string name="nothing_to_unpack">Nothing to unpack</string>
-  <string name="nothing_to_delete">Nothing to delete</string>
-  <string name="nothing_to_rename">Nothing to rename</string>
-  <string name="unpack_background">Program\'s background will be replaced</string>
-  <string name="degrees">degrees</string>
+  <string name="name_exists">نام پہلے ہی موجود ہے</string>
+  <string name="no_name">نام میسر نہیں</string>
+  <string name="is_empty">خالی ہے</string>
+  <string name="new_group">نیا گروپ</string>
+  <string name="my_group">میرا گروپ</string>
+  <string name="name"> نام:</string>
+  <string name="nothing_to_copy">کاپی کرنے کے لیے کچھ بھی نہیں</string>
+  <string name="nothing_to_backpack_and_unpack">پیک کھولنے اور بیک پیک کرنے کے لئے کچھ نہیں</string>
+  <string name="nothing_to_unpack">پیک کھولنے کے لئے کچھ بھی نہیں</string>
+  <string name="nothing_to_delete">حذف کرنے کے لئے کچھ بھی نہیں.</string>
+  <string name="nothing_to_rename">نام تبدیل کرنے کے لئے کچھ بھی نہیں</string>
+  <string name="unpack_background">پروگرام کے پس منظر کو تبدیل کیا جائے گا</string>
+  <string name="degrees">ڈگری</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">نیا</string>
   <string name="main_menu_continue">جاری رکھیں</string>
   <string name="main_menu_programs">پروگرامات</string>
   <string name="main_menu_help">مدد</string>
-  <string name="main_menu_web">Explore</string>
+  <string name="main_menu_web">دریافت کریں</string>
   <string name="main_menu_upload">اپ لوڈ کریں</string>
   <string name="main_menu_about_pocketcode">پاکٹ کوڈ کے بارے میں</string>
   <string name="main_menu_terms_of_use">استعمال کی شرائط</string>
   <string name="main_menu_rate_app">ہمیں اعزاز دیں!</string>
   <string name="main_menu_play_store_not_installed">پلے سٹور ایپلی کیشن نہیں ملا</string>
   <string name="main_menu_logout">لاگ آؤٹ</string>
-  <string name="main_menu_login">Login</string>
-  <string name="logout_successful">Logout successful</string>
+  <string name="main_menu_login">لاگ اِن</string>
+  <string name="logout_successful">کامیاب لاگ آؤٹ</string>
   <!-- Settings activity -->
   <string name="preference_title">ترتیبات</string>
   <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
@@ -121,18 +121,18 @@
   <string name="dialog_new_object_switch_title">نیا آبجیکٹ تخلیق ہوا</string>
   <string name="dialog_new_object_switch_message">نئے آبجیکٹ پر جائیں؟</string>
   <!-- Terms of Use Dialog -->
-  <string name="dialog_terms_of_use_title">Terms of use</string>
+  <string name="dialog_terms_of_use_title">استعمال کی شرائط</string>
   <string name="dialog_terms_of_use_info">In order to 
     be allowed to use Pocket Code and other executables offered by the Catrobat project, you 
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
   <string name="dialog_terms_of_use_link_text">استعمال کی شرائط</string>
   <!-- Terms of Use Dialog Parrot ARDrone-->
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code terms of use</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">پاکٹ کوڈ استعمال کی شرائط</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s
         AR.Drone. We strongly remind you to abide to Parrot\'s terms of use for the drone and to Catrobat\'s terms of
         use for Pocket Code.</string>
-  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">مجھے دوبارہ یاد نہ دلائیں۔</string>
   <!-- About Dialog -->
   <string name="dialog_about_title">پاکٹ کوڈ کے بارے میں</string>
   <string name="dialog_about_license_info">Pocket Code is a programming 
@@ -205,9 +205,9 @@
   <string name="pocket_paint_not_installed">کیا آپ اسے نصب کرنا چاہتے ہیں؟</string>
   <string name="default_look_name">look</string>
   <string name="delete_look_dialog">Delete Look?</string>
-  <string name="select_look_from_gallery">Select image</string>
-  <string name="select_look_from_camera">Select photo</string>
-  <string name="look_measure">Measure:</string>
+  <string name="select_look_from_gallery">تصویر منتخب کریں</string>
+  <string name="select_look_from_camera">تصویر منتخب کریں</string>
+  <string name="look_measure">پیمائش:</string>
   <string name="dialog_confirm_delete_look_title">Delete this Look?</string>
   <string name="dialog_confirm_delete_multiple_looks_title">Delete these Looks?</string>
   <string name="dialog_confirm_delete_look_message">یہ کالعدم نہیں کیا جا سکتا!</string>
@@ -216,12 +216,12 @@
   <string name="backpack_replace_look_multiple">Looks already exist in the backpack. Do you want to replace them?</string>
   <!-- Sound fragment -->
   <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
-  <string name="rename_sound_dialog">Rename Sound</string>
+  <string name="rename_sound_dialog">آواز کو نیا نام دیں</string>
   <string name="backpack_title">Your Backpack</string>
-  <string name="soundname_invalid">This sound\'s name is invalid</string>
-  <string name="sound_play">play</string>
-  <string name="sound_stop">stop</string>
-  <string name="sound_select_source">Select a Sound</string>
+  <string name="soundname_invalid">اس آواز کا نام درست نہیں۔</string>
+  <string name="sound_play">کھیلئے</string>
+  <string name="sound_stop">بند کریں</string>
+  <string name="sound_select_source">آواز منتخب کریں</string>
   <string name="sound_time_seperator">/</string>
   <string name="delete_sound_dialog">Delete Sound?</string>
   <string name="length">Length:</string>
@@ -267,24 +267,24 @@
   <string name="last_used">Last access:</string>
   <string name="description">Description:</string>
   <string name="set_description">Set description</string>
-  <string name="rename_project">Rename Program</string>
-  <string name="copy_project_finished"> copied.</string>
-  <string name="program">Program</string>
+  <string name="rename_project">پروگرام کو نیا نام دیں</string>
+  <string name="copy_project_finished">کاپی ہوا۔</string>
+  <string name="program">پروگرام</string>
   <string name="programs">پروگرامات</string>
-  <string name="dialog_confirm_delete_program_title">Delete this Program?</string>
-  <string name="dialog_confirm_delete_multiple_programs_title">Delete these Programs?</string>
+  <string name="dialog_confirm_delete_program_title">یہ پروگرام حذف کریں</string>
+  <string name="dialog_confirm_delete_multiple_programs_title">یہ پروگرامات حذف کریں</string>
   <string name="dialog_confirm_delete_program_message">یہ کالعدم نہیں کیا جا سکتا!</string>
-  <string name="details_date_today">Today</string>
-  <string name="details_date_yesterday">Yesterday</string>
-  <string name="dialog_copy_project_title">Copy Program</string>
+  <string name="details_date_today">آج</string>
+  <string name="details_date_yesterday">گزشتہ روز</string>
+  <string name="dialog_copy_project_title">پروگرام کاپی کریں</string>
   <!-- Soundrecorder activity -->
-  <string name="soundrecorder_name">Pocket Code Recorder</string>
-  <string name="soundrecorder_error">Sound recording failed</string>
-  <string name="soundrecorder_recorded_filename">record</string>
-  <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+  <string name="soundrecorder_name">پاکٹ کوڈ ریکارڈر</string>
+  <string name="soundrecorder_error">آواز ریکارڈ کاری ناکام</string>
+  <string name="soundrecorder_recorded_filename">ریکارڈ</string>
+  <string name="soundrecorder_text_view">ریکارڈنگ شروع اور بند کرنے کے لئے اوپر دی گئی آئیکون کو ٹیپ کریں</string>
   <!-- PreStage activity -->
-  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-  <string name="prestage_resource_not_available_title">Component not available</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech انجن نصب نہیں! کیا آپ اسے نصب کرنا چاہتے ہیں؟</string>
+  <string name="prestage_resource_not_available_title">جزو دستیاب نہیں</string>
   <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
         components are unavailable:\n\n</string>
   <string name="prestage_no_flash_available">\u2022 Flash\n</string>
@@ -315,7 +315,7 @@
   <string name="new_look_dialog_title">Add Look</string>
   <string name="add_look_from_camera">Take picture</string>
   <string name="add_look_draw_new_image">Draw image</string>
-  <string name="add_look_choose_image">Select image</string>
+  <string name="add_look_choose_image">تصویر منتخب کریں</string>
   <string name="add_look_media_library">Media Library</string>
   <string name="new_look_name">Look Name:</string>
   <string name="look_rename_overwrite">Look with this name already exists. Please choose a different one
@@ -324,50 +324,50 @@
   <!-- New Sound dialog -->
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
-  <string name="add_sound_choose_file">Select File</string>
+  <string name="add_sound_choose_file">فائل منتخب کریں</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
-  <string name="new_project_dialog_title">New Program</string>
-  <string name="new_project_dialog_hint">My Program</string>
-  <string name="new_project_description_dialog_hint">My description</string>
-  <string name="new_project_name">Program name</string>
-  <string name="new_project_empty">Create empty Program</string>
-  <string name="new_project_default">Create example Program</string>
-  <string name="new_project_default_drone">Create example Drone Program</string>
-  <string name="project_orientation_title">Orientation:</string>
+  <string name="new_project_dialog_title">نېا پروگرام</string>
+  <string name="new_project_dialog_hint">میرا پروگرام</string>
+  <string name="new_project_description_dialog_hint">مری تفصیل</string>
+  <string name="new_project_name">پروگرام کا نام</string>
+  <string name="new_project_empty">خالی پروگرام بنائیں</string>
+  <string name="new_project_default">پروگرام بطور مثال بنائیں</string>
+  <string name="new_project_default_drone">ڈرون پروگرام بطور مثال بنائیں</string>
+  <string name="project_orientation_title">سمت بندی:</string>
   <!-- New sprite dialog -->
-  <string name="new_sprite_dialog_default_sprite_name">My Object</string>
-  <string name="new_sprite_dialog_title">New Object</string>
-  <string name="spritename_already_exists">Please choose another Object name.</string>
-  <string name="rename_sprite_dialog">Rename Object</string>
-  <string name="spritename_invalid">This object name is invalid</string>
-  <string name="no_spritename_entered">Please enter an object name.</string>
-  <string name="sprite_name">Object name:</string>
+  <string name="new_sprite_dialog_default_sprite_name">میری آبجیکٹ</string>
+  <string name="new_sprite_dialog_title">نئی آبجیکٹ</string>
+  <string name="spritename_already_exists">برائے مہربانی کوئی اور آبجیکٹ نام منتخب کریں۔</string>
+  <string name="rename_sprite_dialog">آبجیکٹ کو نیا نام دیں</string>
+  <string name="spritename_invalid">یہ آبجیکٹ نام درست نہیں</string>
+  <string name="no_spritename_entered">برائے مہربانی آبجیکٹ نام درج کریں</string>
+  <string name="sprite_name">نام آبجیکٹ:</string>
   <!-- Sign In dialogs -->
-  <string name="sign_in_dialog_title">Sign In</string>
-  <string name="username">Username:</string>
-  <string name="password">Password:</string>
-  <string name="password_forgotten">Password forgotten?</string>
-  <string name="new_user_registered">New account created</string>
-  <string name="user_logged_in">Successfully logged in</string>
-  <string name="register_error">Invalid login</string>
-  <string name="register_terms">By registering you agree to our</string>
-  <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
-  <string name="login">Login</string>
-  <string name="register">Register</string>
+  <string name="sign_in_dialog_title">سائن ان کریں</string>
+  <string name="username">صارف کا نام:</string>
+  <string name="password">خفیہ کوڈ:</string>
+  <string name="password_forgotten">پاس ورڈ بھول گئے ہیں؟</string>
+  <string name="new_user_registered">نیا اکاؤنٹ بن گیا</string>
+  <string name="user_logged_in">کامیابی سے لاگ اِن ہوا</string>
+  <string name="register_error">لاگن اِن درست نہیں</string>
+  <string name="register_terms">رجسٹر ہوتے ہوئے آپ متفق ہیں ہمارے</string>
+  <string name="register_pocketcode_terms_of_use_text">استعمال کی شرائط</string>
+  <string name="login">لاگ اِن</string>
+  <string name="register">رجسٹر کریں</string>
   <string name="or">OR</string>
-  <string name="password_confirm">Confirm Password</string>
-  <string name="accountName">E-Mail</string>
-  <string name="signin_thanks">Thank you for signing up to Pocket Code!</string>
-  <string name="signin_choose_username">Please choose your username:</string>
-  <string name="signin_choose_username_empty">Please enter a username</string>
-  <string name="signin_choose_username_hint">The username should not be your real name.</string>
-  <string name="oauth_username_taken">Username already taken. Please choose a different one!</string>
-  <string name="show_password">Show Password</string>
-  <string name="register_password_mismatch">Passwords do not match</string>
-  <string name="sign_in_error">Error during Sign In</string>
+  <string name="password_confirm">پاس ورڈ کی تصدیق کریں</string>
+  <string name="accountName">ای میل</string>
+  <string name="signin_thanks">پاکٹ کوڈ میں سائن اَپ کے لئے آپ کا شکریہ!</string>
+  <string name="signin_choose_username">برائے مہربانی صارف نام منتخب کریں</string>
+  <string name="signin_choose_username_empty">برائے مہربانی صارف نام درج کریں</string>
+  <string name="signin_choose_username_hint">صارف نام آپ کا اصل نام نہیں ہونا چاہیے</string>
+  <string name="oauth_username_taken">صارف نام پہلے ہی لیا جا چکا ہے۔ برائے مہربانی کوئی اور منتخب کریں</string>
+  <string name="show_password">پاس ورڈ دکھائیں</string>
+  <string name="register_password_mismatch">پاس ورڈ ایک جیسے نہیں ہیں</string>
+  <string name="sign_in_error">سائن ان کے دوران نقص</string>
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">Program with this name already exists. Please choose a different one
-        !</string>
+  <string name="overwrite_text">پروگرام اس نام سے پہلے ہی موجود ہے ۔ ایک مختلف انتخاب کریں!</string>
   <string name="overwrite_replace">Replace existing Program</string>
   <string name="overwrite_rename">Rename downloaded Program</string>
   <!-- OverwriteRenameMediaDialog -->
@@ -420,7 +420,7 @@
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
-  <string name="brick_move">Move</string>
+  <string name="brick_move">حرکت دیں</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">step</item>
     <item quantity="other">steps</item>

@@ -339,6 +339,7 @@
   <string name="new_sound_dialog_title">הוסף קול</string>
   <string name="add_sound_from_recorder">הקלט קול</string>
   <string name="add_sound_choose_file">בחר קובץ</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">תוכנית חדשה</string>
   <string name="new_project_dialog_hint">התוכנית שלי</string>

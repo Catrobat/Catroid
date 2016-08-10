@@ -26,7 +26,7 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Annulla</string>
-  <string name="next_button">Next</string>
+  <string name="next_button">Successivo</string>
   <string name="done_button">Fatto</string>
   <string name="rename">Rinomina</string>
   <string name="delete">Eliminare</string>
@@ -315,6 +315,7 @@
   <string name="new_sound_dialog_title">Aggiungere suono</string>
   <string name="add_sound_from_recorder">Registra il suono</string>
   <string name="add_sound_choose_file">Selezionare il file</string>
+  <string name="add_sound_pocketmusic">Pocketmusica</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nuovo programma</string>
   <string name="new_project_dialog_hint">Il mio programma</string>
@@ -586,7 +587,7 @@
   <string name="upload_button">Carica</string>
   <string name="upload_project_dialog_title">Carica programma</string>
   <string name="upload_description">Descrizione:</string>
-  <string name="upload_tag_dialog_title">Choose up to three categories</string>
+  <string name="upload_tag_dialog_title">Scegli fino a tre categorie</string>
   <string name="drone_emergency_battery_low">Batteria bassa (atterraggio automatico).</string>
   <string name="drone_emergency_camera">Una o più telecamere non rispondono.</string>
   <string name="drone_emergency_ultrasound">Il sensore a ultrasuoni non risponde.</string>
@@ -1013,8 +1014,8 @@
   <string name="crashed_title">Pocked Code si è bloccato!</string>
   <string name="crashed_message">Pocket Code si è bloccato e necessita di essere riavviato.</string>
   <!-- Upload progress dialog -->
-  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
-        and download it.
-        You can also download your program as standalone app.</string>
-  <string name="progress_upload_dialog_show_program">Show program</string>
+  <string name="progress_upload_dialog_message">Il programma viene caricato sulla pagina della community dove gli altri lo possono usare
+        e scaricare.
+        Puoi anche scaricare l\'app come applicazione standalone per android.</string>
+  <string name="progress_upload_dialog_show_program">Mostra il programma</string>
 </resources>

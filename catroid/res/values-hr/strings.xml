@@ -338,6 +338,7 @@ su otpakovani!</item>
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Novi program</string>
   <string name="new_project_dialog_hint">Moj program</string>
