@@ -26,6 +26,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/empty_view_item"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cast_searching_for_cast_devices"
+            android:layout_marginLeft="15dp" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/cast_device_list_view"
         android:layout_height="wrap_content"

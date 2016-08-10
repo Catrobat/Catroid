@@ -1213,6 +1213,7 @@
     <string name="cast_button_menu_item_title">Cast button</string>
     <string name="cast_stop_casting_to">Stop casting to</string>
     <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
+    <string name="cast_searching_for_cast_devices">Searching for cast devices</string>
     <!-- -->
 
     <!-- Rating Dialog -->
