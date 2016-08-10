@@ -348,6 +348,7 @@
   <string name="new_sound_dialog_title">إضافة صوت</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">اختيار ملف</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">برنامج جديد</string>
   <string name="new_project_dialog_hint">البرنامج الخاص بي</string>

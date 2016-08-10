@@ -334,6 +334,7 @@
   <string name="new_sound_dialog_title">Dodaj zvok</string>
   <string name="add_sound_from_recorder">Posnemi nov zvok</string>
   <string name="add_sound_choose_file">Izberi datoteko</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nov Program</string>
   <string name="new_project_dialog_hint">Moj Program</string>

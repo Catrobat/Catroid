@@ -309,6 +309,7 @@
   <string name="new_sound_dialog_title">サウンドを追加</string>
   <string name="add_sound_from_recorder">サウンドの録音</string>
   <string name="add_sound_choose_file">ファイルを選択</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">新規プログラムの名前</string>
   <string name="new_project_dialog_hint">私のプログラム</string>

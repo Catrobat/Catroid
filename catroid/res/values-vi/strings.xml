@@ -315,6 +315,7 @@
   <string name="new_sound_dialog_title">Thêm âm thanh</string>
   <string name="add_sound_from_recorder">Ghi âm</string>
   <string name="add_sound_choose_file">Chọn Tệp tin</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Chương trình mới</string>
   <string name="new_project_dialog_hint">Chương trình của tôi</string>

@@ -321,6 +321,7 @@
   <string name="new_sound_dialog_title">Добавить звук</string>
   <string name="add_sound_from_recorder">Запись звука</string>
   <string name="add_sound_choose_file">Выберите файл</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Название нового проекта</string>
   <string name="new_project_dialog_hint">Мой проект</string>

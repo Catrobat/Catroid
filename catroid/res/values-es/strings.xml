@@ -320,6 +320,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="new_sound_dialog_title">Añade sonido</string>
   <string name="add_sound_from_recorder">Grabar el Sonido</string>
   <string name="add_sound_choose_file">Seleccione archivo</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nuevo programa</string>
   <string name="new_project_dialog_hint">Mi programa</string>

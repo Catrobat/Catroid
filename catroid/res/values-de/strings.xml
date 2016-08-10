@@ -74,7 +74,7 @@
   <string name="nothing_to_backpack_and_unpack">Nichts zum Einpacken und Auspacken</string>
   <string name="nothing_to_unpack">Nichts zum Auspacken</string>
   <string name="nothing_to_delete">Nichts zu löschen</string>
-  <string name="nothing_to_rename">Nicht zum Unbenennen</string>
+  <string name="nothing_to_rename">Nichts zum Unbenennen</string>
   <string name="unpack_background">Der Hintergrund des Programms wird ersetzt</string>
   <string name="degrees">Grad</string>
   <!-- Main menu activity -->
@@ -88,15 +88,15 @@
   <string name="main_menu_terms_of_use">Nutzungsbedingungen</string>
   <string name="main_menu_rate_app">Bewerte uns!</string>
   <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
-  <string name="main_menu_logout">Ausloggen</string>
-  <string name="main_menu_login">Einloggen</string>
-  <string name="logout_successful">Logout erfolgreich</string>
+  <string name="main_menu_logout">Abmelden</string>
+  <string name="main_menu_login">Anmelden</string>
+  <string name="logout_successful">Abmeldung erfolgreich</string>
   <!-- Settings activity -->
   <string name="preference_title">Einstellungen</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
   <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT Bausteine</string>
-  <string name="preference_description_mindstorms_nxt_bricks">Erlaube Steuerung von Lego Mindstorms NXT Robotern</string>
+  <string name="preference_description_mindstorms_nxt_bricks">Erlaube die Steuerung von Lego Mindstorms NXT Robotern</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensoren</string>
   <string name="preference_title_drone_config_properties">Drohnen Konfigurationseinstellungen</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
@@ -321,6 +321,7 @@
   <string name="new_sound_dialog_title">Klang hinzufügen</string>
   <string name="add_sound_from_recorder">Klang aufnehmen</string>
   <string name="add_sound_choose_file">Klang auswählen</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Neues Programm</string>
   <string name="new_project_dialog_hint">Mein Programm</string>
@@ -1003,7 +1004,7 @@
   <string name="choose_camera_back">hintere</string>
   <string name="error_flash_front_camera">"Du kannst den Blitz nur mit der hinteren Kamera verwenden. Bitte füge einen \"Verwende Kamera\" Baustein für die hintere Kamera deines Gerätes hinzu."</string>
   <string name="brick_wait_until">Warte bis</string>
-  <string name="brick_wait_until_second_part">ist wahr</string>
+  <string name="brick_wait_until_second_part">wahr ist</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Bewerte Pocket Code</string>
   <string name="rating_dialog_text">Wenn dir Pocket Code gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>

@@ -26,7 +26,7 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Cancelar</string>
-  <string name="next_button">Next</string>
+  <string name="next_button">Próximo</string>
   <string name="done_button">Concluído</string>
   <string name="rename">Renomear</string>
   <string name="delete">Apagar</string>
@@ -40,14 +40,14 @@
   <string name="packing">Empacotar</string>
   <string name="unpack">Desempacotar</string>
   <string name="unpack_keep">Desempacotar e guardar</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
+  <string name="unpack_bg">Descompactar como plano de fundo</string>
+  <string name="unpack_object">Descompactar como objeto</string>
   <string name="copy_addition">copiar</string>
   <string name="close">Fechar</string>
   <string name="error">Erro</string>
   <string name="please_wait">Por favor, aguarde</string>
   <string name="loading">Carregando&#8230;</string>
-  <string name="no_internet">No Internet</string>
+  <string name="no_internet">Sem Conexão</string>
   <string name="loading_check_token">Token verificado em nosso servidor&#8230;</string>
   <string name="loading_check_facebook_data">Dados do Facebook recuperados&#8230;</string>
   <string name="loading_check_email">Disponibilidade de e-mail verificada em nosso servidor&#8230;</string>
@@ -76,7 +76,7 @@
   <string name="nothing_to_delete">Não há nada a ser deletado</string>
   <string name="nothing_to_rename">Não há nada a ser renomeado</string>
   <string name="unpack_background">O Plano de fundo do programa será substituído</string>
-  <string name="degrees">degrees</string>
+  <string name="degrees">graus</string>
   <!-- Main menu activity -->
   <string name="main_menu_new">Novo</string>
   <string name="main_menu_continue">Continuar</string>
@@ -98,20 +98,20 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Blocos de Lego Mindstorms NXT</string>
   <string name="preference_description_mindstorms_nxt_bricks">Permite controlar os robôs Lego Mindstorm NXT</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensores Lego NXT</string>
-  <string name="preference_title_drone_config_properties">Drone configuration properties</string>
+  <string name="preference_title_drone_config_properties">Propriedades de configuração do Drone</string>
   <string name="preference_title_enable_phiro_bricks">Blocos do Phiro</string>
   <string name="preference_description_phiro_bricks">Permite controlar um robô Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Blocos Arduino</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+  <string name="preference_description_nfc_bricks">Permite usar marcações NFC em programas</string>
   <string name="preference_description_arduino_bricks">Permite controlar blocos Arduino</string>
-  <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>
-  <string name="preference_description_raspi_bricks">Allow to control Raspberry Pi computers</string>
-  <string name="preference_raspi_enable_bricks">Enable Raspberry Pi bricks</string>
-  <string name="preference_raspi_help">Help / Getting started</string>
-  <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-  <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
-  <string name="preference_raspi_port">Raspberry Pi Port</string>
+  <string name="preference_title_enable_raspi_bricks">Blocos Raspberry Pi</string>
+  <string name="preference_description_raspi_bricks">Permite controlar computadores Raspberry Pi</string>
+  <string name="preference_raspi_enable_bricks">Habilitar blocos Raspberry Pi</string>
+  <string name="preference_raspi_help">Ajuda / Primeiros Passos</string>
+  <string name="preference_raspi_help_summary">Obter ajuda sobre como ajustar as configurações de conexão</string>
+  <string name="preference_raspi_host">Raspberry Pi IP-/Endereçamento Host</string>
+  <string name="preference_raspi_port">Porta Raspberry Pi</string>
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Desenhar imagem</string>
   <string name="dialog_new_object_gallery">Selecionar Imagem</string>
@@ -158,8 +158,8 @@
   <string name="dialog_confirm_delete_object_message">Isto não pode ser desfeito!</string>
   <string name="select_all">Selecionar todos</string>
   <string name="deselect_all">Desmarcar todos</string>
-  <string name="backpack_replace_object">The object \"%1$s\" already exists in the backpack. Do you want to replace it?</string>
-  <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+  <string name="backpack_replace_object">O objeto \"%1$s\" já existe na mochila. Deseja substituí-lo?</string>
+  <string name="backpack_replace_object_multiple">Objetos já existentes na mochila. Deseja substituí-los?</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Copy</string>
   <!-- Script activity -->
@@ -322,6 +322,7 @@
   <string name="new_sound_dialog_title">Adicionar Som</string>
   <string name="add_sound_from_recorder">Gravar Som</string>
   <string name="add_sound_choose_file">Selecionar Arquivo</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Novo programa</string>
   <string name="new_project_dialog_hint">Meu Programa</string>
@@ -731,7 +732,7 @@
   <string name="brick_drone_set_rotation_speed">Limite de velocidade de rotação</string>
   <string name="brick_drone_set_tilt_limit">Limite de inclinação</string>
   <string name="brick_drone_with">com</string>
-  <string name="brick_drone_percent_power">de energia</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Parar motor Phiro</string>

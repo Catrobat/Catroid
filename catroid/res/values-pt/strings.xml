@@ -317,6 +317,7 @@
   <string name="new_sound_dialog_title">Adicionar Áudio</string>
   <string name="add_sound_from_recorder">Gravar Áudio</string>
   <string name="add_sound_choose_file">Selecionar Arquivo</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Novo programa</string>
   <string name="new_project_dialog_hint">Meu Programa</string>

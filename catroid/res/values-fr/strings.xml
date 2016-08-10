@@ -322,6 +322,7 @@ il faut
   <string name="new_sound_dialog_title">Ajouter un son</string>
   <string name="add_sound_from_recorder">Enregistrer un son</string>
   <string name="add_sound_choose_file">Sélectionnez le fichier</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nouvelle appli</string>
   <string name="new_project_dialog_hint">Mon appli</string>

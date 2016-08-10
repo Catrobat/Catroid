@@ -308,6 +308,7 @@
   <string name="new_sound_dialog_title">增加音效</string>
   <string name="add_sound_from_recorder">錄製音效</string>
   <string name="add_sound_choose_file">選擇音效檔案</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">新程式檔</string>
   <string name="new_project_dialog_hint">我的程式</string>
