@@ -70,7 +70,7 @@ public final class CastManager {
 	private MediaRouter mediaRouter;
 	private MediaRouteSelector mediaRouteSelector;
 	private MyMediaRouterCallback callback;
-	private ArrayList<String> routeNames = new ArrayList<>();
+	//private ArrayList<String> routeNames = new ArrayList<>();
 	private ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter;
 	private CastDevice selectedDevice;
 	private boolean isConnected = false;
@@ -140,12 +140,24 @@ public final class CastManager {
 		mediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
 				.build();
-		addCallback();
+		//addCallback();
+		setCallback();
 	}
 
 	public void addCallback() {
 		callback = new MyMediaRouterCallback();
 		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+	}
+
+	public synchronized void setCallback() {
+		setCallback(MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+	}
+
+	public synchronized void setCallback(int callbackFlag) {
+		if(callback == null) {
+			callback = new MyMediaRouterCallback();
+		}
+		mediaRouter.addCallback(mediaRouteSelector, callback, callbackFlag);
 	}
 
 	public void openDeviceSelectorOrDisconnectDialog() {
@@ -271,7 +283,7 @@ public final class CastManager {
 			});
 			builder.create().show();
 		} else {
-			mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
+			//mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
 			SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
 			dialog.openDialog();
 		}
@@ -279,9 +291,11 @@ public final class CastManager {
 
 	public synchronized void setCastButton(MenuItem castButton) {
 		this.castButton = castButton;
-		if (routeNames.size() > 0) {
+		/*if (routeNames.size() > 0) {
 			castButton.setVisible(true);
-		}
+		}*/
+		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
+				.AVAILABILITY_FLAG_REQUIRE_MATCH));
 		setIsConnected(isConnected);
 	}
 
@@ -316,13 +330,15 @@ public final class CastManager {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
 					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
-						routeNames.remove(i);
+						//routeNames.remove(i);
 					}
 				}
 				routeInfos.add(info);
-				routeNames.add(info.getName());
+				//routeNames.add(info.getName());
 				if (castButton != null) {
-					castButton.setVisible(true);
+					//castButton.setVisible(true);
+					castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
+							.AVAILABILITY_FLAG_REQUIRE_MATCH));
 				}
 				deviceAdapter.notifyDataSetChanged();
 			}
@@ -336,9 +352,11 @@ public final class CastManager {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
 					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
-						routeNames.remove(i);
+						//routeNames.remove(i);
 						if (castButton != null && routeInfos.size() == 0) {
-							castButton.setVisible(false);
+							//castButton.setVisible(false);
+							castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
+									.AVAILABILITY_FLAG_REQUIRE_MATCH));
 						}
 						deviceAdapter.notifyDataSetChanged();
 					}

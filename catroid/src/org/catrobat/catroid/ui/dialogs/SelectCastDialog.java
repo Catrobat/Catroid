@@ -49,6 +49,7 @@ public class SelectCastDialog extends DialogFragment {
 	public SelectCastDialog(ArrayAdapter<MediaRouter.RouteInfo> adapter, Activity activity) {
 		this.deviceAdapter = adapter;
 		this.activity = activity;
+		CastManager.getInstance().setCallback(MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
 	}
 
 	public void openDialog() {
@@ -57,8 +58,9 @@ public class SelectCastDialog extends DialogFragment {
 
 	@Override
 	public void onDismiss(DialogInterface dialog) {
+		CastManager.getInstance().setCallback();
 		super.onDismiss(dialog);
-		CastManager.getInstance().addCallback();
+		//CastManager.getInstance().addCallback();
 	}
 
 	@Override
@@ -92,7 +94,8 @@ public class SelectCastDialog extends DialogFragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				synchronized (this) {
 					MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(position);
-					CastManager.getInstance().addCallback();
+					//CastManager.getInstance().addCallback();
+					CastManager.getInstance().setCallback();
 					CastManager.getInstance().startCastButtonAnimation();
 					CastManager.getInstance().selectRoute(routeInfo);
 					dialog.dismiss();
