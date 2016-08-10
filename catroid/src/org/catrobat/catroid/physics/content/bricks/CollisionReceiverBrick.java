@@ -65,6 +65,42 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 		this.selectedMessage = "";
 	}
 
+	public void correctBroadcastMessage(Project project) {
+		CollisionScript collisionScript = this.collisionScript;
+		String broadcastMessage = collisionScript.getBroadcastMessage();
+
+		String collisionObjectOneIdentifier = "";
+		for (int i = 0; i < project.getSpriteList().size(); i++) {
+			if (broadcastMessage.startsWith(project.getSpriteList().get(i).getName())) {
+				collisionObjectOneIdentifier = project.getSpriteList().get(i).getName();
+				if (!(broadcastMessage.replace(collisionObjectOneIdentifier, "").charAt(0) == '<')) {
+					collisionObjectOneIdentifier = "";
+					continue;
+				}
+				break;
+			}
+		}
+
+		broadcastMessage = broadcastMessage.replace(collisionObjectOneIdentifier, "");
+
+		if (broadcastMessage.matches("<(\\W)*-(\\W)*>(.)+")) {
+			broadcastMessage = broadcastMessage.substring(broadcastMessage.indexOf(">") + 1);
+		}
+
+		String collisionObjectTwoIdentifier = "";
+
+		if (broadcastMessage.matches("(\\W)*ANYTHING(\\W)*")) {
+			collisionObjectTwoIdentifier = PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER;
+		}
+		else {
+			collisionObjectTwoIdentifier = broadcastMessage;
+		}
+
+		collisionScript.setAndReturnBroadcastMessage(collisionObjectOneIdentifier, collisionObjectTwoIdentifier);
+		this.collisionScript = collisionScript;
+		this.selectedMessage = "";
+	}
+
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		CollisionReceiverBrick copyBrick = (CollisionReceiverBrick) clone();
