@@ -58,7 +58,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 task downloadProject() << {
     def id = 6760; //debugging purpose only
     def downloadUrl = "";
-    
+
     if (project.hasProperty("download")) {
         downloadUrl = project["download"]
         id = project["suffix"]
@@ -71,12 +71,12 @@ task downloadProject() << {
     println "downloading.... " + downloadUrl
 
     project.ext.standaloneZipPath = project.ext.assetsPath + project.ext.id + ".zip"
-    
+
     File programZip = new File(project.ext.standaloneZipPath)
     programZip.withOutputStream {
         it << new URL(downloadUrl).content
     }
-    
+
     def zipOutDir = new File(project.ext.standaloneTmpPath)
 
     copy {
@@ -135,7 +135,7 @@ ext.getProgramId = { boolean deleteInfoFile ->
         return lines[0]
     }
 
-    return "-1"
+    return "noID"
 }
 
 def removeUnecessaryPermissions() {

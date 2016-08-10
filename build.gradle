@@ -81,7 +81,7 @@ android {
         standalone {
             applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
             versionCode 1
-            versionName '1.0-standalone'
+            versionName '1.0'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
