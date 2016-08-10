@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
@@ -56,6 +57,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
 import org.catrobat.catroid.ui.adapter.CastDevicesAdapter;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -322,6 +324,8 @@ public final class CastManager {
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
 
+		private long lastConnectionTry;
+
 		@Override
 		public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo info) {
 			// Add route to list of discovered routes
@@ -371,6 +375,24 @@ public final class CastManager {
 				//Problem with mExtras!!!
 				selectedDevice = CastDevice.getFromBundle(info.getExtras());
 				startCastService(initializingActivity);
+				lastConnectionTry = System.currentTimeMillis();
+
+				// Show a msg if still connecting after CAST_CONNECTION_TIMEOUT milliseconds
+				// and abort connection.
+				(new Handler()).postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						synchronized (this) {
+							if (currentlyConnecting() && CastRemoteDisplayLocalService.getInstance() != null
+									&& System.currentTimeMillis() - lastConnectionTry >= Constants.CAST_CONNECTION_TIMEOUT) {
+
+								CastRemoteDisplayLocalService.stopService();
+								ToastUtil.showError(initializingActivity,
+										initializingActivity.getString(R.string.cast_connection_timout_msg));
+							}
+						}
+					}
+				}, Constants.CAST_CONNECTION_TIMEOUT);
 			}
 		}
 

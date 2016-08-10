@@ -32,6 +32,8 @@ public final class Constants {
 	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.99f);
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
+	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
+	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build

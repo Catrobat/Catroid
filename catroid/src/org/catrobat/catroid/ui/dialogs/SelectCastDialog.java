@@ -28,23 +28,27 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.media.MediaRouter;
 import android.widget.ArrayAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.common.Constants;
 
 import java.util.List;
 
 public class SelectCastDialog extends DialogFragment {
 
 	private static final String DIALOG_TAG = "cast_device_selector";
-	ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter;
-	Activity activity;
+	private ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter;
+	private Activity activity;
+	private AlertDialog dialog;
 
 	public SelectCastDialog(ArrayAdapter<MediaRouter.RouteInfo> adapter, Activity activity) {
 		this.deviceAdapter = adapter;
@@ -88,7 +92,7 @@ public class SelectCastDialog extends DialogFragment {
 		listView.setAdapter(deviceAdapter);
 		listView.setDivider(null);
 
-		final AlertDialog dialog = builder.create();
+		dialog = builder.create();
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -103,6 +107,20 @@ public class SelectCastDialog extends DialogFragment {
 				}
 			}
 		});
+
+		// Show a tip inside of the empty view after CAST_NOT_SEEING_DEVICE_TIMEOUT milliseconds.
+		(new Handler()).postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				synchronized (this) {
+					if (dialog != null && dialog.isShowing() && deviceAdapter.isEmpty()) {
+						TextView t = (TextView) dialog.findViewById(R.id.cast_searching_for_cast_text_view);
+						t.setText(activity.getText(R.string.cast_searching_for_cast_devices).toString() +
+								activity.getText(R.string.cast_trouble_finding_devices_tip));
+					}
+				}
+			}
+		}, Constants.CAST_NOT_SEEING_DEVICE_TIMEOUT);
 		return dialog;
 	}
 }

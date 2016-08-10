@@ -41,6 +41,7 @@
             android:indeterminate="true" />
 
         <TextView
+            android:id="@+id/cast_searching_for_cast_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cast_searching_for_cast_devices"
