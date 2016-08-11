@@ -663,6 +663,7 @@
     <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
     <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
     <string name="default_cast_project_var_direction">direction</string>
+    <string name="default_cast_project_name">My first Cast program</string>
 
 
     <!-- defaultDroneValues -->
