@@ -28,10 +28,10 @@ import android.util.Log;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorCast;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDefault;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorPhysics;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorCast;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 

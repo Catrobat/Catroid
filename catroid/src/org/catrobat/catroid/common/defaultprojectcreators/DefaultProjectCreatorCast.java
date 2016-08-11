@@ -63,8 +63,8 @@ import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 
 
 

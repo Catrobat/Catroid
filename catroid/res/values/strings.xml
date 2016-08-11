@@ -401,7 +401,6 @@
     <string name="new_project_empty">Create empty Program</string>
     <string name="new_project_default">Create example Program</string>
     <string name="new_project_default_drone">Create example Drone Program</string>
-    <string name="new_project_default_cast">Create example Cast Program</string>
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen</string>
     <!--  -->

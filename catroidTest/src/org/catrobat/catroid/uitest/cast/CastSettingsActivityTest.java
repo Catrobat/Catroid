@@ -44,108 +44,108 @@ import java.util.ArrayList;
 
 public class CastSettingsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-    public CastSettingsActivityTest() {
-        super(MainMenuActivity.class);
-    }
+	public CastSettingsActivityTest() {
+		super(MainMenuActivity.class);
+	}
 
-    @Override
-    protected void setUp() throws Exception {
-        TestUtils.deleteTestProjects();
-        SettingsActivity.setCastFeatureAvailability(getActivity(), true);
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		TestUtils.deleteTestProjects();
+		SettingsActivity.setCastFeatureAvailability(getActivity(), true);
+		super.setUp();
+	}
 
-    @Override
-    protected void tearDown() throws Exception {
-        SettingsActivity.setCastFeatureAvailability(getActivity(), false);
-        TestUtils.deleteTestProjects();
-        solo.finishOpenedActivities();
-        super.tearDown();
-    }
+	@Override
+	protected void tearDown() throws Exception {
+		SettingsActivity.setCastFeatureAvailability(getActivity(), false);
+		TestUtils.deleteTestProjects();
+		solo.finishOpenedActivities();
+		super.tearDown();
+	}
 
-    public void testCreateProjectAndStartWithoutConnection() {
-        solo.waitForActivity(MainMenuActivity.class);
-        solo.clickOnText(solo.getString(R.string.main_menu_new));
-        solo.waitForText(solo.getString(R.string.new_project_dialog_title));
-        solo.enterText(0, UiTestUtils.PROJECTNAME1);
-        solo.clickOnText(solo.getString(R.string.new_project_empty));
-        solo.clickOnText(solo.getString(R.string.ok));
-        solo.waitForText(solo.getString(R.string.ok)); // Wait for next dialog
+	public void testCreateProjectAndStartWithoutConnection() {
+		solo.waitForActivity(MainMenuActivity.class);
+		solo.clickOnText(solo.getString(R.string.main_menu_new));
+		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
+		solo.enterText(0, UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(solo.getString(R.string.new_project_empty));
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForText(solo.getString(R.string.ok)); // Wait for next dialog
 
-        assertTrue("dialog with correct title not loaded in 5 seconds",
-                solo.waitForText(solo.getString(R.string.project_select_screen_title), 0, 5000));
+		assertTrue("dialog with correct title not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_select_screen_title), 0, 5000));
 
-        ArrayList<RadioButton> currentViews = solo.getCurrentViews(RadioButton.class);
-        assertTrue("Not enough screen options showing up", currentViews.size() == 3);
-        solo.clickOnRadioButton(2);
-        solo.clickOnText(solo.getString(R.string.ok));
-        solo.waitForActivity(ProjectActivity.class);
+		ArrayList<RadioButton> currentViews = solo.getCurrentViews(RadioButton.class);
+		assertTrue("Not enough screen options showing up", currentViews.size() == 3);
+		solo.clickOnRadioButton(2);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForActivity(ProjectActivity.class);
 
-        UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-        assertTrue("\"Cast not connected\" toast is not displayed",
-                solo.waitForText(solo.getString(R.string.cast_error_not_connected_msg), 0, 5000));
-        assertTrue("\"Cast to\" dialog not opened in 5 sec",
-                solo.waitForText(solo.getString(R.string.cast_device_selector_dialog_title), 0, 5000));
-    }
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		assertTrue("\"Cast not connected\" toast is not displayed",
+				solo.waitForText(solo.getString(R.string.cast_error_not_connected_msg), 0, 5000));
+		assertTrue("\"Cast to\" dialog not opened in 5 sec",
+				solo.waitForText(solo.getString(R.string.cast_device_selector_dialog_title), 0, 5000));
+	}
 
-    public void testIfCastCategoryShowsUpInNonCastProject() {
+	public void testIfCastCategoryShowsUpInNonCastProject() {
 
-        UiTestUtils.createEmptyProject();
-        solo.waitForActivity(MainMenuActivity.class);
-        UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-        solo.waitForActivity(ScriptActivity.class);
-        UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-        solo.waitForText(solo.getString(R.string.category_control));
-        ListView fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
-        solo.scrollListToBottom(fragmentListView);
+		UiTestUtils.createEmptyProject();
+		solo.waitForActivity(MainMenuActivity.class);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		solo.waitForActivity(ScriptActivity.class);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(solo.getString(R.string.category_control));
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
 
-        assertFalse("Cast category showing up in non cast project",
-                solo.searchText(solo.getString(R.string.category_cast)));
-    }
+		assertFalse("Cast category showing up in non cast project",
+				solo.searchText(solo.getString(R.string.category_cast)));
+	}
 
-    public void testIfCastBricksSensorsAndCategoryDisplayed() {
+	public void testIfCastBricksSensorsAndCategoryDisplayed() {
 
-        ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.getInstance();
 
-        Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME, true, true);
-        Sprite firstSprite = new Sprite("cat");
-        Script testScript = new StartScript();
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME, true, true);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript();
 
-        firstSprite.addScript(testScript);
-        project.addSprite(firstSprite);
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
 
-        projectManager.setFileChecksumContainer(new FileChecksumContainer());
-        projectManager.setProject(project);
-        projectManager.setCurrentSprite(firstSprite);
-        projectManager.setCurrentScript(testScript);
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
 
-        solo.waitForActivity(MainMenuActivity.class);
-        UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-        solo.waitForActivity(ScriptActivity.class);
-        UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-        solo.waitForText(solo.getString(R.string.category_control));
+		solo.waitForActivity(MainMenuActivity.class);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		solo.waitForActivity(ScriptActivity.class);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(solo.getString(R.string.category_control));
 
-        ListView fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
-        solo.scrollListToBottom(fragmentListView);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
 
-        assertTrue("Cast brick category not showing up", solo.searchText(solo.getString(R.string.category_cast)));
+		assertTrue("Cast brick category not showing up", solo.searchText(solo.getString(R.string.category_cast)));
 
-        solo.clickOnText(solo.getString(R.string.category_cast));
-        solo.waitForText(solo.getString(R.string.category_cast));
+		solo.clickOnText(solo.getString(R.string.category_cast));
+		solo.waitForText(solo.getString(R.string.category_cast));
 
-        ArrayList<Boolean> findResults = new ArrayList<>();
-        findResults.add(solo.searchText(solo.getString(R.string.brick_when_gamepad_button)));
-        findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_a_pressed)));
-        findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_b_pressed)));
+		ArrayList<Boolean> findResults = new ArrayList<>();
+		findResults.add(solo.searchText(solo.getString(R.string.brick_when_gamepad_button)));
+		findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_a_pressed)));
+		findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_b_pressed)));
 
-        ListView bricksView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
-        solo.scrollListToBottom(bricksView);
+		ListView bricksView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(bricksView);
 
-        findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_up_pressed)));
-        findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_down_pressed)));
-        findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_left_pressed)));
-        findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_right_pressed)));
+		findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_up_pressed)));
+		findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_down_pressed)));
+		findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_left_pressed)));
+		findResults.add(solo.searchText(solo.getString(R.string.formula_editor_sensor_gamepad_right_pressed)));
 
-        assertFalse("Not all cast category bricks shown", findResults.contains(false));
-    }
+		assertFalse("Not all cast category bricks shown", findResults.contains(false));
+	}
 }
