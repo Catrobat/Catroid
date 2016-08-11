@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:drawableLeft="@drawable/ic_cast_dark"
+            android:drawableLeft="@drawable/ic_tv_black_24dp"
             android:drawablePadding="16dp"
             android:padding="20dp"/>
 

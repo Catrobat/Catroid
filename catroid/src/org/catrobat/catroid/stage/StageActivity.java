@@ -98,7 +98,7 @@ public class StageActivity extends AndroidApplication {
 		if (!project.isCastProject()) {
 			initialize(stageListener, configuration);
 		} else {
-			//TODO maybe check again if connected?
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			setContentView(R.layout.activity_stage_gamepad);
 			CastManager.getInstance().initializeGamepadActivity(this);
 			CastManager.getInstance()
