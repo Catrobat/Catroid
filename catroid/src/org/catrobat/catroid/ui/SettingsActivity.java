@@ -410,6 +410,10 @@ public class SettingsActivity extends PreferenceActivity {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
 	}
 
+	public static void setCastFeatureAvailability(Context context, boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, newValue).commit();
+	}
+
 	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, newValue).commit();
 	}
