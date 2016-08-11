@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDefault;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorPhysics;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorCast;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 
@@ -127,8 +128,8 @@ public final class DefaultProjectHandler {
 				defaultProjectCreator = new DefaultProjectCreatorPhysics();
 				break;
 			case PROJECT_CREATOR_CAST:
-				if(BuildConfig.FEATURE_CAST_ENABLED) {
-					defaultProjectCreator = new DefaultProjectCreatorDefault();
+				if (BuildConfig.FEATURE_CAST_ENABLED) {
+					defaultProjectCreator = new DefaultProjectCreatorCast();
 				}
 				break;
 		}

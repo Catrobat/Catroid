@@ -30,9 +30,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.media.MediaRouter;
-import android.widget.ArrayAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,7 +41,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 
-import java.util.List;
 
 public class SelectCastDialog extends DialogFragment {
 
@@ -64,25 +63,10 @@ public class SelectCastDialog extends DialogFragment {
 	public void onDismiss(DialogInterface dialog) {
 		CastManager.getInstance().setCallback();
 		super.onDismiss(dialog);
-		//CastManager.getInstance().addCallback();
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-/*		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(getString(R.string.cast_device_selector_dialog_title));
-		builder.setAdapter(deviceAdapter, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				synchronized (this) { //TODO Sync needed?
-					MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(which);
-					CastManager.getInstance().addCallback();
-					CastManager.getInstance().startCastButtonAnimation();
-					CastManager.getInstance().selectRoute(routeInfo);
-				}
-			}
-		});
-		return builder.create();*/
-
 		LayoutInflater inflater = activity.getLayoutInflater();
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		View view = inflater.inflate(R.layout.dialog_select_cast, null);
@@ -99,7 +83,6 @@ public class SelectCastDialog extends DialogFragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				synchronized (this) {
 					MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(position);
-					//CastManager.getInstance().addCallback();
 					CastManager.getInstance().setCallback();
 					CastManager.getInstance().startCastButtonAnimation();
 					CastManager.getInstance().selectRoute(routeInfo);
@@ -115,8 +98,8 @@ public class SelectCastDialog extends DialogFragment {
 				synchronized (this) {
 					if (dialog != null && dialog.isShowing() && deviceAdapter.isEmpty()) {
 						TextView t = (TextView) dialog.findViewById(R.id.cast_searching_for_cast_text_view);
-						t.setText(activity.getText(R.string.cast_searching_for_cast_devices).toString() +
-								activity.getText(R.string.cast_trouble_finding_devices_tip));
+						t.setText(activity.getText(R.string.cast_searching_for_cast_devices).toString()
+								+ activity.getText(R.string.cast_trouble_finding_devices_tip));
 					}
 				}
 			}
