@@ -996,9 +996,6 @@
   <string name="deletion_alert_text">Menghapus sebuah variabel yang sementara digunakan itu berbahaya! Anda yakin?</string>
   <string name="deletion_alert_yes">Ya, hapus saja!</string>
   <string name="deletion_alert_no">Tidak.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code rusak!</string>
-  <string name="crashed_message">Pocked Code telah rusak dan harus direstart.</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">Program Anda diunggah ke laman komunitas kami dimana orang lain dapat menggunakan dan mengunduhnya.         Anda juga dapat mengunduh program Anda sebagai aplikasi mandiri.</string>
   <string name="progress_upload_dialog_show_program">Tunjukkan program</string>

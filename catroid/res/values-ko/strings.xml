@@ -997,9 +997,6 @@
   <string name="deletion_alert_text">사용 중 변수를 삭제하는 것은 위험합니다! 삭제할까요?</string>
   <string name="deletion_alert_yes">예, 삭제합니다!</string>
   <string name="deletion_alert_no">아니오</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">포켓코드가 정지했습니다!</string>
-  <string name="crashed_message">포켓코드가 정지하여 다시 시작했습다.</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">프로그램을 우리의 커뮤니티 페이지에 업로드하면 여러 사람이 사용하고 다운로드 할 수 있습니다. 또한 독립 실행형 응용 프로그램으로 당신의 프로그램을 다운로드할 수도 있습니다.</string>
   <string name="progress_upload_dialog_show_program">프로그램 보이기</string>

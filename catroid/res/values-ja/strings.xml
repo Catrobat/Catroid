@@ -1002,9 +1002,6 @@
   <string name="deletion_alert_text">まだ使用している変数を削除するは危険です! よろしいですか?</string>
   <string name="deletion_alert_yes">はい、とにかく削除します!</string>
   <string name="deletion_alert_no">いいえ。</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">ポケットコードがクラッシュしました!</string>
-  <string name="crashed_message">ポケットコードがクラッシュしたため、再起動する必要がありました。</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">あなたのプログラムは、私たちのコミュニ ティー ページにアップロードされます。他の人がそれを使用したりダウンロードすることができます。
 スタンドアロン アプリケーションとしてあなたのプログラムをダウンロードすることもできます。</string>
