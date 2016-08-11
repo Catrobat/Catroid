@@ -651,7 +651,6 @@
     <string name="default_project_sprites_tweet_2">Tweet2</string>
 
     <!-- defaultCastValues -->
-    <string name="default_cast_project_name">My first cast program</string>
     <string name="default_cast_project_background_name">Background</string>
     <string name="default_cast_project_cloud_name">Clouds</string>
     <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
@@ -1231,7 +1230,7 @@
     <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
     <string name="cast_searching_for_cast_devices">Searching for cast devices</string>
     <string name="cast_trouble_finding_devices_tip">.\nNot seeing your device? Try turning your phone\'s Wifi off and on.</string>
-    <string name="cast_connection_timout_msg">Connection timeout. Try turning your phone\'s Wifi off and on if this keeps happening.</string>
+    <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
     <!-- -->
 
     <!-- Rating Dialog -->

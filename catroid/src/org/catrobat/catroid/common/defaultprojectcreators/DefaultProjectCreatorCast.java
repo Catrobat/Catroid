@@ -111,7 +111,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.default_project_background_landscape, context);
 		cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_cast,
+						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_landscape,
 				context, true, backgroundImageScaleFactor);
 		backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_background_landscape,
