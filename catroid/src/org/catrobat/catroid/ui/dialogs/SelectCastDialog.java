@@ -83,9 +83,8 @@ public class SelectCastDialog extends DialogFragment {
 		});
 		return builder.create();*/
 
-		LayoutInflater inflater = activity.getLayoutInflater();
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-		View view = inflater.inflate(R.layout.dialog_select_cast, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_select_cast, null);
 		ListView listView = (ListView) view.findViewById(R.id.cast_device_list_view);
 		listView.setEmptyView(view.findViewById(R.id.empty_view_item));
 		builder.setView(view).setTitle(getString(R.string.cast_device_selector_dialog_title));

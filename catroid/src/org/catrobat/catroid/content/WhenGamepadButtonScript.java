@@ -26,10 +26,7 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.WhenGampadButtonBrick;
-
-import java.util.List;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 
 public class WhenGamepadButtonScript extends Script {
 
@@ -41,7 +38,7 @@ public class WhenGamepadButtonScript extends Script {
 		this.action = CatroidApplication.getAppContext().getString(R.string.cast_gamepad_A);
 	}
 
-	public WhenGamepadButtonScript(WhenGampadButtonBrick brick) {
+	public WhenGamepadButtonScript(WhenGamepadButtonBrick brick) {
 		this.brick = brick;
 	}
 
@@ -67,7 +64,7 @@ public class WhenGamepadButtonScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenGampadButtonBrick(this);
+			brick = new WhenGamepadButtonBrick(this);
 		}
 
 		return brick;

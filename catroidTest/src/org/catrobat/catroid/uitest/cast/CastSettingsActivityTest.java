@@ -101,7 +101,6 @@ public class CastSettingsActivityTest extends BaseActivityInstrumentationTestCas
 
         assertFalse("Cast category showing up in non cast project",
                 solo.searchText(solo.getString(R.string.category_cast)));
-
     }
 
     public void testIfCastBricksSensorsAndCategoryDisplayed() {

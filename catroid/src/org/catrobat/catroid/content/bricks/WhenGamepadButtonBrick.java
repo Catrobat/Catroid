@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.WhenGamepadButtonScript;
 
 import java.util.List;
 
-public class WhenGampadButtonBrick extends ScriptBrick {
+public class WhenGamepadButtonBrick extends ScriptBrick {
 
 	protected WhenGamepadButtonScript whenGamepadButtonScript;
 	private static final long serialVersionUID = 1L;
@@ -51,7 +51,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 	private String action;
 	private int position;
 
-	public WhenGampadButtonBrick(WhenGamepadButtonScript whenGamepadButtonScript) {
+	public WhenGamepadButtonBrick(WhenGamepadButtonScript whenGamepadButtonScript) {
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
 		actions = CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array);
 		if (whenGamepadButtonScript != null) {
@@ -72,7 +72,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenGampadButtonBrick copyBrick = (WhenGampadButtonBrick) clone();
+		WhenGamepadButtonBrick copyBrick = (WhenGamepadButtonBrick) clone();
 		copyBrick.whenGamepadButtonScript = whenGamepadButtonScript;
 		return copyBrick;
 	}
@@ -124,7 +124,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 				// TODO check is action right
 				action = actionChosen;
-				WhenGampadButtonBrick.this.position = position;
+				WhenGamepadButtonBrick.this.position = position;
 				if (whenGamepadButtonScript == null) {
 					whenGamepadButtonScript = new WhenGamepadButtonScript(actionChosen);
 				} else {
@@ -161,7 +161,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 			gamepadPressedBrickTextView.setTextColor(color);
 			gamepadBrickSpinner.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -174,7 +174,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		return new WhenGampadButtonBrick(null);
+		return new WhenGamepadButtonBrick(null);
 	}
 
 	@Override
