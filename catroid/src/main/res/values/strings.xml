@@ -1082,7 +1082,19 @@
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
     <string name="brick_drone_with">with</string>
     <string name="brick_drone_percent_power">% power</string>
+    <!--  -->
+
+    <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_turn">Turn</string>
+    <string name="brick_jumping_sumo_move_forward">Move forward</string>
+    <string name="brick_jumping_sumo_move_backward">Move backward</string>
+    <string name="brick_jumping_sumo_rotate">rotate</string>
+    <string name="brick_jumping_sumo_rotate_left">rotate left</string>
+    <string name="brick_jumping_sumo_rotate_right">rotate right</string>
+    <string-array name="brick_jumping_sump_angle">
+        <item>degree</item>
+        <item>radian</item>
+    </string-array>
     <!--  -->
 
     <!-- Phiro bricks -->

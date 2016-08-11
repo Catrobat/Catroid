@@ -22,27 +22,45 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.util.Log;
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 
-public class JumpingSumoTurnBrick extends JumpingSumoBasicBrick {
-	private static final long serialVersionUID = 1L;
+public class JumpingSumoRotateLeftBrick extends JumpingSumoRotateBrick {
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoTurnAction());
-		return null;
+	private static final long serialVersionUID = 1L;
+	private static final String TAG = JumpingSumoRotateLeftBrick.class.getSimpleName();
+
+	public JumpingSumoRotateLeftBrick(float degree) {
+		super(degree);
+	}
+
+	public JumpingSumoRotateLeftBrick(Formula degree) {
+		super(degree);
 	}
 
 	@Override
 	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_jumping_sumo_turn);
+		return view.getResources().getString(R.string.brick_jumping_sumo_rotate_left);
 	}
 
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		//Log.i(TAG, "Angel: take that way, young boy: " + getAngularDim());
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoRotateLeftAction(sprite,
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)/*, getAngularDim()*/));
+		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+	}
 }

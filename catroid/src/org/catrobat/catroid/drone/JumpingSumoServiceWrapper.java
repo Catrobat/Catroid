@@ -60,10 +60,13 @@ public final class JumpingSumoServiceWrapper {
 	}
 
 	public static boolean checkJumpingSumoAvailability() {
-
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		boolean isJSAvailable = (((requiredResources & Brick.JUMPING_SUMO) > 0) && BuildConfig.FEATURE_PARROT_JS_DRONE_ENABLED);
-		return isJSAvailable; // isDroneSharedPreferenceEnabled()
+		//TODO: TGr: Brick.JUMPING_SUMO in JumpingSumoBasicBrick.java aktivieren und Vebindung (vermutlich) nur einmal aufbauen!!!
+		Log.d(TAG, "Jumping Sumo checked");
+		return true;
+		//return isJSAvailable; // isDroneSharedPreferenceEnabled()
+
 	}
 
 	public static boolean isJSSharedPreferenceEnabled() {

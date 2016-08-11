@@ -44,38 +44,38 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public abstract class DroneMoveBrick extends FormulaBrick {
-	private static final String TAG = DroneMoveBrick.class.getSimpleName();
+public abstract class JumpingSumoMoveBrick extends FormulaBrick {
+	private static final String TAG = JumpingSumoMoveBrick.class.getSimpleName();
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
 
-	public DroneMoveBrick() {
-		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT);
+	public JumpingSumoMoveBrick() {
+		addAllowedBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_SPEED);
 	}
 
-	public DroneMoveBrick(int durationInMilliseconds, int powerInPercent) {
+	public JumpingSumoMoveBrick(int durationInMilliseconds, int powerInPercent) {
 		initializeBrickFields(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
-	public DroneMoveBrick(Formula durationInSeconds, Formula powerInPercent) {
+	public JumpingSumoMoveBrick(Formula durationInSeconds, Formula powerInPercent) {
 		initializeBrickFields(durationInSeconds, powerInPercent);
 	}
 
 	private void initializeBrickFields(Formula durationInSeconds, Formula powerInPercent) {
-		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT);
-		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, durationInSeconds);
-		setFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT, powerInPercent);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_SPEED);
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS, durationInSeconds);
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED, powerInPercent);
 	}
 
 	public void setPower(Formula powerInPercent) {
-		setFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT, powerInPercent);
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED, powerInPercent);
 	}
 
 	public void setTimeToWait(Formula timeToWaitInSeconds) {
-		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, timeToWaitInSeconds);
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS, timeToWaitInSeconds);
 	}
 
 	@Override
@@ -87,10 +87,10 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_drone_move, null);
+		view = View.inflate(context, R.layout.brick_jumping_sumo_move, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_move_checkbox);
+		setCheckboxView(R.id.brick_jumping_sumo_move_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -101,18 +101,18 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 			}
 		});
 
-		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_second);
-		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
-		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-				.setTextFieldId(R.id.brick_drone_move_edit_text_second);
-		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).refreshTextField(view);
+		TextView textTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_prototype_text_view_second);
+		TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_second);
+		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS)
+				.setTextFieldId(R.id.brick_jumping_sumo_move_edit_text_second);
+		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS).refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
+		TextView times = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_text_view_second);
 
-		if (getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).isSingleNumberFormula()) {
+		if (getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS).isSingleNumberFormula()) {
 			try {
 				times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
+						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 			} catch (InterpretationException interpretationException) {
 				Log.d(TAG, "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -124,21 +124,19 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		TextView label = (TextView) view.findViewById(R.id.brick_drone_move_label);
+		TextView label = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_label);
 		label.setText(getBrickLabel(view));
 
 		textTime.setVisibility(View.GONE);
 		editTime.setVisibility(View.VISIBLE);
 		editTime.setOnClickListener(this);
 
-		TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_power);
-		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
-		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
-				.setTextFieldId(R.id.brick_drone_move_edit_text_power);
-		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT).refreshTextField(view);
-		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_power_to_percent);
-		String textPercentString = "% ".concat(view.getResources().getString(R.string.brick_drone_percent_power));
-		textPercent.setText(textPercentString);
+		TextView textPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_prototype_text_view_power);
+		TextView editPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_power);
+		getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)
+				.setTextFieldId(R.id.brick_jumping_sumo_move_edit_text_power);
+		getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED).refreshTextField(view);
+
 		textPower.setVisibility(View.GONE);
 		editPower.setVisibility(View.VISIBLE);
 		editPower.setOnClickListener(this);
@@ -148,37 +146,36 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_drone_move, null);
-		TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_move_label);
+		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_move, null);
+		TextView label = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_move_label);
 		label.setText(getBrickLabel(prototypeView));
-		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
-		TextView textPercent = (TextView) prototypeView.findViewById(R.id.brick_set_power_to_percent);
-		String textPercentString = "% ".concat(prototypeView.getResources().getString(R.string.brick_drone_percent_power));
-		textPercent.setText(textPercentString);
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
-		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
-		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_move_prototype_text_view_second);
 
-		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_move_text_view_second);
+		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_move_prototype_text_view_power);
+		textTime.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+
+		textPower.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+				Utils.convertDoubleToPluralInteger(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
 		return prototypeView;
 	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_move_layout);
+			View layout = view.findViewById(R.id.brick_jumping_sumo_move_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_drone_move_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_power_to_percent);
-			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
-			TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
+			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_label);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_jumping_sumo_set_power_to_percent);
 
-			TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_text_view_power);
-			TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
+			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_text_view_second);
+			TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_second);
+
+			TextView textPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_text_view_power);
+			TextView editPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_edit_text_power);
 
 			textTimeLabel.setTextColor(textTimeLabel.getTextColors().withAlpha(alphaValue));
 
@@ -203,12 +200,12 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 			return;
 		}
 		switch (view.getId()) {
-			case R.id.brick_drone_move_edit_text_second:
-				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+			case R.id.brick_jumping_sumo_move_edit_text_second:
+				FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
 				break;
 
-			case R.id.brick_drone_move_edit_text_power:
-				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_POWER_IN_PERCENT);
+			case R.id.brick_jumping_sumo_move_edit_text_power:
+				FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_SPEED);
 				break;
 
 			default:
@@ -219,12 +216,13 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	@Override
 	public int getRequiredResources() {
 		Log.i(TAG, "getRequiredResources"); //not called
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+		return super.getRequiredResources();
+		//return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
 	}
 
 	protected abstract String getBrickLabel(View view);
