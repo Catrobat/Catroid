@@ -53,6 +53,7 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.List;
@@ -235,6 +236,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void calculateScreenSizes() {
+		Utils.updateScreenWidthAndHeight(getContext());
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
