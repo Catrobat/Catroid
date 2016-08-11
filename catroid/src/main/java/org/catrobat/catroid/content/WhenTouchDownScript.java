@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 public class WhenTouchDownScript extends Script {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = WhenTouchDownScript.class.getSimpleName();
 
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite) {
@@ -54,7 +57,9 @@ public class WhenTouchDownScript extends Script {
 		ArrayList<Brick> brickList = getBrickList();
 		for (Brick brick : brickList) {
 			resources |= brick.getRequiredResources();
+			//Log.i(TAG, "getRequiredResources loop");
 		}
+		//Log.i(TAG, "getRequiredResources");
 		return resources;
 	}
 }

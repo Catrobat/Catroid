@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.bricks.Brick;
@@ -42,6 +44,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Script implements Serializable {
+	private static final String TAG = Script.class.getSimpleName();
 
 	private static final long serialVersionUID = 1L;
 	protected ArrayList<Brick> brickList;
@@ -178,6 +181,7 @@ public abstract class Script implements Serializable {
 				resources |= brick.getRequiredResources();
 			}
 		}
+		//Log.i(TAG, "getRequiredResources");
 		return resources;
 	}
 

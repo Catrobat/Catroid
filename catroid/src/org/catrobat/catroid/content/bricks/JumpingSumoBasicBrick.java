@@ -27,12 +27,14 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
-public abstract class DroneBasicControlBrick extends BrickBaseType {
-	private static final String TAG = DroneBasicControlBrick.class.getSimpleName();
+public abstract class JumpingSumoBasicBrick extends BrickBaseType {
+
+	private static final String TAG = JumpingSumoBasicBrick.class.getSimpleName();
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
@@ -42,11 +44,20 @@ public abstract class DroneBasicControlBrick extends BrickBaseType {
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_drone_control, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+		view = View.inflate(context, R.layout.brick_jumping_sumo, null);
+		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_basic_control_checkbox);
-		TextView label = (TextView) view.findViewById(R.id.ValueTextViewControl);
+		setCheckboxView(R.id.brick_jumping_sumo_basic_checkbox);
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
+
+		TextView label = (TextView) view.findViewById(R.id.ValueTextView);
 		label.setText(getBrickLabel(view));
 
 		return view;
@@ -54,18 +65,35 @@ public abstract class DroneBasicControlBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_control, null);
+		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo, null);
 
-		TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextViewControl);
+		TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextView);
 		label.setText(getBrickLabel(prototypeView));
 
 		return prototypeView;
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		if (view != null) {
+			View layout = view.findViewById(R.id.brick_jumping_sumo_basic_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = alphaValue;
+
+			TextView label = (TextView) view.findViewById(R.id.ValueTextView);
+			label.setText(getBrickLabel(view));
+		}
+
+		return view;
+	}
+
+	@Override
 	public int getRequiredResources() {
-		Log.i(TAG, "getRequiredResources"); //not called
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+		Log.i(TAG, "getRequiredResources");
+		//TODO: TGr: Brick.JUMPING_SUMO aktivieren, in JumpingSumoServiceWrapper.java verwenden und Vebindung (vermutlich) nur einmal aufbauen!!!
+		return super.getRequiredResources();
+		//return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 
 	protected abstract String getBrickLabel(View view);

@@ -43,6 +43,8 @@ import android.widget.EditText;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_ERROR_ENUM;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -55,6 +57,8 @@ import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.drone.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.JumpingSumoInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
@@ -87,6 +91,8 @@ public class StageActivity extends AndroidApplication {
 	private static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
+	private JumpingSumoDeviceController controller;
+	private ARDeviceController deviceController;
 
 	AndroidApplicationConfiguration configuration = null;
 
@@ -97,6 +103,8 @@ public class StageActivity extends AndroidApplication {
 
 		numberOfSpritesCloned = 0;
 		setupAskHandler();
+		controller = JumpingSumoDeviceController.getInstance();
+
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -227,6 +235,7 @@ public class StageActivity extends AndroidApplication {
 		}
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
+		jumpingSumoDisconnect();
 		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
 		CameraManager.getInstance().pausePreview();
@@ -251,12 +260,30 @@ public class StageActivity extends AndroidApplication {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		FlashUtil.pauseFlash();
+		jumpingSumoDisconnect();
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
 
 		CameraManager.getInstance().pausePreviewAsync();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+	}
+
+	public boolean jumpingSumoDisconnect() {
+		boolean success = false;
+		if (!controller.isConnected()) {
+			return true;
+		}
+		deviceController = controller.getDeviceController();
+		if (deviceController != null) {
+			ARCONTROLLER_ERROR_ENUM error = deviceController.stop();
+			if (error == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
+				success = true;
+				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+				controller.setDeviceController(null);
+			}
+		}
+		return success;
 	}
 
 	public void resume() {

@@ -168,13 +168,13 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		Log.i(TAG, "JumpingSumo PS init1");
 		if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
-			Log.i(TAG, "JumpingSumo PS init2");
+			Log.d(TAG, "Jumping Sumo Service Wrapper init");
 			CatroidApplication.loadSDKLib();
-			if(CatroidApplication.parrotJSLibrariesLoaded) {
+			if (CatroidApplication.parrotJSLibrariesLoaded) {
 				jumpingSumoInitializer = getJumpingSumoInitialiser();
 				jumpingSumoInitializer.initialise();
+				Log.d(TAG, "JS Initializer done");
 			}
 		}
 
@@ -298,10 +298,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityResume();
 		}
+		/*
 		if (jumpingSumoInitializer != null) {
 			jumpingSumoInitializer.onPrestageActivityResume();
 		}
-
+*/
 		super.onResume();
 		if (requiredResourceCounter == 0 && failedResources.isEmpty()) {
 			Log.d(TAG, "onResume()");
@@ -314,10 +315,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityPause();
 		}
+		/*
 		if (jumpingSumoInitializer != null) {
 			jumpingSumoInitializer.onPrestageActivityPause();
 		}
-
+*/
 		super.onPause();
 	}
 

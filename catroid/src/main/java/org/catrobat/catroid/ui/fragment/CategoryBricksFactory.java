@@ -78,6 +78,9 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -494,15 +497,9 @@ public class CategoryBricksFactory {
 	private List<Brick> setupJumpingSumoCategoryList() {
 		List<Brick> jumpingSumoBrickList = new ArrayList<>();
 		jumpingSumoBrickList.add(new JumpingSumoTurnBrick());
-
-		/*
-			 Deprecated
-		     droneBrickList.add(new DroneAdvancedConfigBrick());
-		*/
-
-		// Only for demo purpose
-/*		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
-				BrickValues.STRING_VALUE));*/
+		jumpingSumoBrickList.add(new JumpingSumoMoveForwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		jumpingSumoBrickList.add(new JumpingSumoMoveBackwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		jumpingSumoBrickList.add(new JumpingSumoRotateLeftBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 
 		return jumpingSumoBrickList;
 	}

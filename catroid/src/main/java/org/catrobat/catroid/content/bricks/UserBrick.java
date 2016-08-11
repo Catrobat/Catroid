@@ -68,6 +68,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
+		Log.i(TAG, "getRequiredResources");  //not called
 		return definitionBrick.getRequiredResources();
 	}
 

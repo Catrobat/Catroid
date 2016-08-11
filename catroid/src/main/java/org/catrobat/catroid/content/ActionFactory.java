@@ -81,6 +81,9 @@ import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
+import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
+import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
 import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
@@ -139,6 +142,7 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -895,6 +899,30 @@ public class ActionFactory extends Actions {
 
 	public Action createJumpingSumoTurnAction() {
 		return action(JumpingSumoTurnAction.class);
+	}
+
+	public Action createJumpingSumoMoveForwardAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		JumpingSumoMoveForwardAction action = action(JumpingSumoMoveForwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public Action createJumpingSumoMoveBackwardAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		JumpingSumoMoveBackwardAction action = action(JumpingSumoMoveBackwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public Action createJumpingSumoRotateLeftAction(Sprite sprite, Formula degree/*, JumpingSumoRotateBrick.AngularDimension dim*/) {
+		JumpingSumoRotateLeftAction action = action(JumpingSumoRotateLeftAction.class);
+		action.setSprite(sprite);
+		//action.setAngularDimension(dim);
+		action.setDegree(degree);
+		return action;
 	}
 
 	public Action createSetTextAction(Sprite sprite, Formula x, Formula y, Formula text) {
