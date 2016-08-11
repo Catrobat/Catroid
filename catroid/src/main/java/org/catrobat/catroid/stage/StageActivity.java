@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.JumpingSumoInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
@@ -233,6 +234,7 @@ public class StageActivity extends AndroidApplication {
 		}
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
+		jumpingSumoDisconnect();
 		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
 		CameraManager.getInstance().pausePreview();
@@ -257,6 +259,7 @@ public class StageActivity extends AndroidApplication {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		FlashUtil.pauseFlash();
+		jumpingSumoDisconnect();
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
 
