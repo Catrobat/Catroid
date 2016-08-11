@@ -1120,4 +1120,9 @@ public final class StorageHandler {
 		}
 		return path.delete();
 	}
+
+	public void updateCodefileOnDownload(String projectName) {
+		File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+		xstream.updateCollisionReceiverBrickMessage(projectCodeFile);
+	}
 }

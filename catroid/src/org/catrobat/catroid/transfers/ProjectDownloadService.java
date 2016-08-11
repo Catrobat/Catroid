@@ -88,6 +88,7 @@ public class ProjectDownloadService extends IntentService {
 					StorageHandler.getInstance().saveProject(projectTBRenamed);
 				}
 			}
+			StorageHandler.getInstance().updateCodefileOnDownload(projectName);
 			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
@@ -101,7 +102,6 @@ public class ProjectDownloadService extends IntentService {
 			showToast(R.string.error_project_download, true);
 			return;
 		}
-
 		showToast(R.string.notification_download_finished, false);
 	}
 
