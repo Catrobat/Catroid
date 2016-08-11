@@ -76,6 +76,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
+			((ImageButton) findViewById(R.id.cast_button_stage_activity)).setVisibility(View.VISIBLE);
+			((ImageButton) findViewById(R.id.cast_button_stage_activity)).setOnClickListener(this);
 		}
 	}
 
@@ -99,6 +101,9 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				break;
 			case R.id.stage_dialog_button_screenshot:
 				makeScreenshot();
+				break;
+			case R.id.cast_button_stage_activity:
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(stageActivity);
 				break;
 			default:
 				Log.w(TAG, "Unimplemented button clicked! This shouldn't happen!");
