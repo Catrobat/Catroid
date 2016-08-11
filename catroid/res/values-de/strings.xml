@@ -1016,9 +1016,6 @@
   <string name="deletion_alert_text">Löschen einer Variable, die noch in Gebrauch ist, ist gefährlich! Bist du sicher?</string>
   <string name="deletion_alert_yes">Ja, trotzdem löschen!</string>
   <string name="deletion_alert_no">Nein.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code ist abgestürzt!</string>
-  <string name="crashed_message">Pocked Code ist abgestürzt und musste neu gestartet werden.</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">Dein Programm wird nun auf unsere Community Seite hochgeladen. Hier können andere dein Programm verwenden und herunterladen. Du kannst dein Programm auch als eigenständige App herunterladen.</string>
   <string name="progress_upload_dialog_show_program">Programm anzeigen</string>

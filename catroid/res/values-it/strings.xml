@@ -1010,9 +1010,6 @@
   <string name="deletion_alert_text">Eliminare di una variabile ancora in uso è pericoloso! Sei sicuro?</string>
   <string name="deletion_alert_yes">Sì, elimina comunque!</string>
   <string name="deletion_alert_no">No.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code si è bloccato!</string>
-  <string name="crashed_message">Pocket Code si è bloccato e necessita di essere riavviato.</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">Il programma viene caricato sulla pagina della community dove gli altri lo possono usare
         e scaricare.

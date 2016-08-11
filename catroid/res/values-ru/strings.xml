@@ -1022,9 +1022,6 @@
   <string name="deletion_alert_text">Удаление переменной, которая до сих пор используется, опасно! Уверен?</string>
   <string name="deletion_alert_yes">Да, удалить все равно!</string>
   <string name="deletion_alert_no">Нет.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code has crashed!</string>
-  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
         and download it.

@@ -1010,9 +1010,6 @@
   <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
   <string name="deletion_alert_yes">Yes, delete anyway!</string>
   <string name="deletion_alert_no">No.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code has crashed!</string>
-  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
         and download it.
