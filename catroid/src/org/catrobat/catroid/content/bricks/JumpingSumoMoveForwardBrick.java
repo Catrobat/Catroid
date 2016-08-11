@@ -27,22 +27,38 @@ import android.view.View;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 
-public class JumpingSumoTurnBrick extends JumpingSumoBasicBrick {
+public class JumpingSumoMoveForwardBrick extends JumpingSumoMoveBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoTurnAction());
-		return null;
+	public JumpingSumoMoveForwardBrick(int durationInMilliseconds, int powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
+	}
+
+	public JumpingSumoMoveForwardBrick(Formula durationInMilliseconds, Formula powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
 	}
 
 	@Override
 	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_jumping_sumo_turn);
+		return view.getResources().getString(R.string.brick_jumping_sumo_move_forward);
 	}
 
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveForwardAction(sprite,
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)));
+		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+	}
 }

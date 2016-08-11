@@ -27,7 +27,6 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.parrot.arsdk.ARSDK;
 import com.parrot.freeflight.settings.ApplicationSettings;
 
 public class CatroidApplication extends MultiDexApplication {
@@ -87,13 +86,41 @@ public class CatroidApplication extends MultiDexApplication {
 		}
 
 		try {
-			ARSDK.loadSDKLibs();
-			parrotLibrariesLoaded = true;
+			//ARSDK.loadSDKLibs();
+			System.loadLibrary("curl");
+			System.loadLibrary("json");
+			System.loadLibrary("arsal");
+			System.loadLibrary("arsal_android");
+			System.loadLibrary("arnetworkal");
+			System.loadLibrary("arnetworkal_android");
+			System.loadLibrary("arnetwork");
+			System.loadLibrary("arnetwork_android");
+			System.loadLibrary("arcommands");
+			System.loadLibrary("arcommands_android");
+			System.loadLibrary("arstream");
+			System.loadLibrary("arstream_android");
+			System.loadLibrary("arstream2");
+			System.loadLibrary("arstream2_android");
+			System.loadLibrary("ardiscovery");
+			System.loadLibrary("ardiscovery_android");
+			System.loadLibrary("arutils");
+			System.loadLibrary("arutils_android");
+			System.loadLibrary("ardatatransfer");
+			System.loadLibrary("ardatatransfer_android");
+			System.loadLibrary("armedia");
+			System.loadLibrary("armedia_android");
+			System.loadLibrary("arupdater");
+			System.loadLibrary("arupdater_android");
+			System.loadLibrary("armavlink");
+			System.loadLibrary("armavlink_android");
+			System.loadLibrary("arcontroller");
+			System.loadLibrary("arcontroller_android");
+			parrotJSLibrariesLoaded = true;
 		} catch (UnsatisfiedLinkError e) {
 			Log.e(TAG, Log.getStackTraceString(e));
-			parrotLibrariesLoaded = false;
+			parrotJSLibrariesLoaded = false;
 		}
-		return parrotLibrariesLoaded;
+		return parrotJSLibrariesLoaded;
 	}
 
 	public static Context getAppContext() {

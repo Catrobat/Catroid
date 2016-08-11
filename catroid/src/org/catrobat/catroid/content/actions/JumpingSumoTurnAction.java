@@ -25,27 +25,39 @@ package org.catrobat.catroid.content.actions;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
-import org.catrobat.catroid.drone.JumpingSumoServiceWrapper;
+import org.catrobat.catroid.drone.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.JumpingSumoPosition;
 
 public class JumpingSumoTurnAction extends TemporalAction {
 
-	private JumpingSumoServiceWrapper service;
-
-	public JumpingSumoTurnAction() {
-		service = JumpingSumoServiceWrapper.getInstance();
-	}
+	private ARDeviceController deviceController;
+	private JumpingSumoDeviceController controller;
+	private static final String TAG = JumpingSumoTurnAction.class.getSimpleName();
 
 	@Override
 	protected void begin() {
 		super.begin();
-
-		if (service.getDroneService() != null) {
-			service.getDroneService().doLeftFlip();
+		controller = JumpingSumoDeviceController.getInstance();
+		deviceController = controller.getDeviceController();
+		JumpingSumoPosition position = JumpingSumoPosition.getInstance();
+		boolean pos = position.getPostion();
+		if (deviceController != null) {
+			if (pos) {
+				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_KICKER);
+				Log.d(TAG, "send turn command JS down");
+				position.setPostion(false);
+			} else {
+				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_JUMPER);
+				Log.d(TAG, "send turn command JS up");
+				position.setPostion(true);
+			}
+		} else {
+			Log.d(TAG, "error: send turn command JS");
 		}
 	}
-
 	@Override
 	protected void update(float percent) {
 		//Nothing to do

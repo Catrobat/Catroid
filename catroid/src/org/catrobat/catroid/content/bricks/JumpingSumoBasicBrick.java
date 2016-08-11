@@ -32,9 +32,9 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
-public abstract class DroneBasicLookBrick extends BrickBaseType {
+public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 
-	private static final String TAG = DroneBasicLookBrick.class.getSimpleName();
+	private static final String TAG = JumpingSumoBasicBrick.class.getSimpleName();
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
@@ -44,10 +44,10 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_drone_look, null);
+		view = View.inflate(context, R.layout.brick_jumping_sumo, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_basic_look_checkbox);
+		setCheckboxView(R.id.brick_jumping_sumo_basic_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -57,7 +57,7 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 			}
 		});
 
-		TextView label = (TextView) view.findViewById(R.id.ValueTextViewLook);
+		TextView label = (TextView) view.findViewById(R.id.ValueTextView);
 		label.setText(getBrickLabel(view));
 
 		return view;
@@ -65,9 +65,9 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_look, null);
+		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo, null);
 
-		TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextViewLook);
+		TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextView);
 		label.setText(getBrickLabel(prototypeView));
 
 		return prototypeView;
@@ -76,21 +76,24 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_basic_look_layout);
+			View layout = view.findViewById(R.id.brick_jumping_sumo_basic_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = alphaValue;
 
-			TextView label = (TextView) view.findViewById(R.id.ValueTextViewLook);
+			TextView label = (TextView) view.findViewById(R.id.ValueTextView);
 			label.setText(getBrickLabel(view));
 		}
+
 		return view;
 	}
 
 	@Override
 	public int getRequiredResources() {
-		Log.i(TAG, "getRequiredResources"); //not called
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+		Log.i(TAG, "getRequiredResources");
+		//TODO: TGr: Brick.JUMPING_SUMO aktivieren, in JumpingSumoServiceWrapper.java verwenden und Vebindung (vermutlich) nur einmal aufbauen!!!
+		return super.getRequiredResources();
+		//return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 
 	protected abstract String getBrickLabel(View view);

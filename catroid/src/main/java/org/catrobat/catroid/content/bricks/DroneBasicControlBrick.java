@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 
 public abstract class DroneBasicControlBrick extends BrickBaseType {
+	private static final String TAG = DroneBasicControlBrick.class.getSimpleName();
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
@@ -86,6 +88,7 @@ public abstract class DroneBasicControlBrick extends BrickBaseType {
 
 	@Override
 	public int getRequiredResources() {
+		Log.i(TAG, "getRequiredResources"); //not called
 		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 

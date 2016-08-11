@@ -22,33 +22,36 @@
  */
 package org.catrobat.catroid.drone;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog.Builder;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
-import android.os.AsyncTask.Status;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DICTIONARY_KEY_ENUM;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_ERROR_ENUM;
+import com.parrot.arsdk.arcontroller.ARControllerArgumentDictionary;
+import com.parrot.arsdk.arcontroller.ARControllerCodec;
+import com.parrot.arsdk.arcontroller.ARControllerDictionary;
+import com.parrot.arsdk.arcontroller.ARControllerException;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
+import com.parrot.arsdk.arcontroller.ARDeviceControllerListener;
+import com.parrot.arsdk.arcontroller.ARDeviceControllerStreamListener;
+import com.parrot.arsdk.arcontroller.ARFeatureCommon;
+import com.parrot.arsdk.arcontroller.ARFrame;
+import com.parrot.arsdk.ardiscovery.ARDISCOVERY_PRODUCT_ENUM;
+import com.parrot.arsdk.ardiscovery.ARDiscoveryDevice;
+import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceNetService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
-import com.parrot.freeflight.receivers.DroneAvailabilityDelegate;
-import com.parrot.freeflight.receivers.DroneAvailabilityReceiver;
-import com.parrot.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
-import com.parrot.freeflight.receivers.DroneConnectionChangedReceiver;
-import com.parrot.freeflight.receivers.DroneReadyReceiver;
-import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
+import com.parrot.arsdk.ardiscovery.ARDiscoveryException;
+import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
 import com.parrot.freeflight.service.DroneControlService;
-import com.parrot.freeflight.service.intents.DroneStateManager;
-import com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
@@ -61,26 +64,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.CatroidApplication.getAppContext;
-import static org.catrobat.catroid.ui.SettingsActivity.getDronePreferenceMapping;
 
-public class JumpingSumoInitializer implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
-		DroneAvailabilityDelegate {
 
-	public static final int DRONE_BATTERY_THRESHOLD = 10;
+public class JumpingSumoInitializer {
+
 
 	private static DroneControlService droneControlService = null;
-	private BroadcastReceiver droneReadyReceiver = null;
-	private BroadcastReceiver droneStateReceiver = null;
-	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
-	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
 
-	private final List<ARDiscoveryDeviceService> mDronesList = new ArrayList<>();
-	public JumpingSumoDiscoverer mJSDiscoverer;
+	private static final List<ARDiscoveryDeviceService> DRONELIST = new ArrayList<>();
+	public JumpingSumoDiscoverer jsDiscoverer;
+
+	private ARDeviceController deviceController;
+
+	private final Handler handler = new Handler(getAppContext().getMainLooper());
+
+	private final List<Listener> listeners = new ArrayList<>();
 
 	private static final String TAG = JumpingSumoInitializer.class.getSimpleName();
 
 	private PreStageActivity prestageStageActivity;
+	private ARCONTROLLER_DEVICE_STATE_ENUM mstate = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
 
+	public interface Listener {
+		/**
+		 * Called when the battery charge changes
+		 * Called in the main thread
+		 * @param batteryPercentage the battery remaining (in percent)
+		 */
+		void onBatteryChargeChanged(int batteryPercentage);
+
+
+		/**
+		 * Called when the video decoder should be configured
+		 * Called on a separate thread
+		 * @param codec the codec to configure the decoder with
+		 */
+		void configureDecoder(ARControllerCodec codec);
+
+		/**
+		 * Called when a video frame has been received
+		 * Called on a separate thread
+		 * @param frame the video frame
+		 */
+		void onFrameReceived(ARFrame frame);
+
+		/**
+		 * Called before medias will be downloaded
+		 * Called in the main thread
+		 * @param nbMedias the number of medias that will be downloaded
+		 */
+
+	}
 
 	public JumpingSumoInitializer(PreStageActivity prestageStageActivity) {
 		this.prestageStageActivity = prestageStageActivity;
@@ -95,44 +129,127 @@ public class JumpingSumoInitializer implements DroneReadyReceiverDelegate, Drone
 				TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
 	}
 
+	public boolean disconnect() {
+		boolean success = false;
+		if (deviceController != null) {
+			ARCONTROLLER_ERROR_ENUM error = deviceController.stop();
+			if (error == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
+				success = true;
+				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+				controller.setDeviceController(null);
+			}
+		}
+		return success;
+	}
+
 	public void initialise() {
-		if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
 
-			Log.i(TAG, "JumpingSumo init1");
-
-			mJSDiscoverer = new JumpingSumoDiscoverer(getAppContext());
+		Log.d(TAG, "Jumping Sumo init start");
+		//if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
+			jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
 
 			if (checkRequirements()) {
-				Log.i(TAG, "JumpingSumo init2");
-				//TODO whatever TGr
 				//checkDroneConnectivity();
-
-				mJSDiscoverer.setup();
-				mJSDiscoverer.addListener(mDiscovererListener);
+				jsDiscoverer.setup();
+				jsDiscoverer.addListener(discovererListener);
+				Log.d(TAG, "Jumping Sumo jsDiscoverer started!!!");
 			}
 
 
-		} else {
-			showTermsOfUseDialog();
+		//} else {
+		//	showTermsOfUseDialog();
+		//}
+	}
+
+	private void notifyConfigureDecoder(ARControllerCodec codec) {
+		List<Listener> listenersCpy = new ArrayList<>(listeners);
+		for (Listener listener : listenersCpy) {
+			listener.configureDecoder(codec);
 		}
 	}
 
+	private void notifyBatteryChanged(int battery) {
+		List<Listener> listenersCpy = new ArrayList<>(listeners);
+		for (Listener listener : listenersCpy) {
+			listener.onBatteryChargeChanged(battery);
+		}
+		Log.d(TAG, "Jumping Sumo Battery: " + battery);
+		//TODO TGr 3???
+		if (battery < 3) {
+			disconnect();
+			JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+			controller.setDeviceController(null);
+			Log.i(TAG, "Jumping Sumo Battery too low");
+		}
+	}
 
+	private void notifyFrameReceived(ARFrame frame) {
+		List<Listener> listenersCpy = new ArrayList<>(listeners);
+		for (Listener listener : listenersCpy) {
+			listener.onFrameReceived(frame);
+		}
 
-	private final JumpingSumoDiscoverer.Listener mDiscovererListener = new  JumpingSumoDiscoverer.Listener() {
+	}
+
+	private final JumpingSumoDiscoverer.Listener discovererListener = new  JumpingSumoDiscoverer.Listener() {
 
 		@Override
 		public void onDronesListUpdated(List<ARDiscoveryDeviceService> dronesList) {
-			mDronesList.clear();
-			mDronesList.addAll(dronesList);
-			Log.i(TAG, "JumpingSumo init3");
-			Log.i(TAG, "JumpingSumo Liste der dronen: " + dronesList.size());
+			JumpingSumoInitializer.DRONELIST.clear();
+			JumpingSumoInitializer.DRONELIST.addAll(dronesList);
+			Log.d(TAG, "JumpingSumo: " + dronesList.size() + " Drones found");
 			if (dronesList.size() > 0) {
-				Log.i(TAG, "JumpingSumo und sie heisst: " + dronesList.get(0));
+				Log.i(TAG, "The Name of the first JumpingSumo is: " + dronesList.get(0));
+
+				ARDiscoveryDeviceService service = dronesList.get(0);
+				Log.d(TAG, "Jumping Sumo service name is: " + service.getName());
+				Log.d(TAG, "Jumping Sumo service ProductID is: " + service.getProductID());
+				ARDISCOVERY_PRODUCT_ENUM product = ARDiscoveryService.getProductFromProductID(service.getProductID());
+				Log.d(TAG, "Jumping Sumo product name is: " + product.name());
+
+				ARDiscoveryDevice discoveryDevice = createDiscoveryDevice(service, ARDISCOVERY_PRODUCT_ENUM.ARDISCOVERY_PRODUCT_JS);
+				deviceController = createDeviceController(discoveryDevice);
+
+				ARCONTROLLER_ERROR_ENUM error = deviceController.start();
+				Log.d(TAG, "arccontroller error: " + error);
+
+				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+				controller.setDeviceController(deviceController);
+
+				Log.d(TAG, "mstate: " + mstate);
 			}
 		}
 	};
 
+	private ARDeviceController createDeviceController(@NonNull ARDiscoveryDevice discoveryDevice) {
+		ARDeviceController deviceController = null;
+		try {
+			deviceController = new ARDeviceController(discoveryDevice);
+
+			deviceController.addListener(deviceControllerListener);
+			deviceController.addStreamListener(streamListener);
+		} catch (ARControllerException e) {
+			Log.e(TAG, "Exception", e);
+		}
+
+		return deviceController;
+	}
+
+	private ARDiscoveryDevice createDiscoveryDevice(@NonNull ARDiscoveryDeviceService service, ARDISCOVERY_PRODUCT_ENUM productType) {
+		ARDiscoveryDevice device = null;
+		try {
+			device = new ARDiscoveryDevice();
+
+			ARDiscoveryDeviceNetService netDeviceService = (ARDiscoveryDeviceNetService) service.getDevice();
+			device.initWifi(productType, netDeviceService.getName(), netDeviceService.getIp(), netDeviceService.getPort());
+
+		} catch (ARDiscoveryException e) {
+			Log.e(TAG, "Exception", e);
+			Log.e(TAG, "Error: " + e.getError());
+		}
+
+		return device;
+	}
 
 	public boolean checkRequirements() {
 
@@ -189,51 +306,6 @@ public class JumpingSumoInitializer implements DroneReadyReceiverDelegate, Drone
 		}
 	};
 
-	@Override
-	public void onDroneReady() {
-		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
-		int droneBatteryCharge = droneControlService.getDroneNavData().batteryStatus;
-		if (droneControlService != null) {
-			if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
-				String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
-						droneBatteryCharge);
-				showUnCancellableErrorDialog(prestageStageActivity, dialogTitle,
-						prestageStageActivity.getString(R.string.error_drone_low_battery));
-				return;
-			}
-			DroneConfigManager.getInstance().setDroneConfig(getDronePreferenceMapping(getAppContext()));
-			droneControlService.flatTrim();
-
-			prestageStageActivity.resourceInitialized();
-		}
-	}
-
-	@Override
-	public void onDroneConnected() {
-		Log.d(getClass().getSimpleName(), "onDroneConnected()");
-		droneControlService.requestConfigUpdate();
-	}
-
-	@Override
-	public void onDroneDisconnected() {
-		Log.d(getClass().getSimpleName(), "onDroneDisconnected()");
-	}
-
-	@Override
-	public void onDroneAvailabilityChanged(boolean isDroneOnNetwork) {
-		// Here we know that the drone is on the network
-		if (isDroneOnNetwork) {
-			Intent startService = new Intent(prestageStageActivity, DroneControlService.class);
-			prestageStageActivity.startService(startService);
-
-			prestageStageActivity.bindService(new Intent(prestageStageActivity, DroneControlService.class),
-					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
-		} else {
-			showUnCancellableErrorDialog(prestageStageActivity,
-					prestageStageActivity.getString(R.string.error_no_drone_connected_title),
-					prestageStageActivity.getString(R.string.error_no_drone_connected));
-		}
-	}
 
 	public void onPrestageActivityDestroy() {
 		if (droneControlService != null) {
@@ -242,56 +314,68 @@ public class JumpingSumoInitializer implements DroneReadyReceiverDelegate, Drone
 		}
 	}
 
-	public void onPrestageActivityResume() {
 
-		droneReadyReceiver = new DroneReadyReceiver(this);
-		droneStateReceiver = new DroneAvailabilityReceiver(this);
-		droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+	private final ARDeviceControllerListener deviceControllerListener = new ARDeviceControllerListener() {
+		@Override
+		public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
+			Log.i(TAG, "new State is " + newState);
+			mstate = newState;
 
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
-				.getApplicationContext());
-		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
-		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
-				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
-		manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
-	}
-
-	@SuppressLint("NewApi")
-	public void checkDroneConnectivity() {
-
-		if (checkDroneConnectionTask != null && checkDroneConnectionTask.getStatus() != Status.FINISHED) {
-			checkDroneConnectionTask.cancel(true);
-		}
-
-		checkDroneConnectionTask = new CheckDroneNetworkAvailabilityTask() {
-			@Override
-			protected void onPostExecute(Boolean result) {
-				onDroneAvailabilityChanged(result);
+			if ((mstate.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+				jsDiscoverer.removeListener(discovererListener);
 			}
-		};
 
-		checkDroneConnectionTask.executeOnExecutor(CheckDroneNetworkAvailabilityTask.THREAD_POOL_EXECUTOR,
-				prestageStageActivity);
-	}
-
-	public void onPrestageActivityPause() {
-
-		if (droneControlService != null) {
-			droneControlService.pause();
+/*
+			if((deviceController != null) && (mstate.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))){
+				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_KICKER);
+				Log.i(TAG, "State Changer: Jumping Sumo Command send");
+			}
+*/
 		}
 
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
-				.getApplicationContext());
-		manager.unregisterReceiver(droneReadyReceiver);
-		manager.unregisterReceiver(droneConnectionChangeReceiver);
-		manager.unregisterReceiver(droneStateReceiver);
 
-		if (taskRunning(checkDroneConnectionTask)) {
-			checkDroneConnectionTask.cancelAnyFtpOperation();
+		@Override
+		public void onExtensionStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARDISCOVERY_PRODUCT_ENUM product, String name, ARCONTROLLER_ERROR_ENUM error) {
+
 		}
-	}
 
-	private boolean taskRunning(AsyncTask<?, ?, ?> checkMediaTask2) {
-		return !(checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED);
-	}
+		@Override
+		public void onCommandReceived(ARDeviceController deviceController, ARCONTROLLER_DICTIONARY_KEY_ENUM commandKey, ARControllerDictionary elementDictionary) {
+			// if event received is the battery update
+
+			if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED) && (elementDictionary != null)) {
+				Log.i(TAG, "commandKey battery");
+				ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+				if (args != null) {
+					final int battery = (Integer) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED_PERCENT);
+					handler.post(new Runnable() {
+						@Override
+						public void run() {
+							notifyBatteryChanged(battery);
+						}
+					});
+				}
+			}
+
+		}
+	};
+
+	private final ARDeviceControllerStreamListener streamListener = new ARDeviceControllerStreamListener() {
+		@Override
+		public ARCONTROLLER_ERROR_ENUM configureDecoder(ARDeviceController deviceController, final ARControllerCodec codec) {
+			notifyConfigureDecoder(codec);
+			return ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK;
+		}
+
+		@Override
+		public ARCONTROLLER_ERROR_ENUM onFrameReceived(ARDeviceController deviceController, final ARFrame frame) {
+			notifyFrameReceived(frame);
+			return ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK;
+		}
+
+		@Override
+		public void onFrameTimeout(ARDeviceController deviceController) {
+		}
+	};
+
 }
