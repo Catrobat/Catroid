@@ -401,8 +401,9 @@
     <string name="new_project_empty">Create empty Program</string>
     <string name="new_project_default">Create example Program</string>
     <string name="new_project_default_drone">Create example Drone Program</string>
+    <string name="new_project_default_cast">Create example Cast Program</string>
     <string name="project_orientation_title">Orientation:</string>
-    <string name="project_select_screen_title">Screen:</string>
+    <string name="project_select_screen_title">Screen</string>
     <!--  -->
 
 
@@ -649,6 +650,22 @@
     <string name="default_project_sprites_bird_name_wing_down">Bird Wings down</string>
     <string name="default_project_sprites_tweet_1">Tweet1</string>
     <string name="default_project_sprites_tweet_2">Tweet2</string>
+
+    <!-- defaultCastValues -->
+    <string name="default_cast_project_name">My first cast program</string>
+    <string name="default_cast_project_background_name">Background</string>
+    <string name="default_cast_project_cloud_name">Clouds</string>
+    <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
+    <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
+    <string name="default_cast_project_sprites_bird_name">Bird</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
+    <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
+    <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
+    <string name="default_cast_project_var_direction">direction</string>
+
 
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>

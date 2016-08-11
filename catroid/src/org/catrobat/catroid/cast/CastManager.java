@@ -55,13 +55,12 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
 import org.catrobat.catroid.ui.adapter.CastDevicesAdapter;
+import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.prefs.Preferences;
 
 public final class CastManager {
 
@@ -156,7 +155,7 @@ public final class CastManager {
 	}
 
 	public synchronized void setCallback(int callbackFlag) {
-		if(callback == null) {
+		if (callback == null) {
 			callback = new MyMediaRouterCallback();
 		}
 		mediaRouter.addCallback(mediaRouteSelector, callback, callbackFlag);
@@ -208,7 +207,7 @@ public final class CastManager {
 			return;
 		}
 
-		if(gamepadActivity == null) {
+		if (gamepadActivity == null) {
 			return;
 		}
 

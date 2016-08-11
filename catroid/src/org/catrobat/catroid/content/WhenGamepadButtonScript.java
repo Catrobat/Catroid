@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 
+
 public class WhenGamepadButtonScript extends Script {
 
 	private static final long serialVersionUID = 1L;

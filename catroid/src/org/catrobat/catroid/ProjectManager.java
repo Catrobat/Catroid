@@ -308,8 +308,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else if (castEnabled) {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_CAST);
-			}
-			else {
+			} else {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);
 			}

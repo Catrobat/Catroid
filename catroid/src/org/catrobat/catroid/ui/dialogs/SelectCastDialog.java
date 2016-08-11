@@ -30,9 +30,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.media.MediaRouter;
-import android.widget.ArrayAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,7 +41,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 
-import java.util.List;
 
 public class SelectCastDialog extends DialogFragment {
 
@@ -64,7 +63,6 @@ public class SelectCastDialog extends DialogFragment {
 	public void onDismiss(DialogInterface dialog) {
 		CastManager.getInstance().setCallback();
 		super.onDismiss(dialog);
-		//CastManager.getInstance().addCallback();
 	}
 
 	@Override
@@ -98,7 +96,6 @@ public class SelectCastDialog extends DialogFragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				synchronized (this) {
 					MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(position);
-					//CastManager.getInstance().addCallback();
 					CastManager.getInstance().setCallback();
 					CastManager.getInstance().startCastButtonAnimation();
 					CastManager.getInstance().selectRoute(routeInfo);
