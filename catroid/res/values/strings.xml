@@ -589,8 +589,8 @@
     <string name="brick_when_started">When program started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
-    <string name="brick_when_gamepad_button" >When gamepad button</string >
-    <string name="brick_when_gamepad_button_pressed" >pressed</string >
+    <string name="brick_when_gamepad_button">When gamepad button</string >
+    <string name="brick_when_gamepad_button_tapped" >tapped</string >
     <string name="brick_when_nfc">When NFC</string>
 
     <plurals name="second_plural">
@@ -1231,8 +1231,8 @@
     <string name="cast_stop_casting_to">Stop casting to</string>
     <string name="cast_enable_cast_feature">Cast features disabled. Please enable cast features in the settings.</string>
     <string name="cast_searching_for_cast_devices">Searching for cast devices</string>
-    <string name="cast_trouble_finding_devices_tip">.\nNot seeing your device? Try turning off and on your phone\'s WiFi.</string>
-    <string name="cast_connection_timout_msg">Connection timeout. Try turning off and on your phones WiFi if this keeps happening.</string>
+    <string name="cast_trouble_finding_devices_tip">.\nNot seeing your device? Try turning your phone\'s Wifi off and on.</string>
+    <string name="cast_connection_timout_msg">Connection timeout. Try turning your phone\'s Wifi off and on if this keeps happening.</string>
     <!-- -->
 
     <!-- Rating Dialog -->

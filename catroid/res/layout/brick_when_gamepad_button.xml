@@ -64,7 +64,7 @@
         <TextView
             android:id="@+id/brick_when_gamepad_button_text_pressed"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when_gamepad_button_pressed" >
+            android:text="@string/brick_when_gamepad_button_tapped" >
         </TextView >
 
     </org.catrobat.catroid.ui.BrickLayout >
