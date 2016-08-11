@@ -34,10 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -101,7 +102,7 @@ public class SetYBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
 		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
-		textYPosition.setText(String.valueOf(BrickValues.Y_POSITION));
+		textYPosition.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
 	}
 
@@ -128,12 +129,17 @@ public class SetYBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setY(sprite, getFormulaWithBrickField(BrickField.Y_POSITION)));
+		sequence.addAction(sprite.getActionFactory().createSetYAction(sprite,
+				getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

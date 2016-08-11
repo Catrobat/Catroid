@@ -43,7 +43,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -76,7 +75,10 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.insertItemIntoUserList(sprite, getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
+		sequence.addAction(sprite.getActionFactory().createInsertItemIntoUserListAction(sprite,
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX),
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
+
 		return null;
 	}
 
@@ -140,7 +142,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP
+				if (event.getAction() == MotionEvent.ACTION_DOWN
 						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(InsertItemIntoUserListBrick.this);
@@ -158,6 +160,9 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(InsertItemIntoUserListBrick.this);
+					int spinnerPos = ((UserListAdapterWrapper) parent.getAdapter())
+							.getPositionOfItem(userList);
+					dialog.setUserVariableIfCancel(spinnerPos);
 					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
@@ -270,5 +275,10 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		InsertItemIntoUserListBrick copyBrick = (InsertItemIntoUserListBrick) clone();
 		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserListReference(into, from);
 	}
 }

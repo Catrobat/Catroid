@@ -33,15 +33,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-public class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;
@@ -52,10 +52,15 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
-
+		//DEVELOP
+		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
+		Utils.checkIfCrashRecoveryAndFinishActivity(this);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		//CAST
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
+
 	}
 
 	@Override
@@ -85,7 +90,9 @@ public class BaseActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		baseMenu = menu;
-		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		//CAST
+		//getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		getMenuInflater().inflate(R.menu.menu_base_menu, menu);
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
 		}
@@ -99,13 +106,9 @@ public class BaseActivity extends Activity {
 				if (returnToProjectsList) {
 					Intent intent = new Intent(this, MyProjectsActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.getInstance().setBackPackFlag(true);
 					startActivity(intent);
 				} else {
-					Intent intent = new Intent(this, MainMenuActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.getInstance().setBackPackFlag(true);
-					startActivity(intent);
+					return false;
 				}
 				break;
 			case R.id.settings:
@@ -129,6 +132,9 @@ public class BaseActivity extends Activity {
 			case R.id.cast_button:
 				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
 				break;
+			case R.id.menu_login:
+				ProjectManager.getInstance().showSignInDialog(this, false);
+				return true;
 			default:
 				break;
 		}
@@ -137,6 +143,10 @@ public class BaseActivity extends Activity {
 
 	// Taken from http://stackoverflow.com/a/11270668
 	private void launchMarket() {
+		if (!Utils.isNetworkAvailable(this, true)) {
+			return;
+		}
+
 		Uri uri = Uri.parse("market://details?id=" + getPackageName());
 		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
@@ -179,7 +189,9 @@ public class BaseActivity extends Activity {
 
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem logout = baseMenu.findItem(R.id.menu_logout);
+		MenuItem login = baseMenu.findItem(R.id.menu_login);
 		logout.setVisible(Utils.isUserLoggedIn(this));
+		login.setVisible(!Utils.isUserLoggedIn(this));
 		return true;
 	}
 }

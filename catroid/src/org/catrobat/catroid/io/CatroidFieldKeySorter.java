@@ -107,6 +107,10 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[3] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("settings")) {
 				fieldKeyOrder[4] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("physicsWorld")) {
+				fieldKeyOrder[5] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[6] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {
@@ -139,12 +143,14 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[7] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("userBricks")) {
 				fieldKeyOrder[8] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("newUserBrickNext")) {
+			} else if (fieldKey.getFieldName().equals("isBackpackObject")) {
 				fieldKeyOrder[9] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("isBackpackSprite")) {
+			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
 				fieldKeyOrder[10] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("isBackgroundSprite")) {
+			} else if (fieldKey.getFieldName().equals("actionFactory")) {
 				fieldKeyOrder[11] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[12] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

@@ -24,11 +24,8 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-
-import java.util.List;
 
 public class StartScript extends Script {
 
@@ -61,7 +58,7 @@ public class StartScript extends Script {
 			} else {
 				brick = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick();
 				if (brick == null) {
-					brick = new UserScriptDefinitionBrick(ProjectManager.getInstance().getCurrentUserBrick());
+					brick = new UserScriptDefinitionBrick();
 				}
 			}
 		}
@@ -70,11 +67,11 @@ public class StartScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+	public Script copyScriptForSprite(Sprite copySprite) {
 
 		Script cloneScript = new StartScript(isUserScript);
 
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
+		doCopy(copySprite, cloneScript);
 		return cloneScript;
 	}
 }

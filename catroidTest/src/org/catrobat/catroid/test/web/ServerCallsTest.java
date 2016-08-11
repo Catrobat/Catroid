@@ -23,28 +23,15 @@
 package org.catrobat.catroid.test.web;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.transfers.DeleteTestUserTask;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
 
 /*
  * These tests need an internet connection
@@ -57,14 +44,6 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
 	public static final int STATUS_CODE_USER_NOT_EXISTING = 764;
 
-	private boolean testUserAccountsDeleted = false;
-	private boolean configFileRead = false;
-	private boolean facebookTestUserCreated = false;
-	private boolean facebookTestUserDeleted = false;
-	private String facebookTestUserId;
-
-	private Map<String, String> configMap;
-
 	public ServerCallsTest() {
 		super();
 	}
@@ -73,10 +52,6 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 	protected void setUp() throws Exception {
 		super.setUp();
 		ServerCalls.useTestUrl = true;
-		testUserAccountsDeleted = false;
-		configFileRead = false;
-		facebookTestUserCreated = false;
-		facebookTestUserDeleted = false;
 	}
 
 	@Override
@@ -335,181 +310,9 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 		}
 	}
 
-	public void testFacebookServerCalls() {
-		waitForFacebookTestReady();
-		try {
-			boolean openAuthFacebookTokenAvailable = ServerCalls.getInstance().checkOAuthToken(facebookTestUserId,
-					Constants.FACEBOOK, getInstrumentation().getTargetContext());
-			Log.i(TAG, "OAuth Facebook token available: " + openAuthFacebookTokenAvailable);
-			assertFalse("Facebook Token should not be available, but server response indicates that it is.",
-					openAuthFacebookTokenAvailable);
-
-			boolean facebookEmailAvailable = ServerCalls.getInstance().checkEMailAvailable(
-					configMap.get(UiTestUtils.CONFIG_FACEBOOK_MAIL));
-			Log.i(TAG, "E-Mail available: " + facebookEmailAvailable);
-			assertFalse("E-Mail should not be available, but server response indicates that it is.",
-					facebookEmailAvailable);
-
-			boolean facebookUserNameAvailable = ServerCalls.getInstance().checkUserNameAvailable(
-					configMap.get(UiTestUtils.CONFIG_FACEBOOK_NAME));
-			Log.i(TAG, "Username available: " + facebookUserNameAvailable);
-			assertFalse("Username should not be available, but server response indicates that it is.",
-					facebookUserNameAvailable);
-
-			boolean tokenExchanged = ServerCalls.getInstance().facebookExchangeToken(AccessToken
-							.getCurrentAccessToken().getToken(), facebookTestUserId,
-					configMap.get(UiTestUtils.CONFIG_FACEBOOK_NAME), configMap.get(UiTestUtils.CONFIG_FACEBOOK_MAIL),
-					"at");
-
-			Log.i(TAG, "tokenExchanged: " + tokenExchanged);
-			assertTrue("Token should be exchanged, but server response indicates that it was not.",
-					tokenExchanged);
-
-			boolean loggedIn = ServerCalls.getInstance().facebookLogin(configMap.get(UiTestUtils.CONFIG_FACEBOOK_MAIL),
-					configMap.get(UiTestUtils.CONFIG_FACEBOOK_NAME), facebookTestUserId, "at", getInstrumentation().getTargetContext());
-
-			Log.i(TAG, "loggedIn: " + loggedIn);
-			assertTrue("User should be logged in, but server response indicates that he is not.",
-					loggedIn);
-
-			openAuthFacebookTokenAvailable = ServerCalls.getInstance().checkOAuthToken(facebookTestUserId,
-					Constants.FACEBOOK, getInstrumentation().getTargetContext());
-			Log.i(TAG, "OAuth Facebook token available: " + openAuthFacebookTokenAvailable);
-			assertTrue("Facebook Token should be available, but server response indicates that it is not.",
-					openAuthFacebookTokenAvailable);
-
-			facebookEmailAvailable = ServerCalls.getInstance().checkEMailAvailable(configMap.get(UiTestUtils
-					.CONFIG_FACEBOOK_MAIL));
-			Log.i(TAG, "E-Mail available: " + facebookEmailAvailable);
-			assertTrue("E-Mail should be available, but server response indicates that it is not.",
-					facebookEmailAvailable);
-
-			facebookUserNameAvailable = ServerCalls.getInstance().checkUserNameAvailable(configMap.get(UiTestUtils.CONFIG_FACEBOOK_NAME));
-			Log.i(TAG, "Username available: " + facebookUserNameAvailable);
-			assertTrue("Username should be available, but server response indicates that it is not.",
-					facebookUserNameAvailable);
-
-			JSONObject facebookUserInfo = ServerCalls.getInstance().getFacebookUserInfo(facebookTestUserId, null);
-			assertTrue("server response doesn't have facebook username", facebookUserInfo.has(Constants.USERNAME));
-			String name = facebookUserInfo.getString(Constants.USERNAME);
-			Log.i(TAG, "Username: " + name);
-			assertTrue("server response doesn't have facebook email", facebookUserInfo.has(Constants.EMAIL));
-			String email = facebookUserInfo.getString(Constants.EMAIL);
-			Log.i(TAG, "email: " + email);
-			assertTrue("server response doesn't have facebook locale", facebookUserInfo.has(Constants.LOCALE));
-			String locale = facebookUserInfo.getString(Constants.LOCALE);
-			Log.i(TAG, "locale: " + locale);
-
-			assertTrue("Username should be available, but server response indicates that it is not.",
-					facebookUserNameAvailable);
-		} catch (WebconnectionException e) {
-			Log.e(TAG, "Webconnection occurred", e);
-		} catch (JSONException e) {
-			Log.e(TAG, "JSONException", e);
-		} finally {
-			waitForFacebookTestUserDeleted();
-		}
-	}
-
-	private void createFacebookTestUser() {
-		final String facebookAppId = getInstrumentation().getTargetContext().getString(R.string.facebook_app_id);
-		AccessToken accessToken = new AccessToken(configMap.get(UiTestUtils.CONFIG_FACEBOOK_APP_TOKEN), facebookAppId,
-				facebookAppId, null, null, null, null, null);
-		AccessToken.setCurrentAccessToken(accessToken);
-		Bundle params = new Bundle();
-		params.putString("installed", "true");
-		final boolean[] tryAgainIfNecessary = { true };
-		new GraphRequest(AccessToken.getCurrentAccessToken(),
-				"/" + facebookAppId + "/accounts/test-users",
-				params,
-				HttpMethod.POST,
-				new GraphRequest.Callback() {
-					public void onCompleted(GraphResponse response) {
-						try {
-							if ((response == null || response.getJSONObject() == null) && tryAgainIfNecessary[0]) {
-								//Sometimes Facebook returns a response just after the second call..
-								tryAgainIfNecessary[0] = false;
-								createFacebookTestUser();
-							}
-							if (response != null) {
-								Log.i(TAG, "response: " + response.getRawResponse());
-								facebookTestUserId = response.getJSONObject().getString("id");
-								String accessTokenTestUser = response.getJSONObject().getString("access_token");
-								Log.i(TAG, "test user id: " + facebookTestUserId);
-
-								AccessToken accessToken = new AccessToken(accessTokenTestUser, facebookAppId,
-										facebookTestUserId, null, null, null, null, null);
-								AccessToken.setCurrentAccessToken(accessToken);
-							}
-						} catch (JSONException e) {
-							Log.e(TAG, "JSONException occurred", e);
-						}
-						facebookTestUserCreated = true;
-						Log.d(TAG, "facebookTestUserCreated");
-					}
-				}
-		).executeAndWait();
-	}
-
-	private void deleteFacebookTestUser() {
-		new GraphRequest(
-				AccessToken.getCurrentAccessToken(),
-				"/" + facebookTestUserId,
-				null,
-				HttpMethod.DELETE,
-				new GraphRequest.Callback() {
-					public void onCompleted(GraphResponse response) {
-						Log.i(TAG, "response: " + response.getRawResponse());
-						facebookTestUserDeleted = true;
-					}
-				}
-		).executeAndWait();
-	}
-
-	private void waitForFacebookTestUserDeleted() {
-		if (facebookTestUserId == null || facebookTestUserId.isEmpty()) {
-			return;
-		}
-		deleteFacebookTestUser();
-		while (!facebookTestUserDeleted) {
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				Log.e(TAG, "InterruptedException occurred", e);
-			}
-		}
-	}
-
-	private void waitForFacebookTestReady() {
-		FacebookSdk.sdkInitialize(getInstrumentation().getTargetContext());
-		deleteTestUserAccountsOnServer();
-		readConfigFile();
-		while (!testUserAccountsDeleted || !configFileRead || !facebookTestUserCreated) {
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				Log.e(TAG, "InterruptedException occurred", e);
-			}
-		}
-	}
-
-	private void deleteTestUserAccountsOnServer() {
-		DeleteTestUserTask deleteTestUserTask = new DeleteTestUserTask(getInstrumentation().getTargetContext());
-		deleteTestUserTask.setOnDeleteTestUserCompleteListener(this);
-		deleteTestUserTask.execute();
-	}
-
 	@Override
 	public void onDeleteTestUserComplete(Boolean deleted) {
 		assertTrue("Test user accounts could not be deleted on server!", deleted);
-		testUserAccountsDeleted = true;
 		Log.d(TAG, "testUserAccountsDeleted");
-	}
-
-	private void readConfigFile() {
-		configMap = UiTestUtils.readConfigFile(getInstrumentation().getContext());
-		configFileRead = true;
-		Log.d(TAG, "configFileRead");
-		createFacebookTestUser();
 	}
 }

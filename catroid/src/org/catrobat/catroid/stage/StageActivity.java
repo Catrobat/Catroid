@@ -23,9 +23,12 @@
 package org.catrobat.catroid.stage;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -44,13 +47,18 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
+
+import java.util.List;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -58,6 +66,8 @@ public class StageActivity extends AndroidApplication {
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
 	private StageAudioFocus stageAudioFocus;
+	private PendingIntent pendingIntent;
+	private NfcAdapter nfcAdapter;
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 
@@ -88,7 +98,7 @@ public class StageActivity extends AndroidApplication {
 		if (!project.isCastProject()) {
 			initialize(stageListener, configuration);
 		} else {
-			//TODO maybe check again if connected?
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			setContentView(R.layout.activity_stage_gamepad);
 			CastManager.getInstance().initializeGamepadActivity(this);
 			CastManager.getInstance()
@@ -98,7 +108,16 @@ public class StageActivity extends AndroidApplication {
 		if (graphics.getView() instanceof SurfaceView) {
 			SurfaceView glView = (SurfaceView) graphics.getView();
 			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-			glView.setZOrderOnTop(true);
+		}
+
+		pendingIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+		nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+		Log.d(TAG, "onCreate()");
+
+		if (nfcAdapter == null) {
+			Log.d(TAG, "could not get nfc adapter :(");
 		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
@@ -106,6 +125,13 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus = new StageAudioFocus(this);
 
 		CameraManager.getInstance().setStageActivity(this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		Log.d(TAG, "processIntent");
+		NfcHandler.processIntent(intent);
 	}
 
 	@Override
@@ -123,11 +149,18 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
+		if (nfcAdapter != null) {
+			try {
+				nfcAdapter.disableForegroundDispatch(this);
+			} catch (IllegalStateException illegalStateException) {
+				Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
+			}
+		}
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
 		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
-
+		CameraManager.getInstance().pausePreview();
 		CameraManager.getInstance().releaseCamera();
 		VibratorUtil.pauseVibrator();
 		super.onPause();
@@ -137,22 +170,15 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onResume() {
-		stageAudioFocus.requestAudioFocus();
-
-		FaceDetectionHandler.resumeFaceDetection();
-		FlashUtil.resumeFlash();
-		CameraManager.getInstance().resumePreviewAsync();
-
-		VibratorUtil.resumeVibrator();
-
-		SensorHandler.startSensorListener(this);
-
+		resumeResources();
 		super.onResume();
-
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
 
 	public void pause() {
+		if (nfcAdapter != null) {
+			nfcAdapter.disableForegroundDispatch(this);
+		}
+
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		FlashUtil.pauseFlash();
@@ -166,14 +192,54 @@ public class StageActivity extends AndroidApplication {
 
 	public void resume() {
 		stageListener.menuResume();
-		FlashUtil.resumeFlash();
-		VibratorUtil.resumeVibrator();
+		resumeResources();
+	}
+
+	public void resumeResources() {
+		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
 		SensorHandler.startSensorListener(this);
-		FaceDetectionHandler.resumeFaceDetection();
 
-		CameraManager.getInstance().resumePreviewAsync();
+		for (Sprite sprite : spriteList) {
+			if (sprite.getPlaySoundBricks().size() > 0) {
+				stageAudioFocus.requestAudioFocus();
+				break;
+			}
+		}
 
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+		if ((requiredResources & Brick.CAMERA_FLASH) > 0) {
+			FlashUtil.resumeFlash();
+		}
+
+		if ((requiredResources & Brick.VIBRATOR) > 0) {
+			VibratorUtil.resumeVibrator();
+		}
+
+		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+			FaceDetectionHandler.resumeFaceDetection();
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0
+				|| (requiredResources & Brick.BLUETOOTH_PHIRO) > 0
+				|| (requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+		}
+
+		if ((requiredResources & Brick.CAMERA_BACK) > 0
+				|| (requiredResources & Brick.CAMERA_FRONT) > 0
+				|| (requiredResources & Brick.VIDEO) > 0) {
+			CameraManager.getInstance().resumePreviewAsync();
+		}
+
+		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
+			stageAudioFocus.requestAudioFocus();
+		}
+
+		if ((requiredResources & Brick.NFC_ADAPTER) > 0
+				&& nfcAdapter != null) {
+			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		}
 	}
 
 	public boolean getResizePossible() {
@@ -244,11 +310,9 @@ public class StageActivity extends AndroidApplication {
 		FaceDetectionHandler.stopFaceDetection();
 		CameraManager.getInstance().stopPreviewAsync();
 		CameraManager.getInstance().releaseCamera();
-
 		CameraManager.getInstance().setToDefaultCamera();
-
+		//CAST
 		CastManager.getInstance().onStageDestroyed();
-
 		super.onDestroy();
 	}
 

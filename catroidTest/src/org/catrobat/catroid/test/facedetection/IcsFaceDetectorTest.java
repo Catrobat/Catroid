@@ -105,53 +105,6 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@Device
-	public void testStartAndStop() {
-
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-
-			if (camera != null) {
-				camera.release();
-			}
-		}
-
-		int faces = camera.getParameters().getMaxNumDetectedFaces();
-		camera.release();
-		camera = null;
-
-		if (faces > 0) {
-			IcsFaceDetector detector = new IcsFaceDetector();
-			assertNotNull("Cannot instantiate IcsFaceDetector", detector);
-
-			try {
-				boolean success = detector.startFaceDetection();
-				assertTrue("IcsFaceDetector could not start", success);
-			} catch (Exception exc) {
-				fail("Cannot start face detection (" + exc.getMessage() + ")");
-			}
-
-			try {
-				detector.stopFaceDetection();
-			} catch (Exception exc) {
-				fail("Cannot stop face detection (" + exc.getMessage() + ")");
-			}
-
-			camera = null;
-			try {
-				camera = Camera.open();
-			} catch (Exception exc) {
-				fail("Ressources were not properly released");
-			}
-		}
-		if (camera != null) {
-			camera.release();
-		}
-	}
-
-	@Device
 	public void testDoubleStart() {
 
 		Camera camera = null;
@@ -254,13 +207,13 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		int expectedSize = (FACE_RIGHT - FACE_LEFT) * 100 * 2 / FACE_RECT_SIZE;
 		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);
 
-		int expectedXPosition = (FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH * (-1)
-				/ FACE_RECT_SIZE;
-		assertEquals("Unexpected x position of face", expectedXPosition, detectedFaces[X_POSITION_INDEX]);
+		int expectedXPosition = Math.abs((FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH
+				/ FACE_RECT_SIZE);
+		assertEquals("Unexpected x position of face", expectedXPosition, Math.abs(detectedFaces[X_POSITION_INDEX]));
 
-		int expectedYPosition = (FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT * (-1)
-				/ FACE_RECT_SIZE;
-		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
+		int expectedYPosition = Math.abs((FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT
+				/ FACE_RECT_SIZE);
+		assertEquals("Unexpected y position of face", expectedYPosition, Math.abs(detectedFaces[Y_POSITION_INDEX]));
 
 		detector.onFaceDetection(faces, null);
 		assertTrue("Face Detection Listener reveices too many calls", detectedFaces[COUNTER_INDEX] <= 6);

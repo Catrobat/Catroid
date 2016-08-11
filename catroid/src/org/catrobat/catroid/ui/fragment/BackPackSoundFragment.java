@@ -101,11 +101,11 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			actionModeTitle = getString(R.string.unpacking);
+			actionModeTitle = getString(R.string.unpack);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
-			mode.setTitle(R.string.unpacking);
+			mode.setTitle(R.string.unpack);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
@@ -170,7 +170,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_sounds, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_back_pack_sounds, container, false);
 		return rootView;
 	}
 
@@ -198,8 +198,8 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		menu.findItem(R.id.copy).setVisible(false);
 		if (!BackPackListManager.getInstance().getBackPackedSounds().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
-			menu.findItem(R.id.unpacking_keep).setVisible(true);
 		}
+		menu.findItem(R.id.unpacking_keep).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -227,7 +227,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				contextMenuUnpacking(false);
 				break;
 			case R.id.context_menu_unpacking:
-				contextMenuUnpacking(true);
+				contextMenuUnpacking(false);
 				break;
 			case R.id.context_menu_delete:
 				deleteSounds();
@@ -276,6 +276,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	public void onPause() {
 		super.onPause();
 
+		BackPackListManager.getInstance().saveBackpack();
 		SoundController.getInstance().stopSound(mediaPlayer, BackPackListManager.getInstance().getBackPackedSounds());
 		adapter.notifyDataSetChanged();
 
@@ -333,7 +334,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		holder.soundFragmentButtonLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					selectedSoundPosition = position;
 					listView.showContextMenuForChild(v);
 				}
@@ -479,7 +480,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		if (actionMode == null) {
 			if (adapter.isEmpty()) {
 				if (actionModeCallback.equals(unpackingModeCallBack)) {
-					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpacking));
+					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.unpack));
 				} else if (actionModeCallback.equals(deleteModeCallBack)) {
 					((BackPackActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
 				}

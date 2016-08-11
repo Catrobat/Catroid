@@ -28,6 +28,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,10 +43,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.Utils;
+
+import java.io.IOException;
 
 public class NewProjectDialog extends DialogFragment {
 
@@ -158,28 +163,45 @@ public class NewProjectDialog extends DialogFragment {
 		}
 
 		boolean createEmptyProject = true;
-		boolean createDroneProject = false;
 
 		if (defaultProjectRadioButton.isChecked()) {
 			createEmptyProject = false;
-			createDroneProject = false;
 		}
 
 		if (defaultDroneProjectRadioButton.isChecked()) {
 			createEmptyProject = false;
-			createDroneProject = true;
+			try {
+				ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, true, false, false);
+			} catch (IllegalArgumentException illegalArgumentException) {
+				Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+				return;
+			} catch (IOException ioException) {
+				Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+				Log.e(TAG, Log.getStackTraceString(ioException));
+				dismiss();
+				return;
+			}
+
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+			if (openedFromProjectList) {
+				intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+			}
+
+			getActivity().startActivity(intent);
+			dismiss();
+		} else {
+			orientationDialog = new OrientationDialog();
+			orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
+			orientationDialog.setOpenedFromProjectList(openedFromProjectList);
+			orientationDialog.setProjectName(projectName);
+			orientationDialog.setCreateEmptyProject(createEmptyProject);
+
+			Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
+
+			dismiss();
 		}
-
-		orientationDialog = new OrientationDialog();
-		orientationDialog.show(getFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
-		orientationDialog.setOpenedFromProjectList(openedFromProjectList);
-		orientationDialog.setProjectName(projectName);
-		orientationDialog.setCreateEmptyProject(createEmptyProject);
-		orientationDialog.setCreateDroneProject(createDroneProject);
-
-		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
-
-		dismiss();
 	}
 
 	public void setOpenedFromProjectList(boolean openedFromProjectList) {

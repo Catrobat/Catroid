@@ -46,8 +46,6 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ActionMode;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,9 +53,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -70,11 +65,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.DynamicListView;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
@@ -89,11 +87,11 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
-		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
+		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener, SoundController.OnBackpackSoundCompleteListener {
 
 	public static final String TAG = SoundFragment.class.getSimpleName();
 
@@ -112,19 +110,20 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	private SoundInfo selectedSoundInfo;
 
 	private ListView listView;
-
+	private Lock viewSwitchLock = new ViewSwitchLock();
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
 	private SoundCopiedReceiver soundCopiedReceiver;
 
 	private SoundsListInitReceiver soundsListInitReceiver;
+	private SoundListTouchActionUpReceiver soundListTouchActionUpReceiver;
 
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
 
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
-	private boolean isAddNewSoundButtonClicked = false;
+	private Activity activity;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
@@ -145,6 +144,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		//setHandleAddbutton();
 		return inflater.inflate(R.layout.fragment_sounds, container, false);
 	}
 
@@ -172,6 +172,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			soundInfoList = new ArrayList<>();
 		}
 
+		((DynamicListView) getListView()).setDataList(soundInfoList);
+
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
 				R.id.fragment_sound_item_title_text_view, soundInfoList, false);
 
@@ -181,7 +183,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		((SoundAdapter) adapter).setSoundFragment(this);
 
 		Utils.loadProjectIfNeeded(getActivity());
-		setHandleAddbutton();
+		//setHandleAddbutton();
 
 		// set adapter and soundInfoList for ev. unpacking
 		BackPackListManager.getInstance().setCurrentSoundAdapter(adapter);
@@ -209,21 +211,18 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onStart() {
 		super.onStart();
 		mediaPlayer = new MediaPlayer();
-		initClickListener();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		if (!ProjectManager.getInstance().getHandleCorrectAddButton()) {
-			setHandleAddbutton();
-		} else {
-			ProjectManager.getInstance().setHandleCorrectAddButton(false);
-		}
-
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
+		}
+
+		if (BackPackListManager.getInstance().isBackpackEmpty()) {
+			BackPackListManager.getInstance().loadBackpack();
 		}
 
 		if (soundRenamedReceiver == null) {
@@ -242,6 +241,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			soundsListInitReceiver = new SoundsListInitReceiver();
 		}
 
+		if (soundListTouchActionUpReceiver == null) {
+			soundListTouchActionUpReceiver = new SoundListTouchActionUpReceiver();
+		}
+
 		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
 
@@ -254,19 +257,49 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		IntentFilter intentFilterSoundsListInit = new IntentFilter(ScriptActivity.ACTION_SOUNDS_LIST_INIT);
 		getActivity().registerReceiver(soundsListInitReceiver, intentFilterSoundsListInit);
 
+		IntentFilter intentFilterSoundsListActionUp = new IntentFilter(ScriptActivity.ACTION_SOUND_TOUCH_ACTION_UP);
+		getActivity().registerReceiver(soundListTouchActionUpReceiver, intentFilterSoundsListActionUp);
+
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
+		if (!this.isHidden()) {
+			setHandleAddbutton();
+			handleAddButtonFromNew();
+		}
+		if (isResultHandled) {
+			isResultHandled = false;
 
-		SoundController.getInstance().handleAddButtonFromNew(this);
+			ScriptActivity scriptActivity = (ScriptActivity) activity;
+			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+				SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
+			}
+		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		this.activity = activity;
 	}
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		if (!hidden) {
-			SoundController.getInstance().handleAddButtonFromNew(this);
+			handleAddButtonFromNew();
+		}
+	}
+
+	public void handleAddButtonFromNew() {
+		ScriptActivity scriptActivity = (ScriptActivity) activity;
+		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
+			adapter.notifyDataSetChanged();
+			handleAddButton();
 		}
 	}
 
@@ -295,6 +328,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		if (soundsListInitReceiver != null) {
 			getActivity().unregisterReceiver(soundsListInitReceiver);
+		}
+
+		if (soundListTouchActionUpReceiver != null) {
+			getActivity().unregisterReceiver(soundListTouchActionUpReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -362,7 +399,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		isAddNewSoundButtonClicked = false;
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && data != null) {
 			switch (requestCode) {
@@ -380,9 +416,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
 					SoundController.getInstance().addSoundFromMediaLibrary(filePath, getActivity(), soundInfoList, this);
 			}
+			isResultHandled = true;
 		}
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
-			Log.d("SoundFragment", "onActivityResult RequestMusic");
+			Log.d(TAG, "onActivityResult RequestMusic");
 			setHandleAddbutton();
 		}
 
@@ -390,18 +427,17 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				.getComingFromScriptFragmentToSoundFragment()) {
 
 			getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
-			ProjectManager.getInstance().setHandleCorrectAddButton(true);
 
 			ImageButton addButton = (ImageButton) getActivity().findViewById(R.id.button_add);
 			addButton.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View view) {
-					ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+					ScriptActivity scriptActivity = (ScriptActivity) activity;
 					scriptActivity.getScriptFragment().handleAddButton();
 				}
 			});
-			SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+			SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
 		}
 		ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
 	}
@@ -487,80 +523,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		soundInfo.isPlaying = false;
 	}
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, view, menuInfo);
-
-		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
-			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-		}
-		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
-		menu.setHeaderTitle(selectedSoundInfo.getTitle());
-		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
-		adapter.notifyDataSetChanged();
-
-		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(true);
-		menu.findItem(R.id.context_menu_move_up).setVisible(true);
-		menu.findItem(R.id.context_menu_move_down).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
-		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
-
-		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedSoundPosition != soundInfoList.size() - 1);
-		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedSoundPosition != soundInfoList.size() - 1);
-
-		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedSoundPosition != 0);
-		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedSoundPosition != 0);
-
-		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-
-			case R.id.context_menu_backpack:
-				SoundController.getInstance().backPackSound(selectedSoundInfo, false);
-				openBackPack();
-				break;
-
-			case R.id.context_menu_copy:
-				SoundInfo newSoundInfo = SoundController.getInstance().copySound(selectedSoundInfo, soundInfoList, this);
-				updateSoundAdapter(newSoundInfo);
-				break;
-
-			case R.id.context_menu_cut:
-				break;
-
-			case R.id.context_menu_insert_below:
-				break;
-
-			case R.id.context_menu_move:
-				break;
-
-			case R.id.context_menu_rename:
-				showRenameDialog();
-				break;
-
-			case R.id.context_menu_delete:
-				showConfirmDeleteDialog();
-				break;
-			case R.id.context_menu_move_down:
-				moveSoundDown();
-				break;
-			case R.id.context_menu_move_to_bottom:
-				moveSoundToBottom();
-				break;
-			case R.id.context_menu_move_up:
-				moveSoundUp();
-				break;
-			case R.id.context_menu_move_to_top:
-				moveSoundToTop();
-				break;
-		}
-		return super.onContextItemSelected(item);
-	}
-
 	private void openBackPack() {
 		Intent intent = new Intent(getActivity(), BackPackActivity.class);
 		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SOUNDS);
@@ -568,11 +530,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	public void updateSoundAdapter(SoundInfo newSoundInfo) {
-
 		if (soundInfoListChangedAfterNewListener != null) {
 			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
 		}
-
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
 		listView.post(new Runnable() {
@@ -581,16 +541,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				listView.setSelection(listView.getCount() - 1);
 			}
 		});
-
-		if (isResultHandled) {
-			isResultHandled = false;
-
-			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-			if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
-					&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-				SoundController.getInstance().switchToScriptFragment(this);
-			}
-		}
 	}
 
 	@Override
@@ -621,14 +571,19 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleAddButton() {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
 		NewSoundDialog dialog = NewSoundDialog.newInstance();
 		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
-				if (ProjectManager.getInstance().getComingFromScriptFragmentToSoundFragment() && !isAddNewSoundButtonClicked) {
+				if (ProjectManager.getInstance().getComingFromScriptFragmentToSoundFragment()) {
 					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
-					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
-					SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+					activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+					isResultHandled = true;
+					SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity)
+							activity);
 				}
 			}
 		});
@@ -636,13 +591,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	public void addSoundRecord() {
-		isAddNewSoundButtonClicked = true;
 		Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
 		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);
 	}
 
 	public void addSoundChooseFile() {
-		isAddNewSoundButtonClicked = true;
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -659,6 +612,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
 		startActivityForResult(intent, SoundController.REQUEST_MEDIA_LIBRARY);
+	}
+
+	public void addPocketMusic() {
+		Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
+		startActivity(intent);
 	}
 
 	@TargetApi(19)
@@ -684,6 +642,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	public List<SoundInfo> getSoundInfoList() {
 		return soundInfoList;
+	}
+
+	@Override
+	public void onBackpackSoundComplete(boolean startBackpackActivity) {
+		openBackPack();
 	}
 
 	private class SoundRenamedReceiver extends BroadcastReceiver {
@@ -871,16 +834,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 	};
 
-	private void initClickListener() {
-		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				selectedSoundPosition = position;
-				return false;
-			}
-		});
-	}
-
 	private void showConfirmDeleteDialog() {
 		int titleId;
 		if (adapter.getAmountOfCheckedItems() == 1) {
@@ -937,7 +890,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			case KeyEvent.KEYCODE_BACK:
 				ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 				if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()) {
-					SoundController.getInstance().switchToScriptFragment(this);
+					SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
 
 					return true;
 				}
@@ -1002,7 +955,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			try {
 				file = StorageHandler.getInstance().copySoundFile(path[0]);
 			} catch (IOException e) {
-				Log.e("CATROID", "Cannot load sound.", e);
+				Log.e(TAG, "Cannot load sound.", e);
 			}
 			return file;
 		}
@@ -1036,7 +989,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 					ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 					if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
 							&& scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-						SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+						SoundController.getInstance().switchToScriptFragment(SoundFragment.this, (ScriptActivity) activity);
 					}
 				}
 			} else {
@@ -1054,31 +1007,12 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 	}
 
-	private void moveSoundDown() {
-		if (selectedSoundPosition != soundInfoList.size() - 1) {
-			Collections.swap(soundInfoList, selectedSoundPosition + 1, selectedSoundPosition);
-			adapter.notifyDataSetChanged();
+	private class SoundListTouchActionUpReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_TOUCH_ACTION_UP)) {
+				((DynamicListView) getListView()).notifyListItemTouchActionUp();
+			}
 		}
-	}
-
-	private void moveSoundToBottom() {
-		for (int i = selectedSoundPosition; i < soundInfoList.size() - 1; i++) {
-			Collections.swap(soundInfoList, i, i + 1);
-		}
-		adapter.notifyDataSetChanged();
-	}
-
-	private void moveSoundUp() {
-		if (selectedSoundPosition != 0) {
-			Collections.swap(soundInfoList, selectedSoundPosition - 1, selectedSoundPosition);
-			adapter.notifyDataSetChanged();
-		}
-	}
-
-	private void moveSoundToTop() {
-		for (int i = selectedSoundPosition; i > 0; i--) {
-			Collections.swap(soundInfoList, i, i - 1);
-		}
-		adapter.notifyDataSetChanged();
 	}
 }

@@ -34,10 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -123,7 +124,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleTextView.setText(String.valueOf(BrickValues.POINT_IN_DIRECTION));
+		setAngleTextView.setText(Utils.getNumberStringForBricks(BrickValues.POINT_IN_DIRECTION));
 		return prototypeView;
 	}
 
@@ -152,12 +153,17 @@ public class PointInDirectionBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.pointInDirection(sprite, getFormulaWithBrickField(BrickField.DEGREES)));
+		sequence.addAction(sprite.getActionFactory().createPointInDirectionAction(sprite,
+				getFormulaWithBrickField(BrickField.DEGREES)));
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.DEGREES);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

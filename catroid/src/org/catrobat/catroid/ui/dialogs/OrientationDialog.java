@@ -59,7 +59,6 @@ public class OrientationDialog extends DialogFragment {
 	private boolean createCastProject = false;
 
 	private boolean openedFromProjectList = false;
-	private boolean createDroneProject = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -114,8 +113,11 @@ public class OrientationDialog extends DialogFragment {
 		createCastProject = cast.isChecked();
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,
-					createDroneProject, createLandscapeProject, createCastProject);
+			//CAST
+			//ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,
+			//		createDroneProject, createLandscapeProject, createCastProject);
+			//DEVELOP
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject, false, createLandscapeProject, createCastProject);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
@@ -153,9 +155,5 @@ public class OrientationDialog extends DialogFragment {
 
 	public void setCreateEmptyProject(boolean isChecked) {
 		this.createEmptyProject = isChecked;
-	}
-
-	public void setCreateDroneProject(boolean isChecked) {
-		createDroneProject = isChecked;
 	}
 }

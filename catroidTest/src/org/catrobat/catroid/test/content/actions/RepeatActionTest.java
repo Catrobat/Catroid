@@ -30,7 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
@@ -171,9 +170,12 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
+		Sprite testSprite = new Sprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
-		SequenceAction sequence = ExtendedActions.sequence();
+
+		SequenceAction sequence = (SequenceAction) testSprite.getActionFactory().createSequence();
 		repeatBrick.addActionToSequence(testSprite, sequence);
+
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
 		boolean wait = false;
 		while (!wait) {
@@ -188,11 +190,11 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final float decoyDeltaY = -150f;
 		final float expectedDeltaY = 150f;
 
-		final RepeatAction repeatAction = ExtendedActions.repeat(testSprite, new Formula(0),
-				ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY)));
+		final RepeatAction repeatAction = (RepeatAction) testSprite.getActionFactory().createRepeatAction(testSprite,
+				new Formula(0), testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(decoyDeltaY)));
 		repeatAction.act(1f);
 
-		ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)).act(1f);
+		testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(expectedDeltaY)).act(1f);
 
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
@@ -212,8 +214,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNullFormula() {
-		Action repeatedAction = ExtendedActions.setX(testSprite, new Formula(10));
-		Action repeatAction = ExtendedActions.repeat(testSprite, null, repeatedAction);
+		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
+		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
 		assertEquals("Null Formula should not have been possible to interpret!", 0, repeatCountValue);

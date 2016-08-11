@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
@@ -54,7 +55,9 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.adapter.CastDevicesAdapter;
 import org.catrobat.catroid.ui.dialogs.SelectCastDialog;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -68,8 +71,8 @@ public final class CastManager {
 	private MediaRouter mediaRouter;
 	private MediaRouteSelector mediaRouteSelector;
 	private MyMediaRouterCallback callback;
-	private ArrayList<String> routeNames = new ArrayList<>();
-	private ArrayAdapter<String> deviceAdapter;
+	//private ArrayList<String> routeNames = new ArrayList<>();
+	private ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter;
 	private CastDevice selectedDevice;
 	private boolean isConnected = false;
 	private GLSurfaceView20 stageViewDisplayedOnCast;
@@ -132,17 +135,30 @@ public final class CastManager {
 		if (mediaRouter != null) {
 			return;
 		}
-		deviceAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, routeNames);
+		deviceAdapter = new CastDevicesAdapter(activity, R.layout.fragment_cast_device_list_item, routeInfos);
+		//deviceAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, routeNames);
 		mediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
 		mediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
 				.build();
-		addCallback();
+		//addCallback();
+		setCallback();
 	}
 
 	public void addCallback() {
 		callback = new MyMediaRouterCallback();
 		mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+	}
+
+	public synchronized void setCallback() {
+		setCallback(MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+	}
+
+	public synchronized void setCallback(int callbackFlag) {
+		if (callback == null) {
+			callback = new MyMediaRouterCallback();
+		}
+		mediaRouter.addCallback(mediaRouteSelector, callback, callbackFlag);
 	}
 
 	public void openDeviceSelectorOrDisconnectDialog() {
@@ -184,10 +200,14 @@ public final class CastManager {
 		}
 	}
 
-	private void handleGamepadTouch(ImageButton button, MotionEvent event) {
+	private synchronized void handleGamepadTouch(ImageButton button, MotionEvent event) {
 
 		if (event.getAction() != MotionEvent.ACTION_DOWN && event.getAction() != MotionEvent.ACTION_UP) {
 			// We only care about the event when a gamepad button is pressed and when a gamepad button is unpressed
+			return;
+		}
+
+		if (gamepadActivity == null) {
 			return;
 		}
 
@@ -264,17 +284,19 @@ public final class CastManager {
 			});
 			builder.create().show();
 		} else {
-			mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
-			SelectCastDialog dialog = new SelectCastDialog();
-			dialog.openDialog(activity, deviceAdapter);
+			//mediaRouter.addCallback(mediaRouteSelector, callback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
+			SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
+			dialog.openDialog();
 		}
 	}
 
 	public synchronized void setCastButton(MenuItem castButton) {
 		this.castButton = castButton;
-		if (routeNames.size() > 0) {
+		/*if (routeNames.size() > 0) {
 			castButton.setVisible(true);
-		}
+		}*/
+		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
+				.AVAILABILITY_FLAG_REQUIRE_MATCH));
 		setIsConnected(isConnected);
 	}
 
@@ -301,6 +323,8 @@ public final class CastManager {
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
 
+		private long lastConnectionTry;
+
 		@Override
 		public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo info) {
 			// Add route to list of discovered routes
@@ -309,13 +333,15 @@ public final class CastManager {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
 					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
-						routeNames.remove(i);
+						//routeNames.remove(i);
 					}
 				}
 				routeInfos.add(info);
-				routeNames.add(info.getName());
+				//routeNames.add(info.getName());
 				if (castButton != null) {
-					castButton.setVisible(true);
+					//castButton.setVisible(true);
+					castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
+							.AVAILABILITY_FLAG_REQUIRE_MATCH));
 				}
 				deviceAdapter.notifyDataSetChanged();
 			}
@@ -329,9 +355,11 @@ public final class CastManager {
 					MediaRouter.RouteInfo routeInfo = routeInfos.get(i);
 					if (routeInfo.equals(info)) {
 						routeInfos.remove(i);
-						routeNames.remove(i);
+						//routeNames.remove(i);
 						if (castButton != null && routeInfos.size() == 0) {
-							castButton.setVisible(false);
+							//castButton.setVisible(false);
+							castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
+									.AVAILABILITY_FLAG_REQUIRE_MATCH));
 						}
 						deviceAdapter.notifyDataSetChanged();
 					}
@@ -342,8 +370,28 @@ public final class CastManager {
 		@Override
 		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
 			synchronized (this) {
+				//CAST
+				//Problem with mExtras!!!
 				selectedDevice = CastDevice.getFromBundle(info.getExtras());
 				startCastService(initializingActivity);
+				lastConnectionTry = System.currentTimeMillis();
+
+				// Show a msg if still connecting after CAST_CONNECTION_TIMEOUT milliseconds
+				// and abort connection.
+				(new Handler()).postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						synchronized (this) {
+							if (currentlyConnecting() && CastRemoteDisplayLocalService.getInstance() != null
+									&& System.currentTimeMillis() - lastConnectionTry >= Constants.CAST_CONNECTION_TIMEOUT) {
+
+								CastRemoteDisplayLocalService.stopService();
+								ToastUtil.showError(initializingActivity,
+										initializingActivity.getString(R.string.cast_connection_timout_msg));
+							}
+						}
+					}
+				}, Constants.CAST_CONNECTION_TIMEOUT);
 			}
 		}
 

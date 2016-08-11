@@ -21,30 +21,30 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DefaultDialog" >
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/DefaultDialog.TextView"
-        android:text="@string/description" />
-
-    <View style="@style/DefaultDialog.Line" />
-
-    <EditText
-        android:id="@+id/dialog_text_EditMultiLineText"
-        style="@style/DefaultDialog.EditText"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/new_project_description_dialog_hint"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:maxLines="3"
-        android:minLines="1"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbars="vertical"
-        android:selectAllOnFocus="true"
-        android:singleLine="false" >
-    </EditText>
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <org.catrobat.catroid.ui.CapitalizedTextView
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/description" />
+
+        <View style="@style/DefaultDialog.Line" />
+
+        <EditText
+            android:id="@+id/dialog_text_EditMultiLineText"
+            style="@style/DefaultDialog.EditText"
+            android:hint="@string/new_project_description_dialog_hint"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical"
+            android:singleLine="false" >
+        </EditText>
+
+    </LinearLayout>
+</ScrollView>

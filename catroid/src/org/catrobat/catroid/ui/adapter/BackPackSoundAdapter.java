@@ -41,7 +41,7 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ActionMode
 
 	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails, BackPackSoundFragment backPackSoundFragment) {
-		super(context, resource, textViewResourceId, items, showDetails);
+		super(context, resource, textViewResourceId, items, showDetails, true);
 		this.backPackSoundFragment = backPackSoundFragment;
 	}
 

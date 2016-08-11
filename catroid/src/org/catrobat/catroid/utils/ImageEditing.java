@@ -27,6 +27,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
+import com.badlogic.gdx.math.Vector2;
+
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.io.StorageHandler;
 
@@ -156,8 +159,13 @@ public final class ImageEditing {
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inJustDecodeBounds = true;
 			BitmapFactory.decodeResource(context.getResources(), resourceId, options);
-			return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
-					ScreenValues.SCREEN_HEIGHT, true);
+			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.CAST_SCREEN_WIDTH,
+						ScreenValues.CAST_SCREEN_HEIGHT, true);
+			} else {
+				return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
+						ScreenValues.SCREEN_HEIGHT, true);
+			}
 		} else {
 			throw new IllegalArgumentException("resource is not an image");
 		}
@@ -176,6 +184,27 @@ public final class ImageEditing {
 		} else {
 			return Math.min(widthScaleFactor, heightScaleFactor);
 		}
+	}
+
+	public static Vector2 calculateScaleFactorsToScreenSize(int resourceId, Context context) {
+		if (context.getResources().getResourceTypeName(resourceId).compareTo("drawable") == 0) {
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+			return calculateScaleFactors(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
+					ScreenValues.SCREEN_HEIGHT);
+		} else {
+			throw new IllegalArgumentException("resource is not an image");
+		}
+	}
+
+	private static Vector2 calculateScaleFactors(int originalWidth, int originalHeight, int newWidth, int newHeight) {
+		if (originalHeight == 0 || originalWidth == 0 || newHeight == 0 || newWidth == 0) {
+			throw new IllegalArgumentException("One or more values are 0");
+		}
+		double widthScaleFactor = ((double) newWidth) / ((double) originalWidth);
+		double heightScaleFactor = ((double) newHeight) / ((double) originalHeight);
+		return new Vector2((float) widthScaleFactor, (float) heightScaleFactor);
 	}
 
 	//method from developer.android.com

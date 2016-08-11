@@ -36,8 +36,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -48,10 +48,9 @@ import java.util.List;
 public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
-	public static final int EXECUTE_ELSE_PART = -1;
 	protected transient IfLogicElseBrick ifElseBrick;
 	protected transient IfLogicEndBrick ifEndBrick;
-	private transient IfLogicBeginBrick copy;
+	protected transient IfLogicBeginBrick copy;
 
 	public IfLogicBeginBrick() {
 		addAllowedBrickField(BrickField.IF_CONDITION);
@@ -65,7 +64,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		initializeBrickFields(condition);
 	}
 
-	private void initializeBrickFields(Formula ifCondition) {
+	protected void initializeBrickFields(Formula ifCondition) {
 		addAllowedBrickField(BrickField.IF_CONDITION);
 		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
 	}
@@ -139,7 +138,18 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 		ifBeginTextView.setOnClickListener(this);
 
+		removePrototypeElseTextViews(view);
+
 		return view;
+	}
+
+	protected void removePrototypeElseTextViews(View view) {
+		TextView prototypeTextPunctuation = (TextView) view.findViewById(R.id.if_else_prototype_punctuation);
+		TextView prototypeTextElse = (TextView) view.findViewById(R.id.if_prototype_else);
+		TextView prototypeTextPunctuation2 = (TextView) view.findViewById(R.id.if_else_prototype_punctuation2);
+		prototypeTextPunctuation.setVisibility(View.GONE);
+		prototypeTextElse.setVisibility(View.GONE);
+		prototypeTextPunctuation2.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -208,13 +218,13 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = ExtendedActions.sequence();
-		SequenceAction elseAction = ExtendedActions.sequence();
-		Action action = ExtendedActions.ifLogic(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
-				elseAction); //TODO finish!!!
+		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
+		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
+				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
 		sequence.addAction(action);
 
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		LinkedList<SequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(elseAction);
 		returnActionList.add(ifAction);
 
@@ -229,5 +239,9 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		copyBrick.ifEndBrick = null;
 		this.copy = copyBrick;
 		return copyBrick;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

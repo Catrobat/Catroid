@@ -25,16 +25,25 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.Spinner;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+
+import java.io.Serializable;
 
 public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
 
 	protected UserList userList;
 
-	protected transient BackPackedData backPackedData;
+	@XStreamOmitField
+	protected BackPackedData backPackedData;
 
 	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
 		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
@@ -63,6 +72,28 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		UserListAdapterWrapper userListAdapterWrapper = ((UserListAdapterWrapper) spinnerToUpdate.getAdapter());
 		userListAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserList);
+
+		for (Brick brick : ProjectManager.getInstance().getCurrentSprite().getAllBricks()) {
+			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() == null) {
+				if (brick instanceof AddItemToUserListBrick) {
+					Spinner spinner = (Spinner) ((AddItemToUserListBrick) brick).view.findViewById(R.id
+							.add_item_to_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				} else if (brick instanceof ReplaceItemInUserListBrick) {
+					Spinner spinner = (Spinner) ((ReplaceItemInUserListBrick) brick).view.findViewById(R.id
+							.replace_item_in_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				} else if (brick instanceof InsertItemIntoUserListBrick) {
+					Spinner spinner = (Spinner) ((InsertItemIntoUserListBrick) brick).view.findViewById(R.id
+							.insert_item_into_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				} else if (brick instanceof DeleteItemOfUserListBrick) {
+					Spinner spinner = (Spinner) ((DeleteItemOfUserListBrick) brick).view.findViewById(R.id
+							.delete_item_of_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -82,23 +113,13 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		return backPackedData;
 	}
 
-	public void setBackPackedData(Project project, UserList userList, Integer userListType) {
-		if (backPackedData == null) {
-			backPackedData = new BackPackedData();
-		}
-		this.backPackedData.project = project;
-		this.backPackedData.userList = userList;
-		this.backPackedData.userListType = userListType;
-	}
-
 	public void setBackPackedData(BackPackedData backPackedData) {
 		this.backPackedData = backPackedData;
 	}
 
-	public class BackPackedData {
+	public class BackPackedData implements Serializable {
 		public UserList userList;
 		public Integer userListType;
-		public Project project;
 
 		public BackPackedData() {
 		}
@@ -107,8 +128,69 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 			if (backPackedData != null) {
 				this.userList = backPackedData.userList;
 				this.userListType = backPackedData.userListType;
-				this.project = backPackedData.project;
 			}
 		}
+	}
+
+	protected void updateUserListReference(Project into, Project from) {
+		UserList list;
+
+		if (from.existProjectList(userList)) {
+			list = into.getProjectListWithName(userList.getName());
+
+			if (list == null) {
+				list = into.getDataContainer().addProjectUserList(userList.getName());
+			}
+		} else {
+			Sprite sprite = from.getSpriteByUserList(userList);
+			if (sprite == null || !from.existSpriteList(userList, sprite)) {
+				return;
+			}
+			list = into.getDataContainer().addSpriteListIfDoesNotExist(userList.getName(),
+					into.getSpriteBySpriteName(sprite));
+		}
+
+		if (list != null) {
+			userList = list;
+		}
+	}
+
+	@Override
+	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+		if (!super.isEqualBrick(brick, mergeResult, current)) {
+			return false;
+		}
+
+		UserList first = this.getUserList();
+		UserList second = ((UserListBrick) brick).getUserList();
+		if (!first.getName().equals(second.getName())) {
+			return false;
+		}
+
+		boolean firstIsProjectVariable = mergeResult.getDataContainer().existProjectList(first);
+		boolean secondIsProjectVariable = current.getDataContainer().existProjectList(second);
+
+		if ((firstIsProjectVariable && secondIsProjectVariable)
+				|| (!firstIsProjectVariable && !secondIsProjectVariable)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Integer type = DataContainer.USER_DATA_EMPTY;
+		if (getUserList() != null) {
+			type = currentProject.getDataContainer()
+					.getTypeOfUserList(getUserList().getName(), ProjectManager
+							.getInstance().getCurrentSprite());
+		}
+
+		if (backPackedData == null) {
+			backPackedData = new BackPackedData();
+		}
+		backPackedData.userList = userList;
+		backPackedData.userListType = type;
 	}
 }

@@ -37,7 +37,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 public class XStreamBrickConverter extends ReflectionConverter {
 
 	private static final String TAG = XStreamBrickConverter.class.getSimpleName();
-	private static final String BRICKS_PACKAGE_NAME = "org.catrobat.catroid.content.bricks";
+	private static final String[] BRICKS_PACKAGE_NAMES = { "org.catrobat.catroid.content.bricks",
+			"org.catrobat.catroid.physics.content.bricks" };
 	private static final String TYPE = "type";
 
 	public XStreamBrickConverter(Mapper mapper, ReflectionProvider reflectionProvider) {
@@ -57,14 +58,18 @@ public class XStreamBrickConverter extends ReflectionConverter {
 
 	@Override
 	public Object doUnmarshal(Object result, HierarchicalStreamReader reader, UnmarshallingContext context) {
-		try {
-			String type = reader.getAttribute(TYPE);
-			Class cls = Class.forName(BRICKS_PACKAGE_NAME + "." + type);
-			Brick brick = (Brick) reflectionProvider.newInstance(cls);
-			return super.doUnmarshal(brick, reader, context);
-		} catch (ClassNotFoundException exception) {
-			Log.e(TAG, "Brick class not found : " + result.toString(), exception);
+
+		String type = reader.getAttribute(TYPE);
+		for (int index = 0; index < BRICKS_PACKAGE_NAMES.length; index++) {
+			try {
+				Class cls = Class.forName(BRICKS_PACKAGE_NAMES[index] + "." + type);
+				Brick brick = (Brick) reflectionProvider.newInstance(cls);
+				return super.doUnmarshal(brick, reader, context);
+			} catch (ClassNotFoundException exception) {
+				Log.d(TAG, "Brick " + type + " not found in " + BRICKS_PACKAGE_NAMES[index]);
+			}
 		}
+		Log.i(TAG, "Brick " + type + " not found in packages");
 		return super.doUnmarshal(result, reader, context);
 	}
 }

@@ -45,6 +45,8 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -57,6 +59,7 @@ public class NewDataDialog extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_data_catroid";
 	Spinner spinnerToUpdate;
 	DialogType dialogType = DialogType.SHOW_LIST_CHECKBOX;
+	private int spinnerPositionIfCancel;
 
 	public static enum DialogType {
 		SHOW_LIST_CHECKBOX, USER_LIST, USER_VARIABLE
@@ -89,6 +92,9 @@ public class NewDataDialog extends DialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 		userListDialogListenerListFinishNewUserListDialog(null);
+		if (spinnerToUpdate != null) {
+			spinnerToUpdate.setSelection(spinnerPositionIfCancel);
+		}
 	}
 
 	@Override
@@ -297,18 +303,34 @@ public class NewDataDialog extends DialogFragment {
 	}
 
 	private boolean isListNameValid(String name) {
-		if (ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.getUserList(name, ProjectManager.getInstance().getCurrentSprite()) != null) {
-			return false;
+		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		RadioButton global = (RadioButton) getDialog()
+				.findViewById(R.id.dialog_formula_editor_data_name_global_variable_radio_button);
+
+		if (global.isChecked()) {
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			return !currentData.existListInAnySprite(name, sprites) && !currentData.existProjectListWithName(name);
+		} else {
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			return !currentData.existProjectListWithName(name) && !currentData.existSpriteListByName(name, currentSprite);
 		}
-		return true;
 	}
 
 	private boolean isVariableNameValid(String name) {
-		if (ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.getUserVariable(name, ProjectManager.getInstance().getCurrentSprite()) != null) {
-			return false;
+		DataContainer currentData = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		RadioButton global = (RadioButton) getDialog()
+				.findViewById(R.id.dialog_formula_editor_data_name_global_variable_radio_button);
+
+		if (global.isChecked()) {
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			return !currentData.existVariableInAnySprite(name, sprites) && !currentData.existProjectVariableWithName(name);
+		} else {
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			return !currentData.existProjectVariableWithName(name) && !currentData.existSpriteVariableByName(name, currentSprite);
 		}
-		return true;
+	}
+
+	public void setUserVariableIfCancel(int spinnerPositionIfCancel) {
+		this.spinnerPositionIfCancel = spinnerPositionIfCancel;
 	}
 }

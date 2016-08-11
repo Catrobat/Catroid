@@ -41,8 +41,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -75,7 +75,9 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.replaceItemInUserList(sprite, getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
+		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite,
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX),
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
 		return null;
 	}
 
@@ -139,7 +141,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP
+				if (event.getAction() == MotionEvent.ACTION_DOWN
 						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(ReplaceItemInUserListBrick.this);
@@ -157,6 +159,9 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(ReplaceItemInUserListBrick.this);
+					int spinnerPos = ((UserListAdapterWrapper) parent.getAdapter())
+							.getPositionOfItem(userList);
+					dialog.setUserVariableIfCancel(spinnerPos);
 					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
@@ -257,5 +262,10 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_INDEX);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
+		super.updateUserListReference(into, from);
 	}
 }

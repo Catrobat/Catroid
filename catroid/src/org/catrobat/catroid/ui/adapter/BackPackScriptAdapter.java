@@ -32,13 +32,14 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.ui.ScriptGroupViewHolder;
+import org.catrobat.catroid.ui.BackPackGroupViewHolder;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackScriptController;
 import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -119,27 +120,27 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 		checkedScriptGroups.add(position);
 	}
 
-	public void updateScriptGroupLogic(int position, final ScriptGroupViewHolder holder) {
+	public void updateScriptGroupLogic(int position, final BackPackGroupViewHolder holder) {
 		final String scriptGroupName = getItem(position);
 
 		if (scriptGroupName == null) {
 			return;
 		}
-		holder.scriptGroupNameTextView.setTag(position);
-		holder.scriptGroupElement.setTag(position);
-		holder.scriptGroupNameTextView.setText(scriptGroupName);
+		holder.backPackGroupNameTextView.setTag(position);
+		holder.backPackGroupElement.setTag(position);
+		holder.backPackGroupNameTextView.setText(scriptGroupName);
 
 		boolean checkboxIsVisible = handleCheckboxes(position, holder);
 		handleDetails(scriptGroupName, holder);
 
 		// Disable ImageView on active ActionMode
 		if (checkboxIsVisible) {
-			holder.scriptGroupImageView.setEnabled(false);
+			holder.backPackGroupImageView.setEnabled(false);
 		} else {
-			holder.scriptGroupImageView.setEnabled(true);
+			holder.backPackGroupImageView.setEnabled(true);
 		}
-		if (holder.scriptGroupElement.isClickable()) {
-			holder.scriptGroupElement.setOnClickListener(new View.OnClickListener() {
+		if (holder.backPackGroupElement.isClickable()) {
+			holder.backPackGroupElement.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					if (getSelectMode() != ListView.CHOICE_MODE_NONE) {
@@ -148,11 +149,11 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 				}
 			});
 		} else {
-			holder.scriptGroupElement.setOnClickListener(null);
+			holder.backPackGroupElement.setOnClickListener(null);
 		}
 	}
 
-	private boolean handleCheckboxes(final int position, ScriptGroupViewHolder holder) {
+	private boolean handleCheckboxes(final int position, BackPackGroupViewHolder holder) {
 		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -174,12 +175,12 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 
 		if (getSelectMode() != ListView.CHOICE_MODE_NONE) {
 			holder.checkbox.setVisibility(View.VISIBLE);
-			holder.scriptGroupElement.setBackgroundResource(R.drawable.button_background_shadowed);
+			holder.backPackGroupElement.setBackgroundResource(R.drawable.button_background_shadowed);
 			checkboxIsVisible = true;
 		} else {
 			holder.checkbox.setVisibility(View.GONE);
 			holder.checkbox.setChecked(false);
-			holder.scriptGroupElement.setBackgroundResource(R.drawable.button_background_selector);
+			holder.backPackGroupElement.setBackgroundResource(R.drawable.button_background_selector);
 			clearCheckedItems();
 		}
 
@@ -191,7 +192,7 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 		return checkboxIsVisible;
 	}
 
-	private void handleDetails(String scriptGroup, ScriptGroupViewHolder holder) {
+	private void handleDetails(String scriptGroup, BackPackGroupViewHolder holder) {
 		if (getShowDetails()) {
 			List<Script> scripts = BackPackListManager.getInstance().getBackPackedScripts().get(scriptGroup);
 			if (scripts == null) {
@@ -201,10 +202,10 @@ public class BackPackScriptAdapter extends ArrayAdapter<String> implements Actio
 			for (Script script : scripts) {
 				numberOfBricks += script.getBrickList().size() + 1;
 			}
-			holder.scriptGroupNumberOfBricksValue.setText(numberOfBricks.toString());
-			holder.scriptGroupDetailsLinearLayout.setVisibility(TextView.VISIBLE);
+			holder.backPackGroupNumberOfBricksValue.setText(String.format(Locale.getDefault(), numberOfBricks.toString()));
+			holder.backPackGroupDetailsLinearLayout.setVisibility(TextView.VISIBLE);
 		} else {
-			holder.scriptGroupDetailsLinearLayout.setVisibility(TextView.GONE);
+			holder.backPackGroupDetailsLinearLayout.setVisibility(TextView.GONE);
 		}
 	}
 

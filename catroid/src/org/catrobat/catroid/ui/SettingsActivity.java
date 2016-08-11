@@ -27,11 +27,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -43,8 +46,11 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
+	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
+	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
 	PreferenceScreen screen = null;
@@ -53,12 +59,19 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
+	public static final String[] NXT_SENSORS = { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 
 	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
 	public static final String DRONE_ALTITUDE_LIMIT = "setting_drone_altitude_limit";
 	public static final String DRONE_VERTICAL_SPEED = "setting_drone_vertical_speed";
 	public static final String DRONE_ROTATION_SPEED = "setting_drone_rotation_speed";
 	public static final String DRONE_TILT_ANGLE = "setting_drone_tilt_angle";
+
+	public static final String RASPI_SETTINGS_SCREEN = "settings_raspberry_screen";
+	public static final String RASPI_CONNECTION_SETTINGS_CATEGORY = "setting_raspi_connection_settings_category";
+	public static final String RASPI_HOST = "setting_raspi_host_preference";
+	public static final String RASPI_PORT = "setting_raspi_port_preference";
+	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -68,26 +81,14 @@ public class SettingsActivity extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 
 		setNXTSensors();
-		updateActionBar();
-
 		setDronePreferences();
 
-		CheckBoxPreference preference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
-		preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				boolean checked = Boolean.valueOf(newValue.toString());
-
-				enableARDroneBricks(getApplicationContext(), checked);
-				return true;
-			}
-		});
+		updateActionBar();
 
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
-			CheckBoxPreference legoNxtPreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
 			legoNxtPreference.setEnabled(false);
 			screen.removePreference(legoNxtPreference);
 		}
@@ -105,7 +106,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
-			PreferenceScreen arduinoPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
+			CheckBoxPreference arduinoPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
 			arduinoPreference.setEnabled(false);
 			screen.removePreference(arduinoPreference);
 		}
@@ -115,13 +116,59 @@ public class SettingsActivity extends PreferenceActivity {
 			globalCastPreference.setEnabled(false);
 			screen.removePreference(globalCastPreference);
 		}
+
+		if (!BuildConfig.FEATURE_RASPI_ENABLED) {
+			PreferenceScreen raspiPreference = (PreferenceScreen) findPreference(RASPI_SETTINGS_SCREEN);
+			raspiPreference.setEnabled(false);
+			screen.removePreference(raspiPreference);
+		} else {
+			setUpRaspiPreferences();
+		}
+
+		if (!BuildConfig.FEATURE_NFC_ENABLED) {
+			CheckBoxPreference nfcPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_NFC_BRICKS);
+			nfcPreference.setEnabled(false);
+			screen.removePreference(nfcPreference);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setUpRaspiPreferences() {
+		CheckBoxPreference raspiCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+		final PreferenceCategory rpiConnectionSettings = (PreferenceCategory) findPreference(RASPI_CONNECTION_SETTINGS_CATEGORY);
+		rpiConnectionSettings.setEnabled(raspiCheckBoxPreference.isChecked());
+
+		raspiCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				rpiConnectionSettings.setEnabled((Boolean) isChecked);
+				return true;
+			}
+		});
+
+		final EditTextPreference host = (EditTextPreference) findPreference(RASPI_HOST);
+		host.setSummary(host.getText());
+		host.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				host.setSummary(newValue.toString());
+				return true;
+			}
+		});
+
+		final EditTextPreference port = (EditTextPreference) findPreference(RASPI_PORT);
+		port.setSummary(port.getText());
+		port.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				port.setSummary(newValue.toString());
+				return true;
+			}
+		});
 	}
 
 	private void setDronePreferences() {
 
-		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
+		boolean areChoosersEnabled = getDroneChooserEnabled(this);
 
-		final String[] dronePreferences = new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+		final String[] dronePreferences = new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
 		for (String dronePreference : dronePreferences) {
 			ListPreference listPreference = (ListPreference) findPreference(dronePreference);
 
@@ -200,7 +247,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
 
-		final String[] sensorPreferences = new String[]{NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+		final String[] sensorPreferences = new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
@@ -215,6 +262,7 @@ public class SettingsActivity extends PreferenceActivity {
 		if (actionBar != null) {
 			actionBar.setTitle(R.string.preference_title);
 			actionBar.setHomeButtonEnabled(true);
+			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 	}
 
@@ -254,8 +302,28 @@ public class SettingsActivity extends PreferenceActivity {
 		editor.commit();
 	}
 
+	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value);
+		editor.commit();
+	}
+
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
+	}
+
+	public static boolean isNfcSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_NFC_BRICKS, context);
+	}
+
+	public static void setNfcSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_NFC_BRICKS, value);
+		editor.commit();
+	}
+
+	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
@@ -273,7 +341,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static NXTSensor.Sensor[] getLegoMindstormsNXTSensorMapping(Context context) {
 
 		final String[] sensorPreferences =
-				new String[]{NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+				new String[] { NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4 };
 
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -282,6 +350,18 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		return sensorMapping;
+	}
+
+	public static String getRaspiHost(Context context) {
+		return getSharedPreferences(context).getString(RASPI_HOST, null);
+	}
+
+	public static int getRaspiPort(Context context) {
+		return Integer.parseInt(getSharedPreferences(context).getString(RASPI_PORT, null));
+	}
+
+	public static String getRaspiRevision(Context context) {
+		return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
 	}
 
 	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {
@@ -306,10 +386,10 @@ public class SettingsActivity extends PreferenceActivity {
 		editor.commit();
 	}
 
-	public static DroneConfigPreference.Preferences[] getDronePreferencMapping(Context context) {
+	public static DroneConfigPreference.Preferences[] getDronePreferenceMapping(Context context) {
 
 		final String[] dronePreferences =
-				new String[]{DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE};
+				new String[] { DRONE_CONFIGS, DRONE_ALTITUDE_LIMIT, DRONE_VERTICAL_SPEED, DRONE_ROTATION_SPEED, DRONE_TILT_ANGLE };
 
 		DroneConfigPreference.Preferences[] preferenceMapping = new DroneConfigPreference.Preferences[5];
 		for (int i = 0; i < 5; i++) {
@@ -320,7 +400,7 @@ public class SettingsActivity extends PreferenceActivity {
 		return preferenceMapping;
 	}
 
-	public static DroneConfigPreference.Preferences getDronePreferencMapping(Context context, String
+	public static DroneConfigPreference.Preferences getDronePreferenceMapping(Context context, String
 			preferenceSetting) {
 		String preference = getSharedPreferences(context).getString(preferenceSetting, null);
 		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
@@ -328,6 +408,10 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void enableARDroneBricks(Context context, Boolean newValue) {
 		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
+	}
+
+	public static void setCastFeatureAvailability(Context context, boolean newValue) {
+		getSharedPreferences(context).edit().putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, newValue).commit();
 	}
 
 	public static void setLegoMindstormsNXTBricks(Context context, Boolean newValue) {
@@ -351,6 +435,17 @@ public class SettingsActivity extends PreferenceActivity {
 		return preferences.getBoolean("mindstorms_nxt_sensor_chooser_in_settings", false);
 	}
 
+	public static void setDroneChooserEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_DRONE_CHOOSER, enable);
+		editor.commit();
+	}
+
+	public static boolean getDroneChooserEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(SETTINGS_DRONE_CHOOSER, false);
+	}
+
 	public static void disableLegoMindstormsSensorInfoDialog(Context context) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, true);
@@ -364,5 +459,15 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static void resetSharedPreferences(Context context) {
 		getSharedPreferences(context).edit().clear().commit();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

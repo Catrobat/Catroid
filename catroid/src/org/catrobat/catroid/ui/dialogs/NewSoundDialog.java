@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
@@ -61,6 +62,7 @@ public class NewSoundDialog extends DialogFragment {
 		setupRecordButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupMediaLibraryButton(dialogView);
+		setupPocketMusicButton(dialogView);
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -80,6 +82,7 @@ public class NewSoundDialog extends DialogFragment {
 		super.onDismiss(dialog);
 		if (onDismissListener != null) {
 			onDismissListener.onDismiss(dialog);
+			dialog.dismiss();
 		}
 	}
 
@@ -93,14 +96,14 @@ public class NewSoundDialog extends DialogFragment {
 		recordButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-					fragment.addSoundRecord();
-					NewSoundDialog.this.dismiss();
-				}
+				fragment.addSoundRecord();
+				NewSoundDialog.this.dismiss();
+			}
 		});
 	}
 
 	private void setupGalleryButton(View parentView) {
-		View galleryButton = parentView.findViewById(R.id.dialog_new_sound_galery);
+		View galleryButton = parentView.findViewById(R.id.dialog_new_sound_gallery);
 
 		galleryButton.setOnClickListener(new View.OnClickListener() {
 
@@ -122,5 +125,21 @@ public class NewSoundDialog extends DialogFragment {
 				NewSoundDialog.this.dismiss();
 			}
 		});
+	}
+
+	private void setupPocketMusicButton(View parentView) {
+		View pocketMusicButton = parentView.findViewById(R.id.dialog_new_sound_pocketmusic);
+
+		if (BuildConfig.FEATURE_POCKETMUSIC_ENABLED) {
+			pocketMusicButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					fragment.addPocketMusic();
+					NewSoundDialog.this.dismiss();
+				}
+			});
+		} else {
+			pocketMusicButton.setVisibility(View.GONE);
+		}
 	}
 }

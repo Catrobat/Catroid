@@ -34,10 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -51,8 +52,8 @@ public class SetTransparencyBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.TRANSPARENCY);
 	}
 
-	public SetTransparencyBrick(double transparencyValue) {
-		initializeBrickFields(new Formula(transparencyValue));
+	public SetTransparencyBrick(double transparencyEffectValue) {
+		initializeBrickFields(new Formula(transparencyEffectValue));
 	}
 
 	public SetTransparencyBrick(Formula transparency) {
@@ -105,7 +106,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_set_transparency, null);
 		TextView textSetTransparency = (TextView) prototypeView
 				.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
-		textSetTransparency.setText(String.valueOf(BrickValues.SET_TRANSPARENCY));
+		textSetTransparency.setText(Utils.getNumberStringForBricks(BrickValues.SET_TRANSPARENCY));
 		return prototypeView;
 	}
 
@@ -118,12 +119,12 @@ public class SetTransparencyBrick extends FormulaBrick {
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_transparency_label);
-			TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_transparency_to);
+			TextView textTransparencyLabel = (TextView) view.findViewById(R.id.brick_set_transparency_label);
+			TextView textTransparencyTo = (TextView) view.findViewById(R.id.brick_set_transparency_to);
 			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_transparency_percent);
 			TextView editTransparency = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
-			textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
-			textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
+			textTransparencyLabel.setTextColor(textTransparencyLabel.getTextColors().withAlpha(alphaValue));
+			textTransparencyTo.setTextColor(textTransparencyTo.getTextColors().withAlpha(alphaValue));
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
 			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
 			editTransparency.getBackground().setAlpha(alphaValue);
@@ -136,12 +137,17 @@ public class SetTransparencyBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setTransparency(sprite, getFormulaWithBrickField(BrickField.TRANSPARENCY)));
+		sequence.addAction(sprite.getActionFactory().createSetTransparencyAction(sprite,
+				getFormulaWithBrickField(BrickField.TRANSPARENCY)));
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.TRANSPARENCY);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

@@ -26,7 +26,7 @@
     <item
         android:id="@+id/cast_button"
         android:showAsAction="always"
-        android:title="@+id/cast_button_menu_item_title"
+        android:title="@string/cast_button_menu_item_title"
         android:icon="@drawable/ic_cast_white_24dp"
         android:visible="false"/>
 
@@ -42,13 +42,5 @@
         android:id="@+id/menu_about"
         android:showAsAction="withText"
         android:title="@string/main_menu_about_pocketcode" />
-    <item
-        android:id="@+id/settings"
-        android:showAsAction="never"
-        android:title="@string/settings" />
-    <item
-        android:id="@+id/menu_logout"
-        android:showAsAction="never"
-        android:title="@string/main_menu_logout"/>
 
 </menu>

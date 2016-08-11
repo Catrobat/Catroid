@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -58,6 +60,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
@@ -134,6 +137,12 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new SetTransparencyBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TRANSPARENCY);
 
+		brick = new SetColorBrick((float) BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.COLOR);
+
+		brick = new ChangeColorByNBrick((float) BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.COLOR_CHANGE);
+
 		brick = new SetSizeToBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.SIZE);
 
@@ -173,14 +182,17 @@ public class BrickCloneTest extends AndroidTestCase {
 
 		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.SPEAK);
-	}
 
-	public void testVariableReferencesSetVariableBrick() throws Exception {
-		testVariableReferences(SetVariableBrick.class);
+		brick = new UserBrickParameter(new Formula(0));
+		brickClone(brick, Brick.BrickField.USER_BRICK);
 	}
 
 	public void testVariableReferencesChangeVariableBrick() throws Exception {
 		testVariableReferences(ChangeVariableBrick.class);
+	}
+
+	public void testVariableReferencesSetVariableBrick() throws Exception {
+		testVariableReferences(SetVariableBrick.class);
 	}
 
 	private <T extends Brick> void testVariableReferences(Class<T> typeOfBrick) throws Exception {
@@ -196,8 +208,7 @@ public class BrickCloneTest extends AndroidTestCase {
 
 		// create brick - expects:
 		// public SetVariableBrick(Formula variableFormula, UserVariable userVariable)
-		Constructor<T> constructor = typeOfBrick
-				.getDeclaredConstructor(Formula.class, UserVariable.class);
+		Constructor<T> constructor = typeOfBrick.getDeclaredConstructor(Formula.class, UserVariable.class);
 		T toBeTestedBrick = constructor.newInstance(formula, spriteVariable);
 
 		// add brick to project

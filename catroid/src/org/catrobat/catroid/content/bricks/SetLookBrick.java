@@ -46,8 +46,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
 
@@ -76,16 +76,17 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		SetLookBrick copyBrick = (SetLookBrick) clone();
 
 		if (look != null && look.isBackpackLookData) {
-			copyBrick.look = look;
+			copyBrick.look = look.clone();
 			return copyBrick;
 		}
 
 		for (LookData data : sprite.getLookDataList()) {
-			if (look != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
-				copyBrick.look = data;
+			if (look != null && data != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
+				copyBrick.look = data.clone();
 				break;
 			}
 		}
+		copyBrick.look.isBackpackLookData = false;
 		return copyBrick;
 	}
 
@@ -220,7 +221,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setLook(sprite, look));
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look));
 		return null;
 	}
 
@@ -351,5 +352,16 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	public void onLookDataListChangedAfterNew(LookData lookData) {
 		look = lookData;
 		oldSelectedLook = lookData;
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		if (look == null) {
+			return;
+		}
+		look = LookController.getInstance().backPackHiddenLook(this.getLook());
+		if (sprite != null && !sprite.getLookDataList().contains(look)) {
+			sprite.getLookDataList().add(look);
+		}
 	}
 }

@@ -26,8 +26,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.1'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.android.tools.build:gradle:2.1.2'
     }
 }
 
@@ -35,12 +34,9 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-//apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply from: 'gradle/adb_tasks.gradle'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 
@@ -48,36 +44,31 @@ check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
 android {
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     buildTypes {
         debug {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FLASH_BRICK_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_VIBRATION_BRICK_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_COMPUTER_VISION_ENHANCEMENT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_FORMULA_EDITOR_LISTS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
         }
     }
 }
@@ -95,11 +86,11 @@ dependencies {
     //CHROMECAST
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:mediarouter-v7:22.+'
-    compile 'com.google.android.gms:play-services-cast:8.4.0'
+    compile 'com.google.android.gms:play-services-cast:9.0.0'
     //
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
     compile 'com.thoughtworks.xstream:xstream:1.4.7'
     def gdxVersion = '1.6.2'
@@ -108,9 +99,15 @@ dependencies {
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:percent:23.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.0.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -119,48 +116,6 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
     checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
-}
-
-task copyAndroidNatives() {
-    file("catroid/jniLibs/armeabi/").mkdirs();
-    file("catroid/jniLibs/armeabi-v7a/").mkdirs();
-    file("catroid/jniLibs/x86/").mkdirs();
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
-        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
-        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
-        if(outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
-            }
-        }
-    }
-}
-
-def getBuildNumberParameter = { ->
-    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
-    return code
-}
-
-def generateVersionName(version, buildNumber) {
-    def versionName
-    if (buildNumber == -1) {
-        versionName = getGitDescribe() + " " + getCurrentGitBranch()
-    } else {
-        versionName = version + "." + buildNumber
-    }
-    return versionName
-}
-
-def getGitDescribe() {
-    try {
-        return 'git describe --tags'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
 }
 
 def getCurrentGitBranch() {
@@ -173,20 +128,20 @@ def getCurrentGitBranch() {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.0'
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 22
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 27
+        versionCode 30
         println "VersionCode is " + versionCode
-        versionName "0.9.20"
+        versionName "0.9.23"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
-        multiDexEnabled true // TODO: Investigate why this is needed
+        multiDexEnabled true
     }
 
     sourceSets {
@@ -209,18 +164,12 @@ android {
             renderscript.srcDirs = ['catroidTest/src']
             res.srcDirs = ['catroidTest/res']
             assets.srcDirs = ['catroidTest/assets']
-            if (file('testexclusions.txt').exists()) {
-                java.exclude file('testexclusions.txt').readLines()
-            }
         }
     }
     lintOptions {
-        // define ignores like a specific res-folder in our lint.xml file
+        // specific ignores should be defined via lint.xml file, all general ignores should be added here
         lintConfig file('config/lint.xml')
-
-        // all general ignores should be added in this place
         // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
-        // OldTargetApi should be reviewed - consider updating target API to 20
         // RtlSymmetry/RtlHardcoded should be reviewed
         // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
         // IconMissingDensityFolder - currently no xxxhdpi icons available
@@ -233,31 +182,26 @@ android {
 
         textReport true
         xmlReport true
-        htmlReport false
+        htmlReport true
         xmlOutput file("build/reports/lint.xml")
+        htmlOutput file("build/reports/lint.html")
     }
 }
 
-if (project.hasProperty('jenkins')) {
-    project.android.dexOptions.preDexLibraries = false
-//    android.buildTypes.each { type ->
-//        if (type.name == "debug") {
-//            type.packageNameSuffix = ".jenkinsdebug"
-//            type.versionNameSuffix = "-jenkins-$type.name"
-//        }
-//    }
-} else {
-    //not a jenkins build, remove animation scale permission
-    android.applicationVariants.all { variant ->
-        println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
-        variant.outputs.each { output ->
-            output.processManifest.doLast {
-                def generatedContent = manifestOutputFile.getText()
-                generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
-                if (generatedContent.contains('SET_ANIMATION_SCALE')) {
-                    throw new RuntimeException("Error in removing animation scale permission!")
-                }
-                manifestOutputFile.write(generatedContent)
+task copyAndroidNatives() {
+    file("catroid/jniLibs/armeabi/").mkdirs();
+    file("catroid/jniLibs/armeabi-v7a/").mkdirs();
+    file("catroid/jniLibs/x86/").mkdirs();
+    configurations.natives.files.each { jar ->
+        def outputDir = null
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("catroid/jniLibs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("catroid/jniLibs/armeabi")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("catroid/jniLibs/x86")
+        if (outputDir != null) {
+            copy {
+                from zipTree(jar)
+                into outputDir
+                include "*.so"
             }
         }
     }

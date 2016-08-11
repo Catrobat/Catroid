@@ -22,15 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/DefaultDialog"
-            android:orientation="vertical"
-            android:paddingBottom="0dp"
-            android:theme="@android:style/Theme.Light" >
+    style="@style/DefaultDialog"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Light" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dialog_item_margin" >
+        android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/dialog_sign_in_login"
@@ -87,13 +85,17 @@
             android:id="@+id/dialog_sign_in_facebook_login_button"
             android:background="@drawable/sign_in_with_facebook"
             style="@style/OAuthButton"
-            android:layout_below="@+id/dialog_sign_in_or" />
+            android:layout_below="@+id/dialog_sign_in_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/dialog_sign_in_gplus_login_button"
             android:background="@drawable/sign_in_with_google"
             style="@style/OAuthButton"
-            android:layout_below="@+id/dialog_sign_in_facebook_login_button" />
+            android:layout_below="@+id/dialog_sign_in_facebook_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             style="@style/DefaultDialog.Item"

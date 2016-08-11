@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.drone;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -55,7 +54,7 @@ public class DroneLookTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	public void testAddLook() {
-		ProjectManager.getInstance().initializeDroneProject(getActivity());
+		TestUtils.loadExistingOrCreateDefaultDroneProject(getActivity());
 
 		solo.waitForActivity(ProgramMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.programs));

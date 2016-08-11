@@ -24,10 +24,6 @@
 -keep class android.support.v4.app.** { *; }
 -keep interface android.support.v4.app.** { *; }
 
-# Library projects
--keep class com.actionbarsherlock.** { *; }
--keep interface com.actionbarsherlock.** { *; }
-
 # Library JARs
 -keep class com.thoughtworks.xstream.** { *; }
 -keep interface com.thoughtworks.xstream.** { *; }

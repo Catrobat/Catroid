@@ -25,17 +25,25 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.Spinner;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 
+import java.io.Serializable;
+
 public abstract class UserVariableBrick extends FormulaBrick implements NewDataDialog.NewVariableDialogListener {
 
 	protected UserVariable userVariable;
-	public boolean inUserBrick = false;
 
-	protected transient BackPackedData backPackedData;
+	@XStreamOmitField
+	protected BackPackedData backPackedData;
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
@@ -66,10 +74,25 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
-	}
 
-	public void setInUserBrick(boolean inUserBrick) {
-		this.inUserBrick = inUserBrick;
+		for (Brick brick : ProjectManager.getInstance().getCurrentSprite().getAllBricks()) {
+			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() == null) {
+				if (brick instanceof SetVariableBrick) {
+					Spinner spinner = (Spinner) ((SetVariableBrick) brick).view.findViewById(R.id.set_variable_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				} else if (brick instanceof ShowTextBrick) {
+					Spinner spinner = (Spinner) ((ShowTextBrick) brick).view.findViewById(R.id.show_text_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				} else if (brick instanceof HideTextBrick) {
+					Spinner spinner = (Spinner) ((HideTextBrick) brick).view.findViewById(R.id.hide_text_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				} else if (brick instanceof ChangeVariableBrick) {
+					Spinner spinner = (Spinner) ((ChangeVariableBrick) brick).view.findViewById(R.id
+							.change_variable_spinner);
+					setSpinnerSelection(spinner, newUserVariable);
+				}
+			}
+		}
 	}
 
 	public void setUserVariable(UserVariable userVariable) {
@@ -84,23 +107,13 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		return backPackedData;
 	}
 
-	public void setBackPackedData(Project project, UserVariable userVariable, Integer userVariableType) {
-		if (backPackedData == null) {
-			backPackedData = new BackPackedData();
-		}
-		this.backPackedData.project = project;
-		this.backPackedData.userVariable = userVariable;
-		this.backPackedData.userVariableType = userVariableType;
-	}
-
 	public void setBackPackedData(BackPackedData backPackedData) {
 		this.backPackedData = backPackedData;
 	}
 
-	public class BackPackedData {
+	public class BackPackedData implements Serializable {
 		public UserVariable userVariable;
 		public Integer userVariableType;
-		public Project project;
 
 		public BackPackedData() {
 		}
@@ -109,8 +122,60 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 			if (backPackedData != null) {
 				this.userVariable = backPackedData.userVariable;
 				this.userVariableType = backPackedData.userVariableType;
-				this.project = backPackedData.project;
 			}
 		}
+	}
+
+	protected void updateUserVariableReference(Project into, Project from) {
+		UserVariable variable;
+		if (from.existProjectVariable(userVariable)) {
+			variable = into.getProjectVariableWithName(userVariable.getName());
+			if (variable == null) {
+				variable = into.getDataContainer().addProjectUserVariable(userVariable.getName());
+			}
+		} else {
+			Sprite sprite = from.getSpriteByUserVariable(userVariable);
+			if (sprite == null || !from.existSpriteVariable(userVariable, sprite)) {
+				return;
+			}
+			variable = into.getDataContainer().addSpriteVariableIfDoesNotExist(userVariable.getName(),
+					into.getSpriteBySpriteName(sprite));
+		}
+		if (variable != null) {
+			userVariable = variable;
+		}
+	}
+
+	@Override
+	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+		if (!super.isEqualBrick(brick, mergeResult, current)) {
+			return false;
+		}
+		UserVariable first = this.getUserVariable();
+		UserVariable second = ((UserVariableBrick) brick).getUserVariable();
+		if (!first.getName().equals(second.getName())) {
+			return false;
+		}
+		boolean firstIsProjectVariable = mergeResult.getDataContainer().existProjectVariable(first);
+		boolean secondIsProjectVariable = current.getDataContainer().existProjectVariable(second);
+
+		return (firstIsProjectVariable && secondIsProjectVariable)
+				|| (!firstIsProjectVariable && !secondIsProjectVariable);
+	}
+
+	@Override
+	public void storeDataForBackPack(Sprite sprite) {
+		Integer type = DataContainer.USER_DATA_EMPTY;
+		if (userVariable != null) {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			DataContainer dataContainer = currentProject.getDataContainer();
+			type = dataContainer.getTypeOfUserVariable(userVariable.getName(), currentSprite);
+		}
+		if (backPackedData == null) {
+			backPackedData = new BackPackedData();
+		}
+		this.backPackedData.userVariable = userVariable;
+		this.backPackedData.userVariableType = type;
 	}
 }

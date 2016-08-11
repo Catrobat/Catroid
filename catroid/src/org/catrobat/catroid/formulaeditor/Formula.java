@@ -186,7 +186,7 @@ public class Formula implements Serializable {
 	}
 
 	public void refreshTextField(View view) {
-		refreshTextField(view, getDisplayString(view.getContext()));
+		refreshTextField(view, getTrimmedFormulaString(view.getContext()));
 	}
 
 	public void refreshTextField(View view, String formulaString) {
@@ -208,6 +208,10 @@ public class Formula implements Serializable {
 		if (formulaTextField != null) {
 			formulaTextField.setBackgroundDrawable(highlightBackground);
 		}
+	}
+
+	public String getTrimmedFormulaString(Context context) {
+		return internFormula.trimExternFormulaString(context);
 	}
 
 	public void prepareToRemove() {
@@ -255,7 +259,10 @@ public class Formula implements Serializable {
 			}
 			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
 			return context.getString(logicalFormulaResultIdentifier);
-		} else if (formulaTree.getElementType() == ElementType.STRING) {
+		} else if (formulaTree.getElementType() == ElementType.STRING
+				|| (formulaTree.getElementType() == ElementType.FUNCTION
+				&& (Functions.getFunctionByValue(formulaTree.getValue()) == Functions.LETTER
+				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.JOIN))) {
 			try {
 				return interpretString(sprite);
 			} catch (InterpretationException interpretationException) {
@@ -272,8 +279,6 @@ public class Formula implements Serializable {
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
-			interpretationResult *= 100;
-			interpretationResult = (double) (Math.round(interpretationResult) / 100f);
 			return String.valueOf(interpretationResult);
 		}
 	}

@@ -34,10 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class TurnRightBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
-		textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
+		textDegrees.setText(Utils.getNumberStringForBricks(BrickValues.TURN_DEGREES));
 		return prototypeView;
 	}
 
@@ -134,12 +135,17 @@ public class TurnRightBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.turnRight(sprite, getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)));
+		sequence.addAction(sprite.getActionFactory().createTurnRightAction(sprite,
+				getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)));
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.TURN_RIGHT_DEGREES);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

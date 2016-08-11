@@ -44,7 +44,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		super.setUp();
 		TestUtils.deleteTestProjects();
 		UiTestUtils.prepareStageForTest();
-		ProjectManager.getInstance().initializeDroneProject(getActivity());
+		TestUtils.loadExistingOrCreateDefaultDroneProject(getActivity());
 		SettingsActivity.enableARDroneBricks(getActivity(), true);
 	}
 
@@ -60,6 +60,10 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testDroneBricksPrototypeView() {
 		solo.waitForActivity(MainMenuActivity.class);
 
+		assertEquals("Cannot create standard drone project",
+				getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance()
+						.getCurrentProject().getName()
+		);
 		assertEquals("The program name is wrong!", solo.getString(R.string
 				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 

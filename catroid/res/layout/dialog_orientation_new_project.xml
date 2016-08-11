@@ -23,8 +23,7 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/DefaultDialog"
-    android:orientation="vertical"
-    android:paddingBottom="0dp" >
+    android:orientation="vertical" >
 
 
     <RadioGroup
@@ -34,8 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp" >
+        android:paddingTop="16dp" >
 
         <RadioButton
             android:id="@+id/portrait"
@@ -61,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:drawableLeft="@drawable/ic_cast_dark"
+            android:drawableLeft="@drawable/ic_tv_black_24dp"
             android:drawablePadding="16dp"
             android:padding="20dp"/>
 

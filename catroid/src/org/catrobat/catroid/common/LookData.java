@@ -57,19 +57,13 @@ public class LookData implements Serializable, Cloneable {
 	protected transient Pixmap pixmap = null;
 	protected transient Pixmap originalPixmap = null;
 	protected transient TextureRegion textureRegion = null;
+	public transient boolean isBackpackLookData = false;
 
 	public LookData() {
 	}
 
 	public void draw(Batch batch, float alpha) {
 	}
-
-	public static enum LookDataType {
-		IMAGE,
-		DRONE_VIDEO
-	}
-
-	public transient boolean isBackpackLookData = false;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -131,10 +125,12 @@ public class LookData implements Serializable, Cloneable {
 			try {
 				pixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
 			} catch (GdxRuntimeException gdxRuntimeException) {
-				Log.e(TAG, "gdx.files throws GdxRuntimeException");
+				Log.e(TAG, "gdx.files throws GdxRuntimeException", gdxRuntimeException);
 				if (gdxRuntimeException.getMessage().startsWith("Couldn't load file:")) {
 					pixmap = new Pixmap(1, 1, Pixmap.Format.Alpha);
 				}
+			} catch (NullPointerException nullPointerException) {
+				Log.e(TAG, "gdx.files throws NullPointerException", nullPointerException);
 			}
 		}
 		return pixmap;
@@ -163,9 +159,17 @@ public class LookData implements Serializable, Cloneable {
 		}
 	}
 
-	public String getAbsolutePathBackPack() {
+	public String getAbsoluteBackPackPath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
+		} else {
+			return null;
+		}
+	}
+
+	public String getAbsoluteProjectPath() {
+		if (fileName != null) {
+			return Utils.buildPath(getPathToImageDirectory(), fileName);
 		} else {
 			return null;
 		}

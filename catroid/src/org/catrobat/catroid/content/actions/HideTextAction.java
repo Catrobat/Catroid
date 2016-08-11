@@ -21,16 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Created by Robert Riedl on 12.08.2015.
- */
-
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -39,25 +36,35 @@ import java.util.Map;
 
 public class HideTextAction extends TemporalAction {
 	private String variableName;
+	private UserBrick userBrick;
 
 	@Override
 	protected void begin() {
-		DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-		List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
-
-		Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 
-		for (UserVariable variable : variableList) {
-			if (variable.getName().equals(variableName)) {
-				variable.setVisible(false);
-				break;
-			}
+		List<UserVariable> variableList = dataContainer.getProjectVariables();
+		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
+
+		setVariablesVisible(variableList);
+
+		if (currentSprite != null) {
+			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
+			setVariablesVisible(spriteVariableList);
 		}
-		for (UserVariable variable : spriteVariableList) {
-			if (variable.getName().equals(variableName)) {
-				variable.setVisible(false);
+		if (userBrick != null) {
+			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
+			setVariablesVisible(userBrickVariableList);
+		}
+	}
+
+	private void setVariablesVisible(List<UserVariable> variableList) {
+		if (variableList == null) {
+			return;
+		}
+		for (UserVariable userVariable : variableList) {
+			if (userVariable.getName().equals(variableName)) {
+				userVariable.setVisible(false);
 				break;
 			}
 		}
@@ -69,5 +76,9 @@ public class HideTextAction extends TemporalAction {
 
 	public void setVariableName(String variableName) {
 		this.variableName = variableName;
+	}
+
+	public void setUserBrick(UserBrick userBrick) {
+		this.userBrick = userBrick;
 	}
 }

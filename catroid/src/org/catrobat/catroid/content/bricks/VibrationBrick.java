@@ -35,8 +35,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -123,7 +123,7 @@ public class VibrationBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
 		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view);
-		textVibrate.setText(String.valueOf(BrickValues.VIBRATE_SECONDS));
+		textVibrate.setText(Utils.getNumberStringForBricks(BrickValues.VIBRATE_SECONDS));
 		TextView secondTextVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_label);
 		secondTextVibrate.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_SECONDS)));
@@ -154,7 +154,7 @@ public class VibrationBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.vibrate(sprite,
+		sequence.addAction(sprite.getActionFactory().createVibrateAction(sprite,
 				getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)));
 		return null;
 	}
@@ -162,5 +162,9 @@ public class VibrationBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VIBRATE_DURATION_IN_SECONDS);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

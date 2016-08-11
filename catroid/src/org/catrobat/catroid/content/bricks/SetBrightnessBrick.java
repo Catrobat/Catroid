@@ -34,10 +34,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class SetBrightnessBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(BrickValues.SET_BRIGHTNESS_TO));
+		textSetBrightness.setText(Utils.getNumberStringForBricks(BrickValues.SET_BRIGHTNESS_TO));
 		return prototypeView;
 	}
 
@@ -135,12 +136,17 @@ public class SetBrightnessBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setBrightness(sprite, getFormulaWithBrickField(BrickField.BRIGHTNESS)));
+		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite,
+				getFormulaWithBrickField(BrickField.BRIGHTNESS)));
 		return null;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.BRIGHTNESS);
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

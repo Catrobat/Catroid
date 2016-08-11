@@ -33,6 +33,24 @@
         <item>@string/cast_gamepad_right</item>
     </string-array>
 
+    <string-array name="raspi_version_spinner_names">
+        <item>RaspberryPi Model A</item>
+        <item>RaspberryPi Model B</item>
+        <item>RaspberryPi Model A+</item>
+        <item>RaspberryPi Model B+</item>
+        <item>RaspberryPi 2</item>
+        <item>RaspberryPi Zero</item>
+    </string-array>
+
+    <string-array name="raspi_version_spinner_revisions">
+        <item>0007</item>
+        <item>0004</item>
+        <item>0012</item>
+        <item>0013</item>
+        <item>a01041</item>
+        <item>TODO</item>
+    </string-array>
+
     <!-- Mindroid motors spinner -->
     <string-array name="nxt_motor_chooser" >
         <item >@string/nxt_motor_a</item >
@@ -54,6 +72,12 @@
         <item>@string/nxt_sensor_light</item>
         <item>@string/nxt_sensor_light_active</item>
         <item>@string/nxt_sensor_ultrasonic</item>
+    </string-array>
+    <string-array name="nxt_port_chooser">
+        <item>@string/nxt_port_1</item>
+        <item>@string/nxt_port_2</item>
+        <item>@string/nxt_port_3</item>
+        <item>@string/nxt_port_4</item>
     </string-array>
 
     <!-- Drone settings spinner-->
@@ -145,5 +169,13 @@
         <item>@string/phiro_sensor_bottom_left</item>
         <item>@string/phiro_sensor_bottom_right</item>
     </string-array>
+
+    <!-- Physics object type spinner -->
+    <string-array name="physics_object_types">
+        <item>@string/brick_set_physics_object_type_dynamic</item>
+        <item>@string/brick_set_physics_object_type_fixed</item>
+        <item>@string/brick_set_physics_object_type_no</item>
+    </string-array>
+
 
 </resources>

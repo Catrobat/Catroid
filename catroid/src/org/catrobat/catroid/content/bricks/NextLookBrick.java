@@ -35,7 +35,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
@@ -115,7 +114,7 @@ public class NextLookBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.nextLook(sprite));
+		sequence.addAction(sprite.getActionFactory().createNextLookAction(sprite));
 		return null;
 	}
 }

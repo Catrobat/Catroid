@@ -109,6 +109,7 @@ public class ProjectActivity extends BaseActivity {
 		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		setTitleActionBar(programName);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
 				R.id.fragment_container);
@@ -117,6 +118,8 @@ public class ProjectActivity extends BaseActivity {
 		fragmentTransaction.commit();
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+
+		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
 	@Override
@@ -131,8 +134,6 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
-			menu.findItem(R.id.unpacking).setVisible(false);
-			menu.findItem(R.id.unpacking_keep).setVisible(false);
 			menu.findItem(R.id.backpack).setVisible(true);
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -141,6 +142,10 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
@@ -187,7 +192,7 @@ public class ProjectActivity extends BaseActivity {
 			spritesListFragment.startBackPackActionMode();
 		} else {
 
-			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpacking) };
+			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -314,7 +319,7 @@ public class ProjectActivity extends BaseActivity {
 
 		if (actionMode.equals(getString(R.string.backpack))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_backpack_and_unpack));
-		} else if (actionMode.equals(getString(R.string.unpacking))) {
+		} else if (actionMode.equals(getString(R.string.unpack))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_unpack));
 		} else if (actionMode.equals(getString(R.string.delete))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_delete));

@@ -54,7 +54,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertFalse("Sprite is not hidden", testSprite.look.visible);
+		assertFalse("Look is not hidden", testSprite.look.isLookVisible());
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleX());
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleY());
 	}
@@ -63,7 +63,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
-		WaitBrick waitBrick = new WaitBrick(400);
+		WaitBrick waitBrick = new WaitBrick(500);
 		ShowBrick showBrick = new ShowBrick();
 
 		testScript.addBrick(hideBrick);
@@ -77,17 +77,18 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		testSprite.look.act(1.0f);
 
 		testSprite.pause();
-		assertFalse("Sprite is not hidden", testSprite.look.visible);
+		assertFalse("Look is not hidden", testSprite.look.isLookVisible());
 		testSprite.resume();
 
 		testSprite.look.act(1.0f);
+		testSprite.look.act(1.0f);
 
-		assertTrue("Sprite is hidden", testSprite.look.visible);
+		assertTrue("Look is hidden", testSprite.look.isLookVisible());
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
-		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.look.visible);
+		assertTrue("Look is hidden - this script shall not be execute", testSprite.look.isLookVisible());
 	}
 }
