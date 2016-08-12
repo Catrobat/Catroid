@@ -26,6 +26,7 @@ import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
 
 public final class JumpingSumoBrickFactory {
@@ -33,11 +34,11 @@ public final class JumpingSumoBrickFactory {
 	private JumpingSumoBrickFactory() {
 	}
 
-	public enum DroneBricks {
+	public enum JumpingSumoBricks {
 		JUMPING_SUMO_TURN, JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD, JUMPING_SUMO_ROTATE_LEFT, JUMPING_SUMO_ROTATE_RIGHT,
 	}
 
-	public static BrickBaseType getInstanceOfDroneBrick(DroneBricks brick, int timeInMilliseconds,
+	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
 														byte powerInPercent, float degree) {
 
 		switch (brick) {
@@ -49,8 +50,8 @@ public final class JumpingSumoBrickFactory {
 				return new JumpingSumoMoveBackwardBrick(timeInMilliseconds, powerInPercent);
 			case JUMPING_SUMO_ROTATE_LEFT:
 				return new JumpingSumoRotateLeftBrick(degree);
-			//case JUMPING_SUMO_ROTATE_RIGHT:
-			//	return new JumpingSumoRotateRightBrick(degree);
+			case JUMPING_SUMO_ROTATE_RIGHT:
+				return new JumpingSumoRotateRightBrick(degree);
 
 			default:
 				return null;

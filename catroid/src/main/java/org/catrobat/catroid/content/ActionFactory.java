@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.content;
 
+
+import android.util.Log;
+
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -84,6 +87,7 @@ import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
+import org.catrobat.catroid.content.actions.JumpingSumoRotateRightAction;
 import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
@@ -157,6 +161,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 public class ActionFactory extends Actions {
+	private static final String TAG = ActionFactory.class.getSimpleName();
 
 	public static Action createBackgroundNotifyAction(LookData lookData) {
 		BackgroundNotifyAction action = Actions.action(BackgroundNotifyAction.class);
@@ -909,10 +914,20 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createJumpingSumoRotateLeftAction(Sprite sprite, Formula degree/*, JumpingSumoRotateBrick.AngularDimension dim*/) {
+	public Action createJumpingSumoRotateLeftAction(Sprite sprite, Formula degree, JumpingSumoRotateBrick.AngularDimension dim) {
 		JumpingSumoRotateLeftAction action = action(JumpingSumoRotateLeftAction.class);
 		action.setSprite(sprite);
-		//action.setAngularDimension(dim);
+		Log.d(TAG, "Angel dim: " + dim);
+		action.setAngularDimension(dim);
+		action.setDegree(degree);
+		return action;
+	}
+
+	public Action createJumpingSumoRotateRightAction(Sprite sprite, Formula degree, JumpingSumoRotateBrick
+			.AngularDimension dim) {
+		JumpingSumoRotateRightAction action = action(JumpingSumoRotateRightAction.class);
+		action.setSprite(sprite);
+		action.setAngularDimension(dim);
 		action.setDegree(degree);
 		return action;
 	}

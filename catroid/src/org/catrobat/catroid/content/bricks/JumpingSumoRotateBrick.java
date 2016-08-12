@@ -49,19 +49,19 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
-	//private AngularDimension angularEnum;
+	private AngularDimension angularEnum;
 
-	//public enum AngularDimension {
-	//	DEGREE, RADIAN
-	//}
+	public enum AngularDimension {
+		DEGREE, RADIAN
+	}
 
 	public JumpingSumoRotateBrick() {
 		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE);
 	}
 
-	//public AngularDimension getAngularDim() {
-	//	return angularEnum;
-	//}
+	public AngularDimension getAngularDim() {
+		return angularEnum;
+	}
 
 	public JumpingSumoRotateBrick(float degree) {
 		initializeBrickFields(new Formula(degree));
@@ -138,12 +138,12 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 		angleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				Log.i(TAG, "Angel: " + position);
-				//if (position == 0) {
-				//	angularEnum = AngularDimension.DEGREE;
-				//} else {
-				//	angularEnum = AngularDimension.RADIAN;
-				//}
+				if (position == 0) {
+					angularEnum = AngularDimension.DEGREE;
+				} else {
+					angularEnum = AngularDimension.RADIAN;
+				}
+				Log.d(TAG, "Angel dim: " + angularEnum);
 			}
 
 			@Override

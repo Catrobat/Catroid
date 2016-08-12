@@ -530,6 +530,7 @@
     <string name="new_project_empty">Create empty Program</string>
     <string name="new_project_default">Create example Program</string>
     <string name="new_project_default_drone">Create example Drone Program</string>
+    <string name="new_project_default_jumping_sumo">Create example Jumping Sumo Program</string>
     <string name="project_orientation_title">Orientation:</string>
     <!--  -->
 
@@ -1095,6 +1096,12 @@
         <item>degree</item>
         <item>radian</item>
     </string-array>
+    <!--  -->
+
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
+    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
+        <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
     <!--  -->
 
     <!-- Phiro bricks -->

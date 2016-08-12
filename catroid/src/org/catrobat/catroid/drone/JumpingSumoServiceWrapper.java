@@ -69,7 +69,7 @@ public final class JumpingSumoServiceWrapper {
 
 	}
 
-	public static boolean isJSSharedPreferenceEnabled() {
+	public static boolean isJumpingSumoSharedPreferenceEnabled() {
 		return SettingsActivity.isJSSharedPreferenceEnabled(CatroidApplication.getAppContext());
 	}
 }
