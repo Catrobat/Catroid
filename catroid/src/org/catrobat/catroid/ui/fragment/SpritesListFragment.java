@@ -187,8 +187,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 			BackPackListManager.getInstance().loadBackpack();
 		}
 
-		StorageHandler.getInstance().fillChecksumContainer();
-
 		if (spriteRenamedReceiver == null) {
 			spriteRenamedReceiver = new SpriteRenamedReceiver();
 		}
@@ -750,7 +748,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), false);
 		}
-
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), false);
 		}
