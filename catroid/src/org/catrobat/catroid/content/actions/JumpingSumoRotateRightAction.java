@@ -33,7 +33,7 @@ import org.catrobat.catroid.drone.JumpingSumoDeviceController;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class JumpingSumoRotateLeftAction extends TemporalAction {
+public class JumpingSumoRotateRightAction extends TemporalAction {
 
 	private Sprite sprite;
 	private Formula degree;
@@ -44,7 +44,7 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
-	private static final String TAG = JumpingSumoRotateLeftAction.class.getSimpleName();
+	private static final String TAG = JumpingSumoRotateRightAction.class.getSimpleName();
 	private JumpingSumoRotateBrick.AngularDimension dimension;
 
 
@@ -84,8 +84,7 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 				newDegree = (float) (newDegree * Math.PI / 180);
 			}
 			Log.d(TAG, "rotate with " + newDegree);
-			Log.d(TAG, "Angel dim: " + dimension);
-			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(-newDegree);
+			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(newDegree);
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
 			Log.d(TAG, "send move command JS");
 		} else {

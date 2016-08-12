@@ -20,44 +20,45 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content;
+package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import android.view.View;
 
-import java.util.ArrayList;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class WhenTouchDownScript extends Script {
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+
+import java.util.List;
+
+public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = WhenTouchDownScript.class.getSimpleName();
+	private static final String TAG = JumpingSumoRotateRightBrick.class.getSimpleName();
 
-	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenTouchDownScript cloneScript = new WhenTouchDownScript();
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public JumpingSumoRotateRightBrick(float degree) {
+		super(degree);
+	}
+
+	public JumpingSumoRotateRightBrick(Formula degree) {
+		super(degree);
 	}
 
 	@Override
-	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenTouchDownBrick(this);
-		}
-		return brick;
+	protected String getBrickLabel(View view) {
+		return view.getResources().getString(R.string.brick_jumping_sumo_rotate_right);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		resources |= getScriptBrick().getRequiredResources();
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
-			//Log.i(TAG, "getRequiredResources loop");
-		}
-		//Log.i(TAG, "getRequiredResources");
-		return resources;
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoRotateRightAction(sprite,
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE), getAngularDim()));
+		return null;
+	}
+
+	@Override
+	public void updateReferenceAfterMerge(Project into, Project from) {
 	}
 }

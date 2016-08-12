@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.util.Log;
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -54,9 +53,8 @@ public class JumpingSumoRotateLeftBrick extends JumpingSumoRotateBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		//Log.i(TAG, "Angel: take that way, young boy: " + getAngularDim());
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoRotateLeftAction(sprite,
-				getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)/*, getAngularDim()*/));
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE), getAngularDim()));
 		return null;
 	}
 
