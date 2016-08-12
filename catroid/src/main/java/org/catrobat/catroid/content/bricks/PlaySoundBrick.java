@@ -74,14 +74,14 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		PlaySoundBrick copyBrick = (PlaySoundBrick) clone();
 
 		if (sound != null && sound.isBackpackSoundInfo) {
-			copyBrick.sound = sound.clone();
+			copyBrick.sound = sound;
 			copyBrick.sound.isBackpackSoundInfo = false;
 			return copyBrick;
 		}
 
 		for (SoundInfo soundInfo : sprite.getSoundList()) {
 			if (sound != null && soundInfo != null && soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
-				copyBrick.sound = soundInfo.clone();
+				copyBrick.sound = soundInfo;
 				copyBrick.sound.isBackpackSoundInfo = true;
 				break;
 			}

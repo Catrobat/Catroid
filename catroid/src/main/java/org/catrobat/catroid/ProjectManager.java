@@ -137,6 +137,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		Project oldProject = project;
 		MessageContainer.createBackup();
 		project = StorageHandler.getInstance().loadProject(projectName);
+		StorageHandler.getInstance().fillChecksumContainer();
 
 		if (project == null) {
 			if (oldProject != null) {
