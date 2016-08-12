@@ -56,7 +56,6 @@ import com.parrot.freeflight.service.DroneControlService;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
@@ -146,16 +145,14 @@ public class JumpingSumoInitializer {
 
 		Log.d(TAG, "Jumping Sumo init start");
 		//if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
-			jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
+		jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
 
-			if (checkRequirements()) {
-				//checkDroneConnectivity();
-				jsDiscoverer.setup();
-				jsDiscoverer.addListener(discovererListener);
-				Log.d(TAG, "Jumping Sumo jsDiscoverer started!!!");
-			}
-
-
+		if (checkRequirements()) {
+			//checkDroneConnectivity();
+			jsDiscoverer.setup();
+			jsDiscoverer.addListener(discovererListener);
+			Log.d(TAG, "Jumping Sumo jsDiscoverer started!!!");
+		}
 		//} else {
 		//	showTermsOfUseDialog();
 		//}

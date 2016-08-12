@@ -321,7 +321,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean landscapeMode)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone, boolean
+			landscapeMode, boolean jumpingSumo)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
@@ -331,6 +332,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (drone) {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DRONE);
+			} else if (jumpingSumo) {
+				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
+						.PROJECT_CREATOR_JUMPING_SUMO);
 			} else {
 				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
 						.PROJECT_CREATOR_DEFAULT);
