@@ -1067,6 +1067,7 @@
     <string name="formula_editor_object_x_velocity">x_velocity</string>
     <string name="formula_editor_object_y_velocity">y_velocity</string>
     <string name="formula_editor_object_angular_velocity">angular_velocity</string>
+    <string name="formula_editor_object_distance_to">Distance to</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
     <string name="formula_editor_functions">Functions</string>

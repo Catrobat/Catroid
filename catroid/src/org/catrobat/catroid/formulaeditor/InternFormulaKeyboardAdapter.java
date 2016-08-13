@@ -298,6 +298,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_Y_VELOCITY);
 			case R.string.formula_editor_object_angular_velocity:
 				return buildObject(Sensors.OBJECT_ANGULAR_VELOCITY);
+			case R.string.formula_editor_object_distance_to:
+				return buildObject(Sensors.OBJECT_DISTANCE_TO);
 		}
 		return null;
 	}
