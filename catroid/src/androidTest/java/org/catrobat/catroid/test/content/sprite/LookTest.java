@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.catrobat.catroid.utils.TouchUtil;
 
 public class LookTest extends InstrumentationTestCase {
 	private Look look;
@@ -358,5 +359,27 @@ public class LookTest extends InstrumentationTestCase {
 
 		look.changeColorInUserInterfaceDimensionUnit(green);
 		assertEquals("Wrong color value!", 40.0f, look.getColorInUserInterfaceDimensionUnit());
+	}
+
+	public void testDistanceTo() {
+		look.setXInUserInterfaceDimensionUnit(25);
+		look.setYInUserInterfaceDimensionUnit(55);
+		float touchPosition = look.getDistanceToTouchPositionInUserInterfaceDimensions();
+
+		float pointAx = look.getXInUserInterfaceDimensionUnit();
+		float pointAy = look.getYInUserInterfaceDimensionUnit();
+		int touchIndex = TouchUtil.getLastTouchIndex();
+		float pointBx = TouchUtil.getX(touchIndex);
+		float pointBy = TouchUtil.getY(touchIndex);
+
+		float vectorX = pointBx - pointAx;
+		float vectorY = pointBy - pointAy;
+
+		double squareX = (float) Math.pow(vectorX, 2);
+		double squareY = (float) Math.pow(vectorY, 2);
+
+		float squareRootOfScalar = (float) Math.sqrt(squareX + squareY);
+
+		assertEquals("Wrong distance to value!", touchPosition, squareRootOfScalar);
 	}
 }

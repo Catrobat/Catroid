@@ -38,6 +38,7 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -288,6 +289,14 @@ public class Look extends Image {
 
 	public void setYInUserInterfaceDimensionUnit(float y) {
 		setY(y - getHeight() / 2f);
+	}
+
+	public float getDistanceToTouchPositionInUserInterfaceDimensions() {
+		int touchIndex = TouchUtil.getLastTouchIndex();
+
+		return (float)
+				Math.sqrt(Math.pow((TouchUtil.getX(touchIndex) - getXInUserInterfaceDimensionUnit()), 2)
+						+ Math.pow((TouchUtil.getY(touchIndex) - getYInUserInterfaceDimensionUnit()), 2));
 	}
 
 	public float getAngularVelocityInUserInterfaceDimensionUnit() {

@@ -314,6 +314,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_BACKGROUND_NUMBER);
 			case R.string.formula_editor_object_background_name:
 				return buildObject(Sensors.OBJECT_BACKGROUND_NAME);
+			case R.string.formula_editor_object_distance_to:
+				return buildObject(Sensors.OBJECT_DISTANCE_TO);
 		}
 		return null;
 	}
