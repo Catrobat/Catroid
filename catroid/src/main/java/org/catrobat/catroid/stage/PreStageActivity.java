@@ -168,12 +168,11 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
-			Log.d(TAG, "Jumping Sumo Service Wrapper init");
 			CatroidApplication.loadSDKLib();
 			if (CatroidApplication.parrotJSLibrariesLoaded) {
 				jumpingSumoInitializer = getJumpingSumoInitialiser();
 				jumpingSumoInitializer.initialise();
-				Log.d(TAG, "JS Initializer done");
+				resourceInitialized();
 			}
 		}
 
@@ -292,14 +291,8 @@ public class PreStageActivity extends BaseActivity {
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityResume();
 		}
-		/*
-		if (jumpingSumoInitializer != null) {
-			jumpingSumoInitializer.onPrestageActivityResume();
-		}
-*/
 		super.onResume();
 		if (requiredResourceCounter == 0 && failedResources.isEmpty()) {
-			Log.d(TAG, "onResume()");
 			finish();
 		}
 	}
@@ -309,11 +302,6 @@ public class PreStageActivity extends BaseActivity {
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityPause();
 		}
-		/*
-		if (jumpingSumoInitializer != null) {
-			jumpingSumoInitializer.onPrestageActivityPause();
-		}
-*/
 		super.onPause();
 	}
 
@@ -322,10 +310,6 @@ public class PreStageActivity extends BaseActivity {
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityDestroy();
 		}
-		if (jumpingSumoInitializer != null) {
-			jumpingSumoInitializer.onPrestageActivityDestroy();
-		}
-
 		super.onDestroy();
 	}
 
@@ -452,7 +436,6 @@ public class PreStageActivity extends BaseActivity {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
 			if (failedResources.isEmpty()) {
-				Log.d(TAG, "Start Stage");
 				startStage();
 			} else {
 				showResourceFailedErrorDialog();
@@ -471,7 +454,6 @@ public class PreStageActivity extends BaseActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i(TAG, "requestcode " + requestCode + " result code" + resultCode);
 
 		switch (requestCode) {
 

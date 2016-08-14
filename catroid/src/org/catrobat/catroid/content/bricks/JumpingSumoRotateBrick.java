@@ -202,9 +202,7 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		Log.i(TAG, "getRequiredResources"); //not called
-		return super.getRequiredResources();
-		//return super.getRequiredResources() | Brick.JUMPING_SUMO;
+		return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 
 	@Override

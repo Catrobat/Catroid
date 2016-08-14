@@ -133,7 +133,7 @@ public final class DefaultProjectHandler {
 				}
 				break;
 			case PROJECT_CREATOR_JUMPING_SUMO:
-				if (BuildConfig.FEATURE_PARROT_JS_DRONE_ENABLED) {
+				if (BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
 					defaultProjectCreator = new DefaultProjectCreatorJumpingSumo();
 				} else {
 					defaultProjectCreator = new DefaultProjectCreatorDefault();

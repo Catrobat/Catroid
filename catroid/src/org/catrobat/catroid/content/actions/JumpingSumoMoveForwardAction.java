@@ -89,6 +89,7 @@ public class JumpingSumoMoveForwardAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			normalizedPower = Byte.valueOf(JUMPING_SUMO_MOVE_SPEED_STOP);
 		}
+		move();
 	}
 
 	protected void move() {
@@ -113,7 +114,7 @@ public class JumpingSumoMoveForwardAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		this.move();
+		//Nothing to do
 	}
 
 	@Override
