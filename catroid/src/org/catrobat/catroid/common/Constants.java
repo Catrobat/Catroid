@@ -29,7 +29,7 @@ public final class Constants {
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.99f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.991f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -91,6 +91,7 @@ public final class Constants {
 	public static final String LIBRARY_BACKGROUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/backgrounds";
 	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
 	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
+	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
@@ -143,6 +144,8 @@ public final class Constants {
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";
 
+	public static final String WHATSAPP_URI = "whatsapp://";
+
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
@@ -159,6 +162,8 @@ public final class Constants {
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
+	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
+	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;

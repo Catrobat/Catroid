@@ -35,6 +35,7 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -46,12 +47,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ShowTextAction extends TemporalAction {
+	public static final String TAG = ShowTextAction.class.getSimpleName();
 	private Formula endX;
 	private Formula endY;
 	private String variableName;
-	public static final String TAG = ShowTextAction.class.getSimpleName();
-
 	private Sprite sprite;
+	private UserBrick userBrick;
 	private ShowTextActor actor;
 
 	@Override
@@ -60,44 +61,49 @@ public class ShowTextAction extends TemporalAction {
 			int x = endX.interpretInteger(sprite);
 			int y = endY.interpretInteger(sprite);
 
-			DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject()
-					.getDataContainer();
-			List<UserVariable> variableList = projectVariableContainer.getProjectVariables();
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			List<UserVariable> variableList = dataContainer.getProjectVariables();
 
-			Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
+			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
-			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-			ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0);
+			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
+			if (StageActivity.stageListener != null) {
+				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
+				ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0, sprite, userBrick);
 
-			for (Actor actor : stageActors) {
-				if (actor.getClass().equals(showTextActor.getClass())) {
-					ShowTextActor textActor = (ShowTextActor) actor;
-					if (textActor.getLinkedVariableName().equals(variableName)) {
-						actor.remove();
+				for (Actor actor : stageActors) {
+					if (actor.getClass().equals(showTextActor.getClass())) {
+						ShowTextActor textActor = (ShowTextActor) actor;
+						if (textActor.getLinkedVariableName().equals(variableName)
+								&& textActor.getSprite().equals(sprite)
+								&& textActor.getUserBrick().equals(userBrick)) {
+							actor.remove();
+						}
 					}
 				}
+
+				actor = new ShowTextActor(variableName, x, y, sprite, userBrick);
+				StageActivity.stageListener.addActor(actor);
 			}
 
-			actor = new ShowTextActor(variableName, x, y);
-			StageActivity.stageListener.addActor(actor);
-
-			for (UserVariable userVariable : variableList) {
-				if (userVariable.getName().equals(variableName)) {
-					userVariable.setVisible(true);
-					break;
-				}
-			}
-			if (spriteVariableList != null) {
-				for (UserVariable variable : spriteVariableList) {
-					if (variable.getName().equals(variableName)) {
-						variable.setVisible(true);
-						break;
-					}
-				}
-			}
+			setVariablesVisible(variableList);
+			setVariablesVisible(spriteVariableList);
+			setVariablesVisible(userBrickVariableList);
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException: " + e);
+		}
+	}
+
+	private void setVariablesVisible(List<UserVariable> variableList) {
+		if (variableList == null) {
+			return;
+		}
+		for (UserVariable userVariable : variableList) {
+			if (userVariable.getName().equals(variableName)) {
+				userVariable.setVisible(true);
+				break;
+			}
 		}
 	}
 
@@ -107,8 +113,10 @@ public class ShowTextAction extends TemporalAction {
 			int x = endX.interpretInteger(sprite);
 			int y = endY.interpretInteger(sprite);
 
-			actor.setX(x);
-			actor.setY(y);
+			if (actor != null) {
+				actor.setX(x);
+				actor.setY(y);
+			}
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException");
 		}
@@ -125,5 +133,9 @@ public class ShowTextAction extends TemporalAction {
 
 	public void setVariableName(String variableName) {
 		this.variableName = variableName;
+	}
+
+	public void setUserBrick(UserBrick userBrick) {
+		this.userBrick = userBrick;
 	}
 }

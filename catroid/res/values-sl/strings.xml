@@ -26,12 +26,10 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Prekliči</string>
+  <string name="next_button">Next</string>
+  <string name="done_button">Dokončano</string>
   <string name="rename">Preimenuj</string>
   <string name="delete">Izbriši</string>
-  <string name="menu_item_move_down">Premakni navzdol</string>
-  <string name="menu_item_move_up">Premakni navzgor</string>
-  <string name="menu_item_move_to_top">Premakni na vrh</string>
-  <string name="menu_item_move_to_bottom">Premakni na dno</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>
   <string name="copy">Kopiraj</string>
@@ -42,6 +40,8 @@
   <string name="packing">Pack</string>
   <string name="unpack">Unpack</string>
   <string name="unpack_keep">Unpack and keep</string>
+  <string name="unpack_bg">Unpack as background</string>
+  <string name="unpack_object">Unpack as object</string>
   <string name="copy_addition">kopija</string>
   <string name="close">Zapri</string>
   <string name="error">Napaka</string>
@@ -169,14 +169,16 @@
   <string name="size">Velikost:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="script_group_name_given">Script Group with this name already exists. Please choose a different one!</string>
+  <string name="userbrick_group">Brick Group</string>
+  <string name="userbrick_groups">Brick Groups</string>
+  <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tapnite \"+\" za dodatne skripte</string>
   <string name="dialog_confirm_delete_brick_title">Ali želiš izbrisati ta blok?</string>
   <string name="dialog_confirm_delete_script_title">Ali želiš izbrisati ta skript?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Ali želiš izbrisati te bloke?</string>
-  <string name="dialog_confirm_delete_script_group_title">Delete this Group?</string>
-  <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these Groups?</string>
+  <string name="dialog_confirm_delete_backpack_group_title">Delete this Group?</string>
+  <string name="dialog_confirm_delete_multiple_backpack_groups_title">Delete these Groups?</string>
   <string name="dialog_confirm_delete_brick_message">To dejanje ne more biti razveljavljeno!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete %d Brick</item>
@@ -265,6 +267,12 @@
     <item quantity="few">Scripts</item>
     <item quantity="other">Scripts</item>
   </plurals>
+  <plurals name="userbricks_plural">
+    <item quantity="one">Brick</item>
+    <item quantity="two">Bricks</item>
+    <item quantity="few">Bricks</item>
+    <item quantity="other">Bricks</item>
+  </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Zadnji dostop:</string>
   <string name="description">Opis:</string>
@@ -326,6 +334,7 @@
   <string name="new_sound_dialog_title">Dodaj zvok</string>
   <string name="add_sound_from_recorder">Posnemi nov zvok</string>
   <string name="add_sound_choose_file">Izberi datoteko</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nov Program</string>
   <string name="new_project_dialog_hint">Moj Program</string>
@@ -500,6 +509,8 @@
   <string name="brick_note">Opomba</string>
   <string name="brick_forever">V nedolged</string>
   <string name="brick_repeat">Ponovi</string>
+  <string name="brick_repeat_until">Repeat until</string>
+  <string name="brick_when_touched">When screen is touched</string>
   <plurals name="time_plural">
     <item quantity="one">krat</item>
     <item quantity="two">krat</item>
@@ -603,6 +614,7 @@
   <string name="upload_button">Upload</string>
   <string name="upload_project_dialog_title">Naložite program</string>
   <string name="upload_description">Opis:</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -615,6 +627,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocked Code za delovanje potrebuje zunanji zapisljiv pomnilnik, kot so kartice SD, a ga ni našel.\nPoskusi zunanji pomnilnik narediti zapisljiv ali vstavite SD kartico, nato pa poskusite znova.</string>
   <string name="error_no_program_name_entered">Vnesite ime programa.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Program z istim imenom že obstaja. \nProsim izberite drugo ime.</string>
   <string name="error_delete_project">Napaka pri brisanju programa</string>
   <string name="error_unknown_project">Program s tem imenom ne obstaja.</string>
@@ -702,6 +715,7 @@
   <string name="nxt_sensor_light">Svetlobni senzor NXT</string>
   <string name="nxt_sensor_light_active">Svetlobni senzor NXT aktiven</string>
   <string name="nxt_sensor_ultrasonic">NXT ultrazvočni senzor</string>
+  <string name="nxt_sensor_not_found">Sensor not found!</string>
   <string name="lego_nxt_sensor_config_info_title">Konfiguracija NXT senzorja</string>
   <string name="preference_disable_nxt_info_dialog">Onemogoči Info dialog</string>
   <string name="preference_disable_nxt_info_dialog_description">Posebne NXT nastavitve programa niso prikazane, ko odprete program.</string>
@@ -713,6 +727,8 @@
   <string name="nxt_port_3">Vrata 3</string>
   <string name="nxt_port_4">Vrata 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Tega sporočila ne kaži več.</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the Sensor on the chosen port?</string>
+  <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">Take off / Land</string>
   <string name="brick_drone_play_led_animation">Predvajaj LED animacijo</string>
@@ -736,7 +752,7 @@
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">z</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Ustavite Phiro motor</string>
@@ -829,6 +845,8 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
+  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">tla</string>
   <string name="formula_editor_function_floor_parameter">(0,7)</string>
   <string name="formula_editor_function_ceil">strop</string>
@@ -848,6 +866,15 @@
   <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+  <string name="formula_editor_function_pin_default_parameter">(3)</string>
+  <string name="formula_editor_function_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
+  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
+  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*ime seznama*)</string>
   <string name="formula_editor_function_contains">vsebuje</string>
@@ -873,12 +900,18 @@
   <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
   <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
   <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+  <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
+  <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
+  <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
+  <string name="formula_editor_sensor_lego_nxt_light_active">NXT_light_active</string>
+  <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
   <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
   <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
   <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
   <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">x_pozicija</string>
   <string name="formula_editor_object_y">y_pozicija</string>
   <string name="formula_editor_object_transparency">prosojnost</string>
@@ -891,10 +924,24 @@
   <string name="formula_editor_object_angular_velocity">angular_velocity</string>
   <string name="formula_editor_compute">Izračuni</string>
   <string name="formula_editor_object">Objekt</string>
-  <string name="formula_editor_math">Funkcije</string>
+  <string name="formula_editor_functions">Functions</string>
   <string name="formula_editor_logic">Logika</string>
-  <string name="formula_editor_sensors">Senzorji</string>
+  <string name="formula_editor_device">Device</string>
   <string name="formula_editor_variables">Spremenljivke</string>
+  <string name="formula_editor_functions_maths">Maths</string>
+  <string name="formula_editor_functions_strings">Strings</string>
+  <string name="formula_editor_functions_lists">Seznami</string>
+  <string name="formula_editor_logic_boolean">logical (boolean) operators</string>
+  <string name="formula_editor_logic_comparison">comparison operators</string>
+  <string name="formula_editor_object_general">general properties</string>
+  <string name="formula_editor_object_physical">physical properties</string>
+  <string name="formula_editor_device_face_detection">Face detection</string>
+  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_lego">Lego</string>
+  <string name="formula_editor_device_arduino">Arduino</string>
+  <string name="formula_editor_device_phiro">Phiro</string>
+  <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+  <string name="formula_editor_device_drone">Drone</string>
   <string name="formula_editor_string">abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -915,12 +962,14 @@
   <string name="formula_editor_list_dialog_title">Nov seznam</string>
   <string name="formula_editor_dialog_for_all_sprites">Za vse predmete</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Samo za ta predmet</string>
+  <string name="formula_editor_dialog_change_text">Change text</string>
   <string name="formula_editor_data_dialog_hint">Vnesite ime</string>
   <string name="formula_editor_discard_changes_dialog_message">Ali želite shraniti spremembe?</string>
   <string name="formula_editor_discard_changes_dialog_title">Shrani spremembe?</string>
   <string name="formula_editor_new_string_name">Nov tekst</string>
   <string name="formula_editor_new_string_dialog_hint">Vnesite nov tekst tukaj.</string>
   <string name="formula_editor_data_dialog_title">Nov</string>
+  <string name="formula_editor_rename_variable_dialog_title">Preimenuj</string>
   <string name="formula_editor_existing_data_item">Ime je že v uporabi!</string>
   <string name="formula_editor_fragment_data_current_items">trenutnih nalog</string>
   <string name="formula_editor_data_dialog_is_list">Spremeni v seznam</string>
@@ -955,6 +1004,7 @@
   <string name="define">definiraj</string>
   <string name="new_user_brick">Nov blok</string>
   <string name="new_user_brick_variable">Spremenljivka 1</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Dodajanje enega k drugemu UserBricku še ni dovoljeno!</string>
   <string name="brick_single">Blok</string>
   <string name="brick_multiple">Bloki</string>
@@ -981,10 +1031,22 @@
   <string name="choose_camera_back">back</string>
   <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. "</string>
+  <string name="brick_wait_until">Wait until</string>
+  <string name="brick_wait_until_second_part">is true</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Rate Pocket Code</string>
   <string name="rating_dialog_text">If you enjoy Pocket Code, please rate us on Google Play!</string>
   <string name="rating_dialog_rate_now">Now</string>
   <string name="rating_dialog_rate_later">Later</string>
   <string name="rating_dialog_rate_never">Never</string>
+  <!-- Delete User Variable Alert Dialog -->
+  <string name="deletion_alert_title">Warning!</string>
+  <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
+  <string name="deletion_alert_yes">Yes, delete anyway!</string>
+  <string name="deletion_alert_no">No.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_show_program">Show program</string>
 </resources>

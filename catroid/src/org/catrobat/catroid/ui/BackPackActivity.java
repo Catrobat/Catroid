@@ -51,12 +51,14 @@ import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSpriteFragment;
+import org.catrobat.catroid.ui.fragment.BackPackUserBrickFragment;
 
 public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SCRIPTS = 0;
 	public static final int FRAGMENT_BACKPACK_LOOKS = 1;
 	public static final int FRAGMENT_BACKPACK_SOUNDS = 2;
 	public static final int FRAGMENT_BACKPACK_SPRITES = 3;
+	public static final int FRAGMENT_BACKPACK_USERBRICKS = 4;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 	private static int currentFragmentPosition;
@@ -65,6 +67,7 @@ public class BackPackActivity extends BaseActivity {
 	private BackPackLookFragment backPackLookFragment = null;
 	private BackPackScriptFragment backPackScriptFragment = null;
 	private BackPackSpriteFragment backPackSpriteFragment = null;
+	private BackPackUserBrickFragment backPackUserBrickFragment = null;
 	private BackPackActivityFragment currentFragment = null;
 	private String currentFragmentTag;
 
@@ -92,6 +95,7 @@ public class BackPackActivity extends BaseActivity {
 		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi >= Build.VERSION_CODES.LOLLIPOP) {
@@ -129,15 +133,23 @@ public class BackPackActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.show_details:
 				handleShowDetails(!currentFragment.getShowDetails(), item);
 				break;
 
 			case R.id.unpacking:
-				currentFragment.startUnPackingActionMode(true);
+				currentFragment.startUnPackingActionMode(false);
 				break;
 
 			case R.id.unpacking_keep:
+				currentFragment.startUnPackingActionMode(false);
+				break;
+
+			case R.id.unpacking_object:
 				currentFragment.startUnPackingActionMode(false);
 				break;
 
@@ -169,6 +181,9 @@ public class BackPackActivity extends BaseActivity {
 				break;
 			case FRAGMENT_BACKPACK_SPRITES:
 				fragment = backPackSpriteFragment;
+				break;
+			case FRAGMENT_BACKPACK_USERBRICKS:
+				fragment = backPackUserBrickFragment;
 				break;
 		}
 		return fragment;
@@ -208,6 +223,14 @@ public class BackPackActivity extends BaseActivity {
 				currentFragment = backPackSpriteFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_SPRITES;
 				currentFragmentTag = BackPackSpriteFragment.TAG;
+				break;
+			case FRAGMENT_BACKPACK_USERBRICKS:
+				if (backPackUserBrickFragment == null) {
+					backPackUserBrickFragment = new BackPackUserBrickFragment();
+				}
+				currentFragment = backPackUserBrickFragment;
+				currentFragmentPosition = FRAGMENT_BACKPACK_USERBRICKS;
+				currentFragmentTag = BackPackUserBrickFragment.TAG;
 				break;
 		}
 	}

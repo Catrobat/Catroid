@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.io;
 
-import android.test.AndroidTestCase;
+import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -60,12 +60,17 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -73,11 +78,16 @@ import java.util.Set;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
 import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
+import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
-public class StorageHandlerTest extends AndroidTestCase {
+public class StorageHandlerTest extends InstrumentationTestCase {
 	private final StorageHandler storageHandler;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
+	private final String backpackJsonValid = "backpack.json";
+	private final String backpackJsonInvalid = "backpack_invalid.json";
+	private final String backpackFilePath = buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+			StorageHandler.BACKPACK_FILENAME);
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
@@ -88,7 +98,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() throws Exception {
-		DefaultProjectHandler.createAndSaveDefaultProject(getContext());
+		DefaultProjectHandler.createAndSaveDefaultProject(getInstrumentation().getTargetContext());
 		super.setUp();
 //		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}
@@ -105,7 +115,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		final int yPosition = 598;
 		final float size = 0.8f;
 
-		Project project = new Project(getContext(), projectName);
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
@@ -188,7 +198,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		final int yPosition = 598;
 		final float size = 0.8f;
 
-		final Project project = new Project(getContext(), projectName);
+		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
@@ -299,15 +309,15 @@ public class StorageHandlerTest extends AndroidTestCase {
 				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
 		};
 
-		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronTask", false);
+		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronousTask", false);
 
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setProject(project);
 
 		String projectName = project.getName();
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), sensorMapping);
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), sensorMapping);
 
-		ProjectManager.getInstance().saveProject(getContext());
+		ProjectManager.getInstance().saveProject(getInstrumentation().getTargetContext());
 		Setting setting = project.getSettings().get(0);
 
 		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
@@ -325,12 +335,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
 		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
 
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), changedSensorMapping);
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), changedSensorMapping);
 
 		ProjectManager.getInstance().setProject(null);
-		ProjectManager.getInstance().loadProject(projectName, getContext());
+		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
 
-		actualSensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(getContext());
+		actualSensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext());
 
 		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
 
@@ -357,8 +367,50 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
 	}
 
+	public void testDeserializeInvalidBackpackFile() throws IOException {
+		File backPackFile = loadBackpackFile(backpackJsonInvalid);
+
+		BackPackListManager.getInstance().loadBackpack();
+		TestUtils.sleep(1000);
+
+		assertTrue("Backpacked items loaded despite file is invalid!", BackPackListManager.getInstance().getBackpack()
+				.backpackedScripts.isEmpty());
+		assertFalse("Backpack.json should be deleted!", backPackFile.exists());
+	}
+
+	public void testDeserializeValidBackpackFile() throws IOException {
+		File backPackFile = loadBackpackFile(backpackJsonValid);
+
+		BackPackListManager.getInstance().loadBackpack();
+		TestUtils.sleep(1000);
+
+		assertFalse("Backpacked sprites not loaded!", BackPackListManager.getInstance().getBackpack().backpackedSprites.isEmpty());
+		assertFalse("Backpacked scripts not loaded!", BackPackListManager.getInstance().getBackpack().hiddenBackpackedScripts.isEmpty());
+		assertFalse("Backpacked looks not loaded!", BackPackListManager.getInstance().getBackpack().hiddenBackpackedLooks.isEmpty());
+		assertFalse("Backpacked sounds not loaded!", BackPackListManager.getInstance().getBackpack().hiddenBackpackedSounds.isEmpty());
+		assertTrue("Backpack.json should not be deleted!", backPackFile.exists());
+	}
+
+	private File loadBackpackFile(String jsonName) throws IOException {
+		UiTestUtils.clearBackPack(true);
+		InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(jsonName);
+		File backPackFile = new File(backpackFilePath);
+		assertFalse("Backpack.json should not exist!", backPackFile.exists());
+
+		byte[] buffer = new byte[inputStream.available()];
+		inputStream.read(buffer);
+
+		File targetFile = new File(backpackFilePath);
+		OutputStream outStream = new FileOutputStream(targetFile);
+		outStream.write(buffer);
+		assertTrue("Backpack.json should exist!", backPackFile.exists());
+		assertTrue("Backpacked items not deleted!", BackPackListManager.getInstance().getBackpack()
+				.backpackedScripts.isEmpty());
+		return backPackFile;
+	}
+
 	private Project generateMultiplePermissionsProject() {
-		final Project project = new Project(getContext(), projectName);
+		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Script testScript = new StartScript();

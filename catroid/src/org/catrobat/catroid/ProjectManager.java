@@ -45,9 +45,10 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
-import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -79,10 +80,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Script currentScript;
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
-	private boolean asynchronTask = true;
+	private boolean asynchronousTask = true;
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
-	private boolean handleCorrectAddButton;
 	private boolean showUploadDialog = false;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
@@ -90,7 +90,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private ProjectManager() {
 		this.comingFromScriptFragmentToSoundFragment = false;
 		this.comingFromScriptFragmentToLooksFragment = false;
-		this.handleCorrectAddButton = false;
 	}
 
 	public static ProjectManager getInstance() {
@@ -111,14 +110,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
 		this.comingFromScriptFragmentToLooksFragment = value;
-	}
-
-	public boolean getHandleCorrectAddButton() {
-		return this.handleCorrectAddButton;
-	}
-
-	public void setHandleCorrectAddButton(boolean value) {
-		this.handleCorrectAddButton = value;
 	}
 
 	public void uploadProject(String projectName, Activity activity) {
@@ -208,6 +199,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.99f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.99f) {
+				project.setCatrobatLanguageVersion(0.991f);
+			}
+			if (project.getCatrobatLanguageVersion() == 0.991f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here
@@ -254,10 +248,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return StorageHandler.getInstance().cancelLoadProject();
 	}
 
-	public boolean canLoadProject(String projectName) {
-		return StorageHandler.getInstance().loadProject(projectName) != null;
-	}
-
 	public void saveProject(Context context) {
 		if (project == null) {
 			return;
@@ -265,7 +255,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		project.saveLegoNXTSettingsToProject(context);
 
-		if (asynchronTask) {
+		if (asynchronousTask) {
 			SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
 			saveTask.execute();
 		} else {
@@ -307,11 +297,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		currentSprite = null;
 		currentScript = null;
-	}
-
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone)
-			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, drone, false);
 	}
 
 	public Project getCurrentProject() {
@@ -571,7 +556,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	private void checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
+	public void checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
 		int numberOfScripts = currentSprite.getNumberOfScripts();
 		for (int pos = 0; pos < numberOfScripts; pos++) {
 			Script script = currentSprite.getScript(pos);
@@ -579,7 +564,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	private void checkCurrentScript(Script script, boolean assumeWrong) {
+	public boolean checkCurrentScript(Script script, boolean assumeWrong) {
 		boolean scriptCorrect = true;
 		if (assumeWrong) {
 			scriptCorrect = false;
@@ -593,10 +578,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (!scriptCorrect) {
 			correctAllNestedReferences(script);
 		}
+		return scriptCorrect;
 	}
 
 	private boolean checkReferencesOfCurrentBrick(Brick currentBrick) {
-		if (currentBrick instanceof IfLogicBeginBrick) {
+		if (currentBrick instanceof IfThenLogicBeginBrick) {
+			IfLogicEndBrick endBrick = ((IfThenLogicBeginBrick) currentBrick).getIfEndBrick();
+			if (endBrick == null || endBrick.getIfBeginBrick() == null
+					|| !endBrick.getIfBeginBrick().equals(currentBrick)) {
+				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
+						+ currentBrick);
+				return false;
+			}
+		} else if (currentBrick instanceof IfLogicBeginBrick) {
 			IfLogicElseBrick elseBrick = ((IfLogicBeginBrick) currentBrick).getIfElseBrick();
 			IfLogicEndBrick endBrick = ((IfLogicBeginBrick) currentBrick).getIfEndBrick();
 			if (elseBrick == null || endBrick == null || elseBrick.getIfBeginBrick() == null
@@ -624,10 +618,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	private void correctAllNestedReferences(Script script) {
 		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
-		ArrayList<PhiroIfLogicBeginBrick> ifSensorBeginList = new ArrayList<>();
+		ArrayList<IfThenLogicBeginBrick> ifThenBeginList = new ArrayList<>();
 		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<>();
+
 		for (Brick currentBrick : script.getBrickList()) {
-			if (currentBrick instanceof IfLogicBeginBrick) {
+			if (currentBrick instanceof IfThenLogicBeginBrick) {
+				ifThenBeginList.add((IfThenLogicBeginBrick) currentBrick);
+			} else if (currentBrick instanceof IfLogicBeginBrick) {
 				ifBeginList.add((IfLogicBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopBeginBrick) {
 				loopBeginList.add((LoopBeginBrick) currentBrick);
@@ -640,6 +637,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
+			} else if (currentBrick instanceof IfThenLogicEndBrick) {
+				IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
+				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
+				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
+				ifBeginList.remove(ifBeginBrick);
 			} else if (currentBrick instanceof IfLogicEndBrick) {
 				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
@@ -648,20 +650,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				((IfLogicEndBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
 				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
 				ifBeginList.remove(ifBeginBrick);
-			} else if (currentBrick instanceof PhiroIfLogicBeginBrick) {
-				ifSensorBeginList.add((PhiroIfLogicBeginBrick) currentBrick);
-			} else if (currentBrick instanceof IfLogicElseBrick) {
-				PhiroIfLogicBeginBrick phiroSensorBrick = ifSensorBeginList.get(ifSensorBeginList.size() - 1);
-				phiroSensorBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
-				((IfLogicElseBrick) currentBrick).setIfBeginBrick(phiroSensorBrick);
-			} else if (currentBrick instanceof IfLogicEndBrick) {
-				PhiroIfLogicBeginBrick phiroSensorBrick = ifSensorBeginList.get(ifSensorBeginList.size() - 1);
-				IfLogicElseBrick elseBrick = phiroSensorBrick.getIfElseBrick();
-				phiroSensorBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				((IfLogicEndBrick) currentBrick).setIfBeginBrick(phiroSensorBrick);
-				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
-				ifSensorBeginList.remove(phiroSensorBrick);
 			}
 		}
 	}

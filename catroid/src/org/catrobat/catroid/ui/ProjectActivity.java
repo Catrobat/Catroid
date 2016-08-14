@@ -94,6 +94,25 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
+		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
+				R.id.fragment_container);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		updateFragment(fragmentTransaction);
+		fragmentTransaction.commit();
+
+		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+
+		SettingsActivity.setDroneChooserEnabled(this, true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setActionBarTitle();
+	}
+
+	private void setActionBarTitle() {
+
 		String programName = getString(R.string.app_name);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -106,16 +125,20 @@ public class ProjectActivity extends BaseActivity {
 		}
 
 		final ActionBar actionBar = getActionBar();
-		actionBar.setHomeButtonEnabled(true);
-		setTitleActionBar(programName);
+		if (actionBar != null) {
+			actionBar.setHomeButtonEnabled(true);
+			actionBar.setTitle(programName);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+	}
 
-		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		updateFragment(fragmentTransaction);
-		fragmentTransaction.commit();
-
-		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+	@Override
+	public void onPause() {
+		super.onPause();
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			bundle.remove(Constants.PROJECTNAME_TO_LOAD);
+		}
 	}
 
 	@Override
@@ -130,8 +153,6 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
-			menu.findItem(R.id.unpacking).setVisible(false);
-			menu.findItem(R.id.unpacking_keep).setVisible(false);
 			menu.findItem(R.id.backpack).setVisible(true);
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -140,6 +161,10 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+
 			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;

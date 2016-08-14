@@ -115,7 +115,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	@Override
 	public void tearDown() throws Exception {
-		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", true);
 
 //		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
 //		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2)));
@@ -512,7 +512,25 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Project was deleted!", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
 
-	public void testChooseNoOnDeleteQuestionInActionMode() {
+	public void testDustbinNotVisible() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
+
+		ArrayList<View> views = solo.getCurrentViews();
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (View view : views) {
+			ids.add(view.getId());
+		}
+
+		assertFalse("Dustbin icon found in Actionbar", ids.contains(R.id.delete));
+	}
+
+	public void testChooseNoOnDeleteQuestionInActionMode() { //TODO
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -921,7 +939,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testRenameProject() {
 		createProjects();
-		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", false);
 		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
@@ -1448,7 +1466,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testSetDescription() {
 		createProjects();
-		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronousTask", false);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);

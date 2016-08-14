@@ -40,6 +40,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -67,6 +69,7 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -154,6 +157,8 @@ public class StageListener implements ApplicationListener {
 
 	private byte[] thumbnail;
 
+	private InputListener inputListener = null;
+
 	StageListener() {
 	}
 
@@ -177,6 +182,7 @@ public class StageListener implements ApplicationListener {
 		batch = new SpriteBatch();
 		stage = new Stage(viewPort, batch);
 		initScreenMode();
+		initStageInputListener();
 
 		physicsWorld = project.resetPhysicsWorld();
 
@@ -208,6 +214,30 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
+	}
+
+	private void initStageInputListener() {
+
+		if (inputListener == null) {
+			inputListener = new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					TouchUtil.touchDown(event.getStageX(), event.getStageY(), pointer);
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+					TouchUtil.touchUp(pointer);
+				}
+
+				@Override
+				public void touchDragged(InputEvent event, float x, float y, int pointer) {
+					TouchUtil.updatePosition(event.getStageX(), event.getStageY(), pointer);
+				}
+			};
+		}
+		stage.addListener(inputListener);
 	}
 
 	void menuResume() {
@@ -248,6 +278,7 @@ public class StageListener implements ApplicationListener {
 
 		FlashUtil.reset();
 		VibratorUtil.reset();
+		TouchUtil.reset();
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 
@@ -321,6 +352,7 @@ public class StageListener implements ApplicationListener {
 				sprite.pause();
 			}
 			stage.addActor(passepartout);
+			initStageInputListener();
 
 			paused = true;
 			firstStart = true;
@@ -336,7 +368,7 @@ public class StageListener implements ApplicationListener {
 			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 			int spriteSize = sprites.size();
 
-			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
+			Map<String, List<String>> scriptActions = new HashMap<>();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
 				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
@@ -347,7 +379,7 @@ public class StageListener implements ApplicationListener {
 
 			if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
 				List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
-				Map<String, List<String>> notifyMap = new HashMap<String, List<String>>();
+				Map<String, List<String>> notifyMap = new HashMap<>();
 				notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
 				scriptActions.putAll(notifyMap);
 			}
@@ -431,7 +463,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
-		List<String> broadcastWaitNotifyActions = new ArrayList<String>();
+		List<String> broadcastWaitNotifyActions = new ArrayList<>();
 		for (String actionString : actions.get(Constants.BROADCAST_SCRIPT)) {
 			String broadcastNotifyString = SEQUENCE + actionString.substring(0, actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR)) + BROADCAST_NOTIFY + actionString.substring(actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
 			broadcastWaitNotifyActions.add(broadcastNotifyString);
@@ -444,7 +476,7 @@ public class StageListener implements ApplicationListener {
 		if (!actionsToRestartMap.isEmpty()) {
 			return;
 		}
-		List<String> actions = new ArrayList<String>();
+		List<String> actions = new ArrayList<>();
 		if (currentActions.get(Constants.START_SCRIPT) != null) {
 			actions.addAll(currentActions.get(Constants.START_SCRIPT));
 		}
@@ -489,10 +521,7 @@ public class StageListener implements ApplicationListener {
 		String innerAction1 = action1.substring(startIndex1, endIndex1);
 
 		String action2Sub = action2.substring(0, action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-		if (innerAction1.equals(action2Sub)) {
-			return true;
-		}
-		return false;
+		return innerAction1.equals(action2Sub);
 	}
 
 	private void printPhysicsLabelOnScreen() {

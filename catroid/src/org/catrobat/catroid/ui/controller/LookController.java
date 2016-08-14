@@ -39,6 +39,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -124,9 +125,27 @@ public final class LookController {
 					}
 				}
 			});
+			setOnTouchListener(holder, lookAdapter);
 		} else {
 			holder.lookElement.setOnClickListener(null);
 		}
+	}
+
+	private void setOnTouchListener(LookViewHolder holder, final LookBaseAdapter lookAdapter) {
+		if (lookAdapter.backPackAdapter) {
+			return;
+		}
+
+		holder.lookElement.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					Intent intent = new Intent(ScriptActivity.ACTION_LOOK_TOUCH_ACTION_UP);
+					lookAdapter.getContext().sendBroadcast(intent);
+				}
+				return false;
+			}
+		});
 	}
 
 	private void handleDetails(LookData lookData, LookViewHolder holder, LookBaseAdapter lookAdapter) {
@@ -191,7 +210,7 @@ public final class LookController {
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-		String[] projection = {MediaStore.MediaColumns.DATA};
+		String[] projection = { MediaStore.MediaColumns.DATA };
 		return new CursorLoader(activity, imageUri, projection, null, null, null);
 	}
 
@@ -246,7 +265,7 @@ public final class LookController {
 				BackPackListManager.getInstance().removeItemFromLookBackPack(lookData);
 			}
 			if (!otherLookDataItemsHaveAFileReference(lookData)) {
-				StorageHandler.getInstance().deleteFile(lookData.getAbsolutePathBackPack(), true);
+				StorageHandler.getInstance().deleteFile(lookData.getAbsoluteBackPackPath(), true);
 			}
 		}
 
@@ -290,7 +309,7 @@ public final class LookController {
 	}
 
 	private void copyImageToCatroid(String originalImagePath, Activity activity, List<LookData> lookDataList,
-									LookFragment fragment) {
+			LookFragment fragment) {
 		try {
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 
@@ -358,7 +377,7 @@ public final class LookController {
 		Uri imageUri = intent.getData();
 		if (imageUri != null) {
 
-			Cursor cursor = activity.getContentResolver().query(imageUri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
+			Cursor cursor = activity.getContentResolver().query(imageUri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
 
 			if (cursor != null) {
 				cursor.moveToFirst();
@@ -594,7 +613,9 @@ public final class LookController {
 
 	public LookData backPack(LookData currentLookData, String newLookDataName, boolean addToHiddenBackpack) {
 		String existingFileNameInBackPackDirectory = lookFileAlreadyInBackPackDirectory(currentLookData);
-		if (existingFileNameInBackPackDirectory == null) {
+		currentLookData.isBackpackLookData = true;
+		if (existingFileNameInBackPackDirectory == null && currentLookData != null
+				&& currentLookData.getAbsolutePath() != null && !currentLookData.getAbsolutePath().isEmpty()) {
 			copyLookBackPack(currentLookData, newLookDataName, false);
 		}
 		return updateLookBackPackAfterInsertion(newLookDataName, currentLookData,
@@ -605,6 +626,7 @@ public final class LookController {
 		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentSprite().containsLookData(selectedLookDataBackPack)) {
 			return selectedLookDataBackPack;
 		}
+		selectedLookDataBackPack.isBackpackLookData = true;
 		String newLookDataName = Utils.getUniqueLookName(selectedLookDataBackPack, false);
 		String existingFileNameInProjectDirectory = lookFileAlreadyInProjectDirectory(selectedLookDataBackPack);
 		if (existingFileNameInProjectDirectory == null) {
@@ -643,10 +665,12 @@ public final class LookController {
 		newLookData.setLookName(title);
 
 		if (existingFileNameInBackPackDirectory == null) {
-			String fileName = currentLookData.getLookFileName();
-			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
-			fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
-			newLookData.setLookFilename(fileName);
+			if (currentLookData != null) {
+				String fileName = currentLookData.getLookFileName();
+				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
+				fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
+				newLookData.setLookFilename(fileName);
+			}
 		} else {
 			newLookData.setLookFilename(existingFileNameInBackPackDirectory);
 		}

@@ -28,6 +28,7 @@
     <dimen name="project_thumbnail_width" >72dip</dimen >
     <dimen name="my_projects_list_item_height" >90dip</dimen >
     <dimen name="spritelist_item_height" >90dip</dimen >
+    <dimen name="text_size_small" >12sp</dimen>
     <dimen name="text_size_medium" >16sp</dimen >
     <dimen name="text_size_large" >18sp</dimen >
     <dimen name="text_size_main_menu_buttons" >22sp</dimen >
@@ -56,12 +57,12 @@
     <dimen name="dialog_item_margin" >16dp</dimen >
     <dimen name="dialog_item_edittext_margin" >12dp</dimen >
     <dimen name="dialog_item_header_height" >46dp</dimen >
+    <dimen name="dialog_item_header_alignment_padding">8dp</dimen>
     <dimen name="dialog_item_header_linepadding" >4dp</dimen >
     <dimen name="dialog_item_header_line_height" >2dp</dimen >
     <dimen name="dialog_margin" >16dp</dimen >
     <dimen name="dialog_item_text_size" >14sp</dimen >
     <!--  -->
-
 
     <!-- Flow Layout -->
     <dimen name="brick_flow_layout_vertical_spacing" >0dp</dimen >

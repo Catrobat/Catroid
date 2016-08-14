@@ -28,12 +28,15 @@ import android.widget.Spinner;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+
+import java.io.Serializable;
 
 public abstract class UserListBrick extends FormulaBrick implements NewDataDialog.NewUserListDialogListener {
 
@@ -69,6 +72,28 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		UserListAdapterWrapper userListAdapterWrapper = ((UserListAdapterWrapper) spinnerToUpdate.getAdapter());
 		userListAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserList);
+
+		for (Brick brick : ProjectManager.getInstance().getCurrentSprite().getAllBricks()) {
+			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() == null) {
+				if (brick instanceof AddItemToUserListBrick) {
+					Spinner spinner = (Spinner) ((AddItemToUserListBrick) brick).view.findViewById(R.id
+							.add_item_to_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				} else if (brick instanceof ReplaceItemInUserListBrick) {
+					Spinner spinner = (Spinner) ((ReplaceItemInUserListBrick) brick).view.findViewById(R.id
+							.replace_item_in_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				} else if (brick instanceof InsertItemIntoUserListBrick) {
+					Spinner spinner = (Spinner) ((InsertItemIntoUserListBrick) brick).view.findViewById(R.id
+							.insert_item_into_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				} else if (brick instanceof DeleteItemOfUserListBrick) {
+					Spinner spinner = (Spinner) ((DeleteItemOfUserListBrick) brick).view.findViewById(R.id
+							.delete_item_of_userlist_spinner);
+					setSpinnerSelection(spinner, newUserList);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -92,7 +117,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		this.backPackedData = backPackedData;
 	}
 
-	public class BackPackedData {
+	public class BackPackedData implements Serializable {
 		public UserList userList;
 		public Integer userListType;
 
@@ -121,7 +146,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 			if (sprite == null || !from.existSpriteList(userList, sprite)) {
 				return;
 			}
-			list = into.getDataContainer().addSpriteListIfDontExist(userList.getName(),
+			list = into.getDataContainer().addSpriteListIfDoesNotExist(userList.getName(),
 					into.getSpriteBySpriteName(sprite));
 		}
 

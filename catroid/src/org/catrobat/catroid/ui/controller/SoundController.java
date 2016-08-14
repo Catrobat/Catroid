@@ -45,6 +45,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Chronometer;
@@ -253,6 +254,24 @@ public final class SoundController {
 			}
 		}
 		holder.soundFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
+		setOnTouchListener(holder, soundAdapter);
+	}
+
+	private void setOnTouchListener(SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
+		if (soundAdapter.backPackAdapter) {
+			return;
+		}
+
+		holder.soundFragmentButtonLayout.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					Intent intent = new Intent(ScriptActivity.ACTION_SOUND_TOUCH_ACTION_UP);
+					soundAdapter.getContext().sendBroadcast(intent);
+				}
+				return false;
+			}
+		});
 	}
 
 	private void handleDetails(SoundBaseAdapter soundAdapter, SoundViewHolder holder, SoundInfo soundInfo) {
@@ -460,10 +479,12 @@ public final class SoundController {
 		newSoundInfo.setTitle(title);
 
 		if (existingFileNameInBackPackDirectory == null) {
-			String fileName = currentSoundInfo.getSoundFileName();
-			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
-			fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
-			newSoundInfo.setSoundFileName(fileName);
+			if (currentSoundInfo != null) {
+				String fileName = currentSoundInfo.getSoundFileName();
+				String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
+				fileName = fileName.substring(0, fileName.indexOf('_') + 1) + title + fileFormat;
+				newSoundInfo.setSoundFileName(fileName);
+			}
 		} else {
 			newSoundInfo.setSoundFileName(existingFileNameInBackPackDirectory);
 		}
@@ -494,7 +515,7 @@ public final class SoundController {
 				BackPackListManager.getInstance().removeItemFromSoundBackPack(soundInfo);
 			}
 			if (!otherSoundInfoItemsHaveAFileReference(soundInfo)) {
-				StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePathBackPack(), true);
+				StorageHandler.getInstance().deleteFile(soundInfo.getAbsoluteBackPackPath(), true);
 			}
 		}
 
@@ -605,21 +626,10 @@ public final class SoundController {
 		soundOnSdCard.delete();
 	}
 
-	public void handleAddButtonFromNew(SoundFragment soundFragment) {
-		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
-		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
-				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
-			soundFragment.handleAddButton();
-		}
-	}
-
-	public void switchToScriptFragment(SoundFragment soundFragment) {
-		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
+	public void switchToScriptFragment(SoundFragment fragment, ScriptActivity scriptActivity) {
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-
 		FragmentTransaction fragmentTransaction = scriptActivity.getFragmentManager().beginTransaction();
-		fragmentTransaction.hide(soundFragment);
+		fragmentTransaction.hide(fragment);
 		fragmentTransaction.show(scriptActivity.getFragmentManager().findFragmentByTag(ScriptFragment.TAG));
 		fragmentTransaction.commit();
 
@@ -756,7 +766,8 @@ public final class SoundController {
 
 	public SoundInfo backPack(SoundInfo selectedSoundInfo, String newSoundInfoTitle, boolean addToHiddenBackpack) {
 		String existingFileNameInBackPackDirectory = soundFileAlreadyInBackPackDirectory(selectedSoundInfo);
-		if (existingFileNameInBackPackDirectory == null) {
+		if (existingFileNameInBackPackDirectory == null && selectedSoundInfo != null
+				&& selectedSoundInfo.getAbsolutePath() != null && !selectedSoundInfo.getAbsolutePath().isEmpty()) {
 			copySoundBackPack(selectedSoundInfo, newSoundInfoTitle, false);
 		}
 		return updateSoundBackPackAfterInsert(newSoundInfoTitle, selectedSoundInfo,

@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
@@ -102,6 +103,8 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -127,6 +130,7 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
@@ -148,10 +152,10 @@ import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -211,7 +215,7 @@ public final class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	public static final String BACKPACK_FILENAME = "backpack.json";
 
-	private XStreamToSupportCatrobatLanguageVersion099AndBefore xstream;
+	private XStreamToSupportCatrobatLanguageVersion0991AndBefore xstream;
 	private Gson backpackGson;
 
 	private FileInputStream fileInputStream;
@@ -244,7 +248,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareProgramXstream() {
-		xstream = new XStreamToSupportCatrobatLanguageVersion099AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion0991AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
@@ -262,7 +266,7 @@ public final class StorageHandler {
 	}
 
 	private void prepareBackpackGson() {
-		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+		GsonBuilder gsonBuilder = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting();
 		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
 		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackBrickSerializerAndDeserializer());
 		backpackGson = gsonBuilder.create();
@@ -305,6 +309,7 @@ public final class StorageHandler {
 		xstream.alias("script", WhenNfcScript.class);
 		xstream.alias("script", BroadcastScript.class);
 		xstream.alias("script", RaspiInterruptScript.class);
+		xstream.alias("script", WhenTouchDownScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", BroadcastBrick.class);
@@ -329,6 +334,8 @@ public final class StorageHandler {
 		xstream.alias("brick", IfLogicBeginBrick.class);
 		xstream.alias("brick", IfLogicElseBrick.class);
 		xstream.alias("brick", IfLogicEndBrick.class);
+		xstream.alias("brick", IfThenLogicBeginBrick.class);
+		xstream.alias("brick", IfThenLogicEndBrick .class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);
@@ -349,6 +356,7 @@ public final class StorageHandler {
 		xstream.alias("brick", PointInDirectionBrick.class);
 		xstream.alias("brick", PointToBrick.class);
 		xstream.alias("brick", RepeatBrick.class);
+		xstream.alias("brick", RepeatUntilBrick.class);
 		xstream.alias("brick", ReplaceItemInUserListBrick.class);
 		xstream.alias("brick", SetBrightnessBrick.class);
 		xstream.alias("brick", SetColorBrick.class);
@@ -369,6 +377,7 @@ public final class StorageHandler {
 		xstream.alias("brick", UserScriptDefinitionBrick.class);
 		xstream.alias("brick", VibrationBrick.class);
 		xstream.alias("brick", WaitBrick.class);
+		xstream.alias("brick", WaitUntilBrick.class);
 		xstream.alias("brick", WhenBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
 
@@ -402,7 +411,6 @@ public final class StorageHandler {
 		xstream.alias("brick", RaspiIfLogicBeginBrick.class);
 		xstream.alias("brick", RaspiPwmBrick.class);
 
-		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
 
@@ -613,16 +621,25 @@ public final class StorageHandler {
 
 		try {
 			BufferedReader bufferedBackpackReader = new BufferedReader(new FileReader(backpackFile));
-			Backpack backpack = backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
-			return backpack;
+			return backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "Could not find backpack file!");
 			return new Backpack();
 		} catch (JsonSyntaxException | JsonIOException jsonException) {
 			Log.d(TAG, "Could not load backpack file! File will be deleted!");
-			backpackFile.delete();
+			deleteBackpackFile();
 			return new Backpack();
 		}
+	}
+
+	public boolean deleteBackpackFile() {
+		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		if (!backpackFile.exists()) {
+			Log.d(TAG, "Backpack file does not exist!");
+			return false;
+		}
+		Log.d(TAG, "Deleting backpack.json");
+		return backpackFile.delete();
 	}
 
 	public boolean codeFileSanityCheck(String projectName) {
@@ -790,7 +807,12 @@ public final class StorageHandler {
 		if (selectedSoundInfo == null) {
 			return null;
 		}
-		String inputFilePath = selectedSoundInfo.getAbsolutePath();
+		String inputFilePath;
+		if (copyFromBackpack) {
+			inputFilePath = selectedSoundInfo.getAbsoluteBackPackPath();
+		} else {
+			inputFilePath = selectedSoundInfo.getAbsoluteProjectPath();
+		}
 		return copyFileBackPack(SOUND_DIRECTORY, BACKPACK_SOUND_DIRECTORY, inputFilePath, newTitle, copyFromBackpack);
 	}
 
@@ -799,7 +821,12 @@ public final class StorageHandler {
 		if (selectedLookData == null) {
 			return null;
 		}
-		String inputFilePath = selectedLookData.getAbsolutePath();
+		String inputFilePath;
+		if (copyFromBackpack) {
+			inputFilePath = selectedLookData.getAbsoluteBackPackPath();
+		} else {
+			inputFilePath = selectedLookData.getAbsoluteProjectPath();
+		}
 		return copyFileBackPack(IMAGE_DIRECTORY, BACKPACK_IMAGE_DIRECTORY, inputFilePath, newName, copyFromBackpack);
 	}
 
@@ -1092,5 +1119,10 @@ public final class StorageHandler {
 			}
 		}
 		return path.delete();
+	}
+
+	public void updateCodefileOnDownload(String projectName) {
+		File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+		xstream.updateCollisionReceiverBrickMessage(projectCodeFile);
 	}
 }

@@ -31,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -38,53 +39,56 @@ import java.util.List;
 import java.util.Map;
 
 public class ShowTextActor extends Actor {
+	String variableValue;
 	private int posX;
 	private int posY;
 	private String variableName;
+	private Sprite sprite;
+	private UserBrick userBrick;
 	private String linkedVariableName;
 	private float scale = 3f;
 	private BitmapFont font;
-	String variableValue;
 
-	public ShowTextActor(String text, int x, int y) {
+	public ShowTextActor(String text, int x, int y, Sprite sprite, UserBrick userBrick) {
 		this.variableName = text;
 		this.posX = x;
 		this.posY = y;
 		this.linkedVariableName = variableName;
+		this.sprite = sprite;
+		this.userBrick = userBrick;
 		init();
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		DataContainer projectVariableContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-		List<UserVariable> projectVariableList = projectVariableContainer.getProjectVariables();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
 
-		Map<Sprite, List<UserVariable>> spriteVariableMap = projectVariableContainer.getSpriteVariableMap();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
+		List<UserVariable> projectVariableList = dataContainer.getProjectVariables();
+		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
+		List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
+		List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
 
 		if (variableName.equals(Constants.NO_VARIABLE_SELECTED)) {
 			font.draw(batch, variableName, posX, posY);
 		} else {
-			for (UserVariable variable : projectVariableList) {
-				if (variable.getName().equals(variableName)) {
-					variableValue = variable.getValue().toString();
-					if (variable.getVisible()) {
-						font.draw(batch, variableValue, posX, posY);
-					}
-					break;
+			drawVariables(projectVariableList, batch);
+			drawVariables(spriteVariableList, batch);
+			drawVariables(userBrickVariableList, batch);
+		}
+	}
+
+	private void drawVariables(List<UserVariable> variableList, Batch batch) {
+		if (variableList == null) {
+			return;
+		}
+		for (UserVariable variable : variableList) {
+			if (variable.getName().equals(variableName)) {
+				variableValue = variable.getValue().toString();
+				if (variable.getVisible()) {
+					font.draw(batch, variableValue, posX, posY);
 				}
-			}
-			if (spriteVariableList != null) {
-				for (UserVariable variable : spriteVariableList) {
-					if (variable.getName().equals(variableName)) {
-						variableValue = variable.getValue().toString();
-						if (variable.getVisible()) {
-							font.draw(batch, variableValue, posX, posY);
-						}
-						break;
-					}
-				}
+				break;
 			}
 		}
 	}
@@ -106,5 +110,12 @@ public class ShowTextActor extends Actor {
 	public String getLinkedVariableName() {
 		return linkedVariableName;
 	}
-}
 
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public UserBrick getUserBrick() {
+		return userBrick;
+	}
+}

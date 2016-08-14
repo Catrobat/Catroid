@@ -411,4 +411,12 @@ public final class TestUtils {
 
 		return project;
 	}
+
+	public static void sleep(int time) {
+		try {
+			Thread.sleep((long) time);
+		} catch (InterruptedException e) {
+			Log.e(TAG, e.getMessage());
+		}
+	}
 }

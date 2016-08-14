@@ -124,16 +124,6 @@ public final class Utils {
 				context.finish();
 			} else {
 				preferences.edit().putBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false).commit();
-
-				Builder builder = new CustomAlertDialogBuilder(context);
-				builder.setTitle(R.string.crashed_title);
-				builder.setMessage(R.string.crashed_message);
-				builder.setNeutralButton(R.string.ok, new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				});
-				builder.show();
 				return true;
 			}
 		}
@@ -705,5 +695,9 @@ public final class Utils {
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
+	}
+
+	public static String getNumberStringForBricks(float value) {
+		return (int) value == value ? "" + (int) value : "" + value;
 	}
 }

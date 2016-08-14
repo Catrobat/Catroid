@@ -54,6 +54,7 @@ public final class StatusBarNotificationManager {
 	private SparseArray<NotificationData> notificationDataMap = new SparseArray<NotificationData>();
 	private Context context;
 	private NotificationManager notificationManager;
+	private int progressPercent;
 
 	private StatusBarNotificationManager() {
 	}
@@ -154,7 +155,7 @@ public final class StatusBarNotificationManager {
 		if (notificationData == null) {
 			return;
 		}
-
+		progressPercent = progressInPercent;
 		Notification.Builder notificationBuilder = notificationData.getNotificationBuilder();
 		notificationBuilder.setProgress(100, progressInPercent, false);
 		notificationManager.notify(id, notificationBuilder.build());
@@ -261,6 +262,10 @@ public final class StatusBarNotificationManager {
 	public void cancelNotification(int id) {
 		notificationDataMap.remove(id);
 		notificationManager.cancel(id);
+	}
+
+	public int getProgressPercent() {
+		return progressPercent;
 	}
 
 	public static class NotificationActionService extends IntentService {

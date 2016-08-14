@@ -542,6 +542,15 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		}
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	private void deleteCheckedProjects() {
 		int numDeleted = 0;
 		for (int position : adapter.getCheckedProjects()) {

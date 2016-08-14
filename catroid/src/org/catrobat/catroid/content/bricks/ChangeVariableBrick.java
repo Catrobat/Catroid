@@ -75,12 +75,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		initializeBrickFields(new Formula(value));
 	}
 
-	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable, boolean inUserBrick) {
-		initializeBrickFields(variableFormula);
-		this.userVariable = userVariable;
-		this.inUserBrick = inUserBrick;
-	}
-
 	private void initializeBrickFields(Formula variableFormula) {
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
 		setFormulaWithBrickField(BrickField.VARIABLE_CHANGE, variableFormula);
@@ -121,10 +115,9 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -145,7 +138,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP && ((Spinner) view).getSelectedItemPosition() == 0
+				if (event.getAction() == MotionEvent.ACTION_DOWN && ((Spinner) view).getSelectedItemPosition() == 0
 						&& ((Spinner) view).getAdapter().getCount() == 1) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(ChangeVariableBrick.this);
@@ -192,10 +185,9 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		variableSpinner.setEnabled(false);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject()
-				.getDataContainer().createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+				.getDataContainer().createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
@@ -239,18 +231,14 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 	@Override
 	public ChangeVariableBrick copyBrickForSprite(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		ChangeVariableBrick copyBrick = clone();
-		if (this.userVariable != null) {
-			copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
-		}
 		return copyBrick;
 	}
 
 	@Override
 	public ChangeVariableBrick clone() {
 		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
-				BrickField.VARIABLE_CHANGE).clone(), userVariable, inUserBrick);
+				BrickField.VARIABLE_CHANGE).clone(), userVariable);
 		clonedBrick.setBackPackedData(new UserVariableBrick.BackPackedData(backPackedData));
 		return clonedBrick;
 	}

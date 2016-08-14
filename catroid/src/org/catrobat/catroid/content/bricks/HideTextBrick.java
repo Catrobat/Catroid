@@ -91,10 +91,9 @@ public class HideTextBrick extends UserVariableBrick {
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_text_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -115,7 +114,7 @@ public class HideTextBrick extends UserVariableBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP
+				if (event.getAction() == MotionEvent.ACTION_DOWN
 						&& (((Spinner) view).getSelectedItemPosition() == 0
 						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
@@ -200,6 +199,10 @@ public class HideTextBrick extends UserVariableBrick {
 		} catch (NullPointerException e) {
 			Log.d(tag, "Nothing selected yet.");
 		}
+	}
+
+	void setUserVariableName(String userVariableName) {
+		this.userVariableName = userVariableName;
 	}
 }
 

@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,8 @@ public class DataContainerTest extends AndroidTestCase {
 
 	private static final String PROJECT_USER_LIST_NAME_2 = "project_user_list_2";
 	private static final String PROJECT_USER_LIST_NAME = "project_user_list";
+	private static final String PROJECT_USER_VARIABLE_NAME_2 = "project_user_variable_2";
+	private static final String PROJECT_USER_VARIABLE_NAME = "project_user_variable";
 	private static final String SPRITE_USER_LIST_NAME = "sprite_user_list";
 	private Sprite firstSprite;
 
@@ -110,5 +113,47 @@ public class DataContainerTest extends AndroidTestCase {
 
 		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserList();
 		assertEquals("getUserList returned wrong UserList values!", USER_LIST_VALUES_SINGLE_NUMBER_STRING, userList.getList());
+	}
+
+	public void testRenameListGlobal() {
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
+		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+
+		dataContainer.renameProjectUserList(PROJECT_USER_LIST_NAME_2, PROJECT_USER_LIST_NAME);
+
+		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserList(
+				PROJECT_USER_LIST_NAME_2, dataContainer.getProjectLists());
+		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
+	}
+
+	public void testRenameListLocal() {
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
+		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
+
+		dataContainer.renameSpriteUserList(PROJECT_USER_LIST_NAME_2, PROJECT_USER_LIST_NAME);
+
+		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserList(
+				PROJECT_USER_LIST_NAME_2, dataContainer.getSpriteListOfLists(firstSprite));
+		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
+	}
+
+	public void testRenameVariableGlobal() {
+		dataContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME);
+
+		dataContainer.renameProjectUserVariable(PROJECT_USER_VARIABLE_NAME_2, PROJECT_USER_VARIABLE_NAME);
+
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserVariable(
+				PROJECT_USER_VARIABLE_NAME_2, dataContainer.getProjectVariables());
+		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
+	}
+
+	public void testRenameVariableLocal() {
+		dataContainer.addSpriteUserVariable(PROJECT_USER_VARIABLE_NAME);
+
+		dataContainer.renameSpriteUserVariable(PROJECT_USER_VARIABLE_NAME_2, PROJECT_USER_VARIABLE_NAME);
+
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer().findUserVariable(
+				PROJECT_USER_VARIABLE_NAME_2, dataContainer.getVariableListForSprite(firstSprite));
+		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}
 }

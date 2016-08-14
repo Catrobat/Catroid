@@ -39,6 +39,8 @@ import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.utils.TouchUtil;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
@@ -359,6 +361,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 				break;
 
+			case LAST_FINGER_INDEX:
+				return Double.valueOf(TouchUtil.getLastTouchIndex());
+			case FINGER_TOUCHED:
+				return TouchUtil.isFingerTouching(TouchUtil.getLastTouchIndex()) ? 1d : 0d;
+			case FINGER_X:
+				return Double.valueOf(TouchUtil.getX(TouchUtil.getLastTouchIndex()));
+			case FINGER_Y:
+				return Double.valueOf(TouchUtil.getY(TouchUtil.getLastTouchIndex()));
+
 			case DRONE_BATTERY_STATUS:
 				return (double) dcs.getDroneNavData().batteryStatus;
 
@@ -412,6 +423,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return 0.0;
 				}
+
+			case NFC_TAG_ID:
+				return (double) NfcHandler.getLastNfcTagId();
 		}
 		return 0d;
 	}

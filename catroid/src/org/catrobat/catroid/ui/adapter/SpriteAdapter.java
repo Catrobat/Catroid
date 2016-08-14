@@ -25,6 +25,8 @@ package org.catrobat.catroid.ui.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -41,17 +43,51 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class SpriteAdapter extends SpriteBaseAdapter implements ActionModeActivityAdapterInterface {
 
+	private static final int INVALID_ID = -1;
+
 	SpritesListFragment spritesListFragment;
+
+	private HashMap<Sprite, Integer> idMap = new HashMap<Sprite, Integer>();
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
+		for (int i = 0; i < objects.size(); ++i) {
+			idMap.put(objects.get(i), i);
+		}
+	}
+
+	@Override
+	public long getItemId(int position) {
+		if (position < 0 || position >= idMap.size()) {
+			return INVALID_ID;
+		}
+		Sprite item = getItem(position);
+		return idMap.get(item);
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+		if (getCount() != idMap.size()) {
+			idMap.clear();
+			for (int i = 0; i < getCount(); i++) {
+				idMap.put(getItem(i), i);
+			}
+		}
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	@Override
@@ -121,8 +157,7 @@ public class SpriteAdapter extends SpriteBaseAdapter implements ActionModeActivi
 
 		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts).concat(" ").concat(Integer.toString(sprite.getNumberOfScripts())));
 
-		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks).concat(" ").concat(Integer
-				.toString(sprite.getNumberOfBricks())).concat(Integer.toString(sprite.getNumberOfScripts())));
+		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks).concat(" ").concat(Integer.toString(sprite.getNumberOfBricks())));
 
 		holder.looks.setText(context.getResources().getString(R.string.number_of_looks).concat(" ").concat(Integer.toString(sprite.getLookDataList().size())));
 
@@ -183,6 +218,17 @@ public class SpriteAdapter extends SpriteBaseAdapter implements ActionModeActivi
 				} else if (position != 0) {
 					holder.checkbox.setChecked(!holder.checkbox.isChecked());
 				}
+			}
+		});
+
+		holder.background.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					Intent intent = new Intent(ScriptActivity.ACTION_SPRITE_TOUCH_ACTION_UP);
+					getContext().sendBroadcast(intent);
+				}
+				return false;
 			}
 		});
 

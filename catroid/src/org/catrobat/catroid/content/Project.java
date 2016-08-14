@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -90,7 +91,6 @@ public class Project implements Serializable {
 			return;
 		}
 		Sprite background = new Sprite(context.getString(R.string.background));
-		background.isBackgroundObject = true;
 		background.look.setZIndex(0);
 		addSprite(background);
 	}
@@ -216,6 +216,10 @@ public class Project implements Serializable {
 		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
 	}
 
+	public void setTags(List<String> tags) {
+		xmlHeader.setTags(tags);
+	}
+
 	// default constructor for XMLParser
 	public Project() {
 	}
@@ -229,7 +233,7 @@ public class Project implements Serializable {
 	}
 
 	public void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new ArrayList<String>();
+		List<String> usedMessages = new ArrayList<>();
 		for (Sprite currentSprite : spriteList) {
 			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
 				Script currentScript = currentSprite.getScript(scriptIndex);
@@ -239,6 +243,14 @@ public class Project implements Serializable {
 
 				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
 					Brick currentBrick = currentScript.getBrick(brickIndex);
+					if (currentBrick instanceof BroadcastMessage) {
+						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
+					}
+				}
+			}
+			for (UserBrick userBrick : currentSprite.getUserBrickList()) {
+				Script userScript = userBrick.getDefinitionBrick().getUserScript();
+				for (Brick currentBrick : userScript.getBrickList()) {
 					if (currentBrick instanceof BroadcastMessage) {
 						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
 					}
@@ -411,9 +423,5 @@ public class Project implements Serializable {
 			}
 		}
 		return false;
-	}
-
-	public boolean islandscapeMode() {
-		return xmlHeader.islandscapeMode();
 	}
 }

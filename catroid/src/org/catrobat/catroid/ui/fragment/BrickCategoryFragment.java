@@ -125,6 +125,10 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.findItem(R.id.delete).setVisible(false);
 		menu.findItem(R.id.copy).setVisible(false);
+		menu.findItem(R.id.backpack).setVisible(false);
+		if (scriptFragment != null) {
+			((ScriptFragment) scriptFragment).setBackpackMenuIsVisible(false);
+		}
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -144,7 +148,7 @@ public class BrickCategoryFragment extends ListFragment {
 
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		List<View> categories = new ArrayList<View>();
+		List<View> categories = new ArrayList<>();
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));

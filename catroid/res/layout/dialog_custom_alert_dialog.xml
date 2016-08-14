@@ -24,14 +24,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/DefaultDialog"
     android:layout_margin="0dp"
-    android:orientation="vertical"
-    android:padding="0dp" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/dialog_text_text_view"
         style="@style/DefaultDialog.TextView"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dialog_item_margin"
         android:gravity="center_vertical"
         android:minHeight="30dp"
         android:padding="0dp"

@@ -51,7 +51,9 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	public IfLogicElseBrick(IfLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
-		ifBeginBrick.setIfElseBrick(this);
+		if (ifBeginBrick != null) {
+			ifBeginBrick.setIfElseBrick(this);
+		}
 	}
 
 	@Override
@@ -153,7 +155,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	@Override
 	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
 		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		if (sorted) {
 			nestingBrickList.add(ifBeginBrick);
 			nestingBrickList.add(this);
@@ -183,8 +185,12 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	public Brick copyBrickForSprite(Sprite sprite) {
 		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		ifBeginBrick.setIfElseBrick(this);
-		ifEndBrick.setIfElseBrick(this);
+		if (ifBeginBrick != null) {
+			ifBeginBrick.setIfElseBrick(this);
+		}
+		if (ifEndBrick != null) {
+			ifEndBrick.setIfElseBrick(this);
+		}
 
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifEndBrick = null;

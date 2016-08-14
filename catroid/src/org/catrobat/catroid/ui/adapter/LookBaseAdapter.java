@@ -43,18 +43,21 @@ public class LookBaseAdapter extends ArrayAdapter<LookData> implements ActionMod
 	private int selectMode;
 	private boolean showDetails;
 	protected SortedSet<Integer> checkedLookPositions = new TreeSet<>();
+	public boolean backPackAdapter;
 
-	public LookBaseAdapter(final Context context, int currentPlayingposition) {
+	public LookBaseAdapter(final Context context, int currentPlayingposition, boolean backPackAdapter) {
 		super(context, currentPlayingposition);
+		this.backPackAdapter = backPackAdapter;
 	}
 
 	public LookBaseAdapter(final Context context, int resource, int textViewResourceId, List<LookData> items,
-			boolean showDetails) {
+			boolean showDetails, boolean backPackAdapter) {
 		super(context, resource, textViewResourceId, items);
 		this.context = context;
 		this.showDetails = showDetails;
 		this.lookDataItems = items;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
+		this.backPackAdapter = backPackAdapter;
 	}
 
 	public OnLookEditListener getOnLookEditListener() {

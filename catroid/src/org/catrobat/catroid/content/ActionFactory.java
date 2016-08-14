@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -89,6 +90,7 @@ import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
@@ -109,6 +111,7 @@ import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
+import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -119,6 +122,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -541,6 +545,21 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createWaitUntilAction(Sprite sprite, Formula condition) {
+		WaitUntilAction action = Actions.action(WaitUntilAction.class);
+		action.setSprite(sprite);
+		action.setCondition(condition);
+		return action;
+	}
+
+	public Action createRepeatUntilAction(Sprite sprite, Formula condition, Action repeatedAction) {
+		RepeatUntilAction action = action(RepeatUntilAction.class);
+		action.setRepeatCondition(condition);
+		action.setAction(repeatedAction);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public Action createDelayAction(Sprite sprite, Formula delay) {
 		WaitAction action = Actions.action(WaitAction.class);
 		action.setSprite(sprite);
@@ -556,9 +575,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createUserBrickAction(Action userBrickAction) {
+	public Action createUserBrickAction(Action userBrickAction, UserBrick userBrick) {
 		UserBrickAction action = action(UserBrickAction.class);
 		action.setAction(userBrickAction);
+		action.setUserBrick(userBrick);
 		return action;
 	}
 
@@ -713,12 +733,16 @@ public class ActionFactory extends Actions {
 		action.setPosition(x, y);
 		action.setVariableName(variableName);
 		action.setSprite(sprite);
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		action.setUserBrick(userBrick);
 		return action;
 	}
 
 	public Action createHideTextAction(String variableName) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setVariableName(variableName);
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		action.setUserBrick(userBrick);
 		return action;
 	}
 
