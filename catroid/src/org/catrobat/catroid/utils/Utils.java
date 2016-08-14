@@ -124,16 +124,6 @@ public final class Utils {
 				context.finish();
 			} else {
 				preferences.edit().putBoolean(BaseExceptionHandler.RECOVERED_FROM_CRASH, false).commit();
-
-				Builder builder = new CustomAlertDialogBuilder(context);
-				builder.setTitle(R.string.crashed_title);
-				builder.setMessage(R.string.crashed_message);
-				builder.setNeutralButton(R.string.ok, new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				});
-				builder.show();
 				return true;
 			}
 		}

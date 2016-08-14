@@ -30,6 +30,8 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilZip;
@@ -47,6 +49,7 @@ public class ProjectDownloadService extends IntentService {
 	public static final String DOWNLOAD_NAME_TAG = "downloadName";
 	public static final String URL_TAG = "url";
 	public static final String ID_TAG = "notificationId";
+	public static final String RENAME_AFTER_DOWNLOAD = "renameAfterDownload";
 
 	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENSION;
 
@@ -76,6 +79,16 @@ public class ProjectDownloadService extends IntentService {
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
 			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+
+			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
+			if (renameProject) {
+				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName);
+				if (projectTBRenamed != null) {
+					projectTBRenamed.setName(projectName);
+					StorageHandler.getInstance().saveProject(projectTBRenamed);
+				}
+			}
+			StorageHandler.getInstance().updateCodefileOnDownload(projectName);
 			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
@@ -89,7 +102,6 @@ public class ProjectDownloadService extends IntentService {
 			showToast(R.string.error_project_download, true);
 			return;
 		}
-
 		showToast(R.string.notification_download_finished, false);
 	}
 

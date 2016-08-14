@@ -64,7 +64,7 @@ android {
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
         }
@@ -128,9 +128,9 @@ android {
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 30
+        versionCode 31
         println "VersionCode is " + versionCode
-        versionName "0.9.23"
+        versionName "0.9.24"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""

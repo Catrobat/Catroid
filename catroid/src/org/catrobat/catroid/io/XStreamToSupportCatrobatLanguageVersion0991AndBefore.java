@@ -122,6 +122,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -153,14 +154,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion099AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion099AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion0991AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion099AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion0991AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -619,6 +620,43 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBefore extends XStream
 			Node motorMoveBrick = motorMoveBricks.item(i);
 			originalDocument.renameNode(motorMoveBrick, motorMoveBrick.getNamespaceURI(), newMotorMoveBrickName);
 		}
+	}
+
+	public void updateCollisionReceiverBrickMessage(File file) {
+		final String collisionTag = "CollisionScript";
+		final String receivedTag = "receivedMessage";
+		Document originalDocument = getDocument(file);
+
+		if (originalDocument != null) {
+			NodeList scripts = originalDocument.getElementsByTagName("script");
+			for (int i = 0; i < scripts.getLength(); i++) {
+				Node script = scripts.item(i);
+				NamedNodeMap attr = script.getAttributes();
+				if (attr.getLength() > 0) {
+					for (int j = 0; j < attr.getLength(); j++) {
+						if (attr.item(j).getNodeValue().equals(collisionTag)) {
+							NodeList messages = script.getChildNodes();
+							for (int k = 0; k < messages.getLength(); k++) {
+								Node message = messages.item(k);
+								if (message.getNodeName().equals(receivedTag)) {
+									String broadcastMessage = message.getTextContent();
+									String[] broadcastMessages = broadcastMessage.split("<(\\W)*-(\\W)*>");
+
+									if (broadcastMessages[1].matches("(\\W)*ANYTHING(\\W)*")) {
+										broadcastMessages[1] = PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER;
+									}
+									broadcastMessage = broadcastMessages[0] + PhysicsCollision
+											.COLLISION_MESSAGE_CONNECTOR + broadcastMessages[1];
+
+									message.setTextContent(broadcastMessage);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		saveDocument(originalDocument, file);
 	}
 
 	private void modifyVariables(Document originalDocument) {

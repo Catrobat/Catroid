@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Abbrechen</string>
+  <string name="next_button">Weiter</string>
+  <string name="done_button">Fertig</string>
   <string name="rename">Umbenennen</string>
   <string name="delete">Löschen</string>
   <string name="yes">Ja</string>
@@ -72,7 +74,7 @@
   <string name="nothing_to_backpack_and_unpack">Nichts zum Einpacken und Auspacken</string>
   <string name="nothing_to_unpack">Nichts zum Auspacken</string>
   <string name="nothing_to_delete">Nichts zu löschen</string>
-  <string name="nothing_to_rename">Nicht zum Unbenennen</string>
+  <string name="nothing_to_rename">Nichts zum Unbenennen</string>
   <string name="unpack_background">Der Hintergrund des Programms wird ersetzt</string>
   <string name="degrees">Grad</string>
   <!-- Main menu activity -->
@@ -86,15 +88,15 @@
   <string name="main_menu_terms_of_use">Nutzungsbedingungen</string>
   <string name="main_menu_rate_app">Bewerte uns!</string>
   <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
-  <string name="main_menu_logout">Ausloggen</string>
-  <string name="main_menu_login">Einloggen</string>
-  <string name="logout_successful">Logout erfolgreich</string>
+  <string name="main_menu_logout">Abmelden</string>
+  <string name="main_menu_login">Anmelden</string>
+  <string name="logout_successful">Abmeldung erfolgreich</string>
   <!-- Settings activity -->
   <string name="preference_title">Einstellungen</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
   <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT Bausteine</string>
-  <string name="preference_description_mindstorms_nxt_bricks">Erlaube Steuerung von Lego Mindstorms NXT Robotern</string>
+  <string name="preference_description_mindstorms_nxt_bricks">Erlaube die Steuerung von Lego Mindstorms NXT Robotern</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensoren</string>
   <string name="preference_title_drone_config_properties">Drohnen Konfigurationseinstellungen</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
@@ -170,8 +172,8 @@
   <string name="size">Größe:</string>
   <string name="script_group">Skript Gruppe</string>
   <string name="script_groups">Skript Gruppen</string>
-  <string name="userbrick_group">Bausteingruppe</string>
-  <string name="userbrick_groups">Bausteingruppen</string>
+  <string name="userbrick_group">Benutzerbaustein Gruppe</string>
+  <string name="userbrick_groups">Benutzerbaustein Gruppen</string>
   <string name="script_group_name_given">Skript Gruppenname existiert bereits. Bitte wähle einen anderen.</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tippe auf \"+\" um Skripte hinzuzufügen</string>
@@ -257,8 +259,8 @@
     <item quantity="other">Skripte</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="one">Baustein</item>
-    <item quantity="other">Bausteine</item>
+    <item quantity="one">Benutzerbaustein</item>
+    <item quantity="other">Benutzerbaustein</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Letzter Zugriff:</string>
@@ -319,6 +321,7 @@
   <string name="new_sound_dialog_title">Klang hinzufügen</string>
   <string name="add_sound_from_recorder">Klang aufnehmen</string>
   <string name="add_sound_choose_file">Klang auswählen</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Neues Programm</string>
   <string name="new_project_dialog_hint">Mein Programm</string>
@@ -590,6 +593,7 @@
   <string name="upload_button">Hochladen</string>
   <string name="upload_project_dialog_title">Programm hochladen</string>
   <string name="upload_description">Beschreibung:</string>
+  <string name="upload_tag_dialog_title">Wähle bis zu drei Kategorien</string>
   <string name="drone_emergency_battery_low">Akkustand ist niedrig (automatische Landung).</string>
   <string name="drone_emergency_camera">Eine oder mehrere Kamera(s) reagieren nicht.</string>
   <string name="drone_emergency_ultrasound">Ultraschallsensor reagiert nicht.</string>
@@ -602,7 +606,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nBeheben die dies, indem Sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
   <string name="error_no_program_name_entered">Bitte einen Programmnamen angeben.</string>
-  <string name="error_no_userbrick_name_entered">Bitte gib einen Bausteinnamen ein.</string>
+  <string name="error_no_userbrick_name_entered">Bitte gib einen Benutzerbausteinnamen ein.</string>
   <string name="error_project_exists">Es gibt bereits ein Programm mit diesem Namen.\nBitte wählen Sie einen anderen Namen.</string>
   <string name="error_delete_project">Während des Löschens ist ein Fehler aufgetreten</string>
   <string name="error_unknown_project">Ein Programm mit diesem Namen existiert nicht.</string>
@@ -726,7 +730,7 @@
   <string name="brick_drone_set_rotation_speed">Rotations-Tempolimit</string>
   <string name="brick_drone_set_tilt_limit">Neigungslimit</string>
   <string name="brick_drone_with">mit</string>
-  <string name="brick_drone_percent_power">% Leistung</string>
+  <string name="brick_drone_percent_power">Leistung</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Stoppe Phiro Motor</string>
@@ -819,7 +823,7 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
-  <string name="formula_editor_function_power">Energie</string>
+  <string name="formula_editor_function_power">Potenziere</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">Abrunden</string>
   <string name="formula_editor_function_floor_parameter">(0,7)</string>
@@ -885,6 +889,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">Position_x</string>
   <string name="formula_editor_object_y">Position_y</string>
   <string name="formula_editor_object_transparency">Transparenz</string>
@@ -972,7 +977,7 @@
   <string name="brick_show_text_pos">"bei "</string>
   <string name="brick_hide_text_var">Verstecke Variable</string>
   <!-- User Bricks strings -->
-  <string name="define">Definiere</string>
+  <string name="define">definiere</string>
   <string name="new_user_brick">Neuer Baustein</string>
   <string name="new_user_brick_variable">Variable 1</string>
   <string name="new_user_brick_name">Bitte wähle einen Benutzerbausteinnamen:</string>
@@ -999,7 +1004,7 @@
   <string name="choose_camera_back">hintere</string>
   <string name="error_flash_front_camera">"Du kannst den Blitz nur mit der hinteren Kamera verwenden. Bitte füge einen \"Verwende Kamera\" Baustein für die hintere Kamera deines Gerätes hinzu."</string>
   <string name="brick_wait_until">Warte bis</string>
-  <string name="brick_wait_until_second_part">ist wahr</string>
+  <string name="brick_wait_until_second_part">wahr ist</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Bewerte Pocket Code</string>
   <string name="rating_dialog_text">Wenn dir Pocket Code gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
@@ -1011,7 +1016,7 @@
   <string name="deletion_alert_text">Löschen einer Variable, die noch in Gebrauch ist, ist gefährlich! Bist du sicher?</string>
   <string name="deletion_alert_yes">Ja, trotzdem löschen!</string>
   <string name="deletion_alert_no">Nein.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code ist abgestürzt!</string>
-  <string name="crashed_message">Pocked Code ist abgestürzt und musste neu gestartet werden.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Dein Programm wird nun auf unsere Community Seite hochgeladen. Hier können andere dein Programm verwenden und herunterladen. Du kannst dein Programm auch als eigenständige App herunterladen.</string>
+  <string name="progress_upload_dialog_show_program">Programm anzeigen</string>
 </resources>

@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Cancelar</string>
+  <string name="next_button">Next</string>
+  <string name="done_button">Concluído</string>
   <string name="rename">Mudar nome</string>
   <string name="delete">Apagar</string>
   <string name="yes">Sim</string>
@@ -164,8 +166,8 @@
   <string name="size">Tamanho:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="userbrick_group">Userbrick Group</string>
-  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="userbrick_group">Brick Group</string>
+  <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Toque em \"+\" para adicionar Scripts</string>
@@ -251,8 +253,8 @@
     <item quantity="other">Scripts</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="one">Userbrick</item>
-    <item quantity="other">Userbricks</item>
+    <item quantity="one">Brick</item>
+    <item quantity="other">Bricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Último acesso:</string>
@@ -315,6 +317,7 @@
   <string name="new_sound_dialog_title">Adicionar Áudio</string>
   <string name="add_sound_from_recorder">Gravar Áudio</string>
   <string name="add_sound_choose_file">Selecionar Arquivo</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Novo programa</string>
   <string name="new_project_dialog_hint">Meu Programa</string>
@@ -586,6 +589,7 @@
   <string name="upload_button">Carregar</string>
   <string name="upload_project_dialog_title">Fazer upload do programa</string>
   <string name="upload_description">Descrição:</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -598,7 +602,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code requer um dispositivo de armazenamento gravável para ser executado, como um cartão SD, porém nenhum foi encontrado.\nVocê pode solucionar este problema destravando o dispositivo de armazenamento ou inserindo um cartão SD e, então, tentando novamente.</string>
   <string name="error_no_program_name_entered">Por favor, insira o nome de um programa.</string>
-  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Por favor, insira o nome de um outro programa.</string>
   <string name="error_delete_project">Ocorreu um erro ao excluir o programa</string>
   <string name="error_unknown_project">Um programa com esse nome não existe.</string>
@@ -723,7 +727,7 @@
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">com</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Parar motor Phiro</string>
@@ -882,6 +886,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_sensor_lado_direito</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_sensor_inferior_esquerdo</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_sensor_inferior_direito</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">posicao_x</string>
   <string name="formula_editor_object_y">posicao_y</string>
   <string name="formula_editor_object_transparency">transparência</string>
@@ -972,7 +977,7 @@
   <string name="define">definir</string>
   <string name="new_user_brick">Novo Bloco</string>
   <string name="new_user_brick_variable">Variável 1</string>
-  <string name="new_user_brick_name">Please choose a userbrick name:</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Adicionar um bloco UserBrick a outro bloco UserBrick não é permitido ainda!</string>
   <string name="brick_single">Bloco</string>
   <string name="brick_multiple">Blocos</string>
@@ -1012,7 +1017,9 @@
   <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
   <string name="deletion_alert_yes">Yes, delete anyway!</string>
   <string name="deletion_alert_no">No.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code has crashed!</string>
-  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_show_program">Show program</string>
 </resources>

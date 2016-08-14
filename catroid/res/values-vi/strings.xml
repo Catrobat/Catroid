@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Hủy bỏ</string>
+  <string name="next_button">Next</string>
+  <string name="done_button">Đã Thực hiện</string>
   <string name="rename">Đổi Tên</string>
   <string name="delete">Xóa</string>
   <string name="yes">Có</string>
@@ -169,8 +171,8 @@
   <string name="size">Kích cỡ:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="userbrick_group">Userbrick Group</string>
-  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="userbrick_group">Brick Group</string>
+  <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Bấm vào \"+\" để thêm kịch bản</string>
@@ -250,7 +252,7 @@
     <item quantity="other">Scripts</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="other">Userbricks</item>
+    <item quantity="other">Bricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Truy cập cuối cùng:</string>
@@ -313,6 +315,7 @@
   <string name="new_sound_dialog_title">Thêm âm thanh</string>
   <string name="add_sound_from_recorder">Ghi âm</string>
   <string name="add_sound_choose_file">Chọn Tệp tin</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Chương trình mới</string>
   <string name="new_project_dialog_hint">Chương trình của tôi</string>
@@ -580,6 +583,7 @@
   <string name="upload_button">Tải lên</string>
   <string name="upload_project_dialog_title">Tải lên chương trình</string>
   <string name="upload_description">Mô tả:</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -592,7 +596,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code yêu cầu các lưu trữ bên ngoài có thể ghi được như thẻ SD để chạy, nhưng không được tìm thấy. \nBạn có thể sửa lỗi này bằng cách tạo ra lưu trữ bên ngoài có thể ghi được hoặc thêm vào thẻ SD, sau đó thử lại.</string>
   <string name="error_no_program_name_entered">Vui lòng nhập một tên chương trình.</string>
-  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Hãy chọn tên chương trình khác.</string>
   <string name="error_delete_project">Xuất hiện lỗi trong khi xoá chương trình</string>
   <string name="error_unknown_project">Chương trình với tên đó không tồn tại.</string>
@@ -717,7 +721,7 @@
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">với</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Ngừng động cơ Phiro</string>
@@ -876,6 +880,7 @@
   <string name="formula_editor_phiro_sensor_side_right">cảm biến_phiro_cạnh_phải</string>
   <string name="formula_editor_phiro_sensor_bottom_left">cảm biến_phiro_dưới_trái</string>
   <string name="formula_editor_phiro_sensor_bottom_right">cảm biến_phiro_dưới_phải</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">vị trí_x</string>
   <string name="formula_editor_object_y">vị trí_y</string>
   <string name="formula_editor_object_transparency">Độ trong suốt</string>
@@ -965,7 +970,7 @@
   <string name="define">xác định</string>
   <string name="new_user_brick">Gạch mới</string>
   <string name="new_user_brick_variable">Biến 1</string>
-  <string name="new_user_brick_name">Please choose a userbrick name:</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Thêm UserBrick tới UserBrick không được phép!</string>
   <string name="brick_single">Gạch</string>
   <string name="brick_multiple">Gạch</string>
@@ -1005,7 +1010,9 @@
   <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
   <string name="deletion_alert_yes">Yes, delete anyway!</string>
   <string name="deletion_alert_no">No.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code has crashed!</string>
-  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_show_program">Show program</string>
 </resources>

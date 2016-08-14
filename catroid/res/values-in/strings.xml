@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Batal</string>
+  <string name="next_button">Berikutnya</string>
+  <string name="done_button">Selesai</string>
   <string name="rename">Menamai ulang</string>
   <string name="delete">Hapus</string>
   <string name="yes">Ya</string>
@@ -304,6 +306,7 @@
   <string name="new_sound_dialog_title">Tambahkan suara</string>
   <string name="add_sound_from_recorder">Rekam suara</string>
   <string name="add_sound_choose_file">Pilih file</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Program Baru</string>
   <string name="new_project_dialog_hint">Program saya</string>
@@ -469,8 +472,8 @@
   <string name="brick_note">Catatan</string>
   <string name="brick_forever">Selamanya</string>
   <string name="brick_repeat">Pengulangan</string>
-  <string name="brick_repeat_until">Repeat until</string>
-  <string name="brick_when_touched">When screen is touched</string>
+  <string name="brick_repeat_until">Ulangi sampai</string>
+  <string name="brick_when_touched">Ketika layar disentuh</string>
   <plurals name="time_plural">
     <item quantity="other">kali</item>
   </plurals>
@@ -571,6 +574,7 @@
   <string name="upload_button">Meng-unggah</string>
   <string name="upload_project_dialog_title">Mengunggah Program</string>
   <string name="upload_description">Keterangan:</string>
+  <string name="upload_tag_dialog_title">Pilih hingga tiga kategori</string>
   <string name="drone_emergency_battery_low">Baterai lemah (arahan otomatis).</string>
   <string name="drone_emergency_camera">Satu atau lebih kamera tidak menanggapi.</string>
   <string name="drone_emergency_ultrasound">Sensor Ultrasound tidak menanggapi.</string>
@@ -707,7 +711,7 @@
   <string name="brick_drone_set_rotation_speed">Batas kecepatan rotasi</string>
   <string name="brick_drone_set_tilt_limit">Batas Tilt</string>
   <string name="brick_drone_with">dengan</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">daya</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Hentikan motor Phiro</string>
@@ -800,7 +804,7 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
-  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_power">daya</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">lantai</string>
   <string name="formula_editor_function_floor_parameter">(0.7)</string>
@@ -822,13 +826,13 @@
   <string name="formula_editor_function_arduino_read_pin_value_analog">pin_analog_arduino</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">pin_raspberry_pi</string>
   <string name="formula_editor_function_pin_default_parameter">(3)</string>
-  <string name="formula_editor_function_finger_x">screen_touch_x</string>
-  <string name="formula_editor_function_finger_y">screen_touch_y</string>
-  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
-  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
-  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
-  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
-  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_finger_x">sentuhan_layar_x</string>
+  <string name="formula_editor_function_finger_y">sentuhan_layar_y</string>
+  <string name="formula_editor_function_is_finger_touching">layar_disentuh</string>
+  <string name="formula_editor_function_multi_finger_x">sentuhan_layar_x</string>
+  <string name="formula_editor_function_multi_finger_y">sentuhan_layar_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">layar_disentuh</string>
+  <string name="formula_editor_function_index_of_last_finger">index_sentuhan_layar_terakhir</string>
   <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">elemen</string>
   <string name="formula_editor_function_list_item_parameter">(1,*daftar nama*)</string>
@@ -866,6 +870,7 @@
   <string name="formula_editor_phiro_sensor_side_right">sensor_samping_kanan_phiro</string>
   <string name="formula_editor_phiro_sensor_bottom_left">sensor_kiri_bawah_phiro</string>
   <string name="formula_editor_phiro_sensor_bottom_right">sensor_kanan_bawah_phiro</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">posisi_x</string>
   <string name="formula_editor_object_y">posisi_y</string>
   <string name="formula_editor_object_transparency">transparansi</string>
@@ -890,7 +895,7 @@
   <string name="formula_editor_object_general">properti umum</string>
   <string name="formula_editor_object_physical">properti fisik</string>
   <string name="formula_editor_device_face_detection">Deteksi wajah</string>
-  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_touch_detection">Deteksi sentuhan</string>
   <string name="formula_editor_device_lego">Lego</string>
   <string name="formula_editor_device_arduino">Arduino</string>
   <string name="formula_editor_device_phiro">Phiro</string>
@@ -916,7 +921,7 @@
   <string name="formula_editor_list_dialog_title">Daftar Baru</string>
   <string name="formula_editor_dialog_for_all_sprites">Untuk semua obyek</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Untuk objek ini saja</string>
-  <string name="formula_editor_dialog_change_text">Change text</string>
+  <string name="formula_editor_dialog_change_text">Ubah teks</string>
   <string name="formula_editor_data_dialog_hint">Masukan nama</string>
   <string name="formula_editor_discard_changes_dialog_message">Apakah Anda ingin menyimpan perubahan?</string>
   <string name="formula_editor_discard_changes_dialog_title">Simpan perubahan?</string>
@@ -978,8 +983,8 @@
   <string name="choose_camera_front">depan</string>
   <string name="choose_camera_back">kembali</string>
   <string name="error_flash_front_camera">"Lampu flash dapat digunakan hanya dengan kamera belakang. Harap tambahkan batu bata \"Menggunakan kamera\" dan ubah ke perangkat kamera belakang Anda. "</string>
-  <string name="brick_wait_until">Wait until</string>
-  <string name="brick_wait_until_second_part">is true</string>
+  <string name="brick_wait_until">Tunggu sampai</string>
+  <string name="brick_wait_until_second_part">benar</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Beri nilai Pocket Code</string>
   <string name="rating_dialog_text">Jika Anda menikmati Pocket Code, silahkan beri nilai kami di Google Play!</string>
@@ -991,7 +996,7 @@
   <string name="deletion_alert_text">Menghapus sebuah variabel yang sementara digunakan itu berbahaya! Anda yakin?</string>
   <string name="deletion_alert_yes">Ya, hapus saja!</string>
   <string name="deletion_alert_no">Tidak.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code rusak!</string>
-  <string name="crashed_message">Pocked Code telah rusak dan harus direstart.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Program Anda diunggah ke laman komunitas kami dimana orang lain dapat menggunakan dan mengunduhnya.         Anda juga dapat mengunduh program Anda sebagai aplikasi mandiri.</string>
+  <string name="progress_upload_dialog_show_program">Tunjukkan program</string>
 </resources>

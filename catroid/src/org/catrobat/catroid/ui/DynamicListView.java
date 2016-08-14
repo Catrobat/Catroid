@@ -107,6 +107,7 @@ public class DynamicListView extends ListView {
 	}
 
 	public void init(Context context) {
+		setMotionEventSplittingEnabled(false);
 		setOnItemLongClickListener(onItemLongClickListener);
 		setOnScrollListener(scrollListener);
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();

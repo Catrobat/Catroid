@@ -26,6 +26,8 @@
   <!-- General terms -->
   <string name="app_name">Pocket Code</string>
   <string name="cancel_button">Annulla</string>
+  <string name="next_button">Successivo</string>
+  <string name="done_button">Fatto</string>
   <string name="rename">Rinomina</string>
   <string name="delete">Eliminare</string>
   <string name="yes">Sì</string>
@@ -313,6 +315,7 @@
   <string name="new_sound_dialog_title">Aggiungere suono</string>
   <string name="add_sound_from_recorder">Registra il suono</string>
   <string name="add_sound_choose_file">Selezionare il file</string>
+  <string name="add_sound_pocketmusic">Pocketmusica</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">Nuovo programma</string>
   <string name="new_project_dialog_hint">Il mio programma</string>
@@ -481,8 +484,8 @@
   <string name="brick_note">Nota</string>
   <string name="brick_forever">Per sempre</string>
   <string name="brick_repeat">Ripeti</string>
-  <string name="brick_repeat_until">Repeat until</string>
-  <string name="brick_when_touched">When screen is touched</string>
+  <string name="brick_repeat_until">Ripetere fino a quando</string>
+  <string name="brick_when_touched">Quando lo schermo viene toccato</string>
   <plurals name="time_plural">
     <item quantity="one">volta</item>
     <item quantity="other">volte</item>
@@ -584,6 +587,7 @@
   <string name="upload_button">Carica</string>
   <string name="upload_project_dialog_title">Carica programma</string>
   <string name="upload_description">Descrizione:</string>
+  <string name="upload_tag_dialog_title">Scegli fino a tre categorie</string>
   <string name="drone_emergency_battery_low">Batteria bassa (atterraggio automatico).</string>
   <string name="drone_emergency_camera">Una o più telecamere non rispondono.</string>
   <string name="drone_emergency_ultrasound">Il sensore a ultrasuoni non risponde.</string>
@@ -720,7 +724,7 @@
   <string name="brick_drone_set_rotation_speed">Limite della velocità di rotazione</string>
   <string name="brick_drone_set_tilt_limit">Limite dell\'inclinazione</string>
   <string name="brick_drone_with">con</string>
-  <string name="brick_drone_percent_power">% potenza</string>
+  <string name="brick_drone_percent_power">potenza</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Arresta il motore del Phiro</string>
@@ -813,7 +817,7 @@
   <string name="formula_editor_function_arctan_parameter">(0)</string>
   <string name="formula_editor_function_exp">exp</string>
   <string name="formula_editor_function_exp_parameter">(0)</string>
-  <string name="formula_editor_function_power">power</string>
+  <string name="formula_editor_function_power">potenza</string>
   <string name="formula_editor_function_power_parameter">(2,3)</string>
   <string name="formula_editor_function_floor">parteintera</string>
   <string name="formula_editor_function_floor_parameter">(0,7)</string>
@@ -835,13 +839,13 @@
   <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_pin_analogico</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
   <string name="formula_editor_function_pin_default_parameter">(3)</string>
-  <string name="formula_editor_function_finger_x">screen_touch_x</string>
-  <string name="formula_editor_function_finger_y">screen_touch_y</string>
-  <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
-  <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
-  <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
-  <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
-  <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+  <string name="formula_editor_function_finger_x">schermo_toccato_x</string>
+  <string name="formula_editor_function_finger_y">schermo_toccato_y</string>
+  <string name="formula_editor_function_is_finger_touching">schermo_toccato</string>
+  <string name="formula_editor_function_multi_finger_x">schermo_toccato_x</string>
+  <string name="formula_editor_function_multi_finger_y">schermo_toccato_y</string>
+  <string name="formula_editor_function_is_multi_finger_touching">schermo_toccato</string>
+  <string name="formula_editor_function_index_of_last_finger">indice_ultimo_schermo_toccato</string>
   <string name="formula_editor_function_touch_parameter">(1)</string>
   <string name="formula_editor_function_list_item">elemento</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
@@ -879,6 +883,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_sensore_laterale_destro</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_sensore_inferiore_sinistro</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_sensore_inferiore_destro</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">posizione_x</string>
   <string name="formula_editor_object_y">posizione_y</string>
   <string name="formula_editor_object_transparency">trasparenza</string>
@@ -903,7 +908,7 @@
   <string name="formula_editor_object_general">proprietà generali</string>
   <string name="formula_editor_object_physical">proprietà fisiche</string>
   <string name="formula_editor_device_face_detection">Rilevamento volti</string>
-  <string name="formula_editor_device_touch_detection">Touch detection</string>
+  <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
   <string name="formula_editor_device_lego">Lego</string>
   <string name="formula_editor_device_arduino">Arduino</string>
   <string name="formula_editor_device_phiro">Phiro</string>
@@ -929,7 +934,7 @@
   <string name="formula_editor_list_dialog_title">Nuovo elenco</string>
   <string name="formula_editor_dialog_for_all_sprites">Per tutti gli oggetti</string>
   <string name="formula_editor_dialog_for_this_sprite_only">Per questo oggetto solo</string>
-  <string name="formula_editor_dialog_change_text">Change text</string>
+  <string name="formula_editor_dialog_change_text">Cambia Testo</string>
   <string name="formula_editor_data_dialog_hint">Inserisci nome</string>
   <string name="formula_editor_discard_changes_dialog_message">Si desidera salvare le modifiche?</string>
   <string name="formula_editor_discard_changes_dialog_title">Salvare le modifiche?</string>
@@ -992,8 +997,8 @@
   <string name="choose_camera_front">anteriore</string>
   <string name="choose_camera_back">posteriore</string>
   <string name="error_flash_front_camera">"È possibile usare il flash solo con la fotocamera posteriore. Aggiungi un mattoncino \"Usa fotocamera\" e imposta l\'uso della fotocamera posteriore."</string>
-  <string name="brick_wait_until">Wait until</string>
-  <string name="brick_wait_until_second_part">is true</string>
+  <string name="brick_wait_until">Aspetta fino a quando</string>
+  <string name="brick_wait_until_second_part">è vero</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Valuta Pocket Code</string>
   <string name="rating_dialog_text">Se ti piace Pocket Code, valutaci su Google Play!</string>
@@ -1005,7 +1010,9 @@
   <string name="deletion_alert_text">Eliminare di una variabile ancora in uso è pericoloso! Sei sicuro?</string>
   <string name="deletion_alert_yes">Sì, elimina comunque!</string>
   <string name="deletion_alert_no">No.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code si è bloccato!</string>
-  <string name="crashed_message">Pocket Code si è bloccato e necessita di essere riavviato.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Il programma viene caricato sulla pagina della community dove gli altri lo possono usare
+        e scaricare.
+        Puoi anche scaricare l\'app come applicazione standalone per android.</string>
+  <string name="progress_upload_dialog_show_program">Mostra il programma</string>
 </resources>

@@ -165,7 +165,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 				return false;
 			}
 
-			DownloadUtil.getInstance().startDownload(context, url, newProgramName);
+			DownloadUtil.getInstance().startDownload(context, url, newProgramName, true);
 		}
 		dismiss();
 

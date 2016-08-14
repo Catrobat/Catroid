@@ -24,36 +24,34 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
-  <string name="cancel_button">Cancel</string>
-  <string name="rename">Rename</string>
-  <string name="delete">Delete</string>
-  <string name="menu_item_move_down">Move down</string>
-  <string name="menu_item_move_up">Move up</string>
-  <string name="menu_item_move_to_top">Move to top</string>
-  <string name="menu_item_move_to_bottom">Move to bottom</string>
-  <string name="yes">Yes</string>
-  <string name="no">No</string>
-  <string name="copy">Copy</string>
-  <string name="cut">Cut</string>
-  <string name="move">Move</string>
-  <string name="backpack_add">Add to backpack</string>
-  <string name="backpack">Backpack</string>
-  <string name="packing">Pack</string>
-  <string name="unpack">Unpack</string>
-  <string name="unpack_keep">Unpack and keep</string>
-  <string name="unpack_bg">Unpack as background</string>
-  <string name="unpack_object">Unpack as object</string>
-  <string name="copy_addition">copy</string>
-  <string name="close">Close</string>
-  <string name="error">Error</string>
-  <string name="please_wait">Please wait</string>
-  <string name="loading">Loading&#8230;</string>
-  <string name="no_internet">No Internet</string>
-  <string name="loading_check_token">Token is checked on our server&#8230;</string>
-  <string name="loading_check_facebook_data">Facebook data is retrieved&#8230;</string>
-  <string name="loading_check_email">E-Mail availability is checked on our server&#8230;</string>
-  <string name="loading_check_oauth_token">OAuth token is checked on our server&#8230;</string>
+  <string name="app_name">പോക്കറ്റ് കോഡ്</string>
+  <string name="cancel_button">വേണ്ടെന്നു വയ്ക്കുക</string>
+  <string name="next_button">Next</string>
+  <string name="done_button">Done</string>
+  <string name="rename">പോക്കറ്റ് കോഡ്</string>
+  <string name="delete">ഒഴിവാക്കുക</string>
+  <string name="yes">ശരി</string>
+  <string name="no">അല്ല</string>
+  <string name="copy">പകര്‍പ്പ്‌</string>
+  <string name="cut">വെട്ടുക</string>
+  <string name="move">നീക്കുക</string>
+  <string name="backpack_add">ബാക്ക്പാക്കിലേക്കു ആഡ് ചെയുക </string>
+  <string name="backpack">ബാക്ക്പാക് </string>
+  <string name="packing">പാക്ക് </string>
+  <string name="unpack">ആണ്പാക്ക്   </string>
+  <string name="unpack_keep">ആണ്പാക്ക് ശേഷം കീപ് ചെയുക </string>
+  <string name="unpack_bg">ആണ്പാക്ക്നെ ബാക്ഗ്രൗങ് ആകുക </string>
+  <string name="unpack_object">ആണ്പാക്ക്നെ ഒബ്ജെക്ട് ആകുക </string>
+  <string name="copy_addition">കോപ്പി </string>
+  <string name="close">അടയ്‌ക്കുക</string>
+  <string name="error">തെറ്റ്</string>
+  <string name="please_wait">ദയവായി വൈറ്റ് ചെയുക </string>
+  <string name="loading">ലോഡിങ്&#8230;</string>
+  <string name="no_internet">ഇന്റെര്നെറ് കോങ്ക്ടൺ ഇല്ല </string>
+  <string name="loading_check_token">ടികെൻ സെർവറിൽ പരിശോധിക്കുന്നു&#8230; </string>
+  <string name="loading_check_facebook_data">ഫേസ്ബുക്കിൽ നിന്നും വിവരം ശേഖരിക്കുന്നു&#8230;</string>
+  <string name="loading_check_email">ഇമെയിൽ സെർവറിൽ പരിശോധിക്കുന്നു&#8230;</string>
+  <string name="loading_check_oauth_token">OAuth ടോക്കൺ സെർവറിൽ പരിശോധിക്കുന്നു&#8230;</string>
   <string name="loading_check_facebook_token_validity">Facebook token validity is checked on our server&#8230;</string>
   <string name="loading_check_oauth_username">Username availability is checked on our server&#8230;</string>
   <string name="loading_facebook_exchange_token">Facebook token is exchanged on our server&#8230;</string>
@@ -84,7 +82,7 @@
   <string name="main_menu_continue">Continue</string>
   <string name="main_menu_programs">Programs</string>
   <string name="main_menu_help">Help</string>
-  <string name="main_menu_web">Explore</string>
+  <string name="main_menu_web">ആരായുക</string>
   <string name="main_menu_upload">Upload</string>
   <string name="main_menu_about_pocketcode">About Pocket Code</string>
   <string name="main_menu_terms_of_use">Terms of use</string>
@@ -175,8 +173,8 @@
   <string name="size">Size:</string>
   <string name="script_group">Script Group</string>
   <string name="script_groups">Script Groups</string>
-  <string name="userbrick_group">Userbrick Group</string>
-  <string name="userbrick_groups">Userbrick Groups</string>
+  <string name="userbrick_group">Brick Group</string>
+  <string name="userbrick_groups">Brick Groups</string>
   <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
   <!-- Script fragment -->
   <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
@@ -262,8 +260,8 @@
     <item quantity="other">Scripts</item>
   </plurals>
   <plurals name="userbricks_plural">
-    <item quantity="one">Userbrick</item>
-    <item quantity="other">Userbricks</item>
+    <item quantity="one">Brick</item>
+    <item quantity="other">Bricks</item>
   </plurals>
   <!-- My Projects activity -->
   <string name="last_used">Last access:</string>
@@ -327,6 +325,7 @@
   <string name="new_sound_dialog_title">Add Sound</string>
   <string name="add_sound_from_recorder">Record Sound</string>
   <string name="add_sound_choose_file">Select File</string>
+  <string name="add_sound_pocketmusic">Pocketmusic</string>
   <!-- New project dialog -->
   <string name="new_project_dialog_title">New Program</string>
   <string name="new_project_dialog_hint">My Program</string>
@@ -422,7 +421,7 @@
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
-  <string name="brick_move">Move</string>
+  <string name="brick_move">നീക്കുക</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">step</item>
     <item quantity="other">steps</item>
@@ -599,6 +598,7 @@
   <string name="upload_button">Upload</string>
   <string name="upload_project_dialog_title">Upload program</string>
   <string name="upload_description">Description:</string>
+  <string name="upload_tag_dialog_title">Choose up to three categories</string>
   <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
   <string name="drone_emergency_camera">One or more camera(s) is not responding.</string>
   <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -611,7 +611,7 @@
   <!-- Error messages -->
   <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like a SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting a SD card, then try again.</string>
   <string name="error_no_program_name_entered">Please enter a program name.</string>
-  <string name="error_no_userbrick_name_entered">Please enter a userbrick name.</string>
+  <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
   <string name="error_project_exists">Please choose another program name.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
   <string name="error_unknown_project">A program with that name does not exist.</string>
@@ -737,7 +737,7 @@
   <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
   <string name="brick_drone_set_tilt_limit">Tilt limit</string>
   <string name="brick_drone_with">with</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_percent_power">power</string>
   <!-- Phiro bricks -->
   <!-- motor -->
   <string name="phiro_motor_stop">Stop Phiro motor</string>
@@ -896,6 +896,7 @@
   <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
   <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
+  <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
   <string name="formula_editor_object_x">position_x</string>
   <string name="formula_editor_object_y">position_y</string>
   <string name="formula_editor_object_transparency">transparency</string>
@@ -953,7 +954,7 @@
   <string name="formula_editor_new_string_name">New text</string>
   <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
   <string name="formula_editor_data_dialog_title">New</string>
-  <string name="formula_editor_rename_variable_dialog_title">Rename</string>
+  <string name="formula_editor_rename_variable_dialog_title">പോക്കറ്റ് കോഡ്</string>
   <string name="formula_editor_existing_data_item">Name already in use!</string>
   <string name="formula_editor_fragment_data_current_items">current items</string>
   <string name="formula_editor_data_dialog_is_list">Make it a list</string>
@@ -983,10 +984,10 @@
   <string name="brick_show_text_pos">"at "</string>
   <string name="brick_hide_text_var">Hide variable</string>
   <!-- User Bricks strings -->
-  <string name="define">define</string>
+  <string name="define">Define</string>
   <string name="new_user_brick">New Brick</string>
   <string name="new_user_brick_variable">Variable</string>
-  <string name="new_user_brick_name">Please choose a userbrick name:</string>
+  <string name="new_user_brick_name">Please choose a brick name:</string>
   <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
   <string name="brick_single">Brick</string>
   <string name="brick_multiple">Bricks</string>
@@ -1026,7 +1027,9 @@
   <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous! Are you sure?</string>
   <string name="deletion_alert_yes">Yes, delete anyway!</string>
   <string name="deletion_alert_no">No.</string>
-  <!-- Pocket Code crashed dialog -->
-  <string name="crashed_title">Pocked Code has crashed!</string>
-  <string name="crashed_message">Pocked Code has crashed and had to be restarted.</string>
+  <!-- Upload progress dialog -->
+  <string name="progress_upload_dialog_message">Your program gets uploaded to our community page where others can use
+        and download it.
+        You can also download your program as standalone app.</string>
+  <string name="progress_upload_dialog_show_program">Show program</string>
 </resources>

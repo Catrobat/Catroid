@@ -90,12 +90,16 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.menu_rename_sprite:
+				showRenameDialog();
+				break;
 			case android.R.id.home:
 				onBackPressed();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -150,6 +154,12 @@ public class ProgramMenuActivity extends BaseActivity {
 				actionBar.setTitle(newSpriteName);
 			}
 		}
+	}
+
+	private void showRenameDialog() {
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(sprite.getName());
+		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
