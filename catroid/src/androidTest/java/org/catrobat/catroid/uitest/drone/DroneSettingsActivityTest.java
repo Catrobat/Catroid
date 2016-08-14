@@ -70,10 +70,15 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), false);
 		assertFalse("Terms of servie should not be accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
 		assertFalse("Terms of servie should not be accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+		assertFalse("Terms of servie should not be accepted", preferences.getBoolean(SettingsActivity
+				.SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+
 
 		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 		assertTrue("Terms of servie should be permanently accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
 		assertTrue("Terms of servie should be permanently accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
+		assertTrue("Terms of servie should be permanently accepted", preferences.getBoolean(SettingsActivity
+				.SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
 
 	public void testDroneConnectToDroneDialog() {

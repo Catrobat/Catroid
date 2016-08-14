@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.drone;
 
-import android.util.Log;
-
-import com.parrot.freeflight.service.DroneControlService;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -36,7 +32,6 @@ public final class JumpingSumoServiceWrapper {
 	private static final String TAG = JumpingSumoServiceWrapper.class.getSimpleName();
 
 	private static JumpingSumoServiceWrapper instance = null;
-	private static DroneControlService droneControlService = null;
 
 	private JumpingSumoServiceWrapper() {
 	}
@@ -49,23 +44,10 @@ public final class JumpingSumoServiceWrapper {
 		return instance;
 	}
 
-	//TODO: whatever TGr
-	public void setDroneService(DroneControlService service) {
-		droneControlService = service;
-	}
-
-	//TODO: whatever TGr
-	public DroneControlService getDroneService() {
-		return droneControlService;
-	}
-
 	public static boolean checkJumpingSumoAvailability() {
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		boolean isJSAvailable = (((requiredResources & Brick.JUMPING_SUMO) > 0) && BuildConfig.FEATURE_PARROT_JS_DRONE_ENABLED);
-		//TODO: TGr: Brick.JUMPING_SUMO in JumpingSumoBasicBrick.java aktivieren und Vebindung (vermutlich) nur einmal aufbauen!!!
-		Log.d(TAG, "Jumping Sumo checked");
-		return true;
-		//return isJSAvailable; // isDroneSharedPreferenceEnabled()
+		boolean isJSAvailable = (((requiredResources & Brick.JUMPING_SUMO) > 0) && BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED);
+		return isJSAvailable;
 
 	}
 
