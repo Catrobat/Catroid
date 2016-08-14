@@ -91,20 +91,16 @@ public class JumpingSumoDiscoverer {
 	 * Should be called before starting discovering
 	 */
 	public void setup() {
-		Log.i(TAG, "Jumping Sumo start setup");
 		LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(mctx);
 		localBroadcastMgr.registerReceiver(ardiscoveryServicesDevicesListUpdatedReceiver,
 				new IntentFilter(ARDiscoveryService.kARDiscoveryServiceNotificationServicesDevicesListUpdated));
 
 		if (ardiscoveryServiceConnection == null) {
-			Log.i(TAG, "Jumping Sumo new ServiceConnection");
 			ardiscoveryServiceConnection = new ServiceConnection() {
 				@Override
 				public void onServiceConnected(ComponentName name, IBinder service) {
-					Log.i(TAG, "Jumping Sumo onServiceConnected");
 					ardiscoveryService = ((ARDiscoveryService.LocalBinder) service).getService();
 					if (startDiscoveryAfterConnection) {
-						Log.i(TAG, "Jumping Sumo startDiscovering");
 						startDiscovering();
 						startDiscoveryAfterConnection = false;
 					}
@@ -129,7 +125,6 @@ public class JumpingSumoDiscoverer {
 	 */
 	public void cleanup() {
 		stopDiscovering();
-		Log.d(TAG, "closeServices ...");
 		if (ardiscoveryService != null) {
 			new Thread(new Runnable() {
 				@Override
@@ -151,9 +146,7 @@ public class JumpingSumoDiscoverer {
 	 * When drones will be discovered, you will be notified through {@link Listener#onDronesListUpdated(List)}
 	 */
 	public void startDiscovering() {
-		Log.i(TAG, "Jumping Sumo Start discovering1");
 		if (ardiscoveryService != null) {
-			Log.i(TAG, "Jumping Sumo Start discovering2");
 			discoveryListener.onServicesDevicesListUpdated();
 			ardiscoveryService.start();
 			startDiscoveryAfterConnection = false;
@@ -166,7 +159,6 @@ public class JumpingSumoDiscoverer {
 	 */
 	public void stopDiscovering() {
 		if (ardiscoveryService != null) {
-			Log.i(TAG, "Jumping Sumo Stop discovering");
 			ardiscoveryService.stop();
 		}
 		startDiscoveryAfterConnection = false;
@@ -183,7 +175,6 @@ public class JumpingSumoDiscoverer {
 			new ARDiscoveryServicesDevicesListUpdatedReceiverDelegate() {
 				@Override
 				public void onServicesDevicesListUpdated() {
-					Log.i(TAG, "Jumping Sumo ARDiscoveryServicesDevicesListUpdatedReceiverDelegate");
 					if (ardiscoveryService != null) {
 						matchingDrones.clear();
 						List<ARDiscoveryDeviceService> deviceList = ardiscoveryService.getDeviceServicesArray();

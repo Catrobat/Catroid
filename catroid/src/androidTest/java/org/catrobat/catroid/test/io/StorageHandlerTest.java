@@ -281,6 +281,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	public void testGetRequiredResources() {
 		int resources = generateMultiplePermissionsProject().getRequiredResources();
 		assertEquals("Sum over required resources not matching", Brick.ARDRONE_SUPPORT
+				| Brick.JUMPING_SUMO
 				| Brick.FACE_DETECTION
 				| Brick.BLUETOOTH_LEGO_NXT
 				| Brick.TEXT_TO_SPEECH, resources);
@@ -297,6 +298,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		//only for assertions. Add future permission; Vibration and LED not activated
 		Set<String> permissions = new HashSet<String>();
 		permissions.add(Constants.ARDRONE_SUPPORT);
+		permissions.add(Constants.JUMPING_SUMO_SUPPORT);
 		permissions.add(Constants.BLUETOOTH_LEGO_NXT);
 		permissions.add(Constants.TEXT_TO_SPEECH);
 		permissions.add(Constants.FACE_DETECTION);

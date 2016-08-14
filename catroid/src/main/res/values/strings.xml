@@ -1090,6 +1090,8 @@
 
     <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_turn">Turn</string>
+    <string name="brick_jumping_sumo_jump_long">Jump long</string>
+    <string name="brick_jumping_sumo_jump_high">Jump high</string>
     <string name="brick_jumping_sumo_move_forward">Move forward</string>
     <string name="brick_jumping_sumo_move_backward">Move backward</string>
     <string name="brick_jumping_sumo_rotate">rotate</string>
@@ -1104,7 +1106,13 @@
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
     <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
-        <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
+    <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
+    <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
+    <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+    <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
+    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
+    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
+    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
     <!--  -->
 
     <!-- Phiro bricks -->

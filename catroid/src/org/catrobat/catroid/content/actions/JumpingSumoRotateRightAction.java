@@ -76,6 +76,7 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			newDegree = Float.valueOf(JUMPING_SUMO_ROTATE_ZERO);
 		}
+		move();
 	}
 
 	protected void move() {
@@ -103,7 +104,7 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		this.move();
+		//Nothing to do
 	}
 
 	@Override
