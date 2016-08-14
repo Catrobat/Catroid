@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/brick_jumping_sumo_move_prototype_text_view_second"
-            style="@style/BrickPrototypeTextView" />
+            style="@style/BrickText.SingleLine" />
 
         <TextView
             android:id="@+id/brick_jumping_sumo_move_text_view_second"
@@ -71,7 +71,7 @@
 
         <TextView
             android:id="@+id/brick_jumping_sumo_move_prototype_text_view_power"
-            style="@style/BrickPrototypeTextView" />
+            style="@style/BrickText.SingleLine" />
 
         <TextView
             android:id="@+id/brick_jumping_sumo_move_edit_text_power"

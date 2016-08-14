@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -90,10 +89,7 @@ public abstract class JumpingSumoBasicBrick extends BrickBaseType {
 
 	@Override
 	public int getRequiredResources() {
-		Log.i(TAG, "getRequiredResources");
-		//TODO: TGr: Brick.JUMPING_SUMO aktivieren, in JumpingSumoServiceWrapper.java verwenden und Vebindung (vermutlich) nur einmal aufbauen!!!
-		return super.getRequiredResources();
-		//return super.getRequiredResources() | Brick.JUMPING_SUMO;
+		return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 
 	protected abstract String getBrickLabel(View view);

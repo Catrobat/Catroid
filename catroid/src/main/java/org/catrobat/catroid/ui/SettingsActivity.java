@@ -34,6 +34,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.util.Log;
 import android.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;

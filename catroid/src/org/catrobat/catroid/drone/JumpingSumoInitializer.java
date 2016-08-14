@@ -23,13 +23,10 @@
 package org.catrobat.catroid.drone;
 
 import android.app.AlertDialog.Builder;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -50,12 +47,11 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryDevice;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceNetService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryException;
-import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
-import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
@@ -66,9 +62,6 @@ import static org.catrobat.catroid.CatroidApplication.getAppContext;
 
 
 public class JumpingSumoInitializer {
-
-
-	private static DroneControlService droneControlService = null;
 
 	private static final List<ARDiscoveryDeviceService> DRONELIST = new ArrayList<>();
 	public JumpingSumoDiscoverer jsDiscoverer;
@@ -142,20 +135,18 @@ public class JumpingSumoInitializer {
 	}
 
 	public void initialise() {
+		if (true/*SettingsActivity.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())
+		*/) {
+			jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
 
-		Log.d(TAG, "Jumping Sumo init start");
-		//if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
-		jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
-
-		if (checkRequirements()) {
-			//checkDroneConnectivity();
-			jsDiscoverer.setup();
-			jsDiscoverer.addListener(discovererListener);
-			Log.d(TAG, "Jumping Sumo jsDiscoverer started!!!");
+			if (checkRequirements()) {
+				jsDiscoverer.setup();
+				jsDiscoverer.addListener(discovererListener);
+			}
+		} else {
+			showTermsOfUseDialog();
+			//TODO irgendwas sollt ich hier tun und auch beim DroneInitializer sollt ich da was machen...
 		}
-		//} else {
-		//	showTermsOfUseDialog();
-		//}
 	}
 
 	private void notifyConfigureDecoder(ARControllerCodec codec) {
@@ -197,23 +188,17 @@ public class JumpingSumoInitializer {
 			Log.d(TAG, "JumpingSumo: " + dronesList.size() + " Drones found");
 			if (dronesList.size() > 0) {
 				Log.i(TAG, "The Name of the first JumpingSumo is: " + dronesList.get(0));
-
 				ARDiscoveryDeviceService service = dronesList.get(0);
-				Log.d(TAG, "Jumping Sumo service name is: " + service.getName());
-				Log.d(TAG, "Jumping Sumo service ProductID is: " + service.getProductID());
-				ARDISCOVERY_PRODUCT_ENUM product = ARDiscoveryService.getProductFromProductID(service.getProductID());
-				Log.d(TAG, "Jumping Sumo product name is: " + product.name());
-
 				ARDiscoveryDevice discoveryDevice = createDiscoveryDevice(service, ARDISCOVERY_PRODUCT_ENUM.ARDISCOVERY_PRODUCT_JS);
 				deviceController = createDeviceController(discoveryDevice);
 
 				ARCONTROLLER_ERROR_ENUM error = deviceController.start();
-				Log.d(TAG, "arccontroller error: " + error);
+				if (error != ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
+					Log.e(TAG, "Exception" + error);
+				}
 
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
 				controller.setDeviceController(deviceController);
-
-				Log.d(TAG, "mstate: " + mstate);
 			}
 		}
 	};
@@ -275,61 +260,15 @@ public class JumpingSumoInitializer {
 		builder.show();
 	}
 
-
-
-
-
-
-
-	private void onDroneServiceConnected(IBinder service) {
-		Log.d(TAG, "onDroneServiceConnected");
-		droneControlService = ((DroneControlService.LocalBinder) service).getService();
-		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-		droneControlService.resume();
-		droneControlService.requestDroneStatus();
-	}
-
-	private ServiceConnection droneServiceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			onDroneServiceConnected(service);
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			droneControlService = null;
-			DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-		}
-	};
-
-
-	public void onPrestageActivityDestroy() {
-		if (droneControlService != null) {
-			prestageStageActivity.unbindService(this.droneServiceConnection);
-			droneControlService = null;
-		}
-	}
-
-
 	private final ARDeviceControllerListener deviceControllerListener = new ARDeviceControllerListener() {
 		@Override
 		public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
-			Log.i(TAG, "new State is " + newState);
 			mstate = newState;
 
 			if ((mstate.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
 				jsDiscoverer.removeListener(discovererListener);
 			}
-
-/*
-			if((deviceController != null) && (mstate.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))){
-				deviceController.getFeatureJumpingSumo().sendPilotingPosture(ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_KICKER);
-				Log.i(TAG, "State Changer: Jumping Sumo Command send");
-			}
-*/
 		}
-
 
 		@Override
 		public void onExtensionStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARDISCOVERY_PRODUCT_ENUM product, String name, ARCONTROLLER_ERROR_ENUM error) {
@@ -341,7 +280,6 @@ public class JumpingSumoInitializer {
 			// if event received is the battery update
 
 			if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED) && (elementDictionary != null)) {
-				Log.i(TAG, "commandKey battery");
 				ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
 				if (args != null) {
 					final int battery = (Integer) args.get(ARFeatureCommon.ARCONTROLLER_DICTIONARY_KEY_COMMON_COMMONSTATE_BATTERYSTATECHANGED_PERCENT);
@@ -353,7 +291,6 @@ public class JumpingSumoInitializer {
 					});
 				}
 			}
-
 		}
 	};
 
