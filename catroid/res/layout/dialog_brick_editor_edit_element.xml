@@ -28,9 +28,6 @@
 
     <EditText
         android:id="@+id/dialog_brick_editor_edit_element_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" />
+        style="@style/DefaultDialog.EditText" />
 
 </LinearLayout>

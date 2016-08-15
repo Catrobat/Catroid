@@ -35,8 +35,6 @@
             style="@style/DefaultDialog.Item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="0dp"
             android:paddingTop="18dp" >
 
             <RadioButton
@@ -72,11 +70,8 @@
         <EditText
             android:id="@+id/dialog_overwrite_project_edit"
             style="@style/DefaultDialog.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_overwrite_project_edit_line"
             android:layout_gravity="right"
-            android:inputType="text"
             android:visibility="gone" />
     </RelativeLayout >
 

@@ -32,10 +32,6 @@
         <RadioGroup
             android:id="@+id/dialog_overwrite_media_radiogroup"
             style="@style/DefaultDialog.Item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="0dp"
             android:paddingTop="12dp">
 
             <RadioButton
@@ -70,9 +66,7 @@
         <EditText
             android:id="@+id/dialog_overwrite_media_edit"
             style="@style/DefaultDialog.EditText"
-            android:ems="10"
-            android:visibility="gone"
-            android:inputType="text"/>
+            android:visibility="gone"/>
     </LinearLayout>
 
 </ScrollView>

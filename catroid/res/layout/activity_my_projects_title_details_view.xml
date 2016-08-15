@@ -32,56 +32,39 @@
     <TextView
         android:id="@+id/my_projects_activity_project_title"
         style="@style/ListViewItemTitleText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:maxLines="2"/>
 
     <RelativeLayout
         android:id="@+id/my_projects_activity_list_item_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:visibility="gone"
         style="@style/ListViewItemDetailsText"
         android:layout_below="@id/my_projects_activity_project_title">
 
         <TextView
             android:id="@+id/my_projects_activity_project_changed_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_marginLeft="12.5dp"
             android:layout_toRightOf="@id/my_projects_activity_project_image"
-            android:text="@string/last_used" 
+            android:text="@string/last_used"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_small"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/my_projects_activity_size_of_project_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
             android:layout_below="@id/my_projects_activity_project_changed_1"
-            android:layout_marginLeft="12.5dp"
             android:layout_toRightOf="@id/my_projects_activity_project_image"
-            android:text="@string/size_of_project" 
+            android:text="@string/size_of_project"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_small"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/my_projects_activity_project_changed_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_big"
             android:layout_toRightOf="@id/my_projects_activity_project_changed_1" 
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/my_projects_activity_size_of_project_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
             android:layout_below="@id/my_projects_activity_project_changed_2"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_big"
             android:layout_toRightOf="@id/my_projects_activity_project_changed_1" 
             style="@style/ListViewItemDetailsText"/>
     </RelativeLayout>

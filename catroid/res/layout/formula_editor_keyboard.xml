@@ -148,7 +148,7 @@
             style="@style/FormulaEditorButton"
             android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_logic"
-            android:layout_span="2" />
+            android:layout_span="1" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_1"
@@ -185,7 +185,7 @@
             style="@style/FormulaEditorButton"
             android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_device"
-            android:layout_span="2" />
+            android:layout_span="1" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_decimal_mark"

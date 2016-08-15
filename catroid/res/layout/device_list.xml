@@ -30,10 +30,10 @@
         android:id="@+id/title_paired_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="6dp"
+        android:layout_marginTop="@dimen/device_text_view_margin_small"
+        android:paddingLeft="@dimen/device_text_view_padding"
         android:text="@string/title_paired_devices"
-        android:textSize="15sp"
+        android:textSize="@dimen/device_text_view_text_size"
         android:visibility="gone" />
 
     <View
@@ -52,10 +52,10 @@
         android:id="@+id/title_new_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="6dp"
-        android:layout_marginTop="10dp"
+        android:paddingLeft="@dimen/device_text_view_padding"
+        android:layout_marginTop="@dimen/device_text_view_margin_small"
         android:text="@string/title_other_devices"
-        android:textSize="15sp"
+        android:textSize="@dimen/device_text_view_text_size"
         android:visibility="gone" />
 
     <LinearLayout
@@ -97,8 +97,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="4sp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="@dimen/device_button_padding"
+        android:paddingBottom="@dimen/device_button_padding"
         style="@android:style/Widget.Holo.Button"
         android:text="@string/button_scan" />
 

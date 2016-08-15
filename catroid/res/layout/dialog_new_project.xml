@@ -43,8 +43,6 @@
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/project_name_line"
             android:hint="@string/new_project_dialog_hint"
-            android:inputType="text"
-            android:maxLines="1"
             android:selectAllOnFocus="true" />
 
         <RadioGroup

@@ -32,8 +32,6 @@
 
     <EditText
         android:id="@+id/backpack_new_group_dialog_group_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         style="@style/DefaultDialog.EditText"
         android:hint="@string/my_group"/>
 

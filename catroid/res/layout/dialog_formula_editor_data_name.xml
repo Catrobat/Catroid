@@ -32,18 +32,12 @@
         <EditText
             android:id="@+id/dialog_formula_editor_data_name_edit_text"
             style="@style/DefaultDialog.EditText"
-            android:ems="10"
-            android:hint="@string/formula_editor_data_dialog_hint"
-            android:inputType="text" />
+            android:hint="@string/formula_editor_data_dialog_hint" />
 
         <RadioGroup
             android:id="@+id/dialog_formula_editor_data_name_radio_group"
             style="@style/DefaultDialog.Item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="0dp"
-            android:paddingTop="12dp" >
+            android:paddingBottom="0dp">
 
             <RadioButton
                 android:id="@+id/dialog_formula_editor_data_name_global_variable_radio_button"
@@ -64,9 +58,7 @@
         <CheckBox
             android:id="@+id/dialog_formula_editor_data_is_list_checkbox"
             style="@style/DefaultDialog.Item"
-            android:layout_marginTop="15dp"
-            android:paddingBottom="0dp"
-            android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/formula_editor_data_dialog_is_list" />
+            android:text="@string/formula_editor_data_dialog_is_list" />
     </LinearLayout>
 
 </ScrollView>

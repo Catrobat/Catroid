@@ -36,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/stage_dialog_background_middle" />       
 
@@ -67,8 +66,8 @@
         <Button
             android:id="@+id/stage_dialog_button_continue"
             style="@style/StageButton"
-            android:layout_width="0dp"
             android:layout_weight="2"
+            android:layout_width="0dp"
             android:drawableTop="@drawable/stage_dialog_button_continue_selector"
             android:text="@string/stage_dialog_resume"
             android:textColor="@color/stage_dialog_text_color" />
@@ -92,8 +91,6 @@
         android:id="@+id/stage_dialog_menu_side_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/stage_dialog_menu"
         android:layout_toLeftOf="@+id/stage_dialog_menu"
         android:background="@drawable/stage_dialog_background_side" />
@@ -102,8 +99,6 @@
         android:id="@+id/stage_dialog_menu_side_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/stage_dialog_menu"
         android:layout_toRightOf="@+id/stage_dialog_menu"
         android:background="@drawable/stage_dialog_background_side" />
@@ -111,8 +106,8 @@
     <ImageButton
         android:id="@+id/stage_dialog_button_maximize"
         style="@style/StageButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/dialog_image_button_layout_width_height"
+        android:layout_height="@dimen/dialog_image_button_layout_width_height"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@color/stage_dialog_background_color"
