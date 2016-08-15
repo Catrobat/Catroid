@@ -144,6 +144,7 @@
   <!-- Project activity view -->
   <string name="project_name">Programm:</string>
   <string name="my_projects_activity_title">Programme</string>
+  <string name="number_of_objects">Objekte:</string>
   <string name="number_of_scripts">Skripte:</string>
   <string name="number_of_bricks">Bausteine:</string>
   <string name="number_of_looks">Aussehen:</string>
@@ -161,6 +162,10 @@
   <string name="deselect_all">Nichts auswählen</string>
   <string name="backpack_replace_object">Das Objekt \"%1$s\" befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
   <string name="backpack_replace_object_multiple">Im Rucksack sind bereits Objekte vorhanden. Möchtest du diese ersetzen?</string>
+  <string name="groups_create">Gruppe hinzufügen</string>
+  <string name="ungroup">Gruppierung aufheben</string>
+  <string name="group_objects_delete">Gruppe und Objekte löschen</string>
+  <string name="group">Gruppe</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopie</string>
   <!-- Script activity -->

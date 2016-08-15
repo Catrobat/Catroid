@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.interaction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -79,7 +80,7 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 		double size = 0.8;
 
 		Project project = new Project(null, projectName);
-		firstSprite = new Sprite("cat");
+		firstSprite = new SingleSprite("cat");
 
 		Script startScript1 = new StartScript();
 		Script whenScript1 = new WhenScript();

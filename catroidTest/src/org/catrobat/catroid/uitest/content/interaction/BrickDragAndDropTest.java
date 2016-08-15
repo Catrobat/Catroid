@@ -36,7 +36,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +116,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnScreen(20, yPositionList.get(1));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
 
-		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		UtilUi.updateScreenWidthAndHeight(solo.getCurrentActivity());
 		int height = ScreenValues.SCREEN_HEIGHT;
 
 		solo.sleep(2000);

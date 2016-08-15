@@ -29,7 +29,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.utils.Utils;
@@ -54,7 +54,7 @@ public final class PhysicsTestUtils {
 	}
 
 	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, Shape shape) {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(new Sprite("TestSprite"));
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(new SingleSprite("TestSprite"));
 
 		if (type != null) {
 			physicsObject.setType(type);

@@ -204,6 +204,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.991f) {
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
+			if (project.getCatrobatLanguageVersion() == 0.992f) {
+				//With the introduction of grouping there are several Sprite-classes
+				convertSpritesToSingleSprites();
+				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+			}
 //			insert further conversions here
 
 			checkNestingBrickReferences(true, false);
@@ -230,6 +235,17 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
 			}
 		}
+	}
+
+	private void convertSpritesToSingleSprites() {
+		List<Sprite> spriteList = project.getSpriteList();
+		for (int index = 0; index < spriteList.size(); index++) {
+			Sprite sprite = spriteList.get(index);
+			Sprite convertedSprite = sprite.shallowClone();
+			project.removeSprite(sprite);
+			project.addSprite(index, convertedSprite);
+		}
+		project.refreshSpriteReferences();
 	}
 
 	private void localizeBackgroundSprite(Context context) {

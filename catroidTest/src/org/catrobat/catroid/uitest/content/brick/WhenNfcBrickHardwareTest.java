@@ -31,7 +31,7 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
@@ -189,7 +189,7 @@ public class WhenNfcBrickHardwareTest extends BaseActivityInstrumentationTestCas
 	private void createProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 		Script testScript = new WhenNfcScript();
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick();

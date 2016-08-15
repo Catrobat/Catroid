@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -103,7 +104,7 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 		double size = 0.8;
 
 		Project project = new Project(null, projectName);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		testScript = new StartScript();
 		testScript2 = new StartScript();

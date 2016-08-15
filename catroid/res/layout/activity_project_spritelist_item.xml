@@ -22,16 +22,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/activity_project_background_headline" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/spritelist_parent"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/spritelist_item_height"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/sprite_checkbox"
@@ -44,8 +45,8 @@
 
         <RelativeLayout
             android:id="@+id/spritelist_item_background"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:longClickable="false">
 
             <ImageView
@@ -61,9 +62,54 @@
 
             <include layout="@layout/activity_project_sprite_title_details_view" />
 
-        </RelativeLayout >
-    </LinearLayout >
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/spritelist_group_item_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:longClickable="false">
+
+            <LinearLayout
+                android:id="@+id/sprite_group_indicators"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft = "5dip"
+                android:layout_alignParentBottom="true">
+
+                <ImageView
+                    android:id="@+id/sprite_group_indicator_expanded"
+                    style="@style/SpriteGroupIndicatorImageView"
+                    android:background="@drawable/ic_play_down" />
+
+                <ImageView
+                    android:id="@+id/sprite_group_indicator_collapsed"
+                    style="@style/SpriteGroupIndicatorImageView"
+                    android:background="@drawable/ic_play" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/project_activity_group_sprite_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/sprite_group_indicators">
+
+                <TextView
+                    android:id="@+id/project_activity_group_sprite_title"
+                    style="@style/ListViewItemTitleText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft = "20dip"
+                    android:ellipsize="end" />
+
+        </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <include layout="@layout/activity_project_objects_headline" />
 
-</LinearLayout >
+</LinearLayout>

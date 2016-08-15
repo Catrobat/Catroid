@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.firmata.FirmataMessage;
 import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -165,7 +166,7 @@ public class PhiroTest extends BaseActivityInstrumentationTestCase<MainMenuActiv
 	private ArrayList<int[]> createTestproject(String projectName) {
 		ArrayList<int[]> commands = new ArrayList<int[]>();
 
-		Sprite firstSprite = new Sprite(spriteName);
+		Sprite firstSprite = new SingleSprite(spriteName);
 		Script startScript = new StartScript();
 		Script whenScript = new WhenScript();
 		SetLookBrick setLookBrick = new SetLookBrick();

@@ -32,6 +32,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
@@ -83,7 +84,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 		project = new Project(null, projectName);
 
-		firstSprite = new Sprite("firstSprite");
+		firstSprite = new SingleSprite("firstSprite");
 		project.addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
@@ -313,7 +314,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		UiTestUtils.createUserListFromDataFragment(solo, itemString2nd, true);
 		UiTestUtils.createUserListFromDataFragment(solo, itemString3rd, false);
 		String delete = solo.getString(R.string.delete);
-		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete);
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -364,7 +365,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		UiTestUtils.createUserListFromDataFragment(solo, itemString3rd, true);
 
 		String delete = solo.getString(R.string.delete);
-		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.formula_editor_data_item_delete);
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
@@ -541,8 +542,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 		solo.sleep(400);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.formula_editor_data_item_delete,
-				getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.formula_editor_data_item_delete
+		);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnText(selectAll);
@@ -565,8 +566,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 	private void createProject(String projectName) throws InterruptedException {
 		project = new Project(null, projectName);
-		firstSprite = new Sprite("firstSprite");
-		Sprite secondSprite = new Sprite("secondSprite");
+		firstSprite = new SingleSprite("firstSprite");
+		Sprite secondSprite = new SingleSprite("secondSprite");
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);

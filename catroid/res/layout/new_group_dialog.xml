@@ -28,6 +28,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/DefaultDialog.TextView"
-        android:text="@string/script_group_name_given"/>
+        android:text="@string/name"/>
+
+    <EditText
+        android:id="@+id/new_group_dialog_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/DefaultDialog.EditText"
+        android:hint="@string/my_group"/>
 
 </LinearLayout>

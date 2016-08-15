@@ -37,14 +37,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -58,7 +51,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -128,19 +120,6 @@ public final class Utils {
 			}
 		}
 		return false;
-	}
-
-	public static void updateScreenWidthAndHeight(Context context) {
-		if (context != null) {
-			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-			DisplayMetrics displayMetrics = new DisplayMetrics();
-			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
-			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
-		} else {
-			//a null-context should never be passed. However, an educated guess is needed in that case.
-			ScreenValues.setToDefaultSreenSize();
-		}
 	}
 
 	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
@@ -239,18 +218,6 @@ public final class Utils {
 		});
 		Dialog errorDialog = builder.create();
 		errorDialog.show();
-	}
-
-	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
-		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		MenuItem item = menu.findItem(R.id.select_all);
-		View view = item.getActionView();
-		if (view.getId() == R.id.select_all) {
-			View selectAllView = View.inflate(inflater.getContext(), R.layout.action_mode_select_all, null);
-			item.setActionView(selectAllView);
-			return selectAllView;
-		}
-		return null;
 	}
 
 	public static String md5Checksum(File file) {
@@ -638,18 +605,6 @@ public final class Utils {
 			}
 		}
 		return false;
-	}
-
-	public static void setSelectAllActionModeButtonVisibility(View selectAllActionModeButton, boolean setVisible) {
-		if (selectAllActionModeButton == null) {
-			return;
-		}
-
-		if (setVisible) {
-			selectAllActionModeButton.setVisibility(View.VISIBLE);
-		} else {
-			selectAllActionModeButton.setVisibility(View.GONE);
-		}
 	}
 
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {

@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -68,7 +69,7 @@ public class SpriteTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		sprite = new Sprite("testSprite");
+		sprite = new SingleSprite("testSprite");
 		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.addSprite(sprite);
 		project.getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
@@ -81,7 +82,7 @@ public class SpriteTest extends AndroidTestCase {
 	}
 
 	public void testAddScript() {
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -98,7 +99,7 @@ public class SpriteTest extends AndroidTestCase {
 	}
 
 	public void testGetScript() {
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -108,7 +109,7 @@ public class SpriteTest extends AndroidTestCase {
 	}
 
 	public void testRemoveAllScripts() {
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -120,7 +121,7 @@ public class SpriteTest extends AndroidTestCase {
 	}
 
 	public void testRemoveScript() {
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -133,7 +134,7 @@ public class SpriteTest extends AndroidTestCase {
 	}
 
 	public void testGetScriptIndex() {
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -143,7 +144,7 @@ public class SpriteTest extends AndroidTestCase {
 	}
 
 	public void testPauseResume() throws InterruptedException {
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
 		ShowBrick showBrick = new ShowBrick();

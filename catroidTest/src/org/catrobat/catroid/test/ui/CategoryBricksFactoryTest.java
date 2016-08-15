@@ -28,6 +28,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -39,7 +40,7 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 
 	private final CategoryBricksFactory factory = new CategoryBricksFactory();
 	private Sprite background;
-	private Sprite sprite = new Sprite("newSprite");
+	private Sprite sprite = new SingleSprite("newSprite");
 	private Context context = getContext();
 
 	@Override

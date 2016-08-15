@@ -24,7 +24,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.ListFragment;
 
-public abstract class ScriptActivityFragment extends ListFragment {
+public abstract class ScriptActivityFragment extends ListFragment implements ListItemActionsInterface {
 
 	protected boolean actionModeActive = false;
 
@@ -54,7 +54,7 @@ public abstract class ScriptActivityFragment extends ListFragment {
 
 	public abstract void handleAddButton();
 
-	protected abstract void showRenameDialog();
+	public abstract void showRenameDialog();
 
-	protected abstract void showDeleteDialog();
+	public abstract void showDeleteDialog();
 }

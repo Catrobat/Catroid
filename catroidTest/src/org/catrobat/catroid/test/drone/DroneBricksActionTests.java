@@ -31,6 +31,7 @@ import com.badlogic.gdx.utils.Array;
 import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -79,7 +80,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		when(droneControlService.getDroneConfig()).thenReturn(droneConfig);
 
 		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-		sprite = new Sprite(getName());
+		sprite = new SingleSprite(getName());
 		sequenceAction = new SequenceAction();
 	}
 

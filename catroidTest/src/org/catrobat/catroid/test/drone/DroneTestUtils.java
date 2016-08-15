@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.drone;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
@@ -39,7 +40,7 @@ public abstract class DroneTestUtils {
 
 	public static void createDefaultDroneProject() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("DroneBricksTest");
+		Sprite sprite = new SingleSprite("DroneBricksTest");
 		Script script = new StartScript();
 
 		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {

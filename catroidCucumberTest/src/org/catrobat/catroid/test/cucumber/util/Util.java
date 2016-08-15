@@ -54,7 +54,7 @@ public final class Util {
 	}
 
 	public static Sprite addNewObjectWithLook(Context context, Project project, String name, int id) {
-		Sprite sprite = new Sprite(name);
+		Sprite sprite = new SingleSprite(name);
 		project.addSprite(sprite);
 		File file = createObjectImage(context, name, id);
 		LookData lookData = newLookData(name, file);

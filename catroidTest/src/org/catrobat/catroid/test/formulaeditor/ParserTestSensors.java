@@ -29,6 +29,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -197,7 +198,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 	private void createProject() {
 		this.project = new Project(null, "testProject");
-		firstSprite = new Sprite("zwoosh");
+		firstSprite = new SingleSprite("zwoosh");
 		startScript1 = new StartScript();
 		Brick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript1);

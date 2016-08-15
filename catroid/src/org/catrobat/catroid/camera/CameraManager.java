@@ -62,7 +62,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	private static CameraManager instance;
 	private Camera currentCamera;
 	private SurfaceTexture texture;
-	private List<JpgPreviewCallback> callbacks = new ArrayList<JpgPreviewCallback>();
+	private List<JpgPreviewCallback> callbacks = new ArrayList<>();
 	private int previewFormat;
 	private int previewWidth;
 	private int previewHeight;

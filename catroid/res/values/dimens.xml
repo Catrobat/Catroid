@@ -27,6 +27,7 @@
     <dimen name="project_thumbnail_height" >65dip</dimen >
     <dimen name="project_thumbnail_width" >72dip</dimen >
     <dimen name="my_projects_list_item_height" >90dip</dimen >
+    <dimen name="spritelist_group_item_height" >50dip</dimen >
     <dimen name="spritelist_item_height" >90dip</dimen >
     <dimen name="text_size_small" >12sp</dimen>
     <dimen name="text_size_medium" >16sp</dimen >

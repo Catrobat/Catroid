@@ -55,7 +55,7 @@
 
     <!-- NfcTags list -->
 
-    <org.catrobat.catroid.ui.DynamicListView
+    <org.catrobat.catroid.ui.dynamiclistview.DynamicListView
         android:id="@android:id/list"
         style="@style/ListViewShadowed"
         android:layout_width="match_parent"

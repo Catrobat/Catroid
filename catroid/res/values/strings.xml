@@ -170,6 +170,7 @@
     <!-- Project activity view -->
     <string name="project_name">Program:</string>
     <string name="my_projects_activity_title">Programs</string>
+    <string name="number_of_objects">Objects:</string>
     <string name="number_of_scripts">Scripts:</string>
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_looks">Looks:</string>
@@ -187,6 +188,11 @@
     <string name="deselect_all">Deselect all</string>
     <string name="backpack_replace_object">The object "%1$s" already exists in the backpack. Do you want to replace it?</string>
     <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+    <string name="groups_create">Create group</string>
+    <string name="group_created">Group successfully created!</string>
+    <string name="ungroup">Ungroup</string>
+    <string name="group_objects_delete">Delete group and objects</string>
+    <string name="group">Group</string>
     <!--  -->
 
 
@@ -207,6 +213,8 @@
     <string name="userbrick_group">Brick Group</string>
     <string name="userbrick_groups">Brick Groups</string>
     <string name="script_group_name_given">A Group with this name already exists. Please choose a different one!</string>
+    <string name="group_or_object_name_given">A Group or object with this name already exists. Please choose a
+        different one!</string>
     <!--  -->
 
 

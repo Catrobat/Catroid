@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
 
@@ -47,15 +48,15 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		Project project = new Project(getContext(), "testProject");
 		Group parentGroup = new Group();
 
-		Sprite bottomSprite = new Sprite("catroid");
+		Sprite bottomSprite = new SingleSprite("catroid");
 		parentGroup.addActor(bottomSprite.look);
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.look.getZIndex());
 
-		Sprite middleSprite = new Sprite("catroid cat");
+		Sprite middleSprite = new SingleSprite("catroid cat");
 		parentGroup.addActor(middleSprite.look);
 		assertEquals("Unexpected initial z position of middleSprite", 1, middleSprite.look.getZIndex());
 
-		Sprite topSprite = new Sprite("scratch");
+		Sprite topSprite = new SingleSprite("scratch");
 		parentGroup.addActor(topSprite.look);
 		assertEquals("Unexpected initial z position of topSprite", 2, topSprite.look.getZIndex());
 
@@ -73,7 +74,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		assertEquals("bottomSprite z position should now be 2", middleSprite.look.getZIndex(),
 				getZMaxValue(middleSprite));
 
-		Sprite nextSprite = new Sprite("dog");
+		Sprite nextSprite = new SingleSprite("dog");
 		parentGroup.addActor(nextSprite.look);
 		project.addSprite(nextSprite);
 
@@ -124,12 +125,12 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		Project project = new Project(getContext(), "testProject");
 		Group parentGroup = new Group();
 
-		Sprite firstSprite = new Sprite("firstSprite");
+		Sprite firstSprite = new SingleSprite("firstSprite");
 		parentGroup.addActor(firstSprite.look);
 		project.addSprite(firstSprite);
 
 		for (int i = 0; i < 10; i++) {
-			Sprite sprite = new Sprite("testSprite" + i);
+			Sprite sprite = new SingleSprite("testSprite" + i);
 			parentGroup.addActor(sprite.look);
 			sprite.look.setZIndex(Integer.MAX_VALUE);
 			project.addSprite(sprite);
