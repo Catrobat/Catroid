@@ -97,6 +97,10 @@
     <string name="logout_successful">Logout successful</string>
     <!--  -->
 
+    <!-- Marketing activity -->
+    <string name="marketing_created_with">Created with</string>
+    <string name="marketing_app_details">Details about this app</string>
+    <string name="marketing_more_on_google_play">More apps on Google Play</string>
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>

@@ -36,6 +36,7 @@ public final class Constants {
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
 	public static final String PROJECTCODE_NAME = "code.xml";
 	public static final String PROJECTPERMISSIONS_NAME = "permissions.txt";
+	public static final String PROJECTPERMISSIONS_NAME_TMP = "tmp_" + PROJECTPERMISSIONS_NAME;
 	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
@@ -86,7 +87,8 @@ public final class Constants {
 	public static final String OPENING_BRACE = "(";
 
 	//Web:
-	public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";
+	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
+	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/pocketcode/pocket-library/looks";
 	public static final String LIBRARY_BACKGROUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/backgrounds";
 	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
@@ -101,6 +103,8 @@ public final class Constants {
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
+
+	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
 
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";

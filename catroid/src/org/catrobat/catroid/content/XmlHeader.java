@@ -197,4 +197,8 @@ public class XmlHeader implements Serializable {
 	public void setTags(List<String> tags) {
 		this.tags = TextUtils.join(",", tags);
 	}
+
+	public String getUrl() {
+		return this.url;
+	}
 }
