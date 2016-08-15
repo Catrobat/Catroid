@@ -22,12 +22,13 @@
  */
 package org.catrobat.catroid.uitest.formulaeditor;
 
+import android.support.percent.PercentRelativeLayout;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -40,7 +41,6 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -174,29 +174,19 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 	public void testLayout() {
 		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
+		int buttonWidthDelta = 5;
 
-		List<List<View>> keyboard = new ArrayList<List<View>>();
-		LinearLayout keyboardContainer = (LinearLayout) solo.getView(R.id.formula_editor_keyboardview);
+		PercentRelativeLayout keyboardContainer = (PercentRelativeLayout) solo.getView(R.id.formula_editor_keyboardview);
+		int currentRowWeightSum = 0;
 
 		for (int rowIndex = 0; rowIndex < keyboardContainer.getChildCount(); rowIndex++) {
 			View rowView = keyboardContainer.getChildAt(rowIndex);
-			List<View> row = new ArrayList<View>();
 
-			if (rowView.getClass() == LinearLayout.class) {
-				for (int i = 0; i < ((LinearLayout) rowView).getChildCount(); i++) {
-					row.add(((LinearLayout) rowView).getChildAt(i));
-				}
+			currentRowWeightSum += rowView.getLayoutParams().width;
+			if (currentRowWeightSum >= ScreenValues.SCREEN_WIDTH - buttonWidthDelta) {
+				assertEquals("Buttons don't fill up the screen", ScreenValues.SCREEN_WIDTH, currentRowWeightSum, buttonWidthDelta);
+				currentRowWeightSum = 0;
 			}
-			keyboard.add(row);
-		}
-
-		for (int rowIndex = 0; rowIndex < keyboard.size(); rowIndex++) {
-			List<View> row = keyboard.get(rowIndex);
-			float currentRowWeightSum = 0;
-			for (View key : row) {
-				currentRowWeightSum += ((LinearLayout.LayoutParams) key.getLayoutParams()).weight;
-			}
-			assertEquals("Row " + (rowIndex + 1) + "'s weights don't add up.", 1.0f, currentRowWeightSum);
 		}
 	}
 
@@ -468,7 +458,9 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		String categoryTitle = solo.getString(R.string.formula_editor_device_face_detection);
 		assertTrue("Category Title not found", solo.searchText(categoryTitle.toUpperCase(Locale.getDefault())));
 
+		solo.scrollToTop();
 		itemString = solo.getString(R.string.formula_editor_sensor_x_acceleration);
+		solo.searchText(itemString);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));

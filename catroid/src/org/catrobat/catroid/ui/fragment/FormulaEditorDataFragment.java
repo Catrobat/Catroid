@@ -68,6 +68,8 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.SortedSet;
+
 public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
 		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
 	private static final String TAG = FormulaEditorDataFragment.class.getSimpleName();
@@ -397,7 +399,10 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			final DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-			if (!adapter.isEmpty()) {
+
+			SortedSet<Integer> checkedItems = adapter.getCheckedItems();
+
+			if (!adapter.isEmpty() && !checkedItems.isEmpty()) {
 
 				final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 				alertDialog.setTitle(R.string.deletion_alert_title);
@@ -424,6 +429,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 						});
 				alertDialog.setNegativeButton(R.string.deletion_alert_no, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
+						adapter.notifyDataSetChanged();
 						adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
 						contextActionMode = null;
 						inContextMode = false;
@@ -431,7 +437,13 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 					}
 				});
 				alertDialog.show();
+				return;
 			}
+			adapter.notifyDataSetChanged();
+			adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
+			contextActionMode = null;
+			inContextMode = false;
+			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 		}
 	};
 

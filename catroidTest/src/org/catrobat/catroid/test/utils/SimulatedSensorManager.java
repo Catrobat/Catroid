@@ -184,6 +184,7 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 			}
 
 			switch (sensor.getType()) {
+				case Sensor.TYPE_ACCELEROMETER:
 				case Sensor.TYPE_LINEAR_ACCELERATION:
 					sensorEvent.sensor = sensor;
 
