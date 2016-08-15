@@ -709,4 +709,17 @@
         <item name="android:layout_marginTop">20dp</item>
     </style>
 
+    <style name="DeviceTextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:paddingLeft">@dimen/device_text_view_padding_left</item>
+        <item name="android:textSize">@dimen/device_text_view_text_size</item>
+    </style>
+
+    <style name="DeviceListView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>        
+        <item name="android:stackFromBottom">true</item>
+    </style>
+
 </resources>

@@ -106,8 +106,8 @@
     <ImageButton
         android:id="@+id/stage_dialog_button_maximize"
         style="@style/StageButton"
-        android:layout_width="@dimen/dialog_image_button_layout_width_height"
-        android:layout_height="@dimen/dialog_image_button_layout_width_height"
+        android:layout_width="@dimen/dialog_image_button_layout_width"
+        android:layout_height="@dimen/dialog_image_button_layout_height"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@color/stage_dialog_background_color"
