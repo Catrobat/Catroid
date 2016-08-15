@@ -40,7 +40,7 @@ import org.catrobat.catroid.content.WhenTouchDownScript;
 
 import java.util.List;
 
-public class WhenTouchDownBrick extends ScriptBrick {
+public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenTouchDownScript whenTouchDownScript;
 	private transient View prototypeView;
 	private static final long serialVersionUID = 1L;

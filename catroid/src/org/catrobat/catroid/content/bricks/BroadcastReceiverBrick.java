@@ -47,7 +47,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMessage {
+public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
 	private BroadcastScript receiveScript;

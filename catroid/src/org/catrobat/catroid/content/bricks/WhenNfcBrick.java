@@ -52,7 +52,8 @@ import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 
 import java.util.List;
 
-public class WhenNfcBrick extends ScriptBrick implements NfcTagFragment.OnNfcTagDataListChangedAfterNewListener {
+public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFragment
+		.OnNfcTagDataListChangedAfterNewListener {
 	protected WhenNfcScript whenNfcScript;
 	private transient View prototypeView;
 	private transient NfcTagData nfcTag;

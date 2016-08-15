@@ -34,7 +34,7 @@ import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
-	private ConcurrentFormulaHashMap formulaMap;
+	protected ConcurrentFormulaHashMap formulaMap;
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap != null && formulaMap.containsKey(brickField)) {

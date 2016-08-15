@@ -42,7 +42,7 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhenRaspiPinChangedBrick extends ScriptBrick {
+public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private RaspiInterruptScript script;

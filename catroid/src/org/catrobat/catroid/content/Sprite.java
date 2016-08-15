@@ -41,7 +41,10 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -250,8 +253,30 @@ public class Sprite implements Serializable, Cloneable {
 					scriptActions.put(Constants.BROADCAST_SCRIPT, broadcastScriptList);
 					BroadcastHandler.getStringActionMap().put(actionName, action);
 				}
+			} else if (script instanceof WhenConditionScript) {
+				createWhenConditionBecomesTrueAction((WhenConditionScript) script);
 			}
 		}
+	}
+
+	private void createWhenConditionBecomesTrueAction(WhenConditionScript script) {
+		ActionFactory actionFactory = getActionFactory();
+		Formula condition = ((WhenConditionBrick) script.getScriptBrick()).getConditionFormula();
+		Formula negatedCondition = new Formula(condition.getRoot().clone()) {
+			@Override
+			public Boolean interpretBoolean(Sprite sprite) throws InterpretationException {
+				return !super.interpretBoolean(sprite);
+			}
+		};
+
+		Action waitAction = actionFactory.createWaitUntilAction(this, condition);
+		Action waitActionNegated = actionFactory.createWaitUntilAction(this, negatedCondition);
+
+		SequenceAction foreverSequence = ActionFactory.sequence(ActionFactory.sequence(waitAction,
+				createActionSequence(script)), waitActionNegated);
+
+		Action whenConditionBecomesTrueAction = actionFactory.createForeverAction(this, foreverSequence);
+		look.addAction(whenConditionBecomesTrueAction);
 	}
 
 	private void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
