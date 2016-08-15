@@ -34,7 +34,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class ShowTextActionTest extends AndroidTestCase {
+public class ShowVariableActionTest extends AndroidTestCase {
 
 	private static final String SPRITE_NAME = "Cat";
 	private static final String SPRITE_VARIABLE_NAME = "var";
@@ -55,10 +55,10 @@ public class ShowTextActionTest extends AndroidTestCase {
 		dataContainer.addSpriteUserVariableToSprite(secondSprite, SPRITE_VARIABLE_NAME).setVisible(false);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action firstSpriteAction = factory.createShowTextAction(sprite, new Formula(0), new Formula(0),
+		Action firstSpriteAction = factory.createShowVariableAction(sprite, new Formula(0), new Formula(0),
 				SPRITE_VARIABLE_NAME);
 		factory = secondSprite.getActionFactory();
-		Action secondSpriteAction = factory.createShowTextAction(secondSprite, new Formula(0), new Formula(0),
+		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new Formula(0), new Formula(0),
 				SPRITE_VARIABLE_NAME);
 		firstSpriteAction.act(1.0f);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);

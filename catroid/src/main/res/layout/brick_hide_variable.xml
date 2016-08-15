@@ -30,14 +30,14 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_hide_text_checkbox"
+        android:id="@+id/brick_hide_variable_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_hide_text_layout"
+        android:id="@+id/brick_hide_variable_layout"
         style="@style/BrickContainer.UserVariables.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,13 +47,13 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_hide_text_label"
+            android:id="@+id/brick_hide_variable_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_hide_text_var" >
+            android:text="@string/brick_hide_variable" >
         </TextView >
 
         <Spinner
-            android:id="@+id/hide_text_spinner"
+            android:id="@+id/hide_variable_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"

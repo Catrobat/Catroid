@@ -80,11 +80,11 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				if (brick instanceof SetVariableBrick) {
 					Spinner spinner = (Spinner) ((SetVariableBrick) brick).view.findViewById(R.id.set_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof ShowTextBrick) {
-					Spinner spinner = (Spinner) ((ShowTextBrick) brick).view.findViewById(R.id.show_text_spinner);
+				} else if (brick instanceof ShowVariableBrick) {
+					Spinner spinner = (Spinner) ((ShowVariableBrick) brick).view.findViewById(R.id.show_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof HideTextBrick) {
-					Spinner spinner = (Spinner) ((HideTextBrick) brick).view.findViewById(R.id.hide_text_spinner);
+				} else if (brick instanceof HideVariableBrick) {
+					Spinner spinner = (Spinner) ((HideVariableBrick) brick).view.findViewById(R.id.hide_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
 				} else if (brick instanceof ChangeVariableBrick) {
 					Spinner spinner = (Spinner) ((ChangeVariableBrick) brick).view.findViewById(R.id

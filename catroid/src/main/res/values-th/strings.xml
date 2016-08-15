@@ -959,9 +959,9 @@
   <string name="add_line_break">เพิ่มตัวแบ่งบรรทัด</string>
   <string name="edit_variable">แก้ไขตัวแปร</string>
   <string name="variable_hint">ชื่อตัวแปร</string>
-  <string name="brick_show_text_var">Show variable</string>
-  <string name="brick_show_text_pos">"at "</string>
-  <string name="brick_hide_text_var">Hide variable</string>
+  <string name="brick_show_variable">Show variable</string>
+  <string name="brick_show_variable_position">"at "</string>
+  <string name="brick_hide_variable">Hide variable</string>
   <!-- User Bricks strings -->
   <string name="define">กำหนด</string>
   <string name="new_user_brick">ก้อนคำสั่งใหม่</string>

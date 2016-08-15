@@ -77,7 +77,7 @@ import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.HideTextBrick;
+import org.catrobat.catroid.content.bricks.HideVariableBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -125,7 +125,7 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.ShowVariableBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
@@ -555,10 +555,10 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo.addBrickFieldToMap("string", BrickField.STRING);
 		brickInfoMap.put("setTextBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ShowTextBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(ShowVariableBrick.class.getSimpleName());
 		brickInfoMap.put("showTextBrick", brickInfo);
 
-		brickInfo = new BrickInfo(HideTextBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(HideVariableBrick.class.getSimpleName());
 		brickInfoMap.put("hideTextBrick", brickInfo);
 
 		brickInfo = new BrickInfo(CameraBrick.class.getSimpleName());

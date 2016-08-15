@@ -34,8 +34,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import java.util.List;
 import java.util.Map;
 
-public class HideTextAction extends TemporalAction {
-	private String variableName;
+public class HideVariableAction extends TemporalAction {
+	private UserVariable variableToHide;
 	private UserBrick userBrick;
 
 	@Override
@@ -63,7 +63,7 @@ public class HideTextAction extends TemporalAction {
 			return;
 		}
 		for (UserVariable userVariable : variableList) {
-			if (userVariable.getName().equals(variableName)) {
+			if (userVariable.getName().equals(variableToHide.getName())) {
 				userVariable.setVisible(false);
 				break;
 			}
@@ -74,8 +74,8 @@ public class HideTextAction extends TemporalAction {
 	protected void update(float percent) {
 	}
 
-	public void setVariableName(String variableName) {
-		this.variableName = variableName;
+	public void setVariableToHide(UserVariable userVariable) {
+		this.variableToHide = userVariable;
 	}
 
 	public void setUserBrick(UserBrick userBrick) {
