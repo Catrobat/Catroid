@@ -134,6 +134,13 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_BOTTOM_RIGHT.name(), R.string.formula_editor_phiro_sensor_bottom_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NFC_TAG_ID.name(), R.string.formula_editor_nfc_tag_id);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_YEAR.name(), R.string.formula_editor_sensor_date_year);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_MONTH.name(), R.string.formula_editor_sensor_date_month);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_DAY.name(), R.string.formula_editor_sensor_date_day);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_WEEKDAY.name(), R.string.formula_editor_sensor_date_weekday);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TIME_HOUR.name(), R.string.formula_editor_sensor_time_hour);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TIME_MINUTE.name(), R.string.formula_editor_sensor_time_minute);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TIME_SECOND.name(), R.string.formula_editor_sensor_time_second);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_TRANSPARENCY.name(),

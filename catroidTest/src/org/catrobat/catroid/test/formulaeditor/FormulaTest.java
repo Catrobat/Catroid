@@ -58,6 +58,41 @@ public class FormulaTest extends InstrumentationTestCase {
 		assertEquals("Required ressources for face_y_position are not set to FACE_DETECTION",
 				formula3.getRequiredResources(), Brick.FACE_DETECTION);
 
+		Formula formulaYear = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.DATE_YEAR.name(),
+				null));
+		assertEquals("Required ressources for date_year are not set to DATE_YEAR", formulaYear
+				.getRequiredResources(), Brick.DATE);
+
+		Formula formulaMonth = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.DATE_MONTH.name(),
+				null));
+		assertEquals("Required ressources for date_year are not set to DATE_YEAR", formulaMonth
+				.getRequiredResources(), Brick.DATE);
+
+		Formula formulaDay = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.DATE_DAY.name(),
+				null));
+		assertEquals("Required ressources for date_year are not set to DATE_YEAR", formulaDay
+				.getRequiredResources(), Brick.DATE);
+
+		Formula formulaWeekday = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.DATE_WEEKDAY.name(),
+				null));
+		assertEquals("Required ressources for date_year are not set to DATE_YEAR", formulaWeekday
+				.getRequiredResources(), Brick.DATE);
+
+		Formula formulaHour = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.TIME_HOUR.name(),
+				null));
+		assertEquals("Required ressources for date_year are not set to DATE_YEAR", formulaHour
+				.getRequiredResources(), Brick.DATE);
+
+		Formula formulaMinute = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.TIME_MINUTE.name(),
+				null));
+		assertEquals("Required ressources for date_year are not set to DATE_YEAR", formulaMinute
+				.getRequiredResources(), Brick.DATE);
+
+		Formula formulaSecond = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.TIME_SECOND.name(),
+				null));
+		assertEquals("Required ressources for date_year are not set to DATE_YEAR", formulaSecond
+				.getRequiredResources(), Brick.DATE);
+
 		Formula simpleFormula = new Formula(42.0d);
 		assertEquals("Simple formula requests resources", simpleFormula.getRequiredResources(), Brick.NO_RESOURCES);
 

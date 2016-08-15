@@ -102,6 +102,14 @@ public class PreStageActivity extends BaseActivity {
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(getApplicationContext());
 
+		if ((requiredResources & Brick.DATE) > 0) {
+			if (sensorHandler.dateAvailable()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.DATE);
+			}
+		}
+
 		if ((requiredResources & Brick.SENSOR_ACCELERATION) > 0) {
 			if (sensorHandler.accelerationAvailable()) {
 				resourceInitialized();
@@ -374,6 +382,10 @@ public class PreStageActivity extends BaseActivity {
 				case Brick.FACE_DETECTION:
 					failedResourcesMessage = failedResourcesMessage + getString(R.string
 							.prestage_no_camera_available);
+					break;
+				case Brick.DATE:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_date_available);
 					break;
 				default:
 					failedResourcesMessage = failedResourcesMessage + getString(R.string

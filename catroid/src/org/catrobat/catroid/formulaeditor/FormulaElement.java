@@ -1003,6 +1003,16 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.ARDRONE_SUPPORT;
 					break;
 
+				case DATE_YEAR:
+				case DATE_MONTH:
+				case DATE_DAY:
+				case DATE_WEEKDAY:
+				case TIME_HOUR:
+				case TIME_MINUTE:
+				case TIME_SECOND:
+					resources |= Brick.DATE;
+					break;
+
 				case NFC_TAG_ID:
 					resources |= Brick.NFC_ADAPTER;
 					break;
