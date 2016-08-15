@@ -62,6 +62,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testIfBrick() {
+		solo.waitForText(solo.getString(R.string.brick_when_started), 0, 1000);
 		ListView view = UiTestUtils.getScriptListView(solo);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
@@ -96,14 +97,13 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		int dragAndDropSteps = 100;
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		Log.d(TAG, "Before drag item 1 to item 4 + 20");
+		Log.d(TAG, "Before drag item 2 to item 0 + 20");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 
-		int oldYto = yPosition.get(4) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, oldYto, dragAndDropSteps);
-
+		int oldYto = yPosition.get(0) + 20;
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, oldYto, dragAndDropSteps);
 		boolean result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
 		assertTrue("Timeout during longClickAndDrag on item 1! y-Coordinate: " + oldYto, result);
 
@@ -139,8 +139,8 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 				projectBrickList.get(1) instanceof IfLogicElseBrick);
 
 		assertTrue("Wrong Brick instance - expected ChangeYByNBrick but was "
-						+ projectBrickList.get(2).getClass().getSimpleName(),
-				projectBrickList.get(2) instanceof ChangeYByNBrick
+						+ projectBrickList.get(3).getClass().getSimpleName(),
+				projectBrickList.get(3) instanceof ChangeYByNBrick
 		);
 
 		Log.d(TAG, "Before drag item 4 to item 0");
@@ -158,8 +158,8 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
-						+ projectBrickList.get(2).getClass().getSimpleName(),
-				projectBrickList.get(2) instanceof IfLogicEndBrick);
+						+ projectBrickList.get(3).getClass().getSimpleName(),
+				projectBrickList.get(3) instanceof IfLogicEndBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
@@ -200,8 +200,8 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, dragAndDropSteps);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(5) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, oldYto, dragAndDropSteps);
+		oldYto = yPosition.get(3) + 20;
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(5), 10, oldYto, dragAndDropSteps);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
 		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);

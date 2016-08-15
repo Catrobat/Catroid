@@ -66,15 +66,16 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	public void testRepeatBrick() {
 		ArrayList<Integer> yPosition;
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof LoopBeginBrick));
+		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof LoopBeginBrick));
 
+		projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
@@ -88,7 +89,8 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected LoopBeginBrick but was "
-				+ projectBrickList.get(0).getClass().getSimpleName(), projectBrickList.get(0) instanceof LoopBeginBrick);
+				+ projectBrickList.get(1).getClass().getSimpleName(), projectBrickList.get(1)
+				instanceof LoopBeginBrick);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(4) + 20, 20);
@@ -235,16 +237,18 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnScreen(20, yPosition.get(1));
 		clickOnDeleteInDialog();
 
+		solo.scrollToTop();
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 4) - 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(3) - (yPosition.get(3) - yPosition
+				.get(2)) / 2, 20);
 
 		assertTrue("Wrong brick instance. expected 2, bricklist: " + projectBrickList.toString(),
 				projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
 
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(0), 20);
 		solo.scrollToBottom();
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(yPosition.size() - 1) + 50, 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(yPosition.size() - 5), 20, yPosition.get(yPosition.size()
+				- 3) - (yPosition.get(yPosition.size() - 3) - yPosition.get(yPosition.size() - 2)) / 2, 20);
 		assertEquals("Wrong number of bricks", 7, projectBrickList.size());
 
 		projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

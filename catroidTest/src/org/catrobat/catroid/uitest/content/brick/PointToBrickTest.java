@@ -79,7 +79,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testPointToBrickTest() throws InterruptedException {
-		solo.sleep(500);
+		solo.waitForText(solo.getString(R.string.brick_when_started), 0, 1000);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 

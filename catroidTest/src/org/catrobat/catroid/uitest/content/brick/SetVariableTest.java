@@ -129,6 +129,9 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(solo.getString(R.string.delete));
 		assertTrue("Data Fragment not shown", solo.waitForFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG));
 
+		solo.waitForText(solo.getString(R.string.deletion_alert_yes));
+		solo.clickOnText(solo.getString(R.string.deletion_alert_yes));
+
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		assertTrue("Variable not set in spinner after deletion", solo.searchText(userVariableName));

@@ -57,6 +57,7 @@ public class NextLookBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 	}
 
 	public void testNextLookBrick() {
+		solo.waitForText(solo.getString(R.string.brick_when_started), 0, 1000);
 		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 

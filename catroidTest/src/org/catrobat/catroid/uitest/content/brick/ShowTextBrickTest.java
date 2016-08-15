@@ -74,6 +74,7 @@ public class ShowTextBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 	}
 
 	public void testShowHideBrick() {
+		solo.waitForText(solo.getString(R.string.brick_when_started), 0, 1000);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -99,9 +100,14 @@ public class ShowTextBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.stage_dialog_back));
+
+		if (!solo.waitForText(solo.getString(R.string.stage_dialog_back))) {
+			solo.goBack();
+		}
 		solo.clickOnText(solo.getString(R.string.stage_dialog_back));
 
+		solo.waitForText(getInstrumentation().getTargetContext().getString(
+				R.string.brick_variable_spinner_create_new_variable));
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(
 				R.string.brick_variable_spinner_create_new_variable), 1, true);
 		EditText varName = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
