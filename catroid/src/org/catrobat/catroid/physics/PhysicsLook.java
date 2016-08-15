@@ -120,6 +120,33 @@ public class PhysicsLook extends Look {
 	@Override
 	public float getRotation() {
 		super.setRotation((physicsObject.getDirection() % 360));
+
+		float rotation = super.getRotation();
+		float realRotation = physicsObject.getDirection() % 360;
+		if (realRotation < 0) {
+			realRotation += 360;
+		}
+
+		switch (super.getRotationMode()) {
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				super.setRotation(0f);
+				boolean orientedRight = realRotation > 180 || realRotation == 0;
+				boolean orientedLeft = realRotation <= 180 && realRotation != 0;
+				if (isFlipped && orientedRight || !isFlipped && orientedLeft) {
+					if (lookData != null) {
+						lookData.getTextureRegion().flip(true, false);
+					}
+					isFlipped = !isFlipped;
+				}
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				super.setRotation(rotation);
+				break;
+			case ROTATION_STYLE_NONE:
+				super.setRotation(0f);
+				break;
+		}
+
 		return super.getRotation();
 	}
 

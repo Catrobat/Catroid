@@ -288,7 +288,7 @@ public class LookTest extends InstrumentationTestCase {
 		look.setDirectionInUserInterfaceDimensionUnit(90f);
 		look.changeDirectionInUserInterfaceDimensionUnit(360f);
 		assertEquals("Wrong degrees value!", 90f, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals("Wrong degrees value!", -360f, look.getRotation());
+		assertEquals("Wrong degrees value!", 0f, look.getRotation());
 	}
 
 	public void testWidthAndHeight() {

@@ -610,6 +610,9 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_point_in_direction, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_point_to, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_normal, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_lr, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_rotation_style_no, R.string.category_motion);
 
 		brickCategoryMap.put(R.string.brick_set_look, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
