@@ -1346,9 +1346,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				}
 				if (checked) {
 					addElementToCheckedBricks(currentBrick);
-					if (!(brick instanceof UserScriptDefinitionBrick)) {
-						animatedBricks.add(currentBrick);
-					}
 				} else {
 					checkedBricks.remove(currentBrick);
 				}
@@ -1378,7 +1375,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					break;
 				}
 				if (checked) {
-					animatedBricks.add((Brick) currentBrick);
 					addElementToCheckedBricks((Brick) currentBrick);
 				} else {
 					checkedBricks.remove(currentBrick);
