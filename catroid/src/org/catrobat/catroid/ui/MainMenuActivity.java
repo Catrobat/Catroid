@@ -25,7 +25,9 @@ package org.catrobat.catroid.ui;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
@@ -46,28 +48,44 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.rauschig.jarchivelib.Archiver;
+import org.rauschig.jarchivelib.ArchiverFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
 	private static final String TAG = ProjectActivity.class.getSimpleName();
+
+	private static final String START_PROJECT = BuildConfig.START_PROJECT;
+	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
+	private static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
+	private static final String STANDALONE_PROJECT_NAME = BuildConfig.PROJECT_NAME;
 
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
@@ -90,22 +108,31 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		Utils.updateScreenWidthAndHeight(this);
 
-		setContentView(R.layout.activity_main_menu);
+		if (STANDALONE_MODE) {
+			/*requestWindowFeature(Window.FEATURE_NO_TITLE);
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
+			getActionBar().hide();
+			setContentView(R.layout.activity_main_menu_splashscreen);
+			unzipProgram();
+		} else {
+			setContentView(R.layout.activity_main_menu);
 
-		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setTitle(R.string.app_name);
+			final ActionBar actionBar = getActionBar();
+			actionBar.setDisplayUseLogoEnabled(true);
+			actionBar.setHomeButtonEnabled(false);
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setTitle(R.string.app_name);
 
-		findViewById(R.id.main_menu_button_continue).setEnabled(false);
+			findViewById(R.id.main_menu_button_continue).setEnabled(false);
 
-		// Load external project from URL or local file system.
-		Uri loadExternalProjectUri = getIntent().getData();
-		getIntent().setData(null);
+			// Load external project from URL or local file system.
+			Uri loadExternalProjectUri = getIntent().getData();
+			getIntent().setData(null);
 
-		if (loadExternalProjectUri != null) {
-			loadProgramFromExternalSource(loadExternalProjectUri);
+			if (loadExternalProjectUri != null) {
+				loadProgramFromExternalSource(loadExternalProjectUri);
+			}
 		}
 	}
 
@@ -128,8 +155,12 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
 
 		PreStageActivity.shutdownPersistentResources();
-		setMainMenuButtonContinueText();
-		findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		if (!STANDALONE_MODE) {
+			setMainMenuButtonContinueText();
+			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		} else {
+			FlashUtil.initializeFlash();
+		}
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			loadProjectInBackground(projectName);
@@ -190,7 +221,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
+		if (STANDALONE_MODE) {
+			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
+			startStageProject();
+		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
@@ -331,11 +365,102 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		callbackManager.onActivityResult(requestCode, resultCode, data);
+		if (!STANDALONE_MODE) {
+			super.onActivityResult(requestCode, resultCode, data);
+			callbackManager.onActivityResult(requestCode, resultCode, data);
+		} else {
+			if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+				SensorHandler.startSensorListener(this);
+
+				Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+					intent.addFlags(0x8000); // equal to Intent.FLAG_ACTIVITY_CLEAR_TASK which is only available from API level 11
+				}
+				startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
+			}
+			if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+				finish();
+			}
+		}
 	}
 
 	public void setSignInDialog(SignInDialog signInDialog) {
 		this.signInDialog = signInDialog;
+	}
+
+	private void unzipProgram() {
+		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
+		copyProgramZip();
+		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
+		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
+		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
+		try {
+			archiver.extract(new File(zipFileString), unpackedDirectory);
+		} catch (IOException e) {
+			Log.d("STANDALONE", "Can't extract program", e);
+		}
+
+		File destination = new File(Constants.DEFAULT_ROOT + "/" + STANDALONE_PROJECT_NAME);
+		if (unpackedDirectory.isDirectory()) {
+			unpackedDirectory.renameTo(destination);
+		}
+
+		loadStageProject(STANDALONE_PROJECT_NAME);
+
+		File zipFile = new File(zipFileString);
+		if (zipFile.exists()) {
+			zipFile.delete();
+		}
+	}
+
+	private void copyProgramZip() {
+		AssetManager assetManager = getResources().getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list("");
+		} catch (IOException e) {
+			Log.e("STANDALONE", "Failed to get asset file list.", e);
+		}
+		for (String filename : files) {
+			if (filename.contains(ZIP_FILE_NAME)) {
+				InputStream in;
+				OutputStream out;
+				try {
+					in = assetManager.open(filename);
+					File outFile = new File(Constants.DEFAULT_ROOT, filename);
+					out = new FileOutputStream(outFile);
+					copyFile(in, out);
+					out.flush();
+					out.close();
+					in.close();
+				} catch (IOException e) {
+					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
+				}
+			}
+		}
+	}
+
+	private void copyFile(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int read;
+		while ((read = in.read(buffer)) != -1) {
+			out.write(buffer, 0, read);
+		}
+	}
+
+	private void loadStageProject(String projectName) {
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		Log.e("STANDALONE", "going to execute standalone project");
+		loadProjectTask.execute();
+	}
+
+	private void startStageProject() {
+		//ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 }

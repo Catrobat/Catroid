@@ -43,6 +43,7 @@
 
     <issue id="UnusedResources" >
         <ignore regexp=".*/values-(?!de).*/strings.xml$"></ignore>
+        <ignore path="catroid/res/drawable-nodpi/icon.png" />
     </issue>
 
     <issue id="ImpliedQuantity" >

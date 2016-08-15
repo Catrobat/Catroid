@@ -263,6 +263,61 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 	// TODO: add XML header validation based on xsd
 
+	public void testPermissionFileWritten() throws IOException {
+
+		String possibleContent = "NO_RESOURCES "
+				+ "TEXT_TO_SPEECH "
+				+ "BLUETOOTH_LEGO_NXT "
+				+ "ARDRONE_SUPPORT "
+				+ "CAMERA_LED VIBRATOR";
+
+		final Project project = new Project(getContext(), projectName);
+		Sprite firstSprite = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+
+		//Script testScript = new StartScript(firstSprite);
+		//Script otherScript = new StartScript(secondSprite);
+		//LedOnBrick ledOnBrick = new LedOnBrick(firstSprite);
+		//SpeakBrick speakBrick = new SpeakBrick();
+		//DroneFlipBrick droneFlipBrick = new DroneFlipBrick(firstSprite);
+		//VibrationBrick vibrationBrick = new VibrationBrick(secondSprite, 2);
+		//LegoNxtPlayToneBrick legoNxtPlayToneBrick = new LegoNxtPlayToneBrick(secondSprite, 1, 1);
+
+		//testScript.addBrick(ledOnBrick);
+		//testScript.addBrick(speakBrick);
+		//testScript.addBrick(droneFlipBrick);
+		//otherScript.addBrick(vibrationBrick);
+		//otherScript.addBrick(legoNxtPlayToneBrick);
+
+		//firstSprite.addScript(testScript);
+		//secondSprite.addScript(otherScript);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+
+		File tmpPermissionFile = new File(buildProjectPath(project.getName()), Constants.PROJECTPERMISSIONS_NAME_TMP);
+		File currentPermissionFile = new File(buildProjectPath(project.getName()), Constants.PROJECTPERMISSIONS_NAME);
+		assertFalse(tmpPermissionFile.getName() + " exists!", tmpPermissionFile.exists());
+		assertFalse(currentPermissionFile.getName() + " exists!", currentPermissionFile.exists());
+
+		storageHandler.saveProject(project);
+
+		assertTrue(currentPermissionFile.getName() + " was not created!", currentPermissionFile.exists());
+		assertTrue(Constants.PROJECTPERMISSIONS_NAME + " is empty!", currentPermissionFile.length() > 0);
+
+		String content = "";
+		String line;
+		BufferedReader reader = new BufferedReader(new FileReader(currentPermissionFile), Constants.BUFFER_8K);
+		reader.read();
+		while ((line = reader.readLine()) != null) {
+			content += line + "\n";
+			Log.e("TEST", line);
+			assertTrue("Resource not in possible permissions range!", possibleContent.contains(line));
+		}
+
+		assertNotNull("empty file!", content);
+	}
+
 	private Float interpretFormula(Formula formula, Sprite sprite) {
 		try {
 			return formula.interpretFloat(sprite);
