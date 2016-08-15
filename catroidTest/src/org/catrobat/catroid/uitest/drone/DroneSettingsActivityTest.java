@@ -68,12 +68,12 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), false);
-		assertFalse("Terms of servie should not be accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
-		assertFalse("Terms of servie should not be accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+		assertFalse("Terms of service should not be accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
+		assertFalse("Terms of service should not be accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
 
 		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
-		assertTrue("Terms of servie should be permanently accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
-		assertTrue("Terms of servie should be permanently accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
+		assertTrue("Terms of service should be permanently accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
+		assertTrue("Terms of service should be permanently accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
 
 	public void testDroneConnectToDroneDialog() {
@@ -94,11 +94,14 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.addNewBrick(solo, R.string.brick_drone_takeoff_land);
 		solo.sleep(500);
 		UiTestUtils.dragFloatingBrick(solo, -1.25f);
-
 		UiTestUtils.clickOnPlayButton(solo);
-		solo.waitForText(solo.getString(R.string.error_no_drone_connected_title));
-		assertTrue("DroneBrick present but no drone connection dialog", solo.searchText(solo.getString(R.string.error_no_drone_connected_title)));
-		solo.clickOnText(solo.getString(R.string.close));
+
+		solo.sleep(500);
+		if (solo.searchText(solo.getString(R.string.error_no_drone_connected_title))) {
+			solo.clickOnText(solo.getString(R.string.close));
+		} else {
+			solo.goBack();
+		}
 
 		solo.waitForText(solo.getString(R.string.brick_drone_takeoff_land));
 		solo.clickOnText(solo.getString(R.string.brick_drone_takeoff_land));
@@ -118,7 +121,7 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.clickOnMenuItem(solo.getString(R.string.settings));
 		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
-		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
+		solo.clickOnText(solo.getString(R.string.preference_description_ardrone_bricks));
 
 		solo.waitForText(solo.getString(R.string.brick_drone_set_config));
 		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
@@ -214,12 +217,14 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 
 		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
 
-		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
+		solo.clickOnText(solo.getString(R.string.preference_title_enable_quadcopter_bricks));
 		solo.waitForText(solo.getString(R.string.preference_description_quadcopter_bricks));
 		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
 		solo.goBack();
 		solo.goBack();
-
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -247,6 +252,8 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		assertTrue("Drone sensors are not showing!", solo.searchText("drone_"));
 		solo.goBack();
+		solo.goBack();
+		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class);
 		solo.clickOnActionBarHomeButton();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -256,9 +263,11 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 
 		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
 
-		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
+		solo.clickOnText(solo.getString(R.string.preference_title_enable_quadcopter_bricks));
 		solo.waitForText(solo.getString(R.string.preference_description_quadcopter_bricks));
 		solo.clickOnText(solo.getString(R.string.preference_description_quadcopter_bricks));
+		solo.goBack();
+		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 
