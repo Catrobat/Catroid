@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/spritelist_item_height"
+        android:layout_height="@dimen/activity_linear_layout_height"
         android:orientation="horizontal" >
 
         <CheckBox
@@ -38,8 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="@dimen/activity_check_box_margin_left"
+            android:layout_marginRight="@dimen/activity_check_box_margin_right"
             android:visibility="gone" />
 
         <RelativeLayout

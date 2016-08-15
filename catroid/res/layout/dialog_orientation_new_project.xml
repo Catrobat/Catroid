@@ -31,27 +31,25 @@
         android:checkedButton="@+id/portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/dialog_radio_group_margin_left"
+        android:layout_marginRight="@dimen/dialog_radio_group_margin_right"
         android:paddingTop="16dp" >
 
         <RadioButton
             android:id="@+id/portrait"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:drawableLeft="@drawable/dialog_orientation_portrait"
-            android:drawablePadding="16dp"
-            android:padding="20dp" ></RadioButton>
+            android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
+            android:padding="@dimen/dialog_radio_button_padding" ></RadioButton>
 
         <RadioButton
             android:id="@+id/landscape_mode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:drawableLeft="@drawable/dialog_orientation_landscape"
-            android:drawablePadding="16dp"
-            android:padding="20dp"></RadioButton>
+            android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
+            android:padding="@dimen/dialog_radio_button_padding"></RadioButton>
 
     </RadioGroup>
 </ScrollView>

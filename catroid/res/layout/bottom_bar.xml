@@ -24,37 +24,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/bottom_bar"
               android:layout_width="match_parent"
-              android:layout_height="@dimen/actionbar_height"
+              android:layout_height="@dimen/activity_bottom_bar_layout_height"
               android:layout_alignParentBottom="true"
               android:background="@drawable/bottom_bar_background"
               android:orientation="horizontal" >
 
     <ImageButton
+        style="@style/BottomBarImageButton"
         android:id="@+id/button_add"
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@drawable/bottom_bar_background_selector"
         android:onClick="handleAddButton"
         android:src="@drawable/ic_plus" />
 
     <ImageView
         android:id="@+id/bottom_bar_separator"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/actionbar_height"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
+        android:layout_height="@dimen/activity_bottom_bar_layout_height"
+        android:paddingBottom="@dimen/activity_bottom_bar_image_view_padding_bottom"
+        android:paddingTop="@dimen/activity_bottom_bar_image_view_padding_top"
         android:scaleType="fitXY"
         android:src="@drawable/bottombar_separator" />
 
     <ImageButton
+        style="@style/BottomBarImageButton"
         android:id="@+id/button_play"
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@drawable/bottom_bar_background_selector"
         android:onClick="handlePlayButton"
         android:src="@drawable/ic_play" />
 

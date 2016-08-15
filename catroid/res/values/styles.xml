@@ -86,6 +86,8 @@
         <item name="android:layout_marginRight" >@dimen/dialog_item_edittext_margin</item >
         <item name="android:paddingBottom" >10dp</item >
         <item name="android:gravity" >bottom</item >
+        <item name="android:inputType" >text</item>
+        <item name="android:ems" >10</item>
     </style >
 
     <style name="stage_dialog" parent="android:style/Theme.Dialog" >
@@ -166,12 +168,18 @@
         <item name="android:singleLine" >true</item >
         <item name="android:textColor" >@color/list_view_item_title_text_color</item >
         <item name="android:textSize" >22sp</item >
+        <item name="android:layout_width" >fill_parent</item >
+        <item name="android:layout_height" >wrap_content</item >
+        <item name="android:ellipsize" >end</item >
     </style >
 
     <style name="ListViewItemDetailsText" >
         <item name="android:singleLine" >true</item >
         <item name="android:textColor" >@color/list_view_item_details_text_color</item >
         <item name="android:textSize" >14sp</item >
+        <item name="android:layout_width" >wrap_content</item >
+        <item name="android:layout_height" >wrap_content</item >
+        <item name="android:layout_alignWithParentIfMissing" >true</item >
     </style >
 
     <style name="ProgramMenuButton" >
@@ -519,6 +527,9 @@
         <item name="android:layout_width">0dp</item >
         <item name="android:textSize">@dimen/text_size_medium</item >
         <item name="android:ellipsize">end</item >
+        <item name="android:layout_marginTop">@dimen/key_margin</item>
+        <item name="android:layout_marginLeft">@dimen/key_margin</item>
+        <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
     </style>
 
     <style name="FormulaEditorImageButton" >
@@ -681,6 +692,34 @@
         <item name="android:fullDark">@color/transparent</item>
         <item name="android:topBright">@color/transparent</item>
         <item name="android:topDark">@color/transparent</item>
+    </style>
+
+    <style name="BottomBarImageButton">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bottom_bar_background_selector</item>
+    </style>
+
+    <style name="SingleSeekbarTextView">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/holo_blue_bright</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="DeviceTextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:paddingLeft">@dimen/device_text_view_padding_left</item>
+        <item name="android:textSize">@dimen/device_text_view_text_size</item>
+    </style>
+
+    <style name="DeviceListView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>        
+        <item name="android:stackFromBottom">true</item>
     </style>
 
 </resources>
