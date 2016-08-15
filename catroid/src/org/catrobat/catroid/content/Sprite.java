@@ -92,20 +92,6 @@ public class Sprite implements Serializable, Cloneable {
 		return super.hashCode() * TAG.hashCode();
 	}
 
-	private Object readResolve() {
-		//filling FileChecksumContainer:
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-			for (SoundInfo soundInfo : soundList) {
-				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-			}
-			for (LookData lookData : lookList) {
-				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
-			}
-		}
-		return this;
-	}
-
 	public List<Script> getScriptList() {
 		return scriptList;
 	}
@@ -373,7 +359,7 @@ public class Sprite implements Serializable, Cloneable {
 	private void cloneSounds(Sprite cloneSprite) {
 		List<SoundInfo> cloneSoundList = new ArrayList<>();
 		for (SoundInfo element : this.soundList) {
-			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
+			cloneSoundList.add(element.clone());
 		}
 		cloneSprite.soundList = cloneSoundList;
 	}
@@ -555,6 +541,8 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void addLookData(LookData data) {
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+		container.addChecksum(data.getChecksum(), data.getAbsolutePath());
 		lookList.add(data);
 	}
 
@@ -646,6 +634,8 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void addSound(SoundInfo sound) {
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+		container.addChecksum(sound.getChecksum(), sound.getAbsolutePath());
 		soundList.add(sound);
 	}
 

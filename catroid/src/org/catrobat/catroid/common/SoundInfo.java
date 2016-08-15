@@ -25,11 +25,9 @@ package org.catrobat.catroid.common;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
@@ -74,23 +72,10 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		cloneSoundInfo.fileName = this.fileName;
 		cloneSoundInfo.isBackpackSoundInfo = false;
 
-		return cloneSoundInfo;
-	}
-
-	public SoundInfo copySoundInfoForSprite(Sprite sprite) {
-		SoundInfo cloneSoundInfo = new SoundInfo();
-
-		cloneSoundInfo.name = this.name;
-
 		try {
-			cloneSoundInfo.fileName = StorageHandler
-					.getInstance()
-					.copySoundFile(
-							Utils.buildPath(
-									Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-									Constants.SOUND_DIRECTORY, fileName)).getName();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
+			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(getAbsolutePath());
+		} catch (FileNotFoundException fileNotFoundexception) {
+			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
 		}
 
 		return cloneSoundInfo;
@@ -99,7 +84,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			if (isBackpackSoundInfo) {
-				return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
+				return Utils.buildPath(getPathToSoundDirectory(), fileName);
 			} else {
 				return Utils.buildPath(getPathToSoundDirectory(), fileName);
 			}
