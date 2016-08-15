@@ -52,6 +52,10 @@ public class WhenTouchDownBrick extends ScriptBrick {
 
 	public WhenTouchDownBrick(WhenTouchDownScript script) {
 		this.whenTouchDownScript = script;
+
+		if (script != null && script.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	@Override
@@ -140,5 +144,11 @@ public class WhenTouchDownBrick extends ScriptBrick {
 
 	public void setWhenTouchDownScript(WhenTouchDownScript whenTouchDownScript) {
 		this.whenTouchDownScript = whenTouchDownScript;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

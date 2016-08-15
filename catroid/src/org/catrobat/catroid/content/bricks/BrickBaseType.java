@@ -23,6 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -46,6 +50,83 @@ public abstract class BrickBaseType implements Brick {
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
+
+	protected boolean commentedOut;
+
+	@Override
+	public boolean isCommentedOut() {
+		return commentedOut;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		this.commentedOut = commentedOut;
+		setCommentedOutAppearance();
+	}
+
+	public void setCommentedOutAppearance() {
+		if (view == null) {
+			return;
+		}
+
+		if (commentedOut) {
+			grayscaleBackground();
+		} else {
+			undoGrayscaleBackground();
+		}
+		doPadding();
+	}
+
+	private void grayscaleBackground() {
+		ViewGroup viewGroup = (ViewGroup) view;
+		for (int index = 0; index < viewGroup.getChildCount(); index++) {
+			View child = viewGroup.getChildAt(index);
+
+			if (child instanceof BrickLayout) {
+				Drawable background = child.getBackground();
+
+				if (background == null) {
+					return;
+				}
+
+				ColorMatrix matrix = new ColorMatrix();
+				matrix.setSaturation(0);
+
+				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+
+				background.setColorFilter(filter);
+			}
+		}
+	}
+
+	private void undoGrayscaleBackground() {
+		ViewGroup viewGroup = (ViewGroup) view;
+		for (int index = 0; index < viewGroup.getChildCount(); index++) {
+			View child = viewGroup.getChildAt(index);
+
+			if (child instanceof BrickLayout) {
+				Drawable background = child.getBackground();
+				if (background != null) {
+					background.clearColorFilter();
+				}
+			}
+		}
+	}
+
+	public void doPadding() {
+		if (adapter == null) {
+			return;
+		}
+
+		int next = adapter.getBrickList().indexOf(this) + 1;
+		boolean hasNext = next < adapter.getBrickList().size();
+		boolean nextCommentStateDifferent = hasNext && (this.isCommentedOut() != adapter.getBrickList().get(next).isCommentedOut());
+		boolean nextIsScriptbrick = hasNext && adapter.getBrickList().get(next) instanceof ScriptBrick;
+
+		int paddingLeft = isCommentedOut() ? 75 : 0;
+		int paddingBottom = nextCommentStateDifferent && !nextIsScriptbrick ? 50 : 0;
+		view.setPadding(paddingLeft, view.getPaddingTop(), 0, paddingBottom);
+	}
 
 	@Override
 	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {

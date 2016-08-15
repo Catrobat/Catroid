@@ -63,6 +63,10 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 	public CollisionReceiverBrick(CollisionScript collisionScript) {
 		this.collisionScript = collisionScript;
 		this.selectedMessage = "";
+
+		if (collisionScript != null && collisionScript.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	@Override
@@ -221,5 +225,11 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	private String getDisplayedAnythingString(Context context) {
 		return ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything) + ANYTHING_ESCAPE_CHAR;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

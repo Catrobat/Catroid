@@ -144,6 +144,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private void cloneFormulaBrick(FormulaBrick formulaBrick) {
 		try {
 			clonedFormulaBrick = (FormulaBrick) formulaBrick.clone();
+			clonedFormulaBrick.setCommentedOut(formulaBrick.isCommentedOut());
 		} catch (CloneNotSupportedException exception) {
 			Log.e(TAG, "Clone not supported", exception);
 			onUserDismiss();

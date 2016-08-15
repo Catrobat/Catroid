@@ -349,6 +349,11 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		// Comment out not supported
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getActivity().startActionMode(renameModeCallBack);
