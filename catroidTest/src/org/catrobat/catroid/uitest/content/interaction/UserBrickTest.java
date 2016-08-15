@@ -194,8 +194,8 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.waitForDialogToOpen();
 		String proposedUserBrickName = solo.getString(R.string.new_user_brick) + " 1";
 		assertTrue("UserBrick name was not proposed to user!", solo.searchText(proposedUserBrickName, 0, true));
-		solo.clearEditText(2);
-		solo.enterText(2, UiTestUtils.SECOND_TEST_USER_BRICK_NAME);
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.SECOND_TEST_USER_BRICK_NAME);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);
 		solo.waitForDialogToClose();
@@ -210,7 +210,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.dragFloatingBrick(solo, -1);
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
 		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
-		solo.clickInList(2);
+		solo.waitForText(UiTestUtils.TEST_USER_BRICK_NAME);
+		solo.clickOnText(UiTestUtils.TEST_USER_BRICK_NAME);
+
 		solo.waitForText(stringOnShowAddButton);
 		solo.clickOnText(stringOnShowAddButton);
 		UiTestUtils.dragFloatingBrick(solo, -1);
@@ -223,7 +225,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.dragFloatingBrick(solo, -1);
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
 		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
-		solo.clickInList(2);
+		solo.waitForText(UiTestUtils.SECOND_TEST_USER_BRICK_NAME);
+		solo.clickOnText(UiTestUtils.SECOND_TEST_USER_BRICK_NAME);
+
 		solo.waitForText(stringOnShowAddButton);
 		solo.clickOnText(stringOnShowAddButton);
 		UiTestUtils.dragFloatingBrick(solo, -1);
@@ -370,7 +374,15 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		//copy via action mode
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, solo.getCurrentActivity());
 		solo.scrollDown();
-		solo.clickOnCheckBox(7);
+
+		int checkboxCountOnScreen = 0;
+		for (View v : solo.getCurrentViews()) {
+			if (v instanceof CheckBox) {
+				checkboxCountOnScreen++;
+			}
+		}
+
+		solo.clickOnCheckBox(checkboxCountOnScreen - 1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.scrollDown();
 		solo.sleep(300);
@@ -380,7 +392,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		//delete via action mode
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, solo.getCurrentActivity());
 		solo.scrollDown();
-		solo.clickOnCheckBox(7);
+		solo.clickOnCheckBox(checkboxCountOnScreen - 1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.scrollDown();
@@ -491,9 +503,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.sleep(2000);
 
 		// click on the location the brick was just dragged to.
-		solo.clickLongOnScreen(location[0], location[1], 10);
+		//solo.clickLongOnText(UiTestUtils.TEST_USER_BRICK_NAME);
 
-		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, false, solo);
+		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, true, solo);
 
 		String brickAddedToUserBrickScriptName = solo.getCurrentActivity().getString(R.string.brick_change_y_by);
 		assertTrue("was not able to find the script we added to the other instance",
@@ -545,7 +557,25 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		backPackFirstUserBrickWithContextMenu(DEFAULT_USERBRICK_GROUP_NAME);
 		assertTrue("Userbrick wasn't backpacked!", solo.waitForText(DEFAULT_USERBRICK_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 
-		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		solo.waitForText(solo.getString(R.string.backpack_title));
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.category_user_bricks));
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.categories));
+		solo.goBack();
+		solo.waitForText("cat");
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.scripts));
+		solo.goBack();
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.programs));
+		solo.clickOnText(solo.getString(R.string.programs));
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(UiTestUtils.PROJECTNAME1);
+		solo.waitForText(solo.getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.background));
+		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.getIntoUserBrickOverView(solo);
@@ -567,12 +597,20 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		backPackFirstUserBrickWithContextMenu(DEFAULT_USERBRICK_GROUP_NAME);
 		assertTrue("Userbrick wasn't backpacked!", solo.waitForText(DEFAULT_USERBRICK_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
+
+		solo.waitForText(solo.getString(R.string.backpack_title));
 		solo.goBack();
+		solo.waitForText(solo.getString(R.string.category_user_bricks));
 		solo.goBack();
+		solo.waitForText(solo.getString(R.string.categories));
 		solo.goBack();
+		solo.waitForText("cat");
 		solo.goBack();
+		solo.waitForText(solo.getString(R.string.scripts));
 		solo.goBack();
+		solo.waitForText(SECOND_SPRITE_NAME);
 		solo.clickOnText(SECOND_SPRITE_NAME);
+		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.getIntoUserBrickOverView(solo);
@@ -612,7 +650,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		String expectedTitle = expectedUserBricksFirstUserBrick;
 
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 		checkIfCheckboxesAreCorrectlyCheckedAndVisible(true, false);
 		assertTrue("Title not as expected:" + expectedTitle, solo.waitForText(expectedTitle, 0,
 				timeToWaitForTitle,
@@ -621,19 +659,19 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		expectedTitle = expectedBricksSecondUserBrick;
 
 		// Check if multiple-selection is possible
-		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyCheckedAndVisible(true, true);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedTitle = expectedUserBricksFirstUserBrick;
 
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 		checkIfCheckboxesAreCorrectlyCheckedAndVisible(false, true);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedTitle = backpack;
 
-		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyCheckedAndVisible(false, false);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
@@ -666,9 +704,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(0);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		solo.clickOnCheckBox(2);
+		solo.clickOnCheckBox(1);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		checkIfCheckboxesAreCorrectlyCheckedAndVisible(true, true);
 		solo.goBack();
@@ -694,6 +732,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		fillNewUserBrickGroupDialog(DEFAULT_USERBRICK_GROUP_NAME);
+
 		assertTrue("BackPack title didn't show up", solo.waitForText(backpackTitle, 0, TIME_TO_WAIT_BACKPACK, false, true));
 		assertTrue("Userbrick wasn't backpacked!", solo.waitForText(DEFAULT_USERBRICK_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK, false, true));
 	}
@@ -745,7 +784,25 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		addOneUserBrickInPrototypeView(UiTestUtils.SECOND_TEST_USER_BRICK_NAME);
 
 		backPackAllUserBricks(DEFAULT_USERBRICK_GROUP_NAME);
-		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		solo.waitForText(solo.getString(R.string.backpack_title));
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.category_user_bricks));
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.categories));
+		solo.goBack();
+		solo.waitForText("cat");
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.scripts));
+		solo.goBack();
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.programs));
+		solo.clickOnText(solo.getString(R.string.programs));
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(UiTestUtils.PROJECTNAME1);
+		solo.waitForText(solo.getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.background));
+		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.getIntoUserBrickOverView(solo);
@@ -999,7 +1056,8 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	private void backPackFirstUserBrickWithContextMenu(String userBrickGroupName) {
 		solo.sleep(200);
-		solo.clickInList(0);
+		//solo.clickInList(0);
+		solo.clickOnText(UiTestUtils.TEST_USER_BRICK_NAME);
 		solo.waitForDialogToOpen();
 		solo.waitForText(backpackAdd);
 		solo.clickOnText(backpackAdd);
@@ -1028,6 +1086,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnText(solo.getString(R.string.ok));
 
 		solo.waitForDialogToClose();
+		solo.sleep(200);
 	}
 
 	private void clickOnContextMenuItem(String userBrickGroupName, String menuItemName) {
@@ -1075,9 +1134,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	private void checkIfCheckboxesAreCorrectlyCheckedAndVisible(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(500);
-
 		List<UserBrick> userBricks = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
 		CheckBox firstCheckBox = userBricks.get(0).getCheckBox();
+
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertTrue("Userbrick checkbox is not visible", firstCheckBox.getVisibility() == VISIBLE);
 
@@ -1138,8 +1197,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	private void addOneUserBrickInPrototypeView(String secondTestUserBrickName) {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForDialogToOpen();
-		solo.clearEditText(2);
-		solo.enterText(2, secondTestUserBrickName);
+		solo.clearEditText(0);
+
+		solo.enterText(0, secondTestUserBrickName);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForDialogToClose();
 		solo.sleep(500);
