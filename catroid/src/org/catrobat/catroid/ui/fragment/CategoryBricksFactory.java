@@ -109,6 +109,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -213,6 +214,8 @@ public class CategoryBricksFactory {
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new WhenNfcBrick());
 		}
+
+		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
 
 		return controlBrickList;
 	}

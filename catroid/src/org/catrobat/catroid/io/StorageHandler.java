@@ -145,6 +145,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -380,6 +381,7 @@ public final class StorageHandler {
 		xstream.alias("brick", WaitUntilBrick.class);
 		xstream.alias("brick", WhenBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
+		xstream.alias("brick", StopScriptBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
 

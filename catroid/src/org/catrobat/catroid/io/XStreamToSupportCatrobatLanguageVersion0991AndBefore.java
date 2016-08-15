@@ -115,6 +115,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -443,6 +444,9 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
 		brickInfoMap.put("whenStartedBrick", brickInfo);
+
+		brickInfo = new BrickInfo(StopScriptBrick.class.getSimpleName());
+		brickInfoMap.put("stopScriptBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenNfcBrick.class.getSimpleName());
 		brickInfoMap.put("whenNfcBrick", brickInfo);
