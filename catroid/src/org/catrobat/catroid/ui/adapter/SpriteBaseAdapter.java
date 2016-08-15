@@ -34,12 +34,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -89,14 +87,6 @@ public class SpriteBaseAdapter extends ArrayAdapter<Sprite> implements ActionMod
 	@Override
 	public Set<Integer> getCheckedItems() {
 		return checkedSprites;
-	}
-
-	public ArrayList<Sprite> getCheckedSprites() {
-		ArrayList<Sprite> result = new ArrayList<>();
-		for (Integer pos : checkedSprites) {
-			result.add(ProjectManager.getInstance().getCurrentProject().getSpriteList().get(pos));
-		}
-		return result;
 	}
 
 	@Override

@@ -429,15 +429,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return project.getSpriteList().indexOf(currentSprite);
 	}
 
-	public int getCurrentScriptPosition() {
-		int currentSpritePosition = this.getCurrentSpritePosition();
-		if (currentSpritePosition == -1) {
-			return -1;
-		}
-
-		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
-	}
-
 	private String createTemporaryDirectoryName(String projectDirectoryName) {
 		String temporaryDirectorySuffix = "_tmp";
 		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;

@@ -20,31 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.stage.StageActivity;
 
-import java.util.List;
-
-public class ComeToFrontAction extends TemporalAction {
+public class CloneAction extends TemporalAction {
 
 	private Sprite sprite;
 
 	@Override
-	protected void update(float delta) {
-
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-		int actualSpriteZIndex = sprite.look.getZIndex();
-
-		for (int i = 0; i < spriteList.size(); i++) {
-			if (spriteList.get(i).look.getZIndex() > actualSpriteZIndex) {
-				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
-			}
+	protected void update(float percent) {
+		if (sprite == null) {
+			return;
 		}
-		sprite.look.setZIndex(spriteList.size() - 1);
+
+		StageActivity.stageListener.cloneSpriteAndAddToStage(sprite);
 	}
 
 	public void setSprite(Sprite sprite) {

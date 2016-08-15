@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -41,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -116,6 +118,10 @@ public class Project implements Serializable {
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
+		if (sprite.isClone) {
+			Log.e("Project", "Do NOT add clones to the projectmanager!");
+			return;
+		}
 		if (spriteList.contains(sprite)) {
 			return;
 		}
@@ -128,6 +134,14 @@ public class Project implements Serializable {
 
 	public List<Sprite> getSpriteList() {
 		return spriteList;
+	}
+
+	public List<Sprite> getSpriteListWithClones() {
+		if (StageActivity.stageListener != null) {
+			return StageActivity.stageListener.getSpritesFromStage();
+		} else { // e.g. for ActionTests there is no Stage, only use sprites from Project
+			return spriteList;
+		}
 	}
 
 	public void setName(String name) {

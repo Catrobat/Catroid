@@ -369,6 +369,10 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
+		if (sprite.isClone) {
+			sprite.addUserBrick(this);
+		}
+
 		return returnActionList;
 	}
 

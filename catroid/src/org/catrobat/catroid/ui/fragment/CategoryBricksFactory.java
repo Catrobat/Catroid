@@ -47,8 +47,10 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -116,6 +118,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -213,6 +216,10 @@ public class CategoryBricksFactory {
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new WhenNfcBrick());
 		}
+
+		controlBrickList.add(new WhenClonedBrick());
+		controlBrickList.add(new CloneBrick());
+		controlBrickList.add(new DeleteThisCloneBrick());
 
 		return controlBrickList;
 	}

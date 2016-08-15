@@ -52,7 +52,9 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -120,6 +122,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -446,6 +449,15 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 
 		brickInfo = new BrickInfo(WhenNfcBrick.class.getSimpleName());
 		brickInfoMap.put("whenNfcBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WhenClonedBrick.class.getSimpleName());
+		brickInfoMap.put("whenClonedBrick", brickInfo);
+
+		brickInfo = new BrickInfo(CloneBrick.class.getSimpleName());
+		brickInfoMap.put("cloneBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DeleteThisCloneBrick.class.getSimpleName());
+		brickInfoMap.put("deleteThisCloneBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DronePlayLedAnimationBrick.class.getSimpleName());
 		brickInfoMap.put("dronePlayLedAnimationBrick", brickInfo);

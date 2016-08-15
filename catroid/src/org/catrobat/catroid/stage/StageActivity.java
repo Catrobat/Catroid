@@ -71,12 +71,16 @@ public class StageActivity extends AndroidApplication {
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 
+	private static int numberOfSpritesCloned = 0;
+
 	AndroidApplicationConfiguration configuration = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate()");
+
+		numberOfSpritesCloned = 0;
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -357,5 +361,9 @@ public class StageActivity extends AndroidApplication {
 				}
 			}
 		});
+	}
+
+	public static int getAndIncrementNumberOfClonedSprites() {
+		return ++numberOfSpritesCloned;
 	}
 }

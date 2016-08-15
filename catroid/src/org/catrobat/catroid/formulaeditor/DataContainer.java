@@ -267,6 +267,15 @@ public class DataContainer implements Serializable {
 		return variables;
 	}
 
+	public void removeVariableListForSprite(Sprite sprite) {
+		spriteVariables.remove(sprite);
+		spriteListOfLists.remove(sprite);
+
+		for (UserBrick userBrick : sprite.getUserBrickList()) {
+			userBrickVariables.remove(userBrick);
+		}
+	}
+
 	public List<UserVariable> getVariableListForSprite(Sprite sprite) {
 		List<UserVariable> variables = spriteVariables.get(sprite);
 

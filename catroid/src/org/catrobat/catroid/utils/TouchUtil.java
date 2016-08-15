@@ -98,7 +98,7 @@ public final class TouchUtil {
 	}
 
 	private static void fireTouchEvent() {
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 
 		for (Sprite sprite : spriteList) {
 			sprite.createTouchDownAction();

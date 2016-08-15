@@ -604,6 +604,10 @@
     <string name="brick_repeat">Repeat</string>
     <string name="brick_repeat_until">Repeat until</string>
     <string name="brick_when_touched">When screen is touched</string>
+    <string name="brick_clone">Create clone of</string>
+    <string name="brick_clone_this">myself</string>
+    <string name="brick_when_cloned">When I start as a clone</string>
+    <string name="brick_delete_this_clone">Delete this clone</string>
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
