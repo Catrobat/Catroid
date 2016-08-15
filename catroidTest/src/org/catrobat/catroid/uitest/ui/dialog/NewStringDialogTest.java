@@ -64,6 +64,7 @@ public class NewStringDialogTest extends BaseActivityInstrumentationTestCase<Mai
 
 	public void testPositiveButtonAndCreationOfNewString() {
 		EditText stringEditText = (EditText) solo.getView(R.id.formula_editor_string_name_edit_text);
+		solo.clearEditText(stringEditText);
 		solo.enterText(stringEditText, EDIT_TEXT_STRING);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
