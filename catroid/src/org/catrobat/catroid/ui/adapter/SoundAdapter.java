@@ -29,10 +29,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.SoundInfoHistory;
+import org.catrobat.catroid.content.commands.SoundCommands;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,11 +105,23 @@ public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivity
 
 	public void onDestroyActionModeCopy(ActionMode mode) {
 		Iterator<Integer> iterator = checkedSounds.iterator();
+		ArrayList<SoundInfo> toAdd = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			int position = iterator.next();
-			SoundController.getInstance().copySound(position, soundFragment.getSoundInfoList(), this);
+			SoundInfo newSound = soundFragment.getSoundInfoList().get(position).clone();
+			String newSoundInfoTitle = Utils.getUniqueSoundName(newSound, false);
+			newSound.setTitle(newSoundInfoTitle);
+			toAdd.add(newSound);
 		}
+		if (toAdd.isEmpty()) {
+			return;
+		}
+		SoundCommands.AddSoundCommand command = new SoundCommands.AddSoundCommand(toAdd, soundFragment.getPlayer(),
+				this);
+		command.execute();
+		SoundInfoHistory.getInstance(ProjectManager.getInstance().getCurrentSprite()).add(command);
+		soundFragment.getActivity().invalidateOptionsMenu();
 		soundFragment.clearCheckedSoundsAndEnableButtons();
 	}
 

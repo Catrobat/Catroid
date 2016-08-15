@@ -167,7 +167,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			Sprite cloudSprite1 = new Sprite(cloudSpriteName1);
 			Sprite cloudSprite2 = new Sprite(cloudSpriteName2);
 			cloudSprite1.getLookDataList().add(cloudLookData);
-			cloudSprite2.getLookDataList().add(cloudLookData);
+			cloudSprite2.getLookDataList().add(cloudLookData.clone());
 
 			Script cloudSpriteScript1 = new StartScript();
 			Script cloudSpriteScript2 = new StartScript();

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.common;
 
+import org.catrobat.catroid.utils.IdPool;
+
 import java.io.Serializable;
 
 public class NfcTagData implements Serializable, Comparable<NfcTagData>, Cloneable {
@@ -29,6 +31,7 @@ public class NfcTagData implements Serializable, Comparable<NfcTagData>, Cloneab
 
 	private String name;
 	private String uid;
+	private transient int id = IdPool.getInstance().getNewId();
 	public transient boolean isScanning;
 
 	@Override
@@ -49,6 +52,14 @@ public class NfcTagData implements Serializable, Comparable<NfcTagData>, Cloneab
 
 	public String getNfcTagName() {
 		return name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setNfcTagName(String name) {

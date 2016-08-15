@@ -78,5 +78,17 @@
         android:id="@+id/show_details"
         android:showAsAction="never"
         android:title="@string/show_details"/>
+    <item
+        android:id="@+id/menu_undo"
+        android:title="@string/undo"
+        android:visible="false"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/icon_undo" />
+    <item
+        android:id="@+id/menu_redo"
+        android:title="@string/redo"
+        android:visible="false"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/icon_redo" />
 
 </menu>

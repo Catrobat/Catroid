@@ -20,45 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
 
-import android.app.ListFragment;
+package org.catrobat.catroid.content;
 
-public abstract class ScriptActivityFragment extends ListFragment {
+import java.util.HashMap;
+import java.util.Map;
 
-	protected boolean actionModeActive = false;
+public class NfcDataHistory extends MediaHistory {
+	private static final Map<Sprite, NfcDataHistory> INSTANCE = new HashMap<>();
 
-	public boolean getActionModeActive() {
-		return actionModeActive;
+	public static NfcDataHistory getInstance(Sprite sprite) {
+		if (!INSTANCE.containsKey(sprite)) {
+			INSTANCE.put(sprite, new NfcDataHistory());
+		}
+		return INSTANCE.get(sprite);
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	public static void clearHistory() {
+		INSTANCE.clear();
 	}
-
-	public abstract boolean getShowDetails();
-
-	public abstract void setShowDetails(boolean showDetails);
-
-	public abstract void setSelectMode(int selectMode);
-
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
-	public abstract void handleAddButton();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
 }

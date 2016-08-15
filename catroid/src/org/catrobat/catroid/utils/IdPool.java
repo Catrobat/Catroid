@@ -20,45 +20,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
+package org.catrobat.catroid.utils;
 
-import android.app.ListFragment;
+import java.util.HashSet;
+import java.util.Set;
 
-public abstract class ScriptActivityFragment extends ListFragment {
+public class IdPool {
+	private static final IdPool INSTANCE = new IdPool();
+	private final Set<Integer> ids = new HashSet<>();
 
-	protected boolean actionModeActive = false;
-
-	public boolean getActionModeActive() {
-		return actionModeActive;
+	public static IdPool getInstance() {
+		return INSTANCE;
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	public int getNewId() {
+		int id = 1;
+		while (ids.contains(id)) {
+			id++;
+		}
+		voidId(id);
+		return id;
 	}
 
-	public abstract boolean getShowDetails();
+	public void clear() {
+		ids.clear();
+	}
 
-	public abstract void setShowDetails(boolean showDetails);
-
-	public abstract void setSelectMode(int selectMode);
-
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
-	public abstract void handleAddButton();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
+	public void voidId(int id) {
+		ids.add(id);
+	}
 }

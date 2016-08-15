@@ -47,10 +47,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SpriteHistory;
+import org.catrobat.catroid.content.commands.SpriteCommands;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -65,6 +68,9 @@ import org.catrobat.catroid.ui.dialogs.ConfirmUnpackBackgroundDialog;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BackPackSpriteFragment extends BackPackActivityFragment implements Dialog.OnKeyListener, SpriteBaseAdapter.OnSpriteEditListener {
 
@@ -226,9 +232,20 @@ public class BackPackSpriteFragment extends BackPackActivityFragment implements 
 					keepCurrentSprite, fromHiddenBackPack, true);
 			dialog.show(getFragmentManager(), ConfirmUnpackBackgroundDialog.DIALOG_FRAGMENT_TAG);
 		} else {
+			List<Sprite> before = new ArrayList<>();
+			before.addAll(ProjectManager.getInstance().getCurrentProject().getSpriteList());
 			BackPackSpriteController.getInstance().unpack(selectedSprite, delete,
 					keepCurrentSprite, fromHiddenBackPack, false);
 			adapter.returnToProjectActivity();
+			List<Sprite> after = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			if (before.size() < after.size()) {
+				ArrayList<Sprite> toAdd = new ArrayList<>();
+				for (int i = before.size(); i < after.size(); i++) {
+					toAdd.add(after.get(i));
+				}
+				SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(toAdd, null, null);
+				SpriteHistory.getInstance().add(command);
+			}
 		}
 	}
 

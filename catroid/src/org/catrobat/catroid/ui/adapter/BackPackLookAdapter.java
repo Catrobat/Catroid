@@ -26,7 +26,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.LookDataHistory;
+import org.catrobat.catroid.content.commands.LookCommands;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
@@ -56,11 +59,19 @@ public class BackPackLookAdapter extends LookBaseAdapter implements ActionModeAc
 
 	public void onDestroyActionModeUnpacking() {
 		List<LookData> looksToUnpack = new ArrayList<>();
+		ArrayList<LookData> toAdd = new ArrayList<>();
 		for (Integer checkedPosition : checkedLookPositions) {
 			looksToUnpack.add(getItem(checkedPosition));
 		}
 		for (LookData lookData : looksToUnpack) {
-			LookController.getInstance().unpack(lookData, backpackLookFragment.isDeleteUnpackedItems(), false);
+			toAdd.add(LookController.getInstance().unpack(lookData, backpackLookFragment.isDeleteUnpackedItems(),
+					false));
+		}
+
+		if (!toAdd.isEmpty()) {
+			LookCommands.AddLookCommand command = new LookCommands.AddLookCommand(toAdd);
+			command.execute();
+			LookDataHistory.getInstance(ProjectManager.getInstance().getCurrentSprite()).add(command);
 		}
 
 		boolean returnToScriptActivity = checkedLookPositions.size() > 0;
