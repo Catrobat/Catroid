@@ -56,6 +56,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
@@ -279,6 +280,7 @@ public class StageListener implements ApplicationListener {
 		FlashUtil.reset();
 		VibratorUtil.reset();
 		TouchUtil.reset();
+		BackgroundWaitHandler.reset();
 
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 

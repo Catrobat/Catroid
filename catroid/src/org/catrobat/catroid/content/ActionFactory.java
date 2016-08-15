@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
+import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
@@ -129,6 +130,12 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 public class ActionFactory extends Actions {
+
+	public static Action createBackgroundNotifyAction(LookData lookData) {
+		BackgroundNotifyAction action = Actions.action(BackgroundNotifyAction.class);
+		action.setLookData(lookData);
+		return action;
+	}
 
 	public static Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
@@ -414,6 +421,12 @@ public class ActionFactory extends Actions {
 		SetLookAction action = Actions.action(SetLookAction.class);
 		action.setSprite(sprite);
 		action.setLookData(lookData);
+		return action;
+	}
+
+	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait) {
+		SetLookAction action = (SetLookAction) createSetLookAction(sprite, lookData);
+		action.setWait(wait);
 		return action;
 	}
 

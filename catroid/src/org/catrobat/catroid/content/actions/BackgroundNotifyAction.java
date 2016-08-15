@@ -26,61 +26,18 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.BackgroundWaitHandler;
-import org.catrobat.catroid.content.Sprite;
 
-public class SetLookAction extends Action {
+public class BackgroundNotifyAction extends Action {
 
-	private LookData look;
-	private Sprite sprite;
-
-	private boolean wait = false;
-	private boolean setLookDone = false;
-	private boolean scriptsAreCompleted = false;
-
-	protected void doLookUpdate() {
-		if (wait) {
-			BackgroundWaitHandler.addObserver(look, this);
-		}
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
-			sprite.look.setLookData(look);
-			setLookDone = true;
-		}
-	}
+	private LookData lookData;
 
 	@Override
 	public boolean act(float delta) {
-		if (!setLookDone) {
-			doLookUpdate();
-		}
-
-		if (wait) {
-			return scriptsAreCompleted;
-		} else {
-			return true;
-		}
+		BackgroundWaitHandler.decrementRunningScripts(lookData);
+		return true;
 	}
 
-	@Override
-	public void restart() {
-		setLookDone = false;
-		if (wait) {
-			scriptsAreCompleted = false;
-		}
-	}
-
-	public void setLookData(LookData look) {
-		this.look = look;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setWait(boolean wait) {
-		this.wait = wait;
-	}
-
-	public void notifyScriptsCompleted() {
-		scriptsAreCompleted = true;
+	public void setLookData(LookData lookData) {
+		this.lookData = lookData;
 	}
 }
