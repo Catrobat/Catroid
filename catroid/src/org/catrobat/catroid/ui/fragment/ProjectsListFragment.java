@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -104,6 +105,8 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
 	private boolean selectAll = true;
+
+	private Parcelable state;
 
 	private boolean actionModeActive = false;
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -220,6 +223,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 	@Override
 	public void onPause() {
 		super.onPause();
+		state = getListView().onSaveInstanceState();
 
 		if (projectListInitReceiver != null) {
 			getActivity().unregisterReceiver(projectListInitReceiver);
@@ -255,6 +259,10 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 
 		initAdapter();
+
+		if (state != null) {
+			getListView().onRestoreInstanceState(state);
+		}
 	}
 
 	@Override
@@ -533,6 +541,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		try {
 			projectManager.deleteProject(project.projectName, getActivity().getApplicationContext());
 			projectList.remove(project);
+			adapter.remove(project);
 		} catch (IOException exception) {
 			Log.e(TAG, "Project could not be deleted", exception);
 			ToastUtil.showError(getActivity(), R.string.error_delete_project);
@@ -562,12 +571,13 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		if (projectList.isEmpty()) {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			projectManager.initializeDefaultProject(getActivity());
+			Project project = projectManager.getCurrentProject();
+			File projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(project.getName()), Constants.PROJECTCODE_NAME));
+			projectList.add(new ProjectData(project.getName(), projectCodeFile.lastModified()));
 		} else if (ProjectManager.getInstance().getCurrentProject() == null) {
 			Utils.saveToPreferences(getActivity().getApplicationContext(), Constants.PREF_PROJECTNAME_KEY,
 					projectList.get(0).projectName);
 		}
-
-		initAdapter();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {

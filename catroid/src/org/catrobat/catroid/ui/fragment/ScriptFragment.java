@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -107,7 +108,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	private boolean deleteScriptFromContextMenu = false;
-
+	private Parcelable state;
 	private boolean backpackMenuIsVisible = true;
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -307,11 +308,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.resetAlphas();
 		}
 		handleInsertFromBackpack();
+
+		if (state != null) {
+			listView.onRestoreInstanceState(state);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		state = listView.onSaveInstanceState();
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (brickListChangedReceiver != null) {
