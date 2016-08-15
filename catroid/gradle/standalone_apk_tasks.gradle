@@ -1,0 +1,202 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2016 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+ext {
+    projectName = "WHACK A MOLE"
+    id = "1"
+
+    assetsPath = "catroid/src/main/assets/"
+    standaloneZipPath = assetsPath + "/project.zip"
+    standaloneTmpPath = assetsPath + "standalone/"
+
+    manifestPath = "catroid/src/main/AndroidManifest.xml"
+    resPath = "catroid/res/drawable-nodpi"
+
+    buildStandaloneInfoTmpPath = "buildStandaloneInfoTmp"
+}
+
+task buildStandalone(dependsOn: ':downloadProject') << {
+    println "buildStandalone task triggered"
+    def manifestFile = new File(project.ext.manifestPath)
+    def manifestText = manifestFile.text
+
+    manifestText = manifestText.replaceAll("@string/app_name", getProjectName());
+    manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
+    manifestFile.write(manifestText)
+
+    removeUnecessaryPermissions()
+
+    def standaloneInfoTmpFile = new File(project.ext.buildStandaloneInfoTmpPath)
+    standaloneInfoTmpFile.write(project.ext.id + "\n")
+    standaloneInfoTmpFile.append(project.ext.projectName)
+
+    copyScreenshotAsIcon()
+
+    delete project.ext.standaloneTmpPath
+}
+
+task downloadProject() << {
+    def id = 6760; //debugging purpose only
+    def downloadUrl = "";
+
+    if (project.hasProperty("download")) {
+        downloadUrl = project["download"]
+        id = project["suffix"]
+    } else {
+        downloadUrl = "https://pocketcode.org/download/" + id + ".catrobat"
+    }
+
+    project.ext.id = id
+
+    println "downloading.... " + downloadUrl
+
+    project.ext.standaloneZipPath = project.ext.assetsPath + project.ext.id + ".zip"
+
+    File programZip = new File(project.ext.standaloneZipPath)
+    programZip.withOutputStream {
+        it << new URL(downloadUrl).content
+    }
+
+    def zipOutDir = new File(project.ext.standaloneTmpPath)
+
+    copy {
+        from zipTree(programZip)
+        into zipOutDir
+    }
+
+    project.ext.projectName = getProjectName()
+}
+
+task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
+task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
+task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
+
+task testremoveIntentFilters() << {
+    messUpIntentFilters()
+}
+
+ext.getProjectName = {
+    def xmlFile = new File(project.ext.standaloneTmpPath + "code.xml")
+    def standaloneInfoTmpFile = new File(project.ext.buildStandaloneInfoTmpPath)
+
+    if (xmlFile.exists()) {
+        String sanitizedXml = xmlFile.text.replaceAll("&#x0;", "")
+        def programNode = new XmlSlurper().parseText(sanitizedXml)
+        return programNode.header.programName.text()
+    } else if (standaloneInfoTmpFile.exists()) {
+        def lines = standaloneInfoTmpFile.readLines()
+        assert 2 == lines.size()
+        return lines[1]
+    }
+
+    return "Default Project"
+}
+
+ext.getPackageNameSuffix = {
+    println ':getPackageNameSuffix'
+    if (project.hasProperty("suffix")) {
+        return project["suffix"]
+    } else {
+        //return "standalone"
+        return "g" + getProgramId(false);
+    }
+}
+
+ext.getProgramId = { boolean deleteInfoFile ->
+    def standaloneInfoTmpFile = new File(project.ext.buildStandaloneInfoTmpPath)
+    if (standaloneInfoTmpFile.exists()) {
+        def lines = standaloneInfoTmpFile.readLines()
+        assert 2 == lines.size()
+
+        if (deleteInfoFile) {
+            delete buildStandaloneInfoTmpPath
+        }
+
+        return lines[0]
+    }
+
+    return "noID"
+}
+
+def removeUnecessaryPermissions() {
+    println "managing Permissions"
+    def permissionsFile = new File(project.ext.standaloneTmpPath + "permissions.txt")
+    def manifestFile = new File(project.ext.manifestPath);
+    def manifestText = manifestFile.text;
+
+    if(!permissionsFile.exists()) {
+        println "no permissionTXT"
+        return
+    }
+    def permissionsText = permissionsFile.text
+
+    if(!permissionsText.contains("TEXT_TO_SPEECH")){
+        manifestText = manifestText.replaceAll("<uses-.+?record.+?/>\\n", " ")
+    }
+    if((!permissionsText.contains("BLUETOOTH_LEGO_NXT")) && (!permissionsText.contains("BLUETOOTH_PHIRO"))){
+        manifestText = manifestText.replaceAll("<uses-.+bluetooth.+?/>\\n", " ")
+    }
+    if(!permissionsText.contains("ARDRONE_SUPPORT")){
+        manifestText = manifestText.replaceAll("<uses-.+?wifi.+?/>\\n", " ")
+    }
+    if((!permissionsText.contains("CAMERA_FLASH")) && (!permissionsText.contains("FACE_DETECTION"))){
+        manifestText = manifestText.replaceAll("<uses-.+camera.+?/>\\n", " ")
+    }
+    if(!permissionsText.contains("VIBRATOR")){
+        manifestText = manifestText.replaceAll("<uses-.+vibrate.+?/>\\n", " ")
+    }
+
+    manifestFile.write(manifestText)
+}
+
+def copyScreenshotAsIcon() {
+    def screenshot = new File(project.ext.standaloneTmpPath, "manual_screenshot.png")
+    if(!screenshot.exists()){
+        screenshot = new File(project.ext.standaloneTmpPath, "automatic_screenshot.png")
+    }
+    copy {
+        from screenshot.getPath()
+        into project.ext.resPath
+        rename { String fileName ->
+            fileName.replace(screenshot.getName(), 'icon.png')
+        }
+    }
+
+    copy {
+        from screenshot.getPath();
+        into project.ext.resPath
+        rename { String fileName ->
+            fileName.replace(screenshot.getName(), 'splash_screen.png')
+        }
+    }
+}
+
+def messUpIntentFilters() {
+    def manifestFile = new File(project.ext.manifestPath);
+    def manifestText = manifestFile.text
+
+    String regex = "<intent-filter>\\n.+?<action android:name=\"android.intent.action.(VIEW|GET_CONTENT)(.|\\n)+?</intent-filter>"
+    String noIntentManifest = manifestText.replaceAll(regex, "")
+    manifestFile.write(noIntentManifest)
+}
+
