@@ -739,6 +739,8 @@ public class FormulaElement implements Serializable {
 			case OBJECT_Y_VELOCITY:
 				returnValue = (double) sprite.look.getYVelocityInUserInterfaceDimensionUnit();
 				break;
+			case OBJECT_DISTANCE_TO:
+				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
 		}
 		return returnValue;
 	}

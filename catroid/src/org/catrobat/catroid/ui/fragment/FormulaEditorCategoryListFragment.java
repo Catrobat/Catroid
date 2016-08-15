@@ -70,7 +70,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private CategoryListAdapter adapter;
 
 	private static final int[] OBJECT_GENERAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_transparency,
-			R.string.formula_editor_object_brightness, R.string.formula_editor_object_color };
+			R.string.formula_editor_object_brightness, R.string.formula_editor_object_color,
+			R.string.formula_editor_object_distance_to };
 
 	private static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
