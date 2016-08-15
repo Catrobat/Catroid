@@ -86,6 +86,7 @@ import org.catrobat.catroid.content.actions.PhiroSensorAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
+import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
@@ -828,6 +829,12 @@ public class ActionFactory extends Actions {
 		action.setPinNumber(pinNumber);
 		action.setIfAction(ifAction);
 		action.setElseAction(elseAction);
+		return action;
+	}
+
+	public Action createPreviousLookAction(Sprite sprite) {
+		PreviousLookAction action = action(PreviousLookAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 }
