@@ -31,8 +31,8 @@
         android:checkedButton="@+id/portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dialog_radio_group_margin"
-        android:layout_marginRight="@dimen/dialog_radio_group_margin"
+        android:layout_marginLeft="@dimen/dialog_radio_group_margin_left"
+        android:layout_marginRight="@dimen/dialog_radio_group_margin_right"
         android:paddingTop="16dp" >
 
         <RadioButton

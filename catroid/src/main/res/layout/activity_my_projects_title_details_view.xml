@@ -44,7 +44,7 @@
             android:id="@+id/my_projects_activity_project_changed_1"
             android:layout_toRightOf="@id/my_projects_activity_project_image"
             android:text="@string/last_used"
-            android:layout_marginLeft="@dimen/activity_text_view_margin_small"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_left_small"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
@@ -52,19 +52,19 @@
             android:layout_below="@id/my_projects_activity_project_changed_1"
             android:layout_toRightOf="@id/my_projects_activity_project_image"
             android:text="@string/size_of_project"
-            android:layout_marginLeft="@dimen/activity_text_view_margin_small"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_left_small"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/my_projects_activity_project_changed_2"
-            android:layout_marginLeft="@dimen/activity_text_view_margin_big"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_left_big"
             android:layout_toRightOf="@id/my_projects_activity_project_changed_1" 
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/my_projects_activity_size_of_project_2"
             android:layout_below="@id/my_projects_activity_project_changed_2"
-            android:layout_marginLeft="@dimen/activity_text_view_margin_big"
+            android:layout_marginLeft="@dimen/activity_text_view_margin_left_big"
             android:layout_toRightOf="@id/my_projects_activity_project_changed_1" 
             style="@style/ListViewItemDetailsText"/>
     </RelativeLayout>

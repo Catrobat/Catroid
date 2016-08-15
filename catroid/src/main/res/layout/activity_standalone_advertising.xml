@@ -44,7 +44,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/marketing_created_with"
         android:id="@+id/description"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large"
+        android:layout_marginTop="@dimen/activity_text_view_margin_top"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true" />
 
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pocket_code_image"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large"
+        android:layout_marginTop="@dimen/activity_text_view_margin_top"
         android:layout_below="@+id/description"
         android:layout_centerHorizontal="true"
         android:background="@color/application_background_color"/>
@@ -65,7 +65,7 @@
         android:id="@+id/website_link"
         android:layout_below="@+id/pocket_code_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large" />
+        android:layout_marginTop="@dimen/activity_text_view_margin_top" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/marketing_more_on_google_play"
         android:id="@+id/playStore_link"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large"
+        android:layout_marginTop="@dimen/activity_text_view_margin_top"
         android:layout_below="@+id/website_link"
         android:layout_centerHorizontal="true" />
 
