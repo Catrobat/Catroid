@@ -30,9 +30,15 @@ import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -46,6 +52,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -58,6 +65,7 @@ import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StageActivity extends AndroidApplication {
@@ -65,11 +73,16 @@ public class StageActivity extends AndroidApplication {
 	public static StageListener stageListener;
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
+	public static final int ASK_MESSAGE = 0;
+
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
 	private StageDialog stageDialog;
 	private boolean resizePossible;
+	private boolean askDialogUnanswered = false;
+
+	public static Handler messageHandler;
 
 	AndroidApplicationConfiguration configuration = null;
 
@@ -77,6 +90,8 @@ public class StageActivity extends AndroidApplication {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate()");
+
+		setupAskHandler();
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -116,6 +131,55 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus = new StageAudioFocus(this);
 
 		CameraManager.getInstance().setStageActivity(this);
+	}
+
+	private void setupAskHandler() {
+		messageHandler = new Handler(Looper.getMainLooper()) {
+			@Override
+			public void handleMessage(Message message) {
+				ArrayList<Object> params = (ArrayList<Object>) message.obj;
+
+				if (message.what == ASK_MESSAGE) {
+					showDialog((String) params.get(1), (AskAction) params.get(0));
+				}
+			}
+		};
+	}
+
+	private void showDialog(String question, final AskAction askAction) {
+		pause();
+
+		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog));
+		final EditText edittext = new EditText(getContext());
+		alertBuilder.setView(edittext);
+		alertBuilder.setMessage(getContext().getString(R.string.brick_ask_dialog_hint));
+		alertBuilder.setTitle(question + "?");
+		alertBuilder.setCancelable(false);
+
+		alertBuilder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+			@Override
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					onBackPressed();
+					return true;
+				}
+				return false;
+			}
+		});
+
+		alertBuilder.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String questionAnswer = edittext.getText().toString();
+				askAction.setAnswerText(questionAnswer);
+				askDialogUnanswered = false;
+				resume();
+			}
+		});
+
+		AlertDialog dialog = alertBuilder.create();
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		askDialogUnanswered = true;
+		dialog.show();
 	}
 
 	@Override
@@ -188,6 +252,9 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void resume() {
+		if (askDialogUnanswered) {
+			return;
+		}
 		stageListener.menuResume();
 		resumeResources();
 	}

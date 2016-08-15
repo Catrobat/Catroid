@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
+import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -184,7 +185,11 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 
 		brickInfoMap = new HashMap<>();
 
-		BrickInfo brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
+		BrickInfo brickInfo = new BrickInfo(AskBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("askQuestion", BrickField.ASK_QUESTION);
+		brickInfoMap.put("askBrick", brickInfo);
+
+		brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
