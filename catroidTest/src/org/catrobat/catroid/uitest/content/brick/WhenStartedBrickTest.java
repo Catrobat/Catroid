@@ -63,7 +63,7 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 
 		assertEquals("Incorrect number of bricks.", 4, UiTestUtils.getScriptListView(solo).getCount());
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_when)));
 
@@ -146,7 +146,7 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 		script.addBrick(new PlaceAtBrick(100, 100));
 		sprite.addScript(script);
 
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

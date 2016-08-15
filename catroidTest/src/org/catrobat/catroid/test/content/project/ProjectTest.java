@@ -29,6 +29,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -52,18 +53,39 @@ public class ProjectTest extends AndroidTestCase {
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");
 
-		project.addSprite(bottomSprite);
-		project.addSprite(topSprite);
+		project.getDefaultScene().addSprite(bottomSprite);
+		project.getDefaultScene().addSprite(topSprite);
 
-		assertTrue("spriteList did not contain bottomSprite", project.getSpriteList().contains(bottomSprite));
-		assertTrue("spriteList did not contain topSprite", project.getSpriteList().contains(topSprite));
+		assertTrue("spriteList did not contain bottomSprite", project.getDefaultScene().getSpriteList().contains(bottomSprite));
+		assertTrue("spriteList did not contain topSprite", project.getDefaultScene().getSpriteList().contains(topSprite));
 
-		assertTrue("bottomSprite was not removed from data structure", project.removeSprite(bottomSprite));
-		assertFalse("bottomSprite was not removed from data structure", project.getSpriteList().contains(bottomSprite));
-		assertFalse("bottomSprite could be removed from data structure twice", project.removeSprite(bottomSprite));
+		assertTrue("bottomSprite was not removed from data structure", project.getDefaultScene().removeSprite(bottomSprite));
+		assertFalse("bottomSprite was not removed from data structure", project.getDefaultScene().getSpriteList().contains(bottomSprite));
+		assertFalse("bottomSprite could be removed from data structure twice", project.getDefaultScene().removeSprite(bottomSprite));
 
-		assertTrue("topSprite was not removed from data structure", project.removeSprite(topSprite));
-		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));
+		assertTrue("topSprite was not removed from data structure", project.getDefaultScene().removeSprite(topSprite));
+		assertFalse("topSprite was not removed from data structure", project.getDefaultScene().getSpriteList().contains(topSprite));
+	}
+
+	public void testAddRemoveScene() {
+		Project project = new Project(getContext(), "testProject");
+		Scene sceneOne = new Scene(null, "test1", project);
+		Scene sceneTwo = new Scene(null, "test2", project);
+
+		project.addScene(sceneOne);
+		project.addScene(sceneTwo);
+
+		assertTrue("sceneList did not contain sceneOne", project.getSceneList().contains(sceneOne));
+		assertTrue("sceneList did not contain sceneTwo", project.getSceneList().contains(sceneTwo));
+
+		project.removeScene(sceneOne);
+		project.removeScene(sceneTwo);
+
+		assertFalse("sceneOne was not removed from data structure", project.getSceneList().contains(sceneOne));
+		assertFalse("sceneOne was not removed from name list", project.getSceneOrder().contains(sceneOne.getName()));
+
+		assertFalse("scene Two was not removed from data structure", project.getSceneList().contains(sceneTwo));
+		assertFalse("sceneTwo was not removed from name list", project.getSceneOrder().contains(sceneTwo.getName()));
 	}
 
 	public void testSetDeviceData() {

@@ -52,8 +52,8 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 		testSprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
+		userList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserList(TEST_USERLIST_NAME, null);
 		userList.setList(INITIALIZED_LIST_VALUES);
 		INITIALIZED_LIST_VALUES.clear();

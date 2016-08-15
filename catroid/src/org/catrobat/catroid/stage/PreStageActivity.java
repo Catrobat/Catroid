@@ -45,6 +45,7 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.DroneInitializer;
@@ -414,6 +415,10 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	public void startStage() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			scene.firstStart = true;
+			scene.getDataContainer().resetAllDataObjects();
+		}
 		setResult(RESULT_OK, returnToActivityIntent);
 		finish();
 	}

@@ -179,7 +179,7 @@ public final class BackPackScriptController {
 			brick.setUserVariable(backPackedData.userVariable);
 		}
 
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 		UserVariable variable = null;
 		switch (backPackedData.userVariableType) {
 			case DataContainer.USER_VARIABLE_SPRITE:
@@ -212,7 +212,7 @@ public final class BackPackScriptController {
 			brick.setUserList(backPackedData.userList);
 		}
 
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 		switch (backPackedData.userListType) {
 			case DataContainer.USER_LIST_SPRITE:
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();

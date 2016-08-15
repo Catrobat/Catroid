@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
@@ -66,7 +67,8 @@ public class DefaultProjectHandlerTest extends AndroidTestCase {
 		projectManager.setProject(DefaultProjectHandler.createAndSaveDefaultProject(TEST_PROJECT_NAME, getContext()));
 
 		Project currentProject = projectManager.getCurrentProject();
-		List<Sprite> spriteList = currentProject.getSpriteList();
+		Scene currentScene = currentProject.getDefaultScene();
+		List<Sprite> spriteList = currentScene.getSpriteList();
 
 		assertEquals("Number of Sprites in defaultProject is incorrect.", 4, spriteList.size());
 
@@ -83,11 +85,12 @@ public class DefaultProjectHandlerTest extends AndroidTestCase {
 	public void testDefaultProjectScreenshot() throws IOException {
 		DefaultProjectHandler.createAndSaveDefaultProject(TEST_PROJECT_NAME, getContext());
 		String projectPath = Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME;
+		String scenePath = projectPath + "/" + ProjectManager.getInstance().getCurrentScene().getName();
 
-		File file = new File(projectPath + "/" + StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		File file = new File(scenePath + "/" + StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 		assertFalse("Manual screenshot shouldn't exist in default project", file.exists());
 
-		file = new File(projectPath + "/" + StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		file = new File(scenePath + "/" + StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 		assertTrue("Automatic screenshot should exist in default project", file.exists());
 	}
 

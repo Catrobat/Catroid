@@ -120,7 +120,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		lookFile = UiTestUtils.setUpLookFile(solo, getActivity());
 
 		projectManager = ProjectManager.getInstance();
-		spriteList = projectManager.getCurrentProject().getSpriteList();
+		spriteList = projectManager.getCurrentProject().getDefaultScene().getSpriteList();
 
 		spriteList.add(new Sprite(FIRST_TEST_SPRITE_NAME));
 		spriteList.add(new Sprite(SECOND_TEST_SPRITE_NAME));
@@ -145,22 +145,22 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		Sprite firstSprite = new Sprite("firstSprite");
 		Sprite secondSprite = new Sprite(defaultSpriteName);
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("p");
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("q");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().addSpriteUserVariable("p");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().addSpriteUserVariable("q");
 
 		Double setVariable1ToValue = Double.valueOf(3d);
 		Double setVariable2ToValue = Double.valueOf(8d);
 
 		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable("p", secondSprite));
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().getUserVariable("p", secondSprite));
 
 		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable("q", secondSprite));
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().getUserVariable("q", secondSprite));
 
 		Script startScript1 = new StartScript();
 		secondSprite.addScript(startScript1);
@@ -177,13 +177,13 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.clickLongOnText(defaultSpriteName);
-		Sprite copiedSprite = project.getSpriteList().get(2);
+		Sprite copiedSprite = project.getDefaultScene().getSpriteList().get(2);
 		ProjectManager.getInstance().setCurrentSprite(copiedSprite);
 
-		double q = (Double) ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		double q = (Double) ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.getUserVariable("q", copiedSprite).getValue();
 
-		double p = (Double) ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		double p = (Double) ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.getUserVariable("p", copiedSprite).getValue();
 
 		assertEquals("The local uservariable q does not exist after copying the sprite!", 0.0, q);
@@ -198,33 +198,33 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		Sprite firstSprite = new Sprite("firstSprite");
 		Sprite secondSprite = new Sprite("Pocket Code");
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.addSpriteUserVariable(firstUserVariableName);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.addProjectUserVariable(secondUserVariableName);
 
 		Double setVariable1ToValue = Double.valueOf(3d);
 		Double setVariable2ToValue = Double.valueOf(8d);
 
 		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 						.getUserVariable(firstUserVariableName, secondSprite));
 
 		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 						.getUserVariable(secondUserVariableName, secondSprite));
 
 		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(new Formula(
-				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.getUserVariable(firstUserVariableName, secondSprite));
 
 		ChangeVariableBrick changeVariableBrick2 = new ChangeVariableBrick(new Formula(
-				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.getUserVariable(secondUserVariableName, secondSprite));
 
 		Script startScript1 = new StartScript();
@@ -243,7 +243,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.sleep(200);
 
-		Sprite copiedSprite = project.getSpriteList().get(2);
+		Sprite copiedSprite = project.getDefaultScene().getSpriteList().get(2);
 		solo.clickOnText(copiedSprite.getName());
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptActivity.class);
@@ -281,11 +281,11 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		}
 		Sprite sprite = new Sprite(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));
 
-		ProjectManager.getInstance().getCurrentProject().addSprite(sprite);
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().addSprite(sprite);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.waitForText(solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		solo.waitForText(defaultSpriteName);
@@ -304,7 +304,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 		solo.sleep(200);
 		solo.clickLongOnText(defaultSpriteName);
@@ -349,15 +349,15 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		Sprite spriteTwo = spriteList.get(2);
 
-		project.addSprite(spriteOne);
-		project.addSprite(spriteTwo);
+		project.getDefaultScene().addSprite(spriteOne);
+		project.getDefaultScene().addSprite(spriteTwo);
 		ProjectManager.getInstance().setCurrentSprite(spriteOne);
 		ProjectManager.getInstance().setCurrentScript(collisionScript);
 		storageHandler.saveProject(project);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 		solo.sleep(200);
 		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
@@ -439,7 +439,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		final String addedSpriteName = "addedTestSprite";
 		UiTestUtils.addNewSprite(solo, addedSpriteName, lookFile, null);
 
-		spriteList = projectManager.getCurrentProject().getSpriteList();
+		spriteList = projectManager.getCurrentProject().getDefaultScene().getSpriteList();
 
 		spriteToCheckIndex = 5;
 
@@ -533,7 +533,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
 		solo.sleep(300);
-		spriteList = projectManager.getCurrentProject().getSpriteList();
+		spriteList = projectManager.getCurrentProject().getDefaultScene().getSpriteList();
 
 		assertEquals("Size of sprite list has not changed accordingly", expectedNumberOfSpritesAfterDelete,
 				spriteList.size());
@@ -572,7 +572,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(no);
 
 		solo.sleep(300);
-		spriteList = projectManager.getCurrentProject().getSpriteList();
+		spriteList = projectManager.getCurrentProject().getDefaultScene().getSpriteList();
 
 		assertEquals("Size of sprite list has changed!", expectedNumberOfSprites, spriteList.size());
 
@@ -957,8 +957,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testDeleteActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(1);
-		Sprite secondSprite = projectManager.getCurrentProject().getSpriteList().get(2);
+		Sprite firstSprite = projectManager.getCurrentProject().getDefaultScene().getSpriteList().get(1);
+		Sprite secondSprite = projectManager.getCurrentProject().getDefaultScene().getSpriteList().get(2);
 
 		int expectedNumberOfSprites = getCurrentNumberOfSprites() - 1;
 
@@ -980,7 +980,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList();
 
 		assertTrue("Unselected sprite '" + firstSprite.getName() + "' has been deleted!",
 				spriteList.contains(firstSprite));
@@ -1125,7 +1125,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(yes);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList();
 
 		assertEquals("First sprite should be " + TEST_SPRITE_NAME, spriteList.get(0).getName(), TEST_SPRITE_NAME);
 		assertEquals("Second sprite should be " + FIRST_TEST_SPRITE_NAME, spriteList.get(1).getName(),
@@ -1214,7 +1214,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
 
-		assertTrue("The second sprite was not renamed!", projectManager.getCurrentProject().getSpriteList().get(2)
+		assertTrue("The second sprite was not renamed!", projectManager.getCurrentProject().getDefaultScene().getSpriteList().get(2)
 				.getName().equalsIgnoreCase(renamedSpriteName));
 	}
 
@@ -1238,7 +1238,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	private void addSprite(String spriteName) {
 		Project project = projectManager.getCurrentProject();
 
-		project.addSprite(new Sprite(spriteName));
+		project.getDefaultScene().addSprite(new Sprite(spriteName));
 
 		projectManager.setProject(project);
 		StorageHandler.getInstance().saveProject(project);
@@ -1270,7 +1270,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	}
 
 	private int getCurrentNumberOfSprites() {
-		return projectManager.getCurrentProject().getSpriteList().size();
+		return projectManager.getCurrentProject().getDefaultScene().getSpriteList().size();
 	}
 
 	private void clickOnContextMenuItem(String spriteName, String itemName) {
@@ -1458,7 +1458,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 					internTokenListToCheck.get(i).getTokenStringValue());
 		}
 
-		DataContainer variablesContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer variablesContainer = projectManager.getCurrentProject().getDefaultScene().getDataContainer();
 		UserVariable firstVariable = variablesContainer.getUserVariable("global", firstSprite);
 		UserVariable copiedVariable = variablesContainer.getUserVariable("global", copiedSprite);
 		assertSame("Formula is not copied right!", firstVariable, copiedVariable);
@@ -1495,7 +1495,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		Script scriptCopied = currentSprite.getScript(0);
 
-		Script scriptOriginal = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getScript(0);
+		Script scriptOriginal = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(1).getScript(0);
 
 		scriptCopied.addBrick(new SetXBrick(10));
 		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size() - 1, scriptOriginal

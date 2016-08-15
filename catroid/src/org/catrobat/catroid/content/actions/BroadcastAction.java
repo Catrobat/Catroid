@@ -39,7 +39,7 @@ public class BroadcastAction extends Action {
 	@Override
 	public boolean act(float delta) {
 		if (executeOnce) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			List<Sprite> sprites = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
 			for (Sprite spriteOfList : sprites) {
 				spriteOfList.look.fire(event);
 			}

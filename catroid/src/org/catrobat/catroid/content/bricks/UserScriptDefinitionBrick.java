@@ -45,7 +45,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -383,9 +383,9 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		if (element.getText().equals(oldName)) {
 			element.setText(newName);
 			if (element.isVariable()) {
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-				DataContainer dataContainer = currentProject.getDataContainer();
+				DataContainer dataContainer = currentScene.getDataContainer();
 				if (dataContainer != null) {
 					List<UserBrick> matchingBricks = currentSprite.getUserBricksByDefinitionBrick(this, true, true);
 					for (UserBrick userBrick : matchingBricks) {

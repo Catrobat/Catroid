@@ -73,9 +73,9 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 	}
 
@@ -106,7 +106,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testScript.addBrick(ifLogicElseBrick);
 		testScript.addBrick(ifLogicEndBrick);
 		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
@@ -115,7 +115,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 			testSprite.look.act(1f);
 		}
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
@@ -139,13 +139,13 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testScript.addBrick(ifLogicElseBrick);
 		testScript.addBrick(ifLogicEndBrick);
 		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
@@ -169,13 +169,13 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testScript.addBrick(setVariableBrick);
 		testScript.addBrick(ifLogicEndBrick);
 		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
@@ -224,12 +224,12 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testScript.addBrick(setVariableBrickIfFalse);
 		testScript.addBrick(ifLogicEndBrick);
 		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(1f);
-		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		assertEquals("IfBrick not executed as expected", expected, userVariable.getValue());

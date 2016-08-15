@@ -167,7 +167,7 @@ public final class BackPackSpriteController {
 	public Sprite unpack(Sprite selectedSprite, boolean delete, boolean keepCurrentSprite, boolean
 			fromHiddenBackPack, boolean asBackground) {
 
-		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentProject().containsSprite(selectedSprite)) {
+		if (fromHiddenBackPack && ProjectManager.getInstance().getCurrentScene().containsSprite(selectedSprite)) {
 			return selectedSprite;
 		}
 
@@ -194,7 +194,7 @@ public final class BackPackSpriteController {
 		selectedSprite.setUserAndVariableBrickReferences(unpackedSprite, unpackedSprite.getUserBrickList());
 
 		if (asBackground) {
-			ProjectManager.getInstance().getCurrentProject().replaceBackgroundSprite(unpackedSprite);
+			ProjectManager.getInstance().getCurrentScene().replaceBackgroundSprite(unpackedSprite);
 		} else {
 			ProjectManager.getInstance().addSprite(unpackedSprite);
 		}

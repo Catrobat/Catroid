@@ -58,7 +58,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 	public void testReceiversWorkMoreThanOnce() {
 		UiTestUtils.createEmptyProject();
-		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";
@@ -94,7 +94,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 	public void testWhenScriptRestartingItself() {
 		UiTestUtils.createEmptyProject();
-		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#875";
@@ -128,7 +128,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		String messageTwo = "messageTwo";
 		final int xMovement = 1;
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		Script startScript = sprite.getScript(0);
 		BroadcastBrick startBroadcastBrick = new BroadcastBrick(messageOne);
 		startScript.addBrick(startBroadcastBrick);

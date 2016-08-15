@@ -40,7 +40,8 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.io.ProjectScreenshotLoader;
+import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -71,12 +72,12 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	}
 
 	private static LayoutInflater inflater;
-	private ProjectScreenshotLoader screenshotLoader;
+	private ProjectAndSceneScreenshotLoader screenshotLoader;
 
 	public ProjectAdapter(Context context, int resource, int textViewResourceId, List<ProjectData> objects) {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		screenshotLoader = new ProjectScreenshotLoader(context);
+		screenshotLoader = new ProjectAndSceneScreenshotLoader(context);
 		showDetails = false;
 		selectMode = ListView.CHOICE_MODE_NONE;
 	}
@@ -141,6 +142,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		// ------------------------------------------------------------
 		ProjectData projectData = getItem(position);
 		String projectName = projectData.projectName;
+		String sceneName = StorageHandler.getInstance().getFirstSceneName(projectName);
 
 		//set name of project:
 		holder.projectName.setText(projectName);
@@ -177,7 +179,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		holder.dateChanged.setText(projectLastModificationDateString);
 
 		//set project image (threaded):
-		screenshotLoader.loadAndShowScreenshot(projectName, holder.image);
+		screenshotLoader.loadAndShowScreenshot(projectName, sceneName, false, holder.image);
 
 		if (!showDetails) {
 			holder.projectDetails.setVisibility(View.GONE);

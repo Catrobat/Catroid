@@ -140,11 +140,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		//Bitmap bm = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), RESOURCE_IMAGE);
 
-		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
-		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
+		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "catroid_banzai.png",
 				RESOURCE_IMAGE2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
-		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.jpg",
+		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "catroid_sunglasses.jpg",
 				RESOURCE_IMAGE3, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
@@ -746,7 +746,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteLookContextMenu() {
-		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
+		Sprite firstSprite = projectManager.getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
 
 		Log.d(TAG, "Look to delete: " + lookToDelete.getLookName());
@@ -955,6 +955,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
+		solo.sleep(TIME_TO_WAIT);
 		assertTrue("Should be in Look Fragment", solo.waitForText(FIRST_TEST_LOOK_NAME));
 		wifiManager.setWifiEnabled(true);
 		while (!Utils.isNetworkAvailable(getActivity())) {
@@ -1258,7 +1259,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testEditImageWhichIsAlreadyUsed() {
-		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(),
 				"catroid_sunglasses2.png", RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		LookData lookDataToAdd = new LookData();
@@ -1857,7 +1858,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 
 		assertTrue("Selected look '" + FIRST_TEST_LOOK_NAME + "' was not copied!",
-				solo.searchText(FIRST_TEST_LOOK_NAME, 4) && solo.searchText(FIRST_TEST_LOOK_NAME + copiedLookAddition));
+				solo.searchText(FIRST_TEST_LOOK_NAME, 2) && solo.searchText(FIRST_TEST_LOOK_NAME + copiedLookAddition));
 
 		assertTrue(
 				"Selected look '" + SECOND_TEST_LOOK_NAME + "' was not copied!",
@@ -2138,12 +2139,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		int startIndex = 0;
-		if (solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getLookDataList().size()) {
-			startIndex = 1;
-		}
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex + 1);
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}

@@ -127,13 +127,13 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(FIRST_TEST_SOUND_NAME);
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "testsoundui.mp3",
 				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile.getName());
@@ -1654,7 +1654,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void addNewSound(String title, String fileName, int resource) {
-		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, fileName,
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), fileName,
 				resource, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
@@ -1778,12 +1778,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		int startIndex = 0;
-		if (solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getSoundList().size()) {
-			startIndex = 1;
-		}
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex + 1);
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}

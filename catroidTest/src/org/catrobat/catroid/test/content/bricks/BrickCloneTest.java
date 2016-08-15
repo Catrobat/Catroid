@@ -199,11 +199,11 @@ public class BrickCloneTest extends AndroidTestCase {
 		// set up project
 		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		StartScript script = new StartScript();
 		sprite.addScript(script);
-		project.getDataContainer().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
-		UserVariable spriteVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, sprite);
+		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
+		UserVariable spriteVariable = project.getDefaultScene().getDataContainer().getUserVariable(VARIABLE_NAME, sprite);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
 		// create brick - expects:
@@ -218,7 +218,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		Sprite clonedSprite = sprite.clone();
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
-		UserVariable clonedVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, clonedSprite);
+		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(VARIABLE_NAME, clonedSprite);
 		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
 
 		// check them

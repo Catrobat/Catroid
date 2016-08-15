@@ -101,6 +101,8 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -377,6 +379,12 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(RepeatBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("timesToRepeat", BrickField.TIMES_TO_REPEAT);
 		brickInfoMap.put("repeatBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SceneTransitionBrick.class.getSimpleName());
+		brickInfoMap.put("sceneTransitionBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SceneStartBrick.class.getSimpleName());
+		brickInfoMap.put("sceneStartBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetBrightnessBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("brightness", BrickField.BRIGHTNESS);
