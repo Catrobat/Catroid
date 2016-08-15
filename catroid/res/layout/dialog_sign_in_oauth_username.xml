@@ -45,8 +45,6 @@
         <EditText
             android:id="@+id/dialog_signin_oauth_username"
             style="@style/DefaultDialog.EditText"
-            android:inputType="text"
-            android:maxLines="1"
             android:selectAllOnFocus="true" />
 
          <TextView

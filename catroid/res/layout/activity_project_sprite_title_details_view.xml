@@ -30,9 +30,6 @@
 
     <TextView
         android:id="@+id/project_activity_sprite_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
         style="@style/ListViewItemTitleText" />
 
     <RelativeLayout
@@ -43,31 +40,23 @@
 
         <TextView
             android:id="@+id/textView_number_of_scripts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="12.5dp" 
+            android:paddingLeft="12.5dp"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/textView_number_of_looks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/textView_number_of_scripts"
-            android:paddingLeft="12.5dp" 
+            android:paddingLeft="12.5dp"
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/textView_number_of_bricks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textView_number_of_scripts"
             android:paddingLeft="39dp" 
             style="@style/ListViewItemDetailsText"/>
 
         <TextView
             android:id="@+id/textView_number_of_sounds"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/textView_number_of_bricks"
             android:layout_toRightOf="@id/textView_number_of_scripts"
             android:paddingLeft="39dp" 

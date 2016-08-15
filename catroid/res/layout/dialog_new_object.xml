@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/dialog_new_object_paintroid"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dialog_text_view_layout_width"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
@@ -46,7 +46,7 @@
 
             <TextView
                 android:id="@+id/dialog_new_object_library"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dialog_text_view_layout_width"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
@@ -63,7 +63,7 @@
 
             <TextView
                 android:id="@+id/dialog_new_object_gallery"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dialog_text_view_layout_width"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
@@ -74,7 +74,7 @@
 
             <TextView
                 android:id="@+id/dialog_new_object_camera"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dialog_text_view_layout_width"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
@@ -131,9 +131,7 @@
 
             <EditText
                 android:id="@+id/dialog_new_object_name_edit_text"
-                style="@style/DefaultDialog.EditText"
-                android:inputType="text">
-            </EditText>
+                style="@style/DefaultDialog.EditText" />
         </LinearLayout>
     </LinearLayout>
 

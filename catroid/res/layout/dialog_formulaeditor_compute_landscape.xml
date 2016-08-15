@@ -26,8 +26,8 @@
     android:layout_height="500dp"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp"
+    android:paddingLeft="@dimen/dialog_relative_layout_padding"
+    android:paddingRight="@dimen/dialog_relative_layout_padding"
     android:rotation="90" >
 
     <TextView
@@ -36,6 +36,6 @@
         android:layout_height="100dp"
         android:background="@color/white"
         android:gravity="center"
-        android:textSize="40sp" />
+        android:textSize="@dimen/dialog_text_view_text_size_small" />
 
 </RelativeLayout>

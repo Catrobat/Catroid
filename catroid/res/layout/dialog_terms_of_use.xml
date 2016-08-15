@@ -25,9 +25,7 @@
 <ScrollView style="@style/DefaultDialog"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="0dp">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,7 +36,6 @@
             style="@style/DefaultDialog.Item"
             android:layout_marginTop="@dimen/dialog_item_margin"
             android:gravity="center|bottom"
-            android:paddingBottom="0dp"
             android:textColor="@color/spritelist_details_text_color" />
 
         <TextView
@@ -46,7 +43,6 @@
             style="@style/DefaultDialog.Item"
             android:layout_below="@id/dialog_terms_of_use_text_view_info"
             android:gravity="center|bottom"
-            android:minHeight="0dp"
             android:textColorLink="@color/terms_of_use_text_color"
             android:textSize="20sp" />
 

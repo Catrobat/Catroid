@@ -25,16 +25,12 @@
     style="@style/DefaultDialog" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        style="@style/DefaultDialog.Item" >
 
         <EditText
             android:id="@+id/dialog_formula_rename_variable_name_edit_text"
             style="@style/DefaultDialog.EditText"
-            android:ems="10"
-            android:hint="@string/formula_editor_data_dialog_hint"
-            android:inputType="text" />
+            android:hint="@string/formula_editor_data_dialog_hint" />
 
     </LinearLayout>
 
