@@ -45,8 +45,8 @@ import java.io.File;
 
 public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private final int screenWidth = 480;
-	private final int screenHeight = 800;
+	private int screenWidth = 480;
+	private int screenHeight = 800;
 	private final String catFilename = "catroid_sunglasses.png";
 	private final String fishFilename = "fish.jpg";
 	SetTransparencyBrick setTransparencyBrick;
@@ -139,8 +139,8 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 	}
 
 	private void createProject() {
-		ScreenValues.SCREEN_WIDTH = screenWidth;
-		ScreenValues.SCREEN_HEIGHT = screenHeight;
+		screenWidth = ScreenValues.SCREEN_WIDTH;
+		screenHeight = ScreenValues.SCREEN_HEIGHT;
 
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 		cat = new Sprite("cat");

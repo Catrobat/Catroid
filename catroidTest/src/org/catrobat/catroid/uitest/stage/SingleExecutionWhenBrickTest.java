@@ -46,8 +46,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.io.File;
 
 public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final int SCREEN_WIDTH = 480;
-	private static final int SCREEN_HEIGHT = 800;
 
 	private Project projectWhenBrick;
 	Sprite yellowSprite;
@@ -62,7 +60,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 
 	public void testWaitBrickWhenTapped() {
 
-		createProjectWhenBrick(SCREEN_HEIGHT, SCREEN_WIDTH);
+		createProjectWhenBrick();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -73,17 +71,16 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 			solo.sleep(100);
 			assertEquals("Look has wrong AlphaValue.", 0f,
 					yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
-			solo.clickOnScreen((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2));
+			UiTestUtils.clickOnStageCoordinates(solo, 0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
 		}
 		solo.sleep(100);
 		assertEquals("Look has wrong AlphaValue.", 0f, yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
-		solo.sleep(2000);
-		assertEquals("Look has wrong AlphaValue.", 50f, yellowSprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		checkAlphaWithTimeout(5000, yellowSprite, 50f);
 	}
 
 	public void testWaitBrickBroadcast() {
 
-		createProjectWhenBrick(SCREEN_HEIGHT, SCREEN_WIDTH);
+		createProjectWhenBrick();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -94,18 +91,19 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 			solo.sleep(1000);
 			assertEquals("Look has wrong AlphaValue.", 0f,
 					greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
-			solo.clickOnScreen((SCREEN_WIDTH / 2) + 100, (SCREEN_HEIGHT / 2) - 200);
+			UiTestUtils.clickOnStageCoordinates(solo, 100, 200, ScreenValues.SCREEN_WIDTH, ScreenValues
+					.SCREEN_HEIGHT);
 		}
 		solo.sleep(1000);
 		assertEquals("Look has wrong AlphaValue.", 0f, greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
-		solo.sleep(2000);
-		assertEquals("Look has wrong AlphaValue.", 100f, greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		checkAlphaWithTimeout(5000, greenSprite, 100f);
 	}
 
-	public void testWaitBrickWhenStreched() {
+	public void testWaitBrickWhenStretched() {
 
-		createProjectWhenBrick(SCREEN_WIDTH, SCREEN_WIDTH);
-		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		createProjectWhenBrick();
+		ScreenValues.SCREEN_HEIGHT /= 2;
+		ScreenValues.SCREEN_WIDTH /= 2;
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -116,17 +114,28 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 			solo.sleep(1000);
 			assertEquals("Look has wrong AlphaValue.", 0f,
 					greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
-			solo.clickOnScreen((SCREEN_WIDTH / 2) + 100, (SCREEN_HEIGHT / 2) - 390); //188
+			UiTestUtils.clickOnStageCoordinates(solo, 100, 200, ScreenValues.SCREEN_WIDTH * 2, ScreenValues
+					.SCREEN_HEIGHT * 2);
 		}
 		solo.sleep(1000);
 		assertEquals("Look has wrong AlphaValue.", 0f, greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
-		solo.sleep(2000);
-		assertEquals("Look has wrong AlphaValue.", 100f, greenSprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		checkAlphaWithTimeout(5000, greenSprite, 100f);
 	}
 
-	private void createProjectWhenBrick(int screenHeight, int screenWidth) {
-		ScreenValues.SCREEN_HEIGHT = screenHeight;
-		ScreenValues.SCREEN_WIDTH = screenWidth;
+	private void checkAlphaWithTimeout(int timeout, Sprite sprite, float value2) {
+		int waitTime = 0;
+
+		while (waitTime <= timeout) {
+			if ((sprite.look.getTransparencyInUserInterfaceDimensionUnit() == value2)) {
+				break;
+			}
+			solo.sleep(200);
+			waitTime += 200;
+		}
+		assertEquals("Look has wrong AlphaValue.", value2, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+	}
+
+	private void createProjectWhenBrick() {
 
 		projectWhenBrick = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
