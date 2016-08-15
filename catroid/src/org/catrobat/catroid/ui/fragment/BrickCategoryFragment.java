@@ -149,6 +149,7 @@ public class BrickCategoryFragment extends ListFragment {
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		List<View> categories = new ArrayList<>();
+		categories.add(inflater.inflate(R.layout.brick_category_event, null));
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
