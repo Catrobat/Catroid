@@ -82,15 +82,11 @@
                     <TextView
                         android:id="@+id/fragment_sound_item_length_prefix_text_view"
                         style="@style/sound_fragment_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/length" />
 
                     <TextView
                         android:id="@+id/fragment_sound_item_size_prefix_text_view"
                         style="@style/sound_fragment_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/size"
                         android:visibility="gone" />
                 </LinearLayout >
@@ -109,16 +105,12 @@
                         <Chronometer
                             android:id="@+id/fragment_sound_item_time_played_chronometer"
                             style="@style/sound_fragment_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:layout_gravity="right|center_vertical"
                             android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/fragment_sound_item_time_seperator_text_view"
                             style="@style/sound_fragment_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
@@ -127,16 +119,12 @@
 
                         <TextView
                             android:id="@+id/fragment_sound_item_duration_text_view"
-                            style="@style/sound_fragment_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            style="@style/sound_fragment_detail" />
                     </LinearLayout >
 
                     <TextView
                         android:id="@+id/fragment_sound_item_size_text_view"
                         style="@style/sound_fragment_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:visibility="gone" />
                 </LinearLayout >
             </LinearLayout >

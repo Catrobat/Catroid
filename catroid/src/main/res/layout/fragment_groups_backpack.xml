@@ -32,22 +32,16 @@
         android:layout_height="match_parent" >
 
         <TextView
+            style="@style/FragmentTextView"
             android:id="@+id/fragment_groups_backpack_text_heading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="80sp" />
 
         <TextView
+            style="@style/FragmentTextView"
             android:id="@+id/fragment_groups_backpack_text_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/fragment_groups_backpack_text_heading"
-            android:gravity="center"
             android:paddingTop="10dp"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="30sp" />
     </RelativeLayout>
 
@@ -56,7 +50,6 @@
     <ListView
         android:id="@android:id/list"
         style="@style/ListViewShadowed"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:cacheColorHint="#00000000"

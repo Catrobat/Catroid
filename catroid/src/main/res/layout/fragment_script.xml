@@ -31,8 +31,6 @@
     <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
         android:id="@android:id/list"
         style="@style/ListViewShadowed"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:clickable="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="-5dip" >
@@ -44,24 +42,18 @@
         android:layout_height="match_parent" >
 
         <TextView
+            style="@style/FragmentTextView"
             android:id="@+id/fragment_script_text_heading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center"
             android:text="@string/scripts"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="80sp" />
 
         <TextView
+            style="@style/FragmentTextView"
             android:id="@+id/fragment_script_text_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/fragment_script_text_heading"
-            android:gravity="center"
             android:paddingTop="10dp"
             android:text="@string/fragment_script_text_description"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="30sp" />
     </RelativeLayout>
 

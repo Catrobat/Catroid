@@ -38,8 +38,6 @@
         <EditText
             android:id="@+id/dialog_userbrick_name_edittext"
             style="@style/DefaultDialog.EditText"
-            android:inputType="text"
-            android:maxLines="1"
             android:selectAllOnFocus="true" />
 
     </LinearLayout>

@@ -33,15 +33,15 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
-       <TextView
-           android:id="@+id/color_rgb_textview_color_preview"
-           android:layout_width="wrap_content"
-           android:layout_height="20dp"
-           android:layout_marginLeft="1dp"
-           android:layout_centerVertical="true"
-           android:paddingRight="20dp"
-           android:text="@string/color_preview"
-           android:textColor="@color/solid_white" />
+        <TextView
+            android:id="@+id/color_rgb_textview_color_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="1dp"
+            android:layout_centerVertical="true"
+            android:paddingRight="20dp"
+            android:text="@string/color_preview"
+            android:textColor="@color/solid_white" />
 
         <Button
             android:id="@+id/color_rgb_preview"
@@ -52,7 +52,7 @@
             android:layout_toRightOf="@id/color_rgb_textview_color_preview"
             android:layout_marginRight="5dp">
 
-            </Button>
+        </Button>
 
     </RelativeLayout>
 
@@ -63,10 +63,7 @@
         android:stretchColumns="1" >
 
         <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
+            style="@style/FragmentTableRow"
             android:weightSum="100">
 
             <TextView
@@ -80,13 +77,11 @@
                 android:textColor="@color/color_chooser_rgb_red"/>
 
             <TextView
+                style="@style/SingleSeekbarTextView"
                 android:id="@+id/rgb_red_start_value"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:layout_marginTop="10dp"
                 android:text="0"
-                android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
 
             <SeekBar
@@ -98,13 +93,11 @@
                 android:max="255" />
 
             <TextView
+                style="@style/SingleSeekbarTextView"
                 android:id="@+id/rgb_red_end_value"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:layout_marginTop="10dp"
                 android:text="255"
-                android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -120,10 +113,7 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
+            style="@style/FragmentTableRow"
             android:weightSum="100" >
 
             <TextView
@@ -137,13 +127,11 @@
                 android:textColor="@color/color_chooser_rgb_green" />
 
             <TextView
+                style="@style/SingleSeekbarTextView"
                 android:id="@+id/rgb_green_start_value"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:layout_marginTop="10dp"
                 android:text="0"
-                android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
 
             <SeekBar
@@ -155,13 +143,11 @@
                 android:max="255" />
 
             <TextView
+                style="@style/SingleSeekbarTextView"
                 android:id="@+id/rgb_green_end_value"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:layout_marginTop="10dp"
                 android:text="255"
-                android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -177,10 +163,7 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
+            style="@style/FragmentTableRow"
             android:weightSum="100" >
 
             <TextView
@@ -194,13 +177,11 @@
                 android:textColor="@color/color_chooser_rgb_blue" />
 
             <TextView
+                style="@style/SingleSeekbarTextView"
                 android:id="@+id/rgb_blue_start_value"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:layout_marginTop="10dp"
                 android:text="0"
-                android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
 
             <SeekBar
@@ -212,13 +193,11 @@
                 android:max="255" />
 
             <TextView
+                style="@style/SingleSeekbarTextView"
                 android:id="@+id/rgb_blue_end_value"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:layout_marginTop="10dp"
                 android:text="255"
-                android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -232,6 +211,6 @@
                 tools:ignore="HardcodedText" />
         </TableRow>
 
-     </TableLayout>
+    </TableLayout>
 
 </LinearLayout>

@@ -70,8 +70,8 @@
         <TextView
             android:id="@+id/single_seekbar_value"
             style="@style/FragmentSeekbarChooserTextView"
-            android:layout_width="5dp"
             android:layout_height="match_parent"
+            android:layout_width="5dp"
             android:layout_weight="25"
             android:text="100"
             android:textColor="@color/white"

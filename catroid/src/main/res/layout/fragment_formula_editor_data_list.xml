@@ -29,11 +29,8 @@
 
     <ListView
         android:id="@android:id/list"
-        style="@style/ListViewShadowed"
-        android:layout_width="match_parent"
+        style="@style/ListViewShadowed.DivideColor"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:cacheColorHint="#00000000"
-        android:divider="@android:color/transparent" />
+        android:layout_marginTop="3dp" />
 
 </RelativeLayout>

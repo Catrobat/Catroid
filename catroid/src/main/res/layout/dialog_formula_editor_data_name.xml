@@ -40,17 +40,15 @@
             android:paddingBottom="0dp">
 
             <RadioButton
+                style="@style/DialogRadioButton"
                 android:id="@+id/dialog_formula_editor_data_name_global_variable_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/formula_editor_dialog_for_all_sprites"
                 android:textColor="@color/spritelist_details_text_color" />
 
             <RadioButton
+                style="@style/DialogRadioButton"
                 android:id="@+id/dialog_formula_editor_data_name_local_variable_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/formula_editor_dialog_for_this_sprite_only"
                 android:textColor="@color/spritelist_details_text_color" />
         </RadioGroup>

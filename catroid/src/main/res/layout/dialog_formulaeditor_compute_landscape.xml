@@ -31,11 +31,7 @@
     android:rotation="90" >
 
     <TextView
-        android:id="@+id/formula_editor_compute_dialog_textview_landscape_mode"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:textSize="@dimen/dialog_text_view_text_size_small" />
+        style="@style/DialogFormulaTextView"
+        android:id="@+id/formula_editor_compute_dialog_textview_landscape_mode" />
 
 </RelativeLayout>

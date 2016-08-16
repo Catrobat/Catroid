@@ -84,15 +84,11 @@
                 <TextView
                     android:id="@+id/fragment_group_backpack_item_number_bricks_text_view"
                     style="@style/look_fragment_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/number_of_bricks" />
 
                 <TextView
                     android:id="@+id/fragment_group_backpack_item_number_bricks_value"
                     style="@style/look_fragment_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/number_of_bricks" />
 
             </LinearLayout>

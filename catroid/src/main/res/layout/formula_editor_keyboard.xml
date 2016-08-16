@@ -28,29 +28,25 @@
     android:stretchColumns="*" >
 
     <TableRow
+        style="@style/FormulaEditorTableRow"
         android:id="@+id/tableRow1"
-        android:layout_width="match_parent"
         android:layout_weight="1"  >
 
         <Button
             android:id="@+id/formula_editor_keyboard_compute"
             style="@style/FormulaEditorButton"
-            android:layout_marginTop="@dimen/key_margin"
-            android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_compute"
             android:layout_span="2" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_bracket_open"
             style="@style/FormulaEditorButton"
-            android:layout_marginTop="@dimen/key_margin"
             android:layout_span="1"
             android:text="@string/formula_editor_bracket_open" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_bracket_close"
             style="@style/FormulaEditorButton"
-            android:layout_marginTop="@dimen/key_margin"
             android:layout_span="1"
             android:text="@string/formula_editor_bracket_close" />
 
@@ -65,14 +61,13 @@
     </TableRow>
 
     <TableRow
+        style="@style/FormulaEditorTableRow"
         android:id="@+id/tableRow2"
-        android:layout_width="match_parent"
         android:layout_weight="1"  >
 
         <Button
             android:id="@+id/formula_editor_keyboard_object"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_object"
             android:layout_span="2" />
 
@@ -102,14 +97,13 @@
     </TableRow>
 
     <TableRow
+        style="@style/FormulaEditorTableRow"
         android:id="@+id/tableRow3"
-        android:layout_width="match_parent"
         android:layout_weight="1"  >
 
         <Button
             android:id="@+id/formula_editor_keyboard_function"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_functions"
             android:layout_span="2" />
 
@@ -139,16 +133,15 @@
     </TableRow>
 
     <TableRow
+        style="@style/FormulaEditorTableRow"
         android:id="@+id/tableRow4"
-        android:layout_width="match_parent"
         android:layout_weight="1"  >
 
         <Button
             android:id="@+id/formula_editor_keyboard_logic"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_logic"
-            android:layout_span="1" />
+            android:layout_span="2" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_1"
@@ -177,15 +170,14 @@
 
     <TableRow
         android:id="@+id/tableRow5"
-        android:layout_width="match_parent"
+        style="@style/FormulaEditorTableRow"
         android:layout_weight="1" >
 
         <Button
             android:id="@+id/formula_editor_keyboard_sensors"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_device"
-            android:layout_span="1" />
+            android:layout_span="2" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_decimal_mark"
@@ -213,14 +205,13 @@
     </TableRow>
 
     <TableRow
+        style="@style/FormulaEditorTableRow"
         android:id="@+id/tableRow6"
-        android:layout_width="match_parent"
         android:layout_weight="1" >
 
         <Button
             android:id="@+id/formula_editor_keyboard_data"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
             android:text="@string/formula_editor_data"
             android:layout_span="2" />
 
