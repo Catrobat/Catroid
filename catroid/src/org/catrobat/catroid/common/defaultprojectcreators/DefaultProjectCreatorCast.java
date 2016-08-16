@@ -44,7 +44,6 @@ import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -63,8 +62,6 @@ import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.content.bricks.HideBrick;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -263,7 +260,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 					new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.EQUAL.name(), null, maxY, birdY)));
 			birdScriptBroadcast.addBrick(ifLogicBeginBrickMaxY);
 			PlaceAtBrick placeTop = new PlaceAtBrick(new Formula(
-					new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_X.name(), null)),new Formula(
+					new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_X.name(), null)), new Formula(
 					new FormulaElement(FormulaElement.ElementType.NUMBER, "-360", null)));
 			birdScriptBroadcast.addBrick(placeTop);
 			IfLogicElseBrick ifLogicElseBrickMaxY = new IfLogicElseBrick(ifLogicBeginBrickMaxY);
@@ -284,7 +281,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 					new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.EQUAL.name(), null, minY, birdY)));
 			birdScriptBroadcast.addBrick(ifLogicBeginBrickMinY);
 			PlaceAtBrick placeBottom = new PlaceAtBrick(new Formula(
-					new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_X.name(), null)),new Formula(
+					new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_X.name(), null)), new Formula(
 					new FormulaElement(FormulaElement.ElementType.NUMBER, "360", null)));
 			birdScriptBroadcast.addBrick(placeBottom);
 			IfLogicElseBrick ifLogicElseBrickMinY = new IfLogicElseBrick(ifLogicBeginBrickMinY);
@@ -311,7 +308,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 					new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.EQUAL.name(), null, minX, birdX)));
 			birdScriptBroadcast.addBrick(ifLogicBeginBrickMinX);
 			PlaceAtBrick placeRight = new PlaceAtBrick(new Formula(
-					new FormulaElement(FormulaElement.ElementType.NUMBER, "640", null)),new Formula(
+					new FormulaElement(FormulaElement.ElementType.NUMBER, "640", null)), new Formula(
 					new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_Y.name(), null)));
 			birdScriptBroadcast.addBrick(placeRight);
 			IfLogicElseBrick ifLogicElseBrickMinX = new IfLogicElseBrick(ifLogicBeginBrickMinX);
@@ -338,7 +335,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 					new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.EQUAL.name(), null, maxX, birdX)));
 			birdScriptBroadcast.addBrick(ifLogicBeginBrickMaxX);
 			PlaceAtBrick placeLeft = new PlaceAtBrick(new Formula(
-					new FormulaElement(FormulaElement.ElementType.NUMBER, "-640", null)),new Formula(
+					new FormulaElement(FormulaElement.ElementType.NUMBER, "-640", null)), new Formula(
 					new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_Y.name(), null)));
 			birdScriptBroadcast.addBrick(placeLeft);
 			IfLogicElseBrick ifLogicElseBrickMaxX = new IfLogicElseBrick(ifLogicBeginBrickMaxX);
