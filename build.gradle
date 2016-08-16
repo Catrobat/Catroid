@@ -65,7 +65,7 @@ android {
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"

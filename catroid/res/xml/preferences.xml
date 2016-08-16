@@ -162,7 +162,7 @@
         android:title="@string/preference_title_enable_phiro_bricks" />
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="setting_cast_globally_enabled"
         android:summary="@string/preference_description_cast_feature_globally_enabled"
         android:title="@string/preference_title_cast_feature_globally_enabled" />

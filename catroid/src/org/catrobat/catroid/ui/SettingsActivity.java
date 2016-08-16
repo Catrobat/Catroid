@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -111,7 +112,8 @@ public class SettingsActivity extends PreferenceActivity {
 			screen.removePreference(arduinoPreference);
 		}
 
-		if (!BuildConfig.FEATURE_CAST_ENABLED) {
+		//disable Cast features before API 19 - KitKat
+		if ((!BuildConfig.FEATURE_CAST_ENABLED) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) ){
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
 			screen.removePreference(globalCastPreference);
