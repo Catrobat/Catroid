@@ -113,6 +113,10 @@ public class XmlHeader implements Serializable {
 		return description;
 	}
 
+	public String getUserHandle() {
+		return userHandle;
+	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}

@@ -22,24 +22,34 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.UtilFile;
@@ -67,8 +77,10 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		private TextView size;
 		private TextView dateChanged;
 		private View projectDetails;
-		// temporarily removed - because of upcoming release, and bad performance of projectdescription
-		//		public TextView description;
+		private ImageButton showOverview;
+		private View projectOverview;
+		private ProgressBar projectProgressBar;
+		private Project project = null;
 	}
 
 	private static LayoutInflater inflater;
@@ -132,8 +144,9 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			holder.size = (TextView) projectView.findViewById(R.id.my_projects_activity_size_of_project_2);
 			holder.dateChanged = (TextView) projectView.findViewById(R.id.my_projects_activity_project_changed_2);
 			holder.projectDetails = projectView.findViewById(R.id.my_projects_activity_list_item_details);
-			// temporarily removed - because of upcoming release, and bad performance of projectdescription
-			//			holder.description = (TextView) projectView.findViewById(R.id.my_projects_activity_description);
+			holder.showOverview = (ImageButton) projectView.findViewById(R.id.my_projects_activity_show_overview);
+			holder.projectOverview = projectView.findViewById(R.id.my_projects_activity_list_item_overview);
+			holder.projectProgressBar = (ProgressBar) projectView.findViewById(R.id.my_projects_activity_list_item_progress_bar);
 			projectView.setTag(holder);
 		} else {
 			holder = (ViewHolder) projectView.getTag();
@@ -141,14 +154,16 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 		// ------------------------------------------------------------
 		ProjectData projectData = getItem(position);
-		String projectName = projectData.projectName;
+		final String projectName = projectData.projectName;
 		String sceneName = StorageHandler.getInstance().getFirstSceneName(projectName);
 
 		//set name of project:
 		holder.projectName.setText(projectName);
 
 		// set size of project:
-		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
+		String size = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName)));
+		holder.size.setText(size);
+		((TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_size_content)).setText(size);
 
 		//set last changed:
 		Date projectLastModificationDate = new Date(projectData.lastUsed);
@@ -177,6 +192,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		}
 
 		holder.dateChanged.setText(projectLastModificationDateString);
+		((TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_last_modified_content)).setText(projectLastModificationDateString);
 
 		//set project image (threaded):
 		screenshotLoader.loadAndShowScreenshot(projectName, sceneName, false, holder.image);
@@ -232,6 +248,55 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			}
 		});
 
+		holder.showOverview.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (holder.projectOverview.getVisibility() == View.GONE) {
+					holder.showOverview.setImageResource(R.drawable.project_list_arrow_up);
+					holder.projectDetails.setVisibility(View.GONE);
+					holder.projectName.setSingleLine(true);
+					setProjectOverview(projectName, holder);
+				} else {
+					holder.showOverview.setImageResource(R.drawable.project_list_arrow_down);
+					holder.projectOverview.setVisibility(View.GONE);
+					if (showDetails) {
+						holder.projectDetails.setVisibility(View.VISIBLE);
+						holder.projectName.setSingleLine(false);
+					}
+				}
+			}
+		});
+
+		final EditText editDescription = (EditText) holder.projectOverview.findViewById(R.id.my_projects_activity_description_edit);
+		holder.projectOverview.findViewById(R.id.my_projects_activity_edit_description_button).setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						editDescription.setVisibility(View.VISIBLE);
+						holder.projectOverview.findViewById(R.id.my_projects_activity_description_content).setVisibility(View.GONE);
+						editDescription.requestFocus();
+						InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+						manager.showSoftInput(editDescription, InputMethodManager.SHOW_IMPLICIT);
+						editDescription.setSelection(editDescription.getText().length());
+					}
+		});
+
+		editDescription.setOnKeyListener(new View.OnKeyListener() {
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_BACK)) {
+					if (holder.project != null) {
+						holder.project.setDescription(editDescription.getText().toString());
+						StorageHandler.getInstance().saveProject(holder.project);
+						((TextView) holder.projectOverview.findViewById(R.id
+								.my_projects_activity_description_content)).setText(editDescription.getText());
+					}
+					editDescription.setVisibility(View.GONE);
+					holder.projectOverview.findViewById(R.id.my_projects_activity_description_content).setVisibility(View.VISIBLE);
+					return true;
+				}
+				return false;
+			}
+		});
+
 		if (checkedProjects.contains(position)) {
 			holder.checkbox.setChecked(true);
 		} else {
@@ -247,20 +312,6 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			clearCheckedProjects();
 		}
 
-		//set project description:
-
-		// temporarily removed - because of upcoming release, and bad performance of projectdescription
-		//		ProjectManager projectManager = ProjectManager.getInstance();
-		//		String currentProjectName = projectManager.getCurrentProject().getName();
-
-		//		if (projectName.equalsIgnoreCase(currentProjectName)) {
-		//			holder.description.setText(projectManager.getCurrentProject().description);
-		//		} else {
-		//			projectManager.loadProject(projectName, context, false);
-		//			holder.description.setText(projectManager.getCurrentProject().description);
-		//			projectManager.loadProject(currentProjectName, context, false);
-		//		}
-
 		return projectView;
 	}
 
@@ -268,5 +319,63 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		void onProjectChecked();
 
 		void onProjectEdit(int position);
+	}
+
+	private void setProjectOverview(final String projectName, final ViewHolder holder) {
+		if (holder.project != null) {
+			holder.projectOverview.setVisibility(View.VISIBLE);
+			return;
+		}
+
+		holder.projectProgressBar.setVisibility(View.VISIBLE);
+
+		final TextView authorView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_author_content);
+		final TextView screenSizeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_screen_size_content);
+		final TextView modeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_mode_content);
+		final TextView remixView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_remix_content);
+		final TextView descriptionView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_description_content);
+		final EditText descriptionEditView = (EditText) holder.projectOverview.findViewById(R.id.my_projects_activity_description_edit);
+
+		final Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				Project project;
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				if (currentProject != null && currentProject.getName().equals(projectName)) {
+					project = currentProject;
+				} else {
+					project = StorageHandler.getInstance().loadProject(projectName);
+				}
+				final Project finalProject = project;
+				((Activity) getContext()).runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (finalProject != null) {
+							XmlHeader header = finalProject.getXmlHeader();
+							screenSizeView.setText(header.getVirtualScreenWidth() + "x" + header.getVirtualScreenHeight());
+							if (header.islandscapeMode()) {
+								modeView.setText(getContext().getString(R.string.landscape));
+							} else {
+								modeView.setText(getContext().getString(R.string.portrait));
+							}
+							descriptionView.setText(header.getDescription());
+							descriptionEditView.setText(header.getDescription());
+							holder.project = finalProject;
+
+							String unknown = getContext().getString(R.string.unknown);
+							String text = header.getUserHandle().trim().equals("") ? unknown : header.getUserHandle();
+							authorView.setText(text);
+							text = header.getRemixOf().trim().equals("") ? unknown : header.getRemixOf();
+							remixView.setText(text);
+						}
+						holder.projectProgressBar.setVisibility(View.GONE);
+						holder.projectOverview.setVisibility(View.VISIBLE);
+					}
+				});
+			}
+		};
+
+		Thread thread = new Thread(runnable);
+		thread.start();
 	}
 }
