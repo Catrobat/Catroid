@@ -33,6 +33,7 @@
 -dontwarn com.thoughtworks.xstream.**
 -dontwarn com.badlogic.gdx.jnigen.**
 
+
 # keep all serializable classes because we are using xstream
 -keepnames class * implements java.io.Serializable
 
