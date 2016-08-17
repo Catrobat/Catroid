@@ -71,10 +71,10 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
 
 	private static final String TAG = DroneInitializer.class.getSimpleName();
-
 	private PreStageActivity prestageStageActivity;
 
 	public DroneInitializer(PreStageActivity prestageStageActivity) {
+		Log.d(TAG, "prestage: " + prestageStageActivity);
 		this.prestageStageActivity = prestageStageActivity;
 	}
 
