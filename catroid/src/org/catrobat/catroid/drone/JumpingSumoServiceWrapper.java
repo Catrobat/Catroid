@@ -36,6 +36,7 @@ public final class JumpingSumoServiceWrapper {
 
 	private static JumpingSumoServiceWrapper instance = null;
 	private static JumpingSumoInitializer jumpingSumoInitializer = null;
+	private static final String TAG = JumpingSumoServiceWrapper.class.getSimpleName();
 
 	private JumpingSumoServiceWrapper() {
 	}
@@ -74,8 +75,7 @@ public final class JumpingSumoServiceWrapper {
 		if (SettingsActivity.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())) {
 			jumpingSumoInitializer = getJumpingSumoInitialiser(prestageStageActivity);
 			jumpingSumoInitializer.initialise();
-			//jumpingSumoInitializer.checkJumpingSumoAvailability();
-			prestageStageActivity.resourceInitialized();
+			jumpingSumoInitializer.checkJumpingSumoAvailability();
 		} else {
 			showTermsOfUseDialog(prestageStageActivity);
 		}

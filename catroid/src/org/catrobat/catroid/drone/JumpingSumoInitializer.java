@@ -60,6 +60,9 @@ import static org.catrobat.catroid.CatroidApplication.getAppContext;
 
 public class JumpingSumoInitializer {
 
+	//boolean isNotified = false;
+	//private static final long timeout = 5000;
+
 	private static final List<ARDiscoveryDeviceService> DRONELIST = new ArrayList<>();
 	public JumpingSumoDiscoverer jsDiscoverer;
 
@@ -131,19 +134,35 @@ public class JumpingSumoInitializer {
 			jsDiscoverer.setup();
 			jsDiscoverer.addListener(discovererListener);
 		}
-		//TODO: check, if Jumping Sumo is available
-		//checkJumpingSumoAvailability();
 	}
 
-	/*
+
 	public void checkJumpingSumoAvailability() {
-		Log.d(TAG, "TGr countjumpSumo: " + jumpingSumoCount);
+		Log.d(TAG, "TGr count jumpSumo: " + jumpingSumoCount);
+
+/*
+		if(!this.isNotified) {
+			try {
+				Log.d(TAG, "TGr: ttttimeout");
+				this.wait(timeout);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		this.isNotified=false;
+		*/
+		//TODO wait until #timeout for drone, if found use else-path, otherwise show ErrorDialog
+		//disabled with: jumpingSumoCount = 1;
+		jumpingSumoCount = 1;
+
 		if (jumpingSumoCount == 0) {
 			showUnCancellableErrorDialog(prestageStageActivity,
 					prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected_title),
 					prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected));
+		} else {
+			prestageStageActivity.resourceInitialized();
 		}
-	}*/
+	}
 
 	private void notifyConfigureDecoder(ARControllerCodec codec) {
 		List<Listener> listenersCpy = new ArrayList<>(listeners);
@@ -161,8 +180,6 @@ public class JumpingSumoInitializer {
 		//TODO TGr JUMPING_SUMO_BATTERY_THRESHOLD???
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
 			disconnect();
-			JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
-			controller.setDeviceController(null);
 			Log.e(TAG, "Jumping Sumo Battery too low");
 		}
 	}
@@ -184,7 +201,6 @@ public class JumpingSumoInitializer {
 			Log.d(TAG, "JumpingSumo: " + dronesList.size() + " Drones found");
 			jumpingSumoCount = dronesList.size();
 			if (jumpingSumoCount > 0) {
-
 				Log.i(TAG, "The Name of the first JumpingSumo is: " + dronesList.get(0));
 				ARDiscoveryDeviceService service = dronesList.get(0);
 				ARDiscoveryDevice discoveryDevice = createDiscoveryDevice(service, ARDISCOVERY_PRODUCT_ENUM.ARDISCOVERY_PRODUCT_JS);
@@ -197,6 +213,8 @@ public class JumpingSumoInitializer {
 
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
 				controller.setDeviceController(deviceController);
+				//JumpingSumoInitializer.this.isNotified = true;
+				//JumpingSumoInitializer.this.notify();
 			}
 		}
 	};

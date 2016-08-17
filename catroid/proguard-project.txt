@@ -33,13 +33,17 @@
 -dontwarn com.thoughtworks.xstream.**
 -dontwarn com.badlogic.gdx.jnigen.**
 
+
 #remove 192 errors???
 #-dontoptimize
-#-keepattributes EnclosingMethod
-#-keepattributes InnerClasses
 #-keep class com.newrelic.** { *; }
 #-dontwarn com.newrelic.**
-#-keepattributes Exceptions, Signature, InnerClasses
+#-keepattributes Exceptions
+#-keepattributes Signature
+#-keepattributes InnerClasses
+-keepattributes EnclosingMethod
+
+
 
 # keep all serializable classes because we are using xstream
 -keepnames class * implements java.io.Serializable
