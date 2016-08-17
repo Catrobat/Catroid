@@ -36,7 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -97,13 +97,13 @@ public class SetPenColorBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_set_pen_color, null);
 
 		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_red_prototype_text_view);
-		textValueRed.setText(String.valueOf(BrickValues.PEN_COLOR.r));
+		textValueRed.setText(String.valueOf(BrickValues.PEN_COLOR.r * 255));
 
 		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_green_prototype_text_view);
-		textValueGreen.setText(String.valueOf(BrickValues.PEN_COLOR.g));
+		textValueGreen.setText(String.valueOf(BrickValues.PEN_COLOR.g * 255));
 
 		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_blue_prototype_text_view);
-		textValueBlue.setText(String.valueOf(BrickValues.PEN_COLOR.b));
+		textValueBlue.setText(String.valueOf(BrickValues.PEN_COLOR.b * 255));
 
 		return prototypeView;
 	}
@@ -273,6 +273,6 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }

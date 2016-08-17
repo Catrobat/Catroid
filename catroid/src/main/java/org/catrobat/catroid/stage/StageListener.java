@@ -206,15 +206,15 @@ public class StageListener implements ApplicationListener {
 
 		clonedSprites = new HashSet<>();
 		sprites = new ArrayList<>(scene.getSpriteList());
-		boolean firstSprite = true;
+		boolean addPenActor = true;
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
-			if (firstSprite) {
+			if (addPenActor) {
 				penActor = new PenActor();
 				stage.addActor(penActor);
-				firstSprite = false;
+				addPenActor = false;
 			}
 			sprite.resume();
 		}
@@ -859,6 +859,7 @@ public class StageListener implements ApplicationListener {
 		public boolean axesOn = false;
 		public float deltaActionTimeDivisor;
 		public boolean cameraRunning;
+		public PenActor penActor;
 
 		public StageBackup() {
 		}
@@ -889,6 +890,7 @@ public class StageListener implements ApplicationListener {
 			CameraManager.getInstance().pauseForScene();
 			//CameraManager.getInstance().releaseCamera();
 		}
+		backup.penActor = penActor;
 		return backup;
 	}
 
@@ -918,5 +920,6 @@ public class StageListener implements ApplicationListener {
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		penActor = backup.penActor;
 	}
 }

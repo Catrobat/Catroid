@@ -173,7 +173,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_looks))) {
 			tempList = setupLooksCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_pen))) {
-			tempList = setupPenCategoryList(context);
+			tempList = setupPenCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
@@ -380,14 +380,14 @@ public class CategoryBricksFactory {
 		return looksBrickList;
 	}
 
-	private List<Brick> setupPenCategoryList(Context context) {
+	private List<Brick> setupPenCategoryList(Sprite sprite) {
 		List<Brick> penBrickList = new ArrayList<>();
 
-		if (!ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
+		if (!isBackground(sprite)) {
 			penBrickList.add(new PenDownBrick());
 			penBrickList.add(new PenUpBrick());
 			penBrickList.add(new SetPenSizeBrick(4));
-			penBrickList.add(new SetPenColorBrick(255, 255, 255));
+			penBrickList.add(new SetPenColorBrick(0, 0, 255));
 			penBrickList.add(new StampBrick());
 		}
 
