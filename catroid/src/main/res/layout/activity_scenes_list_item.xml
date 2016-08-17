@@ -26,8 +26,6 @@
               android:layout_height="wrap_content"
               android:orientation="vertical" >
 
-    <include layout="@layout/activity_project_scenes_headline" />
-
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="@dimen/activity_linear_layout_height"
                   android:orientation="horizontal"
@@ -85,9 +83,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="8dp" />
             </LinearLayout>
-
         </RelativeLayout>
-
-
     </LinearLayout >
 </LinearLayout>

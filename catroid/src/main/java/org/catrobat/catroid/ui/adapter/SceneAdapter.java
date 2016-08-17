@@ -62,7 +62,6 @@ public class SceneAdapter extends ArrayAdapter<Scene> {
 
 	protected static class ViewHolder {
 		protected RelativeLayout background;
-		protected LinearLayout scenesHeadline;
 		protected CheckBox checkbox;
 		protected TextView sceneName;
 		protected ImageView image;
@@ -142,7 +141,6 @@ public class SceneAdapter extends ArrayAdapter<Scene> {
 			sceneView = inflater.inflate(R.layout.activity_scenes_list_item, parent, false);
 			holder = new ViewHolder();
 			holder.background = (RelativeLayout) sceneView.findViewById(R.id.activity_scenes_list_item_relative_layout);
-			holder.scenesHeadline = (LinearLayout) sceneView.findViewById(R.id.scenelist_headline);
 			holder.checkbox = (CheckBox) sceneView.findViewById(R.id.scene_checkbox);
 			holder.sceneName = (TextView) sceneView.findViewById(R.id.activity_scenes_list_item_text_view);
 			holder.image = (ImageView) sceneView.findViewById(R.id.activity_scenes_list_item_image_view);
@@ -236,12 +234,6 @@ public class SceneAdapter extends ArrayAdapter<Scene> {
 			holder.checkbox.setChecked(false);
 			holder.background.setBackgroundResource(R.drawable.button_background_selector);
 			clearCheckedScenes();
-		}
-
-		if (position == 0 && !scene.isBackPackScene) {
-			holder.scenesHeadline.setVisibility(View.VISIBLE);
-		} else {
-			holder.scenesHeadline.setVisibility(View.GONE);
 		}
 
 		return sceneView;

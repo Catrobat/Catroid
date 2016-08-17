@@ -851,37 +851,6 @@ public final class StorageHandler {
 		return true;
 	}
 
-	public Scene cloneScene(Scene sourceScene) throws IOException, NullPointerException {
-		Project project = new Project();
-		List<Scene> list = new ArrayList<>();
-		File codeFile = createTempCodeFile();
-		list.add(sourceScene);
-		project.setSceneList(list);
-
-		String xml = xstream.toXML(project);
-		Files.write(xml, codeFile, Charset.defaultCharset());
-
-		project = (Project) xstream.getProjectFromXML(codeFile);
-		Scene result = project.getDefaultScene();
-
-		UtilFile.deleteDirectory(new File(Constants.TMP_PATH));
-
-		if (result == null) {
-			throw new NullPointerException("Scene was not found in Project!");
-		}
-		return result;
-	}
-
-	private File createTempCodeFile() throws IOException {
-		File tmpDir = new File(Constants.TMP_PATH);
-		if (!tmpDir.exists()) {
-			tmpDir.mkdir();
-		}
-		File codeFile = new File(Constants.TMP_PATH, Constants.PROJECTCODE_NAME);
-		codeFile.createNewFile();
-		return codeFile;
-	}
-
 	private void createProjectFileStructure(Project project) throws IOException {
 		Log.d(TAG, "create Project Data structure");
 		createCatroidRoot();

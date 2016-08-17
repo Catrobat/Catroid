@@ -30,6 +30,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -115,22 +116,42 @@ public class Scene implements Serializable {
 
 	@Override
 	public Scene clone() {
-		Scene result = null;
-		try {
-			result = StorageHandler.getInstance().cloneScene(this);
-			result.correctUserVariableAndListReferences();
-			return result;
-		} catch (Exception e) {
-			Log.e("Scene.clone", e.getMessage());
-			return result;
+		Scene clonedScene = new Scene();
+		clonedScene.sceneName = sceneName;
+		clonedScene.originalWidth = originalWidth;
+		clonedScene.originalHeight = originalHeight;
+		clonedScene.physicsWorld = new PhysicsWorld(originalWidth, originalHeight);
+		clonedScene.project = project;
+		clonedScene.firstStart = firstStart;
+		clonedScene.isBackPackScene = isBackPackScene;
+
+		clonedScene.dataContainer = new DataContainer(project);
+		ProjectManager.getInstance().setCurrentScene(this);
+		for (Sprite sprite : spriteList) {
+			Sprite cloneSprite = sprite.cloneForScene();
+			for (UserBrick userBrick : cloneSprite.getUserBrickList()) {
+				ProjectManager.getInstance().setCurrentScene(clonedScene);
+				userBrick.updateUserBrickParametersAndVariables();
+				ProjectManager.getInstance().setCurrentScene(this);
+			}
+			clonedScene.spriteList.add(cloneSprite);
 		}
+
+		clonedScene.dataContainer.cloneSpriteListsForScene(clonedScene, dataContainer);
+		clonedScene.dataContainer.cloneSpriteVariablesForScene(clonedScene, dataContainer);
+		if (!isBackPackScene) {
+			clonedScene.correctUserVariableAndListReferences();
+		}
+
+		return clonedScene;
 	}
 
 	public Scene cloneForBackPack() {
 		Scene clonedScene;
 		try {
 			ProjectManager.getInstance().checkNestingBrickReferences(false, true, true);
-			clonedScene = StorageHandler.getInstance().cloneScene(this);
+			clonedScene = clone();
+			clonedScene.isBackPackScene = false;
 			if (!clonedScene.mergeProjectVariables()) {
 				return null;
 			}
@@ -169,7 +190,7 @@ public class Scene implements Serializable {
 			if (dataContainer.existVariableInAnySprite(variable, spriteList)) {
 				return false;
 			}
-			if (!dataContainer.existProjectVariableWithName(variable)) {
+			if (!dataContainer.existProjectVariableWithName(variable) && !dataContainer.existUserVariableWithName(variable)) {
 				dataContainer.addProjectUserVariable(variable);
 			}
 		}

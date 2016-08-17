@@ -22,11 +22,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/scenelist_headline"
-              style="@style/headlineLinearLayout" >
+              android:id="@+id/sceneList_headline"
+              style="@style/headlineLinearLayout"
+              android:visibility="gone">
 
     <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/headlineTextView"
+        style="@style/headlineTextViewObjects"
         android:text="@string/scenes" />
 
     <View style="@style/headlineView" />

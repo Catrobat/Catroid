@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -82,7 +83,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		for (SoundInfo soundInfo : sprite.getSoundList()) {
 			if (sound != null && soundInfo != null && soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
 				copyBrick.sound = soundInfo.clone();
-				copyBrick.sound.isBackpackSoundInfo = true;
+				copyBrick.sound.isBackpackSoundInfo = !sprite.cloneForScene;
 				break;
 			}
 		}

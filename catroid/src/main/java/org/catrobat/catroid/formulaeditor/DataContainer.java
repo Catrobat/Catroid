@@ -23,12 +23,14 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
@@ -71,6 +73,42 @@ public class DataContainer implements Serializable {
 	}
 
 	private DataContainer() {
+	}
+
+	public void cloneSpriteVariablesForScene(Scene scene, DataContainer original) {
+		Map<Sprite, List<UserVariable>> clonedList = new HashMap<>();
+
+		for (Map.Entry<Sprite, List<UserVariable>> entry : original.spriteVariables.entrySet()) {
+			List<UserVariable> newList = new ArrayList<>();
+			for (UserVariable userVariable : entry.getValue()) {
+				newList.add(new UserVariable(userVariable.getName()));
+			}
+
+			if (entry.getKey() == null) {
+				continue;
+			}
+
+			Sprite newSpriteInstance = scene.getSpriteBySpriteName(entry.getKey().getName());
+			clonedList.put(newSpriteInstance, newList);
+		}
+
+		spriteVariables = clonedList;
+	}
+
+	public void cloneSpriteListsForScene(Scene scene, DataContainer original) {
+		Map<Sprite, List<UserList>> clonedList = new HashMap<>();
+
+		for (Map.Entry<Sprite, List<UserList>> entry : original.spriteListOfLists.entrySet()) {
+			List<UserList> newList = new ArrayList<>();
+			for (UserList userList : entry.getValue()) {
+				newList.add(new UserList(userList.getName()));
+			}
+
+			Sprite newSpriteInstance = scene.getSpriteBySpriteName(entry.getKey().getName());
+			clonedList.put(newSpriteInstance, newList);
+		}
+
+		spriteListOfLists = clonedList;
 	}
 
 	public void setSpriteVariablesForSupportContainer(SupportDataContainer container) {
@@ -582,6 +620,17 @@ public class DataContainer implements Serializable {
 		for (UserList list : getProjectLists()) {
 			if (name.equals(list.getName())) {
 				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean existUserVariableWithName(String name) {
+		for (List<UserVariable> variables : userBrickVariables.values()) {
+			for (UserVariable variable : variables) {
+				if (variable.getName().equals(name)) {
+					return true;
+				}
 			}
 		}
 		return false;
