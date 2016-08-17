@@ -113,7 +113,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		//disable Cast features before API 19 - KitKat
-		if ((!BuildConfig.FEATURE_CAST_ENABLED) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) ){
+		if ((!BuildConfig.FEATURE_CAST_ENABLED) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)) {
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
 			screen.removePreference(globalCastPreference);

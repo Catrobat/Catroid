@@ -28,7 +28,7 @@
         android:id="@+id/cast_button"
         android:showAsAction="always"
         android:title="@string/cast_button_menu_item_title"
-        android:icon="@drawable/ic_cast_white_24dp"
+        android:icon="@drawable/ic_cast_white"
         android:visible="false"/>
     <item
         android:id="@+id/settings"

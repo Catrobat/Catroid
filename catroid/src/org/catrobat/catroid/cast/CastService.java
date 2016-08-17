@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.cast;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Display;
@@ -47,14 +48,14 @@ public class CastService extends CastRemoteDisplayLocalService {
 	public void onDismissPresentation() {
 		dismissPresentation();
 	}
-
+	@SuppressLint("NewApi")
 	private void dismissPresentation() {
 		if (presentation != null) {
 			presentation.dismiss();
 			presentation = null;
 		}
 	}
-
+	@SuppressLint("NewApi")
 	public void createPresentation(Display display) {
 		if (display != null) {
 			this.display = display;
@@ -78,6 +79,7 @@ public class CastService extends CastRemoteDisplayLocalService {
 		}
 
 		@Override
+		@SuppressLint("NewApi")
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 

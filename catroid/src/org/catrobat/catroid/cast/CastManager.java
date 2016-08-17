@@ -100,7 +100,7 @@ public final class CastManager {
 
 	public synchronized void setIsConnected(boolean isConnected) {
 
-		int drawableId = isConnected ? R.drawable.ic_cast_connected_white_24dp : R.drawable.ic_cast_white_24dp;
+		int drawableId = isConnected ? R.drawable.ic_cast_connected_white : R.drawable.ic_cast_white;
 		castButton.setIcon(drawableId);
 		this.isConnected = isConnected;
 		initializingActivity.invalidateOptionsMenu();

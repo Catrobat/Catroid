@@ -128,7 +128,7 @@
             android:layout_alignParentTop="true"
             android:background="@color/stage_dialog_background_color"
             android:layout_margin="25dp"
-            android:src="@drawable/ic_cast_connected_white_24dp"
+            android:src="@drawable/ic_cast_connected_white"
             android:visibility="gone" />
 
 </RelativeLayout>
