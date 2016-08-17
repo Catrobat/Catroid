@@ -22,16 +22,20 @@
  */
 package org.catrobat.catroid.drone;
 
+import android.os.Bundle;
+
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.dialogs.TermsOfUseJSDialogFragment;
 
 public final class JumpingSumoServiceWrapper {
-	private static final String TAG = JumpingSumoServiceWrapper.class.getSimpleName();
 
 	private static JumpingSumoServiceWrapper instance = null;
+	private static JumpingSumoInitializer jumpingSumoInitializer = null;
 
 	private JumpingSumoServiceWrapper() {
 	}
@@ -48,10 +52,39 @@ public final class JumpingSumoServiceWrapper {
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		boolean isJSAvailable = (((requiredResources & Brick.JUMPING_SUMO) > 0) && BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED);
 		return isJSAvailable;
-
 	}
 
 	public static boolean isJumpingSumoSharedPreferenceEnabled() {
 		return SettingsActivity.isJSSharedPreferenceEnabled(CatroidApplication.getAppContext());
+	}
+
+	public static void showTermsOfUseDialog(PreStageActivity preStageActivity) {
+		Bundle args = new Bundle();
+		args.putBoolean(TermsOfUseJSDialogFragment.DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, true);
+
+		TermsOfUseJSDialogFragment termsOfUseDialog = new TermsOfUseJSDialogFragment();
+		termsOfUseDialog.setPrestageStageActivity(preStageActivity);
+		termsOfUseDialog.setArguments(args);
+
+		termsOfUseDialog.show(preStageActivity.getFragmentManager(),
+				TermsOfUseJSDialogFragment.DIALOG_FRAGMENT_TAG);
+	}
+
+	public static void initJumpingSumo(PreStageActivity prestageStageActivity) {
+		if (SettingsActivity.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())) {
+			jumpingSumoInitializer = getJumpingSumoInitialiser(prestageStageActivity);
+			jumpingSumoInitializer.initialise();
+			//jumpingSumoInitializer.checkJumpingSumoAvailability();
+			prestageStageActivity.resourceInitialized();
+		} else {
+			showTermsOfUseDialog(prestageStageActivity);
+		}
+	}
+
+	public static JumpingSumoInitializer getJumpingSumoInitialiser(PreStageActivity prestageStageActivity) {
+		if (jumpingSumoInitializer == null) {
+			jumpingSumoInitializer = new JumpingSumoInitializer(prestageStageActivity);
+		}
+		return jumpingSumoInitializer;
 	}
 }

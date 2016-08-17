@@ -25,7 +25,6 @@ package org.catrobat.catroid.drone;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -51,9 +50,7 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +72,10 @@ public class JumpingSumoInitializer {
 	private static final String TAG = JumpingSumoInitializer.class.getSimpleName();
 
 	private PreStageActivity prestageStageActivity;
-	private ARCONTROLLER_DEVICE_STATE_ENUM mstate = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
+	private ARCONTROLLER_DEVICE_STATE_ENUM deviceState = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
+
+	public static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
+	public static int jumpingSumoCount = 0;
 
 	public interface Listener {
 		/**
@@ -112,15 +112,6 @@ public class JumpingSumoInitializer {
 		this.prestageStageActivity = prestageStageActivity;
 	}
 
-	private void showTermsOfUseDialog() {
-		Bundle args = new Bundle();
-		args.putBoolean(TermsOfUseDialogFragment.DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, true);
-		TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
-		termsOfUseDialog.setArguments(args);
-		termsOfUseDialog.show(prestageStageActivity.getFragmentManager(),
-				TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
-	}
-
 	public boolean disconnect() {
 		boolean success = false;
 		if (deviceController != null) {
@@ -135,19 +126,24 @@ public class JumpingSumoInitializer {
 	}
 
 	public void initialise() {
-		if (true/*SettingsActivity.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())
-		*/) {
-			jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
-
-			if (checkRequirements()) {
-				jsDiscoverer.setup();
-				jsDiscoverer.addListener(discovererListener);
-			}
-		} else {
-			showTermsOfUseDialog();
-			//TODO irgendwas sollt ich hier tun und auch beim DroneInitializer sollt ich da was machen...
+		jsDiscoverer = new JumpingSumoDiscoverer(getAppContext());
+		if (checkRequirements()) {
+			jsDiscoverer.setup();
+			jsDiscoverer.addListener(discovererListener);
 		}
+		//TODO: check, if Jumping Sumo is available
+		//checkJumpingSumoAvailability();
 	}
+
+	/*
+	public void checkJumpingSumoAvailability() {
+		Log.d(TAG, "TGr countjumpSumo: " + jumpingSumoCount);
+		if (jumpingSumoCount == 0) {
+			showUnCancellableErrorDialog(prestageStageActivity,
+					prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected_title),
+					prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected));
+		}
+	}*/
 
 	private void notifyConfigureDecoder(ARControllerCodec codec) {
 		List<Listener> listenersCpy = new ArrayList<>(listeners);
@@ -162,12 +158,12 @@ public class JumpingSumoInitializer {
 			listener.onBatteryChargeChanged(battery);
 		}
 		Log.d(TAG, "Jumping Sumo Battery: " + battery);
-		//TODO TGr 3???
-		if (battery < 3) {
+		//TODO TGr JUMPING_SUMO_BATTERY_THRESHOLD???
+		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
 			disconnect();
 			JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
 			controller.setDeviceController(null);
-			Log.i(TAG, "Jumping Sumo Battery too low");
+			Log.e(TAG, "Jumping Sumo Battery too low");
 		}
 	}
 
@@ -186,7 +182,9 @@ public class JumpingSumoInitializer {
 			JumpingSumoInitializer.DRONELIST.clear();
 			JumpingSumoInitializer.DRONELIST.addAll(dronesList);
 			Log.d(TAG, "JumpingSumo: " + dronesList.size() + " Drones found");
-			if (dronesList.size() > 0) {
+			jumpingSumoCount = dronesList.size();
+			if (jumpingSumoCount > 0) {
+
 				Log.i(TAG, "The Name of the first JumpingSumo is: " + dronesList.get(0));
 				ARDiscoveryDeviceService service = dronesList.get(0);
 				ARDiscoveryDevice discoveryDevice = createDiscoveryDevice(service, ARDISCOVERY_PRODUCT_ENUM.ARDISCOVERY_PRODUCT_JS);
@@ -263,9 +261,9 @@ public class JumpingSumoInitializer {
 	private final ARDeviceControllerListener deviceControllerListener = new ARDeviceControllerListener() {
 		@Override
 		public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
-			mstate = newState;
+			deviceState = newState;
 
-			if ((mstate.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+			if ((deviceState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
 				jsDiscoverer.removeListener(discovererListener);
 			}
 		}

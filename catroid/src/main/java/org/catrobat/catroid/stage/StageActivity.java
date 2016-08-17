@@ -258,7 +258,6 @@ public class StageActivity extends AndroidApplication {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		FlashUtil.pauseFlash();
-		jumpingSumoDisconnect();
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
 

@@ -38,17 +38,22 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.JumpingSumoInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 
-public class TermsOfUseDialogFragment extends DialogFragment {
-	private static final String TAG = TermsOfUseDialogFragment.class.getSimpleName();
+public class TermsOfUseJSDialogFragment extends DialogFragment {
+	private static final String TAG = TermsOfUseJSDialogFragment.class.getSimpleName();
+	private static PreStageActivity prestageStageActivity;
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_terms_of_use";
 	public static final String DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT = "dialog_terms_of_use_accept";
 
 	CheckBox checkboxTermsOfUseAcceptedPermanently = null;
+
+	public static void setPrestageStageActivity(PreStageActivity preState) {
+		prestageStageActivity = preState;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -73,19 +78,18 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 		termsOfUseDialogBuilder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				Log.d(TAG, "TGr onClick OK");
 				if (getActivity() instanceof PreStageActivity) {
 					if (checkboxTermsOfUseAcceptedPermanently != null
 							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
-						SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 						SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 					}
-					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getDroneInitialiser();
-					if (droneInitializer != null && droneInitializer.checkRequirements()) {
-						droneInitializer.checkDroneConnectivity();
+					JumpingSumoInitializer jsDiscoverer = ((PreStageActivity) getActivity()).getJumpingSumoInitialiser();
+					if (jsDiscoverer != null && jsDiscoverer.checkRequirements()) {
+						jsDiscoverer.initialise();
+						//jsDiscoverer.checkJumpingSumoAvailability();
+						prestageStageActivity.resourceInitialized();
 					}
 				}
-
 				dialog.dismiss();
 			}
 		});
