@@ -23,7 +23,6 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
