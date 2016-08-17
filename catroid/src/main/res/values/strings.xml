@@ -965,9 +965,11 @@
     <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
-    <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
     <string name="error_drone_wrong_platform">We cannot run a ARDrone project on your device.</string>
     <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+    <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+    <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+    <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
         project is not possible.</string>

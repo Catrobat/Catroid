@@ -98,7 +98,6 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, "onCreate()");
 
 		numberOfSpritesCloned = 0;
 		setupAskHandler();
@@ -259,7 +258,6 @@ public class StageActivity extends AndroidApplication {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		FlashUtil.pauseFlash();
-		jumpingSumoDisconnect();
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
 

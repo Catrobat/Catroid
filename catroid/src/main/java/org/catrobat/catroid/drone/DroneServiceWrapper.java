@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.drone;
 
-import android.util.Log;
-
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.BuildConfig;

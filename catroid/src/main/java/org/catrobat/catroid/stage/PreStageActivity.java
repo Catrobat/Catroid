@@ -171,9 +171,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
 			CatroidApplication.loadSDKLib();
 			if (CatroidApplication.parrotJSLibrariesLoaded) {
-				jumpingSumoInitializer = getJumpingSumoInitialiser();
-				jumpingSumoInitializer.initialise();
-				resourceInitialized();
+				JumpingSumoServiceWrapper.initJumpingSumo(PreStageActivity.this);
 			}
 		}
 
