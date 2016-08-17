@@ -110,7 +110,7 @@
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_drone_bricks">Parrot Drone bricks</string>
-    <string name="preference_description_drone_bricks">Allow to control Parrots DroneA</string>
+    <string name="preference_description_drone_bricks">Allow to control Parrots Drone</string>
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
