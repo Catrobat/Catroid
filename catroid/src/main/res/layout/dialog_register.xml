@@ -78,9 +78,8 @@
 
         <EditText
             android:id="@+id/dialog_register_password"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/dialog_register_password_text_id"
-            android:inputType="textPassword" />
+            style="@style/DefaultDialog.EditText.Password"
+            android:layout_below="@+id/dialog_register_password_text_id" />
 
         <org.catrobat.catroid.ui.CapitalizedTextView
             android:id="@+id/dialog_register_password_confirm_text"
@@ -95,22 +94,19 @@
 
         <EditText
             android:id="@+id/dialog_register_password_confirm"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/dialog_register_password_confirm_text_id"
-            android:inputType="textPassword" />
+            style="@style/DefaultDialog.EditText.Password"
+            android:layout_below="@+id/dialog_register_password_confirm_text_id" />
 
         <CheckBox
             android:id="@+id/dialog_register_checkbox_showpassword"
             style="@style/DefaultDialog.Item"
             android:layout_below="@+id/dialog_register_password_confirm"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:gravity="bottom" />
 
         <TextView
             android:id="@+id/dialog_register_showpassword_text"
             style="@style/DefaultDialog.TextView"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/dialog_text_view_margin_left"
             android:layout_marginRight="@dimen/dialog_text_view_margin_right"
@@ -120,8 +116,5 @@
             android:gravity="center_horizontal"
             android:text="@string/show_password" >
         </TextView>
-
-
     </RelativeLayout >
-
 </ScrollView>

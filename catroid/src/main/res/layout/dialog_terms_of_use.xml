@@ -28,31 +28,27 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        style="@style/RelativeLayout"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/dialog_terms_of_use_text_view_info"
             style="@style/DefaultDialog.Item"
             android:layout_marginTop="@dimen/dialog_item_margin"
-            android:gravity="center|bottom"
             android:textColor="@color/spritelist_details_text_color" />
 
         <TextView
             android:id="@+id/dialog_terms_of_use_text_view_url"
             style="@style/DefaultDialog.Item"
             android:layout_below="@id/dialog_terms_of_use_text_view_info"
-            android:gravity="center|bottom"
             android:textColorLink="@color/terms_of_use_text_color"
             android:textSize="20sp" />
 
        <CheckBox
+           style="@style/WrapContent.Gone"
            android:id="@+id/dialog_terms_of_use_check_box_agree_permanently"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
            android:layout_below="@+id/dialog_terms_of_use_text_view_url"
-           android:textColor="@color/spritelist_details_text_color"
-           android:visibility="gone" />
+           android:textColor="@color/spritelist_details_text_color" />
     </RelativeLayout>
 
 </ScrollView>

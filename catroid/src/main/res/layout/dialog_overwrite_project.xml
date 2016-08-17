@@ -38,17 +38,15 @@
             android:paddingTop="18dp" >
 
             <RadioButton
+                style="@style/DialogRadioButton"
                 android:id="@+id/dialog_overwrite_project_radio_replace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/overwrite_replace"
                 android:textColor="@color/spritelist_details_text_color" />
 
             <RadioButton
+                style="@style/DialogRadioButton"
                 android:id="@+id/dialog_overwrite_project_radio_rename"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@string/overwrite_rename"
                 android:textColor="@color/spritelist_details_text_color" />

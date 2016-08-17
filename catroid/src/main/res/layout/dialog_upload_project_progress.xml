@@ -27,7 +27,7 @@
     android:theme="@android:style/Theme.Light" >
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        style="@style/RelativeLayout"
         android:layout_height="wrap_content">
 
           <TextView
@@ -48,9 +48,8 @@
            android:layout_alignParentStart="true" />
 
         <ImageView
+            style="@style/WrapContent"
             android:id="@+id/dialog_upload_progress_success_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_upload_progess_message"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />

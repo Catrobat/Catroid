@@ -328,7 +328,7 @@
   <string name="sign_in_dialog_title">Masuk</string>
   <string name="username">Nama pengguna:</string>
   <string name="password">Kata sandi:</string>
-  <string name="password_forgotten">Lupa sandi?</string>
+  <string name="forgot_your_password">Lupa sandi?</string>
   <string name="new_user_registered">Account baru telah dibuat</string>
   <string name="user_logged_in">Berhasil masuk</string>
   <string name="register_error">Berhasil Masuk</string>

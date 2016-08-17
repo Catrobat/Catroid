@@ -329,7 +329,7 @@
   <string name="sign_in_dialog_title">로그인</string>
   <string name="username">아이디</string>
   <string name="password">비밀번호:</string>
-  <string name="password_forgotten">비밀번호를 분실하셨습니까?</string>
+  <string name="forgot_your_password">비밀번호를 분실하셨습니까?</string>
   <string name="new_user_registered">새 계정이 만들어졌습니다.</string>
   <string name="user_logged_in">로그인 성공</string>
   <string name="register_error">유효하지 않은 로그인</string>

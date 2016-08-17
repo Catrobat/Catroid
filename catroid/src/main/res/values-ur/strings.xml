@@ -347,7 +347,7 @@
   <string name="sign_in_dialog_title">سائن ان کریں</string>
   <string name="username">صارف کا نام:</string>
   <string name="password">خفیہ کوڈ:</string>
-  <string name="password_forgotten">پاس ورڈ بھول گئے ہیں؟</string>
+  <string name="forgot_your_password">پاس ورڈ بھول گئے ہیں؟</string>
   <string name="new_user_registered">نیا اکاؤنٹ بن گیا</string>
   <string name="user_logged_in">کامیابی سے لاگ اِن ہوا</string>
   <string name="register_error">لاگن اِن درست نہیں</string>

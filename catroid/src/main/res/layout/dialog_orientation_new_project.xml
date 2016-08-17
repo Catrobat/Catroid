@@ -36,20 +36,14 @@
         android:paddingTop="16dp" >
 
         <RadioButton
+            style="@style/DialogRadioButton.Orientation"
             android:id="@+id/portrait"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawableLeft="@drawable/dialog_orientation_portrait"
-            android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
-            android:padding="@dimen/dialog_radio_button_padding" ></RadioButton>
+            android:drawableLeft="@drawable/dialog_orientation_portrait" ></RadioButton>
 
         <RadioButton
+            style="@style/DialogRadioButton.Orientation"
             android:id="@+id/landscape_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawableLeft="@drawable/dialog_orientation_landscape"
-            android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
-            android:padding="@dimen/dialog_radio_button_padding"></RadioButton>
+            android:drawableLeft="@drawable/dialog_orientation_landscape"></RadioButton>
 
     </RadioGroup>
 </ScrollView>

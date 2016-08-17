@@ -25,9 +25,8 @@
     style="@style/DefaultDialog" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        style="@style/LinearLayout"
+        android:layout_height="wrap_content" >
 
         <RadioGroup
             android:id="@+id/dialog_overwrite_media_radiogroup"
@@ -35,17 +34,15 @@
             android:paddingTop="12dp">
 
             <RadioButton
+                style="@style/DialogRadioButton"
                 android:id="@+id/dialog_overwrite_media_radio_replace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/overwrite_replace"
                 android:textColor="@color/spritelist_details_text_color"/>
 
             <RadioButton
+                style="@style/DialogRadioButton"
                 android:id="@+id/dialog_overwrite_media_radio_rename"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/overwrite_rename"
                 android:textColor="@color/spritelist_details_text_color"/>
         </RadioGroup>

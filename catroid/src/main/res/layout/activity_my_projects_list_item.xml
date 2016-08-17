@@ -28,30 +28,20 @@
               android:minHeight="@dimen/activity_linear_layout_height" >
 
     <CheckBox
+        style="@style/WrapContent.Gone.Margin"
         android:id="@+id/project_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/activity_check_box_margin_left"
-        android:layout_marginRight="@dimen/activity_check_box_margin_right"
-        android:visibility="gone" />
+        android:layout_marginRight="@dimen/activity_check_box_margin_right_big" />
 
     <RelativeLayout
+        style="@style/RelativeLayout"
         android:id="@+id/my_projects_activity_item_background"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
         android:background="@drawable/button_background_selector" >
 
         <ImageView
+            style="@style/ActivityFragmentImageView"
             android:id="@+id/my_projects_activity_project_image"
-            android:layout_width="72dp"
-            android:layout_height="65dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="9dp"
-            android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
-            android:cropToPadding="true"
-            android:padding="1.5dp"
-            android:scaleType="centerCrop" />
+            android:background="@drawable/my_projects_activity_list_item_thumbnail_border" />
 
         <include layout="@layout/activity_my_projects_title_details_view" />
 

@@ -1,78 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!--
-  ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2016 The Catrobat Team
-  ~ (<http://developer.catrobat.org/credits>)
-  ~
-  ~ This program is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Affero General Public License as
-  ~ published by the Free Software Foundation, either version 3 of the
-  ~ License, or (at your option) any later version.
-  ~
-  ~ An additional term exception under section 7 of the GNU Affero
-  ~ General Public License, version 3, is available at
-  ~ http://developer.catrobat.org/license_additional_term
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  ~ GNU Affero General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Affero General Public License
-  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+<!--
+~ Catroid: An on-device visual programming system for Android devices
+~ Copyright (C) 2010-2016 The Catrobat Team
+~ (<http://developer.catrobat.org/credits>)
+~
+~ This program is free software: you can redistribute it and/or modify
+~ it under the terms of the GNU Affero General Public License as
+~ published by the Free Software Foundation, either version 3 of the
+~ License, or (at your option) any later version.
+~
+~ An additional term exception under section 7 of the GNU Affero
+~ General Public License, version 3, is available at
+~ http://developer.catrobat.org/license_additional_term
+~
+~ This program is distributed in the hope that it will be useful,
+~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+~ GNU Affero General Public License for more details.
+~
+~ You should have received a copy of the GNU Affero General Public License
+~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout
+    style="@style/TableLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rgb_base_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
     android:stretchColumns="1" >
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingBottom="30dp"
-        android:paddingTop="30dp"
+        style="@style/FragmentTableRow"
         android:weightSum="100">
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/altitude_limit_ID"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="3"
-            android:layout_marginTop="10dp"
             android:paddingRight="5dp"
             android:text="@string/brick_drone_set_altitude"
             android:textColor="@color/drone_altitude_color"/>
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/rgb_red_start_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="10"
-            android:layout_marginTop="10dp"
             android:text="3"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <SeekBar
+            style="@style/Seekbar"
             android:id="@+id/altitude_limit_seekbar"
-            android:layout_width="0px"
-            android:layout_height="match_parent"
             android:layout_weight="50"
-            android:maxHeight="60dp"
             android:max="255" />
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/altitude_limit_end_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="12"
-            android:layout_marginTop="10dp"
             android:text="100"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <TextView
@@ -88,48 +75,36 @@
     </TableRow>
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingBottom="30dp"
-        android:paddingTop="30dp"
+        style="@style/FragmentTableRow"
         android:weightSum="100" >
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/vertical_speed_limit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="3"
-            android:layout_marginTop="10dp"
             android:paddingRight="5dp"
             android:text="@string/brick_drone_set_vertical_speed"
             android:textColor="@color/drone_vertical_color" />
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/vertical_speed_limit_start_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="10"
-            android:layout_marginTop="10dp"
             android:text="200"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <SeekBar
+            style="@style/Seekbar"
             android:id="@+id/vertical_speed_limit_seekbar"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="50"
-            android:maxHeight="60dp"
             android:max="255" />
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/vertical_speed_limit_end_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="12"
-            android:layout_marginTop="10dp"
             android:text="2000"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <TextView
@@ -145,48 +120,36 @@
     </TableRow>
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingBottom="30dp"
-        android:paddingTop="30dp"
+        style="@style/FragmentTableRow"
         android:weightSum="100" >
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/rotation_speed_limit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="3"
-            android:layout_marginTop="10dp"
             android:paddingRight="5dp"
             android:text="@string/brick_drone_set_rotation_speed"
             android:textColor="@color/drone_rotation_color" />
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/rotation_speed_limit_start_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="10"
-            android:layout_marginTop="10dp"
             android:text="40"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <SeekBar
+            style="@style/Seekbar"
             android:id="@+id/rotation_speed_limit_seekbar"
-            android:layout_width="0px"
-            android:layout_height="match_parent"
             android:layout_weight="50"
-            android:maxHeight="60dp"
             android:max="255" />
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/rotation_speed_limit_end_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="12"
-            android:layout_marginTop="10dp"
             android:text="350"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <TextView
@@ -201,48 +164,36 @@
     </TableRow>
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingBottom="30dp"
-        android:paddingTop="30dp"
+        style="@style/FragmentTableRow"
         android:weightSum="100" >
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/tilt_angle_limit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="3"
-            android:layout_marginTop="10dp"
             android:paddingRight="5dp"
             android:text="@string/brick_drone_set_tilt_limit"
             android:textColor="@color/drone_tilt_color" />
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/tilt_angle_limit_start_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="10"
-            android:layout_marginTop="10dp"
             android:text="5"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <SeekBar
+            style="@style/Seekbar"
             android:id="@+id/tilt_angle_limit_seekbar"
-            android:layout_width="0px"
-            android:layout_height="match_parent"
             android:layout_weight="50"
-            android:maxHeight="60dp"
             android:max="255" />
 
         <TextView
+            style="@style/FragmentDroneConfig"
             android:id="@+id/tilt_angle_limit_end_value"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="12"
-            android:layout_marginTop="10dp"
             android:text="30"
-            android:textColor="@color/drone_holo_blue_bright"
             tools:ignore="HardcodedText" />
 
         <TextView

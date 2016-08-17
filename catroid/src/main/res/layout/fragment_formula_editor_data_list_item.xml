@@ -20,12 +20,12 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    style="@style/LinearLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:longClickable="true"
-    android:orientation="vertical" >
+    android:longClickable="true" >
 
     <include layout="@layout/fragment_formula_editor_user_variables_headline" />
 
@@ -39,26 +39,27 @@
     <include layout="@layout/fragment_formula_editor_variablelist_userbrick_headline" />
 
     <LinearLayout
+        style="@style/LinearLayout"
         android:id="@+id/fragment_formula_editor_data_list_item_layout"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
         <CheckBox
+            style="@style/WrapContent.Gone"
             android:id="@+id/fragment_formula_editor_datalist_item_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:visibility="gone" />
+            android:gravity="center_vertical" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            style="@style/LinearLayout"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_background_selector"
-            android:orientation="vertical" >
+            android:background="@drawable/button_background_selector" >
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout
+                style="@style/LinearLayout"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/fragment_formula_editor_datalist_item_name_text_view"
                     style="@style/fragment_text"
@@ -83,9 +84,8 @@
             </LinearLayout >
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                style="@style/LinearLayout"
+                android:layout_height="wrap_content" >
 
                 <Spinner
                     app:layout_newLine="true"
