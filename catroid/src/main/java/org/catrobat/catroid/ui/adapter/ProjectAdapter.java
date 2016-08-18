@@ -254,16 +254,10 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 			public void onClick(View v) {
 				if (holder.projectOverview.getVisibility() == View.GONE) {
 					holder.showOverview.setImageResource(R.drawable.project_list_arrow_up);
-					holder.projectDetails.setVisibility(View.GONE);
-					holder.projectName.setSingleLine(true);
 					setProjectOverview(projectName, holder);
 				} else {
 					holder.showOverview.setImageResource(R.drawable.project_list_arrow_down);
 					holder.projectOverview.setVisibility(View.GONE);
-					if (showDetails) {
-						holder.projectDetails.setVisibility(View.VISIBLE);
-						holder.projectName.setSingleLine(false);
-					}
 				}
 			}
 		});
