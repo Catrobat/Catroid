@@ -160,6 +160,7 @@
         android:textSize="18sp"
         android:text="@string/description"
         android:layout_marginTop="12dp"
+        android:paddingRight="12dp"
         android:layout_below="@id/my_projects_activity_remix_content"/>
 
     <ImageButton
@@ -168,8 +169,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/project_list_edit"
         android:background="@color/transparent"
-        android:layout_alignParentRight="true"
         android:layout_below="@id/my_projects_activity_remix_content"
+        android:layout_toRightOf="@id/my_projects_activity_description"
         android:padding="10dp"
         android:scaleType="fitCenter"/>
 
@@ -181,7 +182,7 @@
         android:paddingLeft="12.5dp"
         android:layout_below="@id/my_projects_activity_description"/>
 
-    <EditText
+    <org.catrobat.catroid.ui.EditTextImeOverride
         android:id="@+id/my_projects_activity_description_edit"
         style="@style/ListViewItemDetailsText"
         android:layout_width="wrap_content"
