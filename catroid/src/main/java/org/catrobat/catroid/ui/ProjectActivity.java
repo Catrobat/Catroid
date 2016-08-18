@@ -26,6 +26,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -60,8 +62,13 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
+import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
+import org.catrobat.catroid.ui.fragment.ListItemActionsInterface;
+import org.catrobat.catroid.ui.fragment.ScenesListFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -72,7 +79,20 @@ public class ProjectActivity extends BaseActivity {
 
 	private static final String TAG = ProjectActivity.class.getSimpleName();
 
+	public static final int FRAGMENT_SPRITES = 0;
+	public static final int FRAGMENT_SCENES = 1;
+
+	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
+
+	private ListItemActionsInterface actionListener;
+
+	private Fragment currentFragment;
 	private SpritesListFragment spritesListFragment;
+	private ScenesListFragment scenesListFragment;
+	private static int currentFragmentPosition;
+	private FragmentManager fragmentManager = getFragmentManager();
+	private String currentFragmentTag;
+
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
@@ -85,23 +105,34 @@ public class ProjectActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_project);
 
+		currentFragmentPosition = FRAGMENT_SCENES;
+
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
 		}
+
+		if (savedInstanceState == null) {
+			Bundle bundle = this.getIntent().getExtras();
+
+			if (bundle != null) {
+				currentFragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCENES);
+			}
+		}
+
+		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
+			currentFragmentPosition =
+					FRAGMENT_SPRITES;
+		}
+
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
+		fragmentTransaction.commit();
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		updateFragment(fragmentTransaction);
-		fragmentTransaction.commit();
-
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-
 		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
@@ -141,9 +172,41 @@ public class ProjectActivity extends BaseActivity {
 		}
 	}
 
+	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
+		boolean fragmentExists = true;
+		currentFragmentPosition = fragmentPosition;
+
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SCENES:
+				if (scenesListFragment == null) {
+					scenesListFragment = new ScenesListFragment();
+					fragmentExists = false;
+				}
+				currentFragmentTag = ScenesListFragment.TAG;
+				currentFragment = scenesListFragment;
+				actionListener = scenesListFragment;
+				break;
+			case FRAGMENT_SPRITES:
+				if (spritesListFragment == null) {
+					spritesListFragment = new SpritesListFragment();
+					fragmentExists = false;
+				}
+				currentFragmentTag = SpritesListFragment.TAG;
+				currentFragment = spritesListFragment;
+				actionListener = spritesListFragment;
+				break;
+		}
+
+		if (fragmentExists) {
+			fragmentTransaction.show(currentFragment);
+		} else {
+			fragmentTransaction.add(R.id.fragment_container, currentFragment, currentFragmentTag);
+		}
+	}
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && !spritesListFragment.isLoading) {
+		if (currentFragmentPosition == FRAGMENT_SPRITES && spritesListFragment != null) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -151,9 +214,16 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (spritesListFragment != null) {
+		if (currentFragment != null) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
-			menu.findItem(R.id.backpack).setVisible(true);
+
+			if (currentFragmentPosition == FRAGMENT_SCENES) {
+				menu.findItem(R.id.show_details).setVisible(false);
+				menu.findItem(R.id.backpack).setVisible(true);
+				menu.findItem(R.id.merge_scene).setVisible(true);
+			} else {
+				menu.findItem(R.id.backpack).setVisible(true);
+			}
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -174,7 +244,7 @@ public class ProjectActivity extends BaseActivity {
 				break;
 
 			case R.id.copy:
-				spritesListFragment.startCopyActionMode();
+				actionListener.startCopyActionMode();
 				break;
 
 			case R.id.cut:
@@ -187,15 +257,42 @@ public class ProjectActivity extends BaseActivity {
 				break;
 
 			case R.id.rename:
-				spritesListFragment.startRenameActionMode();
+				actionListener.startRenameActionMode();
 				break;
 
 			case R.id.delete:
-				spritesListFragment.startDeleteActionMode();
+				actionListener.startDeleteActionMode();
 				break;
 
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
+				break;
+
+			case R.id.groups_create:
+				spritesListFragment.showNewObjectGroupDialog();
+				break;
+
+			case R.id.new_scene:
+				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+				Fragment previousFragment = getFragmentManager().findFragmentByTag(NewSceneDialog.DIALOG_FRAGMENT_TAG);
+				if (previousFragment != null) {
+					fragmentTransaction.remove(previousFragment);
+				}
+
+				boolean fromSpriteOverview = currentFragmentPosition == FRAGMENT_SPRITES;
+				fromSpriteOverview &= ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1;
+				NewSceneDialog newSceneFragment = new NewSceneDialog(false, fromSpriteOverview);
+				newSceneFragment.show(fragmentTransaction, NewSceneDialog.DIALOG_FRAGMENT_TAG);
+				break;
+			case R.id.merge_scene:
+				fragmentTransaction = getFragmentManager().beginTransaction();
+				previousFragment = getFragmentManager().findFragmentByTag(MergeSceneDialog.DIALOG_FRAGMENT_TAG);
+				if (previousFragment != null) {
+					fragmentTransaction.remove(previousFragment);
+				}
+
+				MergeSceneDialog mergeSceneDialog = new MergeSceneDialog();
+				mergeSceneDialog.show(fragmentTransaction, MergeSceneDialog.DIALOG_FRAGMENT_TAG);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -205,18 +302,25 @@ public class ProjectActivity extends BaseActivity {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		CharSequence[] items;
-		int numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedSprites().size();
+		int numberOfItemsInBackpack = 0;
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SPRITES:
+				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedSprites().size();
+				break;
+			case FRAGMENT_SCENES:
+				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedScenes().size();
+				break;
+		}
 
 		if (numberOfItemsInBackpack == 0) {
-			spritesListFragment.startBackPackActionMode();
+			actionListener.startBackPackActionMode();
 		} else {
-
 			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					if (which == 0) {
-						spritesListFragment.startBackPackActionMode();
+						actionListener.startBackPackActionMode();
 					} else if (which == 1) {
 						openBackPack();
 					}
@@ -231,7 +335,16 @@ public class ProjectActivity extends BaseActivity {
 
 	private void openBackPack() {
 		Intent intent = new Intent(this, BackPackActivity.class);
-		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SPRITES);
+		int fragmentPos = 0;
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SCENES:
+				fragmentPos = BackPackActivity.FRAGMENT_BACKPACK_SCENES;
+				break;
+			case FRAGMENT_SPRITES:
+				fragmentPos = BackPackActivity.FRAGMENT_BACKPACK_SPRITES;
+				break;
+		}
+		intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, fragmentPos);
 		startActivity(intent);
 	}
 
@@ -265,43 +378,62 @@ public class ProjectActivity extends BaseActivity {
 		}
 	}
 
-	private void updateFragment(FragmentTransaction fragmentTransaction) {
-		boolean fragmentExists = true;
-		if (spritesListFragment == null) {
-			spritesListFragment = new SpritesListFragment();
-			fragmentExists = false;
-		}
-
-		if (fragmentExists) {
-			fragmentTransaction.show(spritesListFragment);
-		} else {
-			fragmentTransaction.add(R.id.fragment_container, spritesListFragment, SpritesListFragment.TAG);
-		}
-	}
-
-	public void handleCheckBoxClick(View view) {
-		spritesListFragment.handleCheckBoxClick(view);
-	}
-
 	public void handleAddButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+
 		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		Fragment previousFragment = getFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		Fragment previousFragment;
+
+		previousFragment = getFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 		if (previousFragment != null) {
 			fragmentTransaction.remove(previousFragment);
 		}
 
-		NewSpriteDialog newFragment = new NewSpriteDialog();
-		newFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SCENES:
+				NewSceneDialog newSceneFragment = new NewSceneDialog(false, false);
+				newSceneFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				break;
+			case FRAGMENT_SPRITES:
+				NewSpriteDialog newSpriteFragment = new NewSpriteDialog();
+				newSpriteFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				break;
+		}
 	}
 
 	public void handlePlayButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SCENES:
+				ProjectManager.getInstance().setSceneToPlay(currentProject.getDefaultScene());
+				startPreStageActivity();
+				break;
+			case FRAGMENT_SPRITES:
+				if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
+					ProjectManager.getInstance().setSceneToPlay(currentScene);
+					startPreStageActivity();
+					return;
+				}
+				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+				Fragment previousFragment = getFragmentManager().findFragmentByTag(NewSceneDialog.DIALOG_FRAGMENT_TAG);
+				if (previousFragment != null) {
+					fragmentTransaction.remove(previousFragment);
+				}
+
+				PlaySceneDialog playSceneDialog = new PlaySceneDialog();
+				playSceneDialog.show(fragmentTransaction, PlaySceneDialog.DIALOG_FRAGMENT_TAG);
+				break;
+		}
+	}
+
+	public void startPreStageActivity() {
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
@@ -309,10 +441,14 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// Dismiss ActionMode without effecting sounds
-		if (spritesListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
+		if (actionListener.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
-			SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
-			adapter.clearCheckedItems();
+			if (currentFragmentPosition == FRAGMENT_SCENES && scenesListFragment.lockBackButtonForAsync) {
+				return false;
+			} else {
+				SpriteAdapter adapter = spritesListFragment.getSpriteAdapter();
+				adapter.clearCheckedItems();
+			}
 		}
 
 		return super.dispatchKeyEvent(event);
@@ -356,6 +492,10 @@ public class ProjectActivity extends BaseActivity {
 
 	public SpritesListFragment getSpritesListFragment() {
 		return spritesListFragment;
+	}
+
+	public ScenesListFragment getScenesListFragment() {
+		return scenesListFragment;
 	}
 
 	public void initializeFacebookSdk() {

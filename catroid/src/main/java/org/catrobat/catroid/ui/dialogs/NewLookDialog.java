@@ -44,6 +44,7 @@ public class NewLookDialog extends DialogFragment {
 
 	private LookFragment fragment = null;
 	private DialogInterface.OnDismissListener onDismissListener;
+	private DialogInterface.OnCancelListener onCancelListener;
 
 	public static NewLookDialog newInstance() {
 		return new NewLookDialog();
@@ -79,11 +80,22 @@ public class NewLookDialog extends DialogFragment {
 		this.onDismissListener = onDismissListener;
 	}
 
+	public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
+		this.onCancelListener = onCancelListener;
+	}
+
 	@Override
 	public void onDismiss(final DialogInterface dialog) {
 		super.onDismiss(dialog);
 		if (onDismissListener != null) {
 			onDismissListener.onDismiss(dialog);
+		}
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if (onCancelListener != null) {
+			onCancelListener.onCancel(dialog);
 		}
 	}
 

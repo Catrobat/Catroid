@@ -43,6 +43,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -60,6 +61,7 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -140,11 +142,11 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		//Bitmap bm = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), RESOURCE_IMAGE);
 
-		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
-		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
+		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "catroid_banzai.png",
 				RESOURCE_IMAGE2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
-		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.jpg",
+		imageFileJpg = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "catroid_sunglasses.jpg",
 				RESOURCE_IMAGE3, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
@@ -168,7 +170,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookData3.setLookFilename(imageFileJpg.getName());
 		lookData3.setLookName(THIRD_TEST_LOOK_NAME);
 
-		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		UtilUi.updateScreenWidthAndHeight(solo.getCurrentActivity());
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 
@@ -224,7 +226,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Empty View shown although there are items in the list!", View.GONE,
 				solo.getView(android.R.id.empty).getVisibility());
 
-		projectManager.addSprite(new Sprite("test"));
+		projectManager.addSprite(new SingleSprite("test"));
 		solo.goBack();
 		solo.goBack();
 		solo.clickInList(2);
@@ -317,7 +319,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.goBack();
 		deleteLook(FIRST_TEST_LOOK_NAME);
 		solo.sleep(50);
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 
 		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -356,10 +358,10 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertNotNull("Could not get Adapter", adapter);
 		packSingleItem(FIRST_TEST_LOOK_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -389,7 +391,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnText(SECOND_SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnText(solo.getString(R.string.look));
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(firstTestLookNamePacked, unpack);
 		solo.waitForDialogToClose(1000);
@@ -398,7 +400,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testBackPackActionModeCheckingAndTitle() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -444,7 +446,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testBackPackActionModeIfNothingSelected() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		int expectedNumberOfLooks = lookDataList.size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -452,7 +454,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 0, TIME_TO_WAIT));
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		solo.goBack();
@@ -461,7 +463,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testBackPackActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -475,7 +477,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testBackPackSelectAll() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -523,7 +525,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfFirstBackPackedLook));
 		assertTrue("Backpack look file doesn't exist", UiTestUtils.fileExists(pathOfSecondBackPackedLook));
 
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
 		int newCount = adapter.getCount();
 		solo.sleep(500);
@@ -539,12 +541,12 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testBackPackLookActionModeDifferentProgrammes() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
-		UiTestUtils.switchToProgrammBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -552,14 +554,14 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity(ScriptActivity.class);
 		assertTrue("Look wasn't unpacked!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
 		assertTrue("Look wasn't unpacked!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 		assertFalse("Look wasn't deleted!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 1000));
 		assertFalse("Look wasn't deleted!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 1000));
 	}
 
 	public void testBackPackDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -606,7 +608,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testBackPackDeleteActionModeIfNothingSelected() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		int expectedNumberOfLooks = BackPackListManager.getInstance().getBackPackedLooks().size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
@@ -615,7 +617,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		solo.goBack();
@@ -625,7 +627,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testBackPackDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -639,7 +641,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testBackPackDeleteSelectAll() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		solo.waitForActivity("BackPackActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
@@ -668,7 +670,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		// Test if showDetails is remembered after pressing back
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 		solo.waitForActivity(BackPackActivity.class.getSimpleName());
 		solo.sleep(timeToWait);
 		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
@@ -703,7 +705,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.waitForFragmentByTag(LookFragment.TAG);
 
-		UiTestUtils.openBackPackActionMode(solo, getActivity());
+		UiTestUtils.openBackPackActionMode(solo);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -746,7 +748,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteLookContextMenu() {
-		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
+		Sprite firstSprite = projectManager.getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
 
 		Log.d(TAG, "Look to delete: " + lookToDelete.getLookName());
@@ -955,6 +957,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(mediaLibraryText);
 		solo.clickOnText(mediaLibraryText);
+		solo.sleep(TIME_TO_WAIT);
 		assertTrue("Should be in Look Fragment", solo.waitForText(FIRST_TEST_LOOK_NAME));
 		wifiManager.setWifiEnabled(true);
 		while (!Utils.isNetworkAvailable(getActivity())) {
@@ -1258,7 +1261,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testEditImageWhichIsAlreadyUsed() {
-		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(),
 				"catroid_sunglasses2.png", RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		LookData lookDataToAdd = new LookData();
@@ -1406,7 +1409,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Measures prefix not visible", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1425,7 +1428,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1444,7 +1447,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on copy ActionMode
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1465,7 +1468,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1485,7 +1488,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testRenameActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1497,7 +1500,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1511,7 +1514,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testRenameActionModeEqualLookNames() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1541,7 +1544,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1589,7 +1592,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1605,7 +1608,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1625,7 +1628,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int currentNumberOfLooks = lookDataList.size();
 		int expectedNumberOfLooks = currentNumberOfLooks - 1;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1647,7 +1650,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteSelectAll() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -1665,7 +1668,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testItemClick() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForActivity("ScriptActivity");
 		solo.clickInList(2);
 
@@ -1681,7 +1684,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteAndCopyActionMode() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1702,7 +1705,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int currentNumberOfLooks = lookDataList.size();
 		assertEquals("Wrong number of looks", 5, currentNumberOfLooks);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1727,7 +1730,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testOpenDeleteDialogAndGoBack() {
 		int viewAmountBeforeDeleteMode = solo.getCurrentViews().size();
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1756,7 +1759,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testCopyActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1804,7 +1807,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testCopyActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1819,7 +1822,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testCopyActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1841,7 +1844,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String copiedLookAddition = "_" + solo.getString(R.string.copy_addition);
 		solo.sleep(500);
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1857,7 +1860,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 
 		assertTrue("Selected look '" + FIRST_TEST_LOOK_NAME + "' was not copied!",
-				solo.searchText(FIRST_TEST_LOOK_NAME, 4) && solo.searchText(FIRST_TEST_LOOK_NAME + copiedLookAddition));
+				solo.searchText(FIRST_TEST_LOOK_NAME, 2) && solo.searchText(FIRST_TEST_LOOK_NAME + copiedLookAddition));
 
 		assertTrue(
 				"Selected look '" + SECOND_TEST_LOOK_NAME + "' was not copied!",
@@ -1868,7 +1871,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testCopySelectAll() {
 		int currentNumberOfLooks = lookDataList.size();
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -1931,7 +1934,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testSelectAllActionModeButton() {
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.waitForActivity("ScriptActivity");
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
@@ -1950,7 +1953,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.waitForActivity("ScriptActivity");
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
@@ -1973,28 +1976,28 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookDataList.clear();
 		UiTestUtils.createEmptyProject();
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_backpack_and_unpack)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to delete dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_delete)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_copy)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to backpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_rename)));
@@ -2002,16 +2005,16 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testEmptyActionModeDialogsInBackPack() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to delete dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_delete)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_unpack)));
@@ -2021,9 +2024,9 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
 
 		solo.goBack();
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
-		UiTestUtils.openActionMode(solo, backpack, R.id.backpack, getActivity());
+		UiTestUtils.openActionMode(solo, backpack, R.id.backpack);
 		solo.waitForActivity(BackPackActivity.class);
 		assertTrue("Backpack wasn't opened", solo.waitForText(backpackTitle));
 	}
@@ -2104,7 +2107,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	private void packSingleItem(String lookName, boolean backPackEmpty) {
-		UiTestUtils.openActionMode(solo, backpack, R.id.backpack, getActivity());
+		UiTestUtils.openActionMode(solo, backpack, R.id.backpack);
 		if (!backPackEmpty) {
 			solo.waitForDialogToOpen();
 			solo.clickOnText(backpackAdd);
@@ -2116,7 +2119,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	private void clickSingleItemActionMode(String lookName, int menuItem, String itemName) {
-		UiTestUtils.openActionMode(solo, itemName, menuItem, getActivity());
+		UiTestUtils.openActionMode(solo, itemName, menuItem);
 		solo.clickOnText(lookName);
 		solo.sleep(TIME_TO_WAIT);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -2138,12 +2141,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
-		int startIndex = 0;
-		if (solo.getCurrentViews(CheckBox.class).size() > projectManager.getCurrentSprite().getLookDataList().size()) {
-			startIndex = 1;
-		}
-		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex);
-		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(startIndex + 1);
+		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
+		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}

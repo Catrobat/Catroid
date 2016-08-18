@@ -172,6 +172,14 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.Z_ACCELERATION);
 			case R.string.formula_editor_sensor_compass_direction:
 				return buildSensor(Sensors.COMPASS_DIRECTION);
+			case R.string.formula_editor_sensor_latitude:
+				return buildSensor(Sensors.LATITUDE);
+			case R.string.formula_editor_sensor_longitude:
+				return buildSensor(Sensors.LONGITUDE);
+			case R.string.formula_editor_sensor_location_accuracy:
+				return buildSensor(Sensors.LOCATION_ACCURACY);
+			case R.string.formula_editor_sensor_altitude:
+				return buildSensor(Sensors.ALTITUDE);
 			case R.string.formula_editor_sensor_x_inclination:
 				return buildSensor(Sensors.X_INCLINATION);
 			case R.string.formula_editor_sensor_y_inclination:
@@ -198,6 +206,20 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
 				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
+			case R.string.formula_editor_sensor_date_year:
+				return buildSensor(Sensors.DATE_YEAR);
+			case R.string.formula_editor_sensor_date_month:
+				return buildSensor(Sensors.DATE_MONTH);
+			case R.string.formula_editor_sensor_date_day:
+				return buildSensor(Sensors.DATE_DAY);
+			case R.string.formula_editor_sensor_date_weekday:
+				return buildSensor(Sensors.DATE_WEEKDAY);
+			case R.string.formula_editor_sensor_time_hour:
+				return buildSensor(Sensors.TIME_HOUR);
+			case R.string.formula_editor_sensor_time_minute:
+				return buildSensor(Sensors.TIME_MINUTE);
+			case R.string.formula_editor_sensor_time_second:
+				return buildSensor(Sensors.TIME_SECOND);
 			case R.string.formula_editor_nfc_tag_id:
 				return buildSensor(Sensors.NFC_TAG_ID);
 
@@ -298,6 +320,16 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_Y_VELOCITY);
 			case R.string.formula_editor_object_angular_velocity:
 				return buildObject(Sensors.OBJECT_ANGULAR_VELOCITY);
+			case R.string.formula_editor_object_look_number:
+				return buildObject(Sensors.OBJECT_LOOK_NUMBER);
+			case R.string.formula_editor_object_look_name:
+				return buildObject(Sensors.OBJECT_LOOK_NAME);
+			case R.string.formula_editor_object_background_number:
+				return buildObject(Sensors.OBJECT_BACKGROUND_NUMBER);
+			case R.string.formula_editor_object_background_name:
+				return buildObject(Sensors.OBJECT_BACKGROUND_NAME);
+			case R.string.formula_editor_object_distance_to:
+				return buildObject(Sensors.OBJECT_DISTANCE_TO);
 		}
 		return null;
 	}

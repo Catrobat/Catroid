@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -41,7 +42,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		StartScript testScript = new StartScript();
 
 		ForeverBrick foreverBrick = new ForeverBrick();

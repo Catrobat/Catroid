@@ -36,7 +36,7 @@ public class PointToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getSceneToPlay()
 				.getSpriteList();
 		if (!spriteList.contains(pointedSprite)) {
 			pointedSprite = null;

@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
@@ -64,7 +65,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+		testImage = TestUtils.saveFileToProject(this.projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		lookData = new LookData();
@@ -89,7 +90,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testTurnLeftTwice() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -109,7 +110,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testTurnLeftAndScale() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -124,7 +125,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testScaleAndTurnLeft() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -139,7 +140,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testTurnLeftNegative() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -152,7 +153,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testTurnLeft() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -165,7 +166,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testTurnLeftAndTurnRight() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -180,7 +181,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite,
 				new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
@@ -197,7 +198,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNullFormula() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite, null);
 		action.act(1.0f);
 		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
@@ -206,7 +207,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		Sprite sprite = new Sprite("test");
+		Sprite sprite = new SingleSprite("test");
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite,
 				new Formula(Double.NaN));
 		action.act(1.0f);

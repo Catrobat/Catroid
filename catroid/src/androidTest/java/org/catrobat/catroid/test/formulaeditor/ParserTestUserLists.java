@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -105,16 +106,16 @@ public class ParserTestUserLists extends AndroidTestCase {
 	@Override
 	protected void setUp() {
 		Project project = new Project(null, "testProject");
-		firstSprite = new Sprite("firstSprite");
+		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);

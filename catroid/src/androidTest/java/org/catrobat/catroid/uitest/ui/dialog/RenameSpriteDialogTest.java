@@ -29,6 +29,7 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -96,15 +97,15 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project project = new Project(getActivity(), projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
+		Sprite thirdSprite = new SingleSprite("horse");
+		Sprite fourthSprite = new SingleSprite("pig");
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
 
 		storageHandler.saveProject(project);
 	}

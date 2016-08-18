@@ -35,5 +35,9 @@
         android:id="@+id/menu_about"
         android:showAsAction="withText"
         android:title="@string/main_menu_about_pocketcode" />
+    <item
+        android:id="@+id/menu_scratch_converter"
+        android:showAsAction="withText"
+        android:title="@string/preference_title_scratch_converter" />
 
 </menu>

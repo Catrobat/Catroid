@@ -70,7 +70,7 @@ import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.UserBrickNameDialog;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,7 +161,7 @@ public class AddBrickFragment extends ListFragment implements DeleteModeListener
 		currentSprite.addUserBrick(newBrick);
 
 		UserScriptDefinitionBrick definitionBrick = newBrick.getDefinitionBrick();
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		String variableName = dataContainer.getUniqueVariableName(getActivity());
 
 		definitionBrick.addUIText(name);
@@ -476,7 +476,7 @@ public class AddBrickFragment extends ListFragment implements DeleteModeListener
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
 				menu);
 		selectAllActionModeButton.setOnClickListener(new View.OnClickListener() {
 
@@ -559,7 +559,7 @@ public class AddBrickFragment extends ListFragment implements DeleteModeListener
 			return;
 		}
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
 				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
 	}
 

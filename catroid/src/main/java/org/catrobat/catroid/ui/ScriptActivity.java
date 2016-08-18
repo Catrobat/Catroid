@@ -47,6 +47,8 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
@@ -57,6 +59,8 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
+import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
@@ -86,6 +90,10 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SPRITE_RENAMED = "org.catrobat.catroid.SPRITE_RENAMED";
 	public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
 	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
+	public static final String ACTION_SCENE_RENAMED = "org.catrobat.catroid.SCENE_RENAMED";
+	public static final String ACTION_SCENE_LIST_INIT = "org.catrobat.catroid.SCENE_LIST_INIT";
+	public static final String ACTION_SCENE_LIST_CHANGED = "org.catrobat.catroid.SCENE_LIST_CHANGED";
+	public static final String ACTION_SCENE_DELETED = "org.catrobat.catroid.SCENE_DELETED";
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
@@ -107,6 +115,7 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_LOOK_TOUCH_ACTION_UP = "org.catrobat.catroid.LOOK_TOUCH_ACTION_UP";
 	public static final String ACTION_NFC_TOUCH_ACTION_UP = "org.catrobat.catroid.NFC_TOUCH_ACTION_UP";
 	public static final String ACTION_SOUND_TOUCH_ACTION_UP = "org.catrobat.catroid.SOUND_TOUCH_ACTION_UP";
+	public static final String ACTION_SCENE_TOUCH_ACTION_UP = "org.catrobat.catroid.SCENE_TOUCH_ACTION_UP";
 
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;
@@ -176,8 +185,9 @@ public class ScriptActivity extends BaseActivity {
 		actionBar.setDisplayShowTitleEnabled(true);
 		try {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-			if (sprite != null) {
-				String title = sprite.getName();
+			Scene scene = ProjectManager.getInstance().getCurrentScene();
+			if (sprite != null && scene != null) {
+				String title = scene.getName() + ": " + sprite.getName();
 				actionBar.setTitle(title);
 			}
 		} catch (NullPointerException nullPointerException) {
@@ -311,6 +321,10 @@ public class ScriptActivity extends BaseActivity {
 
 			case R.id.copy:
 				currentFragment.startCopyActionMode();
+				break;
+
+			case R.id.comment_in_out:
+				currentFragment.startCommentOutActionMode();
 				break;
 
 			case R.id.cut:
@@ -604,10 +618,28 @@ public class ScriptActivity extends BaseActivity {
 			if (!viewSwitchLock.tryLock()) {
 				return;
 			}
-			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
-			Intent intent = new Intent(this, PreStageActivity.class);
-			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+
+			if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
+				ProjectManager.getInstance().setSceneToPlay(currentScene);
+				startPreStageActivity();
+				return;
+			}
+			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+			Fragment previousFragment = getFragmentManager().findFragmentByTag(NewSceneDialog.DIALOG_FRAGMENT_TAG);
+			if (previousFragment != null) {
+				fragmentTransaction.remove(previousFragment);
+			}
+
+			PlaySceneDialog playSceneDialog = new PlaySceneDialog();
+			playSceneDialog.show(fragmentTransaction, PlaySceneDialog.DIALOG_FRAGMENT_TAG);
 		}
+	}
+
+	public void startPreStageActivity() {
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	@Override
@@ -831,6 +863,10 @@ public class ScriptActivity extends BaseActivity {
 		this.switchToScriptFragment = switchToScriptFragment;
 	}
 
+	public void switchFromLookToScriptFragment() {
+		LookController.getInstance().switchToScriptFragment(lookFragment, this);
+	}
+
 	public void showEmptyActionModeDialog(String actionMode) {
 		@SuppressLint("InflateParams")
 		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
@@ -844,6 +880,8 @@ public class ScriptActivity extends BaseActivity {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_copy));
 		} else if (actionMode.equals(getString(R.string.rename))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_rename));
+		} else if (actionMode.equals(getString(R.string.comment_in_out))) {
+			actionModeEmptyText.setText(getString(R.string.comment_in_out_impossible));
 		}
 
 		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)

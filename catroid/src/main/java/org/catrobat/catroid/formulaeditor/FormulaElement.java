@@ -27,6 +27,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -162,6 +163,21 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
+		if (leftChild != null) {
+			leftChild.getVariableAndListNames(variables, lists);
+		}
+		if (rightChild != null) {
+			rightChild.getVariableAndListNames(variables, lists);
+		}
+		if (type == ElementType.USER_VARIABLE && !variables.contains(value)) {
+			variables.add(value);
+		}
+		if (type == ElementType.USER_LIST && !lists.contains(value)) {
+			lists.add(value);
+		}
+	}
+
 	public Object interpretRecursive(Sprite sprite) {
 
 		Object returnValue = 0d;
@@ -198,7 +214,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserList(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		UserList userList = dataContainer.getUserList(value, sprite);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
@@ -268,7 +284,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
-		DataContainer userVariables = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		UserVariable userVariable = userVariables.getUserVariable(value, sprite);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
@@ -429,7 +445,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
 
 			if (userList == null) {
@@ -449,7 +465,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionListItem(Object left, Sprite sprite) {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 			userList = dataContainer.getUserList(rightChild.getValue(), sprite);
 		}
 
@@ -522,7 +538,7 @@ public class FormulaElement implements Serializable {
 			return (double) handleLengthUserVariableParameter(sprite);
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
 			if (userList == null) {
 				return 0d;
@@ -705,6 +721,11 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Object returnValue = 0d;
+		LookData lookData = sprite.look.getLookData();
+		List<LookData> lookDataList = sprite.getLookDataList();
+		if (lookData == null && lookDataList.size() > 0) {
+			lookData = lookDataList.get(0);
+		}
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
@@ -739,6 +760,16 @@ public class FormulaElement implements Serializable {
 			case OBJECT_Y_VELOCITY:
 				returnValue = (double) sprite.look.getYVelocityInUserInterfaceDimensionUnit();
 				break;
+			case OBJECT_LOOK_NUMBER:
+			case OBJECT_BACKGROUND_NUMBER:
+				returnValue = 1.0d + ((lookData != null) ? lookDataList.indexOf(lookData) : 0);
+				break;
+			case OBJECT_LOOK_NAME:
+			case OBJECT_BACKGROUND_NAME:
+				returnValue = (lookData != null) ? lookData.getLookName() : "";
+				break;
+			case OBJECT_DISTANCE_TO:
+				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
 		}
 		return returnValue;
 	}
@@ -874,7 +905,7 @@ public class FormulaElement implements Serializable {
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
 		if (type == ElementType.USER_VARIABLE) {
-			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+			DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 					.getDataContainer();
 			UserVariable userVariable = userVariableContainer.getUserVariable(value, sprite);
 			Object userVariableValue = userVariable.getValue();
@@ -884,7 +915,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleLengthUserVariableParameter(Sprite sprite) {
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+		DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
 		UserVariable userVariable = userVariableContainer.getUserVariable(leftChild.value, sprite);
 
@@ -901,7 +932,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject()
+		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
 		UserList userList = dataContainer.getUserList(leftChild.value, sprite);
 
@@ -965,6 +996,13 @@ public class FormulaElement implements Serializable {
 
 				case COMPASS_DIRECTION:
 					resources |= Brick.SENSOR_COMPASS;
+					break;
+
+				case LATITUDE:
+				case LONGITUDE:
+				case LOCATION_ACCURACY:
+				case ALTITUDE:
+					resources |= Brick.SENSOR_GPS;
 					break;
 
 				case FACE_DETECTED:

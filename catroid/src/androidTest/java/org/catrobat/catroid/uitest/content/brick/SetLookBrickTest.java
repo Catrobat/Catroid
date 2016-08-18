@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -108,7 +109,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
-		Look look = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).look;
+		Look look = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0).look;
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(0).getAbsolutePath());
 		solo.goBack();
 		solo.goBack();
@@ -122,7 +123,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
-		look = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).look;
+		look = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0).look;
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(1).getAbsolutePath());
 	}
 
@@ -246,27 +247,27 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void createProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 		Script testScript = new StartScript();
 
 		SetLookBrick setLookBrick = new SetLookBrick();
 		testScript.addBrick(setLookBrick);
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
-		lookFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image.png", RESOURCE_LOOK,
+		lookFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), "image.png", RESOURCE_LOOK,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(lookFile.getName());
 		lookData.setLookName(lookName);
 
-		lookFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image2.png", RESOURCE_LOOK2,
+		lookFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), "image2.png", RESOURCE_LOOK2,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		LookData lookData2 = new LookData();
 		lookData2.setLookFilename(lookFile2.getName());

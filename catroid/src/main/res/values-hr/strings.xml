@@ -996,9 +996,9 @@ su otpakovani!</item>
   <string name="add_line_break">Add line break</string>
   <string name="edit_variable">Uredi varijablu</string>
   <string name="variable_hint">Ime varijable</string>
-  <string name="brick_show_text_var">Show variable</string>
-  <string name="brick_show_text_pos">"at "</string>
-  <string name="brick_hide_text_var">Hide variable</string>
+  <string name="brick_show_variable">Show variable</string>
+  <string name="brick_show_variable_position">"at "</string>
+  <string name="brick_hide_variable">Hide variable</string>
   <!-- User Bricks strings -->
   <string name="define">definirati</string>
   <string name="new_user_brick">Novi blok</string>

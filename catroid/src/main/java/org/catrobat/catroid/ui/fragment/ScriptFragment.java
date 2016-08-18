@@ -77,6 +77,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -90,6 +91,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private static final int ACTION_MODE_COPY = 0;
 	private static final int ACTION_MODE_DELETE = 1;
 	private static final int ACTION_MODE_BACKPACK = 2;
+	private static final int ACTION_MODE_COMMENT_OUT = 3;
 
 	private static int selectedBrickPosition = Constants.NO_POSITION;
 
@@ -141,6 +143,37 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			} else {
 				showConfirmDeleteDialog(false);
 			}
+		}
+	};
+
+	private ActionMode.Callback commentOutModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			mode.setTag(ACTION_MODE_COMMENT_OUT);
+			addSelectAllActionModeButton(mode, menu);
+
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			return true;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			adapter.setCommentOutActionMode(false);
+			clearCheckedBricksAndEnableButtons();
 		}
 	};
 
@@ -317,9 +350,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
 		}
-		if (projectManager.getCurrentProject() != null) {
+		if (projectManager.getCurrentScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
-			projectManager.getCurrentProject().removeUnusedBroadcastMessages(); // TODO: Find better place
+			projectManager.getCurrentScene().removeUnusedBroadcastMessages(); // TODO: Find better place
 		}
 	}
 
@@ -416,7 +449,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	protected void showRenameDialog() {
+	public void showRenameDialog() {
 		//Rename not supported
 	}
 
@@ -428,6 +461,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void startCopyActionMode() {
 		startActionMode(copyModeCallBack);
+	}
+
+	@Override
+	public void startCommentOutActionMode() {
+		startActionMode(commentOutModeCallBack);
 	}
 
 	@Override
@@ -446,6 +484,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.copy));
 			} else if (actionModeCallback.equals(deleteModeCallBack)) {
 				((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.delete));
+			} else if (actionModeCallback.equals(commentOutModeCallBack)) {
+				((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.comment_in_out));
 			} else if (actionModeCallback.equals(backPackModeCallBack)) {
 				if (BackPackListManager.getInstance().getBackPackedScripts().isEmpty()) {
 					((ScriptActivity) getActivity()).showEmptyActionModeDialog(getString(R.string.backpack));
@@ -465,6 +505,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.setActionMode(true);
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			updateActionModeTitle();
+
+			if (actionModeCallback.equals(commentOutModeCallBack)) {
+				adapter.checkCommentedOutItems();
+				adapter.setCommentOutActionMode(true);
+			}
 		}
 	}
 
@@ -511,7 +556,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	protected void showDeleteDialog() {
+	public void showDeleteDialog() {
 
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
@@ -526,7 +571,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode,
 				menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
@@ -680,7 +725,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		} else {
 			condition = adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount();
 		}
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, condition);
+		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, condition);
 	}
 
 	private void updateActionModeTitle() {
@@ -702,6 +747,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				if (numberOfSelectedItems == 0) {
 					completeTitle = getString(R.string.backpack);
 				}
+				break;
+			case ACTION_MODE_COMMENT_OUT:
+				completeTitle = getString(R.string.comment_in_out);
 				break;
 			default:
 				throw new IllegalArgumentException("Wrong or unhandled tag in ActionMode.");
@@ -750,5 +798,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (isInUserBrickOverview() || getActivity() instanceof UserBrickScriptActivity) {
 			BottomBar.hidePlayButton(getActivity());
 		}
+	}
+
+	@Override
+	public void handleCheckBoxClick(View view) {
 	}
 }

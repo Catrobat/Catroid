@@ -112,6 +112,78 @@
   <string name="preference_raspi_help_summary">Hilfe zur Konfiguration der Verbindungseinstellungen</string>
   <string name="preference_raspi_host">Raspberry Pi IP-/Host-Adresse</string>
   <string name="preference_raspi_port">Raspberry Pi Port</string>
+
+  <!-- Scratch Converter activity -->
+  <string name="beta">beta</string>
+  <string name="title_activity_scratch_converter">Konvertiere Scratch Programm</string>
+  <string name="error_scratch_program_not_accessible_any_more">Hoppla! DiesesScratch Programm ist leider nicht mehr
+      verfügbar!</string>
+  <string name="error_request_timeout">Hoppla! Unser Server ist derzeit nicht erreichbar. Bitte probiere es etwas
+      später noch einmal!</string>
+  <string name="error_scratch_project_data_not_available">Hoppla! Weitere Daten dieses Scratch Programms können
+    derzeit leider nicht abgerufen werden. Bitte probiere es etwas später noch einmal!</string>
+  <string name="error_scratch_program_conversion_failed">Hoppla! Konvertierung des Scratch Programms
+      fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
+  <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von "%1$s" fehlgeschlagen.
+      Bitte probiere es etwas später noch einmal!</string>
+  <string name="error_scratch_converter_outdated_pocketcode_version">Deine Pocket Code App ist nicht mehr aktuell.
+        Unser Scratch Konverter unterstützt nur die aktuellste Pocket Code Version. Bitte lade die aktuelle Pocket Code
+    Version im Google Play Store herunter!</string>
+  <string name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden. Es
+    scheint so als hättest du die Konvertierung/Download abgebrochen oder das Programm in der Zwischenzeit
+    gelöscht oder umbenannt!</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Das Scratch Programm "%1$s" kann nicht konvertiert
+    werden! Alte Programme die vor %2$s erstellt wurden, werden vom Konverter leider nicht unterstützt!</string>
+  <plurals name="error_cannot_convert_more_than_x_programs">
+      <item quantity="one">Es kann nicht mehr als 1 Programm gleichzeitig konvertiert werden!</item>
+      <item quantity="other">Es können nicht mehr als %d Programme gleichzeitig konvertiert werden!</item>
+  </plurals>
+  <string name="error_cannot_open_failed_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden,
+    da die Konvertierung fehlgeschlagen ist!</string>
+  <string name="connection_established">Verbindung zum Server hergestellt!</string>
+  <string name="search_failed">Suche fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
+  <string name="connection_closed">Verbindung zum Server getrennt!</string>
+  <string name="connection_failed">Verbindung zum Server fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
+  <string name="authentication_failed">Authentifizierung fehlgeschlagen. Bitte kontaktiere das Pocket Code Team!</string>
+  <plurals name="scratch_conversion_scheduled_x">
+        <item quantity="one">1 Programm zur Warteschlange hinzugefügt&#8230;</item>
+        <item quantity="other">%d Programme zur Warteschlange hinzugefügt&#8230;</item>
+  </plurals>
+  <string name="scratch_conversion_started">Konvertierung gestarted&#8230;</string>
+  <string name="convert">Konvertieren</string>
+  <string name="converting">Konvertierung in Bearbeitung&#8230;</string>
+  <string name="status_scheduled">Konvertierung in Bearbeitung</string>
+  <string name="status_waiting_for_worker">Suche nach freien Arbeiter&#8230; Bitte warten&#8230;</string>
+  <string name="status_started">Konvertierung läuft&#8230;</string>
+  <string name="status_conversion_finished">Konvertierung beendet</string>
+  <plurals name="status_in_progress_x_jobs">
+    <item quantity="one">In Bearbeitung: 1 Programm</item>
+    <item quantity="other">In Bearbeitung: %d Programme</item>
+  </plurals>
+  <plurals name="status_completed_x_jobs">
+    <item quantity="one">Abgeschlossen: 1 Programm</item>
+    <item quantity="other">Abgeschlossen: %d Programme</item>
+  </plurals>
+  <string name="status_conversion_failed">Konvertierung fehlgeschlagen!</string>
+  <string name="status_conversion_canceled">Konvertierung abgebrochen!</string>
+  <string name="status_downloading">Download läuft&#8230;</string>
+  <string name="status_download_finished">Download abgeschlossen!</string>
+  <string name="status_download_canceled">Download abgebrochen!</string>
+  <string name="list_view_section_title_in_progress">In Bearbeitung</string>
+  <string name="list_view_section_title_converted_programs">Fertig konvertierte Programme</string>
+  <string name="status">Status</string>
+  <string name="title">Titel</string>
+  <string name="by_x">von %1$s</string>
+  <string name="by_author">von User</string>
+  <string name="warning_program_visibility">ACHTUNG:\nDieses Programm ist privat. Konvertierung ist zwar möglich,
+    könnte aber möglicherweise fehlschlagen!</string>
+  <string name="instructions">Anleitung</string>
+  <string name="notes_and_credits">Anmerkungen und Danksagungen</string>
+  <string name="shared_at_x">Veröffentlicht:\n%1$s</string>
+  <string name="modified_at_x">Zuletzt verändert:\n%1$s</string>
+  <string name="remixes">Remixe</string>
+  <!--  -->
+
   <!-- New Object Dialog -->
   <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
   <string name="dialog_new_object_gallery">Bild auswählen</string>
@@ -144,6 +216,7 @@
   <!-- Project activity view -->
   <string name="project_name">Programm:</string>
   <string name="my_projects_activity_title">Programme</string>
+  <string name="number_of_objects">Objekte:</string>
   <string name="number_of_scripts">Skripte:</string>
   <string name="number_of_bricks">Bausteine:</string>
   <string name="number_of_looks">Aussehen:</string>
@@ -161,6 +234,10 @@
   <string name="deselect_all">Nichts auswählen</string>
   <string name="backpack_replace_object">Das Objekt \"%1$s\" befindet sich bereits im Rucksack. Möchtest du es ersetzen?</string>
   <string name="backpack_replace_object_multiple">Im Rucksack sind bereits Objekte vorhanden. Möchtest du diese ersetzen?</string>
+  <string name="groups_create">Gruppe hinzufügen</string>
+  <string name="ungroup">Gruppierung aufheben</string>
+  <string name="group_objects_delete">Gruppe und Objekte löschen</string>
+  <string name="group">Gruppe</string>
   <!-- Sprite activity -->
   <string name="copy_sprite_name_suffix">_Kopie</string>
   <!-- Script activity -->
@@ -462,6 +539,8 @@
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
   <string name="brick_next_look">Nächstes Aussehen</string>
   <string name="brick_next_background">Nächster Hintergrund</string>
+  <string name="brick_previous_look">Voriges Aussehen</string>
+  <string name="brick_previous_background">Voriger Hintergrund</string>
   <string name="brick_flash">Schalte Blitz</string>
   <string name="brick_flash_on">ein</string>
   <string name="brick_flash_off">aus</string>
@@ -973,9 +1052,9 @@
   <string name="add_line_break">Zeilenumbruch hinzufügen</string>
   <string name="edit_variable">Variable bearbeiten</string>
   <string name="variable_hint">Variablenname</string>
-  <string name="brick_show_text_var">Zeige Variable</string>
-  <string name="brick_show_text_pos">"bei "</string>
-  <string name="brick_hide_text_var">Verstecke Variable</string>
+  <string name="brick_show_variable">Zeige Variable</string>
+  <string name="brick_show_variable_position">"bei "</string>
+  <string name="brick_hide_variable">Verstecke Variable</string>
   <!-- User Bricks strings -->
   <string name="define">definiere</string>
   <string name="new_user_brick">Neuer Baustein</string>
@@ -986,7 +1065,7 @@
   <string name="brick_multiple">Bausteine</string>
   <!-- Merge strings -->
   <string name="merge_button">Zusammenfügen mit</string>
-  <string name="name_merge_result">Name for Ergebnis eingeben</string>
+  <string name="name_merge_result">Name für Ergebnis eingeben</string>
   <string name="merge_info">erfolgreich kopiert in</string>
   <string name="warning">Warnung</string>
   <string name="error_merge_with_self">Achtung! Aktuelles Projekt und ausgewähltes Projekt sind dieselben!</string>

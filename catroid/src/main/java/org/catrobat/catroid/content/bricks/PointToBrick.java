@@ -46,7 +46,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.GroupSprite;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -133,7 +134,7 @@ public class PointToBrick extends BrickBaseType {
 					pointedObject = null;
 				} else {
 					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-							.getCurrentProject().getSpriteList();
+							.getCurrentScene().getSpriteList();
 
 					for (Sprite sprite : spriteList) {
 						String spriteName = sprite.getName();
@@ -205,7 +206,7 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
 				.getSpriteList();
 
 		if (spriteList.contains(pointedObject)) {
@@ -229,18 +230,18 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> getArrayAdapterFromSpriteList(Context context) {
-		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,
 				android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		arrayAdapter.add(context.getString(R.string.new_broadcast_message));
 
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
 				.getSpriteList();
 
 		for (Sprite sprite : spriteList) {
 			String spriteName = sprite.getName();
 			String temp = ProjectManager.getInstance().getCurrentSprite().getName();
-			if (!spriteName.equals(temp) && !spriteName.equals(context.getString(R.string.background))) {
+			if (!spriteName.equals(temp) && !spriteName.equals(context.getString(R.string.background)) && !(sprite instanceof GroupSprite)) {
 				arrayAdapter.add(sprite.getName());
 			}
 		}
@@ -353,8 +354,8 @@ public class PointToBrick extends BrickBaseType {
 		}
 
 		public void refreshSpinnerAfterNewSprite(final Context context, final String newSpriteName) {
-			Project project = ProjectManager.getInstance().getCurrentProject();
-			for (Sprite sprite : project.getSpriteList()) {
+			Scene scene = ProjectManager.getInstance().getCurrentScene();
+			for (Sprite sprite : scene.getSpriteList()) {
 				if (sprite.getName().equals(newSpriteName)) {
 					pointedObject = sprite;
 				}

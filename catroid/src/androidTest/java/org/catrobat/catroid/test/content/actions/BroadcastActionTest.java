@@ -27,7 +27,9 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -43,7 +45,7 @@ import java.util.List;
 public class BroadcastActionTest extends AndroidTestCase {
 
 	public void testBroadcast() {
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 		String message = "simpleTest";
 		BroadcastBrick broadcastBrick = new BroadcastBrick(message);
@@ -57,13 +59,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScript);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		Scene scene = project.getDefaultScene();
+		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -72,7 +75,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public void testBroadcastWait() {
-		Sprite sprite = new Sprite("spriteOne");
+		Sprite sprite = new SingleSprite("spriteOne");
 		Script scriptWait = new StartScript();
 		String message = "waitTest";
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(message);
@@ -91,13 +94,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScript);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		Scene scene = project.getDefaultScene();
+		scene.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -106,7 +110,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public void testWhenScriptRestartingItself() {
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 
 		String message = "simpleTest";
@@ -129,14 +133,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScript);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -150,7 +154,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		String messageTwo = "messageTwo";
 		final int xMovement = 1;
 
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script startScript = new StartScript();
 		BroadcastBrick startBroadcastBrick = new BroadcastBrick(messageOne);
 		startScript.addBrick(startBroadcastBrick);
@@ -171,14 +175,14 @@ public class BroadcastActionTest extends AndroidTestCase {
 		sprite.addScript(broadcastScriptMessageTwo);
 
 		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -188,7 +192,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {
-		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			if (!spriteOfList.look.getAllActionsAreFinished()) {
 				return false;
 			}

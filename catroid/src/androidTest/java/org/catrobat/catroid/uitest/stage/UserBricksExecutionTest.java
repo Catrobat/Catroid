@@ -65,8 +65,8 @@ public class UserBricksExecutionTest extends BaseActivityInstrumentationTestCase
 		sprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
 
-		project.addSprite(new Sprite("background"));
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(new Sprite("background"));
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 

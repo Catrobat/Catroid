@@ -31,6 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
@@ -63,7 +64,7 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 	}
 
 	public void testPlaySound() throws InterruptedException {
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
 
@@ -77,7 +78,7 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 	}
 
 	public void testPlaySimultaneousSounds() {
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
 
@@ -99,7 +100,7 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", soundFileId, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "soundTest.mp3", soundFileId, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 

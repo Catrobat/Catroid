@@ -29,6 +29,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -121,7 +122,7 @@ public class MessageContainerTest extends AndroidTestCase {
 	private void createTestProjects() {
 		Project project1 = new Project(getContext(), projectName1);
 
-		Sprite sprite1 = new Sprite("cat");
+		Sprite sprite1 = new SingleSprite("cat");
 		Script script1 = new StartScript();
 		BroadcastBrick brick1 = new BroadcastBrick(broadcastMessage1);
 		script1.addBrick(brick1);
@@ -130,13 +131,13 @@ public class MessageContainerTest extends AndroidTestCase {
 		BroadcastScript broadcastScript1 = new BroadcastScript(broadcastMessage1);
 		sprite1.addScript(broadcastScript1);
 
-		project1.addSprite(sprite1);
+		project1.getDefaultScene().addSprite(sprite1);
 
 		StorageHandler.getInstance().saveProject(project1);
 
 		Project project2 = new Project(getContext(), projectName2);
 
-		Sprite sprite2 = new Sprite("cat");
+		Sprite sprite2 = new SingleSprite("cat");
 		Script script2 = new StartScript();
 		BroadcastBrick brick2 = new BroadcastBrick(broadcastMessage2);
 		script2.addBrick(brick2);
@@ -145,7 +146,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		BroadcastScript broadcastScript2 = new BroadcastScript(broadcastMessage2);
 		sprite2.addScript(broadcastScript2);
 
-		project2.addSprite(sprite2);
+		project2.getDefaultScene().addSprite(sprite2);
 
 		boolean result = StorageHandler.getInstance().saveProject(project2);
 		assertTrue("error on saving project", result);

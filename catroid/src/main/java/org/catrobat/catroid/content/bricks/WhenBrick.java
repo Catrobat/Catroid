@@ -36,12 +36,16 @@ import org.catrobat.catroid.content.WhenScript;
 
 import java.util.List;
 
-public class WhenBrick extends ScriptBrick {
+public class WhenBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenScript whenScript;
 	private static final long serialVersionUID = 1L;
 
 	public WhenBrick(WhenScript whenScript) {
 		this.whenScript = whenScript;
+
+		if (whenScript != null && whenScript.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	public WhenBrick() {
@@ -164,5 +168,11 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

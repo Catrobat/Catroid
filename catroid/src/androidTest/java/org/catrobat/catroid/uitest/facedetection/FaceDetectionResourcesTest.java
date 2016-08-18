@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
@@ -117,7 +118,7 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		sprite = new Sprite("aSprite");
+		sprite = new SingleSprite("aSprite");
 
 		StartScript startScript = new StartScript();
 		FormulaElement faceDetectionFormulaElement = new FormulaElement(ElementType.SENSOR, Sensors.FACE_SIZE.name(),
@@ -128,7 +129,7 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		startScript.addBrick(moveBrick);
 		sprite.addScript(startScript);
 
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);

@@ -28,33 +28,54 @@ import org.catrobat.catroid.content.BroadcastEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public final class BroadcastWaitSequenceMap {
-	private static HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+	private static Map<String, HashMap<String, ArrayList<SequenceAction>>> broadcastWaitSequenceMap = new HashMap<>();
 	private static BroadcastEvent currentBroadcastEvent = null;
 
 	private BroadcastWaitSequenceMap() {
 		throw new AssertionError();
 	}
 
-	public static boolean containsKey(String key) {
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.containsKey(key);
+	public static boolean containsKey(String key, String sceneName) {
+		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
+			return false;
+		}
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).containsKey(key);
 	}
 
-	public static ArrayList<SequenceAction> get(String key) {
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(key);
+	public static ArrayList<SequenceAction> get(String key, String sceneName) {
+		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
+			return null;
+		}
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).get(key);
 	}
 
-	public static ArrayList<SequenceAction> put(String key, ArrayList<SequenceAction> value) {
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.put(key, value);
+	public static ArrayList<SequenceAction> put(String sceneName, String key, ArrayList<SequenceAction> value) {
+		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
+			HashMap<String, ArrayList<SequenceAction>> map = new HashMap<>();
+			broadcastWaitSequenceMap.put(sceneName, map);
+		}
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).put(key, value);
 	}
 
-	public static ArrayList<SequenceAction> remove(String key) {
-		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.remove(key);
+	public static ArrayList<SequenceAction> remove(String key, String sceneName) {
+		if (!broadcastWaitSequenceMap.containsKey(sceneName)) {
+			return null;
+		}
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).remove(key);
 	}
 
 	public static void clear() {
 		BroadcastWaitSequenceMap.broadcastWaitSequenceMap.clear();
+	}
+
+	public static void clear(String sceneName) {
+		if (!BroadcastWaitSequenceMap.broadcastWaitSequenceMap.containsKey(sceneName)) {
+			return;
+		}
+		BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(sceneName).clear();
 	}
 
 	public static BroadcastEvent getCurrentBroadcastEvent() {

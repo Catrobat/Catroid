@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources >
+
+    <dimen name="actionbar_height" >48dip</dimen >
+    <dimen name="project_thumbnail_height" >65dip</dimen >
+    <dimen name="project_thumbnail_width" >72dip</dimen >
+    <dimen name="text_size_small" >12sp</dimen>
+    <dimen name="text_size_medium" >16sp</dimen >
+    <dimen name="text_size_large" >18sp</dimen >
+    <dimen name="text_size_main_menu_buttons" >22sp</dimen >
+    <dimen name="text_size_main_menu_button_continue_program_name" >14sp</dimen >
+    <dimen name="text_size_program_menu_buttons" >22sp</dimen >
+    <dimen name="program_menu_button_height" >90dp</dimen >
+    <dimen name="brick_edit_text_and_prototype_text_view_minimum_width" >48dp</dimen >
+    <dimen name="brick_height_small" >72dp</dimen >
+    <dimen name="brick_height_medium" >96dp</dimen >
+    <dimen name="brick_height_big" >120dp</dimen >
+    <dimen name="key_margin" >1dip</dimen >
+    <dimen name="text_size_xxlarge" >24sp</dimen >
+    <dimen name="brick_category_height" >90dp</dimen >
+    <dimen name="text_size_brick_category" >22sp</dimen >
+
+    <!-- UserBrickDataEditorFragment -->
+    <dimen name="brick_data_edit_cursor_size" >58dp</dimen >
+    <!-- -->
+
+    <!-- PhiroProColorChooserFragment -->
+    <dimen name="fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width" >5dp</dimen >
+    <!-- -->
+
+    <!-- Dialog -->
+    <dimen name="dialog_item_height" >48dp</dimen >
+    <dimen name="dialog_item_margin" >16dp</dimen >
+    <dimen name="dialog_item_edittext_margin" >12dp</dimen >
+    <dimen name="dialog_item_header_height" >46dp</dimen >
+    <dimen name="dialog_item_header_alignment_padding">8dp</dimen>
+    <dimen name="dialog_item_header_linepadding" >4dp</dimen >
+    <dimen name="dialog_item_header_line_height" >2dp</dimen >
+    <dimen name="dialog_margin" >16dp</dimen >
+    <dimen name="dialog_item_text_size" >14sp</dimen >
+    <dimen name="dialog_relative_layout_padding" >40dp</dimen >
+    <dimen name="dialog_button_padding_top" >10dp</dimen >
+    <dimen name="dialog_capitalized_text_view_margin_left" >0dp</dimen >
+    <dimen name="dialog_check_box_margin_bottom" > 16dp</dimen >
+    <dimen name="dialog_check_box_margin_right" > 16dp</dimen >
+    <dimen name="dialog_image_button_layout_height" >50dp</dimen >
+    <dimen name="dialog_image_button_layout_width" >50dp</dimen >
+    <dimen name="dialog_radio_button_drawable_padding" >16dp</dimen >
+    <dimen name="dialog_radio_button_padding" >20dp</dimen >
+    <dimen name="dialog_radio_group_margin_left" >16dp</dimen >
+    <dimen name="dialog_radio_group_margin_right" >16dp</dimen >
+    <dimen name="dialog_text_view_layout_width" >0dp</dimen >
+    <dimen name="dialog_text_view_margin_left" >10dp</dimen >
+    <dimen name="dialog_text_view_margin_right" >10dp</dimen >
+    <dimen name="dialog_text_view_text_size_small" >14sp</dimen >
+    <dimen name="dialog_view_layout_margin_top" >20dp</dimen >
+    <!--  -->
+
+    <!-- Flow Layout -->
+    <dimen name="brick_flow_layout_vertical_spacing" >0dp</dimen >
+    <dimen name="brick_flow_layout_horizontal_spacing" >3dp</dimen >
+    <!--  -->
+
+    <!-- Activity -->
+    <dimen name="activity_bottom_bar_layout_height" >48dip</dimen >
+    <dimen name="activity_bottom_bar_image_view_padding_bottom" >5dp</dimen >
+    <dimen name="activity_bottom_bar_image_view_padding_top" >5dp</dimen >
+    <dimen name="activity_check_box_margin_left" >15dp</dimen >
+    <dimen name="activity_check_box_margin_right" >15dp</dimen >
+    <dimen name="activity_linear_layout_height" >90dip</dimen >
+    <dimen name="activity_text_view_margin_left_small" >12.5dp</dimen >
+    <dimen name="activity_text_view_margin_left_big" >24dp</dimen >
+    <dimen name="activity_text_view_margin_top" >35dp</dimen >
+    <dimen name="activity_text_view_margin_bottom" >35dp</dimen >
+    <dimen name="activity_text_view_padding_left_small" >12.5dp</dimen >
+    <dimen name="activity_text_view_padding_left_big" >39dp</dimen >
+
+    <!-- Device -->
+    <dimen name="device_text_view_margin_top" >10dp</dimen >
+    <dimen name="device_text_view_padding_left" >6dp</dimen >
+    <dimen name="device_button_padding_top" >5dp</dimen >
+    <dimen name="device_button_padding_bottom" >5dp</dimen >
+    <dimen name="device_text_view_text_size" >15sp</dimen >
+
+</resources>

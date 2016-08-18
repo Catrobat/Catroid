@@ -34,6 +34,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -84,17 +85,17 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 		String simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");
-		simpleSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+		simpleSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
 				simpleSingleConvexPolygonFileName, SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+		complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
 				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		sprite = new Sprite("TestSprite");
+		sprite = new SingleSprite("TestSprite");
 
 		physicsLook = new PhysicsLook(sprite, physicsWorld);
 	}

@@ -49,6 +49,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.io.StorageHandler;
@@ -57,6 +58,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
@@ -83,6 +85,7 @@ public class NewSpriteDialog extends DialogFragment {
 	private String newObjectName = null;
 	private SpinnerAdapterWrapper spinnerAdapter;
 	private boolean isDroneVideo = false;
+	private SpriteFactory spriteFactory = new SpriteFactory();
 
 	public NewSpriteDialog() {
 		this.requestedAction = ActionAfterFinished.NONE;
@@ -105,7 +108,7 @@ public class NewSpriteDialog extends DialogFragment {
 		this.isDroneVideo = isDroneVideo;
 	}
 
-	static NewSpriteDialog newInstance() {
+	NewSpriteDialog newInstance() {
 		NewSpriteDialog newSpriteDialog = new NewSpriteDialog();
 
 		Bundle arguments = new Bundle();
@@ -399,7 +402,8 @@ public class NewSpriteDialog extends DialogFragment {
 				newLookFile = new File(lookUri.getPath());
 			} else {
 				lookData = new LookData();
-				newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(), lookUri.getPath(), null);
+				newLookFile = StorageHandler.getInstance().copyImage(projectManager.getCurrentProject().getName(),
+						projectManager.getCurrentScene().getName(), lookUri.getPath(), null);
 				if (lookUri.getPath().contains(Constants.TMP_LOOKS_PATH)) {
 					File oldFile = new File(lookUri.getPath());
 					oldFile.delete();
@@ -424,8 +428,11 @@ public class NewSpriteDialog extends DialogFragment {
 			dismiss();
 			return false;
 		}
-		Sprite sprite = new Sprite(newSpriteName);
+
+		Sprite sprite;
+		sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), newSpriteName);
 		projectManager.addSprite(sprite);
+
 		sprite.getLookDataList().add(lookData);
 
 		if (requestedAction == ActionAfterFinished.ACTION_UPDATE_SPINNER && spinnerAdapter != null) {

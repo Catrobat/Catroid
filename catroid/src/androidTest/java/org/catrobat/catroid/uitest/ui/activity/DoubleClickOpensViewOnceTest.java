@@ -259,7 +259,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					activity.handleProgramsButton(null);
 				}
-			}, R.id.main_menu_button_programs, R.id.fragment_projects_list);
+			}, R.id.main_menu_button_programs, R.id.fragment_container);
 		}
 
 		public void testMainMenuButtonUpload() {
@@ -525,7 +525,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		public void setUp() throws Exception {
 			UiTestUtils.createTestProject();
 
-			File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+			File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance().getCurrentScene().getName(),
 					"catroid_sunglasses.png", RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 			List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();

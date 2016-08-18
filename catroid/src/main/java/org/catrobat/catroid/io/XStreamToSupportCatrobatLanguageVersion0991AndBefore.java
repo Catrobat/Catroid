@@ -32,11 +32,14 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
+import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -51,8 +54,11 @@ import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
+import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -70,8 +76,9 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.HideTextBrick;
+import org.catrobat.catroid.content.bricks.HideVariableBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -87,6 +94,8 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PenDownBrick;
+import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
@@ -94,16 +103,26 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SayBubbleBrick;
+import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
+import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -112,14 +131,21 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.ShowVariableBrick;
+import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
+import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenClonedBrick;
+import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -184,7 +210,11 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 
 		brickInfoMap = new HashMap<>();
 
-		BrickInfo brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
+		BrickInfo brickInfo = new BrickInfo(AskBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("askQuestion", BrickField.ASK_QUESTION);
+		brickInfoMap.put("askBrick", brickInfo);
+
+		brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
@@ -355,6 +385,9 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(NextLookBrick.class.getSimpleName());
 		brickInfoMap.put("nextLookBrick", brickInfo);
 
+		brickInfo = new BrickInfo(PreviousLookBrick.class.getSimpleName());
+		brickInfoMap.put("previousLookBrick", brickInfo);
+
 		brickInfo = new BrickInfo(NoteBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("note", BrickField.NOTE);
 		brickInfoMap.put("noteBrick", brickInfo);
@@ -364,8 +397,14 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo.addBrickFieldToMap("yPosition", BrickField.Y_POSITION);
 		brickInfoMap.put("placeAtBrick", brickInfo);
 
+		brickInfo = new BrickInfo(GoToBrick.class.getSimpleName());
+		brickInfoMap.put("goToBrick", brickInfo);
+
 		brickInfo = new BrickInfo(PlaySoundBrick.class.getSimpleName());
 		brickInfoMap.put("playSoundBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PlaySoundAndWaitBrick.class.getSimpleName());
+		brickInfoMap.put("playSoundAndWaitBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PointInDirectionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.DEGREES);
@@ -378,6 +417,12 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo.addBrickFieldToMap("timesToRepeat", BrickField.TIMES_TO_REPEAT);
 		brickInfoMap.put("repeatBrick", brickInfo);
 
+		brickInfo = new BrickInfo(SceneTransitionBrick.class.getSimpleName());
+		brickInfoMap.put("sceneTransitionBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SceneStartBrick.class.getSimpleName());
+		brickInfoMap.put("sceneStartBrick", brickInfo);
+
 		brickInfo = new BrickInfo(SetBrightnessBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("brightness", BrickField.BRIGHTNESS);
 		brickInfoMap.put("setBrightnessBrick", brickInfo);
@@ -389,6 +434,12 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(SetTransparencyBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
 		brickInfoMap.put("setTransparencyBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetBackgroundBrick.class.getSimpleName());
+		brickInfoMap.put("setBackgroundBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetBackgroundAndWaitBrick.class.getSimpleName());
+		brickInfoMap.put("setBackgroundAndWaitBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetLookBrick.class.getSimpleName());
 		brickInfoMap.put("setLookBrick", brickInfo);
@@ -420,8 +471,33 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
 
+		brickInfo = new BrickInfo(ThinkBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfoMap.put("thinkBubbleBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SayBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfoMap.put("sayBubbleBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ThinkForBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
+		brickInfoMap.put("thinkForBubbleBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SayForBubbleBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.STRING);
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
+		brickInfoMap.put("sayForBubbleBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SpeakAndWaitBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
+		brickInfoMap.put("speakAndWaitBrick", brickInfo);
+
 		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
 		brickInfoMap.put("whenBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WhenConditionBrick.class.getSimpleName());
+		brickInfoMap.put("whenConditionBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);
@@ -444,8 +520,20 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
 		brickInfoMap.put("whenStartedBrick", brickInfo);
 
+		brickInfo = new BrickInfo(StopScriptBrick.class.getSimpleName());
+		brickInfoMap.put("stopScriptBrick", brickInfo);
+
 		brickInfo = new BrickInfo(WhenNfcBrick.class.getSimpleName());
 		brickInfoMap.put("whenNfcBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WhenClonedBrick.class.getSimpleName());
+		brickInfoMap.put("whenClonedBrick", brickInfo);
+
+		brickInfo = new BrickInfo(CloneBrick.class.getSimpleName());
+		brickInfoMap.put("cloneBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DeleteThisCloneBrick.class.getSimpleName());
+		brickInfoMap.put("deleteThisCloneBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DronePlayLedAnimationBrick.class.getSimpleName());
 		brickInfoMap.put("dronePlayLedAnimationBrick", brickInfo);
@@ -511,10 +599,10 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo.addBrickFieldToMap("string", BrickField.STRING);
 		brickInfoMap.put("setTextBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ShowTextBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(ShowVariableBrick.class.getSimpleName());
 		brickInfoMap.put("showTextBrick", brickInfo);
 
-		brickInfo = new BrickInfo(HideTextBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(HideVariableBrick.class.getSimpleName());
 		brickInfoMap.put("hideTextBrick", brickInfo);
 
 		brickInfo = new BrickInfo(CameraBrick.class.getSimpleName());
@@ -558,6 +646,28 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(TurnRightSpeedBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("turnRightSpeed", BrickField.PHYSICS_TURN_RIGHT_SPEED);
 		brickInfoMap.put("turnRightSpeedBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PenDownBrick.class.getSimpleName());
+		brickInfoMap.put("penDownBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PenUpBrick.class.getSimpleName());
+		brickInfoMap.put("penUpBrick", brickInfo);
+
+		brickInfo = new BrickInfo(StampBrick.class.getSimpleName());
+		brickInfoMap.put("stampBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ClearBackgroundBrick.class.getSimpleName());
+		brickInfoMap.put("clearBackgroundBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetPenSizeBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("penSize", BrickField.PEN_SIZE);
+		brickInfoMap.put("setPenSizeBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetPenColorBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_RED);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_GREEN);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_BLUE);
+		brickInfoMap.put("setPenColorBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {
@@ -568,6 +678,8 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		scriptInfoMap = new HashMap<>();
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
+		scriptInfoMap.put("whenConditionScript", WhenConditionScript.class.getSimpleName());
+		scriptInfoMap.put("whenBackgroundChangesScript", WhenBackgroundChangesScript.class.getSimpleName());
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
 		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());

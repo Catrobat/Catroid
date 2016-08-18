@@ -82,7 +82,7 @@ public class ProjectDownloadService extends IntentService {
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
 			if (renameProject) {
-				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName);
+				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName, getBaseContext());
 				if (projectTBRenamed != null) {
 					projectTBRenamed.setName(projectName);
 					StorageHandler.getInstance().saveProject(projectTBRenamed);
@@ -95,7 +95,7 @@ public class ProjectDownloadService extends IntentService {
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		} finally {
-			DownloadUtil.getInstance().downloadFinished(projectName);
+			DownloadUtil.getInstance().downloadFinished(projectName, url);
 		}
 
 		if (!result) {

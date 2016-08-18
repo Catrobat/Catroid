@@ -29,12 +29,16 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
+import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
@@ -47,9 +51,12 @@ import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ChangeXByNAction;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ChooseCameraAction;
+import org.catrobat.catroid.content.actions.ClearBackgroundAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
+import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
+import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.DroneEmergencyAction;
 import org.catrobat.catroid.content.actions.DroneFlipAction;
 import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
@@ -67,8 +74,11 @@ import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
+import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
+import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
+import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideAction;
-import org.catrobat.catroid.content.actions.HideTextAction;
+import org.catrobat.catroid.content.actions.HideVariableAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
@@ -77,6 +87,8 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
+import org.catrobat.catroid.content.actions.PenDownAction;
+import org.catrobat.catroid.content.actions.PenUpAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveForwardAction;
 import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
@@ -86,15 +98,20 @@ import org.catrobat.catroid.content.actions.PhiroSensorAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
+import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.SceneStartAction;
+import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.catrobat.catroid.content.actions.SetPenColorAction;
+import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
@@ -103,14 +120,20 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowAction;
-import org.catrobat.catroid.content.actions.ShowTextAction;
+import org.catrobat.catroid.content.actions.ShowVariableAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.actions.StampAction;
+import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
+import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopThisScriptAction;
+import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
+import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -130,6 +153,12 @@ import org.catrobat.catroid.physics.PhysicsObject;
 
 public class ActionFactory extends Actions {
 
+	public static Action createBackgroundNotifyAction(LookData lookData) {
+		BackgroundNotifyAction action = Actions.action(BackgroundNotifyAction.class);
+		action.setLookData(lookData);
+		return action;
+	}
+
 	public static Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent();
@@ -148,6 +177,13 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitAction(Sprite sprite, Formula delay) {
 		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
+		return action;
+	}
+
+	public Action createWaitForBubbleBrickAction(Sprite sprite, Formula delay) {
+		WaitForBubbleBrickAction action = Actions.action(WaitForBubbleBrickAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
 		return action;
@@ -249,6 +285,27 @@ public class ActionFactory extends Actions {
 		action.setInterpolation(null);
 		action.setSprite(sprite);
 		return action;
+	}
+
+	public Action createGoToAction(Sprite sprite, Sprite destinationSprite, int spinnerSelection) {
+		switch (spinnerSelection) {
+			case BrickValues.GO_TO_TOUCH_POSITION:
+				GoToTouchPositionAction touchPositionAction = Actions.action(GoToTouchPositionAction.class);
+				touchPositionAction.setSprite(sprite);
+				return touchPositionAction;
+			case BrickValues.GO_TO_RANDOM_POSITION:
+				GoToRandomPositionAction randomPositionAction = Actions.action(GoToRandomPositionAction.class);
+				randomPositionAction.setSprite(sprite);
+				return randomPositionAction;
+			case BrickValues.GO_TO_OTHER_SPRITE_POSITION:
+				GoToOtherSpritePositionAction otherSpritePositionAction = Actions
+						.action(GoToOtherSpritePositionAction.class);
+				otherSpritePositionAction.setSprite(sprite);
+				otherSpritePositionAction.setDestinationSprite(destinationSprite);
+				return otherSpritePositionAction;
+			default:
+				return null;
+		}
 	}
 
 	public Action createGoNStepsBackAction(Sprite sprite, Formula steps) {
@@ -362,6 +419,45 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createPenDownAction(Sprite sprite) {
+		PenDownAction action = Actions.action(PenDownAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createPenUpAction(Sprite sprite) {
+		PenUpAction action = Actions.action(PenUpAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createSetPenSizeAction(Sprite sprite, Formula penSize) {
+		SetPenSizeAction action = Actions.action(SetPenSizeAction.class);
+		action.setSprite(sprite);
+		action.setPenSize(penSize);
+		return action;
+	}
+
+	public Action createSetPenColorAction(Sprite sprite, Formula red, Formula green, Formula blue) {
+		SetPenColorAction action = Actions.action(SetPenColorAction.class);
+		action.setSprite(sprite);
+		action.setRed(red);
+		action.setGreen(green);
+		action.setBlue(blue);
+		return action;
+	}
+
+	public Action createClearBackgroundAction() {
+		ClearBackgroundAction action = Actions.action(ClearBackgroundAction.class);
+		return action;
+	}
+
+	public Action createStampAction(Sprite sprite) {
+		StampAction action = Actions.action(StampAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public Action createNextLookAction(Sprite sprite) {
 		NextLookAction action = Actions.action(NextLookAction.class);
 		action.setSprite(sprite);
@@ -386,6 +482,18 @@ public class ActionFactory extends Actions {
 		PointToAction action = Actions.action(PointToAction.class);
 		action.setSprite(sprite);
 		action.setPointedSprite(pointedSprite);
+		return action;
+	}
+
+	public Action createCloneAction(Sprite sprite) {
+		CloneAction action = Actions.action(CloneAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createDeleteThisCloneAction(Sprite sprite) {
+		DeleteThisCloneAction action = Actions.action(DeleteThisCloneAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -414,6 +522,12 @@ public class ActionFactory extends Actions {
 		SetLookAction action = Actions.action(SetLookAction.class);
 		action.setSprite(sprite);
 		action.setLookData(lookData);
+		return action;
+	}
+
+	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait) {
+		SetLookAction action = (SetLookAction) createSetLookAction(sprite, lookData);
+		action.setWait(wait);
 		return action;
 	}
 
@@ -492,6 +606,14 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createAskAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
+		AskAction action = Actions.action(AskAction.class);
+		action.setSprite(sprite);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
+		return action;
+	}
+
 	public Action createDeleteItemOfUserListAction(Sprite sprite, Formula userListFormula, UserList userList) {
 		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
 		action.setSprite(sprite);
@@ -525,6 +647,50 @@ public class ActionFactory extends Actions {
 		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
 		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createThinkBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.THINK_BRICK);
+		return action;
+	}
+
+	public Action createSayBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.SAY_BRICK);
+		return action;
+	}
+
+	public Action createThinkForBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.THINK_BRICK);
+		return action;
+	}
+
+	public Action createSayForBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.SAY_BRICK);
+		return action;
+	}
+
+	public Action createSceneTransitionAction(String sceneName) {
+		SceneTransitionAction action = action(SceneTransitionAction.class);
+		action.setScene(sceneName);
+		return action;
+	}
+
+	public Action createSceneStartAction(String sceneName) {
+		SceneStartAction action = action(SceneStartAction.class);
+		action.setScene(sceneName);
 		return action;
 	}
 
@@ -728,19 +894,19 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createShowTextAction(Sprite sprite, Formula x, Formula y, String variableName) {
-		ShowTextAction action = action(ShowTextAction.class);
-		action.setPosition(x, y);
-		action.setVariableName(variableName);
+	public Action createShowVariableAction(Sprite sprite, Formula xPosition, Formula yPosition, UserVariable userVariable) {
+		ShowVariableAction action = action(ShowVariableAction.class);
+		action.setPosition(xPosition, yPosition);
+		action.setVariableToShow(userVariable);
 		action.setSprite(sprite);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);
 		return action;
 	}
 
-	public Action createHideTextAction(String variableName) {
-		HideTextAction action = action(HideTextAction.class);
-		action.setVariableName(variableName);
+	public Action createHideVariableAction(UserVariable userVariable) {
+		HideVariableAction action = action(HideVariableAction.class);
+		action.setVariableToHide(userVariable);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);
 		return action;
@@ -829,5 +995,24 @@ public class ActionFactory extends Actions {
 		action.setIfAction(ifAction);
 		action.setElseAction(elseAction);
 		return action;
+	}
+
+	public Action createPreviousLookAction(Sprite sprite) {
+		PreviousLookAction action = action(PreviousLookAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createStopScriptAction(int spinnerSelection, Action currentAction) {
+		switch (spinnerSelection) {
+			case BrickValues.STOP_THIS_SCRIPT:
+				return Actions.action(StopThisScriptAction.class);
+			case BrickValues.STOP_OTHER_SCRIPTS:
+				StopOtherScriptsAction action = Actions.action(StopOtherScriptsAction.class);
+				action.setCurrentAction(currentAction);
+				return action;
+			default:
+				return Actions.action(StopAllScriptsAction.class);
+		}
 	}
 }

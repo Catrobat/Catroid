@@ -28,6 +28,7 @@ import android.content.Context;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -312,7 +313,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 	private void createBrickTestproject(String projectName) {
 
-		Sprite firstSprite = new Sprite(spriteName);
+		Sprite firstSprite = new SingleSprite(spriteName);
 		Script startScript = new StartScript();
 
 		LegoNxtMotorMoveBrick legoMotorActionBrick = new LegoNxtMotorMoveBrick(
@@ -336,7 +337,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 	private void createNoNXTUseTestproject(String projectName) {
 
-		Sprite firstSprite = new Sprite(spriteName);
+		Sprite firstSprite = new SingleSprite(spriteName);
 		Script startScript = new StartScript();
 
 		WaitBrick firstWaitBrick = new WaitBrick(123);

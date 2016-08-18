@@ -35,7 +35,7 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.io.File;
 import java.util.List;
@@ -139,9 +139,9 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	private void addLooksToProject() throws Exception {
-		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
-		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
+		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_banzai.png",
 				RESOURCE_IMAGE2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
 		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
@@ -157,7 +157,7 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookDataList.add(lookData);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
-		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		UtilUi.updateScreenWidthAndHeight(solo.getCurrentActivity());
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 	}
@@ -165,13 +165,13 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void addSoundsToProject() throws Exception {
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
-		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
+		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance().getCurrentScene().getName(), "testsoundui.mp3",
 				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile2.getName());

@@ -25,6 +25,7 @@ package org.catrobat.catroid.common;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
@@ -83,12 +84,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		cloneSoundInfo.name = this.name;
 
 		try {
-			cloneSoundInfo.fileName = StorageHandler
-					.getInstance()
-					.copySoundFile(
-							Utils.buildPath(
-									Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-									Constants.SOUND_DIRECTORY, fileName)).getName();
+			cloneSoundInfo.fileName = StorageHandler.getInstance().copySoundFile(Utils.buildPath(Utils.buildScenePath(ProjectManager.getInstance().getCurrentProject().getName(), getSceneNameBySoundInfo()), Constants.SOUND_DIRECTORY, fileName)).getName();
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
@@ -149,7 +145,18 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 	private String getPathToSoundDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				Constants.SOUND_DIRECTORY);
+				getSceneNameBySoundInfo(), Constants.SOUND_DIRECTORY);
+	}
+
+	protected String getSceneNameBySoundInfo() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				if (sprite.getSoundList().contains(this)) {
+					return scene.getName();
+				}
+			}
+		}
+		return ProjectManager.getInstance().getCurrentScene().getName();
 	}
 
 	private String getPathToBackPackSoundDirectory() {

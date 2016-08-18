@@ -38,6 +38,7 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
@@ -68,6 +69,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +103,7 @@ public final class TestUtils {
 	 * @return the file
 	 * @throws IOException
 	 */
-	public static File saveFileToProject(String project, String name, int fileID, Context context, int type)
+	public static File saveFileToProject(String project, String scene, String name, int fileID, Context context, int type)
 			throws IOException {
 
 		String filePath;
@@ -108,10 +112,10 @@ public final class TestUtils {
 		} else {
 			switch (type) {
 				case TYPE_IMAGE_FILE:
-					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.IMAGE_DIRECTORY + "/" + name;
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + scene + "/" + Constants.IMAGE_DIRECTORY + "/" + name;
 					break;
 				case TYPE_SOUND_FILE:
-					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.SOUND_DIRECTORY + "/" + name;
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + scene + "/" + Constants.SOUND_DIRECTORY + "/" + name;
 					break;
 				default:
 					filePath = Constants.DEFAULT_ROOT + "/" + name;
@@ -205,13 +209,13 @@ public final class TestUtils {
 		Project project = new Project(null, name);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 		Script testScript = new StartScript();
 		Brick testBrick = new HideBrick();
 		testScript.addBrick(testBrick);
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		StorageHandler.getInstance().saveProject(project);
 		return project;
@@ -220,7 +224,7 @@ public final class TestUtils {
 	public static List<Brick> createTestProjectWithWrongIfClauseReferences() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, CORRUPT_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("corruptReferences");
+		Sprite firstSprite = new SingleSprite("corruptReferences");
 
 		Script testScript = new StartScript();
 
@@ -258,7 +262,7 @@ public final class TestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -293,6 +297,26 @@ public final class TestUtils {
 			if (directory.exists()) {
 				UtilFile.deleteDirectory(directory);
 			}
+		}
+	}
+
+	public static boolean isUrlValidAndReachable(String urlString) {
+		try {
+			URL url = new URL(urlString);
+			InputStream i = null;
+			try {
+				i = url.openStream();
+			} catch (UnknownHostException ex) {
+				return false;
+			} catch (IOException ex) {
+				return false;
+			}
+			if (i == null) {
+				return false;
+			}
+			return true;
+		} catch (MalformedURLException e) {
+			return false;
 		}
 	}
 
@@ -364,10 +388,10 @@ public final class TestUtils {
 	public static Project createProjectWithGlobalValues(String name, String spriteName, String valueName, Context context) {
 		Project project = new Project(context, name);
 
-		project.getDataContainer().addProjectUserList(valueName);
-		project.getDataContainer().addProjectUserVariable(valueName);
+		project.getDefaultScene().getDataContainer().addProjectUserList(valueName);
+		project.getDefaultScene().getDataContainer().addProjectUserVariable(valueName);
 
-		Sprite sprite = new Sprite(spriteName);
+		Sprite sprite = new SingleSprite(spriteName);
 		Script script = new StartScript();
 
 		SetVariableBrick variableBrick = new SetVariableBrick(new Formula(1), project.getProjectVariableWithName(valueName));
@@ -376,8 +400,8 @@ public final class TestUtils {
 		script.addBrick(variableBrick);
 		script.addBrick(listBrick);
 		sprite.addScript(script);
-		project.getSpriteList().get(0).addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().getSpriteList().get(0).addScript(script);
+		project.getDefaultScene().addSprite(sprite);
 
 		return project;
 	}
@@ -385,12 +409,12 @@ public final class TestUtils {
 	public static Project createProjectWithSpriteValues(String name, String spriteName, String valueName, Context context) {
 		Project project = new Project(context, name);
 
-		Sprite sprite = new Sprite(spriteName);
+		Sprite sprite = new SingleSprite(spriteName);
 
-		UserList firstList = project.getDataContainer().addSpriteUserListToSprite(project.getSpriteList().get(0), valueName);
-		UserList secondList = project.getDataContainer().addSpriteUserListToSprite(sprite, valueName);
-		UserVariable firstVariable = project.getDataContainer().addSpriteUserVariableToSprite(project.getSpriteList().get(0), valueName);
-		UserVariable secondVariable = project.getDataContainer().addSpriteUserVariableToSprite(sprite, valueName);
+		UserList firstList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(project.getDefaultScene().getSpriteList().get(0), valueName);
+		UserList secondList = project.getDefaultScene().getDataContainer().addSpriteUserListToSprite(sprite, valueName);
+		UserVariable firstVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(project.getDefaultScene().getSpriteList().get(0), valueName);
+		UserVariable secondVariable = project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, valueName);
 
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
@@ -406,8 +430,8 @@ public final class TestUtils {
 		secondScript.addBrick(secondListBrick);
 
 		sprite.addScript(secondScript);
-		project.getSpriteList().get(0).addScript(firstScript);
-		project.addSprite(sprite);
+		project.getDefaultScene().getSpriteList().get(0).addScript(firstScript);
+		project.getDefaultScene().addSprite(sprite);
 
 		return project;
 	}

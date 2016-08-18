@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -49,11 +50,11 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		actionFactory = new ActionFactory();
-		testSprite = new Sprite("testSprite");
+		testSprite = new SingleSprite("testSingleSprite");
 		project = new Project(null, "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
+		userList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserList(TEST_USERLIST_NAME, null);
 		userList.setList(INITIALIZED_LIST_VALUES);
 		INITIALIZED_LIST_VALUES.clear();

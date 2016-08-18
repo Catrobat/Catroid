@@ -207,7 +207,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		uploadProjectFromMainMenu(newTestProject, newTestDescription);
 		solo.sleep(5000);
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(newTestProject);
+		Project uploadProject = StorageHandler.getInstance().loadProject(newTestProject, getActivity());
 
 		String deserializedProjectName = uploadProject.getName();
 		String deserializedProjectDescription = uploadProject.getDescription();
@@ -220,7 +220,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		//Download replaces project. Name and description should be testproject2 and testdescription2
 		downloadProjectAndReplace(newTestProject);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(newTestProject);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(newTestProject, getActivity());
 
 		String serverProjectName = downloadedProject.getName();
 		String serverProjectDescription = downloadedProject.getDescription();
@@ -290,11 +290,11 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			fail("Project is not loaded successfully");
 		}
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
+		Project uploadProject = StorageHandler.getInstance().loadProject(testProject, getActivity());
 		assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
 
 		downloadProjectAndReplace(testProject);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject, getActivity());
 
 		String serverProjectName = downloadedProject.getName();
 		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
@@ -312,7 +312,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberMediaFiles; number++) {
-			File soundFile = UiTestUtils.saveFileToProject(projectName,
+			File soundFile = UiTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
 					getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 			SoundInfo soundInfo = new SoundInfo();
@@ -323,19 +323,19 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 					.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 		}
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
-		Project newProject = StorageHandler.getInstance().loadProject(projectName);
+		Project newProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 		ProjectManager.getInstance().setProject(newProject);
 
 		UiTestUtils.createValidUser(getActivity());
 		uploadProjectFromMainMenu(projectName, "");
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
+		Project uploadProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 		String deserializedProjectName = uploadProject.getName();
 		assertTrue("Project was successfully uploaded", deserializedProjectName.equalsIgnoreCase(projectName));
 		UiTestUtils.clearAllUtilTestProjects();
 
 		downloadProjectAndReplace(projectName);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 		String serverProjectName = downloadedProject.getName();
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
@@ -421,7 +421,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		for (int number = 0; number < numberOfMediaFilesToExtentDownloadTime; number++) {
-			File soundFile = UiTestUtils.saveFileToProject(projectName,
+			File soundFile = UiTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
 					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
 					getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 			SoundInfo soundInfo = new SoundInfo();
@@ -432,17 +432,17 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 					.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 		}
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
-		Project newProject = StorageHandler.getInstance().loadProject(projectName);
+		Project newProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 		ProjectManager.getInstance().setProject(newProject);
 
 		UiTestUtils.createValidUser(getActivity());
 		uploadProjectFromMainMenu(projectName, "");
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
+		Project uploadProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 		String deserializedProjectName = uploadProject.getName();
 		assertTrue("Project was successfully uploaded", deserializedProjectName.equalsIgnoreCase(projectName));
 
-		List<Sprite> spriteList = uploadProject.getSpriteList();
+		List<Sprite> spriteList = uploadProject.getDefaultScene().getSpriteList();
 
 		UiTestUtils.clearAllUtilTestProjects();
 
@@ -455,11 +455,11 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 				numberOfSounds);
 
 		downloadProjectAndReplace(projectName);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 		String serverProjectName = downloadedProject.getName();
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 
-		List<Sprite> downloadedProjectSpriteList = downloadedProject.getSpriteList();
+		List<Sprite> downloadedProjectSpriteList = downloadedProject.getDefaultScene().getSpriteList();
 
 		assertEquals("Program wasn't replaced", spriteList.size(), downloadedProjectSpriteList.size());
 	}
@@ -521,14 +521,14 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 	private void preUploadProject() {
 		// change project to a non default state
-		Sprite firstSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite firstSprite = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		Script firstScript = firstSprite.getScript(0);
 		firstScript.addBrick(new WaitBrick(1000));
 	}
 
 	private void checkProjectNameAndDescriptionBeforAndAfterDownload(String projectName, String description) {
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
+		Project uploadProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 
 		assertEquals("Deserialized project name was changed", projectName, uploadProject.getName());
 		assertEquals("Deserialized project description was not renamed correctly", description,
@@ -536,7 +536,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		//Download replaces project. Name and description should be projectName and description
 		downloadProjectAndReplace(projectName);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 
 		assertEquals("Project name on server was changed", projectName, downloadedProject.getName());
 		assertEquals("Project name on server was not correctly renamed", description,
@@ -613,7 +613,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.", solo.searchText(solo.getString(R.string.notification_download_finished)));
 
-		Project loadProject = StorageHandler.getInstance().loadProject(projectName);
+		Project loadProject = StorageHandler.getInstance().loadProject(projectName, getActivity());
 		ProjectManager.getInstance().setProject(loadProject);
 
 		assertEquals("Testproject not loaded.", projectName, ProjectManager.getInstance().getCurrentProject().getName());

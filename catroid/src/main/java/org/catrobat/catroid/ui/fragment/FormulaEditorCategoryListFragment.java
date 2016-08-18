@@ -40,8 +40,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
@@ -70,13 +72,20 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private CategoryListAdapter adapter;
 
 	private static final int[] OBJECT_GENERAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_transparency,
-			R.string.formula_editor_object_brightness, R.string.formula_editor_object_color };
+			R.string.formula_editor_object_brightness, R.string.formula_editor_object_color,
+			R.string.formula_editor_object_distance_to };
 
 	private static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
 			R.string.formula_editor_object_angular_velocity };
+
+	private static final int[] OBJECT_ITEMS_LOOK = { R.string.formula_editor_object_look_number,
+			R.string.formula_editor_object_look_name };
+
+	private static final int[] OBJECT_ITEMS_BACKGROUND = { R.string.formula_editor_object_background_number,
+			R.string.formula_editor_object_background_name };
 
 	private static final int[] LOGIC_BOOLEAN_OPERATORS_ITEMS = { R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
@@ -125,6 +134,9 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_loudness };
 
+	private static final int[] DATE_AND_TIME_SENSOR_ITEMS = { R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
+			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second };
+
 	private static final int[] ACCELERATION_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration };
 
@@ -132,6 +144,10 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			R.string.formula_editor_sensor_y_inclination };
 
 	private static final int[] COMPASS_SENSOR_ITEMS = { R.string.formula_editor_sensor_compass_direction };
+
+	private static final int[] GPS_SENSOR_ITEMS = { R.string.formula_editor_sensor_latitude, R.string
+			.formula_editor_sensor_longitude, R.string.formula_editor_sensor_location_accuracy, R.string
+			.formula_editor_sensor_altitude };
 
 	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_touch,
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
@@ -265,6 +281,13 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			header.put(0, getString(R.string.formula_editor_object_general));
 			itemsIds = OBJECT_GENERAL_PROPERTIES_ITEMS;
 
+			ProjectManager projectManager = ProjectManager.getInstance();
+			Sprite currentSprite = projectManager.getCurrentSprite();
+			if (projectManager.getCurrentScene().isBackgroundObject(currentSprite)) {
+				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_BACKGROUND);
+			} else {
+				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_LOOK);
+			}
 			header.put(itemsIds.length, getString(R.string.formula_editor_object_physical));
 			itemsIds = concatAll(itemsIds, OBJECT_PHYSICAL_PROPERTIES_ITEMS);
 		} else if (tag.equals(FUNCTION_TAG)) {
@@ -307,6 +330,9 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(COMPASS_SENSOR_ITEMS.length));
 			}
 
+			itemsIds = concatAll(itemsIds, GPS_SENSOR_ITEMS);
+			parameterIds = concatAll(parameterIds, createEmptyParametersList(GPS_SENSOR_ITEMS.length));
+
 			if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NFC_TAG_ID_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(NFC_TAG_ID_ITEMS.length));
@@ -321,6 +347,9 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
 				parameterIds = concatAll(parameterIds, createEmptyParametersList(FACE_DETECTION_SENSOR_ITEMS.length));
 			}
+
+			header.put(itemsIds.length, getString(R.string.formula_editor_device_date_and_time));
+			itemsIds = concatAll(itemsIds, DATE_AND_TIME_SENSOR_ITEMS);
 
 			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				header.put(itemsIds.length, getString(R.string.formula_editor_device_lego));

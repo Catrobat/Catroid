@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -43,7 +44,7 @@ public class ParserTestOperators extends AndroidTestCase {
 
 	@Override
 	protected void setUp() {
-		testSprite = new Sprite("sprite");
+		testSprite = new SingleSprite("sprite");
 	}
 
 	public void testOperatorChain() {

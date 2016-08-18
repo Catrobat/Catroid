@@ -158,7 +158,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	private void updateUserVariableValues() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		List<UserVariable> variables = new ArrayList<>();
 
 		for (UserBrickParameter userBrickParameter : userBrickParameters) {
@@ -368,6 +368,10 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		returnActionList.add(userSequence);
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
+
+		if (sprite.isClone) {
+			sprite.addUserBrick(this);
+		}
 
 		return returnActionList;
 	}

@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -58,7 +59,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 	public void testReceiversWorkMoreThanOnce() {
 		UiTestUtils.createEmptyProject();
-		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";
@@ -94,7 +95,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 	public void testWhenScriptRestartingItself() {
 		UiTestUtils.createEmptyProject();
-		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#875";
@@ -128,7 +129,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		String messageTwo = "messageTwo";
 		final int xMovement = 1;
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		Script startScript = sprite.getScript(0);
 		BroadcastBrick startBroadcastBrick = new BroadcastBrick(messageOne);
 		startScript.addBrick(startBroadcastBrick);
@@ -184,8 +185,8 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		String message1 = "message1";
 		String message2 = "message2";
 		double degreesToTurn = 15.0f;
-		Sprite secondSprite = new Sprite("sprite2");
-		Sprite thirdSprite = new Sprite("sprite3");
+		Sprite secondSprite = new SingleSprite("sprite2");
+		Sprite thirdSprite = new SingleSprite("sprite3");
 		int initialRotation = UiTestUtils.createSendBroadcastInBroadcastAndWaitProject(message1, message2, degreesToTurn, secondSprite, thirdSprite);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

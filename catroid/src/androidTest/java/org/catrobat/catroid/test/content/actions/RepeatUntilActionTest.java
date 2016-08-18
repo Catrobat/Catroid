@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
@@ -59,15 +60,15 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		testSprite = new Sprite("testSprite");
+		testSprite = new SingleSprite("testSprite");
 		project = new Project(null, "testProject");
 		testScript = new StartScript();
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		super.setUp();

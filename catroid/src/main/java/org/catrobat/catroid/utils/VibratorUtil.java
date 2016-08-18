@@ -63,6 +63,15 @@ public final class VibratorUtil {
 		}
 	}
 
+	public static long getTimeToVibrate() {
+		long currentTime = SystemClock.uptimeMillis();
+		long timePassed = currentTime - startTime;
+		if ((timeToVibrate - timePassed) < 0) {
+			return 0;
+		}
+		return timeToVibrate - timePassed;
+	}
+
 	public static void pauseVibrator() {
 		Log.d(TAG, "pauseVibrator()");
 		if (paused) {

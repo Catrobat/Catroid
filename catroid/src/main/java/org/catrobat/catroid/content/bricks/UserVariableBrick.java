@@ -29,7 +29,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -80,11 +80,11 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				if (brick instanceof SetVariableBrick) {
 					Spinner spinner = (Spinner) ((SetVariableBrick) brick).view.findViewById(R.id.set_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof ShowTextBrick) {
-					Spinner spinner = (Spinner) ((ShowTextBrick) brick).view.findViewById(R.id.show_text_spinner);
+				} else if (brick instanceof ShowVariableBrick) {
+					Spinner spinner = (Spinner) ((ShowVariableBrick) brick).view.findViewById(R.id.show_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
-				} else if (brick instanceof HideTextBrick) {
-					Spinner spinner = (Spinner) ((HideTextBrick) brick).view.findViewById(R.id.hide_text_spinner);
+				} else if (brick instanceof HideVariableBrick) {
+					Spinner spinner = (Spinner) ((HideVariableBrick) brick).view.findViewById(R.id.hide_variable_spinner);
 					setSpinnerSelection(spinner, newUserVariable);
 				} else if (brick instanceof ChangeVariableBrick) {
 					Spinner spinner = (Spinner) ((ChangeVariableBrick) brick).view.findViewById(R.id
@@ -126,7 +126,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 		}
 	}
 
-	protected void updateUserVariableReference(Project into, Project from) {
+	protected void updateUserVariableReference(Scene into, Scene from) {
 		UserVariable variable;
 		if (from.existProjectVariable(userVariable)) {
 			variable = into.getProjectVariableWithName(userVariable.getName());
@@ -139,7 +139,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 				return;
 			}
 			variable = into.getDataContainer().addSpriteVariableIfDoesNotExist(userVariable.getName(),
-					into.getSpriteBySpriteName(sprite));
+					into.getSpriteBySpriteName(sprite.getName()));
 		}
 		if (variable != null) {
 			userVariable = variable;
@@ -147,7 +147,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 	}
 
 	@Override
-	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
 		if (!super.isEqualBrick(brick, mergeResult, current)) {
 			return false;
 		}
@@ -167,9 +167,9 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewDataD
 	public void storeDataForBackPack(Sprite sprite) {
 		Integer type = DataContainer.USER_DATA_EMPTY;
 		if (userVariable != null) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			DataContainer dataContainer = currentProject.getDataContainer();
+			DataContainer dataContainer = currentScene.getDataContainer();
 			type = dataContainer.getTypeOfUserVariable(userVariable.getName(), currentSprite);
 		}
 		if (backPackedData == null) {

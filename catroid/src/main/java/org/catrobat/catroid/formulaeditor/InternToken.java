@@ -52,6 +52,15 @@ public class InternToken {
 		}
 	}
 
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
+		if (internTokenType == InternTokenType.USER_VARIABLE && !variables.contains(tokenStringValue)) {
+			variables.add(tokenStringValue);
+		}
+		if (internTokenType == InternTokenType.USER_LIST && !lists.contains(tokenStringValue)) {
+			lists.add(tokenStringValue);
+		}
+	}
+
 	public boolean isNumber() {
 		return internTokenType == InternTokenType.NUMBER;
 	}

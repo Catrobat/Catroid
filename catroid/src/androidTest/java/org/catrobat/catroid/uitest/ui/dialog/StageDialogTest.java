@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -46,7 +47,7 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
@@ -106,7 +107,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		float newScale = 50.0f;
 
 		Project project = new Project(getActivity(), testProject);
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 		WaitBrick waitBrick = new WaitBrick(5000);
 		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(newScale);
@@ -114,7 +115,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		script.addBrick(waitBrick);
 		script.addBrick(scaleLookBrick);
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
@@ -139,7 +140,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
@@ -170,7 +171,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -183,7 +184,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		String projectNameStart = projectStart.getName();
 
 		//scriptPositions at start
-		List<Sprite> spriteList = projectStart.getSpriteList();
+		List<Sprite> spriteList = projectStart.getDefaultScene().getSpriteList();
 		for (int i = 0; i < spriteList.size(); i++) {
 			Sprite sprite = spriteList.get(i);
 			int size = sprite.getNumberOfScripts();
@@ -206,7 +207,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		assertEquals("Wrong project after restart", projectNameStart, projectNameRestart);
 
-		spriteList = projectRestart.getSpriteList();
+		spriteList = projectRestart.getDefaultScene().getSpriteList();
 		for (int i = 0; i < spriteList.size(); i++) {
 			Sprite sprite = spriteList.get(i);
 			int size = sprite.getNumberOfScripts();
@@ -224,7 +225,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testRestartProjectWithSound() {
 		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
-		Sprite firstSprite = new Sprite("sprite1");
+		Sprite firstSprite = new SingleSprite("sprite1");
 		Script startScript = new StartScript();
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
@@ -237,7 +238,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		spriteList.add(firstSprite);
 		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
-		File soundFile = UiTestUtils.saveFileToProject(projectName, "soundfile.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "soundfile.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.SOUND);
 
@@ -275,7 +276,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
@@ -327,11 +328,11 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		StorageHandler.getInstance().saveProject(project);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		Utils.updateScreenWidthAndHeight(getActivity());
+		UtilUi.updateScreenWidthAndHeight(getActivity());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
@@ -409,11 +410,11 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		StorageHandler.getInstance().saveProject(project);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		Utils.updateScreenWidthAndHeight(getActivity());
+		UtilUi.updateScreenWidthAndHeight(getActivity());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
@@ -445,15 +446,15 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	private Project createTestProject(String projectName) {
 		Project project = new Project(getActivity(), projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
+		Sprite thirdSprite = new SingleSprite("horse");
+		Sprite fourthSprite = new SingleSprite("pig");
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
 
 		return project;
 	}

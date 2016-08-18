@@ -26,7 +26,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
-	private ConcurrentFormulaHashMap formulaMap;
+	protected ConcurrentFormulaHashMap formulaMap;
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap != null && formulaMap.containsKey(brickField)) {
@@ -92,5 +92,5 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public abstract void showFormulaEditorToEditFormula(View view);
 
-	public abstract void updateReferenceAfterMerge(Project into, Project from);
+	public abstract void updateReferenceAfterMerge(Scene into, Scene from);
 }

@@ -37,20 +37,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
+import com.google.common.base.Splitter;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -58,10 +57,12 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
-import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
@@ -73,11 +74,20 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -130,19 +140,6 @@ public final class Utils {
 		return false;
 	}
 
-	public static void updateScreenWidthAndHeight(Context context) {
-		if (context != null) {
-			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-			DisplayMetrics displayMetrics = new DisplayMetrics();
-			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
-			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
-		} else {
-			//a null-context should never be passed. However, an educated guess is needed in that case.
-			ScreenValues.setToDefaultSreenSize();
-		}
-	}
-
 	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -176,6 +173,139 @@ public final class Utils {
 				.ERROR_NETWORK;
 	}
 
+	public static String formatDate(Date date, Locale locale) {
+		return DateFormat.getDateInstance(DateFormat.LONG, locale).format(date);
+	}
+
+	@Nullable
+	public static byte[] convertInputStreamToByteArray(final InputStream inputStream) {
+		try {
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int len;
+			while ((len = inputStream.read(buffer)) > -1) {
+				byteArrayOutputStream.write(buffer, 0, len);
+			}
+			byteArrayOutputStream.flush();
+			return byteArrayOutputStream.toByteArray();
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	public static Date getScratchSecondReleasePublishedDate() {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_YEAR);
+		calendar.set(Calendar.MONTH, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_MONTH);
+		calendar.set(Calendar.DAY_OF_MONTH, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_DAY);
+		return calendar.getTime();
+	}
+
+	public static boolean isDeprecatedScratchProgram(final ScratchProgramData programData) {
+		// NOTE: ignoring old Scratch 1.x programs -> converter only supports version 2.x and later
+		//       Scratch 1.x programs are created before May 9, 2013 (see: https://wiki.scratch.mit.edu/wiki/Scratch_2.0)
+		final Date releasePublishedDate = getScratchSecondReleasePublishedDate();
+		if (programData.getModifiedDate() != null && programData.getModifiedDate().before(releasePublishedDate)) {
+			return true;
+		} else if (programData.getCreatedDate() != null && programData.getCreatedDate().before(releasePublishedDate)) {
+			return true;
+		}
+		return false;
+	}
+
+	public static String extractParameterFromURL(final String url, final String parameterKey) {
+		final String query = url.split("\\?")[1];
+		return Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query).get(parameterKey);
+	}
+
+	public static long extractScratchJobIDFromURL(final String url) {
+		if (!url.startsWith(Constants.SCRATCH_CONVERTER_BASE_URL)) {
+			return Constants.INVALID_SCRATCH_PROGRAM_ID;
+		}
+
+		final String jobIDString = extractParameterFromURL(url, "job_id");
+		if (jobIDString == null) {
+			return Constants.INVALID_SCRATCH_PROGRAM_ID;
+		}
+
+		final long jobID = Long.parseLong(jobIDString);
+		return jobID > 0 ? jobID : Constants.INVALID_SCRATCH_PROGRAM_ID;
+	}
+
+	public static int[] extractImageSizeFromScratchImageURL(final String url) {
+		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png?v=1368470695.0 -> [480, 360]
+		int[] defaultSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
+
+		String urlWithoutQuery = url.split("\\?")[0];
+		String[] urlStringParts = urlWithoutQuery.split("_");
+		if (urlStringParts.length == 0) {
+			return defaultSize;
+		}
+
+		final String[] sizeParts = urlStringParts[urlStringParts.length - 1].replace(".png", "").split("x");
+		if (sizeParts.length != 2) {
+			return defaultSize;
+		}
+
+		try {
+			int width = Integer.parseInt(sizeParts[0]);
+			int height = Integer.parseInt(sizeParts[1]);
+			return new int[] { width, height };
+		} catch (NumberFormatException ex) {
+			return new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
+		}
+	}
+
+	public static String changeSizeOfScratchImageURL(final String url, int newHeight) {
+		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png
+		//    ->    https://cdn2.scratch.mit.edu/get_image/project/10205819_240x180.png
+		final int[] imageSize = extractImageSizeFromScratchImageURL(url);
+		final int width = imageSize[0];
+		final int height = imageSize[1];
+		final int newWidth = Math.round(((float) width) / ((float) height) * newHeight);
+
+		return url.replace(width + "x", Integer.toString(newWidth) + "x")
+				.replace("x" + height, "x" + Integer.toString(newHeight));
+	}
+
+	public static String humanFriendlyFormattedShortNumber(final int number) {
+		if (number < 1_000) {
+			return Integer.toString(number);
+		} else if (number < 10_000) {
+			return Integer.toString(number / 1_000) + (number % 1_000 > 100 ? "."
+					+ Integer.toString((number % 1_000) / 100) : "") + "k";
+		} else if (number < 1_000_000) {
+			return Integer.toString(number / 1_000) + "k";
+		}
+		return Integer.toString(number / 1_000_000) + "M";
+	}
+
+	public static boolean setListViewHeightBasedOnItems(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter != null) {
+			int numberOfItems = listAdapter.getCount();
+			// Get total height of all items.
+			int totalItemsHeight = 0;
+			for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
+				View item = listAdapter.getView(itemPos, null, listView);
+				item.measure(0, 0);
+				totalItemsHeight += item.getMeasuredHeight();
+			}
+
+			// Get total height of all item dividers.
+			int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
+
+			// Set list height.
+			ViewGroup.LayoutParams params = listView.getLayoutParams();
+			params.height = totalItemsHeight + totalDividersHeight;
+			listView.setLayoutParams(params);
+			listView.requestLayout();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Constructs a path out of the pathElements.
 	 *
@@ -200,6 +330,15 @@ public final class Utils {
 
 	public static String buildProjectPath(String projectName) {
 		return buildPath(Constants.DEFAULT_ROOT, UtilFile.encodeSpecialCharsForFileSystem(projectName));
+	}
+
+	public static String buildScenePath(String projectName, String sceneName) {
+		return buildPath(buildProjectPath(projectName), UtilFile.encodeSpecialCharsForFileSystem(sceneName));
+	}
+
+	public static String buildBackpackScenePath(String sceneName) {
+		return buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY,
+				UtilFile.encodeSpecialCharsForFileSystem(sceneName));
 	}
 
 	public static void showErrorDialog(Context context, int errorMessageId) {
@@ -239,18 +378,6 @@ public final class Utils {
 		});
 		Dialog errorDialog = builder.create();
 		errorDialog.show();
-	}
-
-	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
-		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		MenuItem item = menu.findItem(R.id.select_all);
-		View view = item.getActionView();
-		if (view.getId() == R.id.select_all) {
-			View selectAllView = View.inflate(inflater.getContext(), R.layout.action_mode_select_all, null);
-			item.setActionView(selectAllView);
-			return selectAllView;
-		}
-		return null;
 	}
 
 	public static String md5Checksum(File file) {
@@ -298,6 +425,11 @@ public final class Utils {
 		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
 	}
 
+	public static double round(double value, int precision) {
+		final int scale = (int) Math.pow(10, precision);
+		return (double) Math.round(value * scale) / scale;
+	}
+
 	private static String toHex(byte[] messageDigest) {
 		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
@@ -323,6 +455,30 @@ public final class Utils {
 		return messageDigest;
 	}
 
+	public static ArrayList<String> formatStringForBubbleBricks(String text) {
+		ArrayList<String> lines = new ArrayList<>();
+
+		int cursorPos = 0;
+		while (cursorPos + Constants.MAX_STRING_LENGTH_BUBBLES < text.length()) {
+			String newLine = text.substring(cursorPos, cursorPos + Constants.MAX_STRING_LENGTH_BUBBLES);
+			int lastWhitespace = newLine.lastIndexOf(' ');
+			if (lastWhitespace < 0) {
+				lastWhitespace = Constants.MAX_STRING_LENGTH_BUBBLES;
+			}
+			newLine = text.substring(cursorPos, cursorPos + lastWhitespace);
+			while (newLine.contains("\n")) {
+				String subLine = newLine.substring(0, newLine.indexOf('\n') + 1);
+				lines.add(subLine);
+				newLine = newLine.replace(subLine, "");
+			}
+			lines.add(newLine);
+			cursorPos += lastWhitespace;
+		}
+		lines.add(text.substring(cursorPos, text.length()).trim());
+
+		return lines;
+	}
+
 	public static String getVersionName(Context context) {
 		String versionName = "unknown";
 		try {
@@ -340,6 +496,27 @@ public final class Utils {
 		return (int) (densityIndependentPixels * scale + 0.5f);
 	}
 
+	public static Activity getActivity() throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException,
+			NoSuchMethodException, InvocationTargetException {
+		Class activityThreadClass = Class.forName("android.app.ActivityThread");
+		Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+		Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+		activitiesField.setAccessible(true);
+		HashMap activities = (HashMap) activitiesField.get(activityThread);
+		for (Object activityRecord : activities.values()) {
+			Class activityRecordClass = activityRecord.getClass();
+			Field pausedField = activityRecordClass.getDeclaredField("paused");
+			pausedField.setAccessible(true);
+			if (!pausedField.getBoolean(activityRecord)) {
+				Field activityField = activityRecordClass.getDeclaredField("activity");
+				activityField.setAccessible(true);
+				Activity activity = (Activity) activityField.get(activityRecord);
+				return activity;
+			}
+		}
+		return null;
+	}
+
 	public static void saveToPreferences(Context context, String key, String message) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		Editor edit = sharedPreferences.edit();
@@ -355,10 +532,10 @@ public final class Utils {
 	}
 
 	public static void loadProjectIfNeeded(Context context) {
+		String projectName;
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-
 			if (projectName == null || !StorageHandler.getInstance().projectExists(projectName)) {
 				projectName = context.getString(R.string.default_project_name);
 			}
@@ -407,7 +584,7 @@ public final class Utils {
 			newName = name + nextNumber;
 		}
 
-		if (ProjectManager.getInstance().spriteExists(newName)) {
+		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
 			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
 		}
 
@@ -471,7 +648,7 @@ public final class Utils {
 		if (!sprite.isBackpackObject) {
 			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
 		} else {
-			spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 		}
 
 		if (nextNumber == 0) {
@@ -487,16 +664,52 @@ public final class Utils {
 		return newName;
 	}
 
+	public static String getUniqueSceneName(String sceneName, Project firstProject, Project secondProject) {
+		Project backup = ProjectManager.getInstance().getCurrentProject();
+		ProjectManager.getInstance().setCurrentProject(firstProject);
+		String result = getUniqueSceneName(sceneName, false);
+		ProjectManager.getInstance().setCurrentProject(secondProject);
+		sceneName = getUniqueSceneName(result, false);
+		ProjectManager.getInstance().setCurrentProject(backup);
+		return sceneName;
+	}
+
+	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
+		return searchForNonExistingSceneName(sceneName, 0, forBackPack);
+	}
+
+	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
+		String newName;
+		List<Scene> sceneList;
+		if (forBackPack) {
+			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
+		} else {
+			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		}
+
+		if (nextNumber == 0) {
+			newName = sceneName;
+		} else {
+			newName = sceneName + nextNumber;
+		}
+		for (Scene sceneListItem : sceneList) {
+			if (sceneListItem.getName().equals(newName)) {
+				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
+			}
+		}
+		return newName;
+	}
+
 	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
 		return searchForNonExistingSoundTitle(soundInfo, 0, forBackPack);
 	}
 
-	public static Project findValidProject() {
+	public static Project findValidProject(Context context) {
 		Project loadableProject = null;
 
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
-			loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			loadableProject = StorageHandler.getInstance().loadProject(projectName, context);
 			if (loadableProject != null) {
 				break;
 			}
@@ -571,13 +784,86 @@ public final class Utils {
 		return projectName;
 	}
 
+	public static boolean isStandardScene(Project project, String sceneName, Context context) {
+		try {
+			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
+					context);
+			Scene standardScene = standardProject.getDefaultScene();
+			ProjectManager.getInstance().deleteCurrentProject(null);
+
+			ProjectManager.getInstance().setProject(project);
+			ProjectManager.getInstance().saveProject(context);
+			Scene sceneToCheck = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+
+			if (sceneToCheck == null) {
+				Log.e(TAG, "isStandardScene: scene not found");
+				return false;
+			}
+
+			boolean result = true;
+
+			for (int i = 0; i < standardScene.getSpriteList().size(); i++) {
+				Sprite standardSprite = standardScene.getSpriteList().get(i);
+				Sprite spriteToCheck = sceneToCheck.getSpriteList().get(i);
+
+				for (int t = 0; t < standardSprite.getLookDataList().size(); t++) {
+					LookData standardLook = standardSprite.getLookDataList().get(t);
+					LookData lookToCheck = spriteToCheck.getLookDataList().get(t);
+
+					result &= standardLook.equals(lookToCheck);
+					if (!result) {
+						Log.e(TAG, "isStandardScene: " + standardLook.getLookName() + " was not the same as "
+								+ lookToCheck.getLookName());
+						return false;
+					}
+				}
+
+				for (int t = 0; t < standardSprite.getSoundList().size(); t++) {
+					SoundInfo standardSound = standardSprite.getSoundList().get(t);
+					SoundInfo soundToCheck = spriteToCheck.getSoundList().get(t);
+
+					result &= standardSound.equals(soundToCheck);
+					if (!result) {
+						Log.e(TAG, "isStandardScene: " + standardSound.getTitle() + " was not the same as "
+								+ standardSound.getTitle());
+						return false;
+					}
+				}
+
+				for (int t = 0; t < standardSprite.getListWithAllBricks().size(); t++) {
+					Brick standardBrick = standardSprite.getListWithAllBricks().get(t);
+					Brick brickToCheck = spriteToCheck.getListWithAllBricks().get(t);
+
+					result &= standardBrick.getClass().toString().equals(brickToCheck.getClass().toString());
+					if (!result) {
+						Log.e(TAG, "isStandardScene: " + standardBrick.getClass().toString() + " was not the same as "
+								+ brickToCheck.getClass().toString());
+						return false;
+					}
+				}
+
+				result &= standardSprite.equals(spriteToCheck);
+				if (!result) {
+					Log.e(TAG, "isStandardScene: " + standardSprite.getName() + " was not the same as "
+							+ spriteToCheck.getName());
+					return false;
+				}
+			}
+
+			return result;
+		} catch (Exception e) {
+			Log.e(TAG, "Exception: isStandardScene: ", e);
+			return false;
+		}
+	}
+
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
 			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
 					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
-			int start = standardProjectXMLString.indexOf("<objectList>");
-			int end = standardProjectXMLString.indexOf("</objectList>");
+			int start = standardProjectXMLString.indexOf("<scenes>");
+			int end = standardProjectXMLString.indexOf("</scenes>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
 			ProjectManager.getInstance().deleteCurrentProject(null);
 
@@ -585,8 +871,8 @@ public final class Utils {
 			ProjectManager.getInstance().saveProject(context);
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
-			start = projectToCheckXMLString.indexOf("<objectList>");
-			end = projectToCheckXMLString.indexOf("</objectList>");
+			start = projectToCheckXMLString.indexOf("<scenes>");
+			end = projectToCheckXMLString.indexOf("</scenes>");
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
@@ -640,18 +926,6 @@ public final class Utils {
 		return false;
 	}
 
-	public static void setSelectAllActionModeButtonVisibility(View selectAllActionModeButton, boolean setVisible) {
-		if (selectAllActionModeButton == null) {
-			return;
-		}
-
-		if (setVisible) {
-			selectAllActionModeButton.setVisibility(View.VISIBLE);
-		} else {
-			selectAllActionModeButton.setVisibility(View.GONE);
-		}
-	}
-
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
@@ -693,7 +967,7 @@ public final class Utils {
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
 	}
 

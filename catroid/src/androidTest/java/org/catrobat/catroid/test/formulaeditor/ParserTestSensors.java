@@ -29,6 +29,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -96,7 +97,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 	}
 
 	public void testSensorHandlerWithLookSensorValue() {
-		SensorHandler.startSensorListener(getInstrumentation().getContext());
+		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
 		assertEquals("SensorHandler returned wrong value when Sensor is not found in List", 0d,
 				SensorHandler.getSensorValue(Sensors.OBJECT_BRIGHTNESS));
 		SensorHandler.stopSensorListeners();
@@ -197,12 +198,12 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 	private void createProject() {
 		this.project = new Project(null, "testProject");
-		firstSprite = new Sprite("zwoosh");
+		firstSprite = new SingleSprite("zwoosh");
 		startScript1 = new StartScript();
 		Brick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 	}
 
 	private Double interpretFormula(Formula formula) {

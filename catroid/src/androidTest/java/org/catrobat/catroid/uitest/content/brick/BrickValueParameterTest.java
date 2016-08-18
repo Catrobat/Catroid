@@ -33,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -276,6 +277,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 			solo.scrollDownList(fragmentListView);
 		}
 
+		solo.sleep(500);
 		TextView setColorTextView = (TextView) solo.getView(R.id.brick_set_color_prototype_text_view);
 		float setColorPrototypeValue = Float.parseFloat(setColorTextView.getText().toString());
 		assertEquals("Value in Brick SetColor is not correct", BrickValues.SET_COLOR_TO,
@@ -438,6 +440,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(500);
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
@@ -571,16 +574,16 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
-		Sprite sprite = new Sprite("Dog");
-		Sprite sprite1 = new Sprite("Cat");
+		Sprite sprite = new SingleSprite("Dog");
+		Sprite sprite1 = new SingleSprite("Cat");
 		Script script = new StartScript();
 		Script script1 = new StartScript();
 		sprite.addScript(script);
 		sprite.addScript(script1);
-		project.addSprite(sprite);
-		project.addSprite(sprite1);
-		project.getDataContainer().addProjectUserVariable("BrickValueParameterTestUserVariable");
-		project.getDataContainer().addProjectUserList("BrickValueParameterTestUserList");
+		project.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite1);
+		project.getDefaultScene().getDataContainer().addProjectUserVariable("BrickValueParameterTestUserVariable");
+		project.getDefaultScene().getDataContainer().addProjectUserList("BrickValueParameterTestUserList");
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

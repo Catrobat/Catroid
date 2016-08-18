@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -74,7 +75,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertEquals("Incorrect number of bricks.", 6, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 0, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
@@ -95,7 +96,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	public void testIfBrickParts() {
 		int dragAndDropSteps = 100;
 		ArrayList<Integer> yPosition;
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		Log.d(TAG, "Before drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
@@ -184,7 +185,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
 
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+		projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(1).getBrickList();
 
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
@@ -202,7 +203,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		oldYto = yPosition.get(5) + 20;
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, oldYto, dragAndDropSteps);
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+		projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(1).getBrickList();
 
 		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
 		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
@@ -218,11 +219,11 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testCopyIfLogicBeginBrickActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.clickOnCheckBox(1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
@@ -234,11 +235,11 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testCopyIfLogicElseBrickActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.clickOnCheckBox(3);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
@@ -250,11 +251,11 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testCopyIfLogicEndBrickActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.clickOnCheckBox(4);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
@@ -266,12 +267,12 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testSelectionAfterCopyActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		solo.clickOnCheckBox(1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.clickOnCheckBox(6);
 
 		CheckBox firstIfLogicBeginBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox, 0);
@@ -292,7 +293,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testSelectionActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		CheckBox ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox);
@@ -306,7 +307,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox);
@@ -327,7 +328,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new StartScript();
 		ifBrick = new IfLogicBeginBrick(0);
 		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBrick);
@@ -342,7 +343,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		sprite.addScript(script);
 		sprite.addScript(new StartScript());
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

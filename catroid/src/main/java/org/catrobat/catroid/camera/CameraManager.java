@@ -62,7 +62,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	private static CameraManager instance;
 	private Camera currentCamera;
 	private SurfaceTexture texture;
-	private List<JpgPreviewCallback> callbacks = new ArrayList<JpgPreviewCallback>();
+	private List<JpgPreviewCallback> callbacks = new ArrayList<>();
 	private int previewFormat;
 	private int previewWidth;
 	private int previewHeight;
@@ -169,6 +169,10 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 	public boolean isCurrentCameraFacingFront() {
 		return currentCameraInformation == frontCameraInformation;
+	}
+
+	public boolean isCameraActive() {
+		return state == CameraState.previewRunning;
 	}
 
 	public void setToDefaultCamera() {
@@ -421,6 +425,26 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	public void resumePreview() {
 		prepareCamera();
 		wasRunning = false;
+	}
+
+	public void pauseForScene() {
+		Runnable r = new Runnable() {
+			public void run() {
+				pausePreview();
+			}
+		};
+		stageActivity.post(r);
+		wasRunning = false;
+		state = CameraState.notUsed;
+	}
+
+	public void resumeForScene() {
+		Runnable r = new Runnable() {
+			public void run() {
+				resumePreview();
+			}
+		};
+		stageActivity.post(r);
 	}
 
 	@Override
