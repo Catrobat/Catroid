@@ -258,6 +258,13 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 
 		initAdapter();
+
+		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -562,14 +569,35 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		}
 
 		if (projectList.isEmpty()) {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			projectManager.initializeDefaultProject(getActivity());
+			initializeDefaultProjectAfterDelete();
+			return;
 		} else if (ProjectManager.getInstance().getCurrentProject() == null) {
 			Utils.saveToPreferences(getActivity().getApplicationContext(), Constants.PREF_PROJECTNAME_KEY,
 					projectList.get(0).projectName);
 		}
 
 		initAdapter();
+	}
+
+	private void initializeDefaultProjectAfterDelete() {
+		final ProjectManager projectManager = ProjectManager.getInstance();
+		getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				projectManager.initializeDefaultProject(getActivity());
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+						getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
+						initAdapter();
+					}
+				});
+			}
+		};
+		(new Thread(r)).start();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {
