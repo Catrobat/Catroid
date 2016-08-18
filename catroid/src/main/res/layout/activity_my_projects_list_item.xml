@@ -70,7 +70,8 @@
                 android:background="@color/transparent"
                 android:layout_alignParentRight="true"
                 android:padding="20dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:visibility="gone"/>
 
         </RelativeLayout >
 
