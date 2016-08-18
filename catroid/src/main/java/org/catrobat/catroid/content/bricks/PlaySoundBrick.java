@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
+import org.catrobat.catroid.utils.IdPool;
 
 import java.util.List;
 
@@ -58,10 +59,15 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	private static final long serialVersionUID = 1L;
 
 	private SoundInfo sound;
+	private transient int id = IdPool.getInstance().getNewId();
 	private transient SoundInfo oldSelectedSound;
 	private transient AdapterView<?> adapterView;
 
 	public PlaySoundBrick() {
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	@Override
@@ -235,7 +241,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		}
 	}
 
-	public SoundInfo getSound() {
+	public SoundInfo getSoundInfo() {
 		return sound;
 	}
 

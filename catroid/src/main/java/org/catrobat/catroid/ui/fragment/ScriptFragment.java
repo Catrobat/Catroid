@@ -73,7 +73,6 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickCheckedListener;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -90,8 +89,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private static final int ACTION_MODE_COPY = 0;
 	private static final int ACTION_MODE_DELETE = 1;
 	private static final int ACTION_MODE_BACKPACK = 2;
-
-	private static int selectedBrickPosition = Constants.NO_POSITION;
 
 	private ActionMode actionMode;
 	private View selectAllActionModeButton;
@@ -495,6 +492,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
+	public void startUndoActionMode() {
+		//currently not implemented
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		//currently not implemented
+	}
+
+	@Override
 	public boolean getActionModeActive() {
 		return actionModeActive;
 	}
@@ -512,9 +519,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	protected void showDeleteDialog() {
-
-		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
-		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

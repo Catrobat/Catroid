@@ -197,6 +197,14 @@ public class ProjectActivity extends BaseActivity {
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 				break;
+
+			case R.id.menu_undo:
+				spritesListFragment.startUndoActionMode();
+				break;
+
+			case R.id.menu_redo:
+				spritesListFragment.startRedoActionMode();
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

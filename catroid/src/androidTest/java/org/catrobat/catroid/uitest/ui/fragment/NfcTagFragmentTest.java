@@ -307,6 +307,123 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals(assertMessageText, expectedTagName, getTagName(2));
 	}
 
+	public void testUndoRedoActionModesNoItemsSelected() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Delete)", solo.getView(R.id.menu_undo).isEnabled());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Copy)", solo.getView(R.id.menu_undo).isEnabled());
+
+		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(TIME_TO_WAIT);
+		assertFalse("Undo should not be visible! (Rename)", solo.getView(R.id.menu_undo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceDelete() {
+		deleteNFCTag(FIRST_TEST_TAG_NAME);
+
+		assertEquals("tag was not deleted!", 1, getCurrentNumberOfTags());
+		undo();
+		assertTrue("tag was not restored!", solo.waitForText(FIRST_TEST_TAG_NAME));
+		redo();
+		assertEquals("tag was not deleted again!", 1, getCurrentNumberOfTags());
+
+		deleteNFCTag(SECOND_TEST_TAG_NAME);
+		assertEquals("Second tag was not deleted!", 0, getCurrentNumberOfTags());
+		undo();
+		assertTrue("tag was not restored!", solo.waitForText(SECOND_TEST_TAG_NAME));
+		undo();
+		assertTrue("tag was not restored!", solo.waitForText(FIRST_TEST_TAG_NAME));
+		redo();
+		assertEquals("First tag was not deleted again!", 1, getCurrentNumberOfTags());
+		deleteNFCTag(SECOND_TEST_TAG_NAME);
+		assertEquals("First tag was not deleted again!", 0, getCurrentNumberOfTags());
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceCopy() {
+		copyNFCTag(FIRST_TEST_TAG_NAME);
+		assertEquals("tag was not copied!", 3, getCurrentNumberOfTags());
+		undo();
+		assertEquals("Copied tag has not been undone!", 2, getCurrentNumberOfTags());
+		redo();
+		assertEquals("tag was not copied again!", 3, getCurrentNumberOfTags());
+
+		copyNFCTag(SECOND_TEST_TAG_NAME);
+		assertEquals("Second tag was not copied!", 4, getCurrentNumberOfTags());
+		undo();
+		assertEquals("Second tag copy was not undone!", 3, getCurrentNumberOfTags());
+		undo();
+		assertEquals("First tag copy was not undone!", 2, getCurrentNumberOfTags());
+		redo();
+		assertEquals("First tag was not copied again!", 3, getCurrentNumberOfTags());
+		copyNFCTag(SECOND_TEST_TAG_NAME);
+		assertEquals("Second tag was not copied!", 4, getCurrentNumberOfTags());
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceRename() {
+		String renameNameFirst = "test1";
+		String renameNameSecond = "test2";
+		renameTag(FIRST_TEST_TAG_NAME, renameNameFirst);
+		assertTrue("tag was not renamed!", searchForTag(renameNameFirst));
+		assertFalse("tag " + FIRST_TEST_TAG_NAME + " should not be in list!", searchForTag(FIRST_TEST_TAG_NAME));
+
+		undo();
+		assertTrue("tag " + FIRST_TEST_TAG_NAME + " should be in list after undo!", searchForTag(FIRST_TEST_TAG_NAME));
+		assertFalse("tag " + renameNameFirst + " should not be in list after undo!", searchForTag(renameNameFirst));
+
+		redo();
+		assertTrue("tag was not renamed after redo!", searchForTag(renameNameFirst));
+		assertFalse("tag " + FIRST_TEST_TAG_NAME + " should not be in list after redo!", searchForTag(FIRST_TEST_TAG_NAME));
+
+		renameTag(SECOND_TEST_TAG_NAME, renameNameSecond);
+		assertTrue("Second tag was not renamed!", searchForTag(renameNameSecond));
+		assertFalse("tag " + SECOND_TEST_TAG_NAME + " should not be in list!", searchForTag(SECOND_TEST_TAG_NAME));
+
+		undo();
+		assertTrue("Second tag was not undone!", searchForTag(SECOND_TEST_TAG_NAME));
+		assertFalse("tag " + renameNameSecond + " should not be in list!", searchForTag(renameNameSecond));
+
+		undo();
+		assertTrue("tag " + FIRST_TEST_TAG_NAME + " should be in list after undo!", searchForTag(FIRST_TEST_TAG_NAME));
+		assertFalse("tag " + renameNameFirst + " should not be in list after undo!", searchForTag(renameNameFirst));
+
+		redo();
+		assertTrue("tag was not renamed after redo!", searchForTag(renameNameFirst));
+		assertFalse("tag " + FIRST_TEST_TAG_NAME + " should not be in list after redo!", searchForTag(FIRST_TEST_TAG_NAME));
+
+		renameTag(SECOND_TEST_TAG_NAME, renameNameSecond);
+		assertTrue("Second tag was not renamed!", searchForTag(renameNameSecond));
+		assertFalse("tag " + SECOND_TEST_TAG_NAME + " should not be in list!", searchForTag(SECOND_TEST_TAG_NAME));
+		assertFalse("Redo should not be visible!", solo.getView(R.id.menu_redo).isEnabled());
+	}
+
+	public void testUndoRedoSequenceMixedCase() {
+		String copyNFCTagNameFirst = FIRST_TEST_TAG_NAME + "1";
+		copyNFCTag(FIRST_TEST_TAG_NAME);
+		assertEquals("tag was not copied!", 3, getCurrentNumberOfTags());
+
+		deleteNFCTag(copyNFCTagNameFirst);
+		assertEquals("copied tag was not deleted!", 2, getCurrentNumberOfTags());
+
+		undo();
+		assertEquals("undo of delete copied tag was not done!", 3, getCurrentNumberOfTags());
+
+		undo();
+		assertEquals("undo of copy tag was not done!", 2, getCurrentNumberOfTags());
+
+		redo();
+		assertEquals("redo of copy tag was not done!", 3, getCurrentNumberOfTags());
+
+		redo();
+		assertEquals("redo of delete copied tag was not done!", 2, getCurrentNumberOfTags());
+	}
+
 	public void testBottomBarAndContextMenuOnActionModes() {
 		if (!getNfcTagAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.show_details), true);
@@ -805,7 +922,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 
-	public void testDragAndDropUp() {
+	public void testDragAndDropUpWithUndoRedo() {
 		for (int i = 0; i < 2; i++) {
 			addNFCTagWithName("TestNFC" + i);
 		}
@@ -821,6 +938,22 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(1) - 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(2).getNfcTagName(), "TestNFC1");
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(3).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC0");
+
+		undo();
+
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(2).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(3).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
+
+		redo();
 
 		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
 		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
@@ -845,6 +978,22 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(1), 10, yPositionList.get(4) + 100, 20);
+
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(2).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(3).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
+
+		undo();
+
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(1).getNfcTagName(), SECOND_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(2).getNfcTagName(), THIRD_TEST_TAG_NAME);
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(3).getNfcTagName(), "TestNFC0");
+		assertEquals("Wrong List before DragAndDropTest", tagDataList.get(4).getNfcTagName(), "TestNFC1");
+
+		redo();
 
 		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(0).getNfcTagName(), FIRST_TEST_TAG_NAME);
 		assertEquals("Wrong List after DragAndDropTest", tagDataList.get(1).getNfcTagName(), THIRD_TEST_TAG_NAME);
@@ -935,6 +1084,40 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	private void checkIfNumberOfTagsIsEqual(int expectedNumber) {
 		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 		assertEquals("Number of looks is not as expected", expectedNumber, tagDataList.size());
+	}
+
+	private void deleteNFCTag(String nfcName) {
+		clickOnContextMenuItem(nfcName, delete, R.id.delete);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void copyNFCTag(String nfcName) {
+		clickOnContextMenuItem(nfcName, copy, R.id.copy);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void undo() {
+		solo.clickOnActionBarItem(R.id.menu_undo);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private void redo() {
+		solo.clickOnActionBarItem(R.id.menu_redo);
+		solo.sleep(TIME_TO_WAIT);
+	}
+
+	private boolean searchForTag(String tagName) {
+		for (NfcTagData tagData : ProjectManager.getInstance().getCurrentSprite().getNfcTagList()) {
+			if (tagData.getNfcTagName().compareTo(tagName) == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private int getCurrentNumberOfTags() {
+		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
+		return tagDataList.size();
 	}
 
 	private void addNFCTagWithName(String tagName) {

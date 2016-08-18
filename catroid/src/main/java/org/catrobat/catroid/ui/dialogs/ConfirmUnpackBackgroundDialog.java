@@ -37,10 +37,16 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SpriteHistory;
+import org.catrobat.catroid.content.commands.SpriteCommands;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 
@@ -111,8 +117,22 @@ public class ConfirmUnpackBackgroundDialog extends DialogFragment {
 			return;
 		}
 
+		List<Sprite> before = new ArrayList<>();
+		Sprite oldBackground = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		before.addAll(ProjectManager.getInstance().getCurrentProject().getSpriteList());
 		Sprite unpackedSprite = BackPackSpriteController.getInstance().unpack(selectedSprite, delete,
 				keepCurrentSprite, fromHiddenBackPack, asBackground);
+		List<Sprite> after = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		if (before.size() <= after.size()) {
+			ArrayList<Sprite> toAdd = new ArrayList<>();
+			for (int i = before.size(); i < after.size(); i++) {
+				toAdd.add(after.get(i));
+			}
+			SpriteCommands.AddSpriteCommand command = new SpriteCommands.AddSpriteCommand(toAdd, unpackedSprite, oldBackground);
+			SpriteHistory.getInstance().add(command);
+		}
+
 		unpackedSprite.setName(getActivity().getString(R.string.background));
 		returnToProjectActivity();
 

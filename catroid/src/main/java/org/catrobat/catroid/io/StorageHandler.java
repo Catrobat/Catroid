@@ -447,6 +447,17 @@ public final class StorageHandler {
 		}
 	}
 
+	public String[] getLookFileList(String projectName) {
+		File directoryLooks = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.IMAGE_DIRECTORY));
+
+		return directoryLooks.list();
+	}
+
+	public String[] getSoundFileList(String projectName) {
+		File directorySounds = new File(buildPath(Constants.DEFAULT_ROOT, projectName, Constants.SOUND_DIRECTORY));
+		return directorySounds.list();
+	}
+
 	public Project loadProject(String projectName) {
 		File file = new File(DEFAULT_ROOT);
 		if (!file.exists()) {

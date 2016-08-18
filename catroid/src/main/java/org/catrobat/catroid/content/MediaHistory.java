@@ -20,45 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
+package org.catrobat.catroid.content;
 
-import android.app.ListFragment;
+import org.catrobat.catroid.content.commands.Command;
 
-public abstract class ScriptActivityFragment extends ListFragment {
+import java.util.Stack;
 
-	protected boolean actionModeActive = false;
+public abstract class MediaHistory {
+	protected Stack<Command> redoStack = new Stack<>();
+	protected Stack<Command> undoStack = new Stack<>();
 
-	public boolean getActionModeActive() {
-		return actionModeActive;
+	public void undo() {
+		Command command = undoStack.pop();
+		command.undo();
+		redoStack.push(command);
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	public void redo() {
+		Command command = redoStack.pop();
+		command.execute();
+		undoStack.push(command);
 	}
 
-	public abstract boolean getShowDetails();
+	public void add(Command command) {
+		undoStack.push(command);
+		redoStack.clear();
+	}
 
-	public abstract void setShowDetails(boolean showDetails);
+	public boolean isUndoable() {
+		return !undoStack.empty();
+	}
 
-	public abstract void setSelectMode(int selectMode);
-
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
-	public abstract void handleAddButton();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
+	public boolean isRedoable() {
+		return !redoStack.empty();
+	}
 }

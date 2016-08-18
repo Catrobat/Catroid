@@ -181,12 +181,12 @@ public final class BackPackSpriteController {
 
 		for (LookData lookData : selectedSprite.getLookDataList()) {
 			if (!lookDataIsUsedInScript(lookData, selectedSprite)) {
-				LookController.getInstance().unpack(lookData, delete, true);
+				unpackedSprite.addLookData(LookController.getInstance().unpack(lookData, delete, true));
 			}
 		}
 		for (SoundInfo soundInfo : selectedSprite.getSoundList()) {
 			if (!soundInfoIsUsedInScript(soundInfo, selectedSprite)) {
-				SoundController.getInstance().unpack(soundInfo, delete, true);
+				unpackedSprite.addSound(SoundController.getInstance().unpack(soundInfo, delete, true));
 			}
 		}
 
@@ -226,7 +226,7 @@ public final class BackPackSpriteController {
 
 	private boolean soundInfoIsUsedInScript(SoundInfo soundInfo, Sprite sprite) {
 		for (Brick brick : sprite.getListWithAllBricks()) {
-			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound().equals(soundInfo)) {
+			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSoundInfo().equals(soundInfo)) {
 				return true;
 			}
 		}
