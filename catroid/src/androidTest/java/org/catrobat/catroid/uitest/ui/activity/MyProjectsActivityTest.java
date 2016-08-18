@@ -742,6 +742,49 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
+	public void testProjectOverview() {
+		int showOverviewButtonId = R.id.my_projects_activity_show_overview;
+		int editDescriptionButtonId = R.id.my_projects_activity_edit_description_button;
+		String description = "testDescription";
+
+		createProjectsWithoutSprites();
+		solo.sleep(200);
+		Project project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		assertTrue("show Overview Button not found for every project", solo.waitForView(showOverviewButtonId, 2, 1000));
+		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
+		solo.sleep(200);
+		View overviewView = solo.getView(R.id.my_projects_activity_list_item_overview, 0);
+		View descriptionText = solo.getView(R.id.my_projects_activity_description_content, 0);
+		View descriptionEdit = solo.getView(R.id.my_projects_activity_description_edit, 0);
+		assertEquals("overview should be visible", View.VISIBLE, overviewView.getVisibility());
+		assertEquals("descriptionText should be visible", View.VISIBLE, descriptionText.getVisibility());
+		assertEquals("descriptionEdit should not be visible", View.GONE, descriptionEdit.getVisibility());
+
+		solo.clickOnView(solo.getView(editDescriptionButtonId));
+		solo.sleep(200);
+		assertEquals("descriptionText should not be visible", View.GONE, descriptionText.getVisibility());
+		assertEquals("descriptionEdit should be visible", View.VISIBLE, descriptionEdit.getVisibility());
+		assertEquals("description should be empty", "", project.getXmlHeader().getDescription());
+
+		UiTestUtils.enterText(solo, 0, description);
+
+		solo.goBack();
+		solo.sleep(200);
+		assertEquals("descriptionText should be visible", View.VISIBLE, descriptionText.getVisibility());
+		assertEquals("descriptionEdit should not be visible", View.GONE, descriptionEdit.getVisibility());
+
+		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
+		solo.sleep(200);
+		assertEquals("overview should not be visible", View.GONE, overviewView.getVisibility());
+		project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		assertEquals("description was not saved", description, project.getXmlHeader().getDescription());
+	}
+
 	public void testItemClick() {
 		createProjects();
 		solo.sleep(2000);
