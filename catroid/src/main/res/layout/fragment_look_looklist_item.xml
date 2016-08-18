@@ -20,50 +20,37 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    style="@style/LinearLayout.GravityCenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/look_main_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:minHeight="90dp"
     android:orientation="horizontal" >
 
     <CheckBox
+        style="@style/WrapContent.Gone.Margin"
         android:id="@+id/fragment_look_item_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="13dp"
-        android:gravity="right"
-        android:visibility="gone" />
+        android:gravity="right" />
 
     <RelativeLayout
+        style="@style/RelativeLayout"
         android:id="@+id/fragment_look_item_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:background="@drawable/button_background_selector"
         android:gravity="center_vertical"
         android:longClickable="true"
         android:orientation="horizontal" >
 
         <ImageView
+            style="@style/ActivityFragmentImageView"
             android:id="@+id/fragment_look_item_image_view"
-            android:layout_width="72dp"
-            android:layout_height="65dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="9dp"
             android:background="@drawable/image_contour"
             android:contentDescription="@string/look"
-            android:cropToPadding="true"
-            android:scaleType="centerCrop"
             android:src="@drawable/default_project_bird_wing_up" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/LinearLayout"
             android:layout_toRightOf="@+id/fragment_look_item_image_view"
             android:gravity="center_vertical"
-            android:orientation="vertical"
             android:paddingLeft="12.5dp" >
 
             <TextView
@@ -87,35 +74,27 @@
                     <TextView
                         android:id="@+id/fragment_look_item_measure_prefix_text_view"
                         style="@style/look_fragment_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/look_measure" />
 
                     <TextView
                         android:id="@+id/fragment_look_item_size_prefix_text_view"
                         style="@style/look_fragment_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/size" />
                 </LinearLayout>
 
                 <LinearLayout
+                    style="@style/LinearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:paddingLeft="39dp" >
 
                     <TextView
                         android:id="@+id/fragment_look_item_measure_text_view"
-                        style="@style/look_fragment_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/look_fragment_detail" />
 
                     <TextView
                         android:id="@+id/fragment_look_item_size_text_view"
-                        style="@style/look_fragment_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/look_fragment_detail" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

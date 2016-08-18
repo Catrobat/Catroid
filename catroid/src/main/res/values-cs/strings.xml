@@ -343,7 +343,7 @@ Zdrojový kód Pocket Code je z většiny licencovaný pod GNU AGPL v3 licencí.
   <string name="sign_in_dialog_title">Přihlásit se</string>
   <string name="username">Uživatelské jméno:</string>
   <string name="password">Heslo:</string>
-  <string name="password_forgotten">Zapomenuté heslo?</string>
+  <string name="forgot_your_password">Zapomenuté heslo?</string>
   <string name="new_user_registered">Nový účet vytvořen</string>
   <string name="user_logged_in">Úspěšně přihlášen/a</string>
   <string name="register_error">Neplatné přihlášení</string>

@@ -343,7 +343,7 @@
   <string name="sign_in_dialog_title">Einloggen</string>
   <string name="username">Benutzername:</string>
   <string name="password">Passwort:</string>
-  <string name="password_forgotten">Passwort vergessen?</string>
+  <string name="forgot_your_password">Passwort vergessen?</string>
   <string name="new_user_registered">Neuer Account wurde erstellt</string>
   <string name="user_logged_in">Erfolgreich eigeloggt</string>
   <string name="register_error">Login ungültig</string>

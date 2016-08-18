@@ -25,7 +25,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        style="@style/RelativeLayout"
         android:layout_height="wrap_content">
 
         <org.catrobat.catroid.ui.CapitalizedTextView
@@ -51,24 +51,18 @@
             android:checkedButton="@+id/project_empty_radio_button">
 
             <RadioButton
+                style="@style/DialogRadioButton.NewProject"
                 android:id="@+id/project_empty_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:text="@string/new_project_empty" />
 
             <RadioButton
+                style="@style/DialogRadioButton.NewProject"
                 android:id="@+id/project_default_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:text="@string/new_project_default" />
 
             <RadioButton
+                style="@style/DialogRadioButton.NewProject"
                 android:id="@+id/project_default_drone_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:text="@string/new_project_default_drone"
                 android:visibility="gone" />
         </RadioGroup>

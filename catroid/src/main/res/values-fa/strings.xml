@@ -337,7 +337,7 @@
   <string name="sign_in_dialog_title">ورود</string>
   <string name="username">نام کاربری:</string>
   <string name="password">رمز عبور:</string>
-  <string name="password_forgotten">فراموشی رمزعبور؟</string>
+  <string name="forgot_your_password">فراموشی رمزعبور؟</string>
   <string name="new_user_registered">حساب جدید ایجاد شد</string>
   <string name="user_logged_in">ورود موفقیت آمیز</string>
   <string name="register_error">ورود نامعتبر</string>

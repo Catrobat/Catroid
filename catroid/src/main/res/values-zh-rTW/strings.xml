@@ -330,7 +330,7 @@
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">使用者名稱:</string>
   <string name="password">密碼:</string>
-  <string name="password_forgotten">Password forgotten?</string>
+  <string name="forgot_your_password">Password forgotten?</string>
   <string name="new_user_registered">已建立新帳號</string>
   <string name="user_logged_in">Successfully logged in</string>
   <string name="register_error">Invalid login</string>

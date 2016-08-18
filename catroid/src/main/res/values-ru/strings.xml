@@ -343,7 +343,7 @@
   <string name="sign_in_dialog_title">Войти</string>
   <string name="username">Имя:</string>
   <string name="password">Пароль:</string>
-  <string name="password_forgotten">Забыли пароль?</string>
+  <string name="forgot_your_password">Забыли пароль?</string>
   <string name="new_user_registered">новый аккаунт создан</string>
   <string name="user_logged_in">Вход прошел успешно</string>
   <string name="register_error">Неверный логин</string>

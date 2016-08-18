@@ -26,7 +26,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        style="@style/RelativeLayout"
         android:layout_height="wrap_content" >
 
         <org.catrobat.catroid.ui.CapitalizedTextView
@@ -44,8 +44,6 @@
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/project_name_line"
             android:hint="@string/name_merge_result"
-            android:inputType="text"
-            android:maxLines="1"
             android:selectAllOnFocus="true" />
     </RelativeLayout >
 

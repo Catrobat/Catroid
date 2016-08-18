@@ -26,7 +26,6 @@
     <dimen name="actionbar_height" >48dip</dimen >
     <dimen name="project_thumbnail_height" >65dip</dimen >
     <dimen name="project_thumbnail_width" >72dip</dimen >
-    <dimen name="text_size_small" >12sp</dimen>
     <dimen name="text_size_medium" >16sp</dimen >
     <dimen name="text_size_large" >18sp</dimen >
     <dimen name="text_size_main_menu_buttons" >22sp</dimen >
@@ -71,9 +70,11 @@
     <dimen name="dialog_radio_button_padding" >20dp</dimen >
     <dimen name="dialog_radio_group_margin_left" >16dp</dimen >
     <dimen name="dialog_radio_group_margin_right" >16dp</dimen >
+    <dimen name="dialog_text_view_layout_height" >100dp</dimen >
     <dimen name="dialog_text_view_layout_width" >0dp</dimen >
     <dimen name="dialog_text_view_margin_left" >10dp</dimen >
     <dimen name="dialog_text_view_margin_right" >10dp</dimen >
+    <dimen name="dialog_text_view_text_size_tiny" >12sp</dimen >
     <dimen name="dialog_text_view_text_size_small" >14sp</dimen >
     <dimen name="dialog_view_layout_margin_top" >20dp</dimen >
     <!--  -->
@@ -88,7 +89,8 @@
     <dimen name="activity_bottom_bar_image_view_padding_bottom" >5dp</dimen >
     <dimen name="activity_bottom_bar_image_view_padding_top" >5dp</dimen >
     <dimen name="activity_check_box_margin_left" >15dp</dimen >
-    <dimen name="activity_check_box_margin_right" >15dp</dimen >
+    <dimen name="activity_check_box_margin_right_small" >13dp</dimen >
+    <dimen name="activity_check_box_margin_right_big" >15dp</dimen >
     <dimen name="activity_linear_layout_height" >90dip</dimen >
     <dimen name="activity_text_view_margin_left_small" >12.5dp</dimen >
     <dimen name="activity_text_view_margin_left_big" >24dp</dimen >
@@ -104,4 +106,8 @@
     <dimen name="device_button_padding_bottom" >5dp</dimen >
     <dimen name="device_text_view_text_size" >15sp</dimen >
 
+    <!-- Fragment -->
+    <dimen name="fragment_table_row_paddingBottom" >30dp</dimen >
+    <dimen name="fragment_table_row_paddingTop" >30dp</dimen >
+    
 </resources>

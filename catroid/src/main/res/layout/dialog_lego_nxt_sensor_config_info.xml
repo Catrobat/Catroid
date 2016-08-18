@@ -36,10 +36,9 @@
             android:text="@string/lego_nxt_sensor_config_info_text" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            style="@style/LinearLayout.GravityCenter"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="12dp">
+            android:layout_marginLeft="12dp" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,9 +102,10 @@
 
         </LinearLayout>
 
-        <CheckBox android:id="@+id/lego_nxt_sensor_config_info_disable_show_dialog"
+        <CheckBox
+            style="@style/WrapContent"
+            android:id="@+id/lego_nxt_sensor_config_info_disable_show_dialog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="@dimen/dialog_check_box_margin_bottom"
             android:layout_marginLeft="12dp"

@@ -331,7 +331,7 @@
   <string name="sign_in_dialog_title">サインイン</string>
   <string name="username">ユーザー名:</string>
   <string name="password">パスワード:</string>
-  <string name="password_forgotten">パスワードをお忘れですか?</string>
+  <string name="forgot_your_password">パスワードをお忘れですか?</string>
   <string name="new_user_registered">新しいアカウントを作成</string>
   <string name="user_logged_in">ログインに成功しました</string>
   <string name="register_error">ログインが無効です</string>

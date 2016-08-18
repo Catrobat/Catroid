@@ -21,17 +21,17 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    style="@style/LinearLayout.GravityCenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
 
     <LinearLayout
+        style="@style/LinearLayout.GravityCenter"
         android:id="@+id/formula_editor_brick_space"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:layout_width="fill_parent"

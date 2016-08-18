@@ -22,10 +22,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+<RelativeLayout
+    style="@style/RelativeLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" >
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,14 +39,12 @@
         style="@style/Theme.Catroid" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ActivityStandaloneAdvertisingTextView"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/marketing_created_with"
         android:id="@+id/description"
         android:layout_marginTop="@dimen/activity_text_view_margin_top"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/title" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -58,23 +56,17 @@
         android:background="@color/application_background_color"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ActivityStandaloneAdvertisingTextView.MarginTop"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/marketing_app_details"
         android:id="@+id/website_link"
-        android:layout_below="@+id/pocket_code_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_text_view_margin_top" />
+        android:layout_below="@+id/pocket_code_image" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ActivityStandaloneAdvertisingTextView.MarginTop"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/marketing_more_on_google_play"
         android:id="@+id/playStore_link"
-        android:layout_marginTop="@dimen/activity_text_view_margin_top"
-        android:layout_below="@+id/website_link"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/website_link" />
 
     </RelativeLayout >
