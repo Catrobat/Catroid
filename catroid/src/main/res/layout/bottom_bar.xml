@@ -21,13 +21,14 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/bottom_bar"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/activity_bottom_bar_height"
-              android:layout_alignParentBottom="true"
-              android:background="@drawable/bottom_bar_background"
-              android:orientation="horizontal" >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/activity_bottom_bar_layout_height"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/bottom_bar_background"
+    android:orientation="horizontal" >
 
     <ImageButton
         style="@style/BottomBarImageButton"
@@ -38,9 +39,9 @@
     <ImageView
         android:id="@+id/bottom_bar_separator"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/activity_bottom_bar_height"
-        android:paddingBottom="@dimen/activity_bottom_bar_image_view_padding"
-        android:paddingTop="@dimen/activity_bottom_bar_image_view_padding"
+        android:layout_height="@dimen/activity_bottom_bar_layout_height"
+        android:paddingBottom="@dimen/activity_bottom_bar_image_view_padding_bottom"
+        android:paddingTop="@dimen/activity_bottom_bar_image_view_padding_top"
         android:scaleType="fitXY"
         android:src="@drawable/bottombar_separator" />
 

@@ -27,9 +27,8 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        style="@style/RelativeLayout"
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/dialog_rate_us_text"

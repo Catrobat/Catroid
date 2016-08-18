@@ -21,12 +21,11 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout
+    style="@style/TableLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motor_base_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
     android:stretchColumns="1">
 
     <TableRow
@@ -52,11 +51,9 @@
             tools:ignore="HardcodedText" />
 
         <SeekBar
+            style="@style/Seekbar"
             android:id="@+id/single_seekbar_seekbar"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="50"
-            android:maxHeight="60dp"
             android:max="100"
             android:layout_marginTop="10dp" />
 
@@ -70,8 +67,8 @@
         <TextView
             android:id="@+id/single_seekbar_value"
             style="@style/FragmentSeekbarChooserTextView"
-            android:layout_width="5dp"
             android:layout_height="match_parent"
+            android:layout_width="5dp"
             android:layout_weight="25"
             android:text="100"
             android:textColor="@color/white"

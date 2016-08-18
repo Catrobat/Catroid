@@ -337,7 +337,7 @@
   <string name="sign_in_dialog_title">Accedi</string>
   <string name="username">Nome utente:</string>
   <string name="password">Password:</string>
-  <string name="password_forgotten">Password dimenticata?</string>
+  <string name="forgot_your_password">Password dimenticata?</string>
   <string name="new_user_registered">Nuovo account creato</string>
   <string name="user_logged_in">Autenticato correttamente</string>
   <string name="register_error">Login non valido</string>

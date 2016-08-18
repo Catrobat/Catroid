@@ -25,31 +25,30 @@
     style="@style/DefaultDialog"
     android:orientation="vertical" >
 
-
     <RadioGroup
         android:orientation="horizontal"
         android:checkedButton="@+id/portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dialog_radio_group_margin"
-        android:layout_marginRight="@dimen/dialog_radio_group_margin"
+        android:layout_marginLeft="@dimen/dialog_radio_group_margin_left"
+        android:layout_marginRight="@dimen/dialog_radio_group_margin_right"
         android:paddingTop="16dp" >
 
         <RadioButton
+            style="@style/DialogRadioButton.Orientation"
             android:id="@+id/portrait"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:drawableLeft="@drawable/dialog_orientation_portrait"
-            android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
-            android:padding="@dimen/dialog_radio_button_padding" ></RadioButton>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+        </RadioButton>
 
         <RadioButton
+            style="@style/DialogRadioButton.Orientation"
             android:id="@+id/landscape_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:drawableLeft="@drawable/dialog_orientation_landscape"
-            android:drawablePadding="@dimen/dialog_radio_button_drawable_padding"
-            android:padding="@dimen/dialog_radio_button_padding"></RadioButton>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+        </RadioButton>
 
     </RadioGroup>
 </ScrollView>

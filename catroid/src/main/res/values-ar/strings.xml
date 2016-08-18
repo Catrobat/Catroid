@@ -370,7 +370,7 @@
   <string name="sign_in_dialog_title">تسجيل الدخول</string>
   <string name="username">اسم المستخدم:</string>
   <string name="password">كلمة المرور:</string>
-  <string name="password_forgotten">Password forgotten?</string>
+  <string name="forgot_your_password">Password forgotten?</string>
   <string name="new_user_registered">إنشاء حساب جديد</string>
   <string name="user_logged_in">Successfully logged in</string>
   <string name="register_error">تسجيل الدخول غير صحيح</string>

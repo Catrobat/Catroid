@@ -80,7 +80,7 @@ public class LogInDialog extends DialogFragment implements LoginTask.OnLoginComp
 
 		final AlertDialog loginDialog = new AlertDialog.Builder(getActivity()).setView(rootView)
 				.setTitle(R.string.login).setPositiveButton(R.string.login, null)
-				.setNeutralButton(R.string.password_forgotten, null).create();
+				.setNeutralButton(R.string.forgot_your_password, null).create();
 		loginDialog.setCanceledOnTouchOutside(true);
 		loginDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 

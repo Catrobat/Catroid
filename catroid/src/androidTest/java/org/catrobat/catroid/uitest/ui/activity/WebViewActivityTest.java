@@ -120,7 +120,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnText(solo.getString(R.string.register));
 		solo.waitForDialogToOpen();
 
-		String passwordForgottenButtonText = solo.getString(R.string.password_forgotten);
+		String passwordForgottenButtonText = solo.getString(R.string.forgot_your_password);
 		solo.clickOnButton(passwordForgottenButtonText);
 
 		solo.waitForView(solo.getView(R.id.webView));

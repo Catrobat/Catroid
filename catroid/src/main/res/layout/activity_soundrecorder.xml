@@ -22,10 +22,9 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+<RelativeLayout
+    style="@style/RelativeLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <Chronometer
         android:id="@+id/soundrecorder_chronometer_time_recorded"
@@ -44,7 +43,7 @@
         android:layout_height="13dp"
         android:layout_above="@+id/soundrecorder_record_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_text_view_margin_large"
+        android:layout_marginBottom="@dimen/activity_text_view_margin_bottom"
         android:background="@color/button_background_top_border_color" />
 
     <org.catrobat.catroid.soundrecorder.RecordButton
@@ -66,7 +65,7 @@
         android:layout_below="@id/soundrecorder_record_button"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large"
+        android:layout_marginTop="@dimen/activity_text_view_margin_top"
         android:gravity="center"
         android:text="@string/soundrecorder_text_view"
         android:textSize="20sp" />

@@ -21,7 +21,8 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/DefaultDialog"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
@@ -44,8 +45,6 @@
             android:id="@+id/dialog_login_username"
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/dialog_login_username_text_line"
-            android:inputType="text"
-            android:maxLines="1"
             android:selectAllOnFocus="true" />
 
         <org.catrobat.catroid.ui.CapitalizedTextView
@@ -61,10 +60,8 @@
 
         <EditText
             android:id="@+id/dialog_login_password"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/dialog_login_password_text_id"
-            android:inputType="textPassword"
-            android:maxLines="1" >
+            style="@style/DefaultDialog.EditText.Password"
+            android:layout_below="@+id/dialog_login_password_text_id" >
         </EditText>
 
         <CheckBox

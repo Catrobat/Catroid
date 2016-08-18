@@ -347,7 +347,7 @@
   <string name="sign_in_dialog_title">Zarejestruj się</string>
   <string name="username">Nazwa użytkownika:</string>
   <string name="password">Hasło:</string>
-  <string name="password_forgotten">Nie pamiętasz hasła?</string>
+  <string name="forgot_your_password">Nie pamiętasz hasła?</string>
   <string name="new_user_registered">Nowe konto utworzone</string>
   <string name="user_logged_in">Pomyślnie zalogowano</string>
   <string name="register_error">Nieprawidłowy login</string>

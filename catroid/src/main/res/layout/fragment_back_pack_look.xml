@@ -21,35 +21,28 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_look"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<FrameLayout
+    style="@style/MatchParent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_look" >
 
     <RelativeLayout
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        style="@style/RelativeLayout"
+        android:id="@android:id/empty" >
 
         <TextView
+            style="@style/FragmentTextView"
             android:id="@+id/fragment_look_text_heading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center"
             android:text="@string/looks"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="80sp" />
 
         <TextView
+            style="@style/FragmentTextView"
             android:id="@+id/fragment_look_text_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/fragment_look_text_heading"
-            android:gravity="center"
             android:paddingTop="10dp"
             android:text="@string/fragment_look_text_description"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="30sp" />
     </RelativeLayout>
 
@@ -57,11 +50,7 @@
 
     <ListView
         android:id="@android:id/list"
-        style="@style/ListViewShadowed"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:cacheColorHint="#00000000"
-        android:divider="@android:color/transparent"
+        style="@style/ListViewShadowed.DivideColor"
         android:paddingTop="3dp" />
 
 </FrameLayout>

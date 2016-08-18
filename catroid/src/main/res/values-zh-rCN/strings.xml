@@ -340,7 +340,7 @@
   <string name="sign_in_dialog_title">Sign In</string>
   <string name="username">Username:</string>
   <string name="password">Password:</string>
-  <string name="password_forgotten">Password forgotten?</string>
+  <string name="forgot_your_password">Password forgotten?</string>
   <string name="new_user_registered">New account created</string>
   <string name="user_logged_in">Successfully logged in</string>
   <string name="register_error">Invalid login</string>

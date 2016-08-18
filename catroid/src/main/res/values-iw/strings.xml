@@ -361,7 +361,7 @@
   <string name="sign_in_dialog_title">היתחבר</string>
   <string name="username">שם משתמש:</string>
   <string name="password">סיסמה:</string>
-  <string name="password_forgotten">שכחת סיסמה?</string>
+  <string name="forgot_your_password">שכחת סיסמה?</string>
   <string name="new_user_registered">חשבון חדש נוצר</string>
   <string name="user_logged_in">התחברות הצליחה</string>
   <string name="register_error">כניסה לא חוקית</string>

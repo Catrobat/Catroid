@@ -22,26 +22,20 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout
+    style="@style/LinearLayout.GravityCenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:longClickable="true"
     android:minHeight="90dp"
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/fragment_nfctag_item_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="13dp"
-        android:visibility="gone" />
+        style="@style/WrapContent.Gone.Margin"
+        android:id="@+id/fragment_nfctag_item_checkbox" />
 
     <LinearLayout
+        style="@style/LinearLayout.GravityCenter"
         android:id="@+id/fragment_nfctag_item_main_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:longClickable="true"
         android:minHeight="90dp"
         android:orientation="horizontal" >
@@ -56,11 +50,9 @@
             android:background="@color/transparent" />
 
         <LinearLayout
+            style="@style/LinearLayout.GravityCenter"
             android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
+            android:layout_weight="1" >
 
             <TextView
                 android:id="@+id/fragment_nfctag_item_title_text_view"

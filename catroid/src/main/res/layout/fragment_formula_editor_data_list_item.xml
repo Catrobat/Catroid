@@ -30,7 +30,7 @@
     <include layout="@layout/fragment_formula_editor_user_variables_headline" />
 
     <include layout="@layout/fragment_formula_editor_user_lists_headline"
-             android:id="@+id/data_user_lists_headline_above_item" />
+        android:id="@+id/data_user_lists_headline_above_item" />
 
     <include layout="@layout/fragment_formula_editor_data_global_headline" />
 
@@ -71,15 +71,15 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/sound_fragment_text_main_color" />
 
-            <TextView
-                android:id="@+id/fragment_formula_editor_data_list_item_value_text_view"
-                style="@style/fragment_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="?android:attr/listPreferredItemHeight"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white" />
+                <TextView
+                    android:id="@+id/fragment_formula_editor_data_list_item_value_text_view"
+                    style="@style/fragment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/white" />
             </LinearLayout >
 
             <LinearLayout
@@ -98,7 +98,7 @@
             </LinearLayout >
 
         </LinearLayout >
-        
+
     </LinearLayout >
 
     <include layout="@layout/fragment_formula_editor_user_lists_headline" />

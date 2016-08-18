@@ -344,7 +344,7 @@
   <string name="sign_in_dialog_title">Registrar-se</string>
   <string name="username">Nome de Usuário:</string>
   <string name="password">Senha:</string>
-  <string name="password_forgotten">Esqueceu a senha?</string>
+  <string name="forgot_your_password">Esqueceu a senha?</string>
   <string name="new_user_registered">Nova conta criada</string>
   <string name="user_logged_in">Logado com sucesso</string>
   <string name="register_error">Login inválido</string>

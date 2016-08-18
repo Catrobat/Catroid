@@ -25,8 +25,7 @@
     style="@style/DefaultDialog" >
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+        style="@style/LinearLayout.GravityCenter"
         android:layout_height="wrap_content">
 
         <org.catrobat.catroid.ui.CapitalizedTextView
@@ -40,7 +39,6 @@
             style="@style/DefaultDialog.EditText"
             android:hint="@string/new_project_description_dialog_hint"
             android:inputType="textMultiLine"
-            android:minLines="1"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="vertical"
             android:singleLine="false" >

@@ -34,26 +34,18 @@
             android:weightSum="2">
 
             <TextView
+                style="@style/DialogNewTextView"
                 android:id="@+id/dialog_new_look_paintroid"
-                android:layout_width="@dimen/dialog_text_view_layout_width"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_paintroid"
-                android:gravity="center"
-                android:text="@string/add_look_draw_new_image"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_draw_new_image" />
 
             <TextView
+                style="@style/DialogNewTextView"
                 android:id="@+id/dialog_new_look_media_library"
-                android:layout_width="@dimen/dialog_text_view_layout_width"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_media_library"
-                android:gravity="center"
-                android:text="@string/add_look_media_library"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_media_library" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,26 +53,18 @@
             android:weightSum="2">
 
             <TextView
+                style="@style/DialogNewTextView"
                 android:id="@+id/dialog_new_look_gallery"
-                android:layout_width="@dimen/dialog_text_view_layout_width"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_gallery"
-                android:gravity="center"
-                android:text="@string/add_look_choose_image"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_choose_image" />
 
             <TextView
+                style="@style/DialogNewTextView"
                 android:id="@+id/dialog_new_look_camera"
-                android:layout_width="@dimen/dialog_text_view_layout_width"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_camera"
-                android:gravity="center"
-                android:text="@string/add_look_from_camera"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_from_camera" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,16 +73,14 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/dialog_new_look_drone_video"
+                style="@style/DialogNewTextView"
                 android:layout_width="0dp"
+                android:id="@+id/dialog_new_look_drone_video"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_weight="1"
-                android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_video"
-                android:gravity="center"
-                android:text="@string/add_look_drone_video"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/add_look_drone_video" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

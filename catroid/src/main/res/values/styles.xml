@@ -90,6 +90,10 @@
         <item name="android:ems" >10</item>
     </style >
 
+    <style name="DefaultDialog.EditText.Password">
+        <item name="android:inputType" >textPassword</item>
+    </style>
+
     <style name="stage_dialog" parent="android:style/Theme.Dialog" >
         <item name="android:windowBackground" >@null</item >
         <item name="android:windowNoTitle" >true</item >
@@ -106,6 +110,7 @@
         <item name="android:layout_weight" >1.5</item >
         <item name="android:textScaleX" >0.7</item >
         <item name="android:background" >@null</item >
+        <item name="android:textColor" >@color/stage_dialog_text_color</item>
     </style >
 
     <style name="brick_dialog" parent="android:style/Theme.Dialog" >
@@ -125,7 +130,7 @@
         <item name="android:windowExitAnimation" >@anim/slide_down</item >
     </style >
 
-    <style name="ListViewShadowed" >
+    <style name="ListViewShadowed" parent="MatchParent">
         <item name="android:cacheColorHint" >@color/solid_black</item >
         <item name="android:drawSelectorOnTop" >false</item >
         <item name="android:drawingCacheQuality" >high</item >
@@ -135,6 +140,11 @@
         <item name="android:scrollingCache" >@string/scrolling_cache_enabled</item >
         <item name="android:animationCache" >@string/animation_cache_enabled</item >
     </style >
+
+    <style name="ListViewShadowed.DivideColor" >
+        <item name="android:divider" >@android:color/transparent</item >
+        <item name="android:cacheColorHint" >#00000000</item >
+    </style>
 
     <style name="MainMenuButton" >
         <item name="android:layout_width" >match_parent</item >
@@ -173,12 +183,10 @@
         <item name="android:ellipsize" >end</item >
     </style >
 
-    <style name="ListViewItemDetailsText" >
+    <style name="ListViewItemDetailsText" parent="WrapContent">
         <item name="android:singleLine" >true</item >
         <item name="android:textColor" >@color/list_view_item_details_text_color</item >
         <item name="android:textSize" >14sp</item >
-        <item name="android:layout_width" >wrap_content</item >
-        <item name="android:layout_height" >wrap_content</item >
         <item name="android:layout_alignWithParentIfMissing" >true</item >
     </style >
 
@@ -198,9 +206,7 @@
         <item name="android:shadowDy" >3</item >
     </style >
 
-    <style name="BrickText" >
-        <item name="android:layout_width" >wrap_content</item >
-        <item name="android:layout_height" >wrap_content</item >
+    <style name="BrickText" parent="WrapContent">
         <item name="android:textSize" >@dimen/text_size_large</item >
         <item name="android:textColor" >@android:color/white</item >
         <item name="android:textStyle" >bold</item >
@@ -230,7 +236,7 @@
         <item name="android:ellipsize" >end</item >
     </style >
 
-        <style name="FragmentSeekbarChooserTextView" parent="android:style/Widget.EditText" >
+    <style name="FragmentSeekbarChooserTextView" parent="android:style/Widget.EditText" >
         <item name="android:focusable" >false</item >
         <item name="android:focusableInTouchMode" >false</item >
         <item name="android:clickable" >false</item >
@@ -497,6 +503,8 @@
     <style name="look_fragment_detail" parent="fragment_basic_style" >
         <item name="android:textColor" >@color/look_fragment_text_detail_color</item >
         <item name="android:textSize" >14sp</item >
+        <item name="android:layout_height">wrap_content</item >
+        <item name="android:layout_width">wrap_content</item >
     </style >
 
     <style name="sound_fragment_main" parent="fragment_basic_style" >
@@ -507,6 +515,8 @@
     <style name="sound_fragment_detail" parent="fragment_basic_style" >
         <item name="android:textColor" >@color/sound_fragment_text_detail_color</item >
         <item name="android:textSize" >14sp</item >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style >
 
     <style name="nfctag_fragment_main" parent="fragment_basic_style">
@@ -538,6 +548,10 @@
         <item name="android:layout_marginRight" >@dimen/key_margin</item >
     </style >
 
+    <style name="FormulaEditorTableRow" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
     <style name="formulaeditor_variblelist_fragment_main" parent="fragment_basic_style" >
         <item name="android:textColor" >@color/sound_fragment_text_main_color</item >
@@ -549,9 +563,7 @@
         <item name="android:textSize" >22sp</item >
     </style >
 
-    <style name="BrickCategory" >
-        <item name="android:layout_width" >match_parent</item >
-        <item name="android:layout_height" >match_parent</item >
+    <style name="BrickCategory" parent="MatchParent">
         <item name="android:orientation" >vertical</item >
     </style >
 
@@ -707,6 +719,164 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:textColor">@color/holo_blue_bright</item>
         <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="DeviceTextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:paddingLeft">@dimen/device_text_view_padding_left</item>
+        <item name="android:textSize">@dimen/device_text_view_text_size</item>
+    </style>
+
+    <style name="DeviceListView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:stackFromBottom">true</item>
+    </style>
+
+    <style name="FragmentTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/actionbar_title_color</item>
+    </style>
+
+    <style name="FragmentTableRow">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:paddingBottom">@dimen/fragment_table_row_paddingBottom</item>
+        <item name="android:paddingTop">@dimen/fragment_table_row_paddingTop</item>
+    </style>
+
+    <style name="DialogRadioButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DialogRadioButton.NewProject">
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
+    <style name="DialogRadioButton.Orientation">
+        <item name="android:drawablePadding">@dimen/dialog_radio_button_drawable_padding</item>
+        <item name="android:padding">@dimen/dialog_radio_button_padding</item>
+    </style>
+
+    <style name="DialogFormulaTextView">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/dialog_text_view_layout_height</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dialog_text_view_text_size_small</item>1
+    </style>
+
+    <style name="DialogNewTextView">
+        <item name="android:layout_width">@dimen/dialog_text_view_layout_width</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dialog_text_view_text_size_tiny</item>
+        <item name="android:background">@drawable/new_object_dialog_selector</item>
+    </style>+
+
+    <style name="DialogUploadTextView" parent="WrapContent">
+        <item name="android:paddingBottom">@dimen/dialog_item_header_linepadding</item>
+    </style>
+
+    <style name="FragmentDroneConfig">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/drone_holo_blue_bright</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="WrapContent.AlignBg">
+        <item name="android:layout_alignTop">@+id/stage_dialog_menu</item>
+        <item name="android:layout_toRightOf">@+id/stage_dialog_menu</item>
+        <item name="android:background">@drawable/stage_dialog_background_side</item>
+    </style>
+
+    <style name="LinearLayout" parent="MatchParent">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="LinearLayout.GravityCenter">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="RelativeLayout" parent="MatchParent">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="WrapContent.Gone">
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="WrapContent.Margin">
+        <item name="android:layout_marginLeft">@dimen/activity_check_box_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/activity_check_box_margin_right_small</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="WrapContent.Gone.Margin">
+        <item name="android:layout_marginLeft">@dimen/activity_check_box_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/activity_check_box_margin_right_small</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="ActivityFragmentImageView" >
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">9dp</item>
+        <item name="android:cropToPadding">true</item>
+        <item name="android:padding">1.5dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="ActivityStandaloneAdvertisingTextView" parent="WrapContent">
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="ActivityStandaloneAdvertisingTextView.MarginTop">
+        <item name="android:layout_marginTop">@dimen/activity_text_view_margin_top</item>
+    </style>
+
+    <style name="TableLayout" parent="MatchParent">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Seekbar">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:maxHeight">60dp</item>
+    </style>
+
+    <style name="SignInTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+        <item name="android:textSize">@dimen/dialog_text_view_text_size_small</item>
+    </style>
+
+    <style name="FragmentListView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:divider" >@android:color/transparent</item >
+        <item name="android:cacheColorHint" >#00000000</item >
+    </style>
+
+    <style name="RGBColorTextView" parent="MatchParent">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:paddingRight">5dp</item>
+    </style>
+
+    <style name="WrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MatchParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
 </resources>

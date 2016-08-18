@@ -21,16 +21,13 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+<RelativeLayout
+    style="@style/RelativeLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <LinearLayout
+        style="@style/LinearLayout.GravityCenter"
         android:id="@+id/progress_circle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
         android:visibility="gone" >
 
         <ProgressBar
@@ -38,6 +35,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout >
 
     <include
@@ -45,9 +43,8 @@
         layout="@layout/bottom_bar" />
 
     <FrameLayout
+        style="@style/MatchParent"
         android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar" />
 
 </RelativeLayout>

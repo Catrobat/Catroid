@@ -344,7 +344,7 @@ il faut
   <string name="sign_in_dialog_title">Se connecter</string>
   <string name="username">Nom d\'utilisateur :</string>
   <string name="password">Mot de passe :</string>
-  <string name="password_forgotten">Mot de passe oublié ?</string>
+  <string name="forgot_your_password">Mot de passe oublié ?</string>
   <string name="new_user_registered">Nouveau compte créé</string>
   <string name="user_logged_in">Vous êtes connecté(e)</string>
   <string name="register_error">Identifiant invalide</string>
