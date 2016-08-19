@@ -27,12 +27,13 @@
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:paddingBottom="9dp"
+    android:layout_marginRight="12dp"
     android:layout_toRightOf="@+id/my_projects_activity_project_image">
 
     <TextView
         android:id="@+id/my_projects_activity_project_title"
         style="@style/ListViewItemTitleText"
-        android:maxLines="2"/>
+        android:singleLine="true" />
 
     <RelativeLayout
         android:id="@+id/my_projects_activity_list_item_details"

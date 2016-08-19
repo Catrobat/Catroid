@@ -25,11 +25,10 @@
     android:id="@+id/my_projects_activity_list_item_overview"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
     android:visibility="gone"
     android:layout_marginRight="20dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="6dp">
 
     <!-- Line One -->
     <LinearLayout

@@ -45,9 +45,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.EditTextImeOverride;
@@ -79,7 +77,6 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 		private ImageButton showOverview;
 		private View projectOverview;
 		private ProgressBar projectProgressBar;
-		private Project project = null;
 	}
 
 	private static LayoutInflater inflater;
@@ -152,7 +149,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 		}
 
 		// ------------------------------------------------------------
-		ProjectData projectData = getItem(position);
+		final ProjectData projectData = getItem(position);
 		final String projectName = projectData.projectName;
 		String sceneName = StorageHandler.getInstance().getFirstSceneName(projectName);
 
@@ -198,12 +195,23 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 
 		if (!showDetails) {
 			holder.projectDetails.setVisibility(View.GONE);
-			holder.projectName.setSingleLine(true);
 			holder.showOverview.setVisibility(View.GONE);
+			holder.projectOverview.setVisibility(View.GONE);
 		} else {
-			holder.projectDetails.setVisibility(View.VISIBLE);
-			holder.projectName.setSingleLine(false);
+			if (!projectData.overviewVisible) {
+				holder.projectDetails.setVisibility(View.VISIBLE);
+			}
 			holder.showOverview.setVisibility(View.VISIBLE);
+		}
+
+		if (projectData.overviewVisible && showDetails) {
+			setProjectOverview(holder, projectData);
+		} else {
+			holder.showOverview.setImageResource(R.drawable.project_list_arrow_down);
+			holder.projectOverview.setVisibility(View.GONE);
+			if (showDetails) {
+				holder.projectDetails.setVisibility(View.VISIBLE);
+			}
 		}
 
 		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -252,29 +260,24 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 		holder.showOverview.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (holder.projectOverview.getVisibility() == View.GONE) {
-					holder.showOverview.setImageResource(R.drawable.project_list_arrow_up);
-					setProjectOverview(projectName, holder);
-				} else {
-					holder.showOverview.setImageResource(R.drawable.project_list_arrow_down);
-					holder.projectOverview.setVisibility(View.GONE);
-				}
+				projectData.overviewVisible = !projectData.overviewVisible;
+				notifyDataSetChanged();
 			}
 		});
 
 		final EditTextImeOverride editDescription = (EditTextImeOverride) holder.projectOverview.findViewById(R.id
 				.my_projects_activity_description_edit);
-		editDescription.setOnEditTextImeBackListener(this, holder, editDescription);
+		editDescription.setOnEditTextImeBackListener(this, holder, projectData, editDescription);
 		holder.projectOverview.findViewById(R.id.my_projects_activity_edit_description_button).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						editDescription.setVisibility(View.VISIBLE);
-						holder.projectOverview.findViewById(R.id.my_projects_activity_description_content).setVisibility(View.GONE);
-						editDescription.requestFocus();
-						InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-						manager.showSoftInput(editDescription, InputMethodManager.SHOW_IMPLICIT);
-						editDescription.setSelection(editDescription.getText().length());
-					}
+			@Override
+			public void onClick(View v) {
+				editDescription.setVisibility(View.VISIBLE);
+				holder.projectOverview.findViewById(R.id.my_projects_activity_description_content).setVisibility(View.GONE);
+				editDescription.requestFocus();
+				InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				manager.showSoftInput(editDescription, InputMethodManager.SHOW_IMPLICIT);
+				editDescription.setSelection(editDescription.getText().length());
+			}
 		});
 
 		if (checkedProjects.contains(position)) {
@@ -296,10 +299,10 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 	}
 
 	@Override
-	public void onImeBack(ViewHolder holder, EditTextImeOverride editText) {
-		if (holder.project != null) {
-			holder.project.setDescription(editText.getText().toString());
-			StorageHandler.getInstance().saveProject(holder.project);
+	public void onImeBack(ViewHolder holder, ProjectData projectData, EditTextImeOverride editText) {
+		if (projectData.project != null) {
+			projectData.project.setDescription(editText.getText().toString());
+			StorageHandler.getInstance().saveProject(projectData.project);
 			((TextView) holder.projectOverview.findViewById(R.id
 					.my_projects_activity_description_content)).setText(editText.getText());
 		}
@@ -313,52 +316,58 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTex
 		void onProjectEdit(int position);
 	}
 
-	private void setProjectOverview(final String projectName, final ViewHolder holder) {
-		if (holder.project != null) {
+	private void setProjectOverview(final ViewHolder holder, final ProjectData projectData) {
+		holder.showOverview.setImageResource(R.drawable.project_list_arrow_up);
+		loadProjectIfNeeded(projectData);
+		TextView authorView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_author_content);
+		TextView screenSizeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_screen_size_content);
+		TextView modeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_mode_content);
+		TextView remixView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_remix_content);
+		TextView descriptionView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_description_content);
+		EditText descriptionEditView = (EditText) holder.projectOverview.findViewById(R.id.my_projects_activity_description_edit);
+
+		if (projectData.project != null && projectData.project.getXmlHeader() != null) {
+			holder.projectDetails.setVisibility(View.GONE);
+			XmlHeader header = projectData.project.getXmlHeader();
+			String screenSize = header.getVirtualScreenWidth() + "x" + header.getVirtualScreenHeight();
+			screenSizeView.setText(screenSize);
+			if (header.islandscapeMode()) {
+				modeView.setText(getContext().getString(R.string.landscape));
+			} else {
+				modeView.setText(getContext().getString(R.string.portrait));
+			}
+			descriptionView.setText(header.getDescription());
+			descriptionEditView.setText(header.getDescription());
+
+			boolean userHandleNotPresent = header.getUserHandle() == null || header.getUserHandle().trim().equals("");
+			String text = userHandleNotPresent ? getContext().getString(R.string.unknown) : header.getUserHandle();
+			authorView.setText(text);
+			boolean remixOfNotPresent = header.getRemixOf() == null || header.getRemixOf().trim().equals("");
+			text = remixOfNotPresent ? getContext().getString(R.string.nxt_no_sensor) : header.getRemixOf();
+			remixView.setText(text);
 			holder.projectOverview.setVisibility(View.VISIBLE);
+			holder.projectProgressBar.setVisibility(View.GONE);
+		} else {
+			holder.projectProgressBar.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void loadProjectIfNeeded(final ProjectData projectData) {
+		if (projectData.project != null) {
 			return;
 		}
-
-		holder.projectProgressBar.setVisibility(View.VISIBLE);
-
-		final TextView authorView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_author_content);
-		final TextView screenSizeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_screen_size_content);
-		final TextView modeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_mode_content);
-		final TextView remixView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_remix_content);
-		final TextView descriptionView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_description_content);
-		final EditText descriptionEditView = (EditText) holder.projectOverview.findViewById(R.id.my_projects_activity_description_edit);
-
 		final Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-				final Project finalProject = StorageHandler.getInstance().loadProject(projectName);
+				projectData.project = StorageHandler.getInstance().loadProject(projectData.projectName, getContext());
 				((Activity) getContext()).runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (finalProject != null) {
-							XmlHeader header = finalProject.getXmlHeader();
-							screenSizeView.setText(header.getVirtualScreenWidth() + "x" + header.getVirtualScreenHeight());
-							if (header.islandscapeMode()) {
-								modeView.setText(getContext().getString(R.string.landscape));
-							} else {
-								modeView.setText(getContext().getString(R.string.portrait));
-							}
-							descriptionView.setText(header.getDescription());
-							descriptionEditView.setText(header.getDescription());
-							holder.project = finalProject;
-
-							String text = header.getUserHandle().trim().equals("") ? getContext().getString(R.string.unknown) : header.getUserHandle();
-							authorView.setText(text);
-							text = header.getRemixOf().trim().equals("") ? getContext().getString(R.string.nxt_no_sensor) : header.getRemixOf();
-							remixView.setText(text);
-						}
-						holder.projectProgressBar.setVisibility(View.GONE);
-						holder.projectOverview.setVisibility(View.VISIBLE);
+						notifyDataSetChanged();
 					}
 				});
 			}
 		};
-
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
