@@ -24,7 +24,9 @@ package org.catrobat.catroid.utils;
 
 import android.content.Context;
 
-import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperToast;
+import com.github.johnpersano.supertoasts.library.utils.PaletteUtils;
 
 public final class ToastUtil {
 
@@ -55,8 +57,8 @@ public final class ToastUtil {
 
 			customToast = new SuperToast(context);
 			customToast.setText(message);
-			customToast.setTextSize(SuperToast.TextSize.MEDIUM);
-			customToast.setAnimations(SuperToast.Animations.POPUP);
+			customToast.setTextSize(Style.TEXTSIZE_MEDIUM);
+			customToast.setAnimations(Style.ANIMATIONS_POP);
 			setLook(error);
 
 			customToast.show();
@@ -70,11 +72,11 @@ public final class ToastUtil {
 	private static void setLook(boolean error) {
 
 		if (error) {
-			customToast.setDuration(SuperToast.Duration.SHORT);
-			customToast.setBackground(SuperToast.Background.RED);
+			customToast.setDuration(Style.DURATION_SHORT);
+			customToast.setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_RED));
 		} else {
-			customToast.setDuration(SuperToast.Duration.VERY_SHORT);
-			customToast.setBackground(SuperToast.Background.GREEN);
+			customToast.setDuration(Style.DURATION_VERY_SHORT);
+			customToast.setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_GREEN));
 		}
 	}
 }
