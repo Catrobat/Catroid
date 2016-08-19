@@ -92,7 +92,7 @@ public class Project implements Serializable {
 			sceneList.add(new Scene(context, String.format(context.getString(R.string.default_scene_name), 1),
 					this));
 		}
-		xmlHeader.scenesEnabled = Constants.SCENES_ENABLED_TAG;
+		xmlHeader.scenesEnabled = true;
 	}
 
 	public Project(Context context, String name) {

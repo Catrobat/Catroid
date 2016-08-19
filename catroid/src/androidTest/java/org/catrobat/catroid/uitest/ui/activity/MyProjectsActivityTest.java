@@ -749,11 +749,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		createProjectsWithoutSprites();
 		solo.sleep(200);
-		Project project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		assertTrue("show Overview Button not found for every project", solo.waitForView(showOverviewButtonId, 2, 1000));
 		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
@@ -781,7 +780,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
 		solo.sleep(200);
 		assertEquals("overview should not be visible", View.GONE, overviewView.getVisibility());
-		project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 		assertEquals("description was not saved", description, project.getXmlHeader().getDescription());
 	}
 

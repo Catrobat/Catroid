@@ -43,12 +43,14 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.EditText;
 
+import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 
 public class EditTextImeOverride extends EditText {
 	private EditTextImeBackListener onImeBackListener;
 	private ProjectAdapter.ViewHolder holder;
 	private EditTextImeOverride editText;
+	private ProjectData projectData;
 
 	public EditTextImeOverride(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -56,22 +58,21 @@ public class EditTextImeOverride extends EditText {
 
 	@Override
 	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK &&
-				event.getAction() == KeyEvent.ACTION_UP) {
-			if (onImeBackListener != null)
-				onImeBackListener.onImeBack(holder, editText);
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && onImeBackListener != null) {
+			onImeBackListener.onImeBack(holder, projectData, editText);
 		}
 		return super.dispatchKeyEvent(event);
 	}
 
 	public void setOnEditTextImeBackListener(EditTextImeBackListener listener, ProjectAdapter.ViewHolder holder,
-			EditTextImeOverride editText) {
+			ProjectData projectData, EditTextImeOverride editText) {
 		this.holder = holder;
 		this.editText = editText;
+		this.projectData = projectData;
 		onImeBackListener = listener;
 	}
 
 	public interface EditTextImeBackListener {
-		void onImeBack(ProjectAdapter.ViewHolder holder, EditTextImeOverride editText);
+		void onImeBack(ProjectAdapter.ViewHolder holder, ProjectData projectData, EditTextImeOverride editText);
 	}
 }
