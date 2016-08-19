@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HideVariableAction extends TemporalAction {
+
 	private UserVariable variableToHide;
 	private UserBrick userBrick;
 

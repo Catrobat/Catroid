@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ShowVariableAction extends TemporalAction {
+
 	public static final String TAG = ShowVariableAction.class.getSimpleName();
 
 	private Formula xPosition;
@@ -67,7 +68,7 @@ public class ShowVariableAction extends TemporalAction {
 			List<UserVariable> variableList = dataContainer.getProjectVariables();
 
 			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			Sprite currentSprite = sprite;
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
 			if (StageActivity.stageListener != null) {
@@ -79,7 +80,7 @@ public class ShowVariableAction extends TemporalAction {
 						ShowVariableActor showVariableActor = (ShowVariableActor) actor;
 						if (showVariableActor.getVariableNameToCompare().equals(variableToShow.getName())
 								&& showVariableActor.getSprite().equals(sprite)
-								&& showVariableActor.getUserBrick().equals(userBrick)) {
+								&& (userBrick != null ? showVariableActor.getUserBrick().equals(userBrick) : true)) {
 							actor.remove();
 						}
 					}

@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class HideVariableBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;

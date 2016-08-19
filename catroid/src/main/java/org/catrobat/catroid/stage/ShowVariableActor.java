@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ShowVariableActor extends Actor {
+
 	private int xPosition;
 	private int yPosition;
 	private UserVariable variableToShow;

@@ -53,6 +53,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class ShowVariableBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
