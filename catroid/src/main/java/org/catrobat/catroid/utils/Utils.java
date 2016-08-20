@@ -83,8 +83,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -474,7 +474,7 @@ public final class Utils {
 			lines.add(newLine);
 			cursorPos += lastWhitespace;
 		}
-		lines.add(text.substring(cursorPos, text.length()));
+		lines.add(text.substring(cursorPos, text.length()).trim());
 
 		return lines;
 	}

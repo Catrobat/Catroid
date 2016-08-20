@@ -107,7 +107,7 @@ public class SayBubbleTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		script.addBrick(sayBubbleBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

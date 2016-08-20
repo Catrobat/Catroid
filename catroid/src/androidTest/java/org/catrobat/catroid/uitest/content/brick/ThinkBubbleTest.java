@@ -107,7 +107,7 @@ public class ThinkBubbleTest extends BaseActivityInstrumentationTestCase<MainMen
 		script.addBrick(thinkBubbleBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

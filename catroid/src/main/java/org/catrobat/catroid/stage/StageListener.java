@@ -875,6 +875,7 @@ public class StageListener implements ApplicationListener {
 		public boolean axesOn = false;
 		public float deltaActionTimeDivisor;
 		public boolean cameraRunning;
+		public Map<Sprite, ShowBubbleActor> bubbleActorMap;
 		public PenActor penActor;
 
 		public StageBackup() {
@@ -904,8 +905,8 @@ public class StageListener implements ApplicationListener {
 		backup.cameraRunning = CameraManager.getInstance().isCameraActive();
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().pauseForScene();
-			//CameraManager.getInstance().releaseCamera();
 		}
+		backup.bubbleActorMap = bubbleActorMap;
 		backup.penActor = penActor;
 		return backup;
 	}
@@ -936,6 +937,7 @@ public class StageListener implements ApplicationListener {
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		bubbleActorMap = backup.bubbleActorMap;
 		penActor = backup.penActor;
 	}
 }

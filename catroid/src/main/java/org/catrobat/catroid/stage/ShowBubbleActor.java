@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -67,11 +68,8 @@ public class ShowBubbleActor extends Actor {
 	}
 
 	private void init() {
-		Texture textureRight = new Texture(drawBubbleOnCanvas(bubbleValue, true));
-		Texture textureLeft = new Texture(drawBubbleOnCanvas(bubbleValue, false));
-
-		imageRight = new Image(textureRight);
-		imageLeft = new Image(textureLeft);
+		imageRight = new Image(new Texture(drawBubbleOnCanvas(bubbleValue, true)));
+		imageLeft = new Image(new Texture(drawBubbleOnCanvas(bubbleValue, false)));
 		image = imageRight;
 	}
 
@@ -100,28 +98,34 @@ public class ShowBubbleActor extends Actor {
 	}
 
 	private boolean drawRight() {
-		return sprite.look.getXInUserInterfaceDimensionUnit() + sprite.look.getWidthInUserInterfaceDimensionUnit()
-				/ 2 + image.getWidth() < (ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
+		return sprite.look.getX() + sprite.look.getWidthInUserInterfaceDimensionUnit() + image.getWidth()
+				< (ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 
 	private boolean drawLeft() {
-		return sprite.look.getXInUserInterfaceDimensionUnit() - sprite.look.getWidthInUserInterfaceDimensionUnit()
-				/ 2 - image.getWidth() > -(ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
+		return sprite.look.getX() - image.getWidth()
+				> -(ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 
 	private Pixmap drawBubbleOnCanvas(ArrayList<String> lines, boolean right) {
 		Paint paint = new Paint();
 		paint.setTextSize(Constants.TEXT_SIZE_BUBBLE);
+		paint.setAntiAlias(true);
+		paint.setStyle(Paint.Style.FILL);
+		paint.setColor(android.graphics.Color.BLACK);
 		int width = 0;
 		int height = 30;
+		int border = Constants.BORDER_THICKNESS_BUBBLES;
+		float y = Constants.PADDING_TOP;
+		ArrayList<Float> xPositions = new ArrayList<>();
 		Rect temp = new Rect();
-		ArrayList<Integer> lineStartPoints = new ArrayList<>();
 
+		//Calculate height and width of textbox plus lineheight
 		for (String line : lines) {
 			height += Constants.LINE_SPACING_BUBBLES;
 			paint.getTextBounds(line, 0, line.length(), temp);
 			height += temp.height();
-			lineStartPoints.add(temp.width());
+			xPositions.add(paint.measureText(line));
 			if (width < temp.width()) {
 				width = temp.width();
 			}
@@ -130,62 +134,47 @@ public class ShowBubbleActor extends Actor {
 		if (width < 148) {
 			width = 148;
 		}
-
-		for (int i = 0; i < lineStartPoints.size(); i++) {
-			if (lineStartPoints.get(i) < width) {
-				lineStartPoints.set(i, (width - lineStartPoints.get(i)) / 2);
-			} else {
-				lineStartPoints.set(i, 0);
-			}
-		}
 		float lineHeight = (height - 30) / lines.size();
 
+		//Setup Bitmap and textbox
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
-		int border = Constants.BORDER_THICKNESS_BUBBLES;
-		paint.setAntiAlias(true);
-		paint.setStyle(Paint.Style.FILL);
-		paint.setColor(android.graphics.Color.BLACK);
-		Rect rect = new Rect(0, 0, width, height);
+		RectF rect = new RectF(0f, 0f, width, height);
 
-		RectF rectangle = new RectF(rect);
-		canvas.drawRoundRect(rectangle, 20, 20, paint);
-		paint.setStyle(Paint.Style.FILL);
-
-		rectangle = new RectF(rect.left + border, rect.top + border, rect.right - border, rect.bottom - border);
+		//Draw rounded textbox
+		canvas.drawRoundRect(rect, 20, 20, paint);
+		rect = new RectF(rect.left + border, rect.top + border, rect.right - border, rect.bottom - border);
 		paint.setColor(android.graphics.Color.WHITE);
-		canvas.drawRoundRect(rectangle, 15, 15, paint);
+		canvas.drawRoundRect(rect, 15, 15, paint);
+		paint.setColor(Color.BLACK);
 
-		float y = Constants.PADDING_TOP;
-		paint.setColor(android.graphics.Color.BLACK);
+		//Calculate x position for every line
+		for (int i = 0; i < xPositions.size(); i++) {
+			float x = ((float) width - xPositions.get(i)) / 2f;
+			xPositions.set(i, x);
+		}
+
+		//Draw text in textbox
 		int i = 0;
 		for (String line : lines) {
-			canvas.drawText(line, lineStartPoints.get(i), y, paint);
+			canvas.drawText(line, xPositions.get(i), y, paint);
 			y += lineHeight;
 			i++;
 		}
 
-		if (type == Constants.SAY_BRICK) {
-			paint.setColor(android.graphics.Color.WHITE);
-			paint.setStyle(Paint.Style.FILL_AND_STROKE);
-			paint.setStrokeWidth(12);
-			int offsetOne = right ? 32 : rect.right - 32;
-			int offsetTwo = right ? 108 : offsetOne - 76;
-			//canvas.drawLine(offsetOne, rect.bottom, offsetTwo, rect.bottom, paint);
-		}
-
+		//Draw think bubbles or say triangle and convert to pixmap
 		return getFinalBubble(width, height, bitmap, right);
 	}
 
 	private Pixmap getFinalBubble(int width, int height, Bitmap bitmap, boolean right) {
-		Bitmap tempBitmap = Bitmap.createBitmap(width, height + Constants.OFFSET_FOR_THINK_BUBBLES_AND_ARROW, Bitmap.Config.ARGB_8888);
-		Canvas tempCanvas = new Canvas(tempBitmap);
-		tempCanvas.drawBitmap(bitmap, 0, 0, null);
-
 		Paint paint = new Paint();
 		paint.setColor(android.graphics.Color.BLACK);
 		paint.setStyle(Paint.Style.FILL_AND_STROKE);
 		paint.setStrokeWidth(2);
+		Bitmap tempBitmap = Bitmap.createBitmap(width, height + Constants.OFFSET_FOR_THINK_BUBBLES_AND_ARROW, Bitmap.Config.ARGB_8888);
+		Canvas tempCanvas = new Canvas(tempBitmap);
+		tempCanvas.drawBitmap(bitmap, 0, 0, null);
+
 		if (type == Constants.SAY_BRICK) {
 			tempCanvas.drawPath(getSayTrianglePath(tempBitmap.getHeight(), tempBitmap.getWidth(), right), paint);
 			paint.setColor(android.graphics.Color.WHITE);
@@ -196,10 +185,8 @@ public class ShowBubbleActor extends Actor {
 			tempCanvas.drawBitmap(thinkBubbles, startPos, bitmap.getHeight(), null);
 		}
 
-		bitmap = tempBitmap;
-
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		tempBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		byte[] bytes = stream.toByteArray();
 		return new Pixmap(bytes, 0, bytes.length);
 	}
@@ -228,8 +215,7 @@ public class ShowBubbleActor extends Actor {
 	}
 
 	private Bitmap getThinkBubbles(boolean right) {
-		Bitmap bitmap = Bitmap.createBitmap(Constants.OFFSET_FOR_THINK_BUBBLES_AND_ARROW + 30, Constants
-				.OFFSET_FOR_THINK_BUBBLES_AND_ARROW, Bitmap.Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(Constants.OFFSET_FOR_THINK_BUBBLES_AND_ARROW + 30, Constants.OFFSET_FOR_THINK_BUBBLES_AND_ARROW, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
