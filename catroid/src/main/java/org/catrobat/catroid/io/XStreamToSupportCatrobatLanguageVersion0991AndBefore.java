@@ -102,6 +102,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
@@ -392,6 +393,9 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 
 		brickInfo = new BrickInfo(PlaySoundBrick.class.getSimpleName());
 		brickInfoMap.put("playSoundBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PlaySoundAndWaitBrick.class.getSimpleName());
+		brickInfoMap.put("playSoundAndWaitBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PointInDirectionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.DEGREES);
