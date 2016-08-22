@@ -153,38 +153,6 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Wrong number of Bricks and Scripts", 0, sprite.getNumberOfScriptsAndBricks());
 	}
 
-	public void testAddBrickCorrectTotalNumber() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-		HideBrick hideBrick = new HideBrick();
-		ShowBrick showBrick = new ShowBrick();
-
-		firstScript.addBrick(hideBrick);
-		firstScript.addBrick(showBrick);
-		secondScript.addBrick(hideBrick);
-		sprite.addScript(firstScript);
-		sprite.addScript(secondScript);
-
-		assertEquals("Wrong number of Bricks and Scripts", 5, sprite.getNumberOfScriptsAndBricks());
-	}
-
-	public void testRemoveBrickOfCorrectTotalNumber() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-		HideBrick hideBrick = new HideBrick();
-		ShowBrick showBrick = new ShowBrick();
-
-		firstScript.addBrick(hideBrick);
-		firstScript.removeBrick(hideBrick);
-		secondScript.addBrick(showBrick);
-		sprite.addScript(firstScript);
-		sprite.addScript(secondScript);
-
-		assertEquals("Wrong number of Bricks and Scripts", 3, sprite.getNumberOfScriptsAndBricks());
-	}
-
 	public void testSpriteCloneWithLocalVariable() {
 		Script script = new StartScript();
 		Brick brick = new ChangeBrightnessByNBrick(new Formula(new FormulaElement(ElementType.USER_VARIABLE,
