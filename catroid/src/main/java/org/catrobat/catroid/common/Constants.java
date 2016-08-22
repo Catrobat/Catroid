@@ -38,7 +38,7 @@ public final class Constants {
 	public static final String PROJECTPERMISSIONS_NAME = "permissions.txt";
 	public static final String PROJECTPERMISSIONS_NAME_TMP = "tmp_" + PROJECTPERMISSIONS_NAME;
 	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
-	public static final String SCENES_ENABLED_TAG = "scenesEnabled";
+	public static final String SCENES_ENABLED_TAG = "<scenesEnabled>";
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String IMAGE_STANDARD_EXTENSION = ".png";
@@ -164,7 +164,6 @@ public final class Constants {
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 	public static final String PROJECTNAME_TO_LOAD = "projectNameToLoad";
-	public static final String SCENE_TO_LOAD = "sceneToLoad";
 	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";

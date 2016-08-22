@@ -87,9 +87,10 @@ public class Project implements Serializable {
 		if (context == null) {
 			sceneList.add(new Scene(context, "Scene 1", this));
 		} else {
-			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name) + " 1", this));
+			sceneList.add(new Scene(context, String.format(context.getString(R.string.default_scene_name), 1),
+					this));
 		}
-		xmlHeader.scenesEnabled = true;
+		xmlHeader.scenesEnabled = Constants.SCENES_ENABLED_TAG;
 	}
 
 	public Project(Context context, String name) {
@@ -103,7 +104,7 @@ public class Project implements Serializable {
 		projectLists = oldProject.dataContainer.projectLists;
 		Scene scene;
 		try {
-			scene = new Scene(context, context.getString(R.string.default_scene_name) + " 1", this);
+			scene = new Scene(context, String.format(context.getString(R.string.default_scene_name), 1), this);
 		} catch (Resources.NotFoundException e) {
 			//Because in test project we can't find the string
 			scene = new Scene(context, "Scene 1", this);

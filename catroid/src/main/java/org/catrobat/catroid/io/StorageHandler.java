@@ -496,8 +496,8 @@ public final class StorageHandler {
 		}
 		int start = projectXml.indexOf("<scene>");
 		int end = projectXml.indexOf("</name>", start);
-
-		return projectXml.substring(start + 20, end);
+		int lengthOfSceneAndNameTags = 20;
+		return projectXml.substring(start + lengthOfSceneAndNameTags, end);
 	}
 
 	public Project loadProject(String projectName, Context context) {
@@ -542,6 +542,7 @@ public final class StorageHandler {
 
 	public static void copyDirectory(File destinationFile, File sourceFile) throws IOException {
 		if (!sourceFile.exists()) {
+			Log.e(TAG, "copyDirectory: sourceFile does not exist: " + sourceFile.getAbsolutePath());
 			return;
 		}
 		if (sourceFile.isDirectory()) {

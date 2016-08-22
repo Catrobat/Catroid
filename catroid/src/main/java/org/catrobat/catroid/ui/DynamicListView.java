@@ -60,12 +60,15 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
 
 public class DynamicListView extends ListView {
 
+	private static final String TAG = DynamicListView.class.getSimpleName();
 	private static final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 15;
 	private static final int MOVE_DURATION = 100;
 	private static final int LINE_THICKNESS = 15;
@@ -176,7 +179,7 @@ public class DynamicListView extends ListView {
 
 	private void updateNeighborViewsForID(long itemID) {
 		int position = getPositionForID(itemID);
-		ArrayAdapter adapter = ((ArrayAdapter) getAdapter());
+		ArrayAdapter adapter = (ArrayAdapter) getAdapter();
 		aboveItemId = adapter.getItemId(position - 1);
 		belowItemId = adapter.getItemId(position + 1);
 	}
@@ -184,6 +187,7 @@ public class DynamicListView extends ListView {
 	public View getViewForID(long itemID) {
 		int firstVisiblePosition = getFirstVisiblePosition();
 		ArrayAdapter adapter = (ArrayAdapter) getAdapter();
+
 		for (int i = 0; i < getChildCount(); i++) {
 			View v = getChildAt(i);
 			int position = firstVisiblePosition + i;
@@ -293,7 +297,8 @@ public class DynamicListView extends ListView {
 
 			swapElements(dataList, originalItem, getPositionForView(switchView));
 
-			((BaseAdapter) getAdapter()).notifyDataSetChanged();
+			BaseAdapter adapter = (BaseAdapter) getAdapter();
+			adapter.notifyDataSetChanged();
 
 			downY = lastEventY;
 
@@ -510,4 +515,14 @@ public class DynamicListView extends ListView {
 			}
 		}
 	};
+
+	@Override
+	public ListAdapter getAdapter() {
+		ListAdapter adapter = super.getAdapter();
+		if (adapter instanceof HeaderViewListAdapter) {
+			return ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+		}
+
+		return adapter;
+	}
 }

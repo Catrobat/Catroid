@@ -71,7 +71,6 @@ public class MergeSceneDialog extends DialogFragment {
 		Spinner spinnerFirstScene = (Spinner) dialogView.findViewById(R.id.merge_scene_spinner_first);
 		Spinner spinnerSecondScene = (Spinner) dialogView.findViewById(R.id.merge_scene_spinner_second);
 
-		nameEditText.setText("");
 		ArrayAdapter<String> firstAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,
 				ProjectManager.getInstance().getCurrentProject().getSceneOrder());
 		firstAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

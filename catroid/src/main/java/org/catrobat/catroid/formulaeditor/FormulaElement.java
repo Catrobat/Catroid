@@ -163,7 +163,7 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public void getVariableAndListNames(ArrayList<String> variables, ArrayList<String> lists) {
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
 		if (leftChild != null) {
 			leftChild.getVariableAndListNames(variables, lists);
 		}

@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class SceneAdapter extends ArrayAdapter<Scene> {
+public class SceneAdapter extends ArrayAdapter<Scene> implements ActionModeActivityAdapterInterface {
 	private static final int INVALID_ID = -1;
 	private HashMap<Scene, Integer> idMap = new HashMap<>();
 	protected int selectMode;
@@ -89,6 +89,15 @@ public class SceneAdapter extends ArrayAdapter<Scene> {
 
 	public int getSelectMode() {
 		return selectMode;
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		return false;
 	}
 
 	public Set<Integer> getCheckedScenes() {
@@ -151,8 +160,8 @@ public class SceneAdapter extends ArrayAdapter<Scene> {
 		// ------------------------------------------------------------
 		final Scene scene = getItem(position);
 		String sceneName = scene.getName();
-		String displayName = position == 0 && !scene.isBackPackScene ? sceneName.concat(" " + getContext().getString(R.string
-				.start_scene_appendix)) : sceneName;
+		String displayName = position == 0 && !scene.isBackPackScene ? String.format(getContext().getString(R.string
+				.start_scene_name), sceneName) : sceneName;
 		String projectName = null;
 		if (scene.getProject() != null) {
 			projectName = scene.getProject().getName();

@@ -87,8 +87,8 @@ public class DataContainer implements Serializable {
 				continue;
 			}
 
-			Sprite newSpriteInstance = scene.getSpriteBySpriteName(entry.getKey().getName());
-			clonedList.put(newSpriteInstance, newList);
+			Sprite clonedSpriteInstance = scene.getSpriteBySpriteName(entry.getKey().getName());
+			clonedList.put(clonedSpriteInstance, newList);
 		}
 
 		spriteVariables = clonedList;
@@ -396,16 +396,6 @@ public class DataContainer implements Serializable {
 		resetAllUserVariables();
 	}
 
-	public void resetLocalDataObjects() {
-		for (Sprite currentSprite : spriteVariables.keySet()) {
-			resetUserVariables(spriteVariables.get(currentSprite));
-		}
-
-		for (Sprite currentSprite : spriteListOfLists.keySet()) {
-			resetUserLists(spriteListOfLists.get(currentSprite));
-		}
-	}
-
 	private void resetAllUserVariables() {
 		resetUserVariables(getProjectVariables());
 
@@ -685,7 +675,6 @@ public class DataContainer implements Serializable {
 	}
 
 	public List<UserVariable> getOrCreateVariableListForUserBrick(UserBrick userBrick) {
-		//TODO: Ask Stefan Jaindl if this works
 		if (userBrick == null) {
 			return new ArrayList<>();
 		}

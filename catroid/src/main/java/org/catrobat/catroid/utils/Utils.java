@@ -205,11 +205,12 @@ public final class Utils {
 	}
 
 	public static String buildScenePath(String projectName, String sceneName) {
-		return buildPath(buildProjectPath(projectName), sceneName);
+		return buildPath(buildProjectPath(projectName), UtilFile.encodeSpecialCharsForFileSystem(sceneName));
 	}
 
 	public static String buildBackpackScenePath(String sceneName) {
-		return buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY, sceneName);
+		return buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY,
+				UtilFile.encodeSpecialCharsForFileSystem(sceneName));
 	}
 
 	public static void showErrorDialog(Context context, int errorMessageId) {

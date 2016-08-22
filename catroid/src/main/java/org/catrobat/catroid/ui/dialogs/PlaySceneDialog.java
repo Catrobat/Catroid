@@ -48,14 +48,13 @@ public class PlaySceneDialog extends DialogFragment {
 
 	private static final String TAG = PlaySceneDialog.class.getSimpleName();
 
-	private Dialog playSceneDialog;
 	private RadioButton playFirstScene;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_play_scene, null);
 
-		playSceneDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		Dialog playSceneDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

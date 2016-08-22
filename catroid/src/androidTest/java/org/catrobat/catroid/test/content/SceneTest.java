@@ -102,7 +102,7 @@ public class SceneTest extends AndroidTestCase {
 		Scene scene = ProjectManager.getInstance().getCurrentScene();
 		boolean success = BackPackSceneController.getInstance().backpackScene(scene);
 		assertTrue("Scene was not backpacked correctly", success && BackPackListManager.getInstance()
-				.backPackedScenesContains(scene));
+				.backPackedScenesContains(scene, true));
 
 		long original = folderSize(new File(Utils.buildScenePath(scene.getProject().getName(), scene.getName())));
 		long backpackSize = folderSize(new File(Utils.buildBackpackScenePath(scene.getName())));
@@ -117,7 +117,7 @@ public class SceneTest extends AndroidTestCase {
 		BackPackListManager.getInstance().loadBackpack();
 		Thread.sleep(2000);
 		assertTrue("Scene was not serialized and deserialized correctly", BackPackListManager.getInstance()
-				.backPackedScenesContains(scene));
+				.backPackedScenesContains(scene, true));
 
 		Scene unpackedScene = BackPackSceneController.getInstance().unpackScene(backPackedScene);
 		assertTrue("Scene was not unpacked correctly", unpackedScene != null && Utils.isStandardScene(unpackedScene
@@ -148,9 +148,9 @@ public class SceneTest extends AndroidTestCase {
 		Scene scene = ProjectManager.getInstance().getCurrentProject().getDefaultScene();
 		boolean success = BackPackSceneController.getInstance().backpackScene(scene);
 		assertTrue("Scene was not backpacked correctly", success && BackPackListManager.getInstance()
-				.backPackedScenesContains(scene) && BackPackListManager.getInstance()
-				.hiddenBackPackedScenesContains(hiddenScene1) && BackPackListManager.getInstance()
-				.hiddenBackPackedScenesContains(hiddenScene2));
+				.backPackedScenesContains(scene, true) && BackPackListManager.getInstance()
+				.backPackedScenesContains(hiddenScene1, false) && BackPackListManager.getInstance()
+				.backPackedScenesContains(hiddenScene2, false));
 
 		long original = folderSize(new File(Utils.buildScenePath(scene.getProject().getName(), scene.getName())));
 		long backpackSize = folderSize(new File(Utils.buildBackpackScenePath(scene.getName())));
@@ -181,11 +181,11 @@ public class SceneTest extends AndroidTestCase {
 		BackPackListManager.getInstance().loadBackpack();
 		Thread.sleep(2000);
 		assertTrue("Scene was not serialized and deserialized correctly", BackPackListManager.getInstance()
-				.backPackedScenesContains(scene));
+				.backPackedScenesContains(scene, true));
 		assertTrue(hiddenSceneName1 + " was not serialized and deserialized correctly", BackPackListManager
-				.getInstance().hiddenBackPackedScenesContains(hiddenBackPackedScene1));
+				.getInstance().backPackedScenesContains(hiddenBackPackedScene1, false));
 		assertTrue(hiddenSceneName2 + " was not serialized and deserialized correctly", BackPackListManager
-				.getInstance().hiddenBackPackedScenesContains(hiddenBackPackedScene1));
+				.getInstance().backPackedScenesContains(hiddenBackPackedScene1, false));
 
 		String unpackedHiddenSceneName1 = Utils.getUniqueSceneName(hiddenBackPackedScene1.getName(), false);
 		String unpackedHiddenSceneName2 = Utils.getUniqueSceneName(hiddenBackPackedScene2.getName(), false);

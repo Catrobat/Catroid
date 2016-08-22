@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Formula implements Serializable {
 
@@ -93,7 +93,7 @@ public class Formula implements Serializable {
 		displayText = null;
 	}
 
-	public void getVariableAndListNames(ArrayList<String> variables, ArrayList<String> lists) {
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
 		internFormula.getVariableAndListNames(variables, lists);
 		formulaTree.getVariableAndListNames(variables, lists);
 	}

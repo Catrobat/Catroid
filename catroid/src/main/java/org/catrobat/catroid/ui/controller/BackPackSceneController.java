@@ -73,7 +73,7 @@ public final class BackPackSceneController {
 	}
 
 	public boolean checkSceneReplaceInBackpack(Scene currentScene) {
-		return BackPackListManager.getInstance().backPackedScenesContains(currentScene);
+		return BackPackListManager.getInstance().backPackedScenesContains(currentScene, true);
 	}
 
 	public void showBackPackReplaceDialog(final List<Scene> currentSceneList, final ScenesListFragment fragment) {
@@ -136,7 +136,7 @@ public final class BackPackSceneController {
 
 		for (Scene sceneToEdit : scenes) {
 			String sceneName = sceneToEdit.getName();
-			BackPackListManager.getInstance().removeItemFromSceneBackPackByName(sceneName);
+			BackPackListManager.getInstance().removeItemFromSceneBackPackByName(sceneName, false);
 
 			Scene backPackScene = backpack(sceneToEdit);
 			if (backPackScene == null) {
@@ -150,7 +150,7 @@ public final class BackPackSceneController {
 		}
 
 		for (Scene scene : hiddenScenes) {
-			BackPackListManager.getInstance().removeItemFromHiddenSceneBackPackByName(scene.getName());
+			BackPackListManager.getInstance().removeItemFromSceneBackPackByName(scene.getName(), true);
 			Scene hiddenBackPackScene = backpack(scene);
 			if (hiddenBackPackScene == null) {
 				return false;
@@ -181,10 +181,7 @@ public final class BackPackSceneController {
 			return null;
 		}
 		Scene clonedScene = sceneToEdit.clone();
-		if (clonedScene == null) {
-			UtilFile.deleteDirectory(targetScene);
-			return null;
-		}
+
 		clonedScene.isBackPackScene = true;
 		clonedScene.setProject(null);
 

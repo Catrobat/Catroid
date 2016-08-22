@@ -243,9 +243,9 @@ public class BackPackSceneFragment extends BackPackActivityFragment implements D
 		BackPackListManager.searchForHiddenScenes(selectedSceneBackPack, hiddenScenes, true);
 		hiddenScenes.remove(selectedSceneBackPack);
 		for (Scene scene : hiddenScenes) {
-			BackPackListManager.getInstance().removeItemFromHiddenSceneBackPackByName(scene.getName());
+			BackPackListManager.getInstance().removeItemFromSceneBackPackByName(scene.getName(), true);
 		}
-		BackPackListManager.getInstance().removeItemFromSceneBackPackByName(selectedSceneBackPack.getName());
+		BackPackListManager.getInstance().removeItemFromSceneBackPackByName(selectedSceneBackPack.getName(), false);
 	}
 
 	public void clearCheckedScenesAndEnableButtons() {
@@ -522,10 +522,10 @@ public class BackPackSceneFragment extends BackPackActivityFragment implements D
 		};
 
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
-		builder.setTitle(R.string.warning);
-		builder.setMessage(activity.getString(R.string.error_unpack_scene_with_different_resolution));
-		builder.setPositiveButton(activity.getString(R.string.main_menu_continue), dialogClickListener);
-		builder.setNegativeButton(activity.getString(R.string.abort), dialogClickListener);
+		builder.setTitle(R.string.warning)
+				.setMessage(activity.getString(R.string.error_unpack_scene_with_different_resolution))
+				.setPositiveButton(activity.getString(R.string.main_menu_continue), dialogClickListener)
+				.setNegativeButton(activity.getString(R.string.abort), dialogClickListener);
 		Dialog errorDialog = builder.create();
 		errorDialog.show();
 	}

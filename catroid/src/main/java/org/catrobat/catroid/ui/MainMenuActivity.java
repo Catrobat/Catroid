@@ -203,6 +203,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	private void finishOnCreateAfterRunnable() {
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
 		PreStageActivity.shutdownPersistentResources();
 		if (!STANDALONE_MODE) {
 			setMainMenuButtonContinueText();
@@ -362,10 +363,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && !lockBackButtonForAsync) {
-			return true;
-		}
-		return false;
+		return (keyCode == KeyEvent.KEYCODE_BACK && !lockBackButtonForAsync);
 	}
 
 	@Override

@@ -69,9 +69,10 @@ public class MergeTask {
 		if (addScene) {
 			this.firstProject = firstProject.getProjectLists().size() == 1 ? secondProject : firstProject;
 			this.secondProject = firstProject.getProjectLists().size() == 1 ? firstProject : secondProject;
+		} else {
+			this.firstProject = firstProject;
+			this.secondProject = secondProject;
 		}
-		this.firstProject = firstProject;
-		this.secondProject = secondProject;
 		this.activity = activity;
 		this.adapter = adapter;
 		this.addScene = addScene;

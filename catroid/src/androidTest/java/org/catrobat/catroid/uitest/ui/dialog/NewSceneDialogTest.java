@@ -57,7 +57,8 @@ public class NewSceneDialogTest extends BaseActivityInstrumentationTestCase<Main
 	public void testNewSceneDialogEmpty() {
 		testingproject = ProjectManager.getInstance().getCurrentProject();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		String defaultSceneName = solo.getString(R.string.default_scene_name) + " " + testingproject.getSceneList().size();
+		String defaultSceneName = String.format(solo.getString(R.string.default_scene_name), testingproject
+				.getSceneList().size());
 		assertTrue("Default name should be " + defaultSceneName, solo.waitForText(defaultSceneName));
 
 		solo.clickOnText(solo.getString(R.string.ok));

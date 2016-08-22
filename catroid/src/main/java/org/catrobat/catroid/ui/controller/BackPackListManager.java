@@ -169,6 +169,10 @@ public final class BackPackListManager {
 		return getBackpack().backpackedScenes;
 	}
 
+	public List<Scene> getHiddenBackPackedScenes() {
+		return getBackpack().hiddenBackpackedScenes;
+	}
+
 	public Scene getHiddenSceneByName(String name) {
 		for (Scene scene : getBackpack().hiddenBackpackedScenes) {
 			if (scene.getName().equals(name)) {
@@ -190,11 +194,7 @@ public final class BackPackListManager {
 		getBackpack().hiddenBackpackedScenes.add(scene);
 	}
 
-	public void removeItemFromSceneBackPack(Scene scene) {
-		getBackpack().backpackedScenes.remove(scene);
-	}
-
-	public void removeItemFromSceneBackPackByName(String title) {
+	public void removeItemFromSceneBackPackByName(String title, boolean hidden) {
 		List<Scene> toRemove = new ArrayList<>();
 		for (Scene scene : getBackpack().backpackedScenes) {
 			if (scene.getName().equals(title)) {
@@ -202,18 +202,7 @@ public final class BackPackListManager {
 				UtilFile.deleteDirectory(new File(Utils.buildBackpackScenePath(scene.getName())));
 			}
 		}
-		getBackpack().backpackedScenes.removeAll(toRemove);
-	}
-
-	public void removeItemFromHiddenSceneBackPackByName(String title) {
-		List<Scene> toRemove = new ArrayList<>();
-		for (Scene scene : getBackpack().hiddenBackpackedScenes) {
-			if (scene.getName().equals(title)) {
-				toRemove.add(scene);
-				UtilFile.deleteDirectory(new File(Utils.buildBackpackScenePath(scene.getName())));
-			}
-		}
-		getBackpack().hiddenBackpackedScenes.removeAll(toRemove);
+		(hidden ? getHiddenBackPackedScenes() : getBackPackedScenes()).removeAll(toRemove);
 	}
 
 	public List<Sprite> getBackPackedSprites() {
@@ -317,17 +306,9 @@ public final class BackPackListManager {
 		return false;
 	}
 
-	public boolean backPackedScenesContains(Scene scene) {
-		for (Scene backPackedScene : getBackpack().backpackedScenes) {
-			if (backPackedScene.getName().equals(scene.getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean hiddenBackPackedScenesContains(Scene scene) {
-		for (Scene backPackedScene : getBackpack().hiddenBackpackedScenes) {
+	public boolean backPackedScenesContains(Scene scene, boolean onlyVisible) {
+		List<Scene> toSearch = onlyVisible ? getBackPackedScenes() : getHiddenBackPackedScenes();
+		for (Scene backPackedScene : toSearch) {
 			if (backPackedScene.getName().equals(scene.getName())) {
 				return true;
 			}

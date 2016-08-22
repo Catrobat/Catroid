@@ -78,7 +78,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
 	private Project project;
-	private Scene scene;
+	private Scene currentScene;
 	private Scene sceneToPlay;
 	private Script currentScript;
 	private Sprite currentSprite;
@@ -158,8 +158,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (project == null) {
 			if (oldProject != null) {
 				project = oldProject;
-				scene = project.getDefaultScene();
-				sceneToPlay = scene;
+				currentScene = project.getDefaultScene();
+				sceneToPlay = currentScene;
 				MessageContainer.restoreBackup();
 			} else {
 				project = Utils.findValidProject(context);
@@ -180,8 +180,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.92f);
 			} else {
 				project = oldProject;
-				scene = oldProject.getDefaultScene();
-				sceneToPlay = scene;
+				currentScene = oldProject.getDefaultScene();
+				sceneToPlay = currentScene;
 				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
 			}
 		} else {
@@ -235,8 +235,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				//project cannot be converted
 				project = oldProject;
 				if (oldProject != null) {
-					scene = oldProject.getDefaultScene();
-					sceneToPlay = scene;
+					currentScene = oldProject.getDefaultScene();
+					sceneToPlay = currentScene;
 				}
 
 				throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
@@ -255,19 +255,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
 				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
 			}
-			scene = project.getDefaultScene();
-			sceneToPlay = scene;
+			currentScene = project.getDefaultScene();
+			sceneToPlay = currentScene;
 		}
 	}
 
 	private void localizeBackgroundSprite(Context context) {
 		// Set generic localized name on background sprite and move it to the back.
-		if (scene == null) {
+		if (currentScene == null) {
 			return;
 		}
-		if (scene.getSpriteList().size() > 0) {
-			scene.getSpriteList().get(0).setName(context.getString(R.string.background));
-			scene.getSpriteList().get(0).look.setZIndex(0);
+		if (currentScene.getSpriteList().size() > 0) {
+			currentScene.getSpriteList().get(0).setName(context.getString(R.string.background));
+			currentScene.getSpriteList().get(0).look.setZIndex(0);
 		}
 		MessageContainer.clearBackup();
 		currentSprite = null;
@@ -301,8 +301,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 			currentSprite = null;
 			currentScript = null;
-			scene = project.getDefaultScene();
-			sceneToPlay = scene;
+			currentScene = project.getDefaultScene();
+			sceneToPlay = currentScene;
 			return true;
 		} catch (IOException ioException) {
 			Log.e(TAG, "Cannot initialize default project.", ioException);
@@ -330,8 +330,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		currentSprite = null;
 		currentScript = null;
-		scene = project.getDefaultScene();
-		sceneToPlay = scene;
+		currentScene = project.getDefaultScene();
+		sceneToPlay = currentScene;
 	}
 
 	public Project getCurrentProject() {
@@ -350,10 +350,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public Scene getCurrentScene() {
-		if (scene == null) {
-			scene = project.getDefaultScene();
+		if (currentScene == null) {
+			currentScene = project.getDefaultScene();
 		}
-		return scene;
+		return currentScene;
 	}
 
 	public boolean isCurrentProjectLandscapeMode() {
@@ -369,8 +369,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		this.project = project;
 		if (project != null) {
-			scene = project.getDefaultScene();
-			sceneToPlay = scene;
+			currentScene = project.getDefaultScene();
+			sceneToPlay = currentScene;
 		}
 	}
 
@@ -459,7 +459,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void setCurrentScene(Scene scene) {
-		this.scene = scene;
+		this.currentScene = scene;
 		sceneToPlay = scene;
 	}
 

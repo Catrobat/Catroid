@@ -70,7 +70,7 @@ public class RenameSceneDialog extends TextDialog {
 			return false;
 		}
 
-		if (newSceneName != null && !newSceneName.equalsIgnoreCase("")) {
+		if (!newSceneName.isEmpty() && !newSceneName.equalsIgnoreCase("")) {
 			Intent intent = new Intent(ScriptActivity.ACTION_SCENE_RENAMED);
 			intent.putExtra(EXTRA_NEW_SCENE_NAME, newSceneName);
 			getActivity().sendBroadcast(intent);

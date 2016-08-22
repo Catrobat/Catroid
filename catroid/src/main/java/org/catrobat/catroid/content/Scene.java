@@ -91,7 +91,7 @@ public class Scene implements Serializable {
 			background = new Sprite(context.getString(R.string.background));
 		} catch (Resources.NotFoundException e) {
 			//Because in test project we can't find the string
-			background = new Sprite("Hintergrund");
+			background = new Sprite("Background");
 		}
 		background.look.setZIndex(0);
 		addSprite(background);
@@ -163,8 +163,8 @@ public class Scene implements Serializable {
 	}
 
 	public boolean mergeProjectVariables() {
-		ArrayList<String> variables = new ArrayList<>();
-		ArrayList<String> lists = new ArrayList<>();
+		List<String> variables = new ArrayList<>();
+		List<String> lists = new ArrayList<>();
 
 		for (Sprite sprite : spriteList) {
 			for (Brick brick : sprite.getListWithAllBricks()) {
@@ -203,6 +203,13 @@ public class Scene implements Serializable {
 		}
 
 		return true;
+	}
+
+	public boolean isBackgroundObject(Sprite sprite) {
+		if (spriteList.indexOf(sprite) == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

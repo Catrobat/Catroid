@@ -171,7 +171,7 @@
     <!-- Project activity view -->
     <string name="project_name">Program:</string>
     <string name="my_projects_activity_title">Programs</string>
-    <string name="start_scene_appendix"> (First Scene)</string>
+    <string name="start_scene_name">"%1$s" (First Scene)</string>
     <string name="number_of_scripts">Scripts:</string>
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_looks">Looks:</string>
@@ -676,7 +676,7 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
-    <string name="default_scene_name">Scene </string>
+    <string name="default_scene_name">Scene "%1$s"</string>
     <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
@@ -1219,9 +1219,9 @@
     <string name="merge_info">successfully merged into</string>
 
     <string name="warning">Warning</string>
-    <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
-    <string name="error_merge_with_self_scene">Caution! Current scene and selected scene are the same!</string>
-    <string name="error_merge_scene_not_found">Caution! Scene not found!</string>
+    <string name="error_merge_with_self">Current project and selected project are the same!</string>
+    <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
+    <string name="error_merge_scene_not_found">Scene not found!</string>
     <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
         has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
     <string name="abort">Abort</string>

@@ -60,8 +60,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.adapter.SceneAdapter;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
@@ -188,16 +187,16 @@ public class ProjectActivity extends BaseActivity {
 				if (scenesListFragment == null) {
 					scenesListFragment = new ScenesListFragment();
 					fragmentExists = false;
-					currentFragmentTag = ScenesListFragment.TAG;
 				}
+				currentFragmentTag = ScenesListFragment.TAG;
 				currentFragment = scenesListFragment;
 				break;
 			case FRAGMENT_SPRITES:
 				if (spritesListFragment == null) {
 					spritesListFragment = new SpritesListFragment();
 					fragmentExists = false;
-					currentFragmentTag = SpritesListFragment.TAG;
 				}
+				currentFragmentTag = SpritesListFragment.TAG;
 				currentFragment = spritesListFragment;
 				break;
 		}
@@ -304,7 +303,6 @@ public class ProjectActivity extends BaseActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		CharSequence[] items;
 		int numberOfItemsInBackpack = 0;
-		updateFragmentPosition();
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SPRITES:
 				numberOfItemsInBackpack = BackPackListManager.getInstance().getBackPackedSprites().size();
@@ -388,7 +386,6 @@ public class ProjectActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		updateFragmentPosition();
 
 		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 		Fragment previousFragment;
@@ -410,20 +407,10 @@ public class ProjectActivity extends BaseActivity {
 		}
 	}
 
-	private void updateFragmentPosition() {
-		if (currentFragment == scenesListFragment) {
-			currentFragmentPosition = FRAGMENT_SCENES;
-		}
-		if (currentFragment == spritesListFragment) {
-			currentFragmentPosition = FRAGMENT_SPRITES;
-		}
-	}
-
 	public void handlePlayButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		updateFragmentPosition();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 
@@ -451,7 +438,6 @@ public class ProjectActivity extends BaseActivity {
 	}
 
 	public void startPreStageActivity() {
-		ProjectManager.getInstance().getSceneToPlay().getDataContainer().resetAllDataObjects();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
@@ -459,18 +445,12 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// Dismiss ActionMode without effecting sounds
-		updateFragmentPosition();
 		if (currentFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
-			if (currentFragmentPosition == FRAGMENT_SPRITES) {
-				SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
-				adapter.clearCheckedItems();
+			if (currentFragmentPosition == FRAGMENT_SCENES && scenesListFragment.lockBackButtonForAsync) {
+				return false;
 			} else {
-				if (scenesListFragment.lockBackButtonForAsync) {
-					return false;
-				}
-				SceneAdapter adapter = (SceneAdapter) scenesListFragment.getListAdapter();
-				adapter.clearCheckedScenes();
+				((ActionModeActivityAdapterInterface) currentFragment.getListAdapter()).clearCheckedItems();
 			}
 		}
 
