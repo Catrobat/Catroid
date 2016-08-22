@@ -206,6 +206,20 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
 				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
+			case R.string.formula_editor_sensor_date_year:
+				return buildSensor(Sensors.DATE_YEAR);
+			case R.string.formula_editor_sensor_date_month:
+				return buildSensor(Sensors.DATE_MONTH);
+			case R.string.formula_editor_sensor_date_day:
+				return buildSensor(Sensors.DATE_DAY);
+			case R.string.formula_editor_sensor_date_weekday:
+				return buildSensor(Sensors.DATE_WEEKDAY);
+			case R.string.formula_editor_sensor_time_hour:
+				return buildSensor(Sensors.TIME_HOUR);
+			case R.string.formula_editor_sensor_time_minute:
+				return buildSensor(Sensors.TIME_MINUTE);
+			case R.string.formula_editor_sensor_time_second:
+				return buildSensor(Sensors.TIME_SECOND);
 			case R.string.formula_editor_nfc_tag_id:
 				return buildSensor(Sensors.NFC_TAG_ID);
 

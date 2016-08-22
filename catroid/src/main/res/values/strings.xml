@@ -1083,6 +1083,13 @@
     <string name="formula_editor_sensor_x_inclination">inclination_x</string>
     <string name="formula_editor_sensor_y_inclination">inclination_y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
+    <string name="formula_editor_sensor_date_year">year</string>
+    <string name="formula_editor_sensor_date_month">month</string>
+    <string name="formula_editor_sensor_date_day">day</string>
+    <string name="formula_editor_sensor_date_weekday">weekday</string>
+    <string name="formula_editor_sensor_time_hour">hour</string>
+    <string name="formula_editor_sensor_time_minute">minute</string>
+    <string name="formula_editor_sensor_time_second">second</string>
     <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
     <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
     <string name="formula_editor_sensor_drone_flying">drone_flying</string>
@@ -1138,6 +1145,7 @@
     <string name="formula_editor_object_general">general properties</string>
     <string name="formula_editor_object_physical">physical properties</string>
     <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_date_and_time">Date and Time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego">Lego</string>
     <string name="formula_editor_device_arduino">Arduino</string>
