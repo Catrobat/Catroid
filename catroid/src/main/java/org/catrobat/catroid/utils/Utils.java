@@ -37,13 +37,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
+import com.google.common.base.Splitter;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -51,6 +57,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
+import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -67,11 +74,19 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -155,6 +170,139 @@ public final class Utils {
 	public static boolean checkForNetworkError(WebconnectionException exception) {
 		return exception != null && exception.getStatusCode() == WebconnectionException
 				.ERROR_NETWORK;
+	}
+
+	public static String formatDate(Date date, Locale locale) {
+		return DateFormat.getDateInstance(DateFormat.LONG, locale).format(date);
+	}
+
+	@Nullable
+	public static byte[] convertInputStreamToByteArray(final InputStream inputStream) {
+		try {
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int len;
+			while ((len = inputStream.read(buffer)) > -1) {
+				byteArrayOutputStream.write(buffer, 0, len);
+			}
+			byteArrayOutputStream.flush();
+			return byteArrayOutputStream.toByteArray();
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	public static Date getScratchSecondReleasePublishedDate() {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_YEAR);
+		calendar.set(Calendar.MONTH, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_MONTH);
+		calendar.set(Calendar.DAY_OF_MONTH, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_DAY);
+		return calendar.getTime();
+	}
+
+	public static boolean isDeprecatedScratchProgram(final ScratchProgramData programData) {
+		// NOTE: ignoring old Scratch 1.x programs -> converter only supports version 2.x and later
+		//       Scratch 1.x programs are created before May 9, 2013 (see: https://wiki.scratch.mit.edu/wiki/Scratch_2.0)
+		final Date releasePublishedDate = getScratchSecondReleasePublishedDate();
+		if (programData.getModifiedDate() != null && programData.getModifiedDate().before(releasePublishedDate)) {
+			return true;
+		} else if (programData.getCreatedDate() != null && programData.getCreatedDate().before(releasePublishedDate)) {
+			return true;
+		}
+		return false;
+	}
+
+	public static String extractParameterFromURL(final String url, final String parameterKey) {
+		final String query = url.split("\\?")[1];
+		return Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query).get(parameterKey);
+	}
+
+	public static long extractScratchJobIDFromURL(final String url) {
+		if (!url.startsWith(Constants.SCRATCH_CONVERTER_BASE_URL)) {
+			return Constants.INVALID_SCRATCH_PROGRAM_ID;
+		}
+
+		final String jobIDString = extractParameterFromURL(url, "job_id");
+		if (jobIDString == null) {
+			return Constants.INVALID_SCRATCH_PROGRAM_ID;
+		}
+
+		final long jobID = Long.parseLong(jobIDString);
+		return jobID > 0 ? jobID : Constants.INVALID_SCRATCH_PROGRAM_ID;
+	}
+
+	public static int[] extractImageSizeFromScratchImageURL(final String url) {
+		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png?v=1368470695.0 -> [480, 360]
+		int[] defaultSize = new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
+
+		String urlWithoutQuery = url.split("\\?")[0];
+		String[] urlStringParts = urlWithoutQuery.split("_");
+		if (urlStringParts.length == 0) {
+			return defaultSize;
+		}
+
+		final String[] sizeParts = urlStringParts[urlStringParts.length - 1].replace(".png", "").split("x");
+		if (sizeParts.length != 2) {
+			return defaultSize;
+		}
+
+		try {
+			int width = Integer.parseInt(sizeParts[0]);
+			int height = Integer.parseInt(sizeParts[1]);
+			return new int[] { width, height };
+		} catch (NumberFormatException ex) {
+			return new int[] { Constants.SCRATCH_IMAGE_DEFAULT_WIDTH, Constants.SCRATCH_IMAGE_DEFAULT_HEIGHT };
+		}
+	}
+
+	public static String changeSizeOfScratchImageURL(final String url, int newHeight) {
+		// example: https://cdn2.scratch.mit.edu/get_image/project/10205819_480x360.png
+		//    ->    https://cdn2.scratch.mit.edu/get_image/project/10205819_240x180.png
+		final int[] imageSize = extractImageSizeFromScratchImageURL(url);
+		final int width = imageSize[0];
+		final int height = imageSize[1];
+		final int newWidth = Math.round(((float) width) / ((float) height) * newHeight);
+
+		return url.replace(width + "x", Integer.toString(newWidth) + "x")
+				.replace("x" + height, "x" + Integer.toString(newHeight));
+	}
+
+	public static String humanFriendlyFormattedShortNumber(final int number) {
+		if (number < 1_000) {
+			return Integer.toString(number);
+		} else if (number < 10_000) {
+			return Integer.toString(number / 1_000) + (number % 1_000 > 100 ? "."
+					+ Integer.toString((number % 1_000) / 100) : "") + "k";
+		} else if (number < 1_000_000) {
+			return Integer.toString(number / 1_000) + "k";
+		}
+		return Integer.toString(number / 1_000_000) + "M";
+	}
+
+	public static boolean setListViewHeightBasedOnItems(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter != null) {
+			int numberOfItems = listAdapter.getCount();
+			// Get total height of all items.
+			int totalItemsHeight = 0;
+			for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
+				View item = listAdapter.getView(itemPos, null, listView);
+				item.measure(0, 0);
+				totalItemsHeight += item.getMeasuredHeight();
+			}
+
+			// Get total height of all item dividers.
+			int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
+
+			// Set list height.
+			ViewGroup.LayoutParams params = listView.getLayoutParams();
+			params.height = totalItemsHeight + totalDividersHeight;
+			listView.setLayoutParams(params);
+			listView.requestLayout();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -276,6 +424,11 @@ public final class Utils {
 		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
 	}
 
+	public static double round(double value, int precision) {
+		final int scale = (int) Math.pow(10, precision);
+		return (double) Math.round(value * scale) / scale;
+	}
+
 	private static String toHex(byte[] messageDigest) {
 		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
@@ -316,6 +469,27 @@ public final class Utils {
 	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (densityIndependentPixels * scale + 0.5f);
+	}
+
+	public static Activity getActivity() throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException,
+			NoSuchMethodException, InvocationTargetException {
+		Class activityThreadClass = Class.forName("android.app.ActivityThread");
+		Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+		Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+		activitiesField.setAccessible(true);
+		HashMap activities = (HashMap) activitiesField.get(activityThread);
+		for (Object activityRecord : activities.values()) {
+			Class activityRecordClass = activityRecord.getClass();
+			Field pausedField = activityRecordClass.getDeclaredField("paused");
+			pausedField.setAccessible(true);
+			if (!pausedField.getBoolean(activityRecord)) {
+				Field activityField = activityRecordClass.getDeclaredField("activity");
+				activityField.setAccessible(true);
+				Activity activity = (Activity) activityField.get(activityRecord);
+				return activity;
+			}
+		}
+		return null;
 	}
 
 	public static void saveToPreferences(Context context, String key, String message) {
@@ -768,7 +942,7 @@ public final class Utils {
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-					|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
 	}
 

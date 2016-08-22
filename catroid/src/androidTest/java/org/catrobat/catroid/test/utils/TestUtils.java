@@ -69,6 +69,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -294,6 +297,26 @@ public final class TestUtils {
 			if (directory.exists()) {
 				UtilFile.deleteDirectory(directory);
 			}
+		}
+	}
+
+	public static boolean isUrlValidAndReachable(String urlString) {
+		try {
+			URL url = new URL(urlString);
+			InputStream i = null;
+			try {
+				i = url.openStream();
+			} catch (UnknownHostException ex) {
+				return false;
+			} catch (IOException ex) {
+				return false;
+			}
+			if (i == null) {
+				return false;
+			}
+			return true;
+		} catch (MalformedURLException e) {
+			return false;
 		}
 	}
 

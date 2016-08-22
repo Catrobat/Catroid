@@ -360,8 +360,13 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 	public void testRateAppMenuExists() {
 		solo.sendKey(Solo.MENU);
-		assertTrue("App rating menu not found in overflow menu!",
-				solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+		assertTrue("App rating menu not found in overflow menu!", solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+		solo.goBack();
+	}
+
+	public void testScratchConverterMenuExists() {
+		solo.sendKey(Solo.MENU);
+		assertTrue("Scratch Converter menu item not found in overflow menu!", solo.searchText(solo.getString(R.string.preference_title_scratch_converter)));
 		solo.goBack();
 	}
 

@@ -21,18 +21,32 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources >
+<resources>
 
     <dimen name="actionbar_height" >48dip</dimen >
     <dimen name="project_thumbnail_height" >65dip</dimen >
     <dimen name="project_thumbnail_width" >72dip</dimen >
-    <dimen name="text_size_small" >12sp</dimen>
+    <dimen name="scratch_project_thumbnail_height">65dp</dimen>
+    <dimen name="scratch_project_thumbnail_width">72dp</dimen>
+    <dimen name="scratch_project_image_height">130dp</dimen>
+    <dimen name="scratch_project_image_width">144dp</dimen>
+    <dimen name="scratch_project_tiny_thumbnail_height">36dp</dimen>
+    <dimen name="scratch_project_tiny_thumbnail_width">40dp</dimen>
+    <dimen name="scratch_project_image_margin_right">20dp</dimen>
+    <dimen name="scratch_project_search_list_view_margin_top">15dp</dimen>
+    <dimen name="scratch_project_search_list_view_margin_bottom">48dp</dimen>
+    <dimen name="scratch_conversion_list_view_margin_top">15dp</dimen>
+    <dimen name="scratch_conversion_list_view_margin_bottom">15dp</dimen>
+    <dimen name="scratch_remixes_list_view_margin_top">15dp</dimen>
+    <dimen name="scratch_remixes_list_view_margin_bottom">15dp</dimen>
     <dimen name="text_size_medium" >16sp</dimen >
     <dimen name="text_size_large" >18sp</dimen >
+    <dimen name="text_size_small" >12sp</dimen >
     <dimen name="text_size_main_menu_buttons" >22sp</dimen >
     <dimen name="text_size_main_menu_button_continue_program_name" >14sp</dimen >
     <dimen name="text_size_program_menu_buttons" >22sp</dimen >
     <dimen name="program_menu_button_height" >90dp</dimen >
+    <dimen name="my_projects_list_item_height">90dip</dimen>
     <dimen name="brick_edit_text_and_prototype_text_view_minimum_width" >48dp</dimen >
     <dimen name="brick_height_small" >72dp</dimen >
     <dimen name="brick_height_medium" >96dp</dimen >
@@ -43,11 +57,11 @@
     <dimen name="text_size_brick_category" >22sp</dimen >
 
     <!-- UserBrickDataEditorFragment -->
-    <dimen name="brick_data_edit_cursor_size" >58dp</dimen >
+    <dimen name="brick_data_edit_cursor_size">58dp</dimen>
     <!-- -->
 
     <!-- PhiroProColorChooserFragment -->
-    <dimen name="fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width" >5dp</dimen >
+    <dimen name="fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width">5dp</dimen>
     <!-- -->
 
     <!-- Dialog -->
@@ -75,8 +89,11 @@
     <!--  -->
 
     <!-- Flow Layout -->
-    <dimen name="brick_flow_layout_vertical_spacing" >0dp</dimen >
-    <dimen name="brick_flow_layout_horizontal_spacing" >3dp</dimen >
+    <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>
+    <dimen name="brick_flow_layout_horizontal_spacing">3dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
     <!--  -->
 
     <!-- Activity -->
