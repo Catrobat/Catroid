@@ -39,6 +39,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -134,6 +135,8 @@ public class StageListener implements ApplicationListener {
 	private BitmapFont font;
 	private Passepartout passepartout;
 	private Viewport viewPort;
+	public ShapeRenderer shapeRenderer;
+	private PenActor penActor;
 
 	private List<Sprite> sprites;
 	private HashSet<Sprite> clonedSprites;
@@ -176,6 +179,8 @@ public class StageListener implements ApplicationListener {
 		font.getData().setScale(1.2f);
 		deltaActionTimeDivisor = 10f;
 
+		shapeRenderer = new ShapeRenderer();
+
 		project = ProjectManager.getInstance().getCurrentProject();
 		scene = ProjectManager.getInstance().getSceneToPlay();
 		pathForSceneScreenshot = Utils.buildScenePath(project.getName(), scene.getName()) + "/";
@@ -201,10 +206,16 @@ public class StageListener implements ApplicationListener {
 
 		clonedSprites = new HashSet<>();
 		sprites = new ArrayList<>(scene.getSpriteList());
+		boolean addPenActor = true;
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
+			if (addPenActor) {
+				penActor = new PenActor();
+				stage.addActor(penActor);
+				addPenActor = false;
+			}
 			sprite.resume();
 		}
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
@@ -442,11 +453,18 @@ public class StageListener implements ApplicationListener {
 
 			Sprite sprite;
 
+			boolean addPenActor = true;
+
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastHueShader();
 				stage.addActor(sprite.look);
+				if (addPenActor) {
+					penActor = new PenActor();
+					stage.addActor(penActor);
+					addPenActor = false;
+				}
 				sprite.pause();
 			}
 			stage.addActor(passepartout);
@@ -463,6 +481,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		batch.setProjectionMatrix(camera.combined);
+		shapeRenderer.setProjectionMatrix(camera.combined);
 
 		if (scene.firstStart) {
 			int spriteSize = sprites.size();
@@ -758,6 +777,10 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	public void clearBackground() {
+		penActor.reset();
+	}
+
 	private void initScreenMode() {
 		switch (project.getScreenMode()) {
 			case STRETCH:
@@ -836,6 +859,7 @@ public class StageListener implements ApplicationListener {
 		public boolean axesOn = false;
 		public float deltaActionTimeDivisor;
 		public boolean cameraRunning;
+		public PenActor penActor;
 
 		public StageBackup() {
 		}
@@ -866,6 +890,7 @@ public class StageListener implements ApplicationListener {
 			CameraManager.getInstance().pauseForScene();
 			//CameraManager.getInstance().releaseCamera();
 		}
+		backup.penActor = penActor;
 		return backup;
 	}
 
@@ -895,5 +920,6 @@ public class StageListener implements ApplicationListener {
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		penActor = backup.penActor;
 	}
 }

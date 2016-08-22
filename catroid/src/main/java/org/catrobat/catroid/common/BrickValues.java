@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.physics.PhysicsObject;
@@ -64,6 +65,10 @@ public final class BrickValues {
 	public static final int GO_TO_TOUCH_POSITION = 80;
 	public static final int GO_TO_RANDOM_POSITION = 81;
 	public static final int GO_TO_OTHER_SPRITE_POSITION = 82;
+
+	//constants Pen
+	public static final Float PEN_SIZE = 4f;
+	public static final Color PEN_COLOR = Color.BLUE;
 
 	//constants Sounds
 	public static final Float SET_VOLUME_TO = 60f;

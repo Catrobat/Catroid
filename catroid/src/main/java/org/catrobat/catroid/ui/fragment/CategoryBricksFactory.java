@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
+import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
@@ -82,6 +83,8 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PenDownBrick;
+import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
@@ -106,6 +109,8 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -115,6 +120,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
@@ -166,6 +172,8 @@ public class CategoryBricksFactory {
 			tempList = setupSoundCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_looks))) {
 			tempList = setupLooksCategoryList(context);
+		} else if (category.equals(context.getString(R.string.category_pen))) {
+			tempList = setupPenCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
@@ -370,6 +378,21 @@ public class CategoryBricksFactory {
 		}
 
 		return looksBrickList;
+	}
+
+	private List<Brick> setupPenCategoryList(Sprite sprite) {
+		List<Brick> penBrickList = new ArrayList<>();
+
+		if (!isBackground(sprite)) {
+			penBrickList.add(new PenDownBrick());
+			penBrickList.add(new PenUpBrick());
+			penBrickList.add(new SetPenSizeBrick(4));
+			penBrickList.add(new SetPenColorBrick(0, 0, 255));
+			penBrickList.add(new StampBrick());
+		}
+
+		penBrickList.add(new ClearBackgroundBrick());
+		return penBrickList;
 	}
 
 	private List<Brick> setupDataCategoryList() {

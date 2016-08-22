@@ -22,14 +22,17 @@
  */
 package org.catrobat.catroid.content;
 
+import android.graphics.PointF;
 import android.util.Log;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -59,6 +62,7 @@ public class Sprite implements Serializable, Cloneable {
 	public transient Look look = new Look(this);
 	public transient boolean isPaused;
 	public transient boolean isBackpackObject = false;
+	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient boolean cloneForScene = false;
 	@XStreamAsAttribute
 	private String name;
@@ -166,6 +170,7 @@ public class Sprite implements Serializable, Cloneable {
 		for (LookData lookData : lookList) {
 			lookData.resetLookData();
 		}
+		penConfiguration = new PenConfiguration();
 	}
 
 	public void removeUserBrick(UserBrick brickToRemove) {
@@ -719,5 +724,13 @@ public class Sprite implements Serializable, Cloneable {
 				}
 			}
 		}
+	}
+
+	public class PenConfiguration {
+		public boolean penDown = false;
+		public float penSize = BrickValues.PEN_SIZE;
+		public Color penColor = BrickValues.PEN_COLOR;
+		public PointF previousPoint = null;
+		public boolean stamp = false;
 	}
 }

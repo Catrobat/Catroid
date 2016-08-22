@@ -305,6 +305,23 @@
         <item name="android:background" >@drawable/brick_green_3h</item >
     </style >
 
+    <style name="BrickContainer.Pen" ></style >
+
+    <style name="BrickContainer.Pen.Small" >
+        <item name="android:minHeight" >@dimen/brick_height_small</item >
+        <item name="android:background" >@drawable/brick_darkgreen_1h</item >
+    </style >
+
+    <style name="BrickContainer.Pen.Medium" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_darkgreen_2h</item >
+    </style >
+
+    <style name="BrickContainer.Pen.Big" >
+        <item name="android:minHeight" >@dimen/brick_height_big</item >
+        <item name="android:background" >@drawable/brick_green_3h</item >
+    </style >
+
     <style name="BrickContainer.UserVariables" ></style >
 
     <style name="BrickContainer.UserVariables.Small" >
@@ -604,6 +621,11 @@
 
     <style name="BrickCategoryText.Looks" >
         <item name="android:background" >@drawable/brick_selection_background_looks</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
+    </style >
+
+    <style name="BrickCategoryText.Pen" >
+        <item name="android:background" >@drawable/brick_selection_background_pen</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
     </style >
 

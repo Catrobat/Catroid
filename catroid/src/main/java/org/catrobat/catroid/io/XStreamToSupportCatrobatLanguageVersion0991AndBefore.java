@@ -52,6 +52,7 @@ import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
+import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
@@ -91,6 +92,8 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PenDownBrick;
+import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
@@ -111,6 +114,8 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -121,6 +126,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
@@ -591,6 +597,28 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(TurnRightSpeedBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("turnRightSpeed", BrickField.PHYSICS_TURN_RIGHT_SPEED);
 		brickInfoMap.put("turnRightSpeedBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PenDownBrick.class.getSimpleName());
+		brickInfoMap.put("penDownBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PenUpBrick.class.getSimpleName());
+		brickInfoMap.put("penUpBrick", brickInfo);
+
+		brickInfo = new BrickInfo(StampBrick.class.getSimpleName());
+		brickInfoMap.put("stampBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ClearBackgroundBrick.class.getSimpleName());
+		brickInfoMap.put("clearBackgroundBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetPenSizeBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("penSize", BrickField.PEN_SIZE);
+		brickInfoMap.put("setPenSizeBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetPenColorBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_RED);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_GREEN);
+		brickInfo.addBrickFieldToMap("penColor", BrickField.PHIRO_LIGHT_BLUE);
+		brickInfoMap.put("setPenColorBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {
