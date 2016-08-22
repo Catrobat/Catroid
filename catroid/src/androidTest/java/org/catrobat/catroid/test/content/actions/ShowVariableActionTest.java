@@ -34,10 +34,10 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class ShowTextActionTest extends AndroidTestCase {
+public class ShowVariableActionTest extends AndroidTestCase {
 
 	private static final String SPRITE_NAME = "Cat";
-	private static final String SPRITE_VARIABLE_NAME = "var";
+	private static final UserVariable USER_VARIABLE = new UserVariable("var");
 	private Project project;
 
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
@@ -51,22 +51,22 @@ public class ShowTextActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(secondSprite);
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		dataContainer.addSpriteUserVariableToSprite(sprite, SPRITE_VARIABLE_NAME).setVisible(false);
-		dataContainer.addSpriteUserVariableToSprite(secondSprite, SPRITE_VARIABLE_NAME).setVisible(false);
+		dataContainer.addSpriteUserVariableToSprite(sprite, USER_VARIABLE.getName()).setVisible(false);
+		dataContainer.addSpriteUserVariableToSprite(secondSprite, USER_VARIABLE.getName()).setVisible(false);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action firstSpriteAction = factory.createShowTextAction(sprite, new Formula(0), new Formula(0),
-				SPRITE_VARIABLE_NAME);
+		Action firstSpriteAction = factory.createShowVariableAction(sprite, new Formula(0), new Formula(0),
+				USER_VARIABLE);
 		factory = secondSprite.getActionFactory();
-		Action secondSpriteAction = factory.createShowTextAction(secondSprite, new Formula(0), new Formula(0),
-				SPRITE_VARIABLE_NAME);
+		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new Formula(0), new Formula(0),
+				USER_VARIABLE);
 		firstSpriteAction.act(1.0f);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 		secondSpriteAction.act(1.0f);
 
-		UserVariable variableOfFirstSprite = dataContainer.findUserVariable(SPRITE_VARIABLE_NAME, dataContainer
+		UserVariable variableOfFirstSprite = dataContainer.findUserVariable(USER_VARIABLE.getName(), dataContainer
 				.getVariableListForSprite(sprite));
-		UserVariable variableOfSecondSprite = dataContainer.findUserVariable(SPRITE_VARIABLE_NAME, dataContainer
+		UserVariable variableOfSecondSprite = dataContainer.findUserVariable(USER_VARIABLE.getName(), dataContainer
 				.getVariableListForSprite(secondSprite));
 		assertTrue("Uservariable not set visible", variableOfFirstSprite.getVisible());
 		assertTrue("Uservariable not set visible", variableOfSecondSprite.getVisible());

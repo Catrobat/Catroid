@@ -26,7 +26,6 @@ package org.catrobat.catroid.content.bricks;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,14 +48,14 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class HideTextBrick extends UserVariableBrick {
+public class HideVariableBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
-	private static String tag = HideTextBrick.class.getSimpleName();
+
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
-	public String userVariableName;
 
-	public HideTextBrick() {
+	public HideVariableBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
 		addAllowedBrickField(BrickField.Y_POSITION);
 	}
@@ -75,9 +74,9 @@ public class HideTextBrick extends UserVariableBrick {
 			alphaValue = 255;
 		}
 
-		view = View.inflate(context, R.layout.brick_hide_text, null);
+		view = View.inflate(context, R.layout.brick_hide_variable, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_hide_text_checkbox);
+		setCheckboxView(R.id.brick_hide_variable_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -88,7 +87,7 @@ public class HideTextBrick extends UserVariableBrick {
 			}
 		});
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_text_spinner);
+		Spinner hideVariableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
@@ -98,19 +97,19 @@ public class HideTextBrick extends UserVariableBrick {
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
+		hideVariableSpinner.setAdapter(userVariableAdapterWrapper);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			variableSpinner.setClickable(true);
-			variableSpinner.setEnabled(true);
+			hideVariableSpinner.setClickable(true);
+			hideVariableSpinner.setEnabled(true);
 		} else {
-			variableSpinner.setClickable(false);
-			variableSpinner.setFocusable(false);
+			hideVariableSpinner.setClickable(false);
+			hideVariableSpinner.setFocusable(false);
 		}
 
-		setSpinnerSelection(variableSpinner, null);
+		setSpinnerSelection(hideVariableSpinner, null);
 
-		variableSpinner.setOnTouchListener(new View.OnTouchListener() {
+		hideVariableSpinner.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
@@ -118,7 +117,7 @@ public class HideTextBrick extends UserVariableBrick {
 						&& (((Spinner) view).getSelectedItemPosition() == 0
 						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(HideTextBrick.this);
+					dialog.addVariableDialogListener(HideVariableBrick.this);
 					dialog.show(((Activity) view.getContext()).getFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
@@ -127,12 +126,12 @@ public class HideTextBrick extends UserVariableBrick {
 			}
 		});
 
-		variableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		hideVariableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(HideTextBrick.this);
+					dialog.addVariableDialogListener(HideVariableBrick.this);
 					int spinnerPos = ((UserVariableAdapterWrapper) parent.getAdapter())
 							.getPositionOfItem(userVariable);
 					dialog.setUserVariableIfCancel(spinnerPos);
@@ -142,24 +141,15 @@ public class HideTextBrick extends UserVariableBrick {
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
 				adapterView = parent;
-				setUserVariableName(userVariable);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
-				setUserVariableName(userVariable);
 			}
 		});
-		setUserVariableName(userVariable);
 
 		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_hide_text, null);
-		return prototypeView;
 	}
 
 	@Override
@@ -167,7 +157,7 @@ public class HideTextBrick extends UserVariableBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_hide_text_layout);
+			View layout = view.findViewById(R.id.brick_hide_variable_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -178,12 +168,18 @@ public class HideTextBrick extends UserVariableBrick {
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		prototypeView = View.inflate(context, R.layout.brick_hide_variable, null);
+		return prototypeView;
+	}
+
+	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (userVariableName == null) {
-			userVariableName = Constants.NO_VARIABLE_SELECTED;
+		if (userVariable.getName() == null) {
+			userVariable.setName(Constants.NO_VARIABLE_SELECTED);
 		}
 
-		sequence.addAction(sprite.getActionFactory().createHideTextAction(userVariableName));
+		sequence.addAction(sprite.getActionFactory().createHideVariableAction(userVariable));
 		return null;
 	}
 
@@ -191,18 +187,4 @@ public class HideTextBrick extends UserVariableBrick {
 	public void updateReferenceAfterMerge(Scene into, Scene from) {
 		super.updateUserVariableReference(into, from);
 	}
-
-	void setUserVariableName(UserVariable userVariable) {
-		userVariableName = Constants.NO_VARIABLE_SELECTED;
-		try {
-			userVariableName = userVariable.getName();
-		} catch (NullPointerException e) {
-			Log.d(tag, "Nothing selected yet.");
-		}
-	}
-
-	void setUserVariableName(String userVariableName) {
-		this.userVariableName = userVariableName;
-	}
 }
-

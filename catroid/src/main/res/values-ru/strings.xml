@@ -979,9 +979,9 @@
   <string name="add_line_break">Добавить разрыв на строку</string>
   <string name="edit_variable">Изменить переменную</string>
   <string name="variable_hint">Имя переменной</string>
-  <string name="brick_show_text_var">Показать переменную</string>
-  <string name="brick_show_text_pos">"в "</string>
-  <string name="brick_hide_text_var">Спрятать переменную</string>
+  <string name="brick_show_variable">Показать переменную</string>
+  <string name="brick_show_variable_position">"в "</string>
+  <string name="brick_hide_variable">Спрятать переменную</string>
   <!-- User Bricks strings -->
   <string name="define">Означать</string>
   <string name="new_user_brick">Новый кирпич</string>

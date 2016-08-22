@@ -40,50 +40,53 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.stage.ShowTextActor;
+import org.catrobat.catroid.stage.ShowVariableActor;
 import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.List;
 import java.util.Map;
 
-public class ShowTextAction extends TemporalAction {
-	public static final String TAG = ShowTextAction.class.getSimpleName();
-	private Formula endX;
-	private Formula endY;
-	private String variableName;
+public class ShowVariableAction extends TemporalAction {
+
+	public static final String TAG = ShowVariableAction.class.getSimpleName();
+
+	private Formula xPosition;
+	private Formula yPosition;
+	private UserVariable variableToShow;
+
 	private Sprite sprite;
 	private UserBrick userBrick;
-	private ShowTextActor actor;
+	private ShowVariableActor actor;
 
 	@Override
 	protected void begin() {
 		try {
-			int x = endX.interpretInteger(sprite);
-			int y = endY.interpretInteger(sprite);
+			int xPosition = this.xPosition.interpretInteger(sprite);
+			int yPosition = this.yPosition.interpretInteger(sprite);
 
 			DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 			List<UserVariable> variableList = dataContainer.getProjectVariables();
 
 			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			Sprite currentSprite = sprite;
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-				ShowTextActor showTextActor = new ShowTextActor("textActor", 0, 0, sprite, userBrick);
+				ShowVariableActor dummyActor = new ShowVariableActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
 
 				for (Actor actor : stageActors) {
-					if (actor.getClass().equals(showTextActor.getClass())) {
-						ShowTextActor textActor = (ShowTextActor) actor;
-						if (textActor.getLinkedVariableName().equals(variableName)
-								&& textActor.getSprite().equals(sprite)
-								&& textActor.getUserBrick().equals(userBrick)) {
+					if (actor.getClass().equals(dummyActor.getClass())) {
+						ShowVariableActor showVariableActor = (ShowVariableActor) actor;
+						if (showVariableActor.getVariableNameToCompare().equals(variableToShow.getName())
+								&& showVariableActor.getSprite().equals(sprite)
+								&& (userBrick != null ? showVariableActor.getUserBrick().equals(userBrick) : true)) {
 							actor.remove();
 						}
 					}
 				}
 
-				actor = new ShowTextActor(variableName, x, y, sprite, userBrick);
+				actor = new ShowVariableActor(variableToShow, xPosition, yPosition, sprite, userBrick);
 				StageActivity.stageListener.addActor(actor);
 			}
 
@@ -100,7 +103,7 @@ public class ShowTextAction extends TemporalAction {
 			return;
 		}
 		for (UserVariable userVariable : variableList) {
-			if (userVariable.getName().equals(variableName)) {
+			if (userVariable.getName().equals(variableToShow.getName())) {
 				userVariable.setVisible(true);
 				break;
 			}
@@ -110,29 +113,29 @@ public class ShowTextAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			int x = endX.interpretInteger(sprite);
-			int y = endY.interpretInteger(sprite);
+			int xPosition = this.xPosition.interpretInteger(sprite);
+			int yPosition = this.yPosition.interpretInteger(sprite);
 
 			if (actor != null) {
-				actor.setX(x);
-				actor.setY(y);
+				actor.setPositionX(xPosition);
+				actor.setPositionY(yPosition);
 			}
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException");
 		}
 	}
 
-	public void setPosition(Formula x, Formula y) {
-		endX = x;
-		endY = y;
+	public void setPosition(Formula xPosition, Formula yPosition) {
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setVariableName(String variableName) {
-		this.variableName = variableName;
+	public void setVariableToShow(UserVariable userVariable) {
+		this.variableToShow = userVariable;
 	}
 
 	public void setUserBrick(UserBrick userBrick) {

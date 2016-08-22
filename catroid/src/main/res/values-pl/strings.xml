@@ -983,9 +983,9 @@
   <string name="add_line_break">Dodaj podział wiersza</string>
   <string name="edit_variable">Edytuj zmienną</string>
   <string name="variable_hint">Nazwa zmiennej</string>
-  <string name="brick_show_text_var">Pokaż zmienną</string>
-  <string name="brick_show_text_pos">"at "</string>
-  <string name="brick_hide_text_var">Ukryj zmienną</string>
+  <string name="brick_show_variable">Pokaż zmienną</string>
+  <string name="brick_show_variable_position">"at "</string>
+  <string name="brick_hide_variable">Ukryj zmienną</string>
   <!-- User Bricks strings -->
   <string name="define">definiuj</string>
   <string name="new_user_brick">Nowy blok</string>

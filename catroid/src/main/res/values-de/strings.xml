@@ -980,9 +980,9 @@
   <string name="add_line_break">Zeilenumbruch hinzufügen</string>
   <string name="edit_variable">Variable bearbeiten</string>
   <string name="variable_hint">Variablenname</string>
-  <string name="brick_show_text_var">Zeige Variable</string>
-  <string name="brick_show_text_pos">"bei "</string>
-  <string name="brick_hide_text_var">Verstecke Variable</string>
+  <string name="brick_show_variable">Zeige Variable</string>
+  <string name="brick_show_variable_position">"bei "</string>
+  <string name="brick_hide_variable">Verstecke Variable</string>
   <!-- User Bricks strings -->
   <string name="define">definiere</string>
   <string name="new_user_brick">Neuer Baustein</string>

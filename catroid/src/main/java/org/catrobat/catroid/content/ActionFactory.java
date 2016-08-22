@@ -76,7 +76,7 @@ import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideAction;
-import org.catrobat.catroid.content.actions.HideTextAction;
+import org.catrobat.catroid.content.actions.HideVariableAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
@@ -118,7 +118,7 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowAction;
-import org.catrobat.catroid.content.actions.ShowTextAction;
+import org.catrobat.catroid.content.actions.ShowVariableAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
@@ -836,19 +836,19 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createShowTextAction(Sprite sprite, Formula x, Formula y, String variableName) {
-		ShowTextAction action = action(ShowTextAction.class);
-		action.setPosition(x, y);
-		action.setVariableName(variableName);
+	public Action createShowVariableAction(Sprite sprite, Formula xPosition, Formula yPosition, UserVariable userVariable) {
+		ShowVariableAction action = action(ShowVariableAction.class);
+		action.setPosition(xPosition, yPosition);
+		action.setVariableToShow(userVariable);
 		action.setSprite(sprite);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);
 		return action;
 	}
 
-	public Action createHideTextAction(String variableName) {
-		HideTextAction action = action(HideTextAction.class);
-		action.setVariableName(variableName);
+	public Action createHideVariableAction(UserVariable userVariable) {
+		HideVariableAction action = action(HideVariableAction.class);
+		action.setVariableToHide(userVariable);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		action.setUserBrick(userBrick);
 		return action;
