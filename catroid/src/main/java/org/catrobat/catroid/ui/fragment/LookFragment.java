@@ -63,6 +63,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -666,6 +667,9 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+
+		activity.getActionBar().setTitle(ProjectManager.getInstance().getCurrentSprite().getName());
+
 		NewLookDialog dialog = NewLookDialog.newInstance();
 		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 			@Override
@@ -674,7 +678,21 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(false);
 					activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 					isResultHandled = true;
+					ProjectManager.getInstance().setCurrentSprite(ProjectManager.getInstance().getPreviousSprite());
 					((ScriptActivity) activity).setSwitchToScriptFragment(true);
+				}
+			}
+		});
+		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				if (ProjectManager.getInstance().getComingFromScriptFragmentToLooksFragment()) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(false);
+					Sprite sprite = ProjectManager.getInstance().getPreviousSprite();
+					ProjectManager.getInstance().setCurrentSprite(sprite);
+					activity.getActionBar().setTitle(sprite.getName());
+					((ScriptActivity) activity).switchFromLookToScriptFragment();
 				}
 			}
 		});

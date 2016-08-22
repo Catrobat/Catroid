@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -113,6 +114,8 @@ import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -428,6 +431,12 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
 		brickInfoMap.put("setTransparencyBrick", brickInfo);
 
+		brickInfo = new BrickInfo(SetBackgroundBrick.class.getSimpleName());
+		brickInfoMap.put("setBackgroundBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetBackgroundAndWaitBrick.class.getSimpleName());
+		brickInfoMap.put("setBackgroundAndWaitBrick", brickInfo);
+
 		brickInfo = new BrickInfo(SetLookBrick.class.getSimpleName());
 		brickInfoMap.put("setLookBrick", brickInfo);
 
@@ -648,6 +657,7 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
 		scriptInfoMap.put("whenConditionScript", WhenConditionScript.class.getSimpleName());
+		scriptInfoMap.put("whenBackgroundChangesScript", WhenBackgroundChangesScript.class.getSimpleName());
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
 		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());

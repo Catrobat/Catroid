@@ -859,6 +859,10 @@ public class ScriptActivity extends BaseActivity {
 		this.switchToScriptFragment = switchToScriptFragment;
 	}
 
+	public void switchFromLookToScriptFragment() {
+		LookController.getInstance().switchToScriptFragment(lookFragment, this);
+	}
+
 	public void showEmptyActionModeDialog(String actionMode) {
 		@SuppressLint("InflateParams")
 		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
