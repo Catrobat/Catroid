@@ -79,6 +79,9 @@ public final class BrickValues {
 	public static final int REPEAT = 10;
 	public static final String IF_CONDITION = "1 < 2";
 	public static final String NOTE = "add comment here…";
+	public static final int STOP_THIS_SCRIPT = 0;
+	public static final int STOP_ALL_SCRIPTS = 1;
+	public static final int STOP_OTHER_SCRIPTS = 2;
 
 	//Constants Lego
 	public static final String LEGO_MOTOR = "A";
