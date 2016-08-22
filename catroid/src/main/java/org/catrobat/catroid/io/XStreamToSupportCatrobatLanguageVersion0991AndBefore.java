@@ -97,6 +97,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
@@ -354,6 +355,9 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 
 		brickInfo = new BrickInfo(NextLookBrick.class.getSimpleName());
 		brickInfoMap.put("nextLookBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PreviousLookBrick.class.getSimpleName());
+		brickInfoMap.put("previousLookBrick", brickInfo);
 
 		brickInfo = new BrickInfo(NoteBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("note", BrickField.NOTE);

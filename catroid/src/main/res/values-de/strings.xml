@@ -462,6 +462,8 @@
   <string name="brick_clear_graphic_effect">Grafikeffekte zurücksetzen</string>
   <string name="brick_next_look">Nächstes Aussehen</string>
   <string name="brick_next_background">Nächster Hintergrund</string>
+  <string name="brick_previous_look">Voriges Aussehen</string>
+  <string name="brick_previous_background">Voriger Hintergrund</string>
   <string name="brick_flash">Schalte Blitz</string>
   <string name="brick_flash_on">ein</string>
   <string name="brick_flash_off">aus</string>

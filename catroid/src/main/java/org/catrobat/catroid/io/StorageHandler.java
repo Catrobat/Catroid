@@ -126,6 +126,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
@@ -355,6 +356,7 @@ public final class StorageHandler {
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PointInDirectionBrick.class);
 		xstream.alias("brick", PointToBrick.class);
+		xstream.alias("brick", PreviousLookBrick.class);
 		xstream.alias("brick", RepeatBrick.class);
 		xstream.alias("brick", RepeatUntilBrick.class);
 		xstream.alias("brick", ReplaceItemInUserListBrick.class);
