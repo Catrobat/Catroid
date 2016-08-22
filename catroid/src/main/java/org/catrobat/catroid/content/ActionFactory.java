@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
@@ -68,6 +69,9 @@ import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
+import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
+import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
+import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
 import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
@@ -253,6 +257,27 @@ public class ActionFactory extends Actions {
 		action.setInterpolation(null);
 		action.setSprite(sprite);
 		return action;
+	}
+
+	public Action createGoToAction(Sprite sprite, Sprite destinationSprite, int spinnerSelection) {
+		switch (spinnerSelection) {
+			case BrickValues.GO_TO_TOUCH_POSITION:
+				GoToTouchPositionAction touchPositionAction = Actions.action(GoToTouchPositionAction.class);
+				touchPositionAction.setSprite(sprite);
+				return touchPositionAction;
+			case BrickValues.GO_TO_RANDOM_POSITION:
+				GoToRandomPositionAction randomPositionAction = Actions.action(GoToRandomPositionAction.class);
+				randomPositionAction.setSprite(sprite);
+				return randomPositionAction;
+			case BrickValues.GO_TO_OTHER_SPRITE_POSITION:
+				GoToOtherSpritePositionAction otherSpritePositionAction = Actions
+						.action(GoToOtherSpritePositionAction.class);
+				otherSpritePositionAction.setSprite(sprite);
+				otherSpritePositionAction.setDestinationSprite(destinationSprite);
+				return otherSpritePositionAction;
+			default:
+				return null;
+		}
 	}
 
 	public Action createGoNStepsBackAction(Sprite sprite, Formula steps) {

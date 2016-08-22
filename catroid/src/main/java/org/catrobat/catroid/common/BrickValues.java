@@ -61,6 +61,9 @@ public final class BrickValues {
 	public static final Float SET_COLOR_TO = 0f;
 	public static final Float CHANGE_COLOR_BY = 25f;
 	public static final Float VIBRATE_SECONDS = 1f;
+	public static final int GO_TO_TOUCH_POSITION = 80;
+	public static final int GO_TO_RANDOM_POSITION = 81;
+	public static final int GO_TO_OTHER_SPRITE_POSITION = 82;
 
 	//constants Sounds
 	public static final Float SET_VOLUME_TO = 60f;

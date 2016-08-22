@@ -71,6 +71,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -374,6 +375,9 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo.addBrickFieldToMap("xPosition", BrickField.X_POSITION);
 		brickInfo.addBrickFieldToMap("yPosition", BrickField.Y_POSITION);
 		brickInfoMap.put("placeAtBrick", brickInfo);
+
+		brickInfo = new BrickInfo(GoToBrick.class.getSimpleName());
+		brickInfoMap.put("goToBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PlaySoundBrick.class.getSimpleName());
 		brickInfoMap.put("playSoundBrick", brickInfo);

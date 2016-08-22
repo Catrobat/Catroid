@@ -97,6 +97,11 @@ public final class TouchUtil {
 		return touches.get(index - 1).y;
 	}
 
+	public static void setDummyTouchForTest(float x, float y) {
+		touches.add(new PointF(x, y));
+		isTouching.add(false);
+	}
+
 	private static void fireTouchEvent() {
 		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
 

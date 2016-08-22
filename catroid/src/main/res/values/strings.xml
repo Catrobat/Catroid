@@ -558,6 +558,9 @@
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
     <string name="brick_glide_to_x">to X:</string>
+    <string name="brick_go_to">Go to</string>
+    <string name="brick_go_to_touch_position">Touch position</string>
+    <string name="brick_go_to_random_position">Random position</string>
     <!--  -->
 
     <!-- Physics -->
