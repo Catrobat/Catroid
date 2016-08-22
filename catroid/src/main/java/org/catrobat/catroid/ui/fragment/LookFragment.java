@@ -614,6 +614,11 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		// Comment out not supported
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		startActionMode(renameModeCallBack, true);
 	}

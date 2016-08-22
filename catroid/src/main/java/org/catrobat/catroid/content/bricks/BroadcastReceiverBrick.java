@@ -59,6 +59,10 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	public BroadcastReceiverBrick(BroadcastScript receiveScript) {
 		this.receiveScript = receiveScript;
+
+		if (receiveScript != null && receiveScript.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	@Override
@@ -70,7 +74,11 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public Brick clone() {
-		return new BroadcastReceiverBrick(new BroadcastScript(getBroadcastMessage()));
+		BroadcastScript broadcastScript = new BroadcastScript(getBroadcastMessage());
+		if (receiveScript != null) {
+			broadcastScript.setCommentedOut(receiveScript.isCommentedOut());
+		}
+		return new BroadcastReceiverBrick(broadcastScript);
 	}
 
 	@Override
@@ -237,5 +245,11 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

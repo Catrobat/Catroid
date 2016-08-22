@@ -47,6 +47,8 @@ public abstract class ScriptActivityFragment extends ListFragment implements Lis
 
 	public abstract void startCopyActionMode();
 
+	public abstract void startCommentOutActionMode();
+
 	public abstract void startRenameActionMode();
 
 	public abstract void startDeleteActionMode();

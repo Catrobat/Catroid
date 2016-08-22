@@ -489,4 +489,10 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 			}
 		}
 	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
+	}
 }

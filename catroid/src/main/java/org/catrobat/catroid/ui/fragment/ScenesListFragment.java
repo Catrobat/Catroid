@@ -263,6 +263,11 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		// not possible here
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		startActionMode(renameModeCallBack, true);
 	}

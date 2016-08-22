@@ -357,6 +357,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		// Comment out not supported
+	}
+
+	@Override
 	public void startBackPackActionMode() {
 		startActionMode(backPackModeCallBack, false);
 	}
