@@ -512,6 +512,7 @@ public class Scene implements Serializable {
 	public void convertSpritesToSingleSprites() {
 		for (int index = 0; index < spriteList.size(); index++) {
 			Sprite sprite = spriteList.get(index);
+			sprite.setConvertToSingleSprite(true);
 			Sprite convertedSprite = sprite.shallowClone();
 			removeSprite(sprite);
 			addSprite(index, convertedSprite);
