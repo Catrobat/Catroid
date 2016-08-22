@@ -127,6 +127,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowVariableBrick;
+import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
@@ -456,6 +457,10 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(SpeakBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SpeakAndWaitBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
+		brickInfoMap.put("speakAndWaitBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
 		brickInfoMap.put("whenBrick", brickInfo);
