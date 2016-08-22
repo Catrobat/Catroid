@@ -132,7 +132,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	public static boolean gpsAvailable() {
-		return instance.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) | instance.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		return gpsSensorAvailable() | networkGpsAvailable();
+	}
+
+	private static boolean gpsSensorAvailable() {
+		return instance.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	}
+
+	private static boolean networkGpsAvailable() {
+		return instance.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 
 	public boolean accelerationAvailable() {
@@ -165,8 +173,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
 		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
 		instance.locationManager.addGpsStatusListener(instance);
-		instance.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, instance);
-		instance.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, instance);
+		if (gpsSensorAvailable()) {
+			instance.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, instance);
+		}
+		if (networkGpsAvailable()) {
+			instance.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, instance);
+		}
 	}
 
 	public static void registerListener(SensorEventListener listener) {
