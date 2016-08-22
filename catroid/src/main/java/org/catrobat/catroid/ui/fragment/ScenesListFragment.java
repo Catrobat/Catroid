@@ -102,7 +102,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View sceneListFragment = inflater.inflate(R.layout.fragment_sprites_list, container, false);
+		View sceneListFragment = inflater.inflate(R.layout.fragment_scenes_list, container, false);
 		sceneListFragment.findViewById(R.id.sceneList_headline).setVisibility(View.VISIBLE);
 		return sceneListFragment;
 	}
@@ -823,6 +823,4 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 		}
 		return newName;
 	}
-
-
 }

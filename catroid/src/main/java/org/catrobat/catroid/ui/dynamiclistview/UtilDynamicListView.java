@@ -133,7 +133,12 @@ public class UtilDynamicListView {
 
 		View selectedView = listView.getChildAt(itemNum);
 		mobileItemId = getItemId(adapterPosition);
-		hoverCell = getAndAddHoverView(selectedView);
+
+		adapterPosition = getAdapterPositionForVisibleListViewPosition(position);
+		Sprite sprite = getSpriteAdapter().getSpriteList().get(adapterPosition);
+		boolean isGroupItemSprite = sprite instanceof GroupItemSprite;
+
+		hoverCell = getAndAddHoverView(selectedView, isGroupItemSprite);
 		if (!forSpriteList) {
 			selectedView.setVisibility(ListView.INVISIBLE);
 		}
@@ -141,13 +146,13 @@ public class UtilDynamicListView {
 		updateNeighborViewsForID(mobileItemId);
 	}
 
-	private BitmapDrawable getAndAddHoverView(View v) {
+	private BitmapDrawable getAndAddHoverView(View v, boolean isGroupItemSprite) {
 		int w = v.getWidth();
 		int h = v.getHeight();
 		int top = v.getTop();
 		int left = v.getLeft();
 
-		Bitmap b = getBitmapWithBorder(v);
+		Bitmap b = getBitmapWithBorder(v, isGroupItemSprite);
 		BitmapDrawable drawable = new BitmapDrawable(listView.getResources(), b);
 
 		hoverCellOriginalBounds = new Rect(left, top, left + w, top + h);
@@ -157,14 +162,15 @@ public class UtilDynamicListView {
 		return drawable;
 	}
 
-	private Bitmap getBitmapWithBorder(View v) {
+	private Bitmap getBitmapWithBorder(View v, boolean isGroupItemSprite) {
 		Bitmap bitmap = getBitmapFromView(v);
 		Canvas can = new Canvas(bitmap);
 		Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		int strokeWidth = isGroupItemSprite ? 0 : 15;
 
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.STROKE);
-		paint.setStrokeWidth(LINE_THICKNESS);
+		paint.setStrokeWidth(strokeWidth);
 		paint.setColor(Color.rgb(5, 34, 44));
 
 		can.drawBitmap(bitmap, 0, 0, null);

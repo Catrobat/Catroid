@@ -1019,6 +1019,5 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleCheckBoxClick(View view) {
-
 	}
 }

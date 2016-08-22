@@ -683,7 +683,6 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 	@Override
 	public void handleCheckBoxClick(View view) {
-
 	}
 
 	@Override

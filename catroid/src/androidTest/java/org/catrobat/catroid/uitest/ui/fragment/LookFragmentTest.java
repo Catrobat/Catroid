@@ -358,7 +358,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertNotNull("Could not get Adapter", adapter);
 		packSingleItem(FIRST_TEST_LOOK_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
 		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
@@ -541,7 +541,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testBackPackLookActionModeDifferentProgrammes() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestLookNamePacked, secondTestLookNamePacked);
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, SPRITE_NAME);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 
 		UiTestUtils.openBackPackActionModeWhenEmpty(solo);

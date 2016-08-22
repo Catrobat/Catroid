@@ -755,6 +755,5 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void handleCheckBoxClick(View view) {
-
 	}
 }

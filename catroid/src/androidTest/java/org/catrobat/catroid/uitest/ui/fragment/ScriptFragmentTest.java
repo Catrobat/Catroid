@@ -980,7 +980,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);
 		assertTrue("Script wasn't backpacked!", solo.waitForText(DEFAULT_SCRIPT_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
@@ -1187,7 +1187,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		backPackAllScripts(DEFAULT_SCRIPT_GROUP_NAME);
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
@@ -1408,7 +1408,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Sprite is not in hidden backpack!", BackPackListManager.getInstance().getHiddenBackpackedSprites().size() == 1);
 		assertTrue("Wrong sprite was backpacked!", BackPackListManager.getInstance().getHiddenBackpackedSprites().get(0).getName().equals("dog"));
 
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME3, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME3, "cat");
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		ListView listView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);

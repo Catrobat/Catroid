@@ -1030,9 +1030,9 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		StorageHandler.getInstance().saveProject(project);
@@ -1069,14 +1069,14 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
-		project.addSprite(fifthSprite);
-		project.addSprite(sixthSprite);
-		project.addSprite(seventhSprite);
-		project.addSprite(eightSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(fifthSprite);
+		project.getDefaultScene().addSprite(sixthSprite);
+		project.getDefaultScene().addSprite(seventhSprite);
+		project.getDefaultScene().addSprite(eightSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		StorageHandler.getInstance().saveProject(project);
@@ -2572,7 +2572,7 @@ public final class UiTestUtils {
 		return null;
 	}
 
-	public static void switchToProgrammeBackground(Solo solo, String programName, String spriteName) {
+	public static void switchToProgrammesBackground(Solo solo, String programName, String spriteName) {
 		clickOnHomeActionBarButton(solo);
 		solo.clickOnText(solo.getString(R.string.programs));
 		solo.sleep(500);

@@ -1166,8 +1166,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Group has not been deleted or GroupItemSprite not been converted to SingleSprite", 5, adapter.getGroupCount());
 		assertEquals("Group has not been deleted", 2, adapter.getGroupNames().size());
 		assertTrue("Group item has not been converted to SingleSprite", ProjectManager.getInstance().getCurrentScene().getSpriteList()
-				.get
-				(1) instanceof SingleSprite);
+				.get(1) instanceof SingleSprite);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnText(secondGroupName);

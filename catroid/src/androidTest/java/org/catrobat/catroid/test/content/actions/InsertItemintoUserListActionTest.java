@@ -50,7 +50,7 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		actionFactory = new ActionFactory();
-		testSprite = new SingleSprite("testSprite");
+		testSprite = new SingleSprite("testSingleSprite");
 		project = new Project(null, "testProject");
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);

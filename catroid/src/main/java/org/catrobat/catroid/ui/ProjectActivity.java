@@ -60,7 +60,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
@@ -70,7 +69,6 @@ import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.ListItemActionsInterface;
 import org.catrobat.catroid.ui.fragment.ScenesListFragment;
-import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -134,15 +132,7 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		/*spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		updateFragment(fragmentTransaction);
-		fragmentTransaction.commit();*/
-
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-
 		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
@@ -385,20 +375,6 @@ public class ProjectActivity extends BaseActivity {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
 			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
-		}
-	}
-
-	private void updateFragment(FragmentTransaction fragmentTransaction) {
-		boolean fragmentExists = true;
-		if (spritesListFragment == null) {
-			spritesListFragment = new SpritesListFragment();
-			fragmentExists = false;
-		}
-
-		if (fragmentExists) {
-			fragmentTransaction.show(spritesListFragment);
-		} else {
-			fragmentTransaction.add(R.id.fragment_container, spritesListFragment, SpritesListFragment.TAG);
 		}
 	}
 

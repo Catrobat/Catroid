@@ -545,7 +545,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		backPackFirstUserBrickWithContextMenu(DEFAULT_USERBRICK_GROUP_NAME);
 		assertTrue("Userbrick wasn't backpacked!", solo.waitForText(DEFAULT_USERBRICK_GROUP_NAME, 0, TIME_TO_WAIT_BACKPACK));
 
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.getIntoUserBrickOverView(solo);
@@ -745,7 +745,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		addOneUserBrickInPrototypeView(UiTestUtils.SECOND_TEST_USER_BRICK_NAME);
 
 		backPackAllUserBricks(DEFAULT_USERBRICK_GROUP_NAME);
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.getIntoUserBrickOverView(solo);

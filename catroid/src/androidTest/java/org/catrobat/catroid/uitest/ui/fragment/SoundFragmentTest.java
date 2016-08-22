@@ -788,7 +788,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertNotNull("Could not get Adapter", adapter);
 		packSingleItem(FIRST_TEST_SOUND_NAME, true);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.sounds));
 
 		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
@@ -971,7 +971,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testBackPackSoundActionModeDifferentProgrammes() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), firstTestSoundNamePacked, secondTestSoundNamePacked);
-		UiTestUtils.switchToProgrammeBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
+		UiTestUtils.switchToProgrammesBackground(solo, UiTestUtils.PROJECTNAME1, "cat");
 		solo.clickOnText(solo.getString(R.string.sounds));
 
 		UiTestUtils.openBackPackActionModeWhenEmpty(solo);

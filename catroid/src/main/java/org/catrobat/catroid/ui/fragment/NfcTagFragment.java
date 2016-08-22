@@ -760,6 +760,5 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 
 	@Override
 	public void handleCheckBoxClick(View view) {
-
 	}
 }
