@@ -170,11 +170,14 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLookData.getChecksum(), birdWingDownLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(cloudLookData.getChecksum(), cloudLookData.getAbsolutePath());
 
 			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);
 			Sprite cloudSprite2 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName2);
 			cloudSprite1.getLookDataList().add(cloudLookData);
-			cloudSprite2.getLookDataList().add(cloudLookData);
+			cloudSprite2.getLookDataList().add(cloudLookData.clone());
 
 			Script cloudSpriteScript1 = new StartScript();
 			Script cloudSpriteScript2 = new StartScript();
@@ -253,12 +256,6 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			whenScriptBird.addBrick(playSoundBrickBird);
 			birdSprite.addScript(whenScriptBird);
 			defaultProject.getDefaultScene().addSprite(birdSprite);
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingDownLookData.getChecksum(), birdWingDownLookData.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(cloudLookData.getChecksum(), cloudLookData.getAbsolutePath());
-
-			StorageHandler.getInstance().fillChecksumContainer();
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new IOException(TAG, illegalArgumentException);
 		}
