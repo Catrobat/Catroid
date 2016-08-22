@@ -131,6 +131,7 @@ public class SpriteTest extends AndroidTestCase {
 
 		assertEquals("Wrong script list size", 1, sprite.getNumberOfScripts());
 		assertEquals("Wrong script remained", secondScript, sprite.getScript(0));
+		assertEquals("Wrong number of Bricks and Scripts", 1, sprite.getNumberOfScriptsAndBricks());
 	}
 
 	public void testGetScriptIndex() {
@@ -141,6 +142,50 @@ public class SpriteTest extends AndroidTestCase {
 		sprite.addScript(secondScript);
 		assertEquals("Indexes do not match", 0, sprite.getScriptIndex(firstScript));
 		assertEquals("Indexes do not match", 1, sprite.getScriptIndex(secondScript));
+	}
+	public void testAddScriptCorrectTotalNumber() {
+		Sprite sprite = new SingleSprite("new SingleSprite");
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		assertEquals("Wrong number of Scripts", 2, sprite.getNumberOfScriptsAndBricks());
+		sprite.removeAllScripts();
+		assertEquals("Wrong number of Bricks and Scripts", 0, sprite.getNumberOfScriptsAndBricks());
+	}
+
+	public void testAddBrickCorrectTotalNumber() {
+		Sprite sprite = new SingleSprite("new SingleSprite");
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+
+		firstScript.addBrick(hideBrick);
+		firstScript.addBrick(showBrick);
+		secondScript.addBrick(hideBrick);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		assertEquals("Wrong number of Bricks and Scripts", 5, sprite.getNumberOfScriptsAndBricks());
+	}
+
+	public void testRemoveBrickOfCorrectTotalNumber() {
+		Sprite sprite = new SingleSprite("new SingleSprite");
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+
+		firstScript.addBrick(hideBrick);
+		firstScript.removeBrick(hideBrick);
+		secondScript.addBrick(showBrick);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		assertEquals("Wrong number of Bricks and Scripts", 3, sprite.getNumberOfScriptsAndBricks());
 	}
 
 	public void testPauseResume() throws InterruptedException {
