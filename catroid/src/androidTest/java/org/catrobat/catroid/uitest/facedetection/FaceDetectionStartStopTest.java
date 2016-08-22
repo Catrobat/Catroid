@@ -109,7 +109,7 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 				Sensors.FACE_SIZE.name(), null)));
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);
-		projectFaceDetection.addSprite(sprite);
+		projectFaceDetection.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 		ProjectManager.getInstance().setProject(projectFaceDetection);

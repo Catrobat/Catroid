@@ -988,7 +988,7 @@
   <string name="brick_multiple">Bausteine</string>
   <!-- Merge strings -->
   <string name="merge_button">Zusammenfügen mit</string>
-  <string name="name_merge_result">Name for Ergebnis eingeben</string>
+  <string name="name_merge_result">Name für Ergebnis eingeben</string>
   <string name="merge_info">erfolgreich kopiert in</string>
   <string name="warning">Warnung</string>
   <string name="error_merge_with_self">Achtung! Aktuelles Projekt und ausgewähltes Projekt sind dieselben!</string>

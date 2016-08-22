@@ -82,7 +82,7 @@ public class ProjectDownloadService extends IntentService {
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
 			if (renameProject) {
-				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName);
+				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName, getBaseContext());
 				if (projectTBRenamed != null) {
 					projectTBRenamed.setName(projectName);
 					StorageHandler.getInstance().saveProject(projectTBRenamed);

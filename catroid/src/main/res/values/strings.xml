@@ -61,6 +61,7 @@
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
+    <string name="play">Play</string>
     <string name="settings">Settings</string>
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
@@ -174,6 +175,7 @@
     <!-- Project activity view -->
     <string name="project_name">Program:</string>
     <string name="my_projects_activity_title">Programs</string>
+    <string name="start_scene_name">"%1$s" (First Scene)</string>
     <string name="number_of_scripts">Scripts:</string>
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_looks">Looks:</string>
@@ -190,7 +192,11 @@
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
     <string name="backpack_replace_object">The object "%1$s" already exists in the backpack. Do you want to replace it?</string>
+    <string name="backpack_replace_scene">The scene "%1$s" already exists in the backpack. Do you want to replace
+        it?</string>
     <string name="backpack_replace_object_multiple">Objects already exist in the backpack. Do you want to replace them?</string>
+    <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
+        them?</string>
     <!--  -->
 
 
@@ -325,8 +331,12 @@
     <string name="copy_project_finished"> copied.</string>
     <string name="program">Program</string>
     <string name="programs">Programs</string>
+    <string name="scene">Scene</string>
+    <string name="scenes">Scenes</string>
     <string name="dialog_confirm_delete_program_title">Delete this Program?</string>
     <string name="dialog_confirm_delete_multiple_programs_title">Delete these Programs?</string>
+    <string name="dialog_confirm_delete_scene_title">Delete this Scene?</string>
+    <string name="dialog_confirm_delete_multiple_scenes_title">Delete these Scenes?</string>
     <string name="dialog_confirm_delete_program_message">This cannot be undone!</string>
     <string name="details_date_today">Today</string>
     <string name="details_date_yesterday">Yesterday</string>
@@ -410,6 +420,26 @@
     <string name="project_select_screen_title">Screen</string>
     <!--  -->
 
+    <!-- New scene dialog -->
+    <string name="new_scene_dialog_hint">My Scene</string>
+    <string name="new_scene_name">Scene name</string>
+    <string name="new_scene_dialog_default_scene_name">My Scene</string>
+    <string name="new_scene_dialog_title">New Scene</string>
+    <string name="scenename_already_exists">Please choose another Scene name.</string>
+    <string name="rename_scene_dialog">Rename Scene</string>
+    <string name="scenename_invalid">This scene name is invalid</string>
+    <string name="scene_name">Scene name:</string>
+    <!--  -->
+
+    <!-- Merge Scene Dialog -->
+    <string name="merge_scene_option">Merge Scenes</string>
+    <string name="merge_scene_label_one">Merge</string>
+
+    <!-- Play scene dialog -->
+    <string name="play_scene_dialog_title">Play Scene:</string>
+    <string name="play_scene_dialog_default">First Scene ("%1$s")</string>
+    <string name="play_scene_dialog_current">Current ("%1$s")</string>
+    <!--  -->
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Object</string>
@@ -420,7 +450,6 @@
     <string name="no_spritename_entered">Please enter an object name.</string>
     <string name="sprite_name">Object name:</string>
     <!--  -->
-
 
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Sign In</string>
@@ -616,6 +645,8 @@
     <string name="brick_broadcast_receive">When I receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
+    <string name="brick_scene_transition">Continue scene</string>
+    <string name="brick_scene_start">Start scene</string>
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
@@ -653,6 +684,7 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first program</string>
+    <string name="default_scene_name">Scene "%1$s"</string>
     <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
@@ -769,12 +801,17 @@
     <string name="error_no_program_name_entered">Please enter a program name.</string>
     <string name="error_no_userbrick_name_entered">Please enter a brick name.</string>
     <string name="error_project_exists">Please choose another program name.</string>
+    <string name="error_scene_exists">Please choose another scene name.</string>
+    <string name="error_scene_not_deleted">An error occurred while deleting a scene.</string>
+    <string name="error_scene_not_copied">An error occurred while copying a scene.</string>
+    <string name="error_scene_backpack">An error occurred in scene backpack.</string>
     <string name="error_delete_project">An error while deleting the program occurred</string>
     <string name="error_unknown_project">A program with that name does not exist.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
     <string name="error_project_download">An error occurred while downloading the program.</string>
     <string name="error_new_project">An error occurred while creating a new program.</string>
     <string name="error_rename_project">An error occurred while renaming the program before upload.</string>
+    <string name="error_rename_scene">An error occurred while renaming the scene.</string>
     <string name="error_load_project">An error occurred while loading the program.</string>
     <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
     <string name="error_load_image">An error occurred while loading the image.</string>
@@ -799,6 +836,7 @@
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible
         project is not possible.</string>
+    <string name="error_unpack_scene_with_different_resolution">Caution! Different resolutions detected.</string>
     <string name="error_unknown_error">An unknown error occurred.</string>
     <string name="error_gps_not_available">Error, GPS was not available.</string>
     <!--  -->
@@ -1212,7 +1250,9 @@
     <string name="merge_info">successfully merged into</string>
 
     <string name="warning">Warning</string>
-    <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+    <string name="error_merge_with_self">Current project and selected project are the same!</string>
+    <string name="error_merge_with_self_scene">Current scene and selected scene are the same!</string>
+    <string name="error_merge_scene_not_found">Scene not found!</string>
     <string name="error_different_resolutions" tools:ignore="PluralsCandidate">Caution! Different resolutions detected. %1$s
         has resolution %2$dx%3$d and %4$s has resolution %5$dx%6$d. Using resolution of %1$s.</string>
     <string name="abort">Abort</string>

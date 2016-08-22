@@ -53,7 +53,7 @@ public class MyProjectsActivity extends BaseActivity {
 		BottomBar.hidePlayButton(this);
 
 		projectsListFragment = (ProjectsListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_projects_list);
+				R.id.fragment_container);
 	}
 
 	@Override
@@ -111,6 +111,9 @@ public class MyProjectsActivity extends BaseActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (projectsListFragment.lockBackButtonForAsync) {
+			return false;
+		}
 		if (projectsListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
 			ProjectAdapter adapter = (ProjectAdapter) projectsListFragment.getListAdapter();

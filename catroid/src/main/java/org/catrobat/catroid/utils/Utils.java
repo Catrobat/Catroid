@@ -61,7 +61,9 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
@@ -200,6 +202,15 @@ public final class Utils {
 
 	public static String buildProjectPath(String projectName) {
 		return buildPath(Constants.DEFAULT_ROOT, UtilFile.encodeSpecialCharsForFileSystem(projectName));
+	}
+
+	public static String buildScenePath(String projectName, String sceneName) {
+		return buildPath(buildProjectPath(projectName), UtilFile.encodeSpecialCharsForFileSystem(sceneName));
+	}
+
+	public static String buildBackpackScenePath(String sceneName) {
+		return buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY,
+				UtilFile.encodeSpecialCharsForFileSystem(sceneName));
 	}
 
 	public static void showErrorDialog(Context context, int errorMessageId) {
@@ -355,10 +366,10 @@ public final class Utils {
 	}
 
 	public static void loadProjectIfNeeded(Context context) {
+		String projectName;
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-
 			if (projectName == null || !StorageHandler.getInstance().projectExists(projectName)) {
 				projectName = context.getString(R.string.default_project_name);
 			}
@@ -407,7 +418,7 @@ public final class Utils {
 			newName = name + nextNumber;
 		}
 
-		if (ProjectManager.getInstance().spriteExists(newName)) {
+		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
 			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
 		}
 
@@ -471,7 +482,7 @@ public final class Utils {
 		if (!sprite.isBackpackObject) {
 			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
 		} else {
-			spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+			spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 		}
 
 		if (nextNumber == 0) {
@@ -487,16 +498,52 @@ public final class Utils {
 		return newName;
 	}
 
+	public static String getUniqueSceneName(String sceneName, Project firstProject, Project secondProject) {
+		Project backup = ProjectManager.getInstance().getCurrentProject();
+		ProjectManager.getInstance().setCurrentProject(firstProject);
+		String result = getUniqueSceneName(sceneName, false);
+		ProjectManager.getInstance().setCurrentProject(secondProject);
+		sceneName = getUniqueSceneName(result, false);
+		ProjectManager.getInstance().setCurrentProject(backup);
+		return sceneName;
+	}
+
+	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
+		return searchForNonExistingSceneName(sceneName, 0, forBackPack);
+	}
+
+	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
+		String newName;
+		List<Scene> sceneList;
+		if (forBackPack) {
+			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
+		} else {
+			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		}
+
+		if (nextNumber == 0) {
+			newName = sceneName;
+		} else {
+			newName = sceneName + nextNumber;
+		}
+		for (Scene sceneListItem : sceneList) {
+			if (sceneListItem.getName().equals(newName)) {
+				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
+			}
+		}
+		return newName;
+	}
+
 	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
 		return searchForNonExistingSoundTitle(soundInfo, 0, forBackPack);
 	}
 
-	public static Project findValidProject() {
+	public static Project findValidProject(Context context) {
 		Project loadableProject = null;
 
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
-			loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			loadableProject = StorageHandler.getInstance().loadProject(projectName, context);
 			if (loadableProject != null) {
 				break;
 			}
@@ -571,13 +618,86 @@ public final class Utils {
 		return projectName;
 	}
 
+	public static boolean isStandardScene(Project project, String sceneName, Context context) {
+		try {
+			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
+					context);
+			Scene standardScene = standardProject.getDefaultScene();
+			ProjectManager.getInstance().deleteCurrentProject(null);
+
+			ProjectManager.getInstance().setProject(project);
+			ProjectManager.getInstance().saveProject(context);
+			Scene sceneToCheck = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+
+			if (sceneToCheck == null) {
+				Log.e(TAG, "isStandardScene: scene not found");
+				return false;
+			}
+
+			boolean result = true;
+
+			for (int i = 0; i < standardScene.getSpriteList().size(); i++) {
+				Sprite standardSprite = standardScene.getSpriteList().get(i);
+				Sprite spriteToCheck = sceneToCheck.getSpriteList().get(i);
+
+				for (int t = 0; t < standardSprite.getLookDataList().size(); t++) {
+					LookData standardLook = standardSprite.getLookDataList().get(t);
+					LookData lookToCheck = spriteToCheck.getLookDataList().get(t);
+
+					result &= standardLook.equals(lookToCheck);
+					if (!result) {
+						Log.e(TAG, "isStandardScene: " + standardLook.getLookName() + " was not the same as "
+								+ lookToCheck.getLookName());
+						return false;
+					}
+				}
+
+				for (int t = 0; t < standardSprite.getSoundList().size(); t++) {
+					SoundInfo standardSound = standardSprite.getSoundList().get(t);
+					SoundInfo soundToCheck = spriteToCheck.getSoundList().get(t);
+
+					result &= standardSound.equals(soundToCheck);
+					if (!result) {
+						Log.e(TAG, "isStandardScene: " + standardSound.getTitle() + " was not the same as "
+								+ standardSound.getTitle());
+						return false;
+					}
+				}
+
+				for (int t = 0; t < standardSprite.getListWithAllBricks().size(); t++) {
+					Brick standardBrick = standardSprite.getListWithAllBricks().get(t);
+					Brick brickToCheck = spriteToCheck.getListWithAllBricks().get(t);
+
+					result &= standardBrick.getClass().toString().equals(brickToCheck.getClass().toString());
+					if (!result) {
+						Log.e(TAG, "isStandardScene: " + standardBrick.getClass().toString() + " was not the same as "
+								+ brickToCheck.getClass().toString());
+						return false;
+					}
+				}
+
+				result &= standardSprite.equals(spriteToCheck);
+				if (!result) {
+					Log.e(TAG, "isStandardScene: " + standardSprite.getName() + " was not the same as "
+							+ spriteToCheck.getName());
+					return false;
+				}
+			}
+
+			return result;
+		} catch (Exception e) {
+			Log.e(TAG, "Exception: isStandardScene: ", e);
+			return false;
+		}
+	}
+
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
 			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
 					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
-			int start = standardProjectXMLString.indexOf("<objectList>");
-			int end = standardProjectXMLString.indexOf("</objectList>");
+			int start = standardProjectXMLString.indexOf("<scenes>");
+			int end = standardProjectXMLString.indexOf("</scenes>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
 			ProjectManager.getInstance().deleteCurrentProject(null);
 
@@ -585,8 +705,8 @@ public final class Utils {
 			ProjectManager.getInstance().saveProject(context);
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
-			start = projectToCheckXMLString.indexOf("<objectList>");
-			end = projectToCheckXMLString.indexOf("</objectList>");
+			start = projectToCheckXMLString.indexOf("<scenes>");
+			end = projectToCheckXMLString.indexOf("</scenes>");
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);

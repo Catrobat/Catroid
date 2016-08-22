@@ -62,7 +62,7 @@ public class ShowTextActor extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 
 		List<UserVariable> projectVariableList = dataContainer.getProjectVariables();
 		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();

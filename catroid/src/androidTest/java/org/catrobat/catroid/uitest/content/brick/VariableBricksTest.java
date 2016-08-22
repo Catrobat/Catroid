@@ -138,7 +138,7 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 
-		dataContainer = project.getDataContainer();
+		dataContainer = project.getDefaultScene().getDataContainer();
 		dataContainer.addProjectUserVariable("p1");
 		dataContainer.addProjectUserVariable("p2");
 		dataContainer.addSpriteUserVariable("sprite_var1");
@@ -150,6 +150,6 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		script.addBrick(changeVariableBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 	}
 }

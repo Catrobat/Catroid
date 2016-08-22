@@ -285,7 +285,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Sprite currentSprite = projectManager.getCurrentSprite();
-			if (projectManager.getCurrentProject().isBackgroundObject(currentSprite)) {
+			if (projectManager.getCurrentScene().isBackgroundObject(currentSprite)) {
 				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_BACKGROUND);
 			} else {
 				itemsIds = concatAll(itemsIds, OBJECT_ITEMS_LOOK);

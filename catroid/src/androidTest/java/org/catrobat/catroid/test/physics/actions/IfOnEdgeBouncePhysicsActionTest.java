@@ -227,7 +227,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		assertTrue("Bounce Once Horizontal Array is not empty after colliding once", activeHorizontalBounces.isEmpty());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
-			for (Sprite spriteOfList : project.getSpriteList()) {
+			for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -239,7 +239,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {
-		for (Sprite spriteOfList : project.getSpriteList()) {
+		for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
 			if (!spriteOfList.look.getAllActionsAreFinished()) {
 				return false;
 			}

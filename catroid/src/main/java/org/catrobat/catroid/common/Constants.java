@@ -42,6 +42,7 @@ public final class Constants {
 	public static final String PROJECTPERMISSIONS_NAME = "permissions.txt";
 	public static final String PROJECTPERMISSIONS_NAME_TMP = "tmp_" + PROJECTPERMISSIONS_NAME;
 	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
+	public static final String SCENES_ENABLED_TAG = "<scenesEnabled>";
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String IMAGE_STANDARD_EXTENSION = ".png";
@@ -58,6 +59,7 @@ public final class Constants {
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
+	public static final String SCENES_DIRECTORY = "scenes";
 	public static final String BACKPACK_DIRECTORY = "backpack";
 	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
 	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";

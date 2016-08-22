@@ -28,13 +28,20 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
+import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -151,6 +158,53 @@ public final class BackPackListManager {
 		}
 	}
 
+	public List<Scene> getAllBackpackedScenes() {
+		List<Scene> result = new ArrayList<>();
+		result.addAll(getBackpack().backpackedScenes);
+		result.addAll(getBackpack().hiddenBackpackedScenes);
+		return result;
+	}
+
+	public List<Scene> getBackPackedScenes() {
+		return getBackpack().backpackedScenes;
+	}
+
+	public List<Scene> getHiddenBackPackedScenes() {
+		return getBackpack().hiddenBackpackedScenes;
+	}
+
+	public Scene getHiddenSceneByName(String name) {
+		for (Scene scene : getBackpack().hiddenBackpackedScenes) {
+			if (scene.getName().equals(name)) {
+				return scene;
+			}
+		}
+		return null;
+	}
+
+	public void clearBackPackScenes() {
+		getBackpack().backpackedScenes.clear();
+	}
+
+	public void addSceneToBackPack(Scene scene) {
+		getBackpack().backpackedScenes.add(scene);
+	}
+
+	public void addSceneToHiddenBackpack(Scene scene) {
+		getBackpack().hiddenBackpackedScenes.add(scene);
+	}
+
+	public void removeItemFromSceneBackPackByName(String title, boolean hidden) {
+		List<Scene> toRemove = new ArrayList<>();
+		for (Scene scene : getBackpack().backpackedScenes) {
+			if (scene.getName().equals(title)) {
+				toRemove.add(scene);
+				UtilFile.deleteDirectory(new File(Utils.buildBackpackScenePath(scene.getName())));
+			}
+		}
+		(hidden ? getHiddenBackPackedScenes() : getBackPackedScenes()).removeAll(toRemove);
+	}
+
 	public List<Sprite> getBackPackedSprites() {
 		return getBackpack().backpackedSprites;
 	}
@@ -252,6 +306,16 @@ public final class BackPackListManager {
 		return false;
 	}
 
+	public boolean backPackedScenesContains(Scene scene, boolean onlyVisible) {
+		List<Scene> toSearch = onlyVisible ? getBackPackedScenes() : getHiddenBackPackedScenes();
+		for (Scene backPackedScene : toSearch) {
+			if (backPackedScene.getName().equals(scene.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public ArrayList<String> getAllBackPackedScriptGroups() {
 		ArrayList<String> allScriptGroups = new ArrayList<>();
 		allScriptGroups.addAll(new ArrayList<>(getBackpack().backpackedScripts.keySet()));
@@ -322,7 +386,50 @@ public final class BackPackListManager {
 		return backpack;
 	}
 
-	private class SaveBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
+	public static void searchForHiddenScenes(Scene sceneToSearch, ArrayList<Scene> foundScenes, boolean inBackpack) {
+		for (Sprite sprite : sceneToSearch.getSpriteList()) {
+			for (Brick brick : sprite.getListWithAllBricks()) {
+				if (brick instanceof SceneTransitionBrick) {
+					Scene transitionScene;
+					if (inBackpack) {
+						transitionScene = BackPackListManager.getInstance().getHiddenSceneByName(((SceneTransitionBrick) brick).getSceneForTransition());
+						if (transitionScene == null) {
+							continue;
+						}
+					} else {
+						transitionScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(((SceneTransitionBrick) brick).getSceneForTransition());
+						if (transitionScene == null) {
+							continue;
+						}
+					}
+					if (!foundScenes.contains(transitionScene)) {
+						foundScenes.add(transitionScene);
+						searchForHiddenScenes(transitionScene, foundScenes, inBackpack);
+					}
+				}
+				if (brick instanceof SceneStartBrick) {
+					Scene startScene;
+					if (inBackpack) {
+						startScene = BackPackListManager.getInstance().getHiddenSceneByName(((SceneStartBrick) brick).getSceneToStart());
+						if (startScene == null) {
+							continue;
+						}
+					} else {
+						startScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(((SceneStartBrick) brick).getSceneToStart());
+						if (startScene == null) {
+							continue;
+						}
+					}
+					if (!foundScenes.contains(startScene)) {
+						foundScenes.add(startScene);
+						searchForHiddenScenes(startScene, foundScenes, inBackpack);
+					}
+				}
+			}
+		}
+	}
+
+	public class SaveBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
 			StorageHandler.getInstance().saveBackpack(getBackpack());
@@ -330,7 +437,7 @@ public final class BackPackListManager {
 		}
 	}
 
-	private class LoadBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
+	public class LoadBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
 			backpack = StorageHandler.getInstance().loadBackpack();
@@ -354,6 +461,9 @@ public final class BackPackListManager {
 				for (SoundInfo soundInfo : sprite.getSoundList()) {
 					soundInfo.isBackpackSoundInfo = true;
 				}
+			}
+			for (Scene scene : getBackPackedScenes()) {
+				scene.isBackPackScene = true;
 			}
 		}
 	}

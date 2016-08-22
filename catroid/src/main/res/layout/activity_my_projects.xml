@@ -46,7 +46,7 @@
         layout="@layout/bottom_bar" />
 
     <fragment
-        android:id="@+id/fragment_projects_list"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar"

@@ -113,7 +113,7 @@ public class MoveBrickAcrossScriptTest extends BaseActivityInstrumentationTestCa
 		firstSprite.addScript(whenScript1);
 		firstSprite.addScript(whenScript2);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);

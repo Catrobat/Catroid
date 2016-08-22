@@ -95,7 +95,7 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
-		Script script = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0);
+		Script script = ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0).getScript(0);
 		assertEquals("tag not set", ((WhenNfcBrick) script.getScriptBrick()).getNfcTag().getNfcTagName(), tagDataList
 				.get(0).getNfcTagName());
 		solo.goBack();
@@ -110,7 +110,7 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
-		script = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0);
+		script = ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0).getScript(0);
 		assertEquals("tag not set", ((WhenNfcBrick) script.getScriptBrick()).getNfcTag().getNfcTagName(), tagDataList
 				.get(1).getNfcTagName());
 	}
@@ -337,7 +337,7 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		testScript.addBrick(setVariableBrick);
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
@@ -356,7 +356,7 @@ public class WhenNfcBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());

@@ -29,7 +29,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -132,7 +132,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 		}
 	}
 
-	protected void updateUserListReference(Project into, Project from) {
+	protected void updateUserListReference(Scene into, Scene from) {
 		UserList list;
 
 		if (from.existProjectList(userList)) {
@@ -147,7 +147,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 				return;
 			}
 			list = into.getDataContainer().addSpriteListIfDoesNotExist(userList.getName(),
-					into.getSpriteBySpriteName(sprite));
+					into.getSpriteBySpriteName(sprite.getName()));
 		}
 
 		if (list != null) {
@@ -156,7 +156,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 	}
 
 	@Override
-	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
 		if (!super.isEqualBrick(brick, mergeResult, current)) {
 			return false;
 		}
@@ -179,10 +179,10 @@ public abstract class UserListBrick extends FormulaBrick implements NewDataDialo
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 		Integer type = DataContainer.USER_DATA_EMPTY;
 		if (getUserList() != null) {
-			type = currentProject.getDataContainer()
+			type = currentScene.getDataContainer()
 					.getTypeOfUserList(getUserList().getName(), ProjectManager
 							.getInstance().getCurrentSprite());
 		}

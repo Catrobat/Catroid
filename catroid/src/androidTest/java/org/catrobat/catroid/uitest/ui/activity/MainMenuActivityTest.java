@@ -420,10 +420,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
-		project.addSprite(thirdSprite);
-		project.addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);
@@ -456,7 +456,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
-		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
+		Sprite backgroundSprite = standardProject.getDefaultScene().getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
 		assertEquals("Number of bricks in background sprite was wrong", 7, backgroundSprite.getNumberOfBricks());
 		startingScript.addBrick(new SetLookBrick());
@@ -486,7 +486,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_background_name));
 		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 10,
-				ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().get(0).getNumberOfBricks());
 	}
 
 	public void testProjectNameVisible() {

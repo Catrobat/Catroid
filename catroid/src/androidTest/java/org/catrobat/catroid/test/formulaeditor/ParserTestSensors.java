@@ -202,7 +202,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		Brick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 	}
 
 	private Double interpretFormula(Formula formula) {

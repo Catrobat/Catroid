@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -40,9 +41,11 @@ public class Backpack implements Serializable {
 	public HashMap<String, List<Script>> backpackedScripts = new HashMap<>();
 	public HashMap<String, List<UserBrick>> backpackedUserBricks = new HashMap<>();
 	public List<Sprite> backpackedSprites = new CopyOnWriteArrayList<>();
+	public List<Scene> backpackedScenes = new CopyOnWriteArrayList<>();
 
 	public List<SoundInfo> hiddenBackpackedSounds = new CopyOnWriteArrayList<>();
 	public List<LookData> hiddenBackpackedLooks = new CopyOnWriteArrayList<>();
 	public HashMap<String, List<Script>> hiddenBackpackedScripts = new HashMap<>();
 	public List<Sprite> hiddenBackpackedSprites = new CopyOnWriteArrayList<>();
+	public List<Scene> hiddenBackpackedScenes = new CopyOnWriteArrayList<>();
 }

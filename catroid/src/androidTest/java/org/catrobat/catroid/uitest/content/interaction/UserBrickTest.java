@@ -173,7 +173,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.ok));
 		solo.waitForDialogToClose(2000);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		List<UserVariable> userBrickVariables = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
 		assertTrue("User variable not in data container!", userBrickVariables.get(0).getName().equals(
 				solo.getString(R.string.new_user_brick_variable) + " 0"));

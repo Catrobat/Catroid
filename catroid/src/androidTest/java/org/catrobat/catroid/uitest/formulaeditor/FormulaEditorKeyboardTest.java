@@ -77,8 +77,8 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		secondSprite.addScript(startScript2);
 		startScript1.addBrick(changeBrick);
 		startScript2.addBrick(glideToBrick);
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);

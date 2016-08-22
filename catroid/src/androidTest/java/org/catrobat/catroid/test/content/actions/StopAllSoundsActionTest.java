@@ -113,7 +113,7 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", soundFileId, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "soundTest.mp3", soundFileId, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 

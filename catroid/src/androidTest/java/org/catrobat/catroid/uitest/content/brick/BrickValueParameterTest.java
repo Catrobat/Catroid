@@ -276,6 +276,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 			solo.scrollDownList(fragmentListView);
 		}
 
+		solo.sleep(500);
 		TextView setColorTextView = (TextView) solo.getView(R.id.brick_set_color_prototype_text_view);
 		float setColorPrototypeValue = Float.parseFloat(setColorTextView.getText().toString());
 		assertEquals("Value in Brick SetColor is not correct", BrickValues.SET_COLOR_TO,
@@ -438,6 +439,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(500);
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
@@ -577,10 +579,10 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		Script script1 = new StartScript();
 		sprite.addScript(script);
 		sprite.addScript(script1);
-		project.addSprite(sprite);
-		project.addSprite(sprite1);
-		project.getDataContainer().addProjectUserVariable("BrickValueParameterTestUserVariable");
-		project.getDataContainer().addProjectUserList("BrickValueParameterTestUserList");
+		project.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite1);
+		project.getDefaultScene().getDataContainer().addProjectUserVariable("BrickValueParameterTestUserVariable");
+		project.getDefaultScene().getDataContainer().addProjectUserList("BrickValueParameterTestUserList");
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

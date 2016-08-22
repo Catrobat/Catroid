@@ -30,6 +30,7 @@ import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 import com.thoughtworks.xstream.core.util.OrderRetainingMap;
 
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 
 import java.lang.reflect.Field;
@@ -47,6 +48,10 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 	public Map sort(final Class type, final Map keyedByFieldKey) {
 		if (type.equals(Project.class)) {
 			return sortProjectFields(keyedByFieldKey);
+		}
+
+		if (type.equals(Scene.class)) {
+			return sortSceneFields(keyedByFieldKey);
 		}
 
 		if (type.equals(Sprite.class)) {
@@ -95,22 +100,66 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 		Map orderedMap = new OrderRetainingMap();
 		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
 		Iterator<FieldKey> iterator = map.keySet().iterator();
+		int fieldPos = 0;
 		while (iterator.hasNext()) {
 			FieldKey fieldKey = iterator.next();
 			if (fieldKey.getFieldName().equals("xmlHeader")) {
+				fieldKeyOrder[fieldPos] = fieldKey;
+				fieldPos++;
+			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
+				fieldKeyOrder[fieldPos] = fieldKey;
+				fieldPos++;
+			} else if (fieldKey.getFieldName().equals("settings")) {
+				fieldKeyOrder[fieldPos] = fieldKey;
+				fieldPos++;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[fieldPos] = fieldKey;
+				fieldPos++;
+			} else if (fieldKey.getFieldName().equals("sceneList")) {
+				fieldKeyOrder[fieldPos] = fieldKey;
+				fieldPos++;
+			} else if (fieldKey.getFieldName().equals("projectVariables")) {
+				fieldKeyOrder[fieldPos] = fieldKey;
+				fieldPos++;
+			} else if (fieldKey.getFieldName().equals("projectLists")) {
+				fieldKeyOrder[fieldPos] = fieldKey;
+				fieldPos++;
+			}
+		}
+		for (FieldKey fieldKey : fieldKeyOrder) {
+			orderedMap.put(fieldKey, map.get(fieldKey));
+		}
+		return orderedMap;
+	}
+
+	private Map sortSceneFields(Map map) {
+		Map orderedMap = new OrderRetainingMap();
+		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
+		Iterator<FieldKey> iterator = map.keySet().iterator();
+		while (iterator.hasNext()) {
+			FieldKey fieldKey = iterator.next();
+			if (fieldKey.getFieldName().equals("sceneName")) {
 				fieldKeyOrder[0] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("spriteList")) {
 				fieldKeyOrder[1] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("dataContainer")) {
 				fieldKeyOrder[2] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
-				fieldKeyOrder[3] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("settings")) {
-				fieldKeyOrder[4] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("physicsWorld")) {
+				fieldKeyOrder[3] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("project")) {
+				fieldKeyOrder[4] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
 				fieldKeyOrder[5] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("$change")) {
+			} else if (fieldKey.getFieldName().equals("firstStart")) {
 				fieldKeyOrder[6] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("isBackPackScene")) {
+				fieldKeyOrder[7] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("originalWidth")) {
+				fieldKeyOrder[8] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("originalHeight")) {
+				fieldKeyOrder[9] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[10] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {
@@ -149,8 +198,10 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[10] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("actionFactory")) {
 				fieldKeyOrder[11] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("$change")) {
+			} else if (fieldKey.getFieldName().equals("cloneForScene")) {
 				fieldKeyOrder[12] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[13] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

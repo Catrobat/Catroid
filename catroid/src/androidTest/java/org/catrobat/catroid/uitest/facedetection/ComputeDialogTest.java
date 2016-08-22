@@ -93,7 +93,7 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);
 
-		projectFaceDetection.addSprite(sprite);
+		projectFaceDetection.getDefaultScene().addSprite(sprite);
 
 		StorageHandler.getInstance().saveProject(projectFaceDetection);
 		ProjectManager.getInstance().setProject(projectFaceDetection);

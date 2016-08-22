@@ -207,7 +207,7 @@ public class NfcTagFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testDeleteTagContextMenu() {
-		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
+		Sprite firstSprite = projectManager.getCurrentProject().getDefaultScene().getSpriteList().get(0);
 		NfcTagData tagToDelete = firstSprite.getNfcTagList().get(1);
 
 		Log.d("TEST", "Tag to delete: " + tagToDelete.getNfcTagName());

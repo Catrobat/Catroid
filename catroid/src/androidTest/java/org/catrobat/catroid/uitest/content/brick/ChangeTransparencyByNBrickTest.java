@@ -68,7 +68,7 @@ public class ChangeTransparencyByNBrickTest extends BaseActivityInstrumentationT
 		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeTransparencyByNBrick);
@@ -88,7 +88,7 @@ public class ChangeTransparencyByNBrickTest extends BaseActivityInstrumentationT
 		script.addBrick(changeTransparencyByNBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

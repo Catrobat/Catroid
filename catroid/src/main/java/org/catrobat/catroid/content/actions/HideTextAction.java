@@ -40,7 +40,7 @@ public class HideTextAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		List<UserVariable> variableList = dataContainer.getProjectVariables();

@@ -66,7 +66,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	public void testRepeatBrick() {
 		ArrayList<Integer> yPosition;
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, 20);
@@ -115,7 +115,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+		projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
@@ -138,14 +138,14 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, 20);
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+		projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(1).getBrickList();
 
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof SetLookBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof LoopEndBrick);
 	}
 
 	public void testForeverBrick() {
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_forever);
 		UiTestUtils.dragFloatingBrickUpwards(solo, 1);
@@ -176,7 +176,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	public void testNestedForeverBricks() {
 		ArrayList<Integer> yPosition;
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		int addedYPosition;
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
@@ -247,7 +247,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(2), 20, yPosition.get(yPosition.size() - 1) + 50, 20);
 		assertEquals("Wrong number of bricks", 7, projectBrickList.size());
 
-		projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertTrue("Wrong brick instance. expected 2, bricklist: " + projectBrickList.toString(),
 				projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
 
@@ -262,7 +262,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_forever);
 		UiTestUtils.tapFloatingBrick(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ForeverBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof LoopEndlessBrick);
@@ -324,7 +324,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof RepeatBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof LoopEndBrick);
@@ -399,7 +399,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		sprite.addScript(script);
 		sprite.addScript(new StartScript());
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
@@ -418,7 +418,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	private void checkIfForeverLoopsAreCorrectlyPlaced(int position) {
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		int offset = 1;
 		for (int i = 0; i < position; i++) {
 			if (projectBrickList.get(i) instanceof ForeverBrick) {

@@ -84,15 +84,15 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		project = new Project(null, projectName);
 
 		firstSprite = new Sprite("firstSprite");
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 				.addProjectUserList(USER_LIST_NAME);
 
 		AddItemToUserListBrick addItemToUserListBrick = new AddItemToUserListBrick(new Formula(ADD_VALUE_TO_LIST),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer()
 						.getUserList(USER_LIST_NAME, firstSprite)
 		);
 
@@ -232,7 +232,6 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 	}
 
 	public void testCreateUserList() {
-
 		String itemString = "zzz";
 
 		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
@@ -240,7 +239,9 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_data));
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 		ListView dataListListView = getDataListListView();
-		assertEquals("Wrong number of Data items", 1, dataListListView.getAdapter().getCount());
+
+		assertEquals("Wrong number of Data items " + dataListListView.getAdapter().getItem(0), 1, dataListListView
+				.getAdapter().getCount());
 		assertNull("Data item should be null, on initialisation!", dataListListView.getAdapter().getItem(0));
 
 		UiTestUtils.createUserListFromDataFragment(solo, itemString, false);
@@ -255,7 +256,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName("zzz");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName("zzz");
 	}
 
 	public void testDeleteUserListWithLongPress() {
@@ -295,7 +296,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		assertEquals("Wrong number of UserLists deleted", 1, userListsListView.getAdapter().getCount());
 		assertNull("Wrong number of UserLists deleted", userListsListView.getAdapter().getItem(0));
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName("del");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName("del");
 	}
 
 	public void testDeleteUserListWithMultipleChoice() {
@@ -329,9 +330,9 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		assertFalse(itemString + "not deleted", solo.searchText(itemString, true));
 		assertFalse(itemString3rd + "not deleted", solo.searchText(itemString3rd, true));
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(itemString);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(itemString2nd);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(itemString3rd);
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName(itemString);
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName(itemString2nd);
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName(itemString3rd);
 	}
 
 	public void testDustbinNotVisible() {
@@ -407,8 +408,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		assertFalse(itemString + "  should not be found:", solo.searchText(itemString, true));
 		assertTrue(itemString2nd + " not found:", solo.searchText(itemString2nd, true));
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName("local");
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName("global");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName("local");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName("global");
 	}
 
 	public void testCreateUserListDoubleName() {
@@ -442,8 +443,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName("var1");
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName("var2");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName("var1");
+		ProjectManager.getInstance().getCurrentProject().getDefaultScene().getDataContainer().deleteUserListByName("var2");
 	}
 
 	public void testVisibilityOfMenuItems() {
@@ -568,8 +569,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		firstSprite = new Sprite("firstSprite");
 		Sprite secondSprite = new Sprite("secondSprite");
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);

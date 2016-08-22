@@ -31,7 +31,7 @@ import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -48,7 +48,7 @@ public abstract class BrickBaseType implements Brick {
 	public transient boolean animationState = false;
 
 	@Override
-	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
+	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
 		if (this.getClass().equals(brick.getClass())) {
 			return true;
 		}

@@ -141,6 +141,12 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
+	public void getVariableAndListNames(List<String> variables, List<String> lists) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.getVariableAndListNames(variables, lists);
+		}
+	}
+
 	public void removeVariableReferences(String name, Context context) {
 		LinkedList<InternToken> toRemove = new LinkedList<InternToken>();
 		for (InternToken internToken : internTokenFormulaList) {

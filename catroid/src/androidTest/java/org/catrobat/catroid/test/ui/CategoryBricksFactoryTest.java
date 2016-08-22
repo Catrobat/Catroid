@@ -50,8 +50,8 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 		SettingsActivity.resetSharedPreferences(context);
 
 		Project project = new Project(context, "Project");
-		background = project.getSpriteList().get(0);
-		project.addSprite(sprite);
+		background = project.getDefaultScene().getSpriteList().get(0);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 	}
 
@@ -62,7 +62,7 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 	}
 
 	public void testControlBricks() {
-		final int expectedBrickCount = 8;
+		final int expectedBrickCount = 10;
 		checkBrickCountInCategory(R.string.category_control, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_control, sprite, expectedBrickCount);
 	}

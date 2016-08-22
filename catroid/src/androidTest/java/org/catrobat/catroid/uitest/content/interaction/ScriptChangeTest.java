@@ -124,7 +124,7 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 		firstSprite.addScript(testScript3);
 		firstSprite.addScript(testScript2);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);

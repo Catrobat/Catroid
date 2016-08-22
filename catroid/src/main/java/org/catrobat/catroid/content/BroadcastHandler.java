@@ -52,11 +52,12 @@ public final class BroadcastHandler {
 	}
 
 	public static void doHandleBroadcastEvent(Look look, String broadcastMessage) {
-		if (!BroadcastSequenceMap.containsKey(broadcastMessage)) {
+		String sceneName = ProjectManager.getInstance().getSceneToPlay().getName();
+		if (!BroadcastSequenceMap.containsKey(broadcastMessage, sceneName)) {
 			return;
 		}
 
-		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
+		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage, sceneName)) {
 			Script scriptOfAction = actionScriptMap.get(action);
 
 			if (!handleAction(action, scriptOfAction)) {
@@ -64,8 +65,8 @@ public final class BroadcastHandler {
 			}
 		}
 
-		if (BroadcastWaitSequenceMap.containsKey(broadcastMessage)) {
-			for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
+		if (BroadcastWaitSequenceMap.containsKey(broadcastMessage, sceneName)) {
+			for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage, sceneName)) {
 				addOrRestartAction(look, action);
 			}
 			if (BroadcastWaitSequenceMap.getCurrentBroadcastEvent() != null) {
@@ -75,16 +76,17 @@ public final class BroadcastHandler {
 	}
 
 	public static void doHandleBroadcastFromWaiterEvent(Look look, BroadcastEvent event, String broadcastMessage) {
-		if (!BroadcastSequenceMap.containsKey(broadcastMessage)) {
+		String sceneName = ProjectManager.getInstance().getSceneToPlay().getName();
+		if (!BroadcastSequenceMap.containsKey(broadcastMessage, sceneName)) {
 			return;
 		}
 
-		if (!BroadcastWaitSequenceMap.containsKey(broadcastMessage)) {
+		if (!BroadcastWaitSequenceMap.containsKey(broadcastMessage, sceneName)) {
 			addBroadcastMessageToBroadcastWaitSequenceMap(look, event, broadcastMessage);
 		} else {
 			if (BroadcastWaitSequenceMap.getCurrentBroadcastEvent() == event
 					&& BroadcastWaitSequenceMap.getCurrentBroadcastEvent() != null) {
-				for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
+				for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage, sceneName)) {
 					BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetNumberOfFinishedReceivers();
 					addOrRestartAction(look, action);
 				}
@@ -111,9 +113,10 @@ public final class BroadcastHandler {
 
 	private static void addBroadcastMessageToBroadcastWaitSequenceMap(Look look, BroadcastEvent event,
 			String broadcastMessage) {
+		String sceneName = ProjectManager.getInstance().getSceneToPlay().getName();
 		ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
 		BroadcastWaitSequenceMap.setCurrentBroadcastEvent(event);
-		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
+		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage, sceneName)) {
 			SequenceAction broadcastWaitAction = ActionFactory.sequence(action,
 					ActionFactory.createBroadcastNotifyAction(event));
 			Script receiverScript = actionScriptMap.get(action);
@@ -128,7 +131,7 @@ public final class BroadcastHandler {
 			}
 		}
 		if (actionList.size() > 0) {
-			BroadcastWaitSequenceMap.put(broadcastMessage, actionList);
+			BroadcastWaitSequenceMap.put(sceneName, broadcastMessage, actionList);
 		}
 	}
 
@@ -156,7 +159,7 @@ public final class BroadcastHandler {
 	private static boolean handleActionFromBroadcastWait(SequenceAction sequenceActionWithBroadcastNotifyAction) {
 		Action actualAction = sequenceActionWithBroadcastNotifyAction.getActions().get(0);
 
-		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+		for (Sprite sprites : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
 			for (Action actionOfLook : sprites.look.getActions()) {
 				Action actualActionOfLook = null;
 				if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0) {
