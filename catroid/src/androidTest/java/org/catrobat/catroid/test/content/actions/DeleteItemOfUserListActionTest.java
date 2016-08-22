@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -48,7 +49,7 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		actionFactory = new ActionFactory();
-		testSprite = new Sprite("testSprite");
+		testSprite = new SingleSprite("testSprite");
 		project = new Project(null, "testProject");
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USER_LIST_NAME);

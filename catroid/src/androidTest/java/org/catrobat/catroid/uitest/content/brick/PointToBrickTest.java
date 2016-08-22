@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -166,14 +167,14 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		Sprite sprite2 = new Sprite(spriteName2);
+		Sprite sprite2 = new SingleSprite(spriteName2);
 		Script startScript2 = new StartScript();
 		PlaceAtBrick placeAt2 = new PlaceAtBrick(-400, -300);
 		startScript2.addBrick(placeAt2);
 		sprite2.addScript(startScript2);
 		project.getDefaultScene().addSprite(sprite2);
 
-		Sprite sprite1 = new Sprite(spriteName1);
+		Sprite sprite1 = new SingleSprite(spriteName1);
 		Script startScript1 = new StartScript();
 		PlaceAtBrick placeAt1 = new PlaceAtBrick(300, 400);
 		startScript1.addBrick(placeAt1);

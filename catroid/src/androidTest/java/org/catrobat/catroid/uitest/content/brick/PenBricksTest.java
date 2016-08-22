@@ -101,7 +101,7 @@ public class PenBricksTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		script.addBrick(setPenColorBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

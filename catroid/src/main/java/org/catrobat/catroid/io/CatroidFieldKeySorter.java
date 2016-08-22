@@ -88,10 +88,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			} else {
 				return fieldName;
 			}
-		} catch (SecurityException securityException) {
-			Log.e(TAG, Log.getStackTraceString(securityException));
-		} catch (NoSuchFieldException noSuchFieldException) {
-			Log.e(TAG, Log.getStackTraceString(noSuchFieldException));
+		} catch (SecurityException | NoSuchFieldException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
 		}
 		return fieldName;
 	}
@@ -178,34 +176,42 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[0] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
 				fieldKeyOrder[1] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("look")) {
+			} else if (fieldKey.getFieldName().equals("spriteFactory")) {
 				fieldKeyOrder[2] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("name")) {
+			} else if (fieldKey.getFieldName().equals("look")) {
 				fieldKeyOrder[3] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("isPaused")) {
+			} else if (fieldKey.getFieldName().equals("name")) {
 				fieldKeyOrder[4] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("lookList")) {
+			} else if (fieldKey.getFieldName().equals("isPaused")) {
 				fieldKeyOrder[5] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("soundList")) {
+			} else if (fieldKey.getFieldName().equals("convertToSingleSprite")) {
 				fieldKeyOrder[6] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("scriptList")) {
+			} else if (fieldKey.getFieldName().equals("convertToGroupItemSprite")) {
 				fieldKeyOrder[7] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("userBricks")) {
+			} else if (fieldKey.getFieldName().equals("lookList")) {
 				fieldKeyOrder[8] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("isBackpackObject")) {
+			} else if (fieldKey.getFieldName().equals("soundList")) {
 				fieldKeyOrder[9] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
+			} else if (fieldKey.getFieldName().equals("scriptList")) {
 				fieldKeyOrder[10] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("actionFactory")) {
+			} else if (fieldKey.getFieldName().equals("userBricks")) {
 				fieldKeyOrder[11] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("isClone")) {
 				fieldKeyOrder[12] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("penConfiguration")) {
+			} else if (fieldKey.getFieldName().equals("isBackpackObject")) {
 				fieldKeyOrder[13] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("cloneForScene")) {
+			} else if (fieldKey.getFieldName().equals("penConfiguration")) {
 				fieldKeyOrder[14] = fieldKey;
-			} else if (fieldKey.getFieldName().equals("$change")) {
+			} else if (fieldKey.getFieldName().equals("cloneForScene")) {
 				fieldKeyOrder[15] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
+				fieldKeyOrder[16] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("actionFactory")) {
+				fieldKeyOrder[17] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("isMobile")) {
+				fieldKeyOrder[18] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("$change")) {
+				fieldKeyOrder[19] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

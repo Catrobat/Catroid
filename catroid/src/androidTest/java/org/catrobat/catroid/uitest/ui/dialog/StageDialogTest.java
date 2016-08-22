@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -46,7 +47,7 @@ import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		float newScale = 50.0f;
 
 		Project project = new Project(getActivity(), testProject);
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 		WaitBrick waitBrick = new WaitBrick(5000);
 		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(newScale);
@@ -224,7 +225,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testRestartProjectWithSound() {
 		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
-		Sprite firstSprite = new Sprite("sprite1");
+		Sprite firstSprite = new SingleSprite("sprite1");
 		Script startScript = new StartScript();
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
@@ -331,7 +332,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		Utils.updateScreenWidthAndHeight(getActivity());
+		UtilUi.updateScreenWidthAndHeight(getActivity());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
@@ -413,7 +414,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		Utils.updateScreenWidthAndHeight(getActivity());
+		UtilUi.updateScreenWidthAndHeight(getActivity());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
@@ -445,10 +446,10 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	private Project createTestProject(String projectName) {
 		Project project = new Project(getActivity(), projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
-		Sprite thirdSprite = new Sprite("horse");
-		Sprite fourthSprite = new Sprite("pig");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
+		Sprite thirdSprite = new SingleSprite("horse");
+		Sprite fourthSprite = new SingleSprite("pig");
 
 		project.getDefaultScene().addSprite(firstSprite);
 		project.getDefaultScene().addSprite(secondSprite);

@@ -223,6 +223,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.991f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.991f) {
+				//With the introduction of grouping there are several Sprite-classes
+				convertSpritesToSingleSprites();
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here
@@ -257,6 +259,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 			currentScene = project.getDefaultScene();
 			sceneToPlay = currentScene;
+		}
+	}
+
+	private void convertSpritesToSingleSprites() {
+		for (Scene scene : project.getSceneList()) {
+			scene.convertSpritesToSingleSprites();
 		}
 	}
 

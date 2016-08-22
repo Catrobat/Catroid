@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 
 public class PointToActionTest extends AndroidTestCase {
@@ -37,8 +38,8 @@ public class PointToActionTest extends AndroidTestCase {
 	private final float delta = 1e-7f;
 
 	public void testPointTo() {
-		Sprite sprite = new Sprite("sprite");
-		Sprite pointedSprite = new Sprite("pointedSprite");
+		Sprite sprite = new SingleSprite("sprite");
+		Sprite pointedSprite = new SingleSprite("pointedSprite");
 		Project project = new Project();
 		Scene scene = new Scene();
 		project.addScene(scene);

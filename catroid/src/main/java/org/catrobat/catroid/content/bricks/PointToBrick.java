@@ -46,6 +46,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -229,7 +230,7 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> getArrayAdapterFromSpriteList(Context context) {
-		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,
 				android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		arrayAdapter.add(context.getString(R.string.new_broadcast_message));
@@ -240,7 +241,7 @@ public class PointToBrick extends BrickBaseType {
 		for (Sprite sprite : spriteList) {
 			String spriteName = sprite.getName();
 			String temp = ProjectManager.getInstance().getCurrentSprite().getName();
-			if (!spriteName.equals(temp) && !spriteName.equals(context.getString(R.string.background))) {
+			if (!spriteName.equals(temp) && !spriteName.equals(context.getString(R.string.background)) && !(sprite instanceof GroupSprite)) {
 				arrayAdapter.add(sprite.getName());
 			}
 		}

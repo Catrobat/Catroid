@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -82,7 +83,7 @@ public class DataContainerTest extends AndroidTestCase {
 	@Override
 	protected void setUp() {
 		Project project = new Project(null, "testProject");
-		firstSprite = new Sprite("firstSprite");
+		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);

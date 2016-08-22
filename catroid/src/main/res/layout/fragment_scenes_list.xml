@@ -52,10 +52,20 @@
             android:textSize="30sp" />
     </RelativeLayout>
 
-  <ListView
-      android:id="@android:id/list"
-      style="@style/ListViewShadowed"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+    <RelativeLayout
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <include layout="@layout/activity_project_scenes_headline" />
+
+        <org.catrobat.catroid.ui.dynamiclistview.DynamicListView
+            android:id="@android:id/list"
+            style="@style/ListViewShadowed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/sceneList_headline"/>
+
+    </RelativeLayout>
 
 </FrameLayout>

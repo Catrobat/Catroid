@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -78,7 +79,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		}
 
 		Project project = new Project(getContext(), testProjectName);
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script startScript = new StartScript();
 		Script whenScript = new WhenScript();
 		Script broadcastScript = new BroadcastScript("message1");

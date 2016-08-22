@@ -73,7 +73,6 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	@Override
 	public void updateReferenceAfterMerge(Scene into, Scene from) {
-
 	}
 
 	@Override

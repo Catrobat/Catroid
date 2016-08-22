@@ -66,6 +66,7 @@ import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 public class BackPackUserBrickFragment extends BackPackActivityFragment implements Dialog.OnKeyListener {
@@ -310,7 +311,7 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 	};
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 
 		selectAllActionModeButton.setOnClickListener(
 				new View.OnClickListener() {
@@ -478,7 +479,7 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 		}
 
 		updateActionModeTitle();
-		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
 				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
 	}
 

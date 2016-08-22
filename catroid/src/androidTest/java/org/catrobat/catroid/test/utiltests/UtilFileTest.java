@@ -28,6 +28,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -130,7 +131,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	public void testGetProjectNames() {
 		Project project = new Project(null, projectName);
 		ProjectManager.getInstance().setProject(project);
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new SingleSprite("new sprite");
 		project.getDefaultScene().addSprite(sprite);
 		StorageHandler.getInstance().saveProject(project);
 

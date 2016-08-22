@@ -26,6 +26,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -139,7 +140,7 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 	private void createProject() {
 
 		project = new Project(null, "testProject");
-		Sprite sprite = new Sprite("cat");
+		Sprite sprite = new SingleSprite("cat");
 		Script script = new WhenScript();
 		script.addBrick(new PlaceAtBrick(100, 100));
 		script.addBrick(new PlaceAtBrick(100, 100));

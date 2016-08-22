@@ -35,7 +35,7 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.io.File;
 import java.util.List;
@@ -157,7 +157,7 @@ public class DeleteDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookDataList.add(lookData);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
-		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		UtilUi.updateScreenWidthAndHeight(solo.getCurrentActivity());
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 	}

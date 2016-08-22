@@ -43,7 +43,7 @@ public class LookAdapter extends LookBaseAdapter implements ActionModeActivityAd
 
 	private LookFragment lookFragment;
 
-	private HashMap<LookData, Integer> idMap = new HashMap<LookData, Integer>();
+	private HashMap<LookData, Integer> idMap = new HashMap<>();
 
 	public LookAdapter(final Context context, int resource, int textViewResourceId, List<LookData> items,
 			boolean showDetails) {

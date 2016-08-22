@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.merge.MergeTask;
@@ -138,7 +139,7 @@ public class MergeTaskTest extends AndroidTestCase {
 
 		firstProject = TestUtils.createProjectWithGlobalValues("First Project", firstSpriteName, "test1", getContext());
 		secondProject = TestUtils.createProjectWithSpriteValues("Second Project", firstSpriteName, "test2", getContext());
-		secondProject.getDefaultScene().addSprite(new Sprite(secondSpriteName));
+		secondProject.getDefaultScene().addSprite(new SingleSprite(secondSpriteName));
 	}
 
 	private void createProjectForMergeConflict() {

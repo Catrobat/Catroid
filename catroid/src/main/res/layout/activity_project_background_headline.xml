@@ -29,6 +29,8 @@
         style="@style/headlineTextView"
         android:text="@string/spritelist_background_headline" />
 
-    <View style="@style/headlineView" />
+    <View
+        android:id="@+id/background_headline"
+        style="@style/headlineView" />
 
 </LinearLayout>

@@ -60,15 +60,15 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
-import org.catrobat.catroid.ui.adapter.ActionModeActivityAdapterInterface;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.MergeSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSceneDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
+import org.catrobat.catroid.ui.fragment.ListItemActionsInterface;
 import org.catrobat.catroid.ui.fragment.ScenesListFragment;
-import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -84,7 +84,9 @@ public class ProjectActivity extends BaseActivity {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 
-	private ScriptActivityFragment currentFragment;
+	private ListItemActionsInterface actionListener;
+
+	private Fragment currentFragment;
 	private SpritesListFragment spritesListFragment;
 	private ScenesListFragment scenesListFragment;
 	private static int currentFragmentPosition;
@@ -130,15 +132,7 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		/*spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
-				R.id.fragment_container);
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		updateFragment(fragmentTransaction);
-		fragmentTransaction.commit();*/
-
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-
 		SettingsActivity.setDroneChooserEnabled(this, true);
 	}
 
@@ -190,6 +184,7 @@ public class ProjectActivity extends BaseActivity {
 				}
 				currentFragmentTag = ScenesListFragment.TAG;
 				currentFragment = scenesListFragment;
+				actionListener = scenesListFragment;
 				break;
 			case FRAGMENT_SPRITES:
 				if (spritesListFragment == null) {
@@ -198,6 +193,7 @@ public class ProjectActivity extends BaseActivity {
 				}
 				currentFragmentTag = SpritesListFragment.TAG;
 				currentFragment = spritesListFragment;
+				actionListener = spritesListFragment;
 				break;
 		}
 
@@ -248,7 +244,7 @@ public class ProjectActivity extends BaseActivity {
 				break;
 
 			case R.id.copy:
-				currentFragment.startCopyActionMode();
+				actionListener.startCopyActionMode();
 				break;
 
 			case R.id.cut:
@@ -261,15 +257,19 @@ public class ProjectActivity extends BaseActivity {
 				break;
 
 			case R.id.rename:
-				currentFragment.startRenameActionMode();
+				actionListener.startRenameActionMode();
 				break;
 
 			case R.id.delete:
-				currentFragment.startDeleteActionMode();
+				actionListener.startDeleteActionMode();
 				break;
 
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
+				break;
+
+			case R.id.groups_create:
+				spritesListFragment.showNewObjectGroupDialog();
 				break;
 
 			case R.id.new_scene:
@@ -313,14 +313,14 @@ public class ProjectActivity extends BaseActivity {
 		}
 
 		if (numberOfItemsInBackpack == 0) {
-			currentFragment.startBackPackActionMode();
+			actionListener.startBackPackActionMode();
 		} else {
 			items = new CharSequence[] { getString(R.string.packing), getString(R.string.unpack) };
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					if (which == 0) {
-						currentFragment.startBackPackActionMode();
+						actionListener.startBackPackActionMode();
 					} else if (which == 1) {
 						openBackPack();
 					}
@@ -376,10 +376,6 @@ public class ProjectActivity extends BaseActivity {
 		if (hasFocus) {
 			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
 		}
-	}
-
-	public void handleCheckBoxClick(View view) {
-		currentFragment.handleCheckBoxClick(view);
 	}
 
 	public void handleAddButton(View view) {
@@ -445,12 +441,13 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// Dismiss ActionMode without effecting sounds
-		if (currentFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
+		if (actionListener.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_UP) {
 			if (currentFragmentPosition == FRAGMENT_SCENES && scenesListFragment.lockBackButtonForAsync) {
 				return false;
 			} else {
-				((ActionModeActivityAdapterInterface) currentFragment.getListAdapter()).clearCheckedItems();
+				SpriteAdapter adapter = spritesListFragment.getSpriteAdapter();
+				adapter.clearCheckedItems();
 			}
 		}
 
