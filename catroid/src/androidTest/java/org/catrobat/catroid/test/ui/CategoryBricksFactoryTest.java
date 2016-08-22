@@ -82,10 +82,10 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 	}
 
 	public void testLooksBricks() {
-		final int expectedBrickCountInBackground = 20;
-		checkBrickCountInCategory(R.string.category_looks, background, expectedBrickCountInBackground);
-		final int expectedBrickCountInOtherThanBackground = 21;
-		checkBrickCountInCategory(R.string.category_looks, sprite, expectedBrickCountInOtherThanBackground);
+		final int expectedBackgroundBrickCount = 20;
+		checkBrickCountInCategory(R.string.category_looks, background, expectedBackgroundBrickCount);
+		final int expectedBrickCount = 22;
+		checkBrickCountInCategory(R.string.category_looks, sprite, expectedBrickCount);
 	}
 
 	public void testPenBricks() {

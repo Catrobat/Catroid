@@ -768,6 +768,9 @@
     <string name="brick_scene_transition">Continue scene</string>
     <string name="brick_scene_start">Start scene</string>
     <string name="brick_note">Note</string>
+    <string name="brick_think_bubble">Think</string>
+    <string name="brick_say_bubble">Say</string>
+    <string name="brick_think_say_for_text">for</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
     <string name="brick_repeat_until">Repeat until</string>
@@ -792,6 +795,8 @@
     <string name="brick_change_variable">Change variable</string>
     <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
+    <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
+    <string name="brick_say_bubble_default_value">"Hello!"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
     <string name="brick_add_item_to_userlist_add">Add</string>
     <string name="brick_add_item_to_userlist">to list</string>

@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.stage.ShowBubbleActor;
+import org.catrobat.catroid.stage.StageActivity;
 
 public class HideAction extends TemporalAction {
 
@@ -33,6 +35,12 @@ public class HideAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 		sprite.look.setLookVisible(false);
+		if (StageActivity.stageListener != null) {
+			ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
+			if (actor != null) {
+				actor.setVisible(false);
+			}
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

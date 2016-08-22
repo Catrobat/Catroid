@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
@@ -126,11 +127,13 @@ import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
+import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
+import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -174,6 +177,13 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitAction(Sprite sprite, Formula delay) {
 		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
+		return action;
+	}
+
+	public Action createWaitForBubbleBrickAction(Sprite sprite, Formula delay) {
+		WaitForBubbleBrickAction action = Actions.action(WaitForBubbleBrickAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
 		return action;
@@ -637,6 +647,38 @@ public class ActionFactory extends Actions {
 		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
 		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createThinkBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.THINK_BRICK);
+		return action;
+	}
+
+	public Action createSayBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.SAY_BRICK);
+		return action;
+	}
+
+	public Action createThinkForBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.THINK_BRICK);
+		return action;
+	}
+
+	public Action createSayForBubbleAction(Sprite sprite, Formula text) {
+		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
+		action.setText(text);
+		action.setSprite(sprite);
+		action.setType(Constants.SAY_BRICK);
 		return action;
 	}
 
