@@ -73,6 +73,7 @@ public class PreStageActivity extends BaseActivity {
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
+	public static final int REQUEST_GPS = 1;
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
 
@@ -123,6 +124,16 @@ public class PreStageActivity extends BaseActivity {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.SENSOR_COMPASS);
+			}
+		}
+
+		if ((requiredResources & Brick.SENSOR_GPS) > 0) {
+			if (SensorHandler.gpsAvailable()) {
+				resourceInitialized();
+			} else {
+				Intent checkIntent = new Intent();
+				checkIntent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivityForResult(checkIntent, REQUEST_GPS);
 			}
 		}
 
@@ -351,6 +362,10 @@ public class PreStageActivity extends BaseActivity {
 					failedResourcesMessage = failedResourcesMessage + getString(R.string
 							.prestage_no_compass_sensor_available);
 					break;
+				case Brick.SENSOR_GPS:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_gps_sensor_available);
+					break;
 				case Brick.TEXT_TO_SPEECH:
 					failedResourcesMessage = failedResourcesMessage + getString(R.string
 							.prestage_text_to_speech_error);
@@ -476,6 +491,13 @@ public class PreStageActivity extends BaseActivity {
 							});
 					AlertDialog alert = builder.create();
 					alert.show();
+				}
+				break;
+			case REQUEST_GPS:
+				if (resultCode == RESULT_CANCELED && SensorHandler.gpsAvailable()) {
+					resourceInitialized();
+				} else {
+					resourceFailed(Brick.SENSOR_GPS);
 				}
 				break;
 			default:

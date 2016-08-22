@@ -37,6 +37,7 @@ import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -66,6 +67,7 @@ import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -85,6 +87,8 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int TIME_WINDOW = 2000;
 
+	public static final int REQUEST_GPS = 1;
+
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
 	public static final String BRICKFIELD_BUNDLE_ARGUMENT = "brick_field";
@@ -101,6 +105,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	private static Brick.BrickField currentBrickField;
 	private static Formula currentFormula;
 	private Menu currentMenu;
+	private FormulaElement formulaElementForComputeDialog;
 
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
@@ -412,10 +417,16 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 								}
 								return false;
 							}
-							Formula formulaToCompute = new Formula(formulaElement);
-							FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(context);
-							computeDialog.setFormula(formulaToCompute);
-							computeDialog.show();
+							if ((formulaElement.getRequiredResources() & Brick.SENSOR_GPS) > 0 && !SensorHandler
+									.gpsAvailable()) {
+								formulaElementForComputeDialog = formulaElement;
+								Intent checkIntent = new Intent();
+								checkIntent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+								startActivityForResult(checkIntent, REQUEST_GPS);
+							} else {
+								showComputeDialog(formulaElement);
+							}
+
 							return true;
 						case R.id.formula_editor_keyboard_function:
 							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.FUNCTION_TAG,
@@ -478,6 +489,25 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 
 		super.onStart();
+	}
+
+	private void showComputeDialog(FormulaElement formulaElement) {
+		if (formulaElement == null) {
+			return;
+		}
+		Formula formulaToCompute = new Formula(formulaElement);
+		FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(context);
+		computeDialog.setFormula(formulaToCompute);
+		computeDialog.show();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == REQUEST_GPS && resultCode == Activity.RESULT_CANCELED && SensorHandler.gpsAvailable()) {
+			showComputeDialog(formulaElementForComputeDialog);
+		} else {
+			showToast(R.string.error_gps_not_available, true);
+		}
 	}
 
 	@Override

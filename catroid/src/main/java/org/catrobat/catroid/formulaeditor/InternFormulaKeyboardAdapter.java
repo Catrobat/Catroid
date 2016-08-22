@@ -172,6 +172,14 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.Z_ACCELERATION);
 			case R.string.formula_editor_sensor_compass_direction:
 				return buildSensor(Sensors.COMPASS_DIRECTION);
+			case R.string.formula_editor_sensor_latitude:
+				return buildSensor(Sensors.LATITUDE);
+			case R.string.formula_editor_sensor_longitude:
+				return buildSensor(Sensors.LONGITUDE);
+			case R.string.formula_editor_sensor_location_accuracy:
+				return buildSensor(Sensors.LOCATION_ACCURACY);
+			case R.string.formula_editor_sensor_altitude:
+				return buildSensor(Sensors.ALTITUDE);
 			case R.string.formula_editor_sensor_x_inclination:
 				return buildSensor(Sensors.X_INCLINATION);
 			case R.string.formula_editor_sensor_y_inclination:
