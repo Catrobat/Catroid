@@ -58,6 +58,7 @@ android {
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -68,6 +69,7 @@ android {
             buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "false"
         }
     }
     productFlavors {
@@ -100,6 +102,10 @@ configurations {
 }
 
 dependencies {
+    //CAST
+    compile 'com.android.support:mediarouter-v7:22.+'
+    compile 'com.google.android.gms:play-services-cast:9.0.0'
+
     compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.4'
