@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,11 +40,14 @@ import android.widget.Button;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 
 import java.util.concurrent.locks.Lock;
@@ -76,8 +80,9 @@ public class ProgramMenuActivity extends BaseActivity {
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-			if (sprite != null && actionBar != null) {
-				String title = sprite.getName();
+			Scene scene = ProjectManager.getInstance().getCurrentScene();
+			if (sprite != null && scene != null && actionBar != null) {
+				String title = scene.getName() + ": " + sprite.getName();
 				actionBar.setTitle(title);
 				actionBar.setHomeButtonEnabled(true);
 			}
@@ -208,7 +213,21 @@ public class ProgramMenuActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+
+		if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
+			ProjectManager.getInstance().setSceneToPlay(currentScene);
+			startPreStageActivity();
+			return;
+		}
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		PlaySceneDialog playSceneDialog = new PlaySceneDialog();
+		playSceneDialog.show(fragmentTransaction, PlaySceneDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void startPreStageActivity() {
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}

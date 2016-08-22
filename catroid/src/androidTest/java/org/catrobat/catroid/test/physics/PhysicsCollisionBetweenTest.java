@@ -114,7 +114,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 		simulateFullCollision();
 
 		while (!allActionsOfAllSpritesAreFinished()) {
-			for (Sprite spriteOfList : project.getSpriteList()) {
+			for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
@@ -126,7 +126,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {
-		for (Sprite spriteOfList : project.getSpriteList()) {
+		for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
 			if (!spriteOfList.look.getAllActionsAreFinished()) {
 				return false;
 			}

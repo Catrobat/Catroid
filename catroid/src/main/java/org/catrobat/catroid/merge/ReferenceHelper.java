@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.merge;
 
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -31,19 +31,19 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 
 public class ReferenceHelper {
 
-	Project into;
-	Project from;
+	Scene into;
+	Scene from;
 
-	public ReferenceHelper(Project into, Project from) {
+	public ReferenceHelper(Scene into, Scene from) {
 		this.into = into;
 		this.from = from;
 	}
 
-	public Project updateAllReferences() {
+	public Scene updateAllReferences() {
 		for (int i = 0; i < into.getSpriteList().size(); i++) {
 			Sprite sprite = into.getSpriteList().get(i);
 
-			if (from.containsSpriteBySpriteName(sprite)) {
+			if (from.containsSpriteBySpriteName(sprite.getName())) {
 				into.getSpriteList().set(i, updateReference(sprite));
 			}
 		}

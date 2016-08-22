@@ -128,7 +128,7 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		startScript.addBrick(moveBrick);
 		sprite.addScript(startScript);
 
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);

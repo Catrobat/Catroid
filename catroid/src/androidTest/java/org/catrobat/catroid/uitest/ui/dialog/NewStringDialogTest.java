@@ -83,7 +83,7 @@ public class NewStringDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		script.addBrick(new NoteBrick(NOTE));
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

@@ -59,7 +59,7 @@ public class UserBrickTest extends AndroidTestCase {
 		sprite = new Sprite("testSprite");
 		Project project = new Project(null, "testProject");
 
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}

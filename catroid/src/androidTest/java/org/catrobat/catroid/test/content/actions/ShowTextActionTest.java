@@ -43,14 +43,14 @@ public class ShowTextActionTest extends AndroidTestCase {
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		Sprite sprite = new Sprite(SPRITE_NAME);
 		project = new Project(null, "testProject");
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		Sprite secondSprite = sprite.clone();
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
-		DataContainer dataContainer = project.getDataContainer();
+		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		dataContainer.addSpriteUserVariableToSprite(sprite, SPRITE_VARIABLE_NAME).setVisible(false);
 		dataContainer.addSpriteUserVariableToSprite(secondSprite, SPRITE_VARIABLE_NAME).setVisible(false);
 

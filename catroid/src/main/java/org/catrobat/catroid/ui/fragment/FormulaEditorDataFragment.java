@@ -53,7 +53,7 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
@@ -243,7 +243,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 				if (!adapter.isEmpty()) {
 					Object itemToDelete = adapter.getItem(index);
 					if (itemToDelete instanceof UserList) {
-						ProjectManager.getInstance().getCurrentProject().getDataContainer()
+						ProjectManager.getInstance().getCurrentScene().getDataContainer()
 								.deleteUserListByName(getNameOfItemInAdapter(index));
 						adapter.notifyDataSetChanged();
 						getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_USERLIST_DELETED));
@@ -254,7 +254,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 						alertDialog.setPositiveButton(R.string.deletion_alert_yes,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int which) {
-										ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(getNameOfItemInAdapter(index));
+										ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(getNameOfItemInAdapter(index));
 										adapter.notifyDataSetChanged();
 										getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
 									}
@@ -317,10 +317,10 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 	}
 
 	private void initializeDataAdapter() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		DataContainer dataContainer = currentProject.getDataContainer();
+		DataContainer dataContainer = currentScene.getDataContainer();
 		adapter = dataContainer.createDataAdapter(getActivity(), currentUserBrick, currentSprite);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
@@ -396,7 +396,7 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			final DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			final DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 			if (!adapter.isEmpty()) {
 
 				final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());

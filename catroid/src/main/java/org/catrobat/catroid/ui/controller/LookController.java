@@ -326,7 +326,8 @@ public final class LookController {
 			}
 
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
+			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
+			File imageFile = StorageHandler.getInstance().copyImage(projectName, sceneName, originalImagePath, null);
 
 			String imageName;
 			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
@@ -419,9 +420,11 @@ public final class LookController {
 			}
 
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
 
 			try {
-				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
+				File newLookFile = StorageHandler.getInstance().copyImage(projectName, sceneName,
+						pathOfPocketPaintImage,
 						newFileName);
 
 				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath(), false); //reduce usage in container or delete it
@@ -648,7 +651,7 @@ public final class LookController {
 	}
 
 	private String lookFileAlreadyInProjectDirectory(LookData lookDataToCheck) {
-		List<Sprite> spritesToCheck = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		List<Sprite> spritesToCheck = ProjectManager.getInstance().getCurrentScene().getSpriteList();
 		for (Sprite sprite : spritesToCheck) {
 			for (LookData lookData : sprite.getLookDataList()) {
 				if (lookData.getChecksum().equals(lookDataToCheck.getChecksum())) {
@@ -698,8 +701,9 @@ public final class LookController {
 
 		try {
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			String sceneName = ProjectManager.getInstance().getCurrentScene().getName();
 
-			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
+			StorageHandler.getInstance().copyImage(projectName, sceneName, lookData.getAbsolutePath(), null);
 			String imageName = lookData.getLookName() + "_" + activity.getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
 

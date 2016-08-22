@@ -231,7 +231,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		testScript.addBrick(cameraBrick);
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
@@ -251,7 +251,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		testScript.addBrick(cameraBrick);
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
@@ -292,7 +292,7 @@ public class CameraBrickTest extends BaseActivityInstrumentationTestCase<MainMen
 		testScript.addBrick(chooseBrick2);
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);

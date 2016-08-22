@@ -196,7 +196,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Incorrect number of bricks in sprite.", 3, UiTestUtils.getScriptListView(solo).getChildCount());
 		assertEquals("Incorrect number of bricks in broadcast script.", 2, childrenCount);
 
-		List<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		List<Brick> projectBrickList = project.getDefaultScene().getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof BroadcastBrick);
 		assertTrue("Wrong Brick instance.", adapter.getItem(1) instanceof BroadcastBrick);
@@ -219,7 +219,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		script.addBrick(broadcastWaitBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

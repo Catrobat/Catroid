@@ -77,6 +77,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private String imageName = "testImage.png";
 	private String soundName = "testSound.mp3";
 	private String projectName = "testProject7";
+	private String sceneName;
 	private String bigBlueName = "bigblue.png";
 
 	@Override
@@ -86,6 +87,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		TestUtils.clearProject("mockProject");
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
+		sceneName = project.getDefaultScene().getName();
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
@@ -93,18 +95,20 @@ public class MediaPathTest extends InstrumentationTestCase {
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
 		StorageHandler.getInstance().saveProject(mockProject);
 
-		testImage = TestUtils.saveFileToProject(mockProject.getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
+		testImage = TestUtils.saveFileToProject(mockProject.getName(), mockProject.getDefaultScene().getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		bigBlue = TestUtils.saveFileToProject(mockProject.getName(), bigBlueName, BIGBLUE_ID, getInstrumentation()
+		bigBlue = TestUtils.saveFileToProject(mockProject.getName(), mockProject.getDefaultScene().getName(), bigBlueName, BIGBLUE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		testSound = TestUtils.saveFileToProject(mockProject.getName(), soundName, SOUND_FILE_ID, getInstrumentation()
+		testSound = TestUtils.saveFileToProject(mockProject.getName(), mockProject.getDefaultScene().getName(), soundName, SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 		//copy files with the Storagehandler copy function
-		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
-		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
+		testImageCopy = StorageHandler.getInstance().copyImage(projectName, sceneName, testImage.getAbsolutePath(),
+				null);
+		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, sceneName, testImage.getAbsolutePath(),
+				null);
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
 	}
 
@@ -158,7 +162,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 				Utils.md5Checksum(testSoundCopy));
 
 		//check if copy doesn't save more instances of the same file:
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + this.project.getDefaultScene().getName() + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -167,11 +171,11 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testCopyLargeImage() throws IOException, InterruptedException {
 		StorageHandler storage = StorageHandler.getInstance();
-		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
-		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
+		bigBlue2 = storage.copyImage(projectName, sceneName, bigBlue.getAbsolutePath(), null);
+		bigBlue3 = storage.copyImage(projectName, sceneName, bigBlue.getAbsolutePath(), null);
 		fillProjectWithAllBricksAndMediaFiles();
 
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + project.getDefaultScene().getName() + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -190,8 +194,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 		lookData.setLookFilename(Utils.md5Checksum(testImage) + "_" + testImage.getName());
 		lookDataList.add(lookData);
 		testSprite.setLookDataList(lookDataList);
-		project.addSprite(testSprite);
-		project.addSprite(testSprite.clone());
+		project.getDefaultScene().addSprite(testSprite);
+		project.getDefaultScene().addSprite(testSprite.clone());
 
 		assertEquals("Usage counter has not been incremented!", 3, container.getUsage(Utils.md5Checksum(testImage)));
 	}
@@ -206,7 +210,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("checksum in project although file should not exist",
 				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
 
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + project.getDefaultScene().getName() + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -278,7 +282,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		Script whenScript = new WhenScript();
 		sprite.addScript(script);
 		sprite.addScript(whenScript);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		SetLookBrick lookBrick2 = new SetLookBrick();
 		LookData lookData = new LookData();

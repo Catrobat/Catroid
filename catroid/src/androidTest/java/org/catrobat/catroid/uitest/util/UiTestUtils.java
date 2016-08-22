@@ -251,7 +251,7 @@ public final class UiTestUtils {
 		Script scriptOfSprite1 = new StartScript();
 
 		firstSprite.addScript(scriptOfSprite1);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		Script startScript = firstSprite.getScript(0);
 		SetVariableBrick setVariableBrick = new SetVariableBrick(1.0f);
@@ -265,13 +265,13 @@ public final class UiTestUtils {
 		scriptOfSprite2.addBrick(new WaitBrick(300));
 		scriptOfSprite2.addBrick(new ChangeVariableBrick(100.0f));
 		scriptOfSprite2.addBrick(new BroadcastBrick(message));
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		Sprite thirdSprite = new Sprite("sprite3");
 		Script whenIReceive = new BroadcastScript(message);
 		thirdSprite.addScript(whenIReceive);
 		whenIReceive.addBrick(new ChangeVariableBrick(1000.0f));
-		project.addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -287,7 +287,7 @@ public final class UiTestUtils {
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -303,14 +303,14 @@ public final class UiTestUtils {
 		whenIReceiveSecondSprite.addBrick(new TurnRightBrick(degreesToTurn));
 		whenIReceiveSecondSprite.addBrick(new WaitBrick(1000));
 		whenIReceiveSecondSprite.addBrick(new BroadcastWaitBrick(message2));
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		Script whenIReceiveThirdSprite = new BroadcastScript(message1);
 		thirdSprite.addScript(whenIReceiveThirdSprite);
 		whenIReceiveThirdSprite.addBrick(new TurnLeftBrick(degreesToTurn));
 		whenIReceiveThirdSprite.addBrick(new WaitBrick(1000));
 		whenIReceiveThirdSprite.addBrick(new BroadcastBrick(message1));
-		project.addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
 
 		return initialRotation;
 	}
@@ -321,7 +321,7 @@ public final class UiTestUtils {
 		Script firstScript = new StartScript();
 
 		firstSprite.addScript(firstScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		Script startScript = firstSprite.getScript(0);
 		SetVariableBrick setVariableBrick = new SetVariableBrick(0.0f);
@@ -343,7 +343,7 @@ public final class UiTestUtils {
 		secondScript.addBrick(new ChangeVariableBrick(1.0f));
 		secondScript.addBrick(ifElseBrickSecondScript);
 		secondScript.addBrick(ifEndBrickSecondScript);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		Sprite thirdSprite = new Sprite("sprite3");
 		Script thirdScript = new BroadcastScript(message);
@@ -355,7 +355,7 @@ public final class UiTestUtils {
 		thirdScript.addBrick(new ChangeVariableBrick(1.0f));
 		thirdScript.addBrick(ifElseBrickThirdScript);
 		thirdScript.addBrick(ifEndBrickThirdScript);
-		project.addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -366,7 +366,7 @@ public final class UiTestUtils {
 	}
 
 	public static enum FileTypes {
-		IMAGE, SOUND, ROOT
+		IMAGE, SOUND, ROOT, SCREENSHOT
 	}
 
 	// Suppress default constructor for noninstantiability
@@ -884,7 +884,7 @@ public final class UiTestUtils {
 
 	public static void addSpriteToProject(Project project, String name) {
 		Sprite sprite = new Sprite(name);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 	}
 
 	public static List<Brick> createTestProjectWithTwoSprites(String projectName) {
@@ -912,8 +912,8 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -952,12 +952,13 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
+		projectManager.setCurrentScene(project.getDefaultScene());
 		StorageHandler.getInstance().saveProject(project);
 
 		// the application version is needed when the project will be uploaded
@@ -995,7 +996,7 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1042,8 +1043,8 @@ public final class UiTestUtils {
 
 		testScript.addBrick(firstUserBrick);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 		firstUserBrick.updateUserBrickParametersAndVariables();
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
@@ -1081,7 +1082,7 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		StorageHandler.getInstance().saveProject(project);
 	}
@@ -1110,7 +1111,7 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1147,7 +1148,7 @@ public final class UiTestUtils {
 		}
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1176,7 +1177,7 @@ public final class UiTestUtils {
 		UserBrick userBrick = new UserBrick(definitionBrick);
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
 
-		DataContainer variableContainer = project.getDataContainer();
+		DataContainer variableContainer = project.getDefaultScene().getDataContainer();
 		UserVariable globalVariable = variableContainer.addProjectUserVariable(globalVariableName);
 		UserVariable spriteVariable = variableContainer.addSpriteUserVariableToSprite(firstSprite, spriteVariableName);
 
@@ -1193,7 +1194,7 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1258,7 +1259,7 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1301,8 +1302,8 @@ public final class UiTestUtils {
 		firstSprite.addScript(testScript);
 		secondSprite.addScript(testScriptSecondSprite);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1338,7 +1339,7 @@ public final class UiTestUtils {
 		firstSprite.addScript(firstScript);
 		firstSprite.addScript(secondScript);
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1352,7 +1353,7 @@ public final class UiTestUtils {
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1364,7 +1365,7 @@ public final class UiTestUtils {
 		Project project = new Project(null, PROJECTNAME3);
 		Sprite firstSprite = new Sprite("cat");
 
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
@@ -1384,7 +1385,7 @@ public final class UiTestUtils {
 	 * @return the file
 	 * @throws IOException
 	 */
-	public static File saveFileToProject(String project, String name, int fileID, Context context, FileTypes type) {
+	public static File saveFileToProject(String project, String sceneName, String name, int fileID, Context context, FileTypes type) {
 
 		boolean withChecksum = true;
 		String filePath;
@@ -1393,10 +1394,14 @@ public final class UiTestUtils {
 		} else {
 			switch (type) {
 				case IMAGE:
-					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.IMAGE_DIRECTORY + "/";
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + sceneName + "/" + Constants.IMAGE_DIRECTORY + "/";
 					break;
 				case SOUND:
-					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.SOUND_DIRECTORY + "/";
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + sceneName + "/" + Constants.SOUND_DIRECTORY + "/";
+					break;
+				case SCREENSHOT:
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + sceneName + "/";
+					withChecksum = false;
 					break;
 				case ROOT:
 					filePath = Constants.DEFAULT_ROOT + "/" + project + "/";
@@ -1531,7 +1536,7 @@ public final class UiTestUtils {
 		FormulaElement operatorElementMult = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MULT", null);
 		FormulaElement operatorElementMinus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MINUS", null);
 
-		DataContainer variableContainer = project.getDataContainer();
+		DataContainer variableContainer = project.getDefaultScene().getDataContainer();
 		variableContainer.addProjectUserVariable("global");
 		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "global",
 				null);
@@ -1573,8 +1578,8 @@ public final class UiTestUtils {
 		firstSprite.addScript(broadcastScript);
 		brickList.add(brickBroad);
 
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
@@ -1922,7 +1927,7 @@ public final class UiTestUtils {
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 		ProjectManager.getInstance().setProject(project);
@@ -1942,6 +1947,10 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoSpritesFromMainMenu(Solo solo) {
+		getIntoSpritesFromMainMenu(solo, null);
+	}
+
+	public static void getIntoScenesFromMainMenu(Solo solo) {
 		Log.d(TAG, "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.sleep(300);
 
@@ -1950,11 +1959,29 @@ public final class UiTestUtils {
 
 		solo.clickOnText(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+	}
+
+	public static void getIntoSpritesFromMainMenu(Solo solo, String sceneName) {
+		Log.d(TAG, "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
+		solo.sleep(300);
+
+		String continueString = solo.getString(R.string.main_menu_continue);
+		solo.waitForText(continueString);
+
+		solo.clickOnText(continueString);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		if (sceneName != null) {
+			solo.clickOnText(sceneName);
+		}
 		solo.waitForView(ListView.class);
 	}
 
 	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
-		getIntoSpritesFromMainMenu(solo);
+		getIntoProgramMenuFromMainMenu(solo, null, spriteIndex);
+	}
+
+	public static void getIntoProgramMenuFromMainMenu(Solo solo, String sceneName, int spriteIndex) {
+		getIntoSpritesFromMainMenu(solo, sceneName);
 		solo.sleep(200);
 
 		solo.clickInList(spriteIndex);
@@ -1962,11 +1989,11 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoSoundsFromMainMenu(Solo solo) {
-		getIntoSoundsFromMainMenu(solo, 0);
+		getIntoSoundsFromMainMenu(solo, null, 0);
 	}
 
-	public static void getIntoSoundsFromMainMenu(Solo solo, int spriteIndex) {
-		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+	public static void getIntoSoundsFromMainMenu(Solo solo, String sceneName, int spriteIndex) {
+		getIntoProgramMenuFromMainMenu(solo, sceneName, spriteIndex);
 
 		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -1975,15 +2002,15 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoLooksFromMainMenu(Solo solo) {
-		getIntoLooksFromMainMenu(solo, 0, false);
+		getIntoLooksFromMainMenu(solo, null, 0, false);
 	}
 
 	public static void getIntoLooksFromMainMenu(Solo solo, boolean isBackground) {
-		getIntoLooksFromMainMenu(solo, 0, isBackground);
+		getIntoLooksFromMainMenu(solo, null, 0, isBackground);
 	}
 
-	public static void getIntoLooksFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
-		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+	public static void getIntoLooksFromMainMenu(Solo solo, String sceneName, int spriteIndex, boolean isBackground) {
+		getIntoProgramMenuFromMainMenu(solo, sceneName, spriteIndex);
 
 		String textToClickOn = "";
 
@@ -1999,15 +2026,15 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoNfcTagsFromMainMenu(Solo solo) {
-		getIntoNfcTagsFromMainMenu(solo, 0, false);
+		getIntoNfcTagsFromMainMenu(solo, null, 0, false);
 	}
 
 	public static void getIntoNfcTagsFromMainMenu(Solo solo, boolean isBackground) {
-		getIntoNfcTagsFromMainMenu(solo, 0, isBackground);
+		getIntoNfcTagsFromMainMenu(solo, null, 0, isBackground);
 	}
 
-	public static void getIntoNfcTagsFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
-		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+	public static void getIntoNfcTagsFromMainMenu(Solo solo, String sceneName, int spriteIndex, boolean isBackground) {
+		getIntoProgramMenuFromMainMenu(solo, sceneName, spriteIndex);
 
 		String textToClickOn = "";
 
@@ -2020,11 +2047,19 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
-		getIntoScriptActivityFromMainMenu(solo, 0);
+		getIntoScriptActivityFromMainMenu(solo, null, 0);
+	}
+
+	public static void getIntoScriptActivityFromMainMenu(Solo solo, String sceneName) {
+		getIntoScriptActivityFromMainMenu(solo, sceneName, 0);
 	}
 
 	public static void getIntoScriptActivityFromMainMenu(Solo solo, int spriteIndex) {
-		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+		getIntoScriptActivityFromMainMenu(solo, null, spriteIndex);
+	}
+
+	public static void getIntoScriptActivityFromMainMenu(Solo solo, String sceneName, int spriteIndex) {
+		getIntoProgramMenuFromMainMenu(solo, sceneName, spriteIndex);
 
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -2528,6 +2563,7 @@ public final class UiTestUtils {
 		BackPackListManager.getInstance().clearBackPackSounds();
 		BackPackListManager.getInstance().clearBackPackScripts();
 		BackPackListManager.getInstance().clearBackPackSprites();
+		BackPackListManager.getInstance().clearBackPackScenes();
 		BackPackListManager.getInstance().clearBackPackUserBricks();
 		if (deleteBackPackDirectories) {
 			clearBackPackJson();
@@ -2546,7 +2582,7 @@ public final class UiTestUtils {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
-		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "catroid_sunglasses.png",
 				imageResource, instrumentationContext, UiTestUtils.FileTypes.IMAGE);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
@@ -2555,7 +2591,7 @@ public final class UiTestUtils {
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
 		List<SoundInfo> soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, projectManager.getCurrentScene().getName(), "longsound.mp3",
 				soundResource, instrumentationContext, UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
@@ -2563,15 +2599,15 @@ public final class UiTestUtils {
 		soundInfoList.add(soundInfo);
 		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentProject().getDefaultScene().getDataContainer();
 		dataContainer.addProjectUserVariable("global_var");
 		dataContainer.addSpriteUserVariable("sprite_var");
 		dataContainer.addProjectUserList("global_list");
 		dataContainer.addSpriteUserList("sprite_list");
-		UserList projectUserList = projectManager.getCurrentProject().getDataContainer()
+		UserList projectUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer()
 				.getUserList("global_list", null);
 		projectUserList.setList(INITIALIZED_LIST_VALUES);
-		UserList spriteUserList = projectManager.getCurrentProject().getDataContainer()
+		UserList spriteUserList = projectManager.getCurrentProject().getDefaultScene().getDataContainer()
 				.getSpriteListOfLists(projectManager.getCurrentSprite()).get(0);
 		spriteUserList.setList(INITIALIZED_LIST_VALUES);
 		UserVariable spriteUserVariable = dataContainer.getUserVariable("sprite_var", projectManager.getCurrentSprite());

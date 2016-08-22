@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,15 +47,10 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
-import org.catrobat.catroid.io.LoadProjectTask;
-import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -65,13 +59,11 @@ import org.catrobat.catroid.ui.DynamicListView;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -81,7 +73,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SpritesListFragment extends ScriptActivityFragment implements SpriteBaseAdapter.OnSpriteEditListener,
-		OnLoadProjectCompleteListener, BackPackSpriteController.OnBackpackSpriteCompleteListener {
+		BackPackSpriteController.OnBackpackSpriteCompleteListener {
 
 	public static final String TAG = SpritesListFragment.class.getSimpleName();
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
@@ -90,7 +82,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	private static String multiSelectActionModeTitle;
 	private static String singleItemAppendixMultiSelectActionMode;
 	private static String multipleItemAppendixMultiSelectActionMode;
-	public boolean isLoading = false;
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
@@ -103,18 +94,12 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
 	private boolean isBackPackActionMode;
-	private String programName;
 	private boolean selectAll = true;
-
-	private LoadProjectTask loadProjectTask;
-	private boolean fragmentStartedFirstTime = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-
-		programName = getActivity().getIntent().getStringExtra(Constants.PROJECTNAME_TO_LOAD);
 	}
 
 	@Override
@@ -130,12 +115,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
 		}
-
-		try {
-			Utils.loadProjectIfNeeded(getActivity());
-		} catch (ClassCastException exception) {
-			Log.e(TAG, getActivity().toString() + " does not implement ErrorListenerInterface", exception);
-		}
 	}
 
 	@Override
@@ -148,33 +127,17 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	public void onStart() {
 		super.onStart();
 		initListeners();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (programName != null
-				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
-				.equals(programName)) || projectManager.getCurrentProject() == null)) {
-
-			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
-			getActivity().findViewById(R.id.progress_circle).bringToFront();
-			getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
-			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
-
-			isLoading = true;
-
-			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
-		} else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
-				.equals(programName) && fragmentStartedFirstTime) {
-			showInfoFragmentIfNeeded();
-		}
-
-		fragmentStartedFirstTime = false;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (ProjectManager.getInstance().getCurrentProject().isScenesEnabled()) {
+			getActivity().getActionBar().setTitle(ProjectManager.getInstance().getCurrentScene().getName());
+		} else {
+			getActivity().getActionBar().setTitle(ProjectManager.getInstance().getCurrentProject().getName());
+		}
+
 		if (actionMode != null) {
 			actionMode.finish();
 			actionMode = null;
@@ -227,14 +190,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		getActivity().getIntent().removeExtra(Constants.PROJECTNAME_TO_LOAD);
-		programName = Utils.getCurrentProjectName(getActivity());
-
-		if (loadProjectTask != null) {
-			loadProjectTask.cancel(true);
-			ProjectManager.getInstance().cancelLoadProject();
-		}
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
@@ -428,7 +383,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 
 	public void deleteSprite() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
+		DataContainer dataContainer = projectManager.getCurrentScene().getDataContainer();
 
 		deleteSpriteFiles();
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
@@ -437,7 +392,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
-		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+		projectManager.getCurrentScene().getSpriteList().remove(spriteToEdit);
 	}
 
 	private void deleteCheckedSprites() {
@@ -732,7 +687,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 	}
 
 	private void initListeners() {
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene().getSpriteList();
 		((DynamicListView) getListView()).setDataList(spriteList);
 		((DynamicListView) getListView()).isForSpriteList();
 		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item,
@@ -756,37 +711,6 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		}
 	}
 
-	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		initListeners();
-		spriteAdapter.notifyDataSetChanged();
-		isLoading = false;
-		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
-		getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
-
-		showInfoFragmentIfNeeded();
-	}
-
-	private void showInfoFragmentIfNeeded() {
-		if (needToShowLegoNXTInfoDialog()) {
-			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
-			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
-		}
-	}
-
-	private boolean needToShowLegoNXTInfoDialog() {
-		boolean isLegoNXTInfoDialogDisabled = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
-		Project project = ProjectManager.getInstance().getCurrentProject();
-
-		return !isLegoNXTInfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) != 0;
-	}
-
-	@Override
-	public void onLoadProjectFailure() {
-		getActivity().onBackPressed();
-	}
-
 	public boolean isBackPackActionMode() {
 		return isBackPackActionMode;
 	}
@@ -802,7 +726,7 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 		} else {
 			newName = name + nextNumber;
 		}
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
 			if (sprite.getName().equals(newName)) {
 				return getSpriteName(name, ++nextNumber);
 			}

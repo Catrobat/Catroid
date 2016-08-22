@@ -23,23 +23,21 @@
 package org.catrobat.catroid.content;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
@@ -56,14 +54,14 @@ public class Project implements Serializable {
 
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
-	@XStreamAlias("objectList")
-	private List<Sprite> spriteList = new ArrayList<>();
-	@XStreamAlias("data")
-	private DataContainer dataContainer = null;
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<>();
-
-	private transient PhysicsWorld physicsWorld;
+	@XStreamAlias("programVariableList")
+	private List<UserVariable> projectVariables = new ArrayList<>();
+	@XStreamAlias("programListOfLists")
+	private List<UserList> projectLists = new ArrayList<>();
+	@XStreamAlias("scenes")
+	private List<Scene> sceneList = new ArrayList<>();
 
 	public Project(Context context, String name, boolean landscapeMode) {
 		xmlHeader.setProgramName(name);
@@ -85,18 +83,97 @@ public class Project implements Serializable {
 
 		MessageContainer.clear();
 
-		dataContainer = new DataContainer();
-
+		//This is used for tests
 		if (context == null) {
-			return;
+			sceneList.add(new Scene(context, "Scene 1", this));
+		} else {
+			sceneList.add(new Scene(context, String.format(context.getString(R.string.default_scene_name), 1),
+					this));
 		}
-		Sprite background = new Sprite(context.getString(R.string.background));
-		background.look.setZIndex(0);
-		addSprite(background);
+		xmlHeader.scenesEnabled = Constants.SCENES_ENABLED_TAG;
 	}
 
 	public Project(Context context, String name) {
 		this(context, name, false);
+	}
+
+	public Project(SupportProject oldProject, Context context) {
+		xmlHeader = oldProject.xmlHeader;
+		settings = oldProject.settings;
+		projectVariables = oldProject.dataContainer.projectVariables;
+		projectLists = oldProject.dataContainer.projectLists;
+		Scene scene;
+		try {
+			scene = new Scene(context, String.format(context.getString(R.string.default_scene_name), 1), this);
+		} catch (Resources.NotFoundException e) {
+			//Because in test project we can't find the string
+			scene = new Scene(context, "Scene 1", this);
+		}
+		DataContainer container = new DataContainer(this);
+		container.setSpriteVariablesForSupportContainer(oldProject.dataContainer);
+		scene.setDataContainer(container);
+		scene.setSpriteList(oldProject.spriteList);
+		sceneList.add(scene);
+	}
+
+	public List<Scene> getSceneList() {
+		return sceneList;
+	}
+
+	public List<String> getSceneOrder() {
+		List<String> sceneOrder = new ArrayList<>();
+		for (Scene scene : sceneList) {
+			sceneOrder.add(scene.getName());
+		}
+		return sceneOrder;
+	}
+
+	public void setSceneList(List<Scene> scenes) {
+		sceneList = scenes;
+	}
+
+	public void addScene(Scene scene) {
+		sceneList.add(scene);
+	}
+
+	public void removeScene(Scene scene) {
+		sceneList.remove(scene);
+	}
+
+	public Scene getDefaultScene() {
+		return sceneList.get(0);
+	}
+
+	public List<UserVariable> getProjectVariables() {
+		if (projectVariables == null) {
+			projectVariables = new ArrayList<>();
+		}
+		return projectVariables;
+	}
+
+	public List<UserList> getProjectLists() {
+		if (projectLists == null) {
+			projectLists = new ArrayList<>();
+		}
+		return projectLists;
+	}
+
+	public UserVariable getProjectVariableWithName(String name) {
+		for (UserVariable variable : getProjectVariables()) {
+			if (name.equals(variable.getName())) {
+				return variable;
+			}
+		}
+		return null;
+	}
+
+	public UserList getProjectListWithName(String name) {
+		for (UserList list : getProjectLists()) {
+			if (name.equals(list.getName())) {
+				return list;
+			}
+		}
+		return null;
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
@@ -115,19 +192,8 @@ public class Project implements Serializable {
 		}
 	}
 
-	public synchronized void addSprite(Sprite sprite) {
-		if (spriteList.contains(sprite)) {
-			return;
-		}
-		spriteList.add(sprite);
-	}
-
-	public synchronized boolean removeSprite(Sprite sprite) {
-		return spriteList.remove(sprite);
-	}
-
-	public List<Sprite> getSpriteList() {
-		return spriteList;
+	public boolean isScenesEnabled() {
+		return sceneList.size() > 1;
 	}
 
 	public void setName(String name) {
@@ -167,15 +233,17 @@ public class Project implements Serializable {
 		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 		ActionFactory actionFactory = new ActionFactory();
 
-		for (Sprite sprite : spriteList) {
-			int tempResources = sprite.getRequiredResources();
-			if ((tempResources & Brick.PHYSICS) > 0) {
-				sprite.setActionFactory(physicsActionFactory);
-				tempResources &= ~Brick.PHYSICS;
-			} else {
-				sprite.setActionFactory(actionFactory);
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				int tempResources = sprite.getRequiredResources();
+				if ((tempResources & Brick.PHYSICS) > 0) {
+					sprite.setActionFactory(physicsActionFactory);
+					tempResources &= ~Brick.PHYSICS;
+				} else {
+					sprite.setActionFactory(actionFactory);
+				}
+				resources |= tempResources;
 			}
-			resources |= tempResources;
 		}
 		return resources;
 	}
@@ -205,17 +273,6 @@ public class Project implements Serializable {
 		}
 	}
 
-	public PhysicsWorld getPhysicsWorld() {
-		if (physicsWorld == null) {
-			resetPhysicsWorld();
-		}
-		return physicsWorld;
-	}
-
-	public PhysicsWorld resetPhysicsWorld() {
-		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
-	}
-
 	public void setTags(List<String> tags) {
 		xmlHeader.setTags(tags);
 	}
@@ -224,47 +281,21 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public DataContainer getDataContainer() {
-		return dataContainer;
-	}
-
 	public List<Setting> getSettings() {
 		return settings;
 	}
 
-	public void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new ArrayList<>();
-		for (Sprite currentSprite : spriteList) {
-			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
-				Script currentScript = currentSprite.getScript(scriptIndex);
-				if (currentScript instanceof BroadcastMessage) {
-					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
-				}
-
-				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
-					Brick currentBrick = currentScript.getBrick(brickIndex);
-					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
-					}
-				}
-			}
-			for (UserBrick userBrick : currentSprite.getUserBrickList()) {
-				Script userScript = userBrick.getDefinitionBrick().getUserScript();
-				for (Brick currentBrick : userScript.getBrickList()) {
-					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
-					}
-				}
+	public Scene getSceneByName(String name) {
+		for (Scene scene : sceneList) {
+			if (scene.getName().equals(name)) {
+				return scene;
 			}
 		}
-		MessageContainer.removeUnusedMessages(usedMessages);
+		return null;
 	}
 
-	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
-		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
-				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
-			broadcastMessages.add(broadcastMessageToAdd);
-		}
+	public boolean containsScene(Scene scene) {
+		return getSceneOrder().contains(scene.getName());
 	}
 
 	public boolean manualScreenshotExists(String manualScreenshotName) {
@@ -321,107 +352,5 @@ public class Project implements Serializable {
 				return;
 			}
 		}
-	}
-
-	public boolean containsSpriteBySpriteName(Sprite searchedSprite) {
-		for (Sprite sprite : spriteList) {
-			if (searchedSprite.getName().equals(sprite.getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public UserVariable getProjectVariableWithName(String name) {
-		for (UserVariable variable : dataContainer.getProjectVariables()) {
-			if (name.equals(variable.getName())) {
-				return variable;
-			}
-		}
-		return null;
-	}
-
-	public UserList getProjectListWithName(String name) {
-		for (UserList list : dataContainer.getProjectLists()) {
-			if (name.equals(list.getName())) {
-				return list;
-			}
-		}
-		return null;
-	}
-
-	public boolean existProjectVariable(UserVariable variable) {
-		return dataContainer.existProjectVariable(variable);
-	}
-
-	public boolean existSpriteVariable(UserVariable variable, Sprite sprite) {
-		if (!spriteList.contains(sprite)) {
-			return false;
-		}
-		return dataContainer.existSpriteVariable(variable, sprite);
-	}
-
-	public boolean existProjectList(UserList list) {
-		return dataContainer.existProjectList(list);
-	}
-
-	public boolean existSpriteList(UserList list, Sprite sprite) {
-		if (!spriteList.contains(sprite)) {
-			return false;
-		}
-		return dataContainer.existSpriteList(list, sprite);
-	}
-
-	public Sprite getSpriteByUserVariable(UserVariable variable) {
-		Sprite spriteByUserVariable = null;
-		for (Sprite sprite : spriteList) {
-			if (dataContainer.existSpriteVariable(variable, sprite)) {
-				spriteByUserVariable = sprite;
-				break;
-			}
-		}
-		return spriteByUserVariable;
-	}
-
-	public Sprite getSpriteByUserList(UserList list) {
-		Sprite spriteByUserList = null;
-		for (Sprite sprite : spriteList) {
-			if (dataContainer.existSpriteList(list, sprite)) {
-				spriteByUserList = sprite;
-				break;
-			}
-		}
-		return spriteByUserList;
-	}
-
-	public Sprite getSpriteBySpriteName(Sprite searchedSprite) {
-		Sprite spriteBySpriteName = null;
-		for (Sprite sprite : spriteList) {
-			if (searchedSprite.getName().equals(sprite.getName())) {
-				spriteBySpriteName = sprite;
-				break;
-			}
-		}
-		return spriteBySpriteName;
-	}
-
-	public boolean isBackgroundObject(Sprite sprite) {
-		if (spriteList.indexOf(sprite) == 0) {
-			return true;
-		}
-		return false;
-	}
-
-	public void replaceBackgroundSprite(Sprite unpackedSprite) {
-		spriteList.set(0, unpackedSprite);
-	}
-
-	public boolean containsSprite(Sprite selectedSprite) {
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			if (sprite.equals(selectedSprite)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

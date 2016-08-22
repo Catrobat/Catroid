@@ -39,6 +39,7 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -77,12 +78,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
 	private Project project;
+	private Scene currentScene;
+	private Scene sceneToPlay;
 	private Script currentScript;
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronousTask = true;
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
+	private boolean handleNewSceneFromScriptActivity;
 	private boolean showUploadDialog = false;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
@@ -90,6 +94,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private ProjectManager() {
 		this.comingFromScriptFragmentToSoundFragment = false;
 		this.comingFromScriptFragmentToLooksFragment = false;
+		this.handleNewSceneFromScriptActivity = false;
 	}
 
 	public static ProjectManager getInstance() {
@@ -110,6 +115,18 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void setComingFromScriptFragmentToLooksFragment(boolean value) {
 		this.comingFromScriptFragmentToLooksFragment = value;
+	}
+
+	public void setHandleNewSceneFromScriptActivity() {
+		handleNewSceneFromScriptActivity = true;
+	}
+
+	public boolean getHandleNewSceneFromScriptActivity() {
+		if (handleNewSceneFromScriptActivity) {
+			handleNewSceneFromScriptActivity = false;
+			return true;
+		}
+		return false;
 	}
 
 	public void uploadProject(String projectName, Activity activity) {
@@ -136,14 +153,16 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
 		MessageContainer.createBackup();
-		project = StorageHandler.getInstance().loadProject(projectName);
+		project = StorageHandler.getInstance().loadProject(projectName, context);
 
 		if (project == null) {
 			if (oldProject != null) {
 				project = oldProject;
+				currentScene = project.getDefaultScene();
+				sceneToPlay = currentScene;
 				MessageContainer.restoreBackup();
 			} else {
-				project = Utils.findValidProject();
+				project = Utils.findValidProject(context);
 				if (project == null) {
 					try {
 						project = DefaultProjectHandler.createAndSaveDefaultProject(context);
@@ -161,6 +180,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.92f);
 			} else {
 				project = oldProject;
+				currentScene = oldProject.getDefaultScene();
+				sceneToPlay = currentScene;
 				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
 			}
 		} else {
@@ -213,6 +234,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else {
 				//project cannot be converted
 				project = oldProject;
+				if (oldProject != null) {
+					currentScene = oldProject.getDefaultScene();
+					sceneToPlay = currentScene;
+				}
+
 				throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
 			}
 		}
@@ -229,14 +255,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
 				SettingsActivity.setArduinoSharedPreferenceEnabled(context, true);
 			}
+			currentScene = project.getDefaultScene();
+			sceneToPlay = currentScene;
 		}
 	}
 
 	private void localizeBackgroundSprite(Context context) {
 		// Set generic localized name on background sprite and move it to the back.
-		if (project.getSpriteList().size() > 0) {
-			project.getSpriteList().get(0).setName(context.getString(R.string.background));
-			project.getSpriteList().get(0).look.setZIndex(0);
+		if (currentScene == null) {
+			return;
+		}
+		if (currentScene.getSpriteList().size() > 0) {
+			currentScene.getSpriteList().get(0).setName(context.getString(R.string.background));
+			currentScene.getSpriteList().get(0).look.setZIndex(0);
 		}
 		MessageContainer.clearBackup();
 		currentSprite = null;
@@ -270,6 +301,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 			currentSprite = null;
 			currentScript = null;
+			currentScene = project.getDefaultScene();
+			sceneToPlay = currentScene;
 			return true;
 		} catch (IOException ioException) {
 			Log.e(TAG, "Cannot initialize default project.", ioException);
@@ -297,10 +330,30 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		currentSprite = null;
 		currentScript = null;
+		currentScene = project.getDefaultScene();
+		sceneToPlay = currentScene;
 	}
 
 	public Project getCurrentProject() {
 		return project;
+	}
+
+	public Scene getSceneToPlay() {
+		if (sceneToPlay == null) {
+			sceneToPlay = getCurrentScene();
+		}
+		return sceneToPlay;
+	}
+
+	public void setSceneToPlay(Scene scene) {
+		sceneToPlay = scene;
+	}
+
+	public Scene getCurrentScene() {
+		if (currentScene == null) {
+			currentScene = project.getDefaultScene();
+		}
+		return currentScene;
 	}
 
 	public boolean isCurrentProjectLandscapeMode() {
@@ -314,6 +367,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentScript = null;
 		currentSprite = null;
 
+		this.project = project;
+		if (project != null) {
+			currentScene = project.getDefaultScene();
+			sceneToPlay = currentScene;
+		}
+	}
+
+	public void setCurrentProject(Project project) {
 		this.project = project;
 	}
 
@@ -341,6 +402,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				}
 			}
 		}
+	}
+
+	public void deleteScene(String projectName, String sceneName) throws IOException {
+		Log.d(TAG, "deleteScene " + sceneName);
+		StorageHandler.getInstance().deleteScene(projectName, sceneName);
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
@@ -392,6 +458,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return currentScript;
 	}
 
+	public void setCurrentScene(Scene scene) {
+		this.currentScene = scene;
+		sceneToPlay = scene;
+	}
+
+	public void addScene(Scene scene) {
+		project.addScene(scene);
+	}
+
 	public void setCurrentScript(Script script) {
 		if (script == null) {
 			currentScript = null;
@@ -409,7 +484,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void addSprite(Sprite sprite) {
-		project.addSprite(sprite);
+		getCurrentScene().addSprite(sprite);
 	}
 
 	public void addScript(Script script) {
@@ -417,7 +492,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public boolean spriteExists(String spriteName) {
-		for (Sprite sprite : project.getSpriteList()) {
+		for (Sprite sprite : getCurrentScene().getSpriteList()) {
 			if (sprite.getName().equalsIgnoreCase(spriteName)) {
 				return true;
 			}
@@ -425,8 +500,17 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return false;
 	}
 
+	public boolean sceneExists(String sceneName) {
+		for (Scene scene : project.getSceneList()) {
+			if (scene.getName().equalsIgnoreCase(sceneName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public int getCurrentSpritePosition() {
-		return project.getSpriteList().indexOf(currentSprite);
+		return getCurrentScene().getSpriteList().indexOf(currentSprite);
 	}
 
 	public int getCurrentScriptPosition() {
@@ -435,7 +519,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
+		return getCurrentScene().getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
 	}
 
 	private String createTemporaryDirectoryName(String projectDirectoryName) {
@@ -532,9 +616,20 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
-		List<Sprite> spritesToCheck;
+		checkNestingBrickReferences(assumeWrong, inBackPack, false);
+	}
+
+	public void checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack, boolean sceneBackpack) {
+		List<Sprite> spritesToCheck = new ArrayList<>();
+
 		if (inBackPack) {
-			spritesToCheck = BackPackListManager.getInstance().getAllBackPackedSprites();
+			if (sceneBackpack) {
+				for (Scene scene : BackPackListManager.getInstance().getAllBackpackedScenes()) {
+					spritesToCheck.addAll(scene.getSpriteList());
+				}
+			} else {
+				spritesToCheck = BackPackListManager.getInstance().getAllBackPackedSprites();
+			}
 
 			HashMap<String, List<Script>> backPackedScripts = BackPackListManager.getInstance().getAllBackPackedScripts();
 			for (String scriptGroup : backPackedScripts.keySet()) {
@@ -543,16 +638,22 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 					checkCurrentScript(scriptToCheck, assumeWrong);
 				}
 			}
-		} else {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
-			if (currentProject == null) {
-				return;
-			}
-			spritesToCheck = currentProject.getSpriteList();
-		}
 
-		for (Sprite currentSprite : spritesToCheck) {
-			checkCurrentSprite(currentSprite, assumeWrong);
+			for (Sprite currentSprite : spritesToCheck) {
+				checkCurrentSprite(currentSprite, assumeWrong);
+			}
+		} else {
+			for (Scene scene : project.getSceneList()) {
+
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				if (currentProject == null) {
+					return;
+				}
+				spritesToCheck = scene.getSpriteList();
+				for (Sprite currentSprite : spritesToCheck) {
+					checkCurrentSprite(currentSprite, assumeWrong);
+				}
+			}
 		}
 	}
 

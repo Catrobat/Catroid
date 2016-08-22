@@ -317,9 +317,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
 		}
-		if (projectManager.getCurrentProject() != null) {
+		if (projectManager.getCurrentScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
-			projectManager.getCurrentProject().removeUnusedBroadcastMessages(); // TODO: Find better place
+			projectManager.getCurrentScene().removeUnusedBroadcastMessages(); // TODO: Find better place
 		}
 	}
 
@@ -492,6 +492,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	public boolean isInUserBrickOverview() {
 		return AddBrickFragment.addButtonHandler != null && BottomBar.isBottomBarVisible(getActivity());
+	}
+
+	@Override
+	public void handleCheckBoxClick(View view) {
 	}
 
 	@Override

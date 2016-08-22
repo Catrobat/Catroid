@@ -61,7 +61,7 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+		testImage = TestUtils.saveFileToProject(this.projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -88,7 +88,7 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_WIDTH = 200;
 
 		Sprite sprite = new Sprite("new sprite");
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName("testImage");

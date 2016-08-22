@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -34,6 +35,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,6 +98,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private CallbackManager callbackManager;
 	private SignInDialog signInDialog;
+	private boolean lockBackButtonForAsync = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -150,22 +153,21 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		SettingsActivity.setDroneChooserEnabled(this, false);
 
-		findViewById(R.id.progress_circle).setVisibility(View.GONE);
-
-		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
-
-		PreStageActivity.shutdownPersistentResources();
-		if (!STANDALONE_MODE) {
-			setMainMenuButtonContinueText();
-			findViewById(R.id.main_menu_button_continue).setEnabled(true);
-		} else {
-			FlashUtil.initializeFlash();
-		}
-		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
-		if (projectName != null) {
-			loadProjectInBackground(projectName);
-		}
-		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+		findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+		final Activity activity = this;
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				UtilFile.createStandardProjectIfRootDirectoryIsEmpty(activity);
+				activity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						finishOnCreateAfterRunnable();
+					}
+				});
+			}
+		};
+		(new Thread(r)).start();
 	}
 
 	@Override
@@ -199,15 +201,41 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void finishOnCreateAfterRunnable() {
+		findViewById(R.id.progress_circle).setVisibility(View.GONE);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
+		PreStageActivity.shutdownPersistentResources();
+		if (!STANDALONE_MODE) {
+			setMainMenuButtonContinueText();
+			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		} else {
+			FlashUtil.initializeFlash();
+		}
+		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+		if (projectName != null) {
+			loadProjectInBackground(projectName);
+		}
+		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+
+		if (ProjectManager.getInstance().getHandleNewSceneFromScriptActivity()) {
+			Intent intent = new Intent(this, ProjectActivity.class);
+			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(intent);
+		}
+	}
+
 	// needed because of android:onClick in activity_main_menu.xml
 	public void handleContinueButton(View view) {
 		handleContinueButton();
 	}
 
 	public void handleContinueButton() {
-		Intent intent = new Intent(this, ProjectActivity.class);
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, Utils.getCurrentProjectName(this));
-		startActivity(intent);
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), true, true);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
+		lockBackButtonForAsync = true;
+		loadProjectTask.execute();
 	}
 
 	private void loadProjectInBackground(String projectName) {
@@ -216,6 +244,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, true, true);
 		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.GONE);
+		lockBackButtonForAsync = true;
 		loadProjectTask.execute();
 	}
 
@@ -228,6 +258,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
+		lockBackButtonForAsync = false;
 	}
 
 	public void handleNewButton(View view) {
@@ -331,7 +362,14 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		return (keyCode == KeyEvent.KEYCODE_BACK && !lockBackButtonForAsync);
+	}
+
+	@Override
 	public void onLoadProjectFailure() {
+		findViewById(R.id.main_menu_buttons_container).setVisibility(View.VISIBLE);
+		lockBackButtonForAsync = false;
 	}
 
 	public void initializeFacebookSdk() {

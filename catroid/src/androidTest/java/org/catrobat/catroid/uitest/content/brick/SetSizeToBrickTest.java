@@ -149,14 +149,14 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		script.addBrick(setLookBrick);
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 		StorageHandler.getInstance().saveProject(project);
 
-		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
+		File image = UiTestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
 		Log.v(TAG, image.getName());
 		LookData lookData = new LookData();

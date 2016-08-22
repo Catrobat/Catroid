@@ -82,7 +82,7 @@ public class LookTest extends InstrumentationTestCase {
 		LookData lookData = new LookData();
 		lookData.setLookFilename(fileName);
 		look.setLookData(lookData);
-		assertEquals("Wrong image path!", Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY
+		assertEquals("Wrong image path!", Constants.DEFAULT_ROOT + "/" + projectName + "/" + project.getDefaultScene().getName() + "/" + Constants.IMAGE_DIRECTORY
 				+ "/" + fileName, look.getImagePath());
 	}
 

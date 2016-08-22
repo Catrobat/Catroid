@@ -88,7 +88,7 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		script.addBrick(new NoteBrick(noteFormula));
 
 		sprite.addScript(script);
-		project.addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

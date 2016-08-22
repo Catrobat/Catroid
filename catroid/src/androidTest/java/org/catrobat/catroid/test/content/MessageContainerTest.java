@@ -130,7 +130,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		BroadcastScript broadcastScript1 = new BroadcastScript(broadcastMessage1);
 		sprite1.addScript(broadcastScript1);
 
-		project1.addSprite(sprite1);
+		project1.getDefaultScene().addSprite(sprite1);
 
 		StorageHandler.getInstance().saveProject(project1);
 
@@ -145,7 +145,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		BroadcastScript broadcastScript2 = new BroadcastScript(broadcastMessage2);
 		sprite2.addScript(broadcastScript2);
 
-		project2.addSprite(sprite2);
+		project2.getDefaultScene().addSprite(sprite2);
 
 		boolean result = StorageHandler.getInstance().saveProject(project2);
 		assertTrue("error on saving project", result);

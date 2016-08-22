@@ -161,7 +161,7 @@ public class AddBrickFragment extends ListFragment implements DeleteModeListener
 		currentSprite.addUserBrick(newBrick);
 
 		UserScriptDefinitionBrick definitionBrick = newBrick.getDefinitionBrick();
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		String variableName = dataContainer.getUniqueVariableName(getActivity());
 
 		definitionBrick.addUIText(name);

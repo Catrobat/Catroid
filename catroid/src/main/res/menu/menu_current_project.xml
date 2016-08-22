@@ -62,7 +62,16 @@
     <item
         android:id="@+id/upload"
         android:showAsAction="never"
-        android:title="@string/upload_button">
+        android:title="@string/upload_button"/>
+    <item
+        android:id="@+id/new_scene"
+        android:showAsAction="never"
+        android:title="@string/new_scene_dialog_title"/>
+    <item
+        android:id="@+id/merge_scene"
+        android:showAsAction="never"
+        android:title="@string/merge_scene_option"
+        android:visible="false">
     </item>
 
 </menu>

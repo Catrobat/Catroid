@@ -55,9 +55,9 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 			File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
 			File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
 
-			copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
+			StorageHandler.copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
 
-			Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
+			Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName, parentFragment.getActivity());
 			copiedProject.setName(newProjectName);
 			StorageHandler.getInstance().saveProject(copiedProject);
 		} catch (IOException exception) {
@@ -91,17 +91,5 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 				parentFragment.getString(R.string.project_name) + " " + newName + " "
 						+ parentFragment.getString(R.string.copy_project_finished));
 		parentFragment.onCopyProject();
-	}
-
-	private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
-		if (sourceFile.isDirectory()) {
-
-			destinationFile.mkdirs();
-			for (String subDirectoryName : sourceFile.list()) {
-				copyDirectory(new File(destinationFile, subDirectoryName), new File(sourceFile, subDirectoryName));
-			}
-		} else {
-			UtilFile.copyFile(destinationFile, sourceFile);
-		}
 	}
 }
