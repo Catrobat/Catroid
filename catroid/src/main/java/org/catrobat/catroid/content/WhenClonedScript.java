@@ -20,34 +20,43 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Sprite;
+public class WhenClonedScript extends Script {
 
-import java.util.List;
+	private static final long serialVersionUID = 1L;
 
-public class ComeToFrontAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float delta) {
-
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-		int actualSpriteZIndex = sprite.look.getZIndex();
-
-		for (int i = 0; i < spriteList.size(); i++) {
-			if (spriteList.get(i).look.getZIndex() > actualSpriteZIndex) {
-				spriteList.get(i).look.setZIndex(spriteList.get(i).look.getZIndex() - 1);
-			}
-		}
-		sprite.look.setZIndex(spriteList.size() - 1);
+	public WhenClonedScript() {
+		super();
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public WhenClonedScript(WhenClonedBrick brick) {
+		this.brick = brick;
+	}
+
+	@Override
+	protected Object readResolve() {
+		super.readResolve();
+		return this;
+	}
+
+	@Override
+	public ScriptBrick getScriptBrick() {
+		if (brick == null) {
+			brick = new WhenClonedBrick(this);
+		}
+
+		return brick;
+	}
+
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite) {
+		WhenClonedScript cloneScript = new WhenClonedScript();
+		doCopy(copySprite, cloneScript);
+
+		return cloneScript;
 	}
 }

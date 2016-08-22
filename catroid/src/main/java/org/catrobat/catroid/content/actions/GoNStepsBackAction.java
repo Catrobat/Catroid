@@ -60,7 +60,7 @@ public class GoNStepsBackAction extends TemporalAction {
 
 	private void toFront() {
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 		int actualSpriteZIndex = sprite.look.getZIndex();
 
 		for (int i = 0; i < spriteList.size(); i++) {
@@ -80,7 +80,7 @@ public class GoNStepsBackAction extends TemporalAction {
 			newSpriteZIndex = 1;
 		}
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 
 		for (int i = 0; i < spriteList.size(); i++) {
 			if (steps > 0) {

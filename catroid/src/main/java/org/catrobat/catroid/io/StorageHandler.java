@@ -59,6 +59,7 @@ import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.SupportProject;
+import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
@@ -83,8 +84,10 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -167,6 +170,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
@@ -326,6 +330,7 @@ public final class StorageHandler {
 		xstream.alias("object", Sprite.class);
 
 		xstream.alias("script", StartScript.class);
+		xstream.alias("script", WhenClonedScript.class);
 		xstream.alias("script", WhenScript.class);
 		xstream.alias("script", WhenNfcScript.class);
 		xstream.alias("script", BroadcastScript.class);
@@ -346,8 +351,10 @@ public final class StorageHandler {
 		xstream.alias("brick", ChangeXByNBrick.class);
 		xstream.alias("brick", ChangeYByNBrick.class);
 		xstream.alias("brick", ClearGraphicEffectBrick.class);
+		xstream.alias("brick", CloneBrick.class);
 		xstream.alias("brick", ComeToFrontBrick.class);
 		xstream.alias("brick", DeleteItemOfUserListBrick.class);
+		xstream.alias("brick", DeleteThisCloneBrick.class);
 		xstream.alias("brick", ForeverBrick.class);
 		xstream.alias("brick", GlideToBrick.class);
 		xstream.alias("brick", GoNStepsBackBrick.class);
@@ -406,6 +413,7 @@ public final class StorageHandler {
 		xstream.alias("brick", WaitUntilBrick.class);
 		xstream.alias("brick", WhenBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
+		xstream.alias("brick", WhenClonedBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
 

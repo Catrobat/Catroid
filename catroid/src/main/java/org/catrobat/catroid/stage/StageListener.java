@@ -64,6 +64,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -81,6 +82,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -134,6 +136,7 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 
 	private List<Sprite> sprites;
+	private HashSet<Sprite> clonedSprites;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -179,6 +182,7 @@ public class StageListener implements ApplicationListener {
 
 		virtualWidth = project.getXmlHeader().virtualScreenWidth;
 		virtualHeight = project.getXmlHeader().virtualScreenHeight;
+
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
@@ -195,14 +199,14 @@ public class StageListener implements ApplicationListener {
 
 		physicsWorld = scene.resetPhysicsWorld();
 
-		sprites = scene.getSpriteList();
+		clonedSprites = new HashSet<>();
+		sprites = new ArrayList<>(scene.getSpriteList());
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
-
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
 				maximizeViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
@@ -223,6 +227,49 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME) || scene
 					.screenshotExists(SCREENSHOT_AUTOMATIC_FILE_NAME) || scene.screenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
+		}
+	}
+
+	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
+		Sprite copy = cloneMe.cloneForCloneBrick();
+		copy.resetSprite();
+		copy.look.createBrightnessContrastHueShader();
+		stage.addActor(copy.look);
+		copy.resume();
+		sprites.add(copy);
+		clonedSprites.add(copy);
+
+		Map<String, List<String>> scriptActions = new HashMap<>();
+		copy.createStartScriptActionSequenceAndPutToMap(scriptActions);
+		precomputeActionsForBroadcastEvents(scriptActions);
+		if (!copy.getLookDataList().isEmpty()) {
+			copy.look.setLookData(copy.getLookDataList().get(0));
+		}
+
+		copy.createWhenClonedAction();
+	}
+
+	public void removeClonedSpriteFromStage(Sprite sprite) {
+		if (!sprite.isClone) {
+			return;
+		}
+
+		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
+		DataContainer userVariables = currentScene.getDataContainer();
+		userVariables.removeVariableListForSprite(sprite);
+
+		BroadcastHandler.getScriptSpriteMap().remove(sprite);
+
+		sprite.pause();
+		sprite.look.setLookVisible(false);
+		sprite.look.remove();
+		sprites.remove(sprite);
+		clonedSprites.remove(sprite);
+	}
+
+	private void disposeClonedSprites() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			scene.removeAllClones();
 		}
 	}
 
@@ -627,6 +674,8 @@ public class StageListener implements ApplicationListener {
 		font.dispose();
 		axes.dispose();
 		disposeTextures();
+		Log.e(TAG, "dispose");
+		disposeClonedSprites();
 	}
 
 	public boolean makeManualScreenshot() {
@@ -764,6 +813,10 @@ public class StageListener implements ApplicationListener {
 
 	public void removeActor(Look look) {
 		look.remove();
+	}
+
+	public List<Sprite> getSpritesFromStage() {
+		return sprites;
 	}
 
 	private class StageBackup {

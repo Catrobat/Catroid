@@ -229,6 +229,15 @@ public class Scene implements Serializable {
 		return spriteList;
 	}
 
+	public void removeAllClones() {
+		dataContainer.removeVariablesOfClones();
+		for (Sprite s : new ArrayList<>(spriteList)) {
+			if (s.isClone) {
+				spriteList.remove(s);
+			}
+		}
+	}
+
 	public synchronized void setSpriteList(List<Sprite> spriteList) {
 		this.spriteList = spriteList;
 	}
