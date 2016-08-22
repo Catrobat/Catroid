@@ -130,6 +130,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
+import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -199,6 +200,10 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupEventCategoryList(Context context) {
+		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
+		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+
 		List<Brick> eventBrickList = new ArrayList<>();
 		eventBrickList.add(new WhenStartedBrick(null));
 		eventBrickList.add(new WhenBrick(null));
@@ -207,6 +212,7 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
 		eventBrickList.add(new CollisionReceiverBrick("object"));
 
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
@@ -216,13 +222,14 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupControlCategoryList(Context context) {
+		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
+		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+
 		List<Brick> controlBrickList = new ArrayList<>();
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
 		controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
 		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));

@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
@@ -134,6 +135,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
+import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
@@ -453,6 +455,9 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
 		brickInfoMap.put("whenBrick", brickInfo);
 
+		brickInfo = new BrickInfo(WhenConditionBrick.class.getSimpleName());
+		brickInfoMap.put("whenConditionBrick", brickInfo);
+
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);
 		brickInfoMap.put("turnLeftBrick", brickInfo);
@@ -629,6 +634,7 @@ public class XStreamToSupportCatrobatLanguageVersion0991AndBefore extends XStrea
 		scriptInfoMap = new HashMap<>();
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
+		scriptInfoMap.put("whenConditionScript", WhenConditionScript.class.getSimpleName());
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
 		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());
