@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
+import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
@@ -490,6 +491,14 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public Action createAskAction(Sprite sprite, Formula questionFormula, UserVariable answerVariable) {
+		AskAction action = Actions.action(AskAction.class);
+		action.setSprite(sprite);
+		action.setQuestionFormula(questionFormula);
+		action.setAnswerVariable(answerVariable);
 		return action;
 	}
 
