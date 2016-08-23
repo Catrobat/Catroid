@@ -21,8 +21,10 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
+        tools:ignore="all"
         android:id="@+id/formula_editor_data_item_delete"
         android:showAsAction="never"
         android:title="@string/delete"/>

@@ -123,7 +123,6 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:percent:23.4.0'
     compile 'com.google.android.gms:play-services-auth:9.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')

@@ -84,6 +84,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 		}
 
 		Project defaultProject = new Project(context, projectName, false, true);
+		String sceneName = defaultProject.getDefaultScene().getName();
 		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -110,33 +111,36 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.default_project_background_landscape, context);
-		cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+		cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_landscape,
 				context, true, backgroundImageScaleFactor);
-		backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+		backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_background_landscape,
 				context, true, backgroundImageScaleFactor);
 
-		File birdWingUpFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingUpLookName
+		File birdWingUpFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, birdWingUpLookName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_up, context, true,
 				backgroundImageScaleFactor);
-		File birdWingDownFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingDownLookName
+		File birdWingDownFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, birdWingDownLookName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down, context, true,
 				backgroundImageScaleFactor);
 
-		File birdWingUpLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingUpLeftLookName
+		File birdWingUpLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName,
+				birdWingUpLeftLookName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_up_left, context, true,
 				backgroundImageScaleFactor);
-		File birdWingDownLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, birdWingDownLeftLookName
+		File birdWingDownLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName,
+				birdWingDownLeftLookName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down_left, context, true,
 				backgroundImageScaleFactor);
 
 		try {
-			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, tweet1
+			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, sceneName, tweet1
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_1, context, true);
-			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, tweet2
+			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, sceneName, tweet2
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_2, context, true);
-			UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
+			UtilFile.copyFromResourceIntoProject(projectName, sceneName, ".", StageListener
+					.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					R.drawable.default_project_screenshot, context, false);
 
 			Log.i(TAG, String.format("createAndSaveDefaultCastProject(%s) %s created%n %s created%n %s created%n %s "
@@ -148,7 +152,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			backgroundLookData.setLookName(backgroundName);
 			backgroundLookData.setLookFilename(backgroundFile.getName());
 
-			Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
+			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
 			backgroundSprite.getLookDataList().add(backgroundLookData);
 
 			LookData birdWingUpLookData = new LookData();
@@ -181,7 +185,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 
-			DataContainer userVariables = defaultProject.getDataContainer();
+			DataContainer userVariables = defaultProject.getDefaultScene().getDataContainer();
 
 			userVariables.addProjectUserVariable(varDirection);
 			UserVariable direction = userVariables.getUserVariable(varDirection, backgroundSprite);
@@ -225,8 +229,8 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			cloudSpriteScript2.addBrick(loopEndlessBrick);
 			cloudSprite2.addScript(cloudSpriteScript2);
 
-			defaultProject.addSprite(cloudSprite1);
-			defaultProject.addSprite(cloudSprite2);
+			defaultProject.getDefaultScene().addSprite(cloudSprite1);
+			defaultProject.getDefaultScene().addSprite(cloudSprite2);
 			///Clouds
 
 			//Bird
@@ -246,7 +250,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			FormulaElement birdX = new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_X.name(), null);
 			FormulaElement birdY = new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_Y.name(), null);
 
-			FormulaElement zero = new FormulaElement(FormulaElement.ElementType.NUMBER, "0", null);
+			//FormulaElement zero = new FormulaElement(FormulaElement.ElementType.NUMBER, "0", null);
 
 			Script birdScriptBroadcast = new StartScript();
 
@@ -403,7 +407,7 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 
 			birdSprite.addScript(birdScriptButtonB);
 
-			defaultProject.addSprite(birdSprite);
+			defaultProject.getDefaultScene().addSprite(birdSprite);
 			///Bird
 
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(birdWingUpLookData.getChecksum(), birdWingUpLookData.getAbsolutePath());

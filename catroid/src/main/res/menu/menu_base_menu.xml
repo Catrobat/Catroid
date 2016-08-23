@@ -21,24 +21,29 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- CAST BUTTON ALSO IN menu_main_menu.xml-->
     <item
+        tools:ignore="all"
         android:id="@+id/cast_button"
         android:showAsAction="always"
         android:title="@string/cast_button_menu_item_title"
         android:icon="@drawable/ic_cast_white"
         android:visible="false"/>
     <item
+        tools:ignore="AppCompatResource"
         android:id="@+id/settings"
         android:showAsAction="never"
         android:title="@string/settings" />
     <item
+        tools:ignore="AppCompatResource"
         android:id="@+id/menu_logout"
         android:showAsAction="never"
         android:title="@string/main_menu_logout"/>
     <item
+        tools:ignore="AppCompatResource"
         android:id="@+id/menu_login"
         android:showAsAction="never"
         android:title="@string/main_menu_login"/>

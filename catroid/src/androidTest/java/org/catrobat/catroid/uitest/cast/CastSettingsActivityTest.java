@@ -112,7 +112,7 @@ public class CastSettingsActivityTest extends BaseActivityInstrumentationTestCas
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
+		project.getDefaultScene().addSprite(firstSprite);
 
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
