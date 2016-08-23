@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -29,19 +30,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.EditTextImeOverride;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -53,13 +60,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ProjectAdapter extends ArrayAdapter<ProjectData> {
+public class ProjectAdapter extends ArrayAdapter<ProjectData> implements EditTextImeOverride.EditTextImeBackListener {
 	private boolean showDetails;
 	private int selectMode;
 	private Set<Integer> checkedProjects = new TreeSet<Integer>();
 	private OnProjectEditListener onProjectEditListener;
 
-	private static class ViewHolder {
+	public static class ViewHolder {
 		private RelativeLayout background;
 		private CheckBox checkbox;
 		private TextView projectName;
@@ -67,8 +74,9 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		private TextView size;
 		private TextView dateChanged;
 		private View projectDetails;
-		// temporarily removed - because of upcoming release, and bad performance of projectdescription
-		//		public TextView description;
+		private ImageButton showOverview;
+		private View projectOverview;
+		private ProgressBar projectProgressBar;
 	}
 
 	private static LayoutInflater inflater;
@@ -132,23 +140,26 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			holder.size = (TextView) projectView.findViewById(R.id.my_projects_activity_size_of_project_2);
 			holder.dateChanged = (TextView) projectView.findViewById(R.id.my_projects_activity_project_changed_2);
 			holder.projectDetails = projectView.findViewById(R.id.my_projects_activity_list_item_details);
-			// temporarily removed - because of upcoming release, and bad performance of projectdescription
-			//			holder.description = (TextView) projectView.findViewById(R.id.my_projects_activity_description);
+			holder.showOverview = (ImageButton) projectView.findViewById(R.id.my_projects_activity_show_overview);
+			holder.projectOverview = projectView.findViewById(R.id.my_projects_activity_list_item_overview);
+			holder.projectProgressBar = (ProgressBar) projectView.findViewById(R.id.my_projects_activity_list_item_progress_bar);
 			projectView.setTag(holder);
 		} else {
 			holder = (ViewHolder) projectView.getTag();
 		}
 
 		// ------------------------------------------------------------
-		ProjectData projectData = getItem(position);
-		String projectName = projectData.projectName;
+		final ProjectData projectData = getItem(position);
+		final String projectName = projectData.projectName;
 		String sceneName = StorageHandler.getInstance().getFirstSceneName(projectName);
 
 		//set name of project:
 		holder.projectName.setText(projectName);
 
 		// set size of project:
-		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
+		String size = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName)));
+		holder.size.setText(size);
+		((TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_size_content)).setText(size);
 
 		//set last changed:
 		Date projectLastModificationDate = new Date(projectData.lastUsed);
@@ -177,16 +188,30 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		}
 
 		holder.dateChanged.setText(projectLastModificationDateString);
+		((TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_last_modified_content)).setText(projectLastModificationDateString);
 
 		//set project image (threaded):
 		screenshotLoader.loadAndShowScreenshot(projectName, sceneName, false, holder.image);
 
 		if (!showDetails) {
 			holder.projectDetails.setVisibility(View.GONE);
-			holder.projectName.setSingleLine(true);
+			holder.showOverview.setVisibility(View.GONE);
+			holder.projectOverview.setVisibility(View.GONE);
 		} else {
-			holder.projectDetails.setVisibility(View.VISIBLE);
-			holder.projectName.setSingleLine(false);
+			if (!projectData.overviewVisible) {
+				holder.projectDetails.setVisibility(View.VISIBLE);
+			}
+			holder.showOverview.setVisibility(View.VISIBLE);
+		}
+
+		if (projectData.overviewVisible && showDetails) {
+			setProjectOverview(holder, projectData);
+		} else {
+			holder.showOverview.setImageResource(R.drawable.project_list_arrow_down);
+			holder.projectOverview.setVisibility(View.GONE);
+			if (showDetails) {
+				holder.projectDetails.setVisibility(View.VISIBLE);
+			}
 		}
 
 		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -232,6 +257,29 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			}
 		});
 
+		holder.showOverview.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				projectData.overviewVisible = !projectData.overviewVisible;
+				notifyDataSetChanged();
+			}
+		});
+
+		final EditTextImeOverride editDescription = (EditTextImeOverride) holder.projectOverview.findViewById(R.id
+				.my_projects_activity_description_edit);
+		editDescription.setOnEditTextImeBackListener(this, holder, projectData, editDescription);
+		holder.projectOverview.findViewById(R.id.my_projects_activity_edit_description_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				editDescription.setVisibility(View.VISIBLE);
+				holder.projectOverview.findViewById(R.id.my_projects_activity_description_content).setVisibility(View.GONE);
+				editDescription.requestFocus();
+				InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				manager.showSoftInput(editDescription, InputMethodManager.SHOW_IMPLICIT);
+				editDescription.setSelection(editDescription.getText().length());
+			}
+		});
+
 		if (checkedProjects.contains(position)) {
 			holder.checkbox.setChecked(true);
 		} else {
@@ -247,26 +295,80 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			clearCheckedProjects();
 		}
 
-		//set project description:
-
-		// temporarily removed - because of upcoming release, and bad performance of projectdescription
-		//		ProjectManager projectManager = ProjectManager.getInstance();
-		//		String currentProjectName = projectManager.getCurrentProject().getName();
-
-		//		if (projectName.equalsIgnoreCase(currentProjectName)) {
-		//			holder.description.setText(projectManager.getCurrentProject().description);
-		//		} else {
-		//			projectManager.loadProject(projectName, context, false);
-		//			holder.description.setText(projectManager.getCurrentProject().description);
-		//			projectManager.loadProject(currentProjectName, context, false);
-		//		}
-
 		return projectView;
+	}
+
+	@Override
+	public void onImeBack(ViewHolder holder, ProjectData projectData, EditTextImeOverride editText) {
+		if (projectData.project != null) {
+			projectData.project.setDescription(editText.getText().toString());
+			StorageHandler.getInstance().saveProject(projectData.project);
+			((TextView) holder.projectOverview.findViewById(R.id
+					.my_projects_activity_description_content)).setText(editText.getText());
+		}
+		editText.setVisibility(View.GONE);
+		holder.projectOverview.findViewById(R.id.my_projects_activity_description_content).setVisibility(View.VISIBLE);
 	}
 
 	public interface OnProjectEditListener {
 		void onProjectChecked();
 
 		void onProjectEdit(int position);
+	}
+
+	private void setProjectOverview(final ViewHolder holder, final ProjectData projectData) {
+		holder.showOverview.setImageResource(R.drawable.project_list_arrow_up);
+		loadProjectIfNeeded(projectData);
+		TextView authorView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_author_content);
+		TextView screenSizeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_screen_size_content);
+		TextView modeView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_mode_content);
+		TextView remixView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_remix_content);
+		TextView descriptionView = (TextView) holder.projectOverview.findViewById(R.id.my_projects_activity_description_content);
+		EditText descriptionEditView = (EditText) holder.projectOverview.findViewById(R.id.my_projects_activity_description_edit);
+
+		if (projectData.project != null && projectData.project.getXmlHeader() != null) {
+			holder.projectDetails.setVisibility(View.GONE);
+			XmlHeader header = projectData.project.getXmlHeader();
+			String screenSize = header.getVirtualScreenWidth() + "x" + header.getVirtualScreenHeight();
+			screenSizeView.setText(screenSize);
+			if (header.islandscapeMode()) {
+				modeView.setText(getContext().getString(R.string.landscape));
+			} else {
+				modeView.setText(getContext().getString(R.string.portrait));
+			}
+			descriptionView.setText(header.getDescription());
+			descriptionEditView.setText(header.getDescription());
+
+			boolean userHandleNotPresent = header.getUserHandle() == null || header.getUserHandle().trim().equals("");
+			String text = userHandleNotPresent ? getContext().getString(R.string.unknown) : header.getUserHandle();
+			authorView.setText(text);
+			boolean remixOfNotPresent = header.getRemixOf() == null || header.getRemixOf().trim().equals("");
+			text = remixOfNotPresent ? getContext().getString(R.string.nxt_no_sensor) : header.getRemixOf();
+			remixView.setText(text);
+			holder.projectOverview.setVisibility(View.VISIBLE);
+			holder.projectProgressBar.setVisibility(View.GONE);
+		} else {
+			holder.projectProgressBar.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void loadProjectIfNeeded(final ProjectData projectData) {
+		if (projectData.project != null) {
+			return;
+		}
+		final Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				projectData.project = StorageHandler.getInstance().loadProject(projectData.projectName, getContext());
+				((Activity) getContext()).runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						notifyDataSetChanged();
+					}
+				});
+			}
+		};
+		Thread thread = new Thread(runnable);
+		thread.start();
 	}
 }

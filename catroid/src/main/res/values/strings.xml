@@ -79,7 +79,9 @@
     <string name="nothing_to_rename">Nothing to rename</string>
     <string name="unpack_background">Program\'s background will be replaced</string>
     <string name="degrees">degrees</string>
-
+    <string name="landscape">Landscape</string>
+    <string name="portrait">Portrait</string>
+    <string name="unknown">unknown</string>
     <!--  -->
 
 
@@ -291,6 +293,14 @@
     <string name="group">Group</string>
     <string name="backpack_replace_scene_multiple">Scenes already exist in the backpack. Do you want to replace
         them?</string>
+    <!--  -->
+
+
+    <!-- Project overview -->
+    <string name="author">Author:</string>
+    <string name="screen_size">Screen Size:</string>
+    <string name="mode">Mode:</string>
+    <string name="remix_of">Remix of:</string>
     <!--  -->
 
 
