@@ -26,6 +26,12 @@
 
     <item
         tools:ignore="all"
+        android:id="@+id/groups_create"
+        android:showAsAction="never"
+        android:title="@string/groups_create">
+    </item>
+    <item
+        tools:ignore="all"
         android:id="@+id/backpack"
         android:showAsAction="never"
         android:visible="false"

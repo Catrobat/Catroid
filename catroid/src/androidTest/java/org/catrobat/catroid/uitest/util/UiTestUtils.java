@@ -37,6 +37,7 @@ import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -50,6 +51,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewParent;
+import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -70,8 +72,11 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.GroupItemSprite;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -242,12 +247,12 @@ public final class UiTestUtils {
 	static {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
-		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_sprites_list);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_nfctags);
 	}
 	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("sprite1");
+		Sprite firstSprite = new SingleSprite("sprite1");
 		Script scriptOfSprite1 = new StartScript();
 
 		firstSprite.addScript(scriptOfSprite1);
@@ -259,7 +264,7 @@ public final class UiTestUtils {
 		startScript.addBrick(new BroadcastWaitBrick(message));
 		startScript.addBrick(new ChangeVariableBrick(10.0f));
 
-		Sprite secondSprite = new Sprite("sprite2");
+		Sprite secondSprite = new SingleSprite("sprite2");
 		Script scriptOfSprite2 = new StartScript();
 		secondSprite.addScript(scriptOfSprite2);
 		scriptOfSprite2.addBrick(new WaitBrick(300));
@@ -267,7 +272,7 @@ public final class UiTestUtils {
 		scriptOfSprite2.addBrick(new BroadcastBrick(message));
 		project.getDefaultScene().addSprite(secondSprite);
 
-		Sprite thirdSprite = new Sprite("sprite3");
+		Sprite thirdSprite = new SingleSprite("sprite3");
 		Script whenIReceive = new BroadcastScript(message);
 		thirdSprite.addScript(whenIReceive);
 		whenIReceive.addBrick(new ChangeVariableBrick(1000.0f));
@@ -283,7 +288,7 @@ public final class UiTestUtils {
 
 	public static int createSendBroadcastInBroadcastAndWaitProject(String message1, String message2, double degreesToTurn, Sprite secondSprite, Sprite thirdSprite) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("sprite1");
+		Sprite firstSprite = new SingleSprite("sprite1");
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
@@ -317,7 +322,7 @@ public final class UiTestUtils {
 
 	public static SetVariableBrick createSameActionsBroadcastProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("sprite1");
+		Sprite firstSprite = new SingleSprite("sprite1");
 		Script firstScript = new StartScript();
 
 		firstSprite.addScript(firstScript);
@@ -333,7 +338,7 @@ public final class UiTestUtils {
 		startScript.addBrick(new BroadcastWaitBrick(message));
 		startScript.addBrick(endBrick);
 
-		Sprite secondSprite = new Sprite("sprite2");
+		Sprite secondSprite = new SingleSprite("sprite2");
 		Script secondScript = new BroadcastScript(message);
 		secondSprite.addScript(secondScript);
 		IfLogicBeginBrick ifBeginBrickSecondScript = new IfLogicBeginBrick(1);
@@ -345,7 +350,7 @@ public final class UiTestUtils {
 		secondScript.addBrick(ifEndBrickSecondScript);
 		project.getDefaultScene().addSprite(secondSprite);
 
-		Sprite thirdSprite = new Sprite("sprite3");
+		Sprite thirdSprite = new SingleSprite("sprite3");
 		Script thirdScript = new BroadcastScript(message);
 		thirdSprite.addScript(thirdScript);
 		IfLogicBeginBrick ifBeginBrickThirdScript = new IfLogicBeginBrick(1);
@@ -736,7 +741,7 @@ public final class UiTestUtils {
 		}
 
 		solo.sleep(600);
-		openActionMode(solo, solo.getString(R.string.delete), R.id.delete, solo.getCurrentActivity());
+		openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 
 		solo.clickOnCheckBox(1);
 
@@ -883,7 +888,7 @@ public final class UiTestUtils {
 	}
 
 	public static void addSpriteToProject(Project project, String name) {
-		Sprite sprite = new Sprite(name);
+		Sprite sprite = new SingleSprite(name);
 		project.getDefaultScene().addSprite(sprite);
 	}
 
@@ -893,8 +898,8 @@ public final class UiTestUtils {
 		double size = 0.8;
 
 		Project project = new Project(null, projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("second_sprite");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("second_sprite");
 
 		Script testScript = new StartScript();
 
@@ -934,7 +939,7 @@ public final class UiTestUtils {
 		double size = 0.8;
 
 		Project project = new Project(null, projectName);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		Script testScript = new StartScript();
 
@@ -974,7 +979,7 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectNestedLoops() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		Script testScript = new StartScript();
 
@@ -1006,14 +1011,87 @@ public final class UiTestUtils {
 		return brickList;
 	}
 
+	public static List<Brick> createOldTestProjectWithSprites(String oldSpriteProject) {
+		Project project = new Project(null, oldSpriteProject);
+		project.setCatrobatLanguageVersion(0.99f);
+		Sprite firstSprite = new Sprite("cat");
+		Sprite secondSprite = new Sprite("testSprite1");
+		Sprite thirdSprite = new Sprite("third_sprite");
+
+		Script testScript = new StartScript();
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		ArrayList<Brick> brickList = new ArrayList<>();
+		Brick brick = new HideBrick();
+		brickList.add(brick);
+		testScript.addBrick(brick);
+
+		firstSprite.addScript(testScript);
+
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		StorageHandler.getInstance().saveProject(project);
+
+		return brickList;
+	}
+
+	public static List<Brick> createTestProjectWithGroups() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new GroupSprite("second_sprite");
+		Sprite thirdSprite = new GroupItemSprite("third_sprite");
+		Sprite fourthSprite = new GroupSprite("fourth_sprite");
+		Sprite fifthSprite = new GroupItemSprite("fifth_sprite");
+		Sprite sixthSprite = new GroupItemSprite("sixth_sprite");
+		Sprite seventhSprite = new GroupItemSprite("seventh_sprite");
+		Sprite eightSprite = new SingleSprite("eight_sprite");
+
+		Script testScript = new StartScript();
+
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		ArrayList<Brick> brickList = new ArrayList<>();
+		brickList.add(new HideBrick());
+		brickList.add(new ShowBrick());
+		brickList.add(new GoNStepsBackBrick(1));
+		brickList.add(new ComeToFrontBrick());
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(secondSprite);
+		project.getDefaultScene().addSprite(thirdSprite);
+		project.getDefaultScene().addSprite(fourthSprite);
+		project.getDefaultScene().addSprite(fifthSprite);
+		project.getDefaultScene().addSprite(sixthSprite);
+		project.getDefaultScene().addSprite(seventhSprite);
+		project.getDefaultScene().addSprite(eightSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		StorageHandler.getInstance().saveProject(project);
+
+		return brickList;
+	}
+
 	public static List<Brick> createTestProjectWithUserBrick() {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("second_sprite");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("second_sprite");
 
 		Script testScript = new StartScript();
 
@@ -1055,7 +1133,7 @@ public final class UiTestUtils {
 
 	public static void createTestProjectWithNestedUserBrick() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		Script testScript = new StartScript();
 
@@ -1089,7 +1167,7 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectIfBricks() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		Script testScript = new StartScript();
 
@@ -1123,7 +1201,7 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectNestedBricks() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 		Script testScript = new StartScript();
 		ArrayList<Brick> brickList = new ArrayList<>();
 
@@ -1208,7 +1286,7 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectWithEveryBrick() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		Script testScript = new StartScript();
 
@@ -1271,8 +1349,8 @@ public final class UiTestUtils {
 
 	public static List<Brick> createTestProjectWithSpecialBricksForBackPack(String projectName) {
 		Project project = new Project(null, projectName);
-		Sprite firstSprite = new Sprite("cat");
-		Sprite secondSprite = new Sprite("dog");
+		Sprite firstSprite = new SingleSprite("cat");
+		Sprite secondSprite = new SingleSprite("dog");
 
 		Script testScript = new StartScript();
 
@@ -1315,7 +1393,7 @@ public final class UiTestUtils {
 
 	public static void createTestProjectWithTwoScripts() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		Script firstScript = new StartScript();
 
@@ -1349,7 +1427,7 @@ public final class UiTestUtils {
 
 	public static void createEmptyProject() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
@@ -1363,7 +1441,7 @@ public final class UiTestUtils {
 
 	public static void createEmptyProjectWithoutScript() {
 		Project project = new Project(null, PROJECTNAME3);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 
 		project.getDefaultScene().addSprite(firstSprite);
 
@@ -1473,8 +1551,8 @@ public final class UiTestUtils {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(context, projectName);
-		Sprite firstSprite = new Sprite(context.getString(R.string.default_drone_project_name));
-		Sprite secondSprite = new Sprite("second_sprite");
+		Sprite firstSprite = new SingleSprite(context.getString(R.string.default_drone_project_name));
+		Sprite secondSprite = new SingleSprite("second_sprite");
 
 		Script firstSpriteScript = new StartScript();
 
@@ -1679,11 +1757,11 @@ public final class UiTestUtils {
 	 * @param overflowMenuItemName Name of the overflow menu item
 	 * @param menuItemId           ID of an action item (icon)
 	 */
-	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
 
 		solo.sleep(1000);
 		ArrayList<View> views = solo.getCurrentViews();
-		ArrayList<Integer> ids = new ArrayList<Integer>();
+		ArrayList<Integer> ids = new ArrayList<>();
 		for (View view : views) {
 			ids.add(view.getId());
 		}
@@ -1706,6 +1784,19 @@ public final class UiTestUtils {
 		}
 
 		solo.sleep(400);
+	}
+
+	private static void openOrCloseMenu(Solo solo) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			solo.clickOnView(solo.getCurrentViews(ActionMenuView.class).get(0));
+		}
+	}
+
+	public static boolean isActionModeItemPresent(Solo solo, String overflowMenuItemName) {
+		openOrCloseMenu(solo);
+		boolean found = solo.searchText(overflowMenuItemName, 0, false, true);
+		openOrCloseMenu(solo);
+		return found;
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
@@ -1923,7 +2014,7 @@ public final class UiTestUtils {
 
 	public static boolean createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		Project project = new ProjectWithCatrobatLanguageVersion(DEFAULT_TEST_PROJECT_NAME, catrobatLanguageVersion);
-		Sprite firstSprite = new Sprite("cat");
+		Sprite firstSprite = new SingleSprite("cat");
 		Script testScript = new StartScript();
 
 		firstSprite.addScript(testScript);
@@ -2235,7 +2326,7 @@ public final class UiTestUtils {
 		solo.waitForText(buttonText);
 		solo.goBack();
 
-		openActionMode(solo, buttonText, buttonId, activity);
+		openActionMode(solo, buttonText, buttonId);
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
 		for (CheckBox checkBox : checkBoxList) {
 			if (checkBox.isChecked()) {
@@ -2481,7 +2572,7 @@ public final class UiTestUtils {
 		return null;
 	}
 
-	public static void switchToProgrammBackground(Solo solo, String programName, String spriteName) {
+	public static void switchToProgrammesBackground(Solo solo, String programName, String spriteName) {
 		clickOnHomeActionBarButton(solo);
 		solo.clickOnText(solo.getString(R.string.programs));
 		solo.sleep(500);
@@ -2493,13 +2584,19 @@ public final class UiTestUtils {
 		solo.sleep(500);
 	}
 
-	public static void backPackAllItems(Solo solo, Activity activity, String firstTestItemNamePacked, String
-			secondTestItemNamePacked) {
-		openBackPackActionModeWhenEmtpy(solo, activity);
+	public static void selectAllItems(Solo solo) {
 		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
+	}
 
+	public static void checkAllItemsForBackpack(Solo solo, Activity activity) {
+		openBackPackActionModeWhenEmpty(solo);
+		selectAllItems(solo);
+	}
+
+	public static void backpackAllCheckedItems(Solo solo, String firstTestItemNamePacked, String
+			secondTestItemNamePacked) {
 		acceptAndCloseActionMode(solo);
 		assertTrue("Backpack didn't appear", solo.waitForText(solo.getString(R.string.backpack_title)));
 		if (firstTestItemNamePacked != null) {
@@ -2510,8 +2607,14 @@ public final class UiTestUtils {
 		}
 	}
 
-	public static void openBackPackActionMode(Solo solo, Activity activity) {
-		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+	public static void backPackAllItems(Solo solo, Activity activity, String firstTestItemNamePacked, String
+			secondTestItemNamePacked) {
+		checkAllItemsForBackpack(solo, activity);
+		backpackAllCheckedItems(solo, firstTestItemNamePacked, secondTestItemNamePacked);
+	}
+
+	public static void openBackPackActionMode(Solo solo) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack);
 		solo.waitForDialogToOpen();
 		solo.sleep(50);
 		solo.waitForText(solo.getString(R.string.packing));
@@ -2519,8 +2622,8 @@ public final class UiTestUtils {
 		solo.sleep(500);
 	}
 
-	public static void openBackPack(Solo solo, Activity activity) {
-		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+	public static void openBackPack(Solo solo) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack);
 		solo.waitForDialogToOpen();
 		solo.sleep(100);
 		solo.waitForText(solo.getString(R.string.unpack));
@@ -2529,14 +2632,14 @@ public final class UiTestUtils {
 		solo.sleep(500);
 	}
 
-	public static void openBackPackFromEmtpyAdapter(Solo solo, Activity activity) {
-		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+	public static void openBackPackFromEmptyAdapter(Solo solo) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack);
 		solo.waitForDialogToOpen();
 		solo.sleep(300);
 	}
 
-	public static void openBackPackActionModeWhenEmtpy(Solo solo, Activity activity) {
-		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, activity);
+	public static void openBackPackActionModeWhenEmpty(Solo solo) {
+		openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack);
 		solo.sleep(500);
 	}
 
@@ -2545,8 +2648,8 @@ public final class UiTestUtils {
 		return fileToCheck.exists();
 	}
 
-	public static void deleteAllItems(Solo solo, Activity activity) {
-		openActionMode(solo, solo.getString(R.string.delete), R.id.delete, activity);
+	public static void deleteAllItems(Solo solo) {
+		openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.waitForText(selectAll);
 		clickOnText(solo, selectAll);
@@ -2554,6 +2657,7 @@ public final class UiTestUtils {
 		solo.waitForDialogToOpen();
 		if (solo.waitForText(solo.getString(R.string.yes), 1, 800)) {
 			solo.clickOnButton(solo.getString(R.string.yes));
+			solo.waitForDialogToClose();
 		}
 		solo.sleep(300);
 	}

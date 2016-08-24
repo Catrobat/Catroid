@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -61,6 +62,7 @@ import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -70,6 +72,7 @@ import java.util.List;
 
 public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 
+	private static SpriteFactory spriteFactory = new SpriteFactory();
 	private Vector2 backgroundImageScaleVector;
 
 	public DefaultProjectCreatorPhysics() {
@@ -109,27 +112,29 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		Sprite backgroundSprite = defaultPhysicsProject.getDefaultScene().getSpriteList().get(0);
 		backgroundSprite.getLookDataList().add(backgroundLookData);
 
-		Sprite ball = new Sprite("Ball");
-		Sprite leftButton = new Sprite("Left button");
-		Sprite rightButton = new Sprite("Right button");
-		Sprite leftArm = new Sprite("Left arm");
-		Sprite rightArm = new Sprite("Right arm");
+		Sprite ball = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Ball");
+		Sprite leftButton = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left button");
+		Sprite rightButton = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right button");
+		Sprite leftArm = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left arm");
+		Sprite rightArm = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right arm");
 
-		Sprite[] upperBouncers = { new Sprite("Left cat bouncer"), new Sprite("Middle cat bouncer"),
-				new Sprite("Right cat bouncer") };
+		Sprite[] upperBouncers = { spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left cat bouncer"),
+				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Middle cat bouncer"),
+				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right cat bouncer") };
 
-		Sprite[] lowerBouncers = { new Sprite("Left circle bouncer"), new Sprite("Middle circle bouncer"),
-				new Sprite("Right circle bouncer") };
+		Sprite[] lowerBouncers = { spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left circle bouncer"),
+				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Middle circle bouncer"),
+				spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right circle bouncer") };
 
-		Sprite middleBouncer = new Sprite("Cat head bouncer");
-		Sprite leftHardBouncer = new Sprite("Left hard bouncer");
-		Sprite rightHardBouncer = new Sprite("Right hard bouncer");
+		Sprite middleBouncer = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Cat head bouncer");
+		Sprite leftHardBouncer = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left hard bouncer");
+		Sprite rightHardBouncer = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right hard bouncer");
 
-		Sprite leftBottomWall = new Sprite("Left bottom wall");
-		Sprite rightBottomWall = new Sprite("Right bottom wall");
+		Sprite leftBottomWall = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Left bottom wall");
+		Sprite rightBottomWall = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), "Right bottom wall");
 
 		String restartName = "Restart Game";
-		Sprite restart = new Sprite(restartName);
+		Sprite restart = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), restartName);
 
 		final String leftButtonPressed = "Left button pressed";
 		final String rightButtonPressed = "Right button pressed";

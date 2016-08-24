@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -212,9 +213,9 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void addSpriteAndCompareToStandardProject() {
-		Sprite sprite = new Sprite("TestSprite");
+		Sprite sprite = new SingleSprite("TestSprite");
 		defaultProject.getDefaultScene().addSprite(sprite);
-		assertFalse("Failed to recognize that the project is not standard after adding a new sprite",
+		assertFalse("Failed to recognize that the project is not standard after adding a new SingleSprite",
 				Utils.isStandardProject(defaultProject, getContext()));
 		defaultProject.getDefaultScene().removeSprite(sprite);
 		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));

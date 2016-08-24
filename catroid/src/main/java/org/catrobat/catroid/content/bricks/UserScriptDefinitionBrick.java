@@ -60,7 +60,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickListener {
+public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBrick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserScriptDefinitionBrick.class.getSimpleName();
@@ -454,16 +454,16 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 					formula.updateVariableReferences(oldName, newName, context);
 				}
 			}
-			if (brick instanceof ShowTextBrick) {
-				ShowTextBrick showTextBrick = (ShowTextBrick) brick;
-				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((ShowTextBrick) brick).setUserVariableName(newName);
+			if (brick instanceof ShowVariableBrick) {
+				ShowVariableBrick showVariableBrick = (ShowVariableBrick) brick;
+				if (showVariableBrick.getUserVariable().getName().equals(oldName)) {
+					((ShowVariableBrick) brick).getUserVariable().setName(newName);
 				}
 			}
-			if (brick instanceof HideTextBrick) {
-				HideTextBrick showTextBrick = (HideTextBrick) brick;
+			if (brick instanceof HideVariableBrick) {
+				HideVariableBrick showTextBrick = (HideVariableBrick) brick;
 				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((HideTextBrick) brick).setUserVariableName(newName);
+					((HideVariableBrick) brick).getUserVariable().setName(newName);
 				}
 			}
 		}
@@ -488,5 +488,11 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

@@ -40,7 +40,9 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -72,7 +74,7 @@ public class Project implements Serializable {
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			Utils.updateScreenWidthAndHeight(context);
+			UtilUi.updateScreenWidthAndHeight(context);
 		}
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
@@ -96,7 +98,7 @@ public class Project implements Serializable {
 			sceneList.add(new Scene(context, String.format(context.getString(R.string.default_scene_name), 1),
 					this));
 		}
-		xmlHeader.scenesEnabled = Constants.SCENES_ENABLED_TAG;
+		xmlHeader.scenesEnabled = true;
 	}
 
 	public Project(Context context, String name, boolean landscapeMode) {
@@ -215,6 +217,14 @@ public class Project implements Serializable {
 
 	public void setName(String name) {
 		xmlHeader.setProgramName(name);
+	}
+
+	public List<Sprite> getSpriteListWithClones() {
+		if (StageActivity.stageListener != null) {
+			return StageActivity.stageListener.getSpritesFromStage();
+		} else { // e.g. for ActionTests there is no Stage, only use sprites from Project
+			return getDefaultScene().getSpriteList();
+		}
 	}
 
 	public String getName() {
@@ -377,5 +387,11 @@ public class Project implements Serializable {
 	//CAST
 	public boolean isCastProject() {
 		return xmlHeader.isCastProject();
+	}
+
+	public void refreshSpriteReferences() {
+		for (Scene scene : sceneList) {
+			scene.refreshSpriteReferences();
+		}
 	}
 }

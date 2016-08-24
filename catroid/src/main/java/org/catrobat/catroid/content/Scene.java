@@ -33,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -88,10 +89,10 @@ public class Scene implements Serializable {
 
 		Sprite background;
 		try {
-			background = new Sprite(context.getString(R.string.background));
+			background = new SingleSprite(context.getString(R.string.background));
 		} catch (Resources.NotFoundException e) {
 			//Because in test project we can't find the string
-			background = new Sprite("Background");
+			background = new SingleSprite("Background");
 		}
 		background.look.setZIndex(0);
 		addSprite(background);
@@ -106,6 +107,13 @@ public class Scene implements Serializable {
 			return;
 		}
 		spriteList.add(sprite);
+	}
+
+	private synchronized void addSprite(int index, Sprite sprite) {
+		if (spriteList.contains(sprite)) {
+			return;
+		}
+		spriteList.add(index, sprite);
 	}
 
 	public synchronized boolean removeSprite(Sprite sprite) {
@@ -227,6 +235,15 @@ public class Scene implements Serializable {
 
 	public List<Sprite> getSpriteList() {
 		return spriteList;
+	}
+
+	public void removeAllClones() {
+		dataContainer.removeVariablesOfClones();
+		for (Sprite s : new ArrayList<>(spriteList)) {
+			if (s.isClone) {
+				spriteList.remove(s);
+			}
+		}
 	}
 
 	public synchronized void setSpriteList(List<Sprite> spriteList) {
@@ -466,5 +483,40 @@ public class Scene implements Serializable {
 				}
 			}
 		}
+	}
+
+	public void refreshSpriteReferences() {
+		for (Brick brick : getAllBricks()) {
+			if (!(brick instanceof PointToBrick)) {
+				continue;
+			}
+			PointToBrick pointToBrick = (PointToBrick) brick;
+			Sprite pointedSprite = pointToBrick.getPointedObject();
+			if (pointedSprite == null) {
+				continue;
+			}
+
+			Sprite newSprite = getSpriteBySpriteName(pointToBrick.getPointedObject().getName());
+			pointToBrick.setPointedObject(newSprite);
+		}
+	}
+
+	public List<Brick> getAllBricks() {
+		List<Brick> result = new ArrayList<>();
+		for (Sprite sprite : spriteList) {
+			result.addAll(sprite.getAllBricks());
+		}
+		return result;
+	}
+
+	public void convertSpritesToSingleSprites() {
+		for (int index = 0; index < spriteList.size(); index++) {
+			Sprite sprite = spriteList.get(index);
+			sprite.setConvertToSingleSprite(true);
+			Sprite convertedSprite = sprite.shallowClone();
+			removeSprite(sprite);
+			addSprite(index, convertedSprite);
+		}
+		project.refreshSpriteReferences();
 	}
 }

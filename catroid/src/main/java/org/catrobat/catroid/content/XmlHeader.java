@@ -26,7 +26,6 @@ import android.text.TextUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenModes;
 
 import java.io.Serializable;
@@ -50,7 +49,7 @@ public class XmlHeader implements Serializable {
 	private boolean landscapeMode;
 	private boolean isCastProject = false;
 	@SuppressWarnings("unused")
-	public String scenesEnabled = Constants.SCENES_ENABLED_TAG;
+	public boolean scenesEnabled = true;
 
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
@@ -112,6 +111,10 @@ public class XmlHeader implements Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public String getUserHandle() {
+		return userHandle;
 	}
 
 	public void setDescription(String description) {

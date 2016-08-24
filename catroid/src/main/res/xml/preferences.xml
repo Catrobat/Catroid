@@ -21,7 +21,9 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.catrobat.catroid">
 
     <PreferenceScreen
         android:key="setting_mindstorms_nxt_bricks"
@@ -59,6 +61,14 @@
                 android:summary="%s"/>
         </PreferenceCategory>
 
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:title="@string/preference_title_scratch_converter"
+        android:summary="@string/preference_description_scratch_converter"
+        android:id="@+id/preference_button_scratch_converter"
+        android:key="preference_button_scratch_converter">
+        <intent android:action=".ui.ScratchConverterActivity" />
     </PreferenceScreen>
 
     <PreferenceScreen

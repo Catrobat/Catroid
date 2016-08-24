@@ -218,7 +218,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testDeleteAllButOneScenesActionMode() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnText(SCENE_NAME);
 		solo.clickOnText(SCENE_NAME2);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -233,7 +233,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testDeleteAllScenesActionMode() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnText(SCENE_NAME);
 		solo.clickOnText(SCENE_NAME2);
 		solo.clickOnText(SCENE_NAME3);
@@ -261,7 +261,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 		solo.sleep(TIME_TO_WAIT);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -288,7 +288,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -302,7 +302,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack);
 		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
@@ -316,7 +316,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.rename), R.id.rename, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.rename), R.id.rename);
 		assertFalse("Select All is shown", solo.searchText(selectAll, 1, false, true));
 
 		solo.clickOnCheckBox(0);
@@ -325,16 +325,16 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 	public void testEmptyActionModeDialogsInBackPack() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SCENE_NAME, SCENE_NAME2);
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to delete dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_delete)));
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose();
 
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking);
 		solo.waitForDialogToOpen();
 		assertTrue("Nothing to unpack dialog not shown", solo.waitForText(solo.getString(R.string
 				.nothing_to_unpack)));
@@ -373,7 +373,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Scene wasn't unpacked!", solo.waitForText(SCENE_NAME_UNPACKED, 0, TIME_TO_WAIT));
 		deleteSprite(SCENE_NAME2);
 		solo.sleep(TIME_TO_WAIT);
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 
 		assertTrue("Backpack is empty!", solo.searchText(backpackTitle));
 		assertTrue("Scene wasn't kept in backpack!", solo.waitForText(SCENE_NAME, 0, TIME_TO_WAIT));
@@ -391,7 +391,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		deleteSprite(SCENE_NAME2);
 
 		solo.sleep(TIME_TO_WAIT);
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 
 		clickOnSingleActionModeItem(SCENE_NAME2, unpack, R.id.unpacking);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -444,7 +444,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnSingleActionModeItem(SCENE_NAME, unpack, R.id.unpacking);
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
@@ -453,7 +453,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testBackPackActionModeCheckingAndTitle() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -498,7 +498,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testBackPackActionModeIfNothingSelected() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		int expectedNumberOfScenes = ProjectManager.getInstance().getCurrentProject().getSceneList().size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
@@ -506,7 +506,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("ActionMode didn't disappear", solo.waitForText(backpack, 1, TIME_TO_WAIT, false, true));
 		checkIfNumberOfScenesIsEqual(expectedNumberOfScenes);
 
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		solo.goBack();
@@ -515,7 +515,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testBackPackActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(0);
@@ -530,7 +530,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testBackPackSelectAll() {
-		UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+		UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		solo.waitForActivity("ProjectActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
@@ -572,7 +572,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		int oldCount = adapter.getCount();
 		List<Scene> backPackSceneList = BackPackListManager.getInstance().getBackPackedScenes();
 
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 
 		int newCount = adapter.getCount();
 		solo.sleep(500);
@@ -597,9 +597,9 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnText(UiTestUtils.PROJECTNAME1);
-		UiTestUtils.openBackPack(solo, getActivity());
+		UiTestUtils.openBackPack(solo);
 
-		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking, getActivity());
+		UiTestUtils.openActionMode(solo, unpack, R.id.unpacking);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -608,7 +608,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("scene wasn't unpacked, but should be!", solo.waitForText(SCENE_NAME, 1,
 				1000));
 		assertTrue("Scene wasn't unpacked!", solo.waitForText(SCENE_NAME2, 1, 1000));
-		UiTestUtils.deleteAllItems(solo, getActivity());
+		UiTestUtils.deleteAllItems(solo);
 		assertFalse("Scene wasn't deleted!", solo.waitForText(SCENE_NAME, 1, 1000));
 		assertFalse("Scene wasn't deleted!", solo.waitForText(SCENE_NAME2, 1, 1000));
 	}
@@ -617,7 +617,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		UiTestUtils.backPackAllItems(solo, getActivity(), SCENE_NAME, SCENE_NAME2);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -663,7 +663,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 	public void testBackPackDeleteActionModeIfNothingSelected() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SCENE_NAME, SCENE_NAME2);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		int expectedNumberOfScenes = BackPackListManager.getInstance().getBackPackedScenes().size();
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
@@ -672,7 +672,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 1, TIME_TO_WAIT, false, true));
 		checkIfNumberOfScenesIsEqual(expectedNumberOfScenes);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 		checkIfCheckboxesAreCorrectlyChecked(false, false, false);
 		solo.goBack();
@@ -682,7 +682,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 	public void testBackPackDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SCENE_NAME, SCENE_NAME2);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -696,7 +696,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 
 	public void testBackPackDeleteSelectAll() {
 		UiTestUtils.backPackAllItems(solo, getActivity(), SCENE_NAME, SCENE_NAME2);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		solo.waitForActivity("BackPackActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
@@ -743,7 +743,7 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		UiTestUtils.openBackPackActionMode(solo, getActivity());
+		UiTestUtils.openBackPackActionMode(solo);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -786,16 +786,16 @@ public class ScenesListFragmentTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	private void clickOnSingleActionModeItem(String spriteName, String menuItemName, int menuId) {
-		UiTestUtils.openActionMode(solo, menuItemName, menuId, getActivity());
+		UiTestUtils.openActionMode(solo, menuItemName, menuId);
 		solo.clickOnText(spriteName);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 	}
 
 	private void backPackItem(String sceneName) {
 		if (BackPackListManager.getInstance().getBackPackedScenes().size() == 0) {
-			UiTestUtils.openBackPackActionModeWhenEmtpy(solo, getActivity());
+			UiTestUtils.openBackPackActionModeWhenEmpty(solo);
 		} else {
-			UiTestUtils.openBackPackActionMode(solo, getActivity());
+			UiTestUtils.openBackPackActionMode(solo);
 		}
 		solo.clickOnText(sceneName);
 		UiTestUtils.acceptAndCloseActionMode(solo);

@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 
 import java.io.File;
 
@@ -47,7 +47,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.updateScreenWidthAndHeight(getContext());
+		UtilUi.updateScreenWidthAndHeight(getContext());
 		projectManager = ProjectManager.getInstance();
 	}
 

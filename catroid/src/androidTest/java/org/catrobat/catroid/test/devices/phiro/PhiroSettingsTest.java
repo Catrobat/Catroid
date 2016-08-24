@@ -28,6 +28,7 @@ import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
@@ -78,7 +79,7 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 
 	private void createProjectPhiro() {
 		Project projectPhiro = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("Phiro");
+		Sprite sprite = new SingleSprite("Phiro");
 		StartScript startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
 				Sensors.PHIRO_BOTTOM_LEFT.name(), null)));

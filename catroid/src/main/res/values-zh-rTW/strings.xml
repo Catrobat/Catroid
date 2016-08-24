@@ -956,9 +956,9 @@
   <string name="add_line_break">增加斷行</string>
   <string name="edit_variable">編輯變數</string>
   <string name="variable_hint">變數名稱</string>
-  <string name="brick_show_text_var">顯示變數</string>
-  <string name="brick_show_text_pos">"at "</string>
-  <string name="brick_hide_text_var">隱藏變數</string>
+  <string name="brick_show_variable">顯示變數</string>
+  <string name="brick_show_variable_position">"at "</string>
+  <string name="brick_hide_variable">隱藏變數</string>
   <!-- User Bricks strings -->
   <string name="define">自定義</string>
   <string name="new_user_brick">新程式塊</string>

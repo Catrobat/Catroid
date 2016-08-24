@@ -26,6 +26,7 @@ package org.catrobat.catroid.uitest.stage;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
@@ -74,7 +75,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 	}
 
 	private void createSingleTestProject() {
-		Sprite spriteNormal = new Sprite("testSingleSpeech");
+		Sprite spriteNormal = new SingleSprite("testSingleSpeech");
 
 		Script startScriptNormal = new StartScript();
 		startScriptNormal.addBrick(new SpeakBrick(testText));
@@ -90,7 +91,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 	}
 
 	private void createMultipleSpeechTestProject() {
-		Sprite spriteMultiple = new Sprite("testMultipleSpeech");
+		Sprite spriteMultiple = new SingleSprite("testMultipleSpeech");
 
 		Script startScriptMultiple = new StartScript();
 		startScriptMultiple.addBrick(new SpeakBrick(anotherLongerText));

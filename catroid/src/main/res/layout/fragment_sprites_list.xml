@@ -23,49 +23,15 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_sound"
+    android:id="@+id/fragment_sprites_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:id="@+id/fragment_sprites_list_backpack_text_heading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/actionbar_title_color"
-            android:textSize="80sp" />
-
-        <TextView
-            android:id="@+id/fragment_sprites_list_backpack_text_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_sprites_list_backpack_text_heading"
-            android:gravity="center"
-            android:paddingTop="10dp"
-            android:textColor="@color/actionbar_title_color"
-            android:textSize="30sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <include layout="@layout/activity_project_scenes_headline" />
-
-        <org.catrobat.catroid.ui.DynamicListView
-            android:id="@android:id/list"
-            style="@style/ListViewShadowed"
+        <org.catrobat.catroid.ui.dynamiclistview.DynamicExpandableListView
+            android:id="@+id/fragment_sprites_list_listview"
+            android:cacheColorHint="#00000000"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/sceneList_headline"/>
-
-    </RelativeLayout>
+            android:groupIndicator="@null" />
 
 </FrameLayout>

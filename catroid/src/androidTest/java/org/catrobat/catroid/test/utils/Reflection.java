@@ -32,6 +32,14 @@ public final class Reflection {
 		throw new AssertionError();
 	}
 
+	public static Object getPrivateFieldOfBaseClass(Object object, String fieldName) {
+		if (object == null) {
+			throw new IllegalArgumentException("Object is null");
+		}
+
+		return Reflection.getPrivateField(object.getClass().getSuperclass(), object, fieldName);
+	}
+
 	public static Object getPrivateField(Object object, String fieldName) {
 		if (object == null) {
 			throw new IllegalArgumentException("Object is null");

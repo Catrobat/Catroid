@@ -28,6 +28,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -39,7 +40,7 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 
 	private final CategoryBricksFactory factory = new CategoryBricksFactory();
 	private Sprite background;
-	private Sprite sprite = new Sprite("newSprite");
+	private Sprite sprite = new SingleSprite("newSprite");
 	private Context context = getContext();
 
 	@Override
@@ -56,34 +57,42 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 	}
 
 	public void testEventBrick() {
-		final int expectedBrickCount = 7;
+		final int expectedBrickCount = 9;
 		checkBrickCountInCategory(R.string.category_event, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_event, sprite, expectedBrickCount);
 	}
 
 	public void testControlBricks() {
-		final int expectedBrickCount = 10;
+		final int expectedBrickCount = 14;
 		checkBrickCountInCategory(R.string.category_control, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_control, sprite, expectedBrickCount);
 	}
 
 	public void testMotionBricks() {
-		final int expectedBackgroundBrickCount = 20;
+		final int expectedBackgroundBrickCount = 21;
 		checkBrickCountInCategory(R.string.category_motion, background, expectedBackgroundBrickCount);
-		final int expectedSpriteBrickCount = 23;
+		final int expectedSpriteBrickCount = 24;
 		checkBrickCountInCategory(R.string.category_motion, sprite, expectedSpriteBrickCount);
 	}
 
 	public void testSoundBricks() {
-		final int expectedBrickCount = 5;
+		final int expectedBrickCount = 7;
 		checkBrickCountInCategory(R.string.category_sound, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_sound, sprite, expectedBrickCount);
 	}
 
 	public void testLooksBricks() {
-		final int expectedBrickCount = 18;
-		checkBrickCountInCategory(R.string.category_looks, background, expectedBrickCount);
+		final int expectedBackgroundBrickCount = 20;
+		checkBrickCountInCategory(R.string.category_looks, background, expectedBackgroundBrickCount);
+		final int expectedBrickCount = 25;
 		checkBrickCountInCategory(R.string.category_looks, sprite, expectedBrickCount);
+	}
+
+	public void testPenBricks() {
+		final int expectedBackgroundBrickCount = 1;
+		checkBrickCountInCategory(R.string.category_pen, background, expectedBackgroundBrickCount);
+		final int expectedSpriteBrickCount = 6;
+		checkBrickCountInCategory(R.string.category_pen, sprite, expectedSpriteBrickCount);
 	}
 
 	public void testDataBricks() {

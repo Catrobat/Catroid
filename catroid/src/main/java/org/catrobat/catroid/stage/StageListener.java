@@ -39,6 +39,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -58,6 +59,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
@@ -66,6 +68,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -83,6 +86,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -134,8 +138,11 @@ public class StageListener implements ApplicationListener {
 	private BitmapFont font;
 	private Passepartout passepartout;
 	private Viewport viewPort;
+	public ShapeRenderer shapeRenderer;
+	private PenActor penActor;
 
 	private List<Sprite> sprites;
+	private HashSet<Sprite> clonedSprites;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -165,6 +172,8 @@ public class StageListener implements ApplicationListener {
 
 	private InputListener inputListener = null;
 
+	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
+
 	StageListener() {
 	}
 
@@ -175,12 +184,15 @@ public class StageListener implements ApplicationListener {
 		font.getData().setScale(1.2f);
 		deltaActionTimeDivisor = 10f;
 
+		shapeRenderer = new ShapeRenderer();
+
 		project = ProjectManager.getInstance().getCurrentProject();
 		scene = ProjectManager.getInstance().getSceneToPlay();
 		pathForSceneScreenshot = Utils.buildScenePath(project.getName(), scene.getName()) + "/";
 
 		virtualWidth = project.getXmlHeader().virtualScreenWidth;
 		virtualHeight = project.getXmlHeader().virtualScreenHeight;
+
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
@@ -197,14 +209,20 @@ public class StageListener implements ApplicationListener {
 
 		physicsWorld = scene.resetPhysicsWorld();
 
-		sprites = scene.getSpriteList();
+		clonedSprites = new HashSet<>();
+		sprites = new ArrayList<>(scene.getSpriteList());
+		boolean addPenActor = true;
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
+			if (addPenActor) {
+				penActor = new PenActor();
+				stage.addActor(penActor);
+				addPenActor = false;
+			}
 			sprite.resume();
 		}
-
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
 				maximizeViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
@@ -225,6 +243,49 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME) || scene
 					.screenshotExists(SCREENSHOT_AUTOMATIC_FILE_NAME) || scene.screenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
+		}
+	}
+
+	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
+		Sprite copy = cloneMe.cloneForCloneBrick();
+		copy.resetSprite();
+		copy.look.createBrightnessContrastHueShader();
+		stage.addActor(copy.look);
+		copy.resume();
+		sprites.add(copy);
+		clonedSprites.add(copy);
+
+		Map<String, List<String>> scriptActions = new HashMap<>();
+		copy.createStartScriptActionSequenceAndPutToMap(scriptActions);
+		precomputeActionsForBroadcastEvents(scriptActions);
+		if (!copy.getLookDataList().isEmpty()) {
+			copy.look.setLookData(copy.getLookDataList().get(0));
+		}
+
+		copy.createWhenClonedAction();
+	}
+
+	public void removeClonedSpriteFromStage(Sprite sprite) {
+		if (!sprite.isClone) {
+			return;
+		}
+
+		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
+		DataContainer userVariables = currentScene.getDataContainer();
+		userVariables.removeVariableListForSprite(sprite);
+
+		BroadcastHandler.getScriptSpriteMap().remove(sprite);
+
+		sprite.pause();
+		sprite.look.setLookVisible(false);
+		sprite.look.remove();
+		sprites.remove(sprite);
+		clonedSprites.remove(sprite);
+	}
+
+	private void disposeClonedSprites() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			scene.removeAllClones();
 		}
 	}
 
@@ -334,6 +395,7 @@ public class StageListener implements ApplicationListener {
 		FlashUtil.reset();
 		VibratorUtil.reset();
 		TouchUtil.reset();
+		BackgroundWaitHandler.reset();
 
 		reloadProject = true;
 	}
@@ -397,11 +459,18 @@ public class StageListener implements ApplicationListener {
 
 			Sprite sprite;
 
+			boolean addPenActor = true;
+
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastHueShader();
 				stage.addActor(sprite.look);
+				if (addPenActor) {
+					penActor = new PenActor();
+					stage.addActor(penActor);
+					addPenActor = false;
+				}
 				sprite.pause();
 			}
 			stage.addActor(passepartout);
@@ -418,6 +487,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		batch.setProjectionMatrix(camera.combined);
+		shapeRenderer.setProjectionMatrix(camera.combined);
 
 		if (scene.firstStart) {
 			int spriteSize = sprites.size();
@@ -629,6 +699,8 @@ public class StageListener implements ApplicationListener {
 		font.dispose();
 		axes.dispose();
 		disposeTextures();
+		Log.e(TAG, "dispose");
+		disposeClonedSprites();
 	}
 
 	public boolean makeManualScreenshot() {
@@ -711,6 +783,10 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	public void clearBackground() {
+		penActor.reset();
+	}
+
 	private void initScreenMode() {
 		switch (project.getScreenMode()) {
 			case STRETCH:
@@ -787,6 +863,22 @@ public class StageListener implements ApplicationListener {
 		look.remove();
 	}
 
+	public void putBubbleActor(Sprite sprite, ShowBubbleActor actor) {
+		bubbleActorMap.put(sprite, actor);
+	}
+
+	public void removeBubbleActorForSprite(Sprite sprite) {
+		bubbleActorMap.remove(sprite);
+	}
+
+	public ShowBubbleActor getBubbleActorForSprite(Sprite sprite) {
+		return bubbleActorMap.get(sprite);
+	}
+
+	public List<Sprite> getSpritesFromStage() {
+		return sprites;
+	}
+
 	private class StageBackup {
 		public Stage stage;
 		public boolean paused;
@@ -804,6 +896,8 @@ public class StageListener implements ApplicationListener {
 		public boolean axesOn = false;
 		public float deltaActionTimeDivisor;
 		public boolean cameraRunning;
+		public Map<Sprite, ShowBubbleActor> bubbleActorMap;
+		public PenActor penActor;
 
 		public StageBackup() {
 		}
@@ -832,8 +926,9 @@ public class StageListener implements ApplicationListener {
 		backup.cameraRunning = CameraManager.getInstance().isCameraActive();
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().pauseForScene();
-			//CameraManager.getInstance().releaseCamera();
 		}
+		backup.bubbleActorMap = bubbleActorMap;
+		backup.penActor = penActor;
 		return backup;
 	}
 
@@ -863,5 +958,7 @@ public class StageListener implements ApplicationListener {
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		bubbleActorMap = backup.bubbleActorMap;
+		penActor = backup.penActor;
 	}
 }

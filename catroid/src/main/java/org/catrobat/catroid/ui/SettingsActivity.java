@@ -47,6 +47,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_SCRATCH_CONVERTER = "preference_button_scratch_converter";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -92,6 +93,12 @@ public class SettingsActivity extends PreferenceActivity {
 			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
 			legoNxtPreference.setEnabled(false);
 			screen.removePreference(legoNxtPreference);
+		}
+
+		if (!BuildConfig.FEATURE_SCRATCH_CONVERTER_ENABLED) {
+			PreferenceScreen scratchPreference = (PreferenceScreen) findPreference(SETTINGS_SCRATCH_CONVERTER);
+			scratchPreference.setEnabled(false);
+			screen.removePreference(scratchPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {

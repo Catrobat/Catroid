@@ -44,7 +44,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	public void testDownloadUtil() {
 		try {
-			DownloadUtil.getInstance().startDownload(null, null, "projectSave");
+			DownloadUtil.getInstance().startDownload(null, null, "projectSave", null, false);
 		} catch (Exception expected) {
 			// Exception thrown because intent could not be started - we won't test the intent here
 		}
@@ -52,7 +52,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 				Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase("projectSave"));
 		assertTrue("Program should be in download queue",
 				Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase("PrOJEcTsAVE"));
-		DownloadUtil.getInstance().downloadFinished("projectSave");
+		DownloadUtil.getInstance().downloadFinished("projectSave", null);
 		assertFalse("Program shouldn't be in download queue anymore",
 				Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase("projectSave"));
 		assertFalse("Program shouldn't be in download queue anymore",

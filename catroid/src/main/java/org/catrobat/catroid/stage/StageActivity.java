@@ -53,6 +53,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
@@ -65,7 +66,7 @@ import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.ArrayList;
@@ -85,6 +86,8 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
 
+	private static int numberOfSpritesCloned;
+
 	public static Handler messageHandler;
 
 	AndroidApplicationConfiguration configuration = null;
@@ -94,6 +97,7 @@ public class StageActivity extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate()");
 
+		numberOfSpritesCloned = 0;
 		setupAskHandler();
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
@@ -143,6 +147,8 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus = new StageAudioFocus(this);
 
 		CameraManager.getInstance().setStageActivity(this);
+
+		BackgroundWaitHandler.reset();
 	}
 
 	private void setupAskHandler() {
@@ -323,7 +329,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void calculateScreenSizes() {
-		Utils.updateScreenWidthAndHeight(getContext());
+		UtilUi.updateScreenWidthAndHeight(getContext());
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
@@ -439,5 +445,9 @@ public class StageActivity extends AndroidApplication {
 				}
 			}
 		});
+	}
+
+	public static int getAndIncrementNumberOfClonedSprites() {
+		return ++numberOfSpritesCloned;
 	}
 }

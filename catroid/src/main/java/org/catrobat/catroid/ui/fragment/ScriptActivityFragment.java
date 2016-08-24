@@ -25,7 +25,7 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.ListFragment;
 import android.view.View;
 
-public abstract class ScriptActivityFragment extends ListFragment {
+public abstract class ScriptActivityFragment extends ListFragment implements ListItemActionsInterface {
 
 	protected boolean actionModeActive = false;
 
@@ -47,6 +47,8 @@ public abstract class ScriptActivityFragment extends ListFragment {
 
 	public abstract void startCopyActionMode();
 
+	public abstract void startCommentOutActionMode();
+
 	public abstract void startRenameActionMode();
 
 	public abstract void startDeleteActionMode();
@@ -57,7 +59,7 @@ public abstract class ScriptActivityFragment extends ListFragment {
 
 	public abstract void handleCheckBoxClick(View view);
 
-	protected abstract void showRenameDialog();
+	public abstract void showRenameDialog();
 
-	protected abstract void showDeleteDialog();
+	public abstract void showDeleteDialog();
 }

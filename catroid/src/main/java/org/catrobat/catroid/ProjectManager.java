@@ -82,6 +82,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Scene sceneToPlay;
 	private Script currentScript;
 	private Sprite currentSprite;
+	private Sprite previousSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronousTask = true;
 	private boolean comingFromScriptFragmentToSoundFragment;
@@ -223,6 +224,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.991f);
 			}
 			if (project.getCatrobatLanguageVersion() == 0.991f) {
+				//With the introduction of grouping there are several Sprite-classes
+				convertSpritesToSingleSprites();
 				project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 			}
 //			insert further conversions here
@@ -257,6 +260,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 			currentScene = project.getDefaultScene();
 			sceneToPlay = currentScene;
+		}
+	}
+
+	private void convertSpritesToSingleSprites() {
+		for (Scene scene : project.getSceneList()) {
+			scene.convertSpritesToSingleSprites();
 		}
 	}
 
@@ -478,7 +487,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
+		previousSprite = currentSprite;
 		currentSprite = sprite;
+	}
+
+	public Sprite getPreviousSprite() {
+		return previousSprite;
 	}
 
 	public Script getCurrentScript() {

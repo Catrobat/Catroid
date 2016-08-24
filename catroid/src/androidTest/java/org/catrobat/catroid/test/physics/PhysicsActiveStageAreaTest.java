@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.physics;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -120,7 +120,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 				rectangle8192x8192FileName, rectangle8192x8192ResID, getInstrumentation().getContext(),
 				TestUtils.TYPE_IMAGE_FILE);
 
-		sprite = new Sprite("TestSprite");
+		sprite = new SingleSprite("TestSprite");
 		sprite.look = new PhysicsLook(sprite, physicsWorld);
 		sprite.setActionFactory(new ActionPhysicsFactory());
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle8192x8192File);

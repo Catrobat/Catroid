@@ -155,6 +155,7 @@ public class BrickCategoryFragment extends ListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
+		categories.add(inflater.inflate(R.layout.brick_category_pen, null));
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
 		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {

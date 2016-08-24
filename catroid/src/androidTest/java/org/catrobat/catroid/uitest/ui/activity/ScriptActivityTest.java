@@ -92,7 +92,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		checkMainMenuButton();
 
 		UiTestUtils.getIntoSoundsFromMainMenu(solo);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sprites_list);
 
 		checkMainMenuButton();
 
@@ -145,7 +145,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.sounds));
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sprites_list);
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();

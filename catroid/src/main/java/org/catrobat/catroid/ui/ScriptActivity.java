@@ -323,6 +323,10 @@ public class ScriptActivity extends BaseActivity {
 				currentFragment.startCopyActionMode();
 				break;
 
+			case R.id.comment_in_out:
+				currentFragment.startCommentOutActionMode();
+				break;
+
 			case R.id.cut:
 				break;
 
@@ -859,6 +863,10 @@ public class ScriptActivity extends BaseActivity {
 		this.switchToScriptFragment = switchToScriptFragment;
 	}
 
+	public void switchFromLookToScriptFragment() {
+		LookController.getInstance().switchToScriptFragment(lookFragment, this);
+	}
+
 	public void showEmptyActionModeDialog(String actionMode) {
 		@SuppressLint("InflateParams")
 		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_action_mode_empty, null);
@@ -872,6 +880,8 @@ public class ScriptActivity extends BaseActivity {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_copy));
 		} else if (actionMode.equals(getString(R.string.rename))) {
 			actionModeEmptyText.setText(getString(R.string.nothing_to_rename));
+		} else if (actionMode.equals(getString(R.string.comment_in_out))) {
+			actionModeEmptyText.setText(getString(R.string.comment_in_out_impossible));
 		}
 
 		AlertDialog actionModeEmptyDialog = new AlertDialog.Builder(this).setView(dialogView)

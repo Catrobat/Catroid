@@ -27,6 +27,7 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -174,13 +175,13 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 	private void createProject() {
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 
-		spriteList.add(new Sprite("background"));
-		spriteList.add(new Sprite("sprite1"));
-		spriteList.add(new Sprite("sprite2"));
-		spriteList.add(new Sprite("sprite3"));
-		spriteList.add(new Sprite("sprite4"));
+		spriteList.add(new SingleSprite("background"));
+		spriteList.add(new SingleSprite("sprite1"));
+		spriteList.add(new SingleSprite("sprite2"));
+		spriteList.add(new SingleSprite("sprite3"));
+		spriteList.add(new SingleSprite("sprite4"));
 
-		sprite = new Sprite("sprite5");
+		sprite = new SingleSprite("sprite5");
 		StartScript startScript = new StartScript();
 
 		SetXBrick setXBrick = new SetXBrick((int) SPRITE_X_POSITION);

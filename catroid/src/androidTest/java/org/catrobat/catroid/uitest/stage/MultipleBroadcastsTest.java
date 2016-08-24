@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.stage;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -76,7 +77,7 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 	private void createProject() {
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 
-		sprite1 = new Sprite("sprite1");
+		sprite1 = new SingleSprite("sprite1");
 		StartScript startScript1 = new StartScript();
 		BroadcastBrick broadcastBrick1 = new BroadcastBrick(broadcastMessage);
 		startScript1.addBrick(broadcastBrick1);
@@ -87,7 +88,7 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 		sprite1.addScript(broadcastScript1);
 		spriteList.add(sprite1);
 
-		sprite2 = new Sprite("sprite2");
+		sprite2 = new SingleSprite("sprite2");
 		StartScript startScript2 = new StartScript();
 		BroadcastBrick broadcastBrick2 = new BroadcastBrick(broadcastMessage);
 		startScript2.addBrick(broadcastBrick2);
@@ -98,7 +99,7 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 		sprite2.addScript(broadcastScript2);
 		spriteList.add(sprite2);
 
-		sprite3 = new Sprite("sprite3");
+		sprite3 = new SingleSprite("sprite3");
 		StartScript startScript3 = new StartScript();
 		BroadcastBrick broadcastBrick3 = new BroadcastBrick(broadcastMessage);
 		startScript3.addBrick(broadcastBrick3);
@@ -109,7 +110,7 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 		sprite3.addScript(broadcastScript3);
 		spriteList.add(sprite3);
 
-		sprite4 = new Sprite("sprite4");
+		sprite4 = new SingleSprite("sprite4");
 		StartScript startScript4 = new StartScript();
 		BroadcastBrick broadcastBrick4 = new BroadcastBrick(broadcastMessage);
 		startScript4.addBrick(broadcastBrick4);

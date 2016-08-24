@@ -53,7 +53,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CapitalizedTextView;
-import org.catrobat.catroid.ui.DynamicListView;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SceneAdapter;
@@ -61,6 +60,8 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSceneDialog;
+import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -101,7 +102,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View sceneListFragment = inflater.inflate(R.layout.fragment_sprites_list, container, false);
+		View sceneListFragment = inflater.inflate(R.layout.fragment_scenes_list, container, false);
 		sceneListFragment.findViewById(R.id.sceneList_headline).setVisibility(View.VISIBLE);
 		return sceneListFragment;
 	}
@@ -262,6 +263,11 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	}
 
 	@Override
+	public void startCommentOutActionMode() {
+		// not possible here
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		startActionMode(renameModeCallBack, true);
 	}
@@ -340,7 +346,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	}
 
 	@Override
-	protected void showDeleteDialog() {
+	public void showDeleteDialog() {
 	}
 
 	private void showConfirmDeleteDialog() {
@@ -458,7 +464,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 
 	private void addSelectAllActionModeButton(final ActionMode mode, Menu menu) {
 		selectAll = true;
-		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
+		selectAllActionModeButton = UtilUi.addSelectAllActionModeButton(getActivity().getLayoutInflater(), mode, menu);
 		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
 			CapitalizedTextView selectAllView = (CapitalizedTextView) selectAllActionModeButton.findViewById(R.id.select_all);

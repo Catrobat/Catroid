@@ -36,7 +36,7 @@ public class ComeToFrontAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 
-		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
 		int actualSpriteZIndex = sprite.look.getZIndex();
 
 		for (int i = 0; i < spriteList.size(); i++) {

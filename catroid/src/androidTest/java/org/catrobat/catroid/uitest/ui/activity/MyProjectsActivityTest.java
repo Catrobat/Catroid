@@ -48,6 +48,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
@@ -544,7 +545,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String delete = solo.getString(R.string.delete);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -741,6 +742,48 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
+	public void testProjectOverview() {
+		int showOverviewButtonId = R.id.my_projects_activity_show_overview;
+		int editDescriptionButtonId = R.id.my_projects_activity_edit_description_button;
+		String description = "testDescription";
+
+		createProjectsWithoutSprites();
+		solo.sleep(200);
+		Project project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		assertTrue("show Overview Button not found for every project", solo.waitForView(showOverviewButtonId, 2, 1000));
+		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
+		solo.sleep(200);
+		View overviewView = solo.getView(R.id.my_projects_activity_list_item_overview, 0);
+		View descriptionText = solo.getView(R.id.my_projects_activity_description_content, 0);
+		View descriptionEdit = solo.getView(R.id.my_projects_activity_description_edit, 0);
+		assertEquals("overview should be visible", View.VISIBLE, overviewView.getVisibility());
+		assertEquals("descriptionText should be visible", View.VISIBLE, descriptionText.getVisibility());
+		assertEquals("descriptionEdit should not be visible", View.GONE, descriptionEdit.getVisibility());
+
+		solo.clickOnView(solo.getView(editDescriptionButtonId));
+		solo.sleep(200);
+		assertEquals("descriptionText should not be visible", View.GONE, descriptionText.getVisibility());
+		assertEquals("descriptionEdit should be visible", View.VISIBLE, descriptionEdit.getVisibility());
+		assertEquals("description should be empty", "", project.getXmlHeader().getDescription());
+
+		UiTestUtils.enterText(solo, 0, description);
+
+		solo.goBack();
+		solo.sleep(200);
+		assertEquals("descriptionText should be visible", View.VISIBLE, descriptionText.getVisibility());
+		assertEquals("descriptionEdit should not be visible", View.GONE, descriptionEdit.getVisibility());
+
+		solo.clickOnView(solo.getView(showOverviewButtonId, 0));
+		solo.sleep(200);
+		assertEquals("overview should not be visible", View.GONE, overviewView.getVisibility());
+		project = StorageHandler.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
+		assertEquals("description was not saved", description, project.getXmlHeader().getDescription());
+	}
+
 	public void testItemClick() {
 		createProjects();
 		solo.sleep(2000);
@@ -772,7 +815,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_container);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -834,7 +877,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_container);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -850,7 +893,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.clickOnText(no);
 		solo.sleep(500);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -876,7 +919,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_container);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -907,7 +950,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_container);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1017,7 +1060,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1059,7 +1102,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_container);
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1603,7 +1646,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_container);
 		solo.sleep(500);
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1889,12 +1932,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		String deselectAll = solo.getString(R.string.deselect_all).toUpperCase(Locale.getDefault());
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		assertFalse("Select All is shown", solo.searchText(selectAll));
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 		assertTrue("Select All is not shown", solo.searchText(selectAll));
 
@@ -2189,7 +2232,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		ProjectManager.getInstance().setProject(project1);
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		Sprite testSprite = new Sprite("sprite1");
+		Sprite testSprite = new SingleSprite("sprite1");
 		projectManager.addSprite(testSprite);
 		projectManager.setCurrentSprite(testSprite);
 
@@ -2233,7 +2276,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		ProjectManager.getInstance().setProject(project4);
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		Sprite testSprite = new Sprite("sprite1");
+		Sprite testSprite = new SingleSprite("sprite1");
 		projectManager.addSprite(testSprite);
 		projectManager.setCurrentSprite(testSprite);
 

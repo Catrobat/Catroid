@@ -309,6 +309,23 @@
         <item name="android:background" >@drawable/brick_green_3h</item >
     </style >
 
+    <style name="BrickContainer.Pen" ></style >
+
+    <style name="BrickContainer.Pen.Small" >
+        <item name="android:minHeight" >@dimen/brick_height_small</item >
+        <item name="android:background" >@drawable/brick_darkgreen_1h</item >
+    </style >
+
+    <style name="BrickContainer.Pen.Medium" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_darkgreen_2h</item >
+    </style >
+
+    <style name="BrickContainer.Pen.Big" >
+        <item name="android:minHeight" >@dimen/brick_height_big</item >
+        <item name="android:background" >@drawable/brick_green_3h</item >
+    </style >
+
     <style name="BrickContainer.UserVariables" ></style >
 
     <style name="BrickContainer.UserVariables.Small" >
@@ -611,6 +628,11 @@
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
     </style >
 
+    <style name="BrickCategoryText.Pen" >
+        <item name="android:background" >@drawable/brick_selection_background_pen</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_looks</item >
+    </style >
+
     <style name="BrickCategoryText.UserBricks" >
 		<item name="android:background" >@drawable/brick_selection_background_user_bricks</item >
  		<item name="android:drawableRight" >@drawable/main_menu_button_arrow_user_bricks</item >
@@ -738,6 +760,17 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:textColor">@color/holo_blue_bright</item>
         <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="SpriteGroupIndicatorImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">12dp</item >
+        <item name="android:layout_marginBottom">15dp</item >
+        <item name="android:cropToPadding">true</item >
+        <item name="android:padding">1.5dp</item >
+        <item name="android:scaleType">centerCrop</item >
+        <item name="android:visibility">gone</item >
     </style>
 
 </resources>

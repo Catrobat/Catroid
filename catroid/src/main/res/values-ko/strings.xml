@@ -954,9 +954,9 @@
   <string name="add_line_break">줄 바꿈 추가</string>
   <string name="edit_variable">변수 바꾸기</string>
   <string name="variable_hint">변수 이름</string>
-  <string name="brick_show_text_var">변수 보이기</string>
-  <string name="brick_show_text_pos">"에서"</string>
-  <string name="brick_hide_text_var">변수 숨기기</string>
+  <string name="brick_show_variable">변수 보이기</string>
+  <string name="brick_show_variable_position">"에서"</string>
+  <string name="brick_hide_variable">변수 숨기기</string>
   <!-- User Bricks strings -->
   <string name="define">정의하기</string>
   <string name="new_user_brick">새 블록</string>

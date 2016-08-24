@@ -28,13 +28,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 import com.badlogic.gdx.math.Vector2;
+import com.google.common.io.Closeables;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.io.StorageHandler;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public final class ImageEditing {
 
@@ -106,6 +109,64 @@ public final class ImageEditing {
 		Bitmap tempBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
 
 		return scaleBitmap(tempBitmap, newWidth, newHeight);
+	}
+
+	public static Bitmap getScaledBitmapOfLoadedBitmap(byte[] byteArray, int outputRectangleWidth,
+			int outputRectangleHeight, ResizeType resizeType,
+			boolean justScaleDown) {
+		if (byteArray == null) {
+			return null;
+		}
+
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
+		int[] imageDimensions = getImageDimensionsForLoadedImage(inputStream);
+		Closeables.closeQuietly(inputStream);
+
+		int originalWidth = imageDimensions[0];
+		int originalHeight = imageDimensions[1];
+		int newWidth = originalHeight;
+		int newHeight = originalWidth;
+		int loadingSampleSize = 1;
+
+		double sampleSizeWidth = ((double) originalWidth) / (double) outputRectangleWidth;
+		double sampleSizeHeight = ((double) originalHeight) / (double) outputRectangleHeight;
+		double sampleSizeMinimum = Math.min(sampleSizeWidth, sampleSizeHeight);
+		double sampleSizeMaximum = Math.max(sampleSizeWidth, sampleSizeHeight);
+
+		if (resizeType == ResizeType.STRETCH_TO_RECTANGLE) {
+			newWidth = outputRectangleWidth;
+			newHeight = outputRectangleHeight;
+		} else if (resizeType == ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+			newWidth = (int) Math.floor(originalWidth / sampleSizeMaximum);
+			newHeight = (int) Math.floor(originalHeight / sampleSizeMaximum);
+		} else if (resizeType == ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO) {
+			newWidth = (int) Math.floor(originalWidth / sampleSizeMinimum);
+			newHeight = (int) Math.floor(originalHeight / sampleSizeMinimum);
+		}
+
+		loadingSampleSize = calculateInSampleSize(originalWidth, originalHeight, outputRectangleWidth, outputRectangleHeight);
+
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inSampleSize = loadingSampleSize;
+		bitmapOptions.inJustDecodeBounds = false;
+
+		inputStream = new ByteArrayInputStream(byteArray);
+		Bitmap tempBitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions);
+		Closeables.closeQuietly(inputStream);
+		return scaleBitmap(tempBitmap, newWidth, newHeight);
+	}
+
+	public static int[] getImageDimensionsForLoadedImage(InputStream inputStream) {
+		int[] imageDimensions = new int[2];
+
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeStream(inputStream, null, options);
+
+		imageDimensions[0] = options.outWidth;
+		imageDimensions[1] = options.outHeight;
+
+		return imageDimensions;
 	}
 
 	public static int[] getImageDimensions(String imagePath) {

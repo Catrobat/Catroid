@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -186,7 +187,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testIncrementUsage() {
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-		Sprite testSprite = new Sprite("testSprite");
+		Sprite testSprite = new SingleSprite("testSprite");
 		ArrayList<LookData> lookDataList = new ArrayList<LookData>();
 
 		LookData lookData = new LookData();
@@ -277,7 +278,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
-		Sprite sprite = new Sprite("testSprite");
+		Sprite sprite = new SingleSprite("testSprite");
 		Script script = new StartScript();
 		Script whenScript = new WhenScript();
 		sprite.addScript(script);

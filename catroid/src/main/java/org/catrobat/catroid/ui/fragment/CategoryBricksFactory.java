@@ -47,9 +47,12 @@ import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
+import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -66,8 +69,9 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.HideTextBrick;
+import org.catrobat.catroid.content.bricks.HideVariableBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
@@ -79,6 +83,8 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PenDownBrick;
+import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
@@ -86,6 +92,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
@@ -97,12 +104,18 @@ import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.SayBubbleBrick;
+import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -110,17 +123,25 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.ShowVariableBrick;
+import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
+import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
+import org.catrobat.catroid.content.bricks.WhenClonedBrick;
+import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -162,7 +183,10 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_sound))) {
 			tempList = setupSoundCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_looks))) {
-			tempList = setupLooksCategoryList(context);
+			boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
+			tempList = setupLooksCategoryList(context, isBackgroundSprite);
+		} else if (category.equals(context.getString(R.string.category_pen))) {
+			tempList = setupPenCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
@@ -190,6 +214,10 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupEventCategoryList(Context context) {
+		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
+		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+
 		List<Brick> eventBrickList = new ArrayList<>();
 		eventBrickList.add(new WhenStartedBrick(null));
 		eventBrickList.add(new WhenBrick(null));
@@ -198,7 +226,9 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
 		eventBrickList.add(new CollisionReceiverBrick("object"));
+		eventBrickList.add(new WhenBackgroundChangesBrick());
 
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 			eventBrickList.add(new WhenNfcBrick());
@@ -207,13 +237,14 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupControlCategoryList(Context context) {
+		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
+		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+
 		List<Brick> controlBrickList = new ArrayList<>();
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
 		controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
 		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
@@ -229,6 +260,11 @@ public class CategoryBricksFactory {
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			controlBrickList.add(new WhenGamepadButtonBrick(null));
 		}
+
+		controlBrickList.add(new WhenClonedBrick());
+		controlBrickList.add(new CloneBrick());
+		controlBrickList.add(new DeleteThisCloneBrick());
+		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
 
 		return controlBrickList;
 	}
@@ -290,6 +326,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
 		motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
 		motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
+		motionBrickList.add(new GoToBrick(null));
 
 		if (!isBackground(sprite)) {
 			motionBrickList.add(new IfOnEdgeBounceBrick());
@@ -333,6 +370,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupSoundCategoryList(Context context) {
 		List<Brick> soundBrickList = new ArrayList<>();
 		soundBrickList.add(new PlaySoundBrick());
+		soundBrickList.add(new PlaySoundAndWaitBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
@@ -345,6 +383,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
 
 		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
+		soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
@@ -354,10 +393,15 @@ public class CategoryBricksFactory {
 		return soundBrickList;
 	}
 
-	private List<Brick> setupLooksCategoryList(Context context) {
+	private List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> looksBrickList = new ArrayList<>();
 
-		looksBrickList.add(new SetLookBrick());
+		looksBrickList.add(new WhenBackgroundChangesBrick());
+		looksBrickList.add(new SetBackgroundBrick());
+		looksBrickList.add(new SetBackgroundAndWaitBrick());
+		if (!isBackgroundSprite) {
+			looksBrickList.add(new SetLookBrick());
+		}
 		looksBrickList.add(new NextLookBrick());
 		looksBrickList.add(new PreviousLookBrick());
 		looksBrickList.add(new CameraBrick());
@@ -367,6 +411,12 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
 		looksBrickList.add(new HideBrick());
 		looksBrickList.add(new ShowBrick());
+		if (!isBackgroundSprite) {
+			looksBrickList.add(new SayBubbleBrick(context.getString(R.string.brick_say_bubble_default_value)));
+			looksBrickList.add(new SayForBubbleBrick(context.getString(R.string.brick_say_bubble_default_value), 1.0f));
+			looksBrickList.add(new ThinkBubbleBrick(context.getString(R.string.brick_think_bubble_default_value)));
+			looksBrickList.add(new ThinkForBubbleBrick(context.getString(R.string.brick_think_bubble_default_value), 1.0f));
+		}
 		looksBrickList.add(new SetTransparencyBrick(BrickValues.SET_TRANSPARENCY));
 		looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
@@ -383,12 +433,27 @@ public class CategoryBricksFactory {
 		return looksBrickList;
 	}
 
+	private List<Brick> setupPenCategoryList(Sprite sprite) {
+		List<Brick> penBrickList = new ArrayList<>();
+
+		if (!isBackground(sprite)) {
+			penBrickList.add(new PenDownBrick());
+			penBrickList.add(new PenUpBrick());
+			penBrickList.add(new SetPenSizeBrick(4));
+			penBrickList.add(new SetPenColorBrick(0, 0, 255));
+			penBrickList.add(new StampBrick());
+		}
+
+		penBrickList.add(new ClearBackgroundBrick());
+		return penBrickList;
+	}
+
 	private List<Brick> setupDataCategoryList() {
 		List<Brick> dataBrickList = new ArrayList<>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
-		dataBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
-		dataBrickList.add(new HideTextBrick());
+		dataBrickList.add(new ShowVariableBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+		dataBrickList.add(new HideVariableBrick());
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));

@@ -36,13 +36,17 @@ import org.catrobat.catroid.content.StartScript;
 
 import java.util.List;
 
-public class WhenStartedBrick extends ScriptBrick {
+public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Script script;
 
 	public WhenStartedBrick(Script script) {
 		this.script = script;
+
+		if (script != null && script.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	public WhenStartedBrick() {
@@ -126,5 +130,11 @@ public class WhenStartedBrick extends ScriptBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }
