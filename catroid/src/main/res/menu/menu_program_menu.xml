@@ -21,11 +21,9 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        tools:ignore="all"
         android:id="@+id/menu_rename_sprite"
         android:showAsAction="withText"
         android:title="@string/rename_sprite_dialog" />
