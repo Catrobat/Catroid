@@ -40,7 +40,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 
-
 public class SelectCastDialog extends DialogFragment {
 
 	private static final String DIALOG_TAG = "cast_device_selector";
@@ -66,20 +65,6 @@ public class SelectCastDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-/*		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(getString(R.string.cast_device_selector_dialog_title));
-		builder.setAdapter(deviceAdapter, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				synchronized (this) { //TODO Sync needed?
-					MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(which);
-					CastManager.getInstance().addCallback();
-					CastManager.getInstance().startCastButtonAnimation();
-					CastManager.getInstance().selectRoute(routeInfo);
-				}
-			}
-		});
-		return builder.create();*/
-
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		View view = View.inflate(getActivity(), R.layout.dialog_select_cast, null);
 		ListView listView = (ListView) view.findViewById(R.id.cast_device_list_view);

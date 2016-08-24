@@ -68,7 +68,6 @@ public abstract class BaseActivity extends Activity {
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
-
 	}
 
 	@Override

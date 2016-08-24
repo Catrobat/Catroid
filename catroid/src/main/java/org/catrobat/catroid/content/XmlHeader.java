@@ -201,7 +201,6 @@ public class XmlHeader implements Serializable {
 		this.landscapeMode = landscapeMode;
 	}
 
-
 	public void setIsCastProject(boolean isCastProject) {
 		this.isCastProject = isCastProject;
 	}
@@ -209,9 +208,9 @@ public class XmlHeader implements Serializable {
 	public boolean isCastProject() {
 		return isCastProject;
 	}
+
 	public void setTags(List<String> tags) {
 		this.tags = TextUtils.join(",", tags);
-
 	}
 
 	public String getUrl() {

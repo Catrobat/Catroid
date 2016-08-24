@@ -66,8 +66,6 @@ import org.catrobat.catroid.utils.UtilFile;
 import java.io.File;
 import java.io.IOException;
 
-
-
 public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 	private static final String TAG = DefaultProjectCreatorDefault.class.getSimpleName();
 
