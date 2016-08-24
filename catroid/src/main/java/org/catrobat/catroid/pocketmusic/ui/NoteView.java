@@ -38,7 +38,7 @@ public class NoteView extends View implements View.OnClickListener {
 		setBackgroundColor(getToggledColor());
 		setOnClickListener(this);
 		whiteColor = getResources().getColor(R.color.white);
-		blackColor = getResources().getColor(R.color.dark_gray);
+		blackColor = getResources().getColor(R.color.grey);
 	}
 
 	@Override
