@@ -21,9 +21,9 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<manifest
-    package="org.catrobat.catroid.test"
+<manifest package="org.catrobat.catroid.test"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:versionCode="14"
     android:versionName="0.9.7">
 
@@ -75,6 +75,7 @@
         android:targetPackage="org.catrobat.catroid"/>
     <!-- this instrumentation is needed to run the tests from jenkins -->
     <instrumentation
+        tools:replace="android:targetPackage"
         android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
         android:targetPackage="org.catrobat.catroid"/>
 
