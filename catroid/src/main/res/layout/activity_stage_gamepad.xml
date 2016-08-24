@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CastGamepad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="237dp"
+        android:layout_height="240dp"
+        android:id="@+id/gamepadBackground"
+        android:src="@drawable/gamepad_pad_bg"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp" />
+
+    <ImageButton
+        android:id="@+id/gamepadButtonA"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:nestedScrollingEnabled="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/gamepad_button_a"
+        android:layout_alignTop="@+id/gamepadButtonB"
+        android:layout_toLeftOf="@+id/gamepadButtonB"
+        android:layout_toStartOf="@+id/gamepadButtonB" />
+
+
+    <ImageButton
+        android:id="@+id/gamepadButtonB"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@null"
+        android:nestedScrollingEnabled="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/gamepad_button_b" />
+
+
+    <ImageButton
+        android:id="@+id/gamepadButtonUp"
+        android:layout_width="50dp"
+        android:layout_height="66dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/gamepad_pad_up"
+        android:layout_above="@+id/gamepadButtonRight"
+        android:layout_toRightOf="@+id/gamepadButtonLeft"
+        android:layout_toEndOf="@+id/gamepadButtonLeft" />
+
+
+    <ImageButton
+        android:id="@+id/gamepadButtonDown"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/gamepad_pad_down"
+        android:layout_below="@+id/gamepadButtonRight"
+        android:layout_alignLeft="@+id/gamepadButtonUp"
+        android:layout_alignStart="@+id/gamepadButtonUp" />
+
+    <ImageButton
+        android:id="@+id/gamepadButtonRight"
+        android:layout_width="67dp"
+        android:layout_height="50dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/gamepad_pad_right"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/gamepadButtonDown"
+        android:layout_toEndOf="@+id/gamepadButtonDown" />
+
+    <ImageButton
+        android:id="@+id/gamepadButtonLeft"
+        android:layout_width="67dp"
+        android:layout_height="50dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/gamepad_pad_left"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_above="@+id/gamepadButtonDown"
+        android:layout_alignLeft="@+id/gamepadBackground"
+        android:layout_alignStart="@+id/gamepadBackground" />
+
+    <ImageButton
+        android:id="@+id/gamepadPauseButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/gamepad_pause_button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

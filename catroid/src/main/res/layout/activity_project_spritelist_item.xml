@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2016 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_project_background_headline" />
+
+    <LinearLayout
+        android:id="@+id/spritelist_parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_linear_layout_height"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/sprite_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/activity_check_box_margin"
+            android:layout_marginRight="@dimen/activity_check_box_margin"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/spritelist_item_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:longClickable="false">
+
+            <ImageView
+                android:id="@+id/sprite_img"
+                android:layout_width="72dp"
+                android:layout_height="65dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="9dp"
+                android:background="@drawable/spritelist_item_thumbnail_border"
+                android:cropToPadding="true"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <include layout="@layout/activity_project_sprite_title_details_view" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/spritelist_group_item_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:longClickable="false">
+
+            <LinearLayout
+                android:id="@+id/sprite_group_indicators"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft = "5dip"
+                android:layout_alignParentBottom="true">
+
+                <ImageView
+                    android:id="@+id/sprite_group_indicator"
+                    style="@style/SpriteGroupIndicatorImageView" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/project_activity_group_sprite_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/sprite_group_indicators">
+
+                <TextView
+                    android:id="@+id/project_activity_group_sprite_title"
+                    style="@style/ListViewItemTitleText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft = "20dip"
+                    android:ellipsize="end" />
+
+        </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/activity_project_objects_headline" />
+
+</LinearLayout>
