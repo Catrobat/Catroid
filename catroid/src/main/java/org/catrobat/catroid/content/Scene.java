@@ -43,6 +43,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -53,6 +54,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XStreamAlias("scene")
+// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+// CHECKSTYLE DISABLE IndentationCheck FOR 7 LINES
+@XStreamFieldKeyOrder({
+		"name",
+		"objectList",
+		"data",
+		"originalWidth",
+		"originalHeight"
+})
 public class Scene implements Serializable {
 
 	private static final long serialVersionUID = 1L;
