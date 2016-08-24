@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.WhenGamepadButtonScript;
 
 import java.util.List;
 
-public class WhenGamepadButtonBrick extends ScriptBrick {
+public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick {
 
 	protected WhenGamepadButtonScript whenGamepadButtonScript;
 	private static final long serialVersionUID = 1L;
