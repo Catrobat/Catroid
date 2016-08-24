@@ -38,7 +38,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import java.util.List;
 import java.util.Map;
 
-public class ShowVariableActor extends Actor {
+public class ShowTextActor extends Actor {
 
 	private int xPosition;
 	private int yPosition;
@@ -52,7 +52,7 @@ public class ShowVariableActor extends Actor {
 	private float scale = 3f;
 	private BitmapFont font;
 
-	public ShowVariableActor(UserVariable userVariable, int xPosition, int yPosition, Sprite sprite, UserBrick userBrick) {
+	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, Sprite sprite, UserBrick userBrick) {
 		this.variableToShow = userVariable;
 		this.variableNameToCompare = variableToShow.getName();
 		this.variableValueWithoutDecimal = null;

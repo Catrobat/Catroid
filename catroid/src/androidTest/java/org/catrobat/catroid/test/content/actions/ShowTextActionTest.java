@@ -34,7 +34,7 @@ import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class ShowVariableActionTest extends AndroidTestCase {
+public class ShowTextActionTest extends AndroidTestCase {
 
 	private static final String SPRITE_NAME = "Cat";
 	private static final UserVariable USER_VARIABLE = new UserVariable("var");
