@@ -134,14 +134,17 @@ public class UtilDynamicListView {
 		View selectedView = listView.getChildAt(itemNum);
 		mobileItemId = getItemId(adapterPosition);
 
-		adapterPosition = getAdapterPositionForVisibleListViewPosition(position);
-		Sprite sprite = getSpriteAdapter().getSpriteList().get(adapterPosition);
-		boolean isGroupItemSprite = sprite instanceof GroupItemSprite;
+		if (forSpriteList) {
+			adapterPosition = getAdapterPositionForVisibleListViewPosition(position);
+			Sprite sprite = getSpriteAdapter().getSpriteList().get(adapterPosition);
+			boolean isGroupItemSprite = sprite instanceof GroupItemSprite;
 
-		hoverCell = getAndAddHoverView(selectedView, isGroupItemSprite);
-		if (!forSpriteList) {
-			selectedView.setVisibility(ListView.INVISIBLE);
+			hoverCell = getAndAddHoverView(selectedView, isGroupItemSprite);
+		} else {
+			hoverCell = getAndAddHoverView(selectedView, false);
 		}
+
+		selectedView.setVisibility(ListView.INVISIBLE);
 		cellIsMobile = true;
 		updateNeighborViewsForID(mobileItemId);
 	}
@@ -550,7 +553,9 @@ public class UtilDynamicListView {
 		final View mobileView = getViewForID(mobileItemId);
 		if (cellIsMobile || isWaitingForScrollFinish) {
 			handleCellSwitch(true);
-			ProjectManager.getInstance().getCurrentProject().refreshSpriteReferences();
+			if (forSpriteList) {
+				ProjectManager.getInstance().getCurrentProject().refreshSpriteReferences();
+			}
 
 			cellIsMobile = false;
 			isWaitingForScrollFinish = false;
@@ -580,7 +585,10 @@ public class UtilDynamicListView {
 
 				@Override
 				public void onAnimationEnd(Animator animation) {
-					unsetSpriteMobileState();
+					if (forSpriteList) {
+						unsetSpriteMobileState();
+					}
+
 					aboveItemId = INVALID_ID;
 					mobileItemId = INVALID_ID;
 					belowItemId = INVALID_ID;
@@ -608,7 +616,9 @@ public class UtilDynamicListView {
 	private void touchEventsCancelled() {
 		if (cellIsMobile) {
 			View mobileView = getViewForID(mobileItemId);
-			unsetSpriteMobileState();
+			if (forSpriteList) {
+				unsetSpriteMobileState();
+			}
 			aboveItemId = INVALID_ID;
 			mobileItemId = INVALID_ID;
 			belowItemId = INVALID_ID;
