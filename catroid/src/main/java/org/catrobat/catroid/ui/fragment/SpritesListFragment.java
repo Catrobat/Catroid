@@ -170,8 +170,6 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 			BackPackListManager.getInstance().loadBackpack();
 		}
 
-		StorageHandler.getInstance().fillChecksumContainer();
-
 		if (spriteRenamedReceiver == null) {
 			spriteRenamedReceiver = new SpriteRenamedReceiver();
 		}
@@ -916,7 +914,6 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
 			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), false);
 		}
-
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), false);
 		}

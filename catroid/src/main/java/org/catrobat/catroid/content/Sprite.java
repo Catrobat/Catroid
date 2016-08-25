@@ -35,7 +35,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -83,7 +82,6 @@ public class Sprite implements Serializable, Cloneable {
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	public transient boolean cloneForScene = false;
 
 	@XStreamAsAttribute
 	private String name;
@@ -119,20 +117,6 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public int hashCode() {
 		return super.hashCode() * TAG.hashCode();
-	}
-
-	private Object readResolve() {
-		//filling FileChecksumContainer:
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-			for (SoundInfo soundInfo : soundList) {
-				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-			}
-			for (LookData lookData : lookList) {
-				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
-			}
-		}
-		return this;
 	}
 
 	public List<Script> getScriptList() {
@@ -328,7 +312,6 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = createSpriteInstance();
-		cloneSprite.cloneForScene = cloneForScene;
 
 		cloneSprite.setName(this.getName());
 		cloneSprite.isBackpackObject = false;
@@ -356,8 +339,6 @@ public class Sprite implements Serializable, Cloneable {
 
 		projectManager.checkCurrentSprite(cloneSprite, false);
 		projectManager.setCurrentSprite(originalSprite);
-
-		cloneSprite.cloneForScene = false;
 
 		return cloneSprite;
 	}
@@ -387,9 +368,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite cloneForScene() {
-		cloneForScene = true;
 		Sprite clone = clone();
-		cloneForScene = false;
 		return clone;
 	}
 
@@ -521,11 +500,7 @@ public class Sprite implements Serializable, Cloneable {
 	private void cloneSounds(Sprite cloneSprite) {
 		List<SoundInfo> cloneSoundList = new ArrayList<>();
 		for (SoundInfo element : this.soundList) {
-			if (cloneForScene) {
-				cloneSoundList.add(element.clone());
-			} else {
-				cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
-			}
+			cloneSoundList.add(element.clone());
 		}
 		cloneSprite.soundList = cloneSoundList;
 	}
@@ -744,10 +719,6 @@ public class Sprite implements Serializable, Cloneable {
 		return false;
 	}
 
-	public void addLookData(LookData data) {
-		lookList.add(data);
-	}
-
 	public List<SoundInfo> getSoundList() {
 		return soundList;
 	}
@@ -835,10 +806,6 @@ public class Sprite implements Serializable, Cloneable {
 			}
 		}
 		return false;
-	}
-
-	public void addSound(SoundInfo sound) {
-		soundList.add(sound);
 	}
 
 	public void updateUserVariableReferencesInUserVariableBricks(List<UserVariable> variables) {
