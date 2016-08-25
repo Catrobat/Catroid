@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
+import android.content.Context;
 import android.graphics.PointF;
 import android.util.Log;
 
@@ -39,6 +40,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
@@ -46,6 +48,7 @@ import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -825,6 +828,74 @@ public class Sprite implements Serializable, Cloneable {
 					}
 				}
 			}
+		}
+	}
+
+	public void renameCopiedSpriteInCollisionFormulas(String oldName, String newName, Context context) {
+
+		for (Script currentScript : getScriptList()) {
+			if (currentScript == null) {
+				return;
+			}
+			List<Brick> brickList = currentScript.getBrickList();
+			for (Brick brick : brickList) {
+				if (brick instanceof UserBrick) {
+					List<Formula> formulaList = ((UserBrick) brick).getFormulas();
+					for (Formula formula : formulaList) {
+						formula.updateCollisionFormulas(oldName, newName, context);
+					}
+				}
+				if (brick instanceof FormulaBrick) {
+					List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
+					for (Formula formula : formulaList) {
+						formula.updateCollisionFormulas(oldName, newName, context);
+					}
+				}
+			}
+		}
+	}
+
+	public boolean hasCollision() {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.brickList) {
+				if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						if (formula.containsElement(FormulaElement.ElementType.COLLISION_FORMULA)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		Scene scene = ProjectManager.getInstance().getCurrentScene();
+		for (Sprite sprite : scene.getSpriteList()) {
+			if (sprite.hasToCollideWith(this)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasToCollideWith(Sprite other) {
+		for (Script script : getScriptList()) {
+			for (Brick brick : script.brickList) {
+				if (brick instanceof FormulaBrick) {
+					FormulaBrick formulaBrick = (FormulaBrick) brick;
+					for (Formula formula : formulaBrick.getFormulas()) {
+						if (formula.containsSpriteInCollision(other.getName())) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public void createCollisionPolygons() {
+		for (LookData lookData : getLookDataList()) {
+			lookData.getCollisionInformation().calculate();
 		}
 	}
 

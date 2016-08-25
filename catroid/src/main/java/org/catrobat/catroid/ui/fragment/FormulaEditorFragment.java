@@ -791,6 +791,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 				userVariableName);
 	}
 
+	public void addCollideFormulaToActiveFormula(String formula) {
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_COLLIDE_RESOURCE_ID,
+				formula);
+	}
+
 	public void addStringToActiveFormula(String string) {
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}

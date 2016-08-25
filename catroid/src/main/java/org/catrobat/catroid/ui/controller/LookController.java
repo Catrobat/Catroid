@@ -293,6 +293,10 @@ public final class LookController {
 		lookData.setLookName(name);
 		lookDataList.add(lookData);
 		fragment.updateLookAdapter(lookData);
+
+		if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+			lookData.getCollisionInformation().calculate();
+		}
 	}
 
 	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, List<LookData>
@@ -368,7 +372,6 @@ public final class LookController {
 	public void loadImageIntoCatroid(Intent intent, Activity activity, List<LookData> lookDataList,
 			LookFragment fragment) {
 		String originalImagePath = "";
-
 		//get path of image - will work for most applications
 		Bundle bundle = intent.getExtras();
 		if (bundle != null) {
@@ -433,6 +436,9 @@ public final class LookController {
 				selectedLookData.resetThumbnailBitmap();
 			} catch (IOException ioException) {
 				Log.e(TAG, Log.getStackTraceString(ioException));
+			}
+			if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
+				selectedLookData.getCollisionInformation().calculate();
 			}
 		}
 	}
@@ -519,6 +525,8 @@ public final class LookController {
 			return;
 		}
 		LookData lookDataToDelete = lookDataList.get(position);
+		lookDataToDelete.getCollisionInformation().cancelCalculation();
+
 		boolean isBackPackLook = lookDataToDelete.isBackpackLookData;
 
 		if (!otherLookDataItemsHaveAFileReference(lookDataToDelete)) {

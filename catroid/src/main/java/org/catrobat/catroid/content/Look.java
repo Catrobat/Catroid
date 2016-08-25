@@ -22,10 +22,14 @@
  */
 package org.catrobat.catroid.content;
 
+import android.graphics.PointF;
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -68,7 +72,7 @@ public class Look extends Image {
 	private float realRotation = rotation;
 	public boolean isFlipped = false;
 
-	public Look(Sprite sprite) {
+	public Look(final Sprite sprite) {
 		this.sprite = sprite;
 		setBounds(0f, 0f, 0f, 0f);
 		setOrigin(0f, 0f);
@@ -363,6 +367,50 @@ public class Look extends Image {
 		return rotationMode;
 	}
 
+	private PointF rotatePointAroundPoint(PointF center, PointF point, float rotation) {
+		float sin = (float) Math.sin(rotation);
+		float cos = (float) Math.cos(rotation);
+		point.x -= center.x;
+		point.y -= center.y;
+		float xNew = point.x * cos - point.y * sin;
+		float yNew = point.x * sin + point.y * cos;
+		point.x = xNew + center.x;
+		point.y = yNew + center.y;
+		return point;
+	}
+
+	public Rectangle getHitbox() {
+		float x = getXInUserInterfaceDimensionUnit() - getWidthInUserInterfaceDimensionUnit() / 2;
+		float y = getYInUserInterfaceDimensionUnit() - getHeightInUserInterfaceDimensionUnit() / 2;
+		float width = getWidthInUserInterfaceDimensionUnit();
+		float height = getHeightInUserInterfaceDimensionUnit();
+		float[] vertices;
+		if (getRotation() == 0) {
+			vertices = new float[] {
+					x, y,
+					x, y + height,
+					x + width, y + height,
+					x + width, y
+			};
+		} else {
+			PointF center = new PointF(x + width / 2f, y + height / 2f);
+			PointF upperLeft = rotatePointAroundPoint(center, new PointF(x, y), getRotation());
+			PointF upperRight = rotatePointAroundPoint(center, new PointF(x, y + height), getRotation());
+			PointF lowerRight = rotatePointAroundPoint(center, new PointF(x + width, y + height), getRotation());
+			PointF lowerLeft = rotatePointAroundPoint(center, new PointF(x + width, y), getRotation());
+			vertices = new float[] {
+					upperLeft.x, upperLeft.y,
+					upperRight.x, upperRight.y,
+					lowerRight.x, lowerRight.y,
+					lowerLeft.x, lowerLeft.y
+			};
+		}
+
+		Polygon p = new Polygon(vertices);
+
+		return p.getBoundingRectangle();
+	}
+
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
 		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
 		realRotation = convertStageAngleToCatroidAngle(rotation);
@@ -588,5 +636,29 @@ public class Look extends Image {
 			setUniformf(HUE_STRING_IN_SHADER, hue);
 			end();
 		}
+	}
+
+	public Polygon[] getCurrentCollisionPolygon() {
+		Polygon[] originalPolygons;
+		if (getLookData() == null) {
+			originalPolygons = new Polygon[0];
+		} else {
+			if (getLookData().getCollisionInformation().collisionPolygons == null) {
+				getLookData().getCollisionInformation().loadOrCreateCollisionPolygon();
+			}
+			originalPolygons = getLookData().getCollisionInformation().collisionPolygons;
+		}
+
+		Polygon[] transformedPolygons = new Polygon[originalPolygons.length];
+
+		for (int p = 0; p < transformedPolygons.length; p++) {
+			Polygon poly = new Polygon(originalPolygons[p].getTransformedVertices());
+			poly.translate(getX(), getY());
+			poly.setRotation(getRotation());
+			poly.setScale(getScaleX(), getScaleY());
+			poly.setOrigin(getOriginX(), getOriginY());
+			transformedPolygons[p] = poly;
+		}
+		return transformedPolygons;
 	}
 }
