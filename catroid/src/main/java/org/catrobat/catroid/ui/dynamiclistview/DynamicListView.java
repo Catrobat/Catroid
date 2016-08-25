@@ -42,6 +42,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -97,5 +99,14 @@ public class DynamicListView extends ListView {
 
 	public void notifyListItemTouchActionUp() {
 		utilDynamicListView.notifyListItemTouchActionUp();
+	}
+
+	@Override
+	public ListAdapter getAdapter() {
+		ListAdapter adapter = super.getAdapter();
+		if (adapter instanceof HeaderViewListAdapter) {
+			return ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+		}
+		return adapter;
 	}
 }

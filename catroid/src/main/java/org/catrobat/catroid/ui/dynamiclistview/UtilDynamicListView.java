@@ -169,7 +169,7 @@ public class UtilDynamicListView {
 		Bitmap bitmap = getBitmapFromView(v);
 		Canvas can = new Canvas(bitmap);
 		Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		int strokeWidth = isGroupItemSprite ? 0 : 15;
+		int strokeWidth = isGroupItemSprite ? 0 : LINE_THICKNESS;
 
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.STROKE);
