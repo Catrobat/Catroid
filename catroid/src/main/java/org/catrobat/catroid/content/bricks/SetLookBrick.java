@@ -78,13 +78,13 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		SetLookBrick copyBrick = (SetLookBrick) clone();
 
 		if (look != null && look.isBackpackLookData) {
-			copyBrick.look = look.clone();
+			copyBrick.look = look;
 			return copyBrick;
 		}
 
 		for (LookData data : sprite.getLookDataList()) {
 			if (look != null && data != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
-				copyBrick.look = data.clone();
+				copyBrick.look = data;
 				break;
 			}
 		}

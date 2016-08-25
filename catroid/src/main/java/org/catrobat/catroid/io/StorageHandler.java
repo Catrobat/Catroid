@@ -1009,11 +1009,6 @@ public final class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
-			fileChecksumContainer.addChecksum(inputFileChecksum, null);
-			return new File(fileChecksumContainer.getPath(inputFileChecksum));
-		}
 		File outputFile = new File(buildPath(soundDirectory.getAbsolutePath(),
 				inputFileChecksum + "_" + inputFile.getName()));
 
@@ -1249,14 +1244,15 @@ public final class StorageHandler {
 	}
 
 	public void fillChecksumContainer() {
-		//FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-		//if (container == null) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject == null) {
+			return;
+		}
+
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
-		//}
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 
 		Project newProject = ProjectManager.getInstance().getCurrentProject();
-
 		for (Scene scene : newProject.getSceneList()) {
 			for (Sprite currentSprite : scene.getSpriteList()) {
 				for (SoundInfo soundInfo : currentSprite.getSoundList()) {
