@@ -38,6 +38,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import ar.com.hjg.pngj.IImageLine;
+import ar.com.hjg.pngj.PngReader;
+import ar.com.hjg.pngj.PngWriter;
+import ar.com.hjg.pngj.PngjException;
+import ar.com.hjg.pngj.chunks.ChunkCopyBehaviour;
+import ar.com.hjg.pngj.chunks.ChunkHelper;
+import ar.com.hjg.pngj.chunks.PngChunk;
+import ar.com.hjg.pngj.chunks.PngChunkTextVar;
+
 public final class ImageEditing {
 
 	public enum ResizeType {
@@ -283,5 +292,46 @@ public final class ImageEditing {
 		}
 
 		return inSampleSize;
+	}
+
+	public static String readMetaDataStringFromPNG(String absolutePath, String key) throws PngjException {
+		File image = new File(absolutePath);
+		PngReader pngr = new PngReader(image);
+		pngr.readSkippingAllRows();
+		for (PngChunk c : pngr.getChunksList().getChunks()) {
+			if (!ChunkHelper.isText(c)) {
+				continue;
+			}
+			PngChunkTextVar ct = (PngChunkTextVar) c;
+			String k = ct.getKey();
+			String val = ct.getVal();
+			if (key.equals(k)) {
+				pngr.close();
+				return val;
+			}
+		}
+		pngr.close();
+		return "";
+	}
+
+	public static void writeMetaDataStringToPNG(String absolutePath, String key, String value) {
+		String tempFilename = absolutePath.substring(0, absolutePath.length() - 4) + "___temp.png";
+
+		File oldFile = new File(absolutePath);
+		File newFile = new File(tempFilename);
+
+		PngReader pngr = new PngReader(oldFile);
+		PngWriter pngw = new PngWriter(newFile, pngr.imgInfo, true);
+		pngw.copyChunksFrom(pngr.getChunksList(), ChunkCopyBehaviour.COPY_ALL);
+		pngw.getMetadata().setText(key, value);
+		for (int row = 0; row < pngr.imgInfo.rows; row++) {
+			IImageLine l1 = pngr.readRow();
+			pngw.writeRow(l1);
+		}
+		pngr.end();
+		pngw.end();
+
+		oldFile.delete();
+		newFile.renameTo(new File(absolutePath));
 	}
 }

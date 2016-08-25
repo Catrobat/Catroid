@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.CategoryListAdapter;
+import org.catrobat.catroid.ui.dialogs.FormulaEditorChooseSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorPortConfigDialog;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 	private static final int[] OBJECT_PHYSICAL_PROPERTIES_ITEMS = { R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer,
+			R.string.formula_editor_function_collision,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
 			R.string.formula_editor_object_angular_velocity };
 
@@ -216,8 +218,13 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getFragmentManager()
 					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 			if (formulaEditor != null) {
-				formulaEditor.addResourceToActiveFormula(itemsIds[position]);
-				formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+				if (itemsIds[position] == R.string.formula_editor_function_collision) {
+					showChooseSpriteDialog(formulaEditor, position);
+				} else {
+
+					formulaEditor.addResourceToActiveFormula(itemsIds[position]);
+					formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+				}
 			}
 			KeyEvent keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
 			onKey(null, keyEvent.getKeyCode(), keyEvent);
@@ -232,6 +239,34 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 			}
 		}
 		return false;
+	}
+
+	private void showChooseSpriteDialog(FormulaEditorFragment fragment, final int pos) {
+		final FormulaEditorFragment formulaEditor = fragment;
+		final FormulaEditorChooseSpriteDialog dialog = FormulaEditorChooseSpriteDialog.newInstance();
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialogInterface) {
+				if (dialog.getSuccessStatus()) {
+					Sprite firstSprite = ProjectManager.getInstance().getCurrentSprite();
+					Sprite secondSprite = null;
+					for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+						if (sprite.getName().compareTo(dialog.getSprite()) == 0) {
+							secondSprite = sprite;
+							firstSprite.createCollisionPolygons();
+							secondSprite.createCollisionPolygons();
+						}
+					}
+					if (secondSprite != null) {
+						String formula = firstSprite.getName() + " "
+								+ getActivity().getString(itemsIds[pos]) + " " + dialog.getSprite();
+
+						formulaEditor.addCollideFormulaToActiveFormula(formula);
+					}
+				}
+			}
+		});
+		dialog.showDialog(this);
 	}
 
 	@Override

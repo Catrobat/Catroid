@@ -98,6 +98,16 @@ public class Formula implements Serializable {
 		formulaTree.getVariableAndListNames(variables, lists);
 	}
 
+	public void updateCollisionFormulas(String oldName, String newName, Context context) {
+		internFormula.updateCollisionFormula(oldName, newName, context);
+		formulaTree.updateCollisionFormula(oldName, newName);
+		displayText = null;
+	}
+
+	public boolean containsSpriteInCollision(String name) {
+		return formulaTree.containsSpriteInCollision(name);
+	}
+
 	public Formula(String value) {
 		if (value.equalsIgnoreCase(Functions.ARDUINOANALOG.toString())) {
 			formulaTree = new FormulaElement(ElementType.SENSOR, Functions.ARDUINOANALOG.toString(), null);
