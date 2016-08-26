@@ -23,12 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -68,7 +66,7 @@ public class StampBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_stamp, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_stamp_checkbox);
 
@@ -80,24 +78,6 @@ public class StampBrick extends BrickBaseType {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_stamp_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView stampLabel = (TextView) view.findViewById(R.id.brick_stamp_text_view);
-			stampLabel.setTextColor(stampLabel.getTextColors().withAlpha(alphaValue));
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

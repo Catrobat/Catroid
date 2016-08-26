@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -69,20 +68,6 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 		view = View.inflate(context, R.layout.brick_when_cloned, null);
 
 		setCheckboxView(R.id.brick_when_cloned_checkbox);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_cloned_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,7 +56,6 @@ public class ShowVariableBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 
 	public static final String TAG = ShowVariableBrick.class.getSimpleName();
 
@@ -110,7 +108,7 @@ public class ShowVariableBrick extends UserVariableBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_show_variable, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_show_variable_checkbox);
 
@@ -192,41 +190,14 @@ public class ShowVariableBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
+				userVariable = (UserVariable) arg0.getItemAtPosition(1);
 			}
 		});
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_show_variable_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_show_variable_label);
-			TextView placeAtX = (TextView) view.findViewById(R.id.brick_show_variable_x_textview);
-			TextView placeAtY = (TextView) view.findViewById(R.id.brick_show_variable_y_textview);
-			TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
-			TextView editTextY = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_y);
-
-			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-			editTextX.setTextColor(editTextX.getTextColors().withAlpha(alphaValue));
-			editTextX.getBackground().setAlpha(alphaValue);
-			editTextY.setTextColor(editTextY.getTextColors().withAlpha(alphaValue));
-			editTextY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 		return view;
 	}
 

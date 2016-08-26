@@ -23,12 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -67,7 +65,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_forever, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_forever_checkbox);
 		final Brick brickInstance = this;
@@ -84,24 +82,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_forever_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView ifForeverLabel = (TextView) view.findViewById(R.id.brick_forever_label);
-			ifForeverLabel.setTextColor(ifForeverLabel.getTextColors().withAlpha(alphaValue));
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

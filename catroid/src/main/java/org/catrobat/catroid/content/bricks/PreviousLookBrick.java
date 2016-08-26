@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -72,7 +71,7 @@ public class PreviousLookBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_previous_look, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_previous_look_checkbox);
 
@@ -88,24 +87,6 @@ public class PreviousLookBrick extends BrickBaseType {
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_previous_look_text_view);
 			textField.setText(R.string.brick_previous_background);
-		}
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_previous_look_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView previousLookLabel = (TextView) view.findViewById(R.id.brick_previous_look_text_view);
-			previousLookLabel.setTextColor(previousLookLabel.getTextColors().withAlpha(alphaValue));
-
-			this.alphaValue = alphaValue;
 		}
 
 		return view;

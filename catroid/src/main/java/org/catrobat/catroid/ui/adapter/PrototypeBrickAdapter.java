@@ -31,6 +31,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
@@ -156,10 +157,7 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
 	private void enableAllBricks() {
 		for (Brick brick : brickList) {
-			if (brick.getCheckBox() != null) {
-				brick.getCheckBox().setEnabled(true);
-			}
-			brick.getViewWithAlpha(BrickAdapter.ALPHA_FULL);
+			BrickViewProvider.changeBrickState(brick, true);
 		}
 		notifyDataSetChanged();
 	}

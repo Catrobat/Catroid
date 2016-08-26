@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -38,7 +36,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -60,7 +57,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
-	private transient AdapterView<?> adapterView;
+
 	private WhenBackgroundChangesScript script;
 
 	public WhenBackgroundChangesBrick() {
@@ -117,7 +114,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		}
 		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_when_background_checkbox);
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -151,7 +148,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 				} else {
 					setLook((LookData) parent.getItemAtPosition(position));
 					oldSelectedLook = getLook();
-					adapterView = parent;
 				}
 			}
 
@@ -161,31 +157,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		});
 
 		setSpinnerSelection(lookbrickSpinner);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_background_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_when_background_spinner);
-			TextView lookBrickTextView = (TextView) view.findViewById(R.id.brick_when_background_text_view);
-
-			ColorStateList color = lookBrickTextView.getTextColors().withAlpha(alphaValue);
-			lookBrickTextView.setTextColor(color);
-			lookBrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

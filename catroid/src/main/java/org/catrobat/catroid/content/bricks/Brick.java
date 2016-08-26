@@ -120,8 +120,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	void setCheckboxView(int id, View view);
 
-	View getViewWithAlpha(int alphaValue);
-
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);

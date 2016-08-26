@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -55,7 +54,6 @@ import java.util.List;
 public class DeleteItemOfUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient AdapterView<?> adapterView;
 
 	public DeleteItemOfUserListBrick() {
 		addAllowedBrickField(BrickField.LIST_DELETE_ITEM);
@@ -92,7 +90,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_delete_item_of_userlist_checkbox);
 
 		final Brick brickInstance = this;
@@ -160,7 +158,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 				}
 				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userList = (UserList) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
@@ -193,32 +190,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		textAddItemToList.setText(String.valueOf(BrickValues.DELETE_ITEM_OF_USERLIST));
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			TextView textAddItemToList = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_label);
-			TextView textTo = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_textview);
-			TextView editVariable = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
-			Spinner userListSpinner = (Spinner) view.findViewById(R.id.delete_item_of_userlist_spinner);
-
-			ColorStateList color = textAddItemToList.getTextColors().withAlpha(alphaValue);
-			userListSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			textAddItemToList.setTextColor(textAddItemToList.getTextColors().withAlpha(alphaValue));
-			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-			editVariable.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

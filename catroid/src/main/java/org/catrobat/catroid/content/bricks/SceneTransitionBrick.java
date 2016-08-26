@@ -25,9 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +37,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -60,7 +57,6 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 	private String sceneForTransition;
 	private transient String sceneContainingBrick = null;
 	private transient String oldSelectedScene;
-	private transient AdapterView<?> adapterView;
 
 	public SceneTransitionBrick(String scene) {
 		this.sceneForTransition = scene;
@@ -86,7 +82,7 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 			alphaValue = 255;
 		}
 		view = View.inflate(context, R.layout.brick_scene_transition, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_scene_transition_checkbox);
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -124,7 +120,6 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 				} else {
 					sceneForTransition = (String) parent.getItemAtPosition(position);
 					oldSelectedScene = sceneForTransition;
-					adapterView = parent;
 				}
 			}
 
@@ -184,30 +179,6 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 		sceneSpinner.setAdapter(sceneSpinnerAdapter);
 		setSpinnerSelection(sceneSpinner);
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_scene_transition_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textTransitionSceneLabel = (TextView) view.findViewById(R.id.brick_scene_transition_label);
-			textTransitionSceneLabel.setTextColor(textTransitionSceneLabel.getTextColors().withAlpha(alphaValue));
-			Spinner sceneSpinner = (Spinner) view.findViewById(R.id.brick_scene_transition_spinner);
-			ColorStateList color = textTransitionSceneLabel.getTextColors().withAlpha(alphaValue);
-			sceneSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	private void setOnNewSceneListener(NewSceneDialog dialog) {

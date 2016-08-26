@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -76,7 +75,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_change_x, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_x_checkbox);
 		final Brick brickInstance = this;
@@ -105,27 +104,6 @@ public class ChangeXByNBrick extends FormulaBrick {
 		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
 		textXMovement.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_X_BY));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_change_x_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
-			TextView editChangeSize = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
-			changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
-			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
-			editChangeSize.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

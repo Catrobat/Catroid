@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -56,7 +55,6 @@ import java.util.List;
 public class AskBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient AdapterView<?> adapterView;
 
 	private transient String defaultPrototypeToken = null;
 
@@ -97,7 +95,7 @@ public class AskBrick extends UserVariableBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_ask, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_ask_checkbox);
 
 		final Brick brickInstance = this;
@@ -170,7 +168,6 @@ public class AskBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
@@ -210,32 +207,6 @@ public class AskBrick extends UserVariableBrick {
 			textSetVariable.setText(context.getString(R.string.brick_ask_default_question));
 		}
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			TextView textSetVariable = (TextView) view.findViewById(R.id.brick_ask_label);
-			TextView textTo = (TextView) view.findViewById(R.id.brick_ask_store_label);
-			TextView editVariable = (TextView) view.findViewById(R.id.brick_ask_question_edit_text);
-			Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.brick_ask_spinner);
-
-			ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
-			variablebrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
-			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-			editVariable.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

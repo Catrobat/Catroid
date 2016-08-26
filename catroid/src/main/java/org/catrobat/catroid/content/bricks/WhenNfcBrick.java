@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,7 +35,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -54,12 +51,12 @@ import java.util.List;
 
 public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFragment
 		.OnNfcTagDataListChangedAfterNewListener {
+
 	protected WhenNfcScript whenNfcScript;
 	private transient View prototypeView;
 	private transient NfcTagData nfcTag;
 	private transient NfcTagData oldSelectedNfcTag;
 	private static final long serialVersionUID = 1L;
-	private transient AdapterView<?> adapterView;
 
 	public WhenNfcBrick() {
 		this.oldSelectedNfcTag = null;
@@ -128,7 +125,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		}
 		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_when_nfc, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_when_nfc_checkbox);
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -170,7 +167,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 					//TODO: rework all
 					nfcTag = null; //(NfcTagData)parent.getItemAtPosition(position);
 					oldSelectedNfcTag = nfcTag;
-					adapterView = parent;
 				} else {
 					if (whenNfcScript.getNfcTag() == null) {
 						whenNfcScript.setNfcTag(new NfcTagData());
@@ -184,7 +180,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 					}
 					whenNfcScript.setMatchAll(false);
 					oldSelectedNfcTag = nfcTag;
-					adapterView = parent;
 				}
 			}
 
@@ -217,27 +212,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 				Log.d("setSpinnerSelection", "setSelection(0, true)");
 			}
 		}
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_nfc_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textWhenNfcLabel = (TextView) view.findViewById(R.id.brick_when_nfc_label);
-			textWhenNfcLabel.setTextColor(textWhenNfcLabel.getTextColors().withAlpha(alphaValue));
-			Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
-			ColorStateList color = textWhenNfcLabel.getTextColors().withAlpha(alphaValue);
-			nfcSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	private ArrayAdapter<NfcTagData> createNfcTagAdapter(Context context) {

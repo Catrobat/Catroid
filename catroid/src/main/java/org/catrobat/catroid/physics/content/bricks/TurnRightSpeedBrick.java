@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -37,6 +36,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -77,7 +77,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_turn_right_speed, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_turn_right_speed_checkbox);
 
@@ -110,27 +110,6 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 		TextView textTurnRightSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_right_speed_prototype_text_view);
 		textTurnRightSpeed.setText(String.valueOf(BrickValues.PHYSIC_TURN_DEGREES));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_turn_right_speed_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textX = (TextView) view.findViewById(R.id.brick_turn_right_speed_text_view);
-			TextView editX = (TextView) view.findViewById(R.id.brick_turn_right_speed_edit_text);
-			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

@@ -27,7 +27,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -309,15 +308,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		canvas.drawBitmap(bitmap, radius, radius, paint);
 
 		return toReturn;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = alphaValue;
-		return view;
 	}
 
 	@Override

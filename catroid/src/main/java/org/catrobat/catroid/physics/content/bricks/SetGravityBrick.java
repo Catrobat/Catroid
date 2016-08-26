@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -38,6 +37,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -81,7 +81,7 @@ public class SetGravityBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_set_gravity, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_gravity_checkbox);
 
@@ -121,34 +121,6 @@ public class SetGravityBrick extends FormulaBrick {
 		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
 		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_set_gravity_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView setGravityLabel = (TextView) view.findViewById(R.id.brick_set_gravity_label);
-			TextView setGravityX = (TextView) view.findViewById(R.id.brick_set_gravity_x_textview);
-			TextView setGravityY = (TextView) view.findViewById(R.id.brick_set_gravity_y_textview);
-			TextView setGravityUnit = (TextView) view.findViewById(R.id.brick_set_gravity_unit);
-			TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_y);
-			setGravityLabel.setTextColor(setGravityLabel.getTextColors().withAlpha(alphaValue));
-			setGravityX.setTextColor(setGravityX.getTextColors().withAlpha(alphaValue));
-			setGravityY.setTextColor(setGravityY.getTextColors().withAlpha(alphaValue));
-			setGravityUnit.setTextColor(setGravityUnit.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

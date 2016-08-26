@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -76,7 +75,7 @@ public class TurnRightBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_turn_right, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_turn_right_checkbox);
 
@@ -105,32 +104,6 @@ public class TurnRightBrick extends FormulaBrick {
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
 		textDegrees.setText(Utils.getNumberStringForBricks(BrickValues.TURN_DEGREES));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_turn_right_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView turnRightLabel = (TextView) view.findViewById(R.id.brick_turn_right_label);
-			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
-			TextView degreeSymbol = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
-			TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
-
-			turnRightLabel.setTextColor(turnRightLabel.getTextColors().withAlpha(alphaValue));
-			textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
-			degreeSymbol.setTextColor(degreeSymbol.getTextColors().withAlpha(alphaValue));
-			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-			editDegrees.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -77,7 +76,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_set_transparency, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_transparency_checkbox);
 
@@ -108,31 +107,6 @@ public class SetTransparencyBrick extends FormulaBrick {
 				.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
 		textSetTransparency.setText(Utils.getNumberStringForBricks(BrickValues.SET_TRANSPARENCY));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_transparency_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textTransparencyLabel = (TextView) view.findViewById(R.id.brick_set_transparency_label);
-			TextView textTransparencyTo = (TextView) view.findViewById(R.id.brick_set_transparency_to);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_transparency_percent);
-			TextView editTransparency = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
-			textTransparencyLabel.setTextColor(textTransparencyLabel.getTextColors().withAlpha(alphaValue));
-			textTransparencyTo.setTextColor(textTransparencyTo.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
-			editTransparency.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

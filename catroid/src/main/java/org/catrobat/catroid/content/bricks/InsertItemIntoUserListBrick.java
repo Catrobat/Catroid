@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -55,7 +54,6 @@ import java.util.List;
 public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient AdapterView<?> adapterView;
 
 	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert, UserList userList) {
 		initializeBrickFields(userListFormulaValueToInsert, userListFormulaIndexToInsert);
@@ -92,7 +90,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_insert_item_into_userlist_checkbox);
 
 		final Brick brickInstance = this;
@@ -168,7 +166,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 				}
 				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userList = (UserList) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
@@ -205,37 +202,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		textViewInsertIndex.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			TextView textInsertIntoList = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_label);
-			TextView textTheValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_textview);
-			TextView editTheValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
-			TextView textAtIndex = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_at_index_textview);
-			TextView editAtIndex = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
-
-			Spinner userListSpinner = (Spinner) view.findViewById(R.id.insert_item_into_userlist_spinner);
-
-			ColorStateList color = textInsertIntoList.getTextColors().withAlpha(alphaValue);
-			userListSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			textAtIndex.setTextColor(textAtIndex.getTextColors().withAlpha(alphaValue));
-			editAtIndex.setTextColor(editAtIndex.getTextColors().withAlpha(alphaValue));
-			textInsertIntoList.setTextColor(textInsertIntoList.getTextColors().withAlpha(alphaValue));
-			textTheValue.setTextColor(textTheValue.getTextColors().withAlpha(alphaValue));
-			editTheValue.setTextColor(editTheValue.getTextColors().withAlpha(alphaValue));
-			editTheValue.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

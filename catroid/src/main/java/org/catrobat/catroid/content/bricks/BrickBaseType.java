@@ -44,7 +44,7 @@ import java.util.List;
 public abstract class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
-	protected transient View view;
+	public transient View view;
 	protected transient CheckBox checkbox;
 	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
@@ -244,9 +244,6 @@ public abstract class BrickBaseType implements Brick {
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
-
-	@Override
-	public abstract View getViewWithAlpha(int alphaValue);
 
 	@Override
 	public abstract View getView(Context context, int brickId, BaseAdapter adapter);

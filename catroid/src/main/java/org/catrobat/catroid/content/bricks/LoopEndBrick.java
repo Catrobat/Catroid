@@ -23,14 +23,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -88,7 +86,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_loop_end, null);
-			view = getViewWithAlpha(alphaValue);
+			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
 
 			setCheckboxView(R.id.brick_loop_end_checkbox);
@@ -101,29 +99,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 					adapter.handleCheck(brickInstance, isChecked);
 				}
 			});
-		}
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_loop_end_layout);
-			if (layout == null) {
-				layout = view.findViewById(R.id.brick_loop_end_no_puzzle_layout);
-				TextView loopLabel = (TextView) view.findViewById(R.id.brick_loop_end_no_puzzle_label);
-				loopLabel.setTextColor(loopLabel.getTextColors().withAlpha(alphaValue));
-			} else {
-				TextView loopLabel = (TextView) view.findViewById(R.id.brick_loop_end_label);
-				loopLabel.setTextColor(loopLabel.getTextColors().withAlpha(alphaValue));
-			}
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
 		}
 
 		return view;

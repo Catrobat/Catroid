@@ -24,8 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -56,7 +54,6 @@ import java.util.List;
 public class ChangeVariableBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient AdapterView<?> adapterView;
 
 	public ChangeVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
@@ -92,7 +89,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_change_variable_checkbox);
 		final Brick brickInstance = this;
 
@@ -164,7 +161,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
@@ -198,35 +194,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
 		textChangeVariable.setText(String.valueOf(BrickValues.CHANGE_VARIABLE));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_change_variable_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textSetVariable = (TextView) view.findViewById(R.id.brick_change_variable_label);
-			TextView textTo = (TextView) view.findViewById(R.id.brick_change_variable_by);
-			TextView editVariable = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
-			Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
-
-			ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
-			variablebrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
-			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-			editVariable.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

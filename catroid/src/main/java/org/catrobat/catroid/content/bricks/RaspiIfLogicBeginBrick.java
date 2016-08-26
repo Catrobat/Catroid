@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -76,7 +75,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_raspi_if_begin_checkbox);
 		final Brick brickInstance = this;
@@ -99,27 +98,6 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 		ifBeginTextView.setVisibility(View.VISIBLE);
 
 		ifBeginTextView.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_raspi_if_begin_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView ifLabel = (TextView) view.findViewById(R.id.raspi_if_label);
-			TextView ifLabelEnd = (TextView) view.findViewById(R.id.if_raspi_label_second_part);
-			TextView editX = (TextView) view.findViewById(R.id.brick_raspi_if_begin_edit_text);
-			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
-			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

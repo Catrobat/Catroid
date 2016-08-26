@@ -48,6 +48,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
@@ -74,7 +75,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public static final int ALPHA_FULL = 255;
 	private static final String TAG = BrickAdapter.class.getSimpleName();
-	private static final int ALPHA_GREYED = 100;
 	public int listItemCount = 0;
 	private Sprite sprite;
 	private UserBrick userBrick;
@@ -1426,24 +1426,16 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private void handleBrickEnabledState(Brick brick, boolean enableState) {
-		if (brick.getCheckBox() != null) {
-			brick.getCheckBox().setEnabled(enableState);
-		}
-		if (enableState) {
-			brick.getViewWithAlpha(ALPHA_FULL);
-		} else {
-			brick.getViewWithAlpha(ALPHA_GREYED);
-		}
+		BrickViewProvider.changeBrickState(brick, enableState);
 		notifyDataSetChanged();
 	}
 
 	private void enableAllBricks() {
 		for (Brick brick : brickList) {
 			if (brick.getCheckBox() != null) {
-				brick.getCheckBox().setEnabled(true);
 				brick.getCheckBox().setVisibility(View.GONE);
 			}
-			brick.getViewWithAlpha(ALPHA_FULL);
+			BrickViewProvider.changeBrickState(brick, true);
 		}
 		notifyDataSetChanged();
 	}

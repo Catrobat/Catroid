@@ -24,15 +24,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -48,7 +45,7 @@ public class CameraBrick extends BrickBaseType {
 	private static final int ON = 1;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
+
 	private String[] spinnerValues;
 	private int spinnerSelectionID;
 
@@ -69,7 +66,7 @@ public class CameraBrick extends BrickBaseType {
 		}
 		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_video, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_video_checkbox);
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -126,31 +123,6 @@ public class CameraBrick extends BrickBaseType {
 		setVideoSpinner.setSelection(spinnerSelectionID);
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_video_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner videoBrickSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
-			TextView videoBrickTextView = (TextView) view.findViewById(R.id.brick_video_prototype_text_view);
-
-			ColorStateList color = videoBrickTextView.getTextColors().withAlpha(alphaValue);
-			videoBrickTextView.setTextColor(color);
-			videoBrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	private ArrayAdapter<String> createArrayAdapter(Context context) {

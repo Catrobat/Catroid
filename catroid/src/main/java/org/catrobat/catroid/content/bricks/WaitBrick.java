@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -87,7 +86,7 @@ public class WaitBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_wait, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_wait_checkbox);
 
@@ -140,30 +139,6 @@ public class WaitBrick extends FormulaBrick {
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.WAIT / 1000)));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_wait_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textWaitLabel = (TextView) view.findViewById(R.id.brick_wait_label);
-			TextView textWaitSeconds = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-			TextView editWait = (TextView) view.findViewById(R.id.brick_wait_edit_text);
-
-			textWaitLabel.setTextColor(textWaitLabel.getTextColors().withAlpha(alphaValue));
-			textWaitSeconds.setTextColor(textWaitSeconds.getTextColors().withAlpha(alphaValue));
-			editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
-			editWait.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

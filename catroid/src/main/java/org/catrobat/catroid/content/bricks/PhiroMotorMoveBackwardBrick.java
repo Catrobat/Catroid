@@ -23,8 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -52,7 +50,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
+
 	private String motor;
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
@@ -140,7 +138,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_phiro_motor_backward, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_phiro_motor_backward_action_checkbox);
 
 		final Brick brickInstance = this;
@@ -182,7 +180,6 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
-				adapterView = arg0;
 			}
 
 			@Override
@@ -207,42 +204,6 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	private boolean isSpeedOnlyANumber() {
 		return getFormulaWithBrickField(BrickField.PHIRO_SPEED).getRoot().getElementType()
 				== FormulaElement.ElementType.NUMBER;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_phiro_motor_backward_action_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textPhiroProMotorActionLabel = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_label);
-			TextView textPhiroProMotorActionSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_speed);
-			TextView textPhiroProMotorActionPercent = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_percent);
-			TextView textPhiroProMotorActionLabelSpeedView = (TextView) view
-					.findViewById(R.id.brick_phiro_motor_backward_action_speed_text_view);
-			TextView editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
-
-			textPhiroProMotorActionLabel.setTextColor(textPhiroProMotorActionLabel.getTextColors().withAlpha(alphaValue));
-			textPhiroProMotorActionSpeed.setTextColor(textPhiroProMotorActionSpeed.getTextColors().withAlpha(alphaValue));
-			textPhiroProMotorActionPercent.setTextColor(textPhiroProMotorActionPercent.getTextColors().withAlpha(alphaValue));
-			textPhiroProMotorActionLabelSpeedView.setTextColor(textPhiroProMotorActionLabelSpeedView.getTextColors().withAlpha(
-					alphaValue));
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
-			ColorStateList color = textPhiroProMotorActionLabelSpeedView.getTextColors().withAlpha(alphaValue);
-			motorSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
-			editSpeed.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

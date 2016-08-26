@@ -23,13 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -44,7 +40,6 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenTouchDownScript whenTouchDownScript;
 	private transient View prototypeView;
 	private static final long serialVersionUID = 1L;
-	private transient AdapterView<?> adapterView;
 
 	public WhenTouchDownBrick() {
 		this.whenTouchDownScript = new WhenTouchDownScript();
@@ -92,7 +87,7 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 		}
 		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_screen_touched, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_when_screen_touched_checkbox);
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -108,28 +103,8 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_screen_touched_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textWhenTouchLabel = (TextView) view.findViewById(R.id.brick_when_screen_touched_label);
-			textWhenTouchLabel.setTextColor(textWhenTouchLabel.getTextColors().withAlpha(alphaValue));
-			ColorStateList color = textWhenTouchLabel.getTextColors().withAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			this.alphaValue = alphaValue;
-		}
-		return view;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_screen_touched, null);
-
 		return prototypeView;
 	}
 

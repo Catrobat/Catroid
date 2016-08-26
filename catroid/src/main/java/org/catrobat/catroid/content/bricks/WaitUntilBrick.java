@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -57,28 +56,6 @@ public class WaitUntilBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_wait_until_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView ifLabel = (TextView) view.findViewById(R.id.wait_until_label);
-			TextView ifLabelEnd = (TextView) view.findViewById(R.id.wait_until_label_second_part);
-			TextView editX = (TextView) view.findViewById(R.id.brick_wait_until_edit_text);
-			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
-			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
@@ -88,7 +65,7 @@ public class WaitUntilBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_wait_until, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_wait_until_checkbox);
 		final Brick brickInstance = this;
