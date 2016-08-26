@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -96,7 +95,7 @@ public class RaspiPwmBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_raspi_pwm, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_raspi_pwm_checkbox);
 
@@ -136,37 +135,6 @@ public class RaspiPwmBrick extends FormulaBrick {
 		editPwmPercentage.setVisibility(View.VISIBLE);
 		editPwmPercentage.setOnClickListener(this);
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_raspi_pwm_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_prototype_text_view);
-			TextView textPwmFrequency = (TextView) view.findViewById(R.id.brick_raspi_pwm_frequency_prototype_text_view);
-			TextView textPwmPercentage = (TextView) view.findViewById(R.id.brick_raspi_pwm_percentage_prototype_text_view);
-
-			TextView editPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
-			TextView editPwmFrequency = (TextView) view.findViewById(R.id.brick_raspi_pwm_frequency_edit_text);
-			TextView editPwmPercentage = (TextView) view.findViewById(R.id.brick_raspi_pwm_percentage_edit_text);
-
-			textPinNumber.setTextColor(textPinNumber.getTextColors().withAlpha(alphaValue));
-			textPwmFrequency.setTextColor(textPwmFrequency.getTextColors().withAlpha(alphaValue));
-			textPwmPercentage.setTextColor(textPwmPercentage.getTextColors().withAlpha(alphaValue));
-
-			editPinNumber.setTextColor(editPinNumber.getTextColors().withAlpha(alphaValue));
-			editPinNumber.getBackground().setAlpha(alphaValue);
-			editPwmFrequency.setTextColor(editPwmFrequency.getTextColors().withAlpha(alphaValue));
-			editPwmFrequency.getBackground().setAlpha(alphaValue);
-			editPwmPercentage.setTextColor(editPwmPercentage.getTextColors().withAlpha(alphaValue));
-			editPwmPercentage.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 		return view;
 	}
 

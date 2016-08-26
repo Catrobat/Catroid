@@ -30,7 +30,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -67,7 +66,7 @@ public class CloneBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_clone, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_clone_checkbox);
 
@@ -81,25 +80,6 @@ public class CloneBrick extends BrickBaseType {
 		});
 
 		setupValueSpinner(context);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_clone_layout);
-			layout.getBackground().setAlpha(alphaValue);
-
-			TextView textLabel = (TextView) view.findViewById(R.id.brick_clone_label);
-			textLabel.setTextColor(textLabel.getTextColors().withAlpha(alphaValue));
-			Spinner objectSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-			objectSpinner.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
 		return view;
 	}
 

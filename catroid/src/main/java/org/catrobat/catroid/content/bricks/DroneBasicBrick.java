@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -42,7 +41,7 @@ public abstract class DroneBasicBrick extends BrickBaseType {
 			alphaValue = 255;
 		}
 		view = View.inflate(context, R.layout.brick_drone, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_drone_basic_checkbox);
 		final Brick brickInstance = this;
@@ -68,21 +67,6 @@ public abstract class DroneBasicBrick extends BrickBaseType {
 		label.setText(getBrickLabel(prototypeView));
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_basic_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-
-			TextView label = (TextView) view.findViewById(R.id.ValueTextView);
-			label.setText(getBrickLabel(view));
-		}
-
-		return view;
 	}
 
 	@Override

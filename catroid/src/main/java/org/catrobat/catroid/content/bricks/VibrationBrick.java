@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -78,7 +77,7 @@ public class VibrationBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_vibration, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_vibration_checkbox);
 
@@ -128,28 +127,6 @@ public class VibrationBrick extends FormulaBrick {
 		secondTextVibrate.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_SECONDS)));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_vibration_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textVibrationLabel = (TextView) view.findViewById(R.id.brick_vibration_label);
-			TextView textVibrationSeconds = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view);
-			TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
-
-			textVibrationLabel.setTextColor(textVibrationLabel.getTextColors().withAlpha(alphaValue));
-			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha(alphaValue));
-
-			editSeconds.setTextColor(editSeconds.getTextColors().withAlpha(alphaValue));
-			editSeconds.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

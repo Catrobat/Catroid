@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -75,7 +74,7 @@ public class SetYBrick extends FormulaBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_y, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_y_checkbox);
 
@@ -104,27 +103,6 @@ public class SetYBrick extends FormulaBrick {
 		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
 		textYPosition.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_y_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_label);
-			TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
-			textY.setTextColor(textY.getTextColors().withAlpha(alphaValue));
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

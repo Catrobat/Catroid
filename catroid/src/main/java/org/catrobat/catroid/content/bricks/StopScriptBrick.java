@@ -24,8 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +31,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -49,8 +46,6 @@ public class StopScriptBrick extends BrickBaseType {
 
 	private String[] spinnerValue;
 	private int spinnerSelection;
-
-	private transient AdapterView<?> adapterView;
 
 	public StopScriptBrick() {
 		this.spinnerValue = new String[3];
@@ -78,7 +73,7 @@ public class StopScriptBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_stop_script, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_stop_script_checkbox);
 
 		final Brick brickInstance = this;
@@ -116,31 +111,6 @@ public class StopScriptBrick extends BrickBaseType {
 
 		stopScriptSpinner.setSelection(spinnerSelection);
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_stop_script_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner stopScriptSpinner = (Spinner) view.findViewById(R.id.brick_stop_script_spinner);
-			stopScriptSpinner.getBackground().setAlpha(alphaValue);
-
-			TextView stopScriptLabel = (TextView) view.findViewById(R.id.brick_stop_script_label);
-			ColorStateList color = stopScriptLabel.getTextColors().withAlpha(alphaValue);
-			stopScriptLabel.setTextColor(stopScriptLabel.getTextColors().withAlpha(alphaValue));
-
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
 		return view;
 	}
 

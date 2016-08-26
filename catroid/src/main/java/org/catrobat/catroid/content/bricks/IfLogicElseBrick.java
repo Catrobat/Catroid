@@ -23,13 +23,11 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -75,7 +73,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		}
 
 		view = View.inflate(context, R.layout.brick_if_else, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_if_else_checkbox);
 		final Brick brickInstance = this;
@@ -87,24 +85,6 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_if_else_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView ifElseLabel = (TextView) view.findViewById(R.id.brick_if_else_label);
-			ifElseLabel.setTextColor(ifElseLabel.getTextColors().withAlpha(alphaValue));
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -94,7 +93,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_point_in_direction_checkbox);
 
 		final Brick brickInstance = this;
@@ -126,29 +125,6 @@ public class PointInDirectionBrick extends FormulaBrick {
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		setAngleTextView.setText(Utils.getNumberStringForBricks(BrickValues.POINT_IN_DIRECTION));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_point_in_direction_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView pointInDirectionLabel = (TextView) view.findViewById(R.id.brick_point_in_direction_label);
-			TextView pointInDirectionDegree = (TextView) view.findViewById(R.id.brick_point_in_direction_degree);
-			TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
-			pointInDirectionLabel.setTextColor(pointInDirectionLabel.getTextColors().withAlpha(alphaValue));
-			pointInDirectionDegree.setTextColor(pointInDirectionDegree.getTextColors().withAlpha(alphaValue));
-			setAngleTextView.setTextColor(setAngleTextView.getTextColors().withAlpha(alphaValue));
-			setAngleTextView.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

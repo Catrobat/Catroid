@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -37,6 +36,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -77,7 +77,7 @@ public class SetBounceBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_set_bounce_factor, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_bounce_factor_checkbox);
 
@@ -111,27 +111,6 @@ public class SetBounceBrick extends FormulaBrick {
 				.findViewById(R.id.brick_set_bounce_factor_prototype_text_view);
 		textBounceFactor.setText(String.valueOf(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_bounce_factor_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textX = (TextView) view.findViewById(R.id.brick_set_bounce_factor_prototype_text_view);
-			TextView editX = (TextView) view.findViewById(R.id.brick_set_bounce_factor_edit_text);
-			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

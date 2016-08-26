@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -104,7 +103,7 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 				.brick_think_for_bubble_seconds_label;
 
 		view = View.inflate(context, layoutId, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(checkboxId);
 		final Brick brickInstance = this;
@@ -176,47 +175,6 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 		seconds.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-			int layoutId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_layout : R.id
-					.brick_think_for_bubble_layout;
-			int thinkSayLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_label : R.id
-					.brick_think_for_bubble_label;
-			int forTextViewId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_for : R.id
-					.brick_think_for_bubble_for;
-			int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
-					.brick_think_for_bubble_edit_text_text;
-			int editDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R.id
-					.brick_think_for_bubble_edit_text_duration;
-			int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label : R.id
-					.brick_think_for_bubble_seconds_label;
-
-			View layout = view.findViewById(layoutId);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView thinkSayLabel = (TextView) view.findViewById(thinkSayLabelId);
-			TextView forTextView = (TextView) view.findViewById(forTextViewId);
-			TextView editDuration = (TextView) view.findViewById(editDurationId);
-			TextView editText = (TextView) view.findViewById(editTextId);
-			TextView thinkSaySecondsLabel = (TextView) view.findViewById(thinkSaySecondsLabelId);
-
-			thinkSayLabel.setTextColor(thinkSayLabel.getTextColors().withAlpha(alphaValue));
-			thinkSaySecondsLabel.setTextColor(thinkSaySecondsLabel.getTextColors().withAlpha(alphaValue));
-			forTextView.setTextColor(forTextView.getTextColors().withAlpha(alphaValue));
-			editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
-			editDuration.getBackground().setAlpha(alphaValue);
-			editText.setTextColor(editText.getTextColors().withAlpha(alphaValue));
-			editText.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

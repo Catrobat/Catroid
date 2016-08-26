@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -108,7 +107,7 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
 
 		// XXX method moved to to DragAndDropListView since it is not working on 2.x
@@ -172,19 +171,6 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_broadcast_receive_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-		return view;
 	}
 
 	@Override

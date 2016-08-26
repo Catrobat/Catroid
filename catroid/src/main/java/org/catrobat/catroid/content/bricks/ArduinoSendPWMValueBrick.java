@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -95,7 +94,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_arduino_send_analog, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_arduino_send_analog_checkbox);
 
@@ -126,29 +125,6 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 		editPinValue.setVisibility(View.VISIBLE);
 		editPinValue.setOnClickListener(this);
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_arduino_send_analog_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_analog_pin_text_view);
-			TextView textgPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_analog_value_text_view);
-			TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
-			TextView editPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_analog_value_edit_text);
-			textPinNumber.setTextColor(textPinNumber.getTextColors().withAlpha(alphaValue));
-			textgPinValue.setTextColor(textgPinValue.getTextColors().withAlpha(alphaValue));
-			editPinNumber.setTextColor(editPinNumber.getTextColors().withAlpha(alphaValue));
-			editPinNumber.getBackground().setAlpha(alphaValue);
-			editPinValue.setTextColor(editPinValue.getTextColors().withAlpha(alphaValue));
-			editPinValue.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 		return view;
 	}
 

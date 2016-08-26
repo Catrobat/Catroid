@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -91,7 +90,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				selectedMessage = parent.getItemAtPosition(position).toString();
 				spinnerPosition = position;
-				adapterView = parent;
 				Log.d(TAG, "selected message = "
 						+ selectedMessage + " on position: " + spinnerPosition);
 			}
@@ -126,22 +124,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 		label.setText(getBrickLabel(prototypeView));
 
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_drone_spinner_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-
-			TextView label = (TextView) view.findViewById(R.id.brick_drone_spinner_label);
-			label.setText(getBrickLabel(view));
-		}
-		return view;
 	}
 
 	public void setSpinnerPosition(int spinnerPosition) {

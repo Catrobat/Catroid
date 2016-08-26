@@ -322,9 +322,8 @@ public class DataContainer implements Serializable {
 					List<UserScriptDefinitionBrickElement> currentElements = userBrick.getUserScriptDefinitionBrickElements();
 					for (int id = 0; id < currentElements.size(); id++) {
 						if (currentElements.get(id).getText().equals(userVariableName) && currentElements.get(id).isVariable()) {
-							int alpha = userBrick.getAlphaValue();
-							Context alphaView = userBrick.getDefinitionBrick().getViewWithAlpha(alpha).getContext();
-							userBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.get(id).getText(), alphaView);
+							Context brickContext = userBrick.getDefinitionBrick().view.getContext();
+							userBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.get(id).getText(), brickContext);
 							currentElements.remove(id);
 						}
 					}

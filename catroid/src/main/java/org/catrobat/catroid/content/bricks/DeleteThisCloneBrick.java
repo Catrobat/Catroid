@@ -23,12 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -55,7 +53,7 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_delete_this_clone, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_delete_clone_checkbox);
 		final Brick brickInstance = this;
@@ -74,21 +72,6 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 	public Brick copyBrickForSprite(Sprite sprite) {
 		DeleteThisCloneBrick copyBrick = (DeleteThisCloneBrick) clone();
 		return copyBrick;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_delete_clone_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-
-			TextView hideLabel = (TextView) view.findViewById(R.id.brick_delete_clone_label);
-			hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
-		}
-
-		return view;
 	}
 
 	@Override

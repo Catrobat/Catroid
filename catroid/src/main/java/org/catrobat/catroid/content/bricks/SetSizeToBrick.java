@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -76,7 +75,7 @@ public class SetSizeToBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_size_to_checkbox);
 
@@ -104,29 +103,6 @@ public class SetSizeToBrick extends FormulaBrick {
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
 		textSetSizeTo.setText(Utils.getNumberStringForBricks(BrickValues.SET_SIZE_TO));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_size_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textSize = (TextView) view.findViewById(R.id.brick_set_size_to_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
-			TextView editSize = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
-			textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
-			editSize.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override

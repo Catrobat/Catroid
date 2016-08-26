@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -73,7 +72,7 @@ public class SpeakBrick extends FormulaBrick {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_speak, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_speak_checkbox);
 
@@ -95,28 +94,6 @@ public class SpeakBrick extends FormulaBrick {
 		textField.setVisibility(View.VISIBLE);
 
 		textField.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_speak_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textSpeak = (TextView) view.findViewById(R.id.brick_speak_label);
-			TextView editDegrees = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-
-			textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
-			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-			editDegrees.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
 		return view;
 	}
 

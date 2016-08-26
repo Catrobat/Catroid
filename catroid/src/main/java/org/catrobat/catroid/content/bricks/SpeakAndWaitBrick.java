@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -80,7 +79,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_speak_and_wait, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_speak_and_wait_checkbox);
 
@@ -102,28 +101,6 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		textField.setVisibility(View.VISIBLE);
 
 		textField.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_speak_and_wait_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView speakAndWaitLabel = (TextView) view.findViewById(R.id.brick_speak_and_wait_label);
-			TextView editDegrees = (TextView) view.findViewById(R.id.brick_speak_and_wait_edit_text);
-
-			speakAndWaitLabel.setTextColor(speakAndWaitLabel.getTextColors().withAlpha(alphaValue));
-			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-			editDegrees.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
 		return view;
 	}
 

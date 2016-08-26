@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,7 +52,6 @@ public class HideVariableBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 
 	public HideVariableBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
@@ -75,7 +73,7 @@ public class HideVariableBrick extends UserVariableBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_hide_variable, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_hide_variable_checkbox);
 
 		final Brick brickInstance = this;
@@ -140,29 +138,13 @@ public class HideVariableBrick extends UserVariableBrick {
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
-				adapterView = parent;
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				userVariable = (UserVariable) adapterView.getItemAtPosition(1);
+				userVariable = (UserVariable) arg0.getItemAtPosition(1);
 			}
 		});
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_hide_variable_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

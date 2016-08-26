@@ -24,9 +24,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -58,7 +55,6 @@ public class GoToBrick extends BrickBaseType {
 	private String touchPositionLabel;
 	private String randomPositionLabel;
 
-	private transient AdapterView<?> adapterView;
 	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 	private int spinnerSelection;
 
@@ -90,7 +86,7 @@ public class GoToBrick extends BrickBaseType {
 		}
 
 		view = View.inflate(context, R.layout.brick_go_to, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		this.touchPositionLabel = context.getString(R.string.brick_go_to_touch_position);
 		this.randomPositionLabel = context.getString(R.string.brick_go_to_random_position);
@@ -144,7 +140,6 @@ public class GoToBrick extends BrickBaseType {
 						}
 					}
 				}
-				adapterView = parent;
 			}
 
 			@Override
@@ -153,33 +148,6 @@ public class GoToBrick extends BrickBaseType {
 		});
 
 		setSpinnerSelection(goToSpinner);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_go_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView goToLabel = (TextView) view.findViewById(R.id.brick_go_to_label);
-			goToLabel.setTextColor(goToLabel.getTextColors().withAlpha(alphaValue));
-
-			Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
-			goToSpinner.getBackground().setAlpha(alphaValue);
-
-			ColorStateList color = goToLabel.getTextColors().withAlpha(alphaValue);
-
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = alphaValue;
-		}
 
 		return view;
 	}

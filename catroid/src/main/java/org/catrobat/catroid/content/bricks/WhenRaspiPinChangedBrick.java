@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -80,7 +79,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		}
 
 		view = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_raspi_when_checkbox);
 
 		setupValueSpinner(context);
@@ -200,18 +199,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		}
 
 		return script;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_raspi_when_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	public String getPinString() {

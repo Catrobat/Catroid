@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -76,7 +75,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
-		view = getViewWithAlpha(alphaValue);
+		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_brightness_checkbox);
 		final Brick brickInstance = this;
@@ -107,29 +106,6 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 				.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		textChangeBrightness.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_BRITHNESS_BY));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_change_brightness_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_label);
-			TextView textBy = (TextView) view.findViewById(R.id.brick_change_brightness_by_textview);
-			TextView editBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
-			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
-			textBy.setTextColor(textBy.getTextColors().withAlpha(alphaValue));
-			editBrightness.setTextColor(editBrightness.getTextColors().withAlpha(alphaValue));
-			editBrightness.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = alphaValue;
-		}
-
-		return view;
 	}
 
 	@Override
