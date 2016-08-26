@@ -34,6 +34,7 @@
         android:minHeight="@dimen/activity_linear_layout_height" >
 
     <CheckBox
+        style="@style/WrapContent.Gone.Margin"
         android:id="@+id/project_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
         android:layout_marginLeft="@dimen/activity_check_box_margin_left"
         android:layout_marginRight="@dimen/activity_check_box_margin_right"
         android:visibility="gone" />
+        android:layout_marginRight="@dimen/activity_check_box_margin_right_big" />
 
         <RelativeLayout
             android:id="@+id/my_projects_activity_item_background"

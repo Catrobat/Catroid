@@ -25,35 +25,33 @@
     style="@style/DefaultDialog" >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        style="@style/LinearLayout"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbars="vertical" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            style="@style/LinearLayout"
+            android:gravity="left"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <org.catrobat.catroid.ui.CapitalizedTextView
                 style="@style/DefaultDialog.TextView"
                 android:layout_width="wrap_content"
-                android:layout_marginRight="0dp"
                 android:text="@string/size_of_project" />
 
             <TextView
+                style="@style/DialogUploadTextView"
                 android:id="@+id/dialog_upload_size_of_project"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dialog_capitalized_text_view_margin_left"
-                android:paddingBottom="@dimen/dialog_item_header_linepadding" />
+                android:layout_marginLeft="@dimen/dialog_capitalized_text_view_margin_left" />
         </LinearLayout >
 
         <View style="@style/DefaultDialog.Line" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            style="@style/LinearLayout"
+            android:gravity="left"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -65,11 +63,9 @@
                 android:text="@string/project_name" />
 
             <TextView
+                style="@style/DialogUploadTextView"
                 android:id="@+id/tv_project_rename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
-                android:paddingBottom="@dimen/dialog_item_header_linepadding"
                 android:text="@string/project_rename"
                 android:textSize="12sp" >
             </TextView >
@@ -81,8 +77,6 @@
             android:id="@+id/project_upload_name"
             style="@style/DefaultDialog.EditText"
             android:hint="@string/new_project_dialog_hint"
-            android:inputType="text"
-            android:maxLines="1"
             android:selectAllOnFocus="true" />
 
         <org.catrobat.catroid.ui.CapitalizedTextView
@@ -97,7 +91,6 @@
             style="@style/DefaultDialog.EditText"
             android:hint="@string/new_project_description_dialog_hint"
             android:inputType="textMultiLine"
-            android:minLines="1"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="vertical"
             android:singleLine="false" >

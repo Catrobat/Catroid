@@ -36,17 +36,13 @@
         android:id="@+id/dialog_about_text_view_url"
         style="@style/DefaultDialog.Item"
         android:layout_below="@id/dialog_about_text_view_license_info"
-        android:gravity="center|bottom"
-        android:textColorLink="#E68B00"
-        android:textSize="20sp" />
+        android:gravity="center|bottom" />
 
     <TextView
         android:id="@+id/dialog_about_text_catrobat_url"
         style="@style/DefaultDialog.Item"
         android:layout_below="@id/dialog_about_text_view_url"
-        android:gravity="center|bottom"
-        android:textColorLink="#E68B00"
-        android:textSize="20sp" />
+        android:gravity="center|bottom" />
 
     <TextView
         android:id="@+id/dialog_about_text_view_version_name"
