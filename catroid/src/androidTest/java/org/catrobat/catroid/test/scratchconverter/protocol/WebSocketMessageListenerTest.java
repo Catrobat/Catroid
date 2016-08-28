@@ -306,7 +306,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 				JobFinishedMessage finishedMessage = (JobFinishedMessage) invocation.getArguments()[0];
 				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, finishedMessage.getJobID());
 				assertEquals("Wrong job download URL extracted", expectedDownloadURL, finishedMessage.getDownloadURL());
-				final Date cachedUTCDate = finishedMessage.getCachedUTCDate();
+				final Date cachedUTCDate = finishedMessage.getCachedDate();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 				dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 				assertEquals("Wrong job cached date extracted",

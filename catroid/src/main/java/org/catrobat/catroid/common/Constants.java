@@ -174,10 +174,6 @@ public final class Constants {
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-	public static final long DISK_IMAGE_CACHE_EXPIRE_TIME = 10 * 24 * 60 * 60 * 1_000;           // 10 days (in ms)
-	public static final long DISK_IMAGE_CACHE_MAX_SIZE = 20 * 1_024 * 1_024;                     // 20MB (in bytes)
-	public static final long MEMORY_IMAGE_CACHE_EXPIRE_TIME = 300_000;                           // 5 minutes (in ms)
-	public static final int MEMORY_IMAGE_CACHE_ALLOCATED_FRACTION_OF_TOTAL_AVAILABLE_MEMORY = 8; // 1/8th of available memory
 	public static final long MEMORY_OBJECT_CACHE_EXPIRE_TIME = 120_000;                          // 2 minutes (in ms)
 	public static final int MEMORY_OBJECT_CACHE_MAX_SIZE = 10_000;
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
