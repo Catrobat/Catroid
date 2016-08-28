@@ -163,7 +163,8 @@ public class WebSocketMessageListener implements MessageListener, WebSocket.Stri
 		final JobHandler jobHandler = createOrUseExistingJobHandlerForJobIfPossible(job, true, convertCallback);
 		Preconditions.checkState(jobHandler != null);
 
-		if (job.getState() == Job.State.FINISHED && !job.isAlreadyDownloaded() && job.getDownloadURL() != null) {
+		if (job.getState() == Job.State.FINISHED && job.getDownloadState() == Job.DownloadState.NOT_DOWNLOADED
+				&& job.getDownloadURL() != null) {
 			return jobHandler;
 		}
 		return null;

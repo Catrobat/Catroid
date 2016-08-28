@@ -147,6 +147,10 @@
     <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
         have canceled the conversion/download of the Scratch program or you have renamed/deleted the program in the
         meanwhile!</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">Cannot open this Scratch program
+        while it is downloading! Please try again later!</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
+        since it has not been downloaded yet! Please try again later!</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert "%1$s"! Older Scratch before %2$s
         programs are not supported!</string>
     <plurals name="error_cannot_convert_more_than_x_programs">

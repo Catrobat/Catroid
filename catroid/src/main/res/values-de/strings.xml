@@ -132,6 +132,10 @@
   <string name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden. Es
     scheint so als hättest du die Konvertierung/Download abgebrochen oder das Programm in der Zwischenzeit
     gelöscht oder umbenannt!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">Dieses Scratch Programm kann nicht geöffnet
+    werden, da es gerade heruntergeladen wird. Bitte probiere es etwas später noch einmal!</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">Dieses Scratch Programm kann nicht geöffnet
+    werden, da es noch nicht heruntergeladen wurde. Bitte probiere es etwas später noch einmal!</string>
   <string name="error_cannot_convert_deprecated_scratch_program_x_x">Das Scratch Programm "%1$s" kann nicht konvertiert
     werden! Alte Programme die vor %2$s erstellt wurden, werden vom Konverter leider nicht unterstützt!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
