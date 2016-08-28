@@ -211,7 +211,7 @@ public class JobHandler implements Client.DownloadFinishedCallback {
 		job.setState(State.FINISHED);
 		job.setDownloadURL(jobFinishedMessage.getDownloadURL());
 		callback.onConversionFinished(job, this, jobFinishedMessage.getDownloadURL(),
-				jobFinishedMessage.getCachedUTCDate());
+				jobFinishedMessage.getCachedDate());
 	}
 
 	private void handleJobFailedMessage(@NonNull final JobFailedMessage jobFailedMessage) {
