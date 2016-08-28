@@ -70,13 +70,16 @@ public class Job {
 		}
 	}
 
+	public enum DownloadState {
+		NOT_DOWNLOADED, DOWNLOADING, DOWNLOADED
+	}
+
 	private State state;
 	private long jobID;
 	private String title;
 	private WebImage image;
 	private short progress;
-	private boolean alreadyDownloaded;
-	private boolean downloading;
+	private DownloadState downloadState;
 	private String downloadURL;
 
 	public Job(long jobID, String title, WebImage image) {
@@ -85,8 +88,7 @@ public class Job {
 		this.title = title;
 		this.image = image;
 		this.progress = 0;
-		this.downloading = false;
-		this.alreadyDownloaded = false;
+		this.downloadState = DownloadState.NOT_DOWNLOADED;
 		this.downloadURL = null;
 	}
 
@@ -94,7 +96,8 @@ public class Job {
 		final State state = State.valueOf(data.getInt(JsonJobDataKeys.STATE.toString()));
 		final long jobID = data.getLong(JsonJobDataKeys.JOB_ID.toString());
 		final String title = data.getString(JsonJobDataKeys.TITLE.toString());
-		final String imageURL = data.isNull(JsonJobDataKeys.IMAGE_URL.toString()) ? null : data.getString(JsonJobDataKeys.IMAGE_URL.toString());
+		final String imageURL = data.isNull(JsonJobDataKeys.IMAGE_URL.toString()) ? null
+				: data.getString(JsonJobDataKeys.IMAGE_URL.toString());
 		WebImage image = null;
 		if (imageURL != null) {
 			final int[] imageSize = Utils.extractImageSizeFromScratchImageURL(imageURL);
@@ -106,7 +109,7 @@ public class Job {
 		final Job job = new Job(jobID, title, image);
 		job.state = state;
 		job.progress = progress;
-		job.alreadyDownloaded = alreadyDownloaded;
+		job.downloadState = alreadyDownloaded ? DownloadState.DOWNLOADED : DownloadState.NOT_DOWNLOADED;
 		job.downloadURL = downloadURL;
 		return job;
 	}
@@ -151,20 +154,12 @@ public class Job {
 		this.image = image;
 	}
 
-	public void setDownloading(boolean downloading) {
-		this.downloading = downloading;
+	public DownloadState getDownloadState() {
+		return downloadState;
 	}
 
-	public boolean isDownloading() {
-		return downloading;
-	}
-
-	public boolean isAlreadyDownloaded() {
-		return alreadyDownloaded;
-	}
-
-	public void setAlreadyDownloaded(boolean alreadyDownloaded) {
-		this.alreadyDownloaded = alreadyDownloaded;
+	public void setDownloadState(DownloadState downloadState) {
+		this.downloadState = downloadState;
 	}
 
 	public String getDownloadURL() {

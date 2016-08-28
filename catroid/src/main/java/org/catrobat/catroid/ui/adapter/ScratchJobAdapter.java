@@ -115,12 +115,15 @@ public class ScratchJobAdapter extends ArrayAdapter<Job> {
 				break;
 			case FINISHED:
 				int messageID;
-				if (job.isDownloading()) {
-					messageID = R.string.status_downloading;
-				} else if (job.isAlreadyDownloaded()) {
-					messageID = R.string.status_download_finished;
-				} else {
-					messageID = R.string.status_conversion_finished;
+				switch (job.getDownloadState()) {
+					case DOWNLOADING:
+						messageID = R.string.status_downloading;
+						break;
+					case DOWNLOADED:
+						messageID = R.string.status_download_finished;
+						break;
+					default:
+						messageID = R.string.status_conversion_finished;
 				}
 				holder.status.setText(getContext().getString(messageID));
 				break;

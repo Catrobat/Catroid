@@ -52,6 +52,7 @@ import com.squareup.picasso.Picasso;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.scratchconverter.Client.DownloadFinishedCallback;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
@@ -73,7 +74,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ScratchConverterSlidingUpPanelFragment extends Fragment
-		implements BaseInfoViewListener, JobViewListener, DownloadFinishedCallback, ScratchJobEditListener {
+		implements BaseInfoViewListener, JobViewListener, DownloadFinishedCallback, ScratchJobEditListener,
+		LoadProjectTask.OnLoadProjectCompleteListener {
 
 	private static final String TAG = ScratchConverterSlidingUpPanelFragment.class.getSimpleName();
 
@@ -345,7 +347,6 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 	@Override
 	public void onJobScheduled(final Job job) {
 		((ScratchConverterActivity) getActivity()).showSlideUpPanelBar(0);
-		updateAdapterSingleJob(job);
 		updateConvertPanel(job, R.string.status_scheduled, false);
 	}
 
@@ -426,6 +427,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 			Log.e(TAG, ex.getMessage());
 		}
 
+		job.setDownloadState(Job.DownloadState.DOWNLOADED);
 		updateConvertPanel(job, R.string.status_download_finished, false);
 	}
 
@@ -444,6 +446,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 			return;
 		}
 
+		job.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
 		updateConvertPanel(job, R.string.status_download_canceled, false);
 	}
 
@@ -469,6 +472,26 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 		String catrobatProgramName = downloadedProgramsMap.get(job.getJobID());
 		catrobatProgramName = catrobatProgramName == null ? job.getTitle() : catrobatProgramName;
 
+		if (job.getDownloadState() == Job.DownloadState.DOWNLOADING) {
+			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+			builder.setTitle(R.string.warning);
+			builder.setMessage(R.string.error_cannot_open_currently_downloading_scratch_program);
+			builder.setNeutralButton(R.string.close, null);
+			Dialog errorDialog = builder.create();
+			errorDialog.show();
+			return;
+		}
+
+		if (job.getDownloadState() == Job.DownloadState.NOT_DOWNLOADED) {
+			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+			builder.setTitle(R.string.warning);
+			builder.setMessage(R.string.error_cannot_open_not_yet_downloaded_scratch_program);
+			builder.setNeutralButton(R.string.close, null);
+			Dialog errorDialog = builder.create();
+			errorDialog.show();
+			return;
+		}
+
 		if (!StorageHandler.getInstance().projectExists(catrobatProgramName)) {
 			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 			builder.setTitle(R.string.warning);
@@ -479,9 +502,25 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 			return;
 		}
 
+		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), catrobatProgramName, true, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		loadProjectTask.execute();
+	}
+
+	@Override
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, catrobatProgramName);
-		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, false);
+		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
 		getActivity().startActivity(intent);
+	}
+
+	@Override
+	public void onLoadProjectFailure() {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+		builder.setTitle(R.string.warning);
+		builder.setMessage(R.string.error_cannot_open_not_existing_scratch_program);
+		builder.setNeutralButton(R.string.close, null);
+		Dialog errorDialog = builder.create();
+		errorDialog.show();
 	}
 }

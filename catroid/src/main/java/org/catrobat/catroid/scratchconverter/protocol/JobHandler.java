@@ -69,21 +69,21 @@ public class JobHandler implements Client.DownloadFinishedCallback {
 	@Override
 	public void onDownloadStarted(final String url) {
 		Log.d(TAG, "Download started - Job ID is: " + job.getJobID());
-		job.setDownloading(true);
+		job.setDownloadState(Job.DownloadState.DOWNLOADING);
 		job.setState(State.FINISHED);
 	}
 
 	@Override
 	public void onDownloadFinished(final String programName, final String url) {
 		Log.d(TAG, "Download finished - Resetting job with ID: " + job.getJobID());
-		job.setDownloading(false);
+		job.setDownloadState(Job.DownloadState.DOWNLOADED);
 		job.setState(State.FINISHED);
 	}
 
 	@Override
 	public void onUserCanceledDownload(final String url) {
 		Log.d(TAG, "User canceled download - Resetting job with ID: " + job.getJobID());
-		job.setDownloading(false);
+		job.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
 		job.setState(State.FINISHED);
 	}
 

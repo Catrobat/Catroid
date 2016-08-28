@@ -164,12 +164,12 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		final Job expectedFirstJob = new Job(1, "Program 1", expectedProgramImage);
 		expectedFirstJob.setState(Job.State.FINISHED);
 		expectedFirstJob.setProgress((short) 10);
-		expectedFirstJob.setAlreadyDownloaded(true);
+		expectedFirstJob.setDownloadState(Job.DownloadState.DOWNLOADED);
 		expectedFirstJob.setDownloadURL("http://scratch2.catrob.at/download?job_id=1&client_id=1&fname=Program%201");
 		final Job expectedSecondJob = new Job(2, "Program 2", null);
 		expectedSecondJob.setState(Job.State.FINISHED);
 		expectedSecondJob.setProgress((short) 20);
-		expectedFirstJob.setAlreadyDownloaded(false);
+		expectedSecondJob.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
 		expectedSecondJob.setDownloadURL("http://scratch2.catrob.at/download?job_id=2&client_id=1&fname=Program%202");
 
 		doAnswer(new Answer<Void>() {
@@ -192,8 +192,8 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 						expectedFirstJob.getImage().getUrl(), jobs[0].getImage().getUrl());
 				assertEquals("Wrong progress value extracted of first job",
 						expectedFirstJob.getProgress(), jobs[0].getProgress());
-				assertEquals("Wrong alreadyDownloaded value extracted of first job",
-						expectedFirstJob.isAlreadyDownloaded(), jobs[0].isAlreadyDownloaded());
+				assertEquals("Wrong downloadState value extracted of first job",
+						expectedFirstJob.getDownloadState(), jobs[0].getDownloadState());
 				assertEquals("Wrong downloadURL extracted of first job",
 						expectedFirstJob.getDownloadURL(), jobs[0].getDownloadURL());
 
@@ -204,8 +204,8 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 				assertNull("Wrong image extracted of second job", jobs[1].getImage());
 				assertEquals("Wrong progress value extracted of second job",
 						expectedSecondJob.getProgress(), jobs[1].getProgress());
-				assertEquals("Wrong alreadyDownloaded value extracted of second job",
-						expectedSecondJob.isAlreadyDownloaded(), jobs[1].isAlreadyDownloaded());
+				assertEquals("Wrong progress value extracted of second job",
+						expectedSecondJob.getProgress(), jobs[1].getProgress());
 				assertEquals("Wrong downloadURL extracted of second job",
 						expectedSecondJob.getDownloadURL(), jobs[1].getDownloadURL());
 				return null;
@@ -625,7 +625,8 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 					put(JsonKeys.JsonJobDataKeys.IMAGE_URL.toString(), null);
 				}
 				put(JsonKeys.JsonJobDataKeys.PROGRESS.toString(), job.getProgress());
-				put(JsonKeys.JsonJobDataKeys.ALREADY_DOWNLOADED.toString(), job.isAlreadyDownloaded());
+				put(JsonKeys.JsonJobDataKeys.ALREADY_DOWNLOADED.toString(),
+						job.getDownloadState() == Job.DownloadState.DOWNLOADED);
 				put(JsonKeys.JsonJobDataKeys.DOWNLOAD_URL.toString(), job.getDownloadURL());
 			}
 		};

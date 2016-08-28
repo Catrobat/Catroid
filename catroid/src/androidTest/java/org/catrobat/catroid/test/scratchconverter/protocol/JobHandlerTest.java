@@ -425,10 +425,11 @@ public class JobHandlerTest extends AndroidTestCase {
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
 
 		expectedJob.setState(Job.State.RUNNING);
+		expectedJob.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
 		jobHandler.onDownloadStarted(expectedDownloadURL);
 
-		assertTrue("Expecting isDownloading() to return true after onDownloadStarted() called",
-				expectedJob.isDownloading());
+		assertEquals("Expecting downloadState to be DOWNLOADING after onDownloadStarted() called",
+				Job.DownloadState.DOWNLOADING, expectedJob.getDownloadState());
 		assertEquals("Expecting state to be FINISHED after onDownloadStarted() called",
 				Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
@@ -439,10 +440,11 @@ public class JobHandlerTest extends AndroidTestCase {
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
 
 		expectedJob.setState(Job.State.RUNNING);
+		expectedJob.setDownloadState(Job.DownloadState.DOWNLOADING);
 		jobHandler.onDownloadFinished(expectedJob.getTitle(), expectedDownloadURL);
 
-		assertFalse("Expecting isDownloading() to return true after onDownloadFinished() called",
-				expectedJob.isDownloading());
+		assertEquals("Expecting downloadState to be DOWNLOADED after onDownloadFinished() called",
+				Job.DownloadState.DOWNLOADED, expectedJob.getDownloadState());
 		assertEquals("Expecting state to be FINISHED after onDownloadFinished() called",
 				Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
@@ -453,10 +455,11 @@ public class JobHandlerTest extends AndroidTestCase {
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
 
 		expectedJob.setState(Job.State.RUNNING);
+		expectedJob.setDownloadState(Job.DownloadState.DOWNLOADING);
 		jobHandler.onUserCanceledDownload(expectedDownloadURL);
 
-		assertFalse("Expecting isDownloading() to return true after onUserCanceledDownload() called",
-				expectedJob.isDownloading());
+		assertEquals("Expecting downloadState to be NOT_DOWNLOADED after onUserCanceledDownload() called",
+				Job.DownloadState.NOT_DOWNLOADED, expectedJob.getDownloadState());
 		assertEquals("Expecting state to be FINISHED after onUserCanceledDownload() called",
 				Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
