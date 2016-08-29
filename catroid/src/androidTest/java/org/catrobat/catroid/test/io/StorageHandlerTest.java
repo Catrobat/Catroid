@@ -271,7 +271,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				+ "ARDRONE_SUPPORT "
 				+ "CAMERA_LED VIBRATOR";
 
-		final Project project = new Project(getContext(), projectName);
+		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 
