@@ -41,7 +41,7 @@
 #-keepattributes Exceptions
 #-keepattributes Signature
 #-keepattributes InnerClasses
--keepattributes EnclosingMethod
+#-keepattributes EnclosingMethod
 
 
 
