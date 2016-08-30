@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.drone.JumpingSumoBrickFactory;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -50,6 +52,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
+
+	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	private static final String TAG = DefaultProjectCreatorJumpingSumo.class.getSimpleName();
 	protected static double iconImageScaleFactor = 1.8;
@@ -89,7 +93,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.ic_video, context,
 				true, backgroundImageScaleFactor);
 
-		Sprite sprite = new Sprite(backgroundName);
+		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), backgroundName);
 
 		//LookData backgroundLookData = new DroneVideoLookData();
 		LookData backgroundLookData = new LookData();
@@ -109,7 +113,6 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		backgroundSprite.addScript(backgroundStartScript);
 		backgroundSprite.addScript(whenProjectStartsScript);
 		backgroundSprite.addScript(whenSpriteTappedScript);
-
 
 		//icons from http://findicons.com/search/arrow#ajax
 		//flip brick
@@ -199,7 +202,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 	private Sprite createJumpingSumoSprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks jumpingSumoBrick, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds, byte powerInPercent, float degree) {
 
-		Sprite sprite = new Sprite(spriteName);
+		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
 
 		Script whenSpriteTappedScript = new WhenScript();
 
