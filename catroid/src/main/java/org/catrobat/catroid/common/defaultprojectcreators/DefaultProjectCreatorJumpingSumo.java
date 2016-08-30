@@ -77,6 +77,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		Script whenSpriteTappedScript = new WhenScript();
 
 		Project defaultJumpingSumoProject = new Project(context, projectName, landscapeMode);
+		String sceneName = defaultJumpingSumoProject.getDefaultScene().getName();
 		defaultJumpingSumoProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultJumpingSumoProject);
 		ProjectManager.getInstance().setProject(defaultJumpingSumoProject);
@@ -84,7 +85,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.drone_project_background, context);
 
-		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.ic_video, context,
 				true, backgroundImageScaleFactor);
 
@@ -96,7 +97,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		backgroundLookData.setLookFilename(backgroundFile.getName());
 		sprite.getLookDataList().add(backgroundLookData);
 
-		Sprite backgroundSprite = defaultJumpingSumoProject.getSpriteList().get(0);
+		Sprite backgroundSprite = defaultJumpingSumoProject.getDefaultScene().getSpriteList().get(0);
 
 		backgroundSprite.getLookDataList().add(backgroundLookData);
 		Script backgroundStartScript = new StartScript();
@@ -114,21 +115,21 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		//flip brick
 		String flipName = context.getString(R.string.default_jumping_sumo_project_sprites_flip);
 
-		File flipFile = UtilFile.copyImageFromResourceIntoProject(projectName, flipName
+		File flipFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, flipName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_flip, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.addSprite(createJumpingSumoSprite(flipName, JumpingSumoBrickFactory.JumpingSumoBricks
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(flipName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_TURN, 260, 0, flipFile));
 
 		//forward brick
 		String forwardName = context.getString(R.string.default_jumping_sumo_project_sprites_forward);
 
-		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, forwardName
+		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, forwardName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_forward, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.addSprite(createJumpingSumoSprite(forwardName, JumpingSumoBrickFactory.JumpingSumoBricks
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(forwardName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_FORWARD, -200, -300, forwardFile, BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (byte) BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, 0));
@@ -136,54 +137,54 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		//backward brick
 		String backwardName = context.getString(R.string.default_jumping_sumo_project_sprites_backward);
 
-		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, backwardName
+		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backwardName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_backward, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.addSprite(createJumpingSumoSprite(backwardName, JumpingSumoBrickFactory
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(backwardName, JumpingSumoBrickFactory
 						.JumpingSumoBricks.JUMPING_SUMO_BACKWARD, 200, -300, backwardFile, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
 						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, 0));
 
 		//turn left brick
 		String turnLeftName = context.getString(R.string.default_jumping_sumo_project_sprites_turn_left);
 
-		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnLeftName
+		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, turnLeftName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_left, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.addSprite(createJumpingSumoSprite(turnLeftName, JumpingSumoBrickFactory
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnLeftName, JumpingSumoBrickFactory
 						.JumpingSumoBricks.JUMPING_SUMO_ROTATE_LEFT, 0, -500, turnLeftFile, 0,
 						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) Math.PI / 2));
 
 		//turn right brick
 		String turnRightName = context.getString(R.string.default_jumping_sumo_project_sprites_turn_right);
 
-		File turnRightFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnRightName
+		File turnRightFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, turnRightName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_right, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.addSprite(createJumpingSumoSprite(turnRightName, JumpingSumoBrickFactory.JumpingSumoBricks
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnRightName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_ROTATE_RIGHT, 0, -100, turnRightFile, 0, (byte) BrickValues
 						.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) Math.PI / 2));
 
 		//jump long brick
 		String jumpLongName = context.getString(R.string.default_jumping_sumo_project_sprites_jump_long);
 
-		File jumpLongFile = UtilFile.copyImageFromResourceIntoProject(projectName, jumpLongName
+		File jumpLongFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, jumpLongName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_jump_long, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.addSprite(createJumpingSumoSprite(jumpLongName, JumpingSumoBrickFactory.JumpingSumoBricks
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(jumpLongName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_JUMP_LONG, 0, 500, jumpLongFile));
 
 		//jump high brick
 		String jumpHighName = context.getString(R.string.default_jumping_sumo_project_sprites_jump_high);
 
-		File jumpHighFile = UtilFile.copyImageFromResourceIntoProject(projectName, jumpHighName
+		File jumpHighFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, jumpHighName
 						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_jump_high, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.addSprite(createJumpingSumoSprite(jumpHighName, JumpingSumoBrickFactory.JumpingSumoBricks
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(jumpHighName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_JUMP_HIGH, 0, 250, jumpHighFile));
 
 		StorageHandler.getInstance().saveProject(defaultJumpingSumoProject);
