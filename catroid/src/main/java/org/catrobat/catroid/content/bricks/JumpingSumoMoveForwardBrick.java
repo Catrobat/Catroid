@@ -22,43 +22,47 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.util.Log;
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 
-public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
+public class JumpingSumoMoveForwardBrick extends JumpingSumoMoveBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = JumpingSumoRotateRightBrick.class.getSimpleName();
+	private static final String TAG = JumpingSumoMoveForwardBrick.class.getSimpleName();
 
-	public JumpingSumoRotateRightBrick(float degree) {
-		super(degree);
+	public JumpingSumoMoveForwardBrick(int durationInMilliseconds, int powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
 	}
 
-	public JumpingSumoRotateRightBrick(Formula degree) {
-		super(degree);
+	public JumpingSumoMoveForwardBrick(Formula durationInMilliseconds, Formula powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
 	}
 
 	@Override
 	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_jumping_sumo_rotate_right);
+		return view.getResources().getString(R.string.brick_jumping_sumo_move_forward);
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoRotateRightAction(sprite,
-				getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE), getAngularDim()));
+		Log.i(TAG, "add time in ms: " + getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS) + " power: " + getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED));
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveForwardAction(sprite,
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)));
 		return null;
 	}
 
 	@Override
-	public void updateReferenceAfterMerge(Project into, Project from) {
+	public void updateReferenceAfterMerge(Scene into, Scene from) {
 	}
 }
