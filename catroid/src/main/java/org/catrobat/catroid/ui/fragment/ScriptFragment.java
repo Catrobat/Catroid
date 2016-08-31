@@ -172,7 +172,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			adapter.setCommentOutActionMode(false);
+			adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			clearCheckedBricksAndEnableButtons();
 		}
 	};
@@ -231,8 +231,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			mode.setTag(ACTION_MODE_BACKPACK);
 			addSelectAllActionModeButton(mode, menu);
 
-			adapter.setIsBackPackActionMode(true);
-			adapter.setCheckboxVisibility(0);
+			adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
+			adapter.setCheckboxVisibility();
 			return true;
 		}
 
@@ -502,14 +502,20 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
-			adapter.setActionMode(true);
-			adapter.setCheckboxVisibility(View.VISIBLE);
-			updateActionModeTitle();
 
-			if (actionModeCallback.equals(commentOutModeCallBack)) {
+			if (actionModeCallback.equals(copyModeCallBack)) {
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
+			} else if (actionModeCallback.equals(deleteModeCallBack)) {
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
+			} else if (actionModeCallback.equals(commentOutModeCallBack)) {
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COMMENT_OUT);
 				adapter.checkCommentedOutItems();
-				adapter.setCommentOutActionMode(true);
+			} else if (actionModeCallback.equals(backPackModeCallBack)) {
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
 			}
+
+			adapter.setCheckboxVisibility();
+			updateActionModeTitle();
 		}
 	}
 
@@ -713,7 +719,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		registerForContextMenu(listView);
 		BottomBar.showBottomBar(getActivity());
-		adapter.setActionMode(false);
+		adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 	}
 
 	@Override

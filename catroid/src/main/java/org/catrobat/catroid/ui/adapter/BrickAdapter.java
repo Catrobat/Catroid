@@ -73,7 +73,10 @@ import java.util.concurrent.locks.Lock;
 public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListener, OnClickListener,
 		ActionModeActivityAdapterInterface {
 
-	public static final int ALPHA_FULL = 255;
+	public enum ActionModeEnum {
+		NO_ACTION, COPY_DELETE, BACKPACK, COMMENT_OUT
+	}
+
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	public int listItemCount = 0;
 	private Sprite sprite;
@@ -98,15 +101,13 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	private int selectMode;
 	private OnBrickCheckedListener onBrickCheckedListener;
-	private boolean actionMode = false;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private int clickItemPosition = 0;
 	private AlertDialog alertDialog = null;
 
-	private boolean isBackPackActionMode = false;
+	private ActionModeEnum actionMode;
 
-	private boolean isCommentOutActionMode = false;
 
 	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, DragAndDropListView listView) {
 		this.scriptFragment = scriptFragment;
@@ -167,16 +168,16 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public void resetAlphas() {
 		for (Brick brick : brickList) {
-			brick.setAlpha(ALPHA_FULL);
+			brick.setAlpha(BrickViewProvider.ALPHA_FULL);
 		}
 		notifyDataSetChanged();
 	}
 
-	public boolean isActionMode() {
+	public ActionModeEnum getActionMode() {
 		return actionMode;
 	}
 
-	public void setActionMode(boolean actionMode) {
+	public void setActionMode(ActionModeEnum actionMode) {
 		this.actionMode = actionMode;
 	}
 
@@ -924,7 +925,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				brickElement.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if (!isBackPackActionMode) {
+						if (actionMode != ActionModeEnum.BACKPACK) {
 							checkbox.setChecked(!checkbox.isChecked());
 						}
 					}
@@ -949,10 +950,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			animatedBricks.remove(brickList.get(position));
 		}
 
-		if (!actionMode) {
-			((Brick) item).enableAllViews(currentBrickView, true);
-		} else {
+		if (actionMode == ActionModeEnum.COPY_DELETE) {
 			((Brick) item).enableAllViews(currentBrickView, false);
+		} else {
+			((Brick) item).enableAllViews(currentBrickView, true);
 		}
 
 		return wrapper;
@@ -1324,98 +1325,89 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	@Override
 	public void clearCheckedItems() {
-		isCommentOutActionMode = false;
+		actionMode = ActionModeEnum.NO_ACTION;
 		checkedBricks.clear();
-		setCheckboxVisibility(View.GONE);
-		uncheckAllItems();
 		enableAllBricks();
 		notifyDataSetChanged();
 	}
 
-	private void uncheckAllItems() {
-		for (Brick brick : brickList) {
-			CheckBox checkbox = brick.getCheckBox();
-			if (checkbox != null) {
-				checkbox.setChecked(false);
-			}
+	private void setCheckbox(Brick brick, boolean enabled) {
+		CheckBox checkBox = brick.getCheckBox();
+		if (checkBox != null) {
+			checkBox.setChecked(enabled);
 		}
 	}
 
-	public void checkCommentedOutItems() {
+	private void enableAllBricks() {
+		uncheckAllItems();
 		for (Brick brick : brickList) {
-			CheckBox checkbox = brick.getCheckBox();
-			if (checkbox != null && brick.isCommentedOut()) {
-				checkbox.setChecked(true);
-				smartBrickSelection(brick, true);
-			}
+			BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
+			BrickViewProvider.setAlphaForBrick(brick, BrickViewProvider.ALPHA_FULL);
 		}
 	}
 
 	public void checkAllItems() {
 		for (Brick brick : brickList) {
-			if (brick instanceof ScriptBrick) {
-				if (brick.getCheckBox() != null && !(brick instanceof UserScriptDefinitionBrick)) {
-					brick.getCheckBox().setChecked(true);
-					brick.setCheckedBoolean(true);
-				}
+			setCheckbox(brick, true);
+		}
+	}
+
+	private void uncheckAllItems() {
+		for (Brick brick : brickList) {
+			setCheckbox(brick, false);
+		}
+	}
+
+	public void checkCommentedOutItems() {
+		for (Brick brick : brickList) {
+			if (brick.isCommentedOut()) {
+				setCheckbox(brick, true);
 				smartBrickSelection(brick, true);
 			}
 		}
 	}
 
-	public void setCheckboxVisibility(int visibility) {
-		int index = 0;
-
-		if (ProjectManager.getInstance().getCurrentUserBrick() != null
-				&& brickList.size() > 0
-				&& brickList.get(0).equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
-			index = 1;
-		}
-		for (; index < brickList.size(); index++) {
-			Brick currentBrick = brickList.get(index);
-			if (!isBackPackActionMode) {
-				brickList.get(index).setCheckboxVisibility(visibility);
-			} else {
-				if (currentBrick instanceof ScriptBrick) {
-					currentBrick.setCheckboxVisibility(View.VISIBLE);
-				} else {
-					currentBrick.setCheckboxVisibility(View.INVISIBLE);
+	public void setCheckboxVisibility() {
+		switch (actionMode) {
+			case BACKPACK:
+				for (Brick brick : brickList) {
+					if (brick instanceof ScriptBrick) {
+						BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);
+					} else {
+						BrickViewProvider.setCheckboxVisibility(brick, View.INVISIBLE);
+					}
 				}
-			}
+				break;
+			case NO_ACTION:
+				for (Brick brick : brickList) {
+					BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
+				}
+			default:
+				for (Brick brick : brickList) {
+					BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);
+				}
 		}
-	}
-
-	public void onDestroyActionModeBackPack() {
-		isBackPackActionMode = false;
-		List<String> backPackedScriptGroups = BackPackListManager.getInstance().getAllBackPackedScriptGroups();
-		showNewGroupBackPackDialog(backPackedScriptGroups, false);
 	}
 
 	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
 		onBrickCheckedListener = listener;
 	}
 
-	public void handleCheck(Brick brick, boolean isChecked) {
-		if (brick == null) {
+	public void handleCheck(Brick brick, boolean checked) {
+		if (actionMode == ActionModeEnum.COMMENT_OUT) {
+			brick.setCommentedOut(checked);
+		}
+
+		if (smartBrickSelection(brick, checked)) {
 			return;
 		}
 
-		if (isCommentOutActionMode) {
-			brick.setCommentedOut(isChecked);
-		}
-
-		if (isChecked) {
+		if (checked) {
 			if (selectMode == ListView.CHOICE_MODE_SINGLE) {
 				clearCheckedItems();
 			}
-			if (brick.getCheckBox() != null && smartBrickSelection(brick, isChecked)) {
-				return;
-			}
 			addElementToCheckedBricks(brick);
 		} else {
-			if (brick.getCheckBox() != null && smartBrickSelection(brick, isChecked)) {
-				return;
-			}
 			checkedBricks.remove(brick);
 		}
 		notifyDataSetChanged();
@@ -1425,90 +1417,75 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
-	private void handleBrickEnabledState(Brick brick, boolean enableState) {
-		BrickViewProvider.changeBrickState(brick, enableState);
-		notifyDataSetChanged();
-	}
-
-	private void enableAllBricks() {
-		for (Brick brick : brickList) {
-			if (brick.getCheckBox() != null) {
-				brick.getCheckBox().setVisibility(View.GONE);
-			}
-			BrickViewProvider.changeBrickState(brick, true);
-		}
-		notifyDataSetChanged();
-	}
-
 	private boolean smartBrickSelection(Brick brick, boolean checked) {
-
 		if (brick instanceof ScriptBrick) {
-
-			if (!(brick instanceof UserScriptDefinitionBrick)) {
-				if (checked) {
-					addElementToCheckedBricks(brick);
-					animatedBricks.add(brick);
-				} else {
-					checkedBricks.remove(brick);
-				}
+			if (checked) {
+				addElementToCheckedBricks(brick);
+				animatedBricks.add(brick);
+			} else {
+				checkedBricks.remove(brick);
 			}
 
-			int brickPosition = brickList.indexOf(brick) + 1;
-			while ((brickPosition < brickList.size()) && !(brickList.get(brickPosition) instanceof ScriptBrick)) {
-				Brick currentBrick = brickList.get(brickPosition);
+			for (int position = brickList.indexOf(brick) + 1; position < brickList.size(); position++) {
+				Brick currentBrick = brickList.get(position);
+				if (currentBrick == null) {
+					break;
+				}
+				if (currentBrick instanceof ScriptBrick) {
+					break;
+				}
+				if (checked) {
+					addElementToCheckedBricks(currentBrick);
+					animatedBricks.add(currentBrick);
+					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_GREYED);
+				} else {
+					checkedBricks.remove(currentBrick);
+					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_FULL);
+				}
+
+				setCheckbox(currentBrick, checked);
+			}
+			animateSelectedBricks();
+
+			if (onBrickCheckedListener != null) {
+				onBrickCheckedListener.onBrickChecked();
+			}
+
+			notifyDataSetChanged();
+			return true;
+		}
+
+		if (brick instanceof NestingBrick) {
+			if (actionMode == ActionModeEnum.BACKPACK) {
+				return false;
+			}
+
+			List<NestingBrick> nestingBricks = ((NestingBrick) brick).getAllNestingBrickParts(true);
+			NestingBrick lastNestingBrick = nestingBricks.get(nestingBricks.size() - 1);
+
+			for (int position = brickList.indexOf(brick) + 1; position <= brickList.indexOf(lastNestingBrick);
+					position++) {
+				Brick currentBrick = brickList.get(position);
 				if (currentBrick == null) {
 					break;
 				}
 				if (checked) {
 					addElementToCheckedBricks(currentBrick);
-					if (!(brick instanceof UserScriptDefinitionBrick)) {
-						animatedBricks.add(currentBrick);
-					}
+					animatedBricks.add(currentBrick);
+					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_GREYED);
 				} else {
 					checkedBricks.remove(currentBrick);
+					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_FULL);
 				}
-				if (currentBrick.getCheckBox() != null) {
-					currentBrick.getCheckBox().setChecked(checked);
-					currentBrick.setCheckedBoolean(checked);
-				}
-				if (!(brick instanceof UserScriptDefinitionBrick)) {
-					handleBrickEnabledState(currentBrick, !checked);
-				}
-				brickPosition++;
-			}
 
+				setCheckbox(currentBrick, checked);
+			}
 			animateSelectedBricks();
 
 			if (onBrickCheckedListener != null) {
 				onBrickCheckedListener.onBrickChecked();
 			}
-			notifyDataSetChanged();
-			return true;
-		} else if (brick instanceof NestingBrick) {
-			if (isBackPackActionMode) {
-				return false;
-			}
-			for (NestingBrick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
-				if (currentBrick == null) {
-					break;
-				}
-				if (checked) {
-					animatedBricks.add((Brick) currentBrick);
-					addElementToCheckedBricks((Brick) currentBrick);
-				} else {
-					checkedBricks.remove(currentBrick);
-				}
 
-				if (((Brick) currentBrick).getCheckBox() != null) {
-					((Brick) currentBrick).getCheckBox().setChecked(checked);
-				}
-			}
-
-			animateSelectedBricks();
-
-			if (onBrickCheckedListener != null) {
-				onBrickCheckedListener.onBrickChecked();
-			}
 			notifyDataSetChanged();
 			return true;
 		}
@@ -1553,6 +1530,12 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (!(checkedBricks.contains(brick)) && !brick.getClass().equals(UserScriptDefinitionBrick.class)) {
 			checkedBricks.add(brick);
 		}
+	}
+
+	public void onDestroyActionModeBackPack() {
+		actionMode = ActionModeEnum.NO_ACTION;
+		List<String> backPackedScriptGroups = BackPackListManager.getInstance().getAllBackPackedScriptGroups();
+		showNewGroupBackPackDialog(backPackedScriptGroups, false);
 	}
 
 	public void handleScriptDelete(Sprite spriteToEdit, Script scriptToDelete) {
@@ -1611,14 +1594,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		this.userBrick = userBrick;
 	}
 
-	public boolean isBackPackActionMode() {
-		return isBackPackActionMode;
-	}
-
-	public void setIsBackPackActionMode(boolean isBackPackActionMode) {
-		this.isBackPackActionMode = isBackPackActionMode;
-	}
-
 	public void animateUnpackingFromBackpack(int numberOfInsertedBricks) {
 		int insertedBricksStartPosition = brickList.size() - 1 - numberOfInsertedBricks;
 		if (insertedBricksStartPosition < 0) {
@@ -1636,9 +1611,5 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public interface OnBrickCheckedListener {
 		void onBrickChecked();
-	}
-
-	public void setCommentOutActionMode(boolean commentOutActionMode) {
-		isCommentOutActionMode = commentOutActionMode;
 	}
 }
