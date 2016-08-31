@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import org.catrobat.catroid.R;
 
@@ -48,6 +49,11 @@ public final class BrickViewProvider {
 		return prototypeView;
 	}
 
+	public static void setAlphaForBrick(Brick brick, int alphaValue) {
+			brick.setAlpha(alphaValue);
+			setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
+	}
+
 	public static View setAlphaOnView(View view, int alphaValue) {
 		if (view != null) {
 			getBrickLayout(view).setAlpha(convertAlphaValueToFloat(alphaValue));
@@ -55,16 +61,10 @@ public final class BrickViewProvider {
 		return view;
 	}
 
-	public static void changeBrickState(Brick brick, boolean enabled) {
-		if (brick.getCheckBox() != null) {
-			brick.getCheckBox().setEnabled(enabled);
-		}
-		if (enabled) {
-			setAlphaOnView(((BrickBaseType) brick).view, ALPHA_FULL);
-			brick.setAlpha(ALPHA_FULL);
-		} else {
-			setAlphaOnView(((BrickBaseType) brick).view, ALPHA_GREYED);
-			brick.setAlpha(ALPHA_GREYED);
+	public static void setCheckboxVisibility(Brick brick, int visibility) {
+		CheckBox checkBox = brick.getCheckBox();
+		if (checkBox != null) {
+			checkBox.setVisibility(visibility);
 		}
 	}
 

@@ -540,8 +540,8 @@ public class ScriptActivity extends BaseActivity {
 		}
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && currentFragmentPosition == FRAGMENT_SCRIPTS) {
-			if (scriptFragment.getAdapter().isBackPackActionMode()) {
-				scriptFragment.getAdapter().setIsBackPackActionMode(false);
+			if (scriptFragment.getAdapter().getActionMode() == BrickAdapter.ActionModeEnum.BACKPACK) {
+				scriptFragment.getAdapter().setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			}
 			AddBrickFragment addBrickFragment = (AddBrickFragment) getFragmentManager().findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
 			if (addBrickFragment == null || !addBrickFragment.isVisible()) {
@@ -670,8 +670,9 @@ public class ScriptActivity extends BaseActivity {
 
 		if (currentFragment != null && currentFragment.getActionModeActive()
 				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-			if (scriptFragment != null && scriptFragment.getAdapter() != null && scriptFragment.getAdapter().isBackPackActionMode()) {
-				scriptFragment.getAdapter().setIsBackPackActionMode(false);
+			if (scriptFragment != null && scriptFragment.getAdapter() != null && scriptFragment.getAdapter()
+					.getActionMode() == BrickAdapter.ActionModeEnum.BACKPACK) {
+				scriptFragment.getAdapter().setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			}
 			ListAdapter adapter;
 			if (currentFragment instanceof ScriptFragment) {

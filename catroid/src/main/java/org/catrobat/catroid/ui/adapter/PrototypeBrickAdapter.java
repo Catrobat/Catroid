@@ -73,7 +73,7 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
 	public void setCheckboxVisibility(int visibility) {
 		for (Brick brick : brickList) {
-			brick.setCheckboxVisibility(visibility);
+			BrickViewProvider.setCheckboxVisibility(brick, visibility);
 		}
 	}
 
@@ -95,15 +95,6 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 		ProjectManager.getInstance().getCurrentSprite().removeUserBrick(deleteThisBrick);
 
 		notifyDataSetChanged();
-	}
-
-	public void checkAllItems() {
-		for (Brick brick : brickList) {
-			if (brick.getCheckBox() != null) {
-				brick.getCheckBox().setChecked(true);
-				brick.setCheckedBoolean(true);
-			}
-		}
 	}
 
 	public void backpackSingleUserBrick(UserBrick clickedBrick) {
@@ -149,25 +140,34 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
 	public void clearCheckedItems() {
 		checkedBricks.clear();
-		setCheckboxVisibility(View.GONE);
 		uncheckAllItems();
 		enableAllBricks();
 		notifyDataSetChanged();
 	}
 
+	private void setCheckbox(Brick brick, boolean enabled) {
+		CheckBox checkBox = brick.getCheckBox();
+		if (checkBox != null) {
+			checkBox.setChecked(enabled);
+		}
+	}
+
 	private void enableAllBricks() {
 		for (Brick brick : brickList) {
-			BrickViewProvider.changeBrickState(brick, true);
+			BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
+			BrickViewProvider.setAlphaForBrick(brick, BrickViewProvider.ALPHA_FULL);
 		}
-		notifyDataSetChanged();
+	}
+
+	public void checkAllItems() {
+		for (Brick brick : brickList) {
+			setCheckbox(brick, true);
+		}
 	}
 
 	private void uncheckAllItems() {
 		for (Brick brick : brickList) {
-			CheckBox checkbox = brick.getCheckBox();
-			if (checkbox != null) {
-				checkbox.setChecked(false);
-			}
+			setCheckbox(brick, false);
 		}
 	}
 
