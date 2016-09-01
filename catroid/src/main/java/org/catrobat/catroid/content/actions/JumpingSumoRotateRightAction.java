@@ -85,6 +85,7 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 				newDegree = (float) (newDegree * Math.PI / 180);
 			}
 			Log.d(TAG, "rotate with " + newDegree);
+			Log.d(TAG, "Angel dim: " + dimension);
 			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(newDegree);
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
 			Log.d(TAG, "send move command JS");

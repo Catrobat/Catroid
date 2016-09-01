@@ -86,7 +86,7 @@ public class TermsOfUseJSDialogFragment extends DialogFragment {
 					JumpingSumoInitializer jsDiscoverer = ((PreStageActivity) getActivity()).getJumpingSumoInitialiser();
 					if (jsDiscoverer != null && jsDiscoverer.checkRequirements()) {
 						jsDiscoverer.initialise();
-						jsDiscoverer.checkJumpingSumoAvailability();
+						jsDiscoverer.checkJumpingSumoAvailability(prestageStageActivity);
 					}
 				}
 				dialog.dismiss();
