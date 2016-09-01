@@ -49,7 +49,7 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
-	private AngularDimension angularEnum;
+	private AngularDimension angularEnum = AngularDimension.DEGREE;
 
 	public enum AngularDimension {
 		DEGREE, RADIAN

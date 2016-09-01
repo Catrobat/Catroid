@@ -157,7 +157,8 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnLeftName, JumpingSumoBrickFactory
 						.JumpingSumoBricks.JUMPING_SUMO_ROTATE_LEFT, 0, -500, turnLeftFile, 0,
-						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) Math.PI / 2));
+						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) 90/*Math.PI /
+						2*/));
 
 		//turn right brick
 		String turnRightName = context.getString(R.string.default_jumping_sumo_project_sprites_turn_right);
@@ -168,7 +169,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnRightName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_ROTATE_RIGHT, 0, -100, turnRightFile, 0, (byte) BrickValues
-						.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) Math.PI / 2));
+						.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) 90/*Math.PI / 2*/));
 
 		//jump long brick
 		String jumpLongName = context.getString(R.string.default_jumping_sumo_project_sprites_jump_long);

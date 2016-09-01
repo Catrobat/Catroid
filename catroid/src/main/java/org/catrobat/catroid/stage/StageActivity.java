@@ -231,7 +231,6 @@ public class StageActivity extends AndroidApplication {
 		}
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
-		jumpingSumoDisconnect();
 		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
 		CameraManager.getInstance().pausePreview();
@@ -397,7 +396,7 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
-		Log.d(TAG, "onDestroy()");
+		jumpingSumoDisconnect();
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
 		FlashUtil.destroy();
 		VibratorUtil.destroy();

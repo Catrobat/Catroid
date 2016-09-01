@@ -60,9 +60,6 @@ import static org.catrobat.catroid.CatroidApplication.getAppContext;
 
 public class JumpingSumoInitializer {
 
-	//boolean isNotified = false;
-	//private static final long timeout = 5000;
-
 	private static final List<ARDiscoveryDeviceService> DRONELIST = new ArrayList<>();
 	public JumpingSumoDiscoverer jsDiscoverer;
 
@@ -78,6 +75,7 @@ public class JumpingSumoInitializer {
 	private ARCONTROLLER_DEVICE_STATE_ENUM deviceState = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
 
 	public static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
+	private static final int CONNECTION_TIME = 4000;
 	public static int jumpingSumoCount = 0;
 
 	public interface Listener {
@@ -115,6 +113,10 @@ public class JumpingSumoInitializer {
 		this.prestageStageActivity = prestageStageActivity;
 	}
 
+	private  void setPreStageActivity(PreStageActivity prestageStageActivity) {
+		this.prestageStageActivity = prestageStageActivity;
+	}
+
 	public boolean disconnect() {
 		boolean success = false;
 		if (deviceController != null) {
@@ -137,31 +139,22 @@ public class JumpingSumoInitializer {
 	}
 
 
-	public void checkJumpingSumoAvailability() {
+	public void checkJumpingSumoAvailability(PreStageActivity prestageStageActivityNow) {
+		setPreStageActivity(prestageStageActivityNow);
 		Log.d(TAG, "TGr count jumpSumo: " + jumpingSumoCount);
 
-/*
-		if(!this.isNotified) {
-			try {
-				Log.d(TAG, "TGr: ttttimeout");
-				this.wait(timeout);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				if (jumpingSumoCount == 0) {
+					showUnCancellableErrorDialog(prestageStageActivity,
+							prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected_title),
+							prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected));
+				} else {
+					prestageStageActivity.resourceInitialized();
+				}
 			}
-		}
-		this.isNotified=false;
-		*/
-		//TODO wait until #timeout for drone, if found use else-path, otherwise show ErrorDialog
-		//disabled with: jumpingSumoCount = 1;
-		jumpingSumoCount = 1;
-
-		if (jumpingSumoCount == 0) {
-			showUnCancellableErrorDialog(prestageStageActivity,
-					prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected_title),
-					prestageStageActivity.getString(R.string.error_no_jumpingsumo_connected));
-		} else {
-			prestageStageActivity.resourceInitialized();
-		}
+		}, CONNECTION_TIME);
 	}
 
 	private void notifyConfigureDecoder(ARControllerCodec codec) {
