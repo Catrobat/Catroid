@@ -75,7 +75,7 @@ public final class JumpingSumoServiceWrapper {
 		if (SettingsActivity.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())) {
 			jumpingSumoInitializer = getJumpingSumoInitialiser(prestageStageActivity);
 			jumpingSumoInitializer.initialise();
-			jumpingSumoInitializer.checkJumpingSumoAvailability();
+			jumpingSumoInitializer.checkJumpingSumoAvailability(prestageStageActivity);
 		} else {
 			showTermsOfUseDialog(prestageStageActivity);
 		}
