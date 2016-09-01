@@ -74,9 +74,9 @@ public class JumpingSumoInitializer {
 	private PreStageActivity prestageStageActivity;
 	private ARCONTROLLER_DEVICE_STATE_ENUM deviceState = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
 
-	private static final int JUMPING_SUMO_BATTERY_THRESHOLD = 2;
+	public static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
 	private static final int CONNECTION_TIME = 4000;
-	private static int jumpingSumoCount = 0;
+	public static int jumpingSumoCount = 0;
 
 	public interface Listener {
 		/**

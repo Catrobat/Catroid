@@ -233,7 +233,6 @@ public class StageActivity extends AndroidApplication {
 		}
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
-		jumpingSumoDisconnect();
 		FlashUtil.pauseFlash();
 		FaceDetectionHandler.pauseFaceDetection();
 		CameraManager.getInstance().pausePreview();
