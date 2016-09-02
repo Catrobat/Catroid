@@ -36,38 +36,54 @@ public class RepeatUntilAction extends com.badlogic.gdx.scenes.scene2d.actions.R
 	private static final float LOOP_DELAY = 0.02f;
 	private float currentTime = 0f;
 	private Formula repeatCondition;
-	private Boolean ifConditionValue = true;
+
+	boolean isValidConditionFormula() {
+		try {
+			if (repeatCondition == null) {
+				return false;
+			}
+
+			repeatCondition.interpretDouble(sprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
+					interpretationException);
+			return false;
+		}
+
+		return true;
+	}
+
+	boolean isConditionTrue() {
+		try {
+			return repeatCondition.interpretDouble(sprite).intValue() != 0;
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
+					interpretationException);
+			return true;
+		}
+	}
 
 	@Override
 	public boolean delegate(float delta) {
 
-		try {
-			if (repeatCondition == null) {
-				return true;
-			}
-
-			Double interpretation = repeatCondition.interpretDouble(sprite);
-			ifConditionValue = interpretation.intValue() != 0 ? true : false;
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
-					interpretationException);
+		if (!isValidConditionFormula()) {
+			return true;
 		}
 
 		if (!isCurrentLoopInitialized) {
+			if (isConditionTrue()) {
+				return true;
+			}
 			currentTime = 0f;
 			isCurrentLoopInitialized = true;
 		}
 
 		currentTime += delta;
 
-		if (ifConditionValue) {
-			return true;
-		}
-
 		if (action.act(delta) && currentTime >= LOOP_DELAY) {
 
 			executedCount++;
-			if (ifConditionValue) {
+			if (isConditionTrue()) {
 				return true;
 			}
 
