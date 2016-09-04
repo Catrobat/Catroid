@@ -285,6 +285,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.comment_in_out).setVisible(true);
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.unpacking).setVisible(false);
@@ -757,7 +758,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		int indexOfNumber = completeTitle.indexOf(' ') + 1;
 		Spannable completeSpannedTitle = new SpannableString(completeTitle);
-		if (!completeTitle.equals(getString(R.string.backpack))) {
+		if (!completeTitle.equals(getString(R.string.backpack)) && !completeTitle.equals(getString(R.string.comment_in_out))) {
 			completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
 					indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
