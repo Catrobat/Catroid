@@ -143,6 +143,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			} else {
 				showConfirmDeleteDialog(false);
 			}
+			adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 		}
 	};
 
@@ -210,7 +211,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 					break;
 				}
 			}
-
+			adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			clearCheckedBricksAndEnableButtons();
 		}
 	};
@@ -227,11 +228,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
-
+			adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
 			mode.setTag(ACTION_MODE_BACKPACK);
 			addSelectAllActionModeButton(mode, menu);
 
-			adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
 			adapter.setCheckboxVisibility();
 			return true;
 		}

@@ -23,11 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 public final class BrickViewProvider {
 
@@ -52,6 +56,7 @@ public final class BrickViewProvider {
 	public static void setAlphaForBrick(Brick brick, int alphaValue) {
 			brick.setAlpha(alphaValue);
 			setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
+			brick.getCheckBox().setClickable(false);
 	}
 
 	public static View setAlphaOnView(View view, int alphaValue) {
@@ -59,6 +64,34 @@ public final class BrickViewProvider {
 			getBrickLayout(view).setAlpha(convertAlphaValueToFloat(alphaValue));
 		}
 		return view;
+	}
+
+	public static void setSaturationOnBrick(Brick brick, boolean greyScale) {
+		setSaturationOnView(((BrickBaseType) brick).view, greyScale);
+	}
+
+	public static void doPadding(Brick brick, BrickAdapter brickAdapter) {
+		boolean commentedOut = brick.isCommentedOut();
+		View brickView = ((BrickBaseType) brick).view;
+
+		if (commentedOut) {
+			brickView.setPadding(75, 0, 0, 0);
+		} else {
+			brickView.setPadding(0, 0, 0, 0);
+		}
+	}
+
+	public static void setSaturationOnView(View view, boolean greyScale) {
+		Drawable background = getBrickLayout(view).getBackground();
+
+		if (greyScale) {
+			ColorMatrix matrix = new ColorMatrix();
+			matrix.setSaturation(0);
+			ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+			background.setColorFilter(filter);
+		} else {
+			background.clearColorFilter();
+		}
 	}
 
 	public static void setCheckboxVisibility(Brick brick, int visibility) {
