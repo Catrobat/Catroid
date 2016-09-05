@@ -868,9 +868,9 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			}
 
 			if (((BrickBaseType) item).isCommentedOut()) {
-				((BrickBaseType) item).setCommentedOutAppearance();
+				BrickViewProvider.setSaturationOnBrick((BrickBaseType) item, true);
 			} else {
-				((BrickBaseType) item).doPadding();
+				BrickViewProvider.doPadding((BrickBaseType) item, this);
 			}
 
 			return scriptBrickView;
@@ -895,9 +895,9 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 
 		if (((BrickBaseType) item).isCommentedOut()) {
-			((BrickBaseType) item).setCommentedOutAppearance();
+			BrickViewProvider.setSaturationOnBrick((BrickBaseType) item, true);
 		} else {
-			((BrickBaseType) item).doPadding();
+			BrickViewProvider.doPadding((BrickBaseType) item, this);
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
@@ -1106,9 +1106,9 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					List<String> backPackedScriptGroups = BackPackListManager.getInstance().getAllBackPackedScriptGroups();
 					showNewGroupBackPackDialog(backPackedScriptGroups, false);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_in))) {
-					setCommentOutStatus(brickList.get(itemPosition), false);
+					smartBrickSelection(brickList.get(itemPosition), false);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_out))) {
-					setCommentOutStatus(brickList.get(itemPosition), true);
+					smartBrickSelection(brickList.get(itemPosition), true);
 				}
 			}
 		});
@@ -1116,78 +1116,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();
-		}
-	}
-
-	private void setCommentOutStatus(Brick brick, boolean commentOut) {
-		int indexBegin;
-		int indexEnd;
-
-		if (brick instanceof NestingBrick) {
-			NestingBrick nestingBrick = (NestingBrick) brick;
-			List<NestingBrick> nestingList = nestingBrick.getAllNestingBrickParts(true);
-
-			indexBegin = brickList.indexOf(nestingList.get(0));
-			indexEnd = brickList.indexOf(nestingList.get(nestingList.size() - 1));
-		} else if (brick instanceof ScriptBrick) {
-			brick.setCommentedOut(commentOut);
-			indexBegin = brickList.indexOf(brick);
-			indexEnd = indexBegin;
-		} else {
-			indexBegin = brickList.indexOf(brick);
-			indexEnd = indexBegin;
-		}
-
-		for (int i = indexBegin; i <= indexEnd; i++) {
-			brickList.get(i).setCommentedOut(commentOut);
-		}
-
-		for (int i = indexBegin; i <= indexEnd; i++) {
-			((BrickBaseType) brickList.get(i)).setCommentedOutAppearance();
-		}
-
-		// if script gets commented in, the corresponding script brick must be commented in as well
-		if (!commentOut) {
-			enableCorrespondingScriptBrick(indexBegin);
-		}
-
-		if (!(brick instanceof ScriptBrick)) {
-			for (int i = indexBegin - 1; i >= 0; i--) {
-				BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
-				if (currentBrick.isCommentedOut() != commentOut) {
-					currentBrick.setCommentedOutAppearance();
-					break;
-				}
-				currentBrick.setCommentedOutAppearance();
-				if (currentBrick instanceof ScriptBrick) {
-					break;
-				}
-			}
-		}
-
-		for (int i = indexEnd + 1; i < brickList.size(); i++) {
-			BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
-			if (currentBrick.isCommentedOut() != commentOut || currentBrick instanceof ScriptBrick) {
-				break;
-			}
-		}
-		for (int i = indexEnd + 1; i < brickList.size(); i++) {
-			BrickBaseType currentBrick = (BrickBaseType) brickList.get(i);
-			currentBrick.setCommentedOutAppearance();
-			if (currentBrick.isCommentedOut() != commentOut || currentBrick instanceof ScriptBrick) {
-				break;
-			}
-		}
-	}
-
-	void enableCorrespondingScriptBrick(int indexBegin) {
-		for (int i = indexBegin; i >= 0; i--) {
-			Brick currentBrick = brickList.get(i);
-			if (currentBrick instanceof ScriptBrick) {
-				currentBrick.setCommentedOut(false);
-				((BrickBaseType) currentBrick).setCommentedOutAppearance();
-				break;
-			}
 		}
 	}
 
@@ -1394,10 +1322,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	public void handleCheck(Brick brick, boolean checked) {
-		if (actionMode == ActionModeEnum.COMMENT_OUT) {
-			brick.setCommentedOut(checked);
-		}
-
 		if (smartBrickSelection(brick, checked)) {
 			return;
 		}
@@ -1410,6 +1334,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		} else {
 			checkedBricks.remove(brick);
 		}
+
 		notifyDataSetChanged();
 
 		if (onBrickCheckedListener != null) {
@@ -1418,112 +1343,74 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private boolean smartBrickSelection(Brick brick, boolean checked) {
-		if (brick instanceof ScriptBrick) {
-			if (checked) {
-				addElementToCheckedBricks(brick);
-				animatedBricks.add(brick);
-			} else {
-				checkedBricks.remove(brick);
-			}
+		boolean smartSelectedBricks = false;
 
-			for (int position = brickList.indexOf(brick) + 1; position < brickList.size(); position++) {
-				Brick currentBrick = brickList.get(position);
-				if (currentBrick == null) {
-					break;
-				}
-				if (currentBrick instanceof ScriptBrick) {
-					break;
-				}
-				if (checked) {
-					addElementToCheckedBricks(currentBrick);
-					animatedBricks.add(currentBrick);
-					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_GREYED);
-				} else {
-					checkedBricks.remove(currentBrick);
-					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_FULL);
-				}
-
-				setCheckbox(currentBrick, checked);
-			}
-			animateSelectedBricks();
-
-			if (onBrickCheckedListener != null) {
-				onBrickCheckedListener.onBrickChecked();
-			}
-
-			notifyDataSetChanged();
-			return true;
-		}
+		int positionFrom = brickList.indexOf(brick);
+		int positionTo = brickList.indexOf(brick);
 
 		if (brick instanceof NestingBrick) {
-			if (actionMode == ActionModeEnum.BACKPACK) {
-				return false;
-			}
-
 			List<NestingBrick> nestingBricks = ((NestingBrick) brick).getAllNestingBrickParts(true);
+			NestingBrick firstNestingBrick = nestingBricks.get(0);
 			NestingBrick lastNestingBrick = nestingBricks.get(nestingBricks.size() - 1);
 
-			for (int position = brickList.indexOf(brick) + 1; position <= brickList.indexOf(lastNestingBrick);
-					position++) {
-				Brick currentBrick = brickList.get(position);
-				if (currentBrick == null) {
-					break;
-				}
-				if (checked) {
-					addElementToCheckedBricks(currentBrick);
-					animatedBricks.add(currentBrick);
-					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_GREYED);
-				} else {
-					checkedBricks.remove(currentBrick);
-					BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_FULL);
-				}
-
-				setCheckbox(currentBrick, checked);
-			}
-			animateSelectedBricks();
-
-			if (onBrickCheckedListener != null) {
-				onBrickCheckedListener.onBrickChecked();
-			}
-
-			notifyDataSetChanged();
-			return true;
+			positionFrom = brickList.indexOf(firstNestingBrick);
+			positionTo = brickList.indexOf(lastNestingBrick);
+			smartSelectedBricks = true;
+		} else if (brick instanceof ScriptBrick) {
+			positionTo = brickList.size() - 1;
+			smartSelectedBricks = true;
 		}
-		return false;
+
+		if (actionMode == ActionModeEnum.COMMENT_OUT) {
+			brick.setCommentedOut(checked);
+			BrickViewProvider.setSaturationOnBrick(brick, checked);
+			BrickViewProvider.doPadding(brick, this);
+		}
+
+		if (checked) {
+			addElementToCheckedBricks(brick);
+		} else {
+			checkedBricks.remove(brick);
+		}
+
+		positionFrom++;
+
+		for (int position = positionFrom; position <= positionTo; position++) {
+			Brick currentBrick = brickList.get(position);
+			if (currentBrick == null) {
+				break;
+			}
+			if (currentBrick instanceof ScriptBrick) {
+				break;
+			}
+
+			if (actionMode == ActionModeEnum.COMMENT_OUT) {
+				currentBrick.setCommentedOut(checked);
+				BrickViewProvider.setSaturationOnBrick(currentBrick, checked);
+				BrickViewProvider.doPadding(currentBrick, this);
+				continue;
+			}
+
+			if (checked) {
+				BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_GREYED);
+			} else {
+				BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_FULL);
+			}
+			setCheckbox(currentBrick, checked);
+		}
+
+		return smartSelectedBricks;
 	}
 
-	private void animateSelectedBricks() {
-		if (!animatedBricks.isEmpty()) {
-
-			for (final Brick animationBrick : animatedBricks) {
-				Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
-
-				animation.setAnimationListener(new AnimationListener() {
-
-					@Override
-					public void onAnimationStart(Animation animation) {
-						animationBrick.setAnimationState(true);
-					}
-
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-					}
-
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						animationBrick.setAnimationState(false);
-					}
-				});
-				int position = animatedBricks.indexOf(animationBrick);
-				animationBrick.setAnimationState(true);
-				View view = animationBrick.getView(context, position, this);
-
-				if (view.hasWindowFocus()) {
-					view.startAnimation(animation);
-				}
+	void enableCorrespondingScriptBrick(int indexBegin) {
+		for (int i = indexBegin; i >= 0; i--) {
+			Brick currentBrick = brickList.get(i);
+			if (currentBrick instanceof ScriptBrick) {
+				currentBrick.setCommentedOut(false);
+				BrickViewProvider.setSaturationOnBrick(currentBrick, false);
+				break;
 			}
 		}
-		animatedBricks.clear();
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {
