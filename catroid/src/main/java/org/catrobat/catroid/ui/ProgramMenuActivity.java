@@ -82,7 +82,7 @@ public class ProgramMenuActivity extends BaseActivity {
 			Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 			Scene scene = ProjectManager.getInstance().getCurrentScene();
 			if (sprite != null && scene != null && actionBar != null) {
-				String title = scene.getName() + ": " + sprite.getName();
+				String title = ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1 ? scene.getName() + ": " + sprite.getName() : sprite.getName();
 				actionBar.setTitle(title);
 				actionBar.setHomeButtonEnabled(true);
 			}
