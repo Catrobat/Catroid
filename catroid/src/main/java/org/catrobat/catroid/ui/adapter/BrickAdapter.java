@@ -876,7 +876,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		currentBrickView.setOnClickListener(this);
 
 		if (!(brick instanceof ScriptBrick)) {
-			currentBrickView.setOnLongClickListener(dragAndDropListView);
+			currentBrickView.setOnTouchListener(dragAndDropListView);
 		}
 
 		boolean enableSpinners = !isDragging && actionMode == ActionModeEnum.NO_ACTION;
@@ -888,7 +888,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			dragAndDropListView.setInsertedBrick(position);
 
 			dragAndDropListView.setDraggingNewBrick();
-			dragAndDropListView.onLongClick(currentBrickView);
+			dragAndDropListView.longClick(currentBrickView);
 
 			return insertionView;
 		}
@@ -1020,7 +1020,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			public void onClick(DialogInterface dialog, int item) {
 				CharSequence clickedItemText = items.get(item);
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
-					view.performLongClick();
+					dragAndDropListView.longClick(view);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
 					copyBrickListAndProject(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
