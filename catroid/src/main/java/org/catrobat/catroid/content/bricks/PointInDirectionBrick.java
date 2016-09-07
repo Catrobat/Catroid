@@ -95,16 +95,6 @@ public class PointInDirectionBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_point_in_direction_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 

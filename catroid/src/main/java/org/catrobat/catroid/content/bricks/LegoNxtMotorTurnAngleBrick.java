@@ -133,17 +133,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
+		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
 		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);

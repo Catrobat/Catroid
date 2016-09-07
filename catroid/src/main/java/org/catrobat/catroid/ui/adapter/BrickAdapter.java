@@ -1322,29 +1322,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	public void handleCheck(Brick brick, boolean checked) {
-		if (smartBrickSelection(brick, checked)) {
-			return;
-		}
-
-		if (checked) {
-			if (selectMode == ListView.CHOICE_MODE_SINGLE) {
-				clearCheckedItems();
-			}
-			addElementToCheckedBricks(brick);
-		} else {
-			checkedBricks.remove(brick);
-		}
-
-		notifyDataSetChanged();
-
-		if (onBrickCheckedListener != null) {
-			onBrickCheckedListener.onBrickChecked();
-		}
+		smartBrickSelection(brick, checked);
 	}
 
-	private boolean smartBrickSelection(Brick brick, boolean checked) {
-		boolean smartSelectedBricks = false;
-
+	private void smartBrickSelection(Brick brick, boolean checked) {
 		int positionFrom = brickList.indexOf(brick);
 		int positionTo = brickList.indexOf(brick);
 
@@ -1355,10 +1336,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 			positionFrom = brickList.indexOf(firstNestingBrick);
 			positionTo = brickList.indexOf(lastNestingBrick);
-			smartSelectedBricks = true;
 		} else if (brick instanceof ScriptBrick) {
 			positionTo = brickList.size() - 1;
-			smartSelectedBricks = true;
 		}
 
 		if (actionMode == ActionModeEnum.COMMENT_OUT) {
@@ -1398,8 +1377,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			}
 			setCheckbox(currentBrick, checked);
 		}
-
-		return smartSelectedBricks;
 	}
 
 	void enableCorrespondingScriptBrick(int indexBegin) {

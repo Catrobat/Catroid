@@ -76,15 +76,6 @@ public class HideVariableBrick extends UserVariableBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_hide_variable_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		Spinner hideVariableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();

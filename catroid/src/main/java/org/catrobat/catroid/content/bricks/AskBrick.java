@@ -97,16 +97,6 @@ public class AskBrick extends UserVariableBrick {
 		view = View.inflate(context, R.layout.brick_ask, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_ask_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_ask_question_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_ask_question_edit_text);
 		prototypeText.setVisibility(View.GONE);

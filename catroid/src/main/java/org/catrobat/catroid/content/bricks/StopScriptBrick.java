@@ -75,16 +75,6 @@ public class StopScriptBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_stop_script, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_stop_script_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		Spinner stopScriptSpinner = (Spinner) view.findViewById(R.id.brick_stop_script_spinner);
 
 		if (!(checkbox.getVisibility() == view.VISIBLE)) {

@@ -55,17 +55,7 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_if_on_edge_bounce_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		return view;
+		setCheckboxView(R.id.brick_if_on_edge_bounce_checkbox);		return view;
 	}
 
 	@Override

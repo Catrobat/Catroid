@@ -101,8 +101,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	void setCheckboxVisibility(int visibility);
-
 	int getAlphaValue();
 
 	void setBrickAdapter(BrickAdapter adapter);

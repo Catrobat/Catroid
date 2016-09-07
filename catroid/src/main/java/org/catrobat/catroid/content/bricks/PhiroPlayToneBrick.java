@@ -129,16 +129,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_phiro_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_phiro_play_tone_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_phiro_play_tone_duration_text_view);
 		editDuration = (TextView) view.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).setTextFieldId(R.id.brick_phiro_play_tone_duration_edit_text);

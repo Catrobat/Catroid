@@ -77,15 +77,6 @@ public class ChangeColorByNBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_color_by_checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_color_by_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_color_by_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR_CHANGE).setTextFieldId(R.id.brick_change_color_by_edit_text);

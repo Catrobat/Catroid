@@ -99,16 +99,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
 		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)

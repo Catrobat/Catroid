@@ -99,19 +99,11 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
+
 		view = View.inflate(context, R.layout.brick_set_look, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_look_checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 

@@ -99,16 +99,6 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_play_sound_and_wait_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		final Spinner playSoundAndWaitSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {

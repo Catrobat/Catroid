@@ -62,20 +62,10 @@ public class FlashBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_flash, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_flash_checkbox);
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		Spinner flashSpinner = (Spinner) view.findViewById(R.id.brick_flash_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {

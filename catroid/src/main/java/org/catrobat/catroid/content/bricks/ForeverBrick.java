@@ -68,21 +68,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_forever_checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		return view;
 	}
 

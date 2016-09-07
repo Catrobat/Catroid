@@ -55,17 +55,7 @@ public class ComeToFrontBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_go_to_front, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_go_to_front_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		return view;
+		setCheckboxView(R.id.brick_go_to_front_checkbox);		return view;
 	}
 
 	@Override

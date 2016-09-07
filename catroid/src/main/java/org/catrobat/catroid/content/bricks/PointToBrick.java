@@ -96,16 +96,6 @@ public class PointToBrick extends BrickBaseType {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_point_to_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);

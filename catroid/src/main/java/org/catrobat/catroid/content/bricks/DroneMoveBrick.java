@@ -90,16 +90,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_drone_move_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_second);
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
 		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)

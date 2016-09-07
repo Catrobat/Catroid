@@ -79,14 +79,6 @@ public class SetPenSizeBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_pen_size_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 		TextView penSizeText = (TextView) view.findViewById(R.id.brick_set_pen_size_prototype_text_view);
 		TextView penSizeEdit = (TextView) view.findViewById(R.id.brick_set_pen_size_edit_text);
 

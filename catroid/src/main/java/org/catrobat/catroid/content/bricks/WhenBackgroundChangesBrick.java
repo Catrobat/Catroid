@@ -112,19 +112,11 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
+
 		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_when_background_checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_when_background_spinner);
 

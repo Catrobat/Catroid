@@ -98,15 +98,6 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_text_checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_text_prototype_text_view_x);
 		TextView textY = (TextView) view.findViewById(R.id.brick_set_text_prototype_text_view_y);

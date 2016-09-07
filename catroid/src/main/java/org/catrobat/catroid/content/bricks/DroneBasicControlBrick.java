@@ -44,15 +44,6 @@ public abstract class DroneBasicControlBrick extends BrickBaseType {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_drone_basic_control_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView label = (TextView) view.findViewById(R.id.ValueTextViewControl);
 		label.setText(getBrickLabel(view));
 

@@ -99,20 +99,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 		setCheckboxView(R.id.brick_repeat_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
-			}
-		});
-
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);

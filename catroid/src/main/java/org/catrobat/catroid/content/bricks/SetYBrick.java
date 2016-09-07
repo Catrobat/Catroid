@@ -77,16 +77,6 @@ public class SetYBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_y_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);

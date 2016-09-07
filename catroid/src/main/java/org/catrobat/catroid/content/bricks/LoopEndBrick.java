@@ -90,15 +90,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
 
 			setCheckboxView(R.id.brick_loop_end_checkbox);
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
 		}
 
 		return view;
