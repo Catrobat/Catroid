@@ -112,8 +112,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.parrot:arsdk:3.9.1'
-
+    compile 'com.parrot:arsdk:3.9.2'
     compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.7'

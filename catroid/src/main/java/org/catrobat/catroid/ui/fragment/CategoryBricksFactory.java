@@ -509,7 +509,6 @@ public class CategoryBricksFactory {
 		jumpingSumoBrickList.add(new JumpingSumoRotateRightBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 		jumpingSumoBrickList.add(new JumpingSumoShowBatteryStatusBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 
-
 		return jumpingSumoBrickList;
 	}
 
