@@ -1112,6 +1112,7 @@
     <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
     <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+    <string name="user_variable_name_battery_status">Battery Status</string>
     <!--  -->
 
     <!-- Phiro bricks -->
@@ -1394,6 +1395,7 @@
     <string name="edit_variable">Edit variable</string>
     <string name="variable_hint">Variable name</string>
     <string name="brick_show_variable">Show variable</string>
+    <string name="brick_show_battery_status">Show battery status </string>
     <string name="brick_show_variable_position">"at "</string>
     <string name="brick_hide_variable">Hide variable</string>
     <!-- -->

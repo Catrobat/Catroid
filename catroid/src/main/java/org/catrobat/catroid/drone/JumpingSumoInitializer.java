@@ -170,6 +170,10 @@ public class JumpingSumoInitializer {
 			listener.onBatteryChargeChanged(battery);
 		}
 		Log.d(TAG, "Jumping Sumo Battery: " + battery);
+		JumpingSumoDataContainer batteryStatus = JumpingSumoDataContainer.getInstance();
+
+		Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery;
+		batteryStatus.setBatteryStatus(value);
 		//TODO TGr JUMPING_SUMO_BATTERY_THRESHOLD???
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
 			disconnect();

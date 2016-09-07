@@ -22,15 +22,29 @@
  */
 package org.catrobat.catroid.drone;
 
-public final class JumpingSumoPosition {
-	private static JumpingSumoPosition ourInstance = new JumpingSumoPosition();
-	private boolean positionHeadUp = true;
 
-	public static JumpingSumoPosition getInstance() {
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.actions.JumpingSumoShowBatteryStatusAction;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+
+public final class JumpingSumoDataContainer {
+
+	public static final String TAG = JumpingSumoDataContainer.class.getSimpleName();
+	private static JumpingSumoDataContainer ourInstance = new JumpingSumoDataContainer();
+	public static final String BATTERY_STATUS = "Battery_Status";
+	private JumpingSumoShowBatteryStatusAction batteryAction = null;
+	private boolean positionHeadUp = true;
+	private UserVariable batteryVariable = new UserVariable(BATTERY_STATUS, Constants.JUMPING_SUMO_BATTERY_STATUS);
+
+	public static JumpingSumoDataContainer getInstance() {
 		return ourInstance;
 	}
 
-	private JumpingSumoPosition() {
+	private JumpingSumoDataContainer() {
+	}
+
+	public void setBatteryAction(JumpingSumoShowBatteryStatusAction batAction) {
+		batteryAction = batAction;
 	}
 
 	public void setPostion(boolean pos) {
@@ -39,5 +53,21 @@ public final class JumpingSumoPosition {
 
 	public boolean getPostion() {
 		return positionHeadUp;
+	}
+
+	public void setBatteryStatus(Object battery) {
+		//Object value = "Battery " + battery;
+		batteryVariable.setValue(battery);
+		if (batteryAction != null) {
+			batteryAction.updateBatteryStatus();
+		}
+	}
+
+	public Object getBatteryStatus() {
+		return batteryVariable.getValue();
+	}
+
+	public UserVariable getBatteryVariable() {
+		return batteryVariable;
 	}
 }

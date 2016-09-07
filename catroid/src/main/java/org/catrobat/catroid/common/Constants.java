@@ -212,6 +212,7 @@ public final class Constants {
 	public static final int PADDING_TOP = 40;
 	public static final int PADDING_LEFT = 30;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
+	public static final int JUMPING_SUMO_BATTERY_STATUS = 100;
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;

@@ -30,7 +30,7 @@ import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_JUMP_TYPE_E
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.drone.JumpingSumoDeviceController;
-//import org.catrobat.catroid.drone.JumpingSumoPosition;
+//import org.catrobat.catroid.drone.JumpingSumoDataContainer;
 
 public class JumpingSumoJumpLongAction extends TemporalAction {
 

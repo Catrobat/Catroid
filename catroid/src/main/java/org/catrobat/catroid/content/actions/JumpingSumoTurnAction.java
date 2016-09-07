@@ -28,8 +28,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
+import org.catrobat.catroid.drone.JumpingSumoDataContainer;
 import org.catrobat.catroid.drone.JumpingSumoDeviceController;
-import org.catrobat.catroid.drone.JumpingSumoPosition;
+
 
 public class JumpingSumoTurnAction extends TemporalAction {
 
@@ -42,7 +43,7 @@ public class JumpingSumoTurnAction extends TemporalAction {
 		super.begin();
 		controller = JumpingSumoDeviceController.getInstance();
 		deviceController = controller.getDeviceController();
-		JumpingSumoPosition position = JumpingSumoPosition.getInstance();
+		JumpingSumoDataContainer position = JumpingSumoDataContainer.getInstance();
 		boolean pos = position.getPostion();
 		if (deviceController != null) {
 			if (pos) {
