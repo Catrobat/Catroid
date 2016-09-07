@@ -55,17 +55,7 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_delete_this_clone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_delete_clone_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		return view;
+		setCheckboxView(R.id.brick_delete_clone_checkbox);		return view;
 	}
 
 	@Override

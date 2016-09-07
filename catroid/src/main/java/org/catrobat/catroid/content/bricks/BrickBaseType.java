@@ -87,16 +87,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void setCheckboxVisibility(int visibility) {
-		if (checkbox != null) {
-			checkbox.setVisibility(visibility);
-			if (visibility == View.GONE) {
-				checked = false;
-			}
-		}
-	}
-
-	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {
 		this.adapter = adapter;
 	}

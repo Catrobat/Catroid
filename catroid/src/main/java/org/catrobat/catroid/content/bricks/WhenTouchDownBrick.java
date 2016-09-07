@@ -85,21 +85,11 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 		if (whenTouchDownScript == null) {
 			whenTouchDownScript = new WhenTouchDownScript();
 		}
-		final Brick brickInstance = this;
+
 		view = View.inflate(context, R.layout.brick_screen_touched, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_when_screen_touched_checkbox);
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		return view;
+	return view;
 	}
 
 	@Override

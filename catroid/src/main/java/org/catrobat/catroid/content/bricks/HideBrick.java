@@ -55,17 +55,7 @@ public class HideBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_hide, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_hide_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		return view;
+		setCheckboxView(R.id.brick_hide_checkbox);		return view;
 	}
 
 	@Override

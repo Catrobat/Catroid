@@ -79,14 +79,6 @@ public class SetSizeToBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_size_to_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE).setTextFieldId(R.id.brick_set_size_to_edit_text);

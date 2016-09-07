@@ -55,15 +55,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
 
 			setCheckboxView(R.id.brick_loop_endless_checkbox);
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
 		}
 		return view;
 	}

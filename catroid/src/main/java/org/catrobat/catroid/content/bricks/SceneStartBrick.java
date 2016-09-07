@@ -83,15 +83,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_scene_start_checkbox);
 
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(SceneStartBrick.this, isChecked);
-			}
-		});
-
 		final Spinner sceneSpinner = (Spinner) view.findViewById(R.id.brick_scene_start_spinner);
 		sceneSpinner.setFocusableInTouchMode(false);
 		sceneSpinner.setFocusable(false);

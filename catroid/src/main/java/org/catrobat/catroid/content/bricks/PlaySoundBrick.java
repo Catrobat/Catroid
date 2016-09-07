@@ -95,16 +95,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_play_sound_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		final Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {

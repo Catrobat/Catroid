@@ -70,16 +70,6 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_broadcast_wait_checkbox);
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(BroadcastWaitBrick.this, isChecked);
-			}
-		});
-
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);

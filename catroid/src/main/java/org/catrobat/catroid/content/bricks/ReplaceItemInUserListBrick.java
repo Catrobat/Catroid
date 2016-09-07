@@ -91,16 +91,6 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		view = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_replace_item_in_userlist_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		TextView prototypeTextValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_prototype_view);
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
 		prototypeTextValue.setVisibility(View.GONE);

@@ -95,10 +95,7 @@ public final class BrickViewProvider {
 	}
 
 	public static void setCheckboxVisibility(Brick brick, int visibility) {
-		CheckBox checkBox = brick.getCheckBox();
-		if (checkBox != null) {
-			checkBox.setVisibility(visibility);
-		}
+		brick.getCheckBox().setVisibility(visibility);
 	}
 
 	private static View getBrickLayout(View view) {

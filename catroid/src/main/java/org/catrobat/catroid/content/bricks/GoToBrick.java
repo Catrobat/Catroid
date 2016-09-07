@@ -93,15 +93,6 @@ public class GoToBrick extends BrickBaseType {
 
 		setCheckboxView(R.id.brick_go_to_checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {

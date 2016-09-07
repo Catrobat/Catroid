@@ -80,15 +80,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_go_back_checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);

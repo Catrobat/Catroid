@@ -64,20 +64,8 @@ public class CameraBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_video, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_video_checkbox);
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
