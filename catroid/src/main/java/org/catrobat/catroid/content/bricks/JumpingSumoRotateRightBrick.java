@@ -35,6 +35,7 @@ import java.util.List;
 
 public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
 
+	private AngularDimension angularEnum = AngularDimension.DEGREE;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = JumpingSumoRotateRightBrick.class.getSimpleName();
 
@@ -44,6 +45,10 @@ public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
 
 	public JumpingSumoRotateRightBrick(Formula degree) {
 		super(degree);
+	}
+
+	public AngularDimension getAngularDim() {
+		return angularEnum;
 	}
 
 	@Override

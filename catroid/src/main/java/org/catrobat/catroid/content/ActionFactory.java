@@ -90,6 +90,7 @@ import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateRightAction;
+import org.catrobat.catroid.content.actions.JumpingSumoShowBatteryStatusAction;
 import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
@@ -947,6 +948,18 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setAngularDimension(dim);
 		action.setDegree(degree);
+		return action;
+	}
+
+	public Action createJumpingSumoShowBatteryStatusAction(Sprite sprite, Formula xPosition, Formula yPosition,
+			UserVariable
+			userVariable) {
+		JumpingSumoShowBatteryStatusAction action = action(JumpingSumoShowBatteryStatusAction.class);
+		action.setPosition(xPosition, yPosition);
+		action.setVariableToShow(userVariable);
+		action.setSprite(sprite);
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		action.setUserBrick(userBrick);
 		return action;
 	}
 

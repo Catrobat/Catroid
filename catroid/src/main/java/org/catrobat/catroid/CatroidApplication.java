@@ -86,7 +86,6 @@ public class CatroidApplication extends MultiDexApplication {
 		}
 
 		try {
-			//ARSDK.loadSDKLibs();
 			System.loadLibrary("curl");
 			System.loadLibrary("json");
 			System.loadLibrary("arsal");

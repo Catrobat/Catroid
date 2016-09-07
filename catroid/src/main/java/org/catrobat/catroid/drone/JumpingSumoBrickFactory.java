@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoShowBatteryStatusBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
 
 public final class JumpingSumoBrickFactory {
@@ -38,7 +39,7 @@ public final class JumpingSumoBrickFactory {
 
 	public enum JumpingSumoBricks {
 		JUMPING_SUMO_TURN, JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD, JUMPING_SUMO_ROTATE_LEFT, JUMPING_SUMO_ROTATE_RIGHT,
-		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH
+		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH, JUMPING_SUMO_SHOW_BATTERY_STATUS
 	}
 
 	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
@@ -59,6 +60,8 @@ public final class JumpingSumoBrickFactory {
 				return new JumpingSumoJumpLongBrick();
 			case JUMPING_SUMO_JUMP_LONG:
 				return new JumpingSumoJumpHighBrick();
+			case JUMPING_SUMO_SHOW_BATTERY_STATUS:
+				return new JumpingSumoShowBatteryStatusBrick();
 			default:
 				return null;
 		}

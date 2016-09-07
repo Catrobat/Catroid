@@ -69,7 +69,7 @@ android {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "false>"
+            buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
@@ -112,8 +112,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.parrot:arsdk:3.9.1'
-
+    compile 'com.parrot:arsdk:3.9.2'
     compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.7'
