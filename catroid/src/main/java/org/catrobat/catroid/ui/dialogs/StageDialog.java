@@ -76,8 +76,10 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
-			((ImageButton) findViewById(R.id.cast_button_stage_activity)).setVisibility(View.VISIBLE);
-			((ImageButton) findViewById(R.id.cast_button_stage_activity)).setOnClickListener(this);
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				((ImageButton) findViewById(R.id.cast_button_stage_activity)).setVisibility(View.VISIBLE);
+				((ImageButton) findViewById(R.id.cast_button_stage_activity)).setOnClickListener(this);
+			}
 		}
 	}
 
