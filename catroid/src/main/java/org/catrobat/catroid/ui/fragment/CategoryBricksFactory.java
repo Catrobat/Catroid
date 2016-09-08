@@ -189,7 +189,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
-			tempList = setupDataCategoryList();
+			tempList = setupDataCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			tempList = setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_arduino))) {
@@ -226,6 +226,7 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
 		eventBrickList.add(new CollisionReceiverBrick("object"));
 		eventBrickList.add(new WhenBackgroundChangesBrick());
+		eventBrickList.add(new WhenClonedBrick());
 
 		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
 			eventBrickList.add(new WhenNfcBrick());
@@ -254,10 +255,11 @@ public class CategoryBricksFactory {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
-		controlBrickList.add(new WhenClonedBrick());
+		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
+
 		controlBrickList.add(new CloneBrick());
 		controlBrickList.add(new DeleteThisCloneBrick());
-		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
+		controlBrickList.add(new WhenClonedBrick());
 
 		return controlBrickList;
 	}
@@ -376,21 +378,16 @@ public class CategoryBricksFactory {
 	private List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> looksBrickList = new ArrayList<>();
 
-		looksBrickList.add(new WhenBackgroundChangesBrick());
-		looksBrickList.add(new SetBackgroundBrick());
-		looksBrickList.add(new SetBackgroundAndWaitBrick());
 		if (!isBackgroundSprite) {
 			looksBrickList.add(new SetLookBrick());
 		}
 		looksBrickList.add(new NextLookBrick());
 		looksBrickList.add(new PreviousLookBrick());
-		looksBrickList.add(new CameraBrick());
-		looksBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
-		looksBrickList.add(new ChooseCameraBrick());
 		looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
 		looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
 		looksBrickList.add(new HideBrick());
 		looksBrickList.add(new ShowBrick());
+		looksBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		if (!isBackgroundSprite) {
 			looksBrickList.add(new SayBubbleBrick(context.getString(R.string.brick_say_bubble_default_value)));
 			looksBrickList.add(new SayForBubbleBrick(context.getString(R.string.brick_say_bubble_default_value), 1.0f));
@@ -404,6 +401,11 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetColorBrick(BrickValues.SET_COLOR_TO));
 		looksBrickList.add(new ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
+		looksBrickList.add(new WhenBackgroundChangesBrick());
+		looksBrickList.add(new SetBackgroundBrick());
+		looksBrickList.add(new SetBackgroundAndWaitBrick());
+		looksBrickList.add(new CameraBrick());
+		looksBrickList.add(new ChooseCameraBrick());
 		looksBrickList.add(new FlashBrick());
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
@@ -428,7 +430,7 @@ public class CategoryBricksFactory {
 		return penBrickList;
 	}
 
-	private List<Brick> setupDataCategoryList() {
+	private List<Brick> setupDataCategoryList(Context context) {
 		List<Brick> dataBrickList = new ArrayList<>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
@@ -438,6 +440,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		return dataBrickList;
 	}
 
@@ -512,10 +515,10 @@ public class CategoryBricksFactory {
 	private List<Brick> setupRaspiCategoryList() {
 		List<Brick> raspiBrickList = new ArrayList<>();
 		raspiBrickList.add(new WhenRaspiPinChangedBrick(null));
+		raspiBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues
 				.RASPI_PWM_INITIAL_FREQUENCY, BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
-		raspiBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 
 		return raspiBrickList;
 	}
