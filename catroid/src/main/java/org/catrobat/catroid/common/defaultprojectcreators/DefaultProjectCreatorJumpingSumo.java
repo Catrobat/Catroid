@@ -41,7 +41,6 @@ import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.drone.JumpingSumoBrickFactory;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
@@ -68,18 +67,19 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
+		double landscapePortraitFactor = 1.63;
+		//landscapePortraitFactor = ScreenValues.getAspectRatio();
+
+		landscapeMode = true;
 		Log.d(TAG, "create default project");
 		String backgroundName = context.getString(R.string.add_look_drone_video);
 
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(90f);
-		SetSizeToBrick setSizeBrick = new SetSizeToBrick(100.0);
+		SetSizeToBrick setSizeBrick = new SetSizeToBrick(60.0);
 
 		Script whenProjectStartsScript = new StartScript();
-		whenProjectStartsScript.addBrick(turnLeftBrick);
 		whenProjectStartsScript.addBrick(setSizeBrick);
 
 		Script whenSpriteTappedScript = new WhenScript();
-
 		Project defaultJumpingSumoProject = new Project(context, projectName, landscapeMode);
 		String sceneName = defaultJumpingSumoProject.getDefaultScene().getName();
 		defaultJumpingSumoProject.setDeviceData(context); // density anywhere here
@@ -123,7 +123,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(flipName, JumpingSumoBrickFactory.JumpingSumoBricks
-						.JUMPING_SUMO_TURN, 260, 0, flipFile));
+						.JUMPING_SUMO_TURN, 0, (int) (-300 / landscapePortraitFactor), flipFile));
 
 		//forward brick
 		String forwardName = context.getString(R.string.default_jumping_sumo_project_sprites_forward);
@@ -133,7 +133,8 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(forwardName, JumpingSumoBrickFactory.JumpingSumoBricks
-						.JUMPING_SUMO_FORWARD, -200, -300, forwardFile, BrickValues
+						.JUMPING_SUMO_FORWARD, (int) (-300 / landscapePortraitFactor), (int)
+				(200 / landscapePortraitFactor), forwardFile, BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (byte) BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, 0));
 
@@ -145,7 +146,9 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(backwardName, JumpingSumoBrickFactory
-						.JumpingSumoBricks.JUMPING_SUMO_BACKWARD, 200, -300, backwardFile, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+						.JumpingSumoBricks.JUMPING_SUMO_BACKWARD, (int) (-300 / landscapePortraitFactor), (int)
+				(-200 / landscapePortraitFactor), backwardFile,
+				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
 						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, 0));
 
 		//turn left brick
@@ -156,7 +159,8 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnLeftName, JumpingSumoBrickFactory
-						.JumpingSumoBricks.JUMPING_SUMO_ROTATE_LEFT, 0, -500, turnLeftFile, 0,
+						.JumpingSumoBricks.JUMPING_SUMO_ROTATE_LEFT, (int) (-500 / landscapePortraitFactor), 0,
+				turnLeftFile, 0,
 						(byte) BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) 90/*Math.PI /
 						2*/));
 
@@ -168,7 +172,8 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(turnRightName, JumpingSumoBrickFactory.JumpingSumoBricks
-						.JUMPING_SUMO_ROTATE_RIGHT, 0, -100, turnRightFile, 0, (byte) BrickValues
+						.JUMPING_SUMO_ROTATE_RIGHT, (int) (-100 / landscapePortraitFactor), 0, turnRightFile, 0, (byte)
+				BrickValues
 						.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (float) 90/*Math.PI / 2*/));
 
 		//jump long brick
@@ -179,7 +184,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(jumpLongName, JumpingSumoBrickFactory.JumpingSumoBricks
-						.JUMPING_SUMO_JUMP_LONG, 0, 500, jumpLongFile));
+						.JUMPING_SUMO_JUMP_LONG, (int) (500 / landscapePortraitFactor), 0, jumpLongFile));
 
 		//jump high brick
 		String jumpHighName = context.getString(R.string.default_jumping_sumo_project_sprites_jump_high);
@@ -189,7 +194,14 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(jumpHighName, JumpingSumoBrickFactory.JumpingSumoBricks
-						.JUMPING_SUMO_JUMP_HIGH, 0, 250, jumpHighFile));
+						.JUMPING_SUMO_JUMP_HIGH, (int) (250 / landscapePortraitFactor), 0, jumpHighFile));
+
+		//battery brick
+		String batteryName = context.getString(R.string.user_variable_name_battery_status);
+
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoBatterySprite(batteryName,
+				JumpingSumoBrickFactory.JumpingSumoBricks
+				.JUMPING_SUMO_SHOW_BATTERY_STATUS, 200, 350, 0, (byte) 0, 0));
 
 		StorageHandler.getInstance().saveProject(defaultJumpingSumoProject);
 		return defaultJumpingSumoProject;
@@ -208,20 +220,17 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		Script whenSpriteTappedScript = new WhenScript();
 
 		BrickBaseType brick = JumpingSumoBrickFactory.getInstanceOfJumpingSumoBrick(jumpingSumoBrick,
-				timeInMilliseconds, powerInPercent, degree);
+				timeInMilliseconds, powerInPercent, degree, 0, 0);
 
 		whenSpriteTappedScript.addBrick(brick);
 
 		Script whenProjectStartsScript = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPosition),
 				calculateValueRelativeToScaledBackground(yPosition));
-		SetSizeToBrick setSizeBrick = new SetSizeToBrick(50.0);
-
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(90f);
+		SetSizeToBrick setSizeBrick = new SetSizeToBrick(40.0);
 
 		whenProjectStartsScript.addBrick(placeAtBrick);
 		whenProjectStartsScript.addBrick(setSizeBrick);
-		whenProjectStartsScript.addBrick(turnLeftBrick);
 
 		LookData lookData = new LookData();
 		lookData.setLookName(spriteName + " icon");
@@ -231,6 +240,24 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		sprite.getLookDataList().add(lookData);
 
 		sprite.addScript(whenSpriteTappedScript);
+		sprite.addScript(whenProjectStartsScript);
+
+		return sprite;
+	}
+
+	private Sprite createJumpingSumoBatterySprite(String spriteName, JumpingSumoBrickFactory.JumpingSumoBricks
+			jumpingSumoBrick, int xPosition,
+			int yPosition, int timeInMilliseconds, byte powerInPercent, float degree) {
+
+		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), spriteName);
+
+		BrickBaseType brick = JumpingSumoBrickFactory.getInstanceOfJumpingSumoBrick(jumpingSumoBrick,
+				timeInMilliseconds, powerInPercent, degree, xPosition, yPosition);
+
+		Script whenProjectStartsScript = new StartScript();
+
+		whenProjectStartsScript.addBrick(brick);
+
 		sprite.addScript(whenProjectStartsScript);
 
 		return sprite;

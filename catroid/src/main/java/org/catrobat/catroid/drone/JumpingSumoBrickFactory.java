@@ -43,7 +43,8 @@ public final class JumpingSumoBrickFactory {
 	}
 
 	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
-														byte powerInPercent, float degree) {
+														byte powerInPercent, float degree, int xPosition, int
+			yPosition) {
 
 		switch (brick) {
 			case JUMPING_SUMO_TURN:
@@ -61,7 +62,7 @@ public final class JumpingSumoBrickFactory {
 			case JUMPING_SUMO_JUMP_LONG:
 				return new JumpingSumoJumpHighBrick();
 			case JUMPING_SUMO_SHOW_BATTERY_STATUS:
-				return new JumpingSumoShowBatteryStatusBrick();
+				return new JumpingSumoShowBatteryStatusBrick(xPosition, yPosition);
 			default:
 				return null;
 		}
