@@ -74,9 +74,9 @@ public class JumpingSumoInitializer {
 	private PreStageActivity prestageStageActivity;
 	private ARCONTROLLER_DEVICE_STATE_ENUM deviceState = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
 
-	public static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
+	private static final int JUMPING_SUMO_BATTERY_THRESHOLD = 2;
 	private static final int CONNECTION_TIME = 4000;
-	public static int jumpingSumoCount = 0;
+	private static int jumpingSumoCount = 0;
 
 	public interface Listener {
 		/**
@@ -177,6 +177,9 @@ public class JumpingSumoInitializer {
 		//TODO TGr JUMPING_SUMO_BATTERY_THRESHOLD???
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
 			disconnect();
+			showUnCancellableErrorDialog(prestageStageActivity,
+					prestageStageActivity.getString(R.string.error_jumpingsumo_battery_title),
+					prestageStageActivity.getString(R.string.error_jumpingsumo_battery));
 			Log.e(TAG, "Jumping Sumo Battery too low");
 		}
 	}
@@ -210,8 +213,6 @@ public class JumpingSumoInitializer {
 
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
 				controller.setDeviceController(deviceController);
-				//JumpingSumoInitializer.this.isNotified = true;
-				//JumpingSumoInitializer.this.notify();
 			}
 		}
 	};

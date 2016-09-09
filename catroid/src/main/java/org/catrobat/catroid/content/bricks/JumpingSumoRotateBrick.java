@@ -24,14 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -49,19 +42,12 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
-	private AngularDimension angularEnum = AngularDimension.DEGREE;
 
-	public enum AngularDimension {
-		DEGREE, RADIAN
-	}
 
 	public JumpingSumoRotateBrick() {
 		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE);
 	}
 
-	public AngularDimension getAngularDim() {
-		return angularEnum;
-	}
 
 	public JumpingSumoRotateBrick(float degree) {
 		initializeBrickFields(new Formula(degree));
@@ -82,77 +68,6 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 
 	@Override
 	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_jumping_sumo_rotate, null);
-		view = getViewWithAlpha(alphaValue);
-
-		setCheckboxView(R.id.brick_jumping_sumo_rotate_checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-		TextView editDegree = (TextView) view.findViewById(R.id.brick_jumping_sumo_rotate_value);
-		getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)
-				.setTextFieldId(R.id.brick_jumping_sumo_rotate_value);
-		getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE).refreshTextField(view);
-
-		TextView label = (TextView) view.findViewById(R.id.brick_jumping_sumo_rotate_label);
-		label.setText(getBrickLabel(view));
-
-		editDegree.setVisibility(View.VISIBLE);
-		editDegree.setOnClickListener(this);
-
-		Spinner angleSpinner = (Spinner) view.findViewById(R.id.brick_jumping_sumo_rotate_spinner);
-
-		angleSpinner.setFocusableInTouchMode(false);
-		angleSpinner.setFocusable(false);
-		angleSpinner.setEnabled(false);
-
-		ArrayAdapter<CharSequence> angleAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sump_angle,
-				android.R.layout.simple_spinner_item);
-		angleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		angleSpinner.setAdapter(angleAdapter);
-		angleSpinner.setSelection(0);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			angleSpinner.setClickable(true);
-			angleSpinner.setEnabled(true);
-		} else {
-			angleSpinner.setClickable(false);
-			angleSpinner.setFocusable(false);
-		}
-
-		angleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0) {
-					angularEnum = AngularDimension.DEGREE;
-				} else {
-					angularEnum = AngularDimension.RADIAN;
-				}
-				Log.d(TAG, "Angel dim: " + angularEnum);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-
-		return view;
-	}
 
 	@Override
 	public View getPrototypeView(Context context) {
