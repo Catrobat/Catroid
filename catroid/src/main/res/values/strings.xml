@@ -159,9 +159,8 @@
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
         failed!</string>
-    <string name="connection_established">Connection to server established!</string>
     <string name="search_failed">Search failed, please retry later!</string>
-    <string name="connection_closed">Connection to server closed!</string>
+    <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
     <string name="connection_failed">Connection to server failed, please retry later!</string>
     <string name="authentication_failed">Authentication failed, please contact the Pocket Code team!</string>
     <plurals name="scratch_conversion_scheduled_x">
