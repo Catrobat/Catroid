@@ -138,12 +138,6 @@ public class ScratchConversionManager implements ConversionManager {
 		editor.putLong(Constants.SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME, clientID);
 		editor.commit();
 		Log.i(TAG, "Connection established (clientID: " + clientID + ")");
-		currentActivity.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtil.showSuccess(currentActivity, R.string.connection_established);
-			}
-		});
 		Preconditions.checkState(client.isAuthenticated());
 		client.retrieveInfo();
 	}
@@ -157,10 +151,12 @@ public class ScratchConversionManager implements ConversionManager {
 			public void run() {
 				if (exceptionMessage != null) {
 					Log.e(TAG, exceptionMessage);
-					ToastUtil.showError(currentActivity, R.string.connection_closed);
-				} else {
-					ToastUtil.showSuccess(currentActivity, R.string.connection_closed);
 				}
+
+				if (!shutdown) {
+					ToastUtil.showError(currentActivity, R.string.connection_lost_or_closed_by_server);
+				}
+
 				closeAllActivities();
 			}
 		});

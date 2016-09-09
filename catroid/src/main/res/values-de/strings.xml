@@ -144,9 +144,8 @@
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">Dieses Scratch Programm kann nicht geöffnet werden,
     da die Konvertierung fehlgeschlagen ist!</string>
-  <string name="connection_established">Verbindung zum Server hergestellt!</string>
   <string name="search_failed">Suche fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
-  <string name="connection_closed">Verbindung zum Server getrennt!</string>
+  <string name="connection_lost_or_closed_by_server">Verbindung verloren oder wurde vom Server getrennt!</string>
   <string name="connection_failed">Verbindung zum Server fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
   <string name="authentication_failed">Authentifizierung fehlgeschlagen. Bitte kontaktiere das Pocket Code Team!</string>
   <plurals name="scratch_conversion_scheduled_x">
