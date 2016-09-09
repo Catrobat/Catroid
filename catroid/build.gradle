@@ -112,7 +112,6 @@ configurations {
 }
 
 dependencies {
-    compile 'com.parrot:arsdk:3.9.2'
     compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.7'
@@ -141,7 +140,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.google.firebase:firebase-crash:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
-
+    
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
