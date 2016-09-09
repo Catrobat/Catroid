@@ -759,10 +759,6 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		}
 	}
 
-	public ListView getListView() {
-		return listView;
-	}
-
 	@Override
 	public void handleCheckBoxClick(View view) {
 	}
