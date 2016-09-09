@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.JumpingSumoRotateBrick;
 import org.catrobat.catroid.drone.JumpingSumoDeviceController;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -45,9 +44,6 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
 	private static final String TAG = JumpingSumoRotateRightAction.class.getSimpleName();
-	private JumpingSumoRotateBrick.AngularDimension dimension;
-
-
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
@@ -55,10 +51,6 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 
 	public void setDegree(Formula degree) {
 		this.degree = degree;
-	}
-
-	public void setAngularDimension(JumpingSumoRotateBrick.AngularDimension dim) {
-		dimension = dim;
 	}
 
 	@Override
@@ -81,11 +73,8 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 
 	protected void move() {
 		if (deviceController != null) {
-			if (JumpingSumoRotateBrick.AngularDimension.DEGREE == dimension) {
-				newDegree = (float) (newDegree * Math.PI / 180);
-			}
+			newDegree = (float) (newDegree * Math.PI / 180);
 			Log.d(TAG, "rotate with " + newDegree);
-			Log.d(TAG, "Angel dim: " + dimension);
 			deviceController.getFeatureJumpingSumo().sendPilotingAddCapOffset(newDegree);
 			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
 			Log.d(TAG, "send move command JS");

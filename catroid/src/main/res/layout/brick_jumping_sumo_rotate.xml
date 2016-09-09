@@ -54,12 +54,12 @@
             android:id="@+id/brick_jumping_sumo_rotate_value"
             style="@style/BrickPrototypeTextView" />
 
-        <Spinner
-            android:id="@+id/brick_jumping_sumo_rotate_spinner"
+        <TextView
+            android:id="@+id/brick_jumping_sumo_rotate_text"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_jumping_sumo_rotate_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/brick_change_variable_edit_text"
