@@ -25,11 +25,21 @@ package org.catrobat.catroid.content;
 public class GroupSprite extends Sprite {
 	private static final long serialVersionUID = 1L;
 
+	private transient boolean isExpanded = false;
+
 	public GroupSprite(String name) {
 		super(name);
 	}
 
 	public GroupSprite() {
 		super();
+	}
+
+	public boolean shouldBeExpanded() {
+		return isExpanded;
+	}
+
+	public void setExpanded(boolean expanded) {
+		isExpanded = expanded;
 	}
 }

@@ -133,6 +133,8 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 
 			int childrenCount = getChildrenCountOfGroup(groupPosition);
 			holder.scripts.setText(context.getResources().getString(R.string.number_of_objects).concat(" ").concat(Integer.toString(childrenCount)));
+
+			setGroupSpriteExpandedState(groupPosition, isExpanded);
 		} else {
 			setParentHeight(holder, false);
 			handleHolderViews(groupPosition, 0, holder);
@@ -147,6 +149,13 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 		}
 
 		return spriteView;
+	}
+
+	private void setGroupSpriteExpandedState(int groupPosition, boolean expanded) {
+		Sprite sprite = (Sprite) getGroup(groupPosition);
+		if (sprite != null && sprite instanceof GroupSprite) {
+			((GroupSprite) sprite).setExpanded(expanded);
+		}
 	}
 
 	private void setParentHeight(ViewHolder holder, boolean isGroup) {
@@ -775,6 +784,14 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 
 	public List<Sprite> getSpriteList() {
 		return spriteList;
+	}
+
+	public void setExpandedIndicatorsForAllGroupSprites(boolean expanded) {
+		for (Sprite currentSprite : spriteList) {
+			if (currentSprite instanceof GroupSprite) {
+				((GroupSprite) currentSprite).setExpanded(expanded);
+			}
+		}
 	}
 
 	public interface OnSpriteEditListener {
