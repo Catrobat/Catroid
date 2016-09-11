@@ -23,48 +23,54 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 
-public class NoteView extends View implements View.OnClickListener {
+public class NoteView extends ImageView implements View.OnClickListener {
 
+	private static final int HIDDEN = 0;
+	private static final int FULL_VISIBLE = 255;
 	private boolean toggled;
-	private int untoggledColor;
-	private static int toggledColor;
+	private Drawable noteDrawable;
 
 	public NoteView(Context context) {
 		this(context, ContextCompat.getColor(context, R.color.white));
 	}
 
-	public NoteView(Context context, int untoggledColor) {
+	public NoteView(Context context, int backgroundColor) {
 		super(context);
-		this.untoggledColor = untoggledColor;
-		toggledColor = ContextCompat.getColor(getContext(), R.color.grey);
 		setOnClickListener(this);
-		setBackgroundColor(getToggledColor());
+		setAdjustViewBounds(true);
+		setBackgroundColor(backgroundColor);
+		setScaleType(ScaleType.CENTER_INSIDE);
+		initNoteDrawable();
+	}
+
+	private void initNoteDrawable() {
+		noteDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_pocketmusic_note_toggle);
+		noteDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.terms_of_use_text_color), PorterDuff.Mode.SRC_IN);
+		noteDrawable.mutate();
+		noteDrawable.setAlpha(HIDDEN);
+		setImageDrawable(noteDrawable);
 	}
 
 	@Override
 	public void onClick(View v) {
 		toggled = !toggled;
-		setBackgroundColor(getToggledColor());
-	}
-
-	private int getToggledColor() {
 		if (toggled) {
-			return toggledColor;
+			noteDrawable.setAlpha(FULL_VISIBLE);
 		} else {
-			return getUntoggledColor();
+			noteDrawable.setAlpha(HIDDEN);
 		}
+		invalidate();
 	}
 
 	public boolean isToggled() {
 		return toggled;
-	}
-
-	public int getUntoggledColor() {
-		return untoggledColor;
 	}
 }
