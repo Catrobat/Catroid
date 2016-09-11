@@ -45,10 +45,11 @@ public class TrackRowView extends TableRow {
 		super(context);
 		this.setBlackRow(isBlackRow);
 		initializeRow();
+		setWeightSum(QUARTER_COUNT);
 	}
 
 	private void initializeRow() {
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
 		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = 2;
 		int noteColor;
 		if (isBlackRow) {
