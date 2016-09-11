@@ -208,7 +208,10 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (currentFragmentPosition == FRAGMENT_SPRITES && spritesListFragment != null) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		} else {
+			menu.findItem(R.id.groups_create).setVisible(false);
 		}
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
