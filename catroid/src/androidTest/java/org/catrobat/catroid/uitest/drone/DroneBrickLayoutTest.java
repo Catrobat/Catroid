@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.drone;
 
-import android.util.Log;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -39,8 +38,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	public DroneBrickLayoutTest() {
 		super(MainMenuActivity.class);
 	}
-
-	String TAG;
 
 	@Override
 	public void setUp() throws Exception {
@@ -70,12 +67,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("The program name is wrong!", solo.getString(R.string
 				.default_drone_project_name), ProjectManager.getInstance().getCurrentProject().getName());
 
-		Log.d(TAG, "hello" + ProjectManager.getInstance().getCurrentProject().getName());
-        solo.waitForText(solo.getString(R.string.main_menu_programs));
-        solo.clickOnText(solo.getString(R.string.main_menu_programs));
-        solo.waitForText(solo.getString(R.string.default_drone_project_name));
-		solo.clickOnText(solo.getString(R.string.default_drone_project_name));
-		Log.d(TAG, "hello" + ProjectManager.getInstance().getCurrentProject().getName());
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 		solo.clickOnText(solo.getString(R.string.default_drone_project_sprites_takeoff));
 		solo.waitForText(solo.getString(R.string.scripts));
@@ -153,7 +145,6 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 			solo.clickOnText(solo.getString(R.string.yes));
 		}
 
-
 		solo.waitForText(solo.getString(R.string.default_drone_project_name));
 		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));
 		solo.clickOnText(solo.getString(R.string.delete));
@@ -165,13 +156,11 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 
 		SettingsActivity.enableARDroneBricks(getActivity(), false);
 
-
-		solo.waitForText(solo.getString(R.string.default_project_name));
-		solo.clickLongOnText(solo.getString(R.string.default_project_name));
+		solo.waitForText(solo.getString(R.string.default_drone_project_name));
+		solo.clickLongOnText(solo.getString(R.string.default_drone_project_name));
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
-        solo.waitForText(solo.getString(R.string.default_project_name));
 
 		assertTrue("Wrong Project was created! Fix this please!", solo.searchText(solo.getString(R.string.default_project_name)));
 

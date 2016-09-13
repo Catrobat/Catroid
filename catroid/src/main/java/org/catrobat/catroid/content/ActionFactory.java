@@ -81,6 +81,7 @@ import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
+import org.catrobat.catroid.content.actions.JumpingSumoAnimationAction;
 import org.catrobat.catroid.content.actions.JumpingSumoJumpHighAction;
 import org.catrobat.catroid.content.actions.JumpingSumoJumpLongAction;
 import org.catrobat.catroid.content.actions.JumpingSumoMoveBackwardAction;
