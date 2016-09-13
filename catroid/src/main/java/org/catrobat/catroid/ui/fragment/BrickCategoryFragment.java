@@ -153,7 +153,9 @@ public class BrickCategoryFragment extends ListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
-		categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		if (!CategoryBricksFactory.getStarterBricksEnabled()) {
+			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
 		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
@@ -161,7 +163,9 @@ public class BrickCategoryFragment extends ListFragment {
 		}
 
 		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
-			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
+			if (!CategoryBricksFactory.getStarterBricksEnabled()) {
+				categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
+			}
 		}
 
 		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
