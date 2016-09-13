@@ -23,6 +23,8 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -166,6 +168,7 @@ import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryBricksFactory {
 
@@ -530,5 +533,101 @@ public class CategoryBricksFactory {
 			return true;
 		}
 		return false;
+	}
+
+	public String getBrickCategory(Brick brick, Sprite sprite, Context context) {
+		List<Brick> categoryBricks = new LinkedList<>();
+		categoryBricks = setupControlCategoryList(context);
+
+		Resources res = context.getResources();
+		Configuration config = res.getConfiguration();
+		Locale savedLocale = config.locale;
+		config.locale = Locale.ENGLISH;
+		res.updateConfiguration(config, null);
+		String category = "No match";
+
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_control);
+			}
+		}
+		categoryBricks = setupEventCategoryList(context);
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_event);
+			}
+		}
+		categoryBricks = setupMotionCategoryList(sprite, context);
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_motion);
+			}
+		}
+		categoryBricks = setupSoundCategoryList(context);
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_sound);
+			}
+		}
+		boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
+		categoryBricks = setupLooksCategoryList(context, isBackgroundSprite);
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_looks);
+			}
+		}
+		categoryBricks = setupPenCategoryList(sprite);
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_pen);
+			}
+		}
+		categoryBricks = setupUserBricksCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_user_bricks);
+			}
+		}
+		categoryBricks = setupDataCategoryList(context);
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_data);
+			}
+		}
+		categoryBricks = setupLegoNxtCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_lego_nxt);
+			}
+		}
+		categoryBricks = setupArduinoCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_arduino);
+			}
+		}
+		categoryBricks = setupDroneCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_drone);
+			}
+		}
+		categoryBricks = setupPhiroProCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_phiro);
+			}
+		}
+		categoryBricks = setupRaspiCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_raspi);
+			}
+		}
+
+		config.locale = savedLocale;
+		res.updateConfiguration(config, null);
+
+		return category;
 	}
 }
