@@ -1102,6 +1102,7 @@
     <string name="brick_jumping_sumo_rotate_text">°</string>
     <string name="brick_jumping_sumo_rotate_left">rotate left</string>
     <string name="brick_jumping_sumo_rotate_right">rotate right</string>
+    <string name="brick_jumping_sumo_animation">animation</string>
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->
@@ -1114,6 +1115,7 @@
     <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
     <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+    <string name="default_jumping_sumo_project_sprites_animation">Animation</string>
     <string name="user_variable_name_battery_status">Battery Status</string>
     <!--  -->
 

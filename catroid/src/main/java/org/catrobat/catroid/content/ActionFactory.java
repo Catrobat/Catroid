@@ -905,6 +905,10 @@ public class ActionFactory extends Actions {
 		return action(JumpingSumoTurnAction.class);
 	}
 
+	public Action createJumpingSumoAnimationAction() {
+		return action(JumpingSumoAnimationAction.class);
+	}
+
 	public Action createJumpingSumoJumpLongAction() {
 		return action(JumpingSumoJumpLongAction.class);
 	}

@@ -58,8 +58,8 @@ public class DroneLookTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		solo.waitForActivity(ProgramMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.programs));
-		solo.waitForText(solo.getString(R.string.default_project_name));
-		solo.clickOnText(solo.getString(R.string.default_project_name));
+		solo.waitForText(solo.getString(R.string.default_drone_project_name));
+		solo.clickOnText(solo.getString(R.string.default_drone_project_name));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		boolean value = solo.waitForText(solo.getString(R.string.add_look_drone_video));
