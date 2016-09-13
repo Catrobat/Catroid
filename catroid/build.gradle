@@ -99,11 +99,13 @@ ext {
 }
 
 configurations {
+    compile.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
     compile.exclude group: 'xpp3' //compile problem with xstream
     natives
 }
 
 dependencies {
+    compile 'com.parrot:arsdk:3.9.2'
     compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.7'
@@ -131,7 +133,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.android.support:multidex:1.0.1'
 
-    compile fileTree(include: '*.jar', dir: 'lib')
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')
