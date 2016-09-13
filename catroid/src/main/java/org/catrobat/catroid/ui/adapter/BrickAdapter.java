@@ -25,8 +25,10 @@ package org.catrobat.catroid.ui.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +59,9 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -984,6 +988,9 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		} else {
 			items.add(context.getText(R.string.brick_context_dialog_comment_out));
 		}
+		if (!(brickList.get(itemPosition) instanceof UserBrick)) {
+			items.add(context.getText(R.string.brick_context_dialog_help));
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -1040,6 +1047,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					commentBrickOut(brickList.get(itemPosition), false);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_comment_out))) {
 					commentBrickOut(brickList.get(itemPosition), true);
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_help))) {
+					openHelpPageForBrick(brickList.get(itemPosition));
 				}
 			}
 		});
@@ -1146,6 +1155,20 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				AddBrickFragment.launchUserBrickScriptActivity(context, selectedUserBrick);
 			}
 		}
+	}
+
+	private void openHelpPageForBrick(Brick brick) {
+		CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
+		String language = UtilDeviceInfo.getUserLanguageCode();
+		String category = categoryBricksFactory.getBrickCategory(brick, sprite, context);
+		String name = brick.getClass().getSimpleName();
+
+		if (!language.equals("en") && !language.equals("de") && !language.equals("es")) {
+			language = "en";
+		}
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wiki.catrob.at/index"
+				+ ".php?title=" + category + "_Bricks/" + language + "#" + name));
+		getContext().startActivity(browserIntent);
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
