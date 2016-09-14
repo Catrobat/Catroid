@@ -31,7 +31,6 @@ import com.parrot.arsdk.arcontroller.ARDeviceController;
 import org.catrobat.catroid.drone.JumpingSumoDataContainer;
 import org.catrobat.catroid.drone.JumpingSumoDeviceController;
 
-
 public class JumpingSumoTurnAction extends TemporalAction {
 
 	private ARDeviceController deviceController;

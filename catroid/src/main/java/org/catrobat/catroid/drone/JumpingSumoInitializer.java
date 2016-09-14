@@ -57,7 +57,6 @@ import java.util.List;
 
 import static org.catrobat.catroid.CatroidApplication.getAppContext;
 
-
 public class JumpingSumoInitializer {
 
 	private static final List<ARDiscoveryDeviceService> DRONELIST = new ArrayList<>();
@@ -86,7 +85,6 @@ public class JumpingSumoInitializer {
 		 */
 		void onBatteryChargeChanged(int batteryPercentage);
 
-
 		/**
 		 * Called when the video decoder should be configured
 		 * Called on a separate thread
@@ -106,7 +104,6 @@ public class JumpingSumoInitializer {
 		 * Called in the main thread
 		 * @param nbMedias the number of medias that will be downloaded
 		 */
-
 	}
 
 	public JumpingSumoInitializer(PreStageActivity prestageStageActivity) {
@@ -137,7 +134,6 @@ public class JumpingSumoInitializer {
 			jsDiscoverer.addListener(discovererListener);
 		}
 	}
-
 
 	public void checkJumpingSumoAvailability(PreStageActivity prestageStageActivityNow) {
 		setPreStageActivity(prestageStageActivityNow);
@@ -189,7 +185,6 @@ public class JumpingSumoInitializer {
 		for (Listener listener : listenersCpy) {
 			listener.onFrameReceived(frame);
 		}
-
 	}
 
 	private final JumpingSumoDiscoverer.Listener discovererListener = new  JumpingSumoDiscoverer.Listener() {
@@ -238,12 +233,10 @@ public class JumpingSumoInitializer {
 
 			ARDiscoveryDeviceNetService netDeviceService = (ARDiscoveryDeviceNetService) service.getDevice();
 			device.initWifi(productType, netDeviceService.getName(), netDeviceService.getIp(), netDeviceService.getPort());
-
 		} catch (ARDiscoveryException e) {
 			Log.e(TAG, "Exception", e);
 			Log.e(TAG, "Error: " + e.getError());
 		}
-
 		return device;
 	}
 
@@ -286,7 +279,6 @@ public class JumpingSumoInitializer {
 
 		@Override
 		public void onExtensionStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARDISCOVERY_PRODUCT_ENUM product, String name, ARCONTROLLER_ERROR_ENUM error) {
-
 		}
 
 		@Override
@@ -325,5 +317,4 @@ public class JumpingSumoInitializer {
 		public void onFrameTimeout(ARDeviceController deviceController) {
 		}
 	};
-
 }

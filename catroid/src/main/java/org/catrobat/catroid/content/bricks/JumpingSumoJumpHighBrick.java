@@ -44,5 +44,4 @@ public class JumpingSumoJumpHighBrick extends JumpingSumoBasicBrick {
 	protected String getBrickLabel(View view) {
 		return view.getResources().getString(R.string.brick_jumping_sumo_jump_high);
 	}
-
 }

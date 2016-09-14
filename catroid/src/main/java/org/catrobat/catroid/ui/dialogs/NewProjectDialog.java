@@ -148,8 +148,6 @@ public class NewProjectDialog extends DialogFragment {
 			defaultJumpingSumoProjectRadioButton.setVisibility(View.VISIBLE);
 		}
 
-
-
 		return newProjectDialog;
 	}
 
