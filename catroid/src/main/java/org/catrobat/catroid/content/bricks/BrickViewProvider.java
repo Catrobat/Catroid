@@ -28,9 +28,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 public final class BrickViewProvider {
@@ -54,9 +52,14 @@ public final class BrickViewProvider {
 	}
 
 	public static void setAlphaForBrick(Brick brick, int alphaValue) {
-			brick.setAlpha(alphaValue);
-			setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
+		brick.setAlpha(alphaValue);
+		setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
+
+		if (alphaValue == BrickViewProvider.ALPHA_GREYED) {
 			brick.getCheckBox().setClickable(false);
+		} else {
+			brick.getCheckBox().setClickable(true);
+		}
 	}
 
 	public static View setAlphaOnView(View view, int alphaValue) {

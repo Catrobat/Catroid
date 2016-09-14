@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -55,14 +54,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 		view = View.inflate(context, R.layout.brick_drone_spinner, null);
 		setCheckboxView(R.id.brick_drone_spinner_checkbox);
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(DroneSpinnerBrick.this, isChecked);
-			}
-		});
 
 		Spinner spinner = (Spinner) view.findViewById(R.id.brick_drone_spinner_ID);
 		spinner.setFocusableInTouchMode(false);

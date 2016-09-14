@@ -26,8 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import org.catrobat.catroid.R;
 
@@ -70,17 +68,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			isPuzzleView = false;
 			view = View.inflate(context, R.layout.brick_loop_endless_no_puzzle, null);
 			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
-
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
 		}
 		return view;
 	}

@@ -29,8 +29,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -106,7 +104,8 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_nxt_motor_stop_checkbox);		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+		setCheckboxView(R.id.brick_nxt_motor_stop_checkbox);
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

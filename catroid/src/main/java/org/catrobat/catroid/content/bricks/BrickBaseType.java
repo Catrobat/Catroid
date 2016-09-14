@@ -23,9 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -46,7 +42,6 @@ public abstract class BrickBaseType implements Brick {
 	private static final String TAG = BrickBaseType.class.getSimpleName();
 	public transient View view;
 	protected transient CheckBox checkbox;
-	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
@@ -73,7 +68,7 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public boolean isChecked() {
-		return checked;
+		return checkbox.isChecked();
 	}
 
 	@Override
@@ -94,11 +89,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
-	}
-
-	@Override
-	public void setCheckedBoolean(boolean newValue) {
-		checked = newValue;
 	}
 
 	@Override

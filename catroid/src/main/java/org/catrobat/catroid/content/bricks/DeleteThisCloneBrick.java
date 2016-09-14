@@ -25,8 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -55,7 +53,8 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_delete_this_clone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_delete_clone_checkbox);		return view;
+		setCheckboxView(R.id.brick_delete_clone_checkbox);
+		return view;
 	}
 
 	@Override
