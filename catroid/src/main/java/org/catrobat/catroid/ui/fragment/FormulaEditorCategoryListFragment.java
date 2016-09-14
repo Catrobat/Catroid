@@ -32,7 +32,9 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,6 +59,7 @@ import java.util.TreeMap;
 
 public class FormulaEditorCategoryListFragment extends ListFragment implements Dialog.OnKeyListener, CategoryListAdapter.OnListItemClickListener {
 
+	public static final String TAG = FormulaEditorCategoryListFragment.class.getSimpleName();
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
 	public static final String LOGIC_TAG = "logicFragment";
@@ -398,7 +401,14 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements D
 		int[] noParametersList = new int[length];
 
 		for (int i = 0; i < length; i++) {
-			noParametersList[i] = R.string.formula_editor_function_no_parameter;
+			//Dirty hack until further insight is gained
+			try {
+				Log.i(TAG, "Trying to get string resource: " + getString(R.string
+						.formula_editor_function_no_parameter));
+				noParametersList[i] = R.string.formula_editor_function_no_parameter;
+			} catch (Resources.NotFoundException exception) {
+				Log.e(TAG, "formula_editor_function_no_parameter not found!" + Log.getStackTraceString(exception));
+			}
 		}
 
 		return noParametersList;
