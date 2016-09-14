@@ -403,10 +403,4 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 	public void setWhenNfcScript(WhenNfcScript whenNfcScript) {
 		this.whenNfcScript = whenNfcScript;
 	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
-	}
 }

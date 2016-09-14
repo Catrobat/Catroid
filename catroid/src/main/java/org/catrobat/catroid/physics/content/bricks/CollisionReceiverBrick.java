@@ -225,10 +225,4 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	private String getDisplayedAnythingString(Context context) {
 		return ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything) + ANYTHING_ESCAPE_CHAR;
 	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
-	}
 }

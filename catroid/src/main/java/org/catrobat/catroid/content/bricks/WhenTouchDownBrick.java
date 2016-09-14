@@ -145,10 +145,4 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	public void setWhenTouchDownScript(WhenTouchDownScript whenTouchDownScript) {
 		this.whenTouchDownScript = whenTouchDownScript;
 	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
-	}
 }
