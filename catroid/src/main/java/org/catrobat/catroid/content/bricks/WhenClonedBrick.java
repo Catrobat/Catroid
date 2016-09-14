@@ -43,6 +43,10 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 
 	public WhenClonedBrick(WhenClonedScript whenScript) {
 		this.whenClonedScript = whenScript;
+
+		if (whenScript != null && whenScript.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	public WhenClonedBrick() {
