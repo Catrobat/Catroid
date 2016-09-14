@@ -29,8 +29,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -133,7 +131,8 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
+		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
+		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
 		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);

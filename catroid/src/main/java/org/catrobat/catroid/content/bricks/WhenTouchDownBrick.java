@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -89,7 +88,7 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 		view = View.inflate(context, R.layout.brick_screen_touched, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-	return view;
+		return view;
 	}
 
 	@Override

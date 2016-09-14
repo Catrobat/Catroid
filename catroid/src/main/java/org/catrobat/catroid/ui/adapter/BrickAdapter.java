@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -100,14 +99,13 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private List<Brick> animatedBricks;
 
 	private int selectMode;
-	private OnBrickCheckedListener onBrickCheckedListener;
+	public OnBrickCheckedListener onBrickCheckedListener;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private int clickItemPosition = 0;
 	private AlertDialog alertDialog = null;
 
 	private ActionModeEnum actionMode;
-
 
 	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, DragAndDropListView listView) {
 		this.scriptFragment = scriptFragment;
@@ -1310,6 +1308,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				for (Brick brick : brickList) {
 					BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
 				}
+				break;
 			default:
 				for (Brick brick : brickList) {
 					BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);

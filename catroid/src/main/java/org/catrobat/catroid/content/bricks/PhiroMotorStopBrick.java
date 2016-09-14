@@ -28,8 +28,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -104,7 +102,8 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		view = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_phiro_motor_stop_checkbox);		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+		setCheckboxView(R.id.brick_phiro_motor_stop_checkbox);
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
