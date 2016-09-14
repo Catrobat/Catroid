@@ -43,11 +43,9 @@ public abstract class JumpingSumoRotateBrick extends FormulaBrick {
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
 
-
 	public JumpingSumoRotateBrick() {
 		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE);
 	}
-
 
 	public JumpingSumoRotateBrick(float degree) {
 		initializeBrickFields(new Formula(degree));

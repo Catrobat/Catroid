@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.drone;
 
-
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.actions.JumpingSumoShowBatteryStatusAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;

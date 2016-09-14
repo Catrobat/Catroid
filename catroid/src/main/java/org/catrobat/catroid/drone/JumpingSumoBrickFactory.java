@@ -23,9 +23,9 @@
 package org.catrobat.catroid.drone;
 
 import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick;
-import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
@@ -64,8 +64,8 @@ public final class JumpingSumoBrickFactory {
 				return new JumpingSumoJumpHighBrick();
 			case JUMPING_SUMO_SHOW_BATTERY_STATUS:
 				return new JumpingSumoShowBatteryStatusBrick(xPosition, yPosition);
-            case JUMPING_SUMO_ANIMATION:
-                return new JumpingSumoAnimationsBrick();
+			case JUMPING_SUMO_ANIMATION:
+				return new JumpingSumoAnimationsBrick();
 			default:
 				return null;
 		}

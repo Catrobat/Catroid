@@ -77,7 +77,6 @@ public class JumpingSumoMoveForwardAction extends TemporalAction {
 		}
 		super.setDuration(newDuration);
 
-
 		try {
 			if (duration == null) {
 				normalizedPower = Byte.valueOf(JUMPING_SUMO_MOVE_SPEED_STOP);

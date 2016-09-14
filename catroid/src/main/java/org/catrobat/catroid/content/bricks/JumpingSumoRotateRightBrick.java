@@ -98,6 +98,5 @@ public class JumpingSumoRotateRightBrick extends JumpingSumoRotateBrick {
 
 		return view;
 	}
-
 }
 
