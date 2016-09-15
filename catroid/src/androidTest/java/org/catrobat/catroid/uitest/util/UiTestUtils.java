@@ -673,6 +673,15 @@ public final class UiTestUtils {
 
 		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
 		brickCategoryMap.put(R.string.brick_when_nfc, R.string.category_control);
+
+		brickCategoryMap.put(R.string.brick_jumping_sumo_turn, R.string.category_jumping_sumo);
+		brickCategoryMap.put(R.string.brick_jumping_sumo_animation, R.string.category_jumping_sumo);
+		brickCategoryMap.put(R.string.brick_jumping_sumo_jump_high, R.string.category_jumping_sumo);
+		brickCategoryMap.put(R.string.brick_jumping_sumo_jump_long, R.string.category_jumping_sumo);
+		brickCategoryMap.put(R.string.brick_jumping_sumo_move_backward, R.string.category_jumping_sumo);
+		brickCategoryMap.put(R.string.brick_jumping_sumo_move_forward, R.string.category_jumping_sumo);
+		brickCategoryMap.put(R.string.brick_jumping_sumo_rotate_left, R.string.category_jumping_sumo);
+		brickCategoryMap.put(R.string.brick_jumping_sumo_rotate_right, R.string.category_jumping_sumo);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {

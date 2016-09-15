@@ -36,6 +36,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorJumpingSumo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -373,16 +374,50 @@ public final class TestUtils {
 		Assert.fail("Cannot initialize default default drone project.");
 	}
 
+	public static void loadExistingOrCreateDefaultJumpingSumoProject(Context context) {
+		String jumpingSumoDefaultProjectName = context.getString(R.string.default_jumping_sumo_project_name);
+		try {
+			ProjectManager.getInstance().loadProject(jumpingSumoDefaultProjectName, context);
+		} catch (ProjectException cannotLoadJumpingSumoProjectException) {
+			Log.e(TAG, "Cannot load default jumping sumo project", cannotLoadJumpingSumoProjectException);
+		}
+
+		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
+		if (!currentName.equals(jumpingSumoDefaultProjectName)) {
+			try {
+				ProjectManager.getInstance().setProject(createAndSaveDefaultJumpingSumoProject(
+						context));
+				return;
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot initialize default jumping sumo project.", ioException);
+				Assert.fail("Cannot initialize default jumping sumo project.");
+			}
+		}
+		Assert.fail("Cannot initialize default default jumping sumo project.");
+	}
+
 	public static Project createAndSaveDefaultDroneProject(Context context) throws IOException {
 		Log.d(TAG, "createAndSaveDefaultDroneProject");
 		String projectName = context.getString(R.string.default_drone_project_name);
 		return createAndSaveDefaultDroneProject(projectName, context);
 	}
 
+	public static Project createAndSaveDefaultJumpingSumoProject(Context context) throws IOException {
+		Log.d(TAG, "createAndSaveDefaultJumpingSumoProject");
+		String projectName = context.getString(R.string.default_jumping_sumo_project_name);
+		return createAndSaveDefaultJumpingSumoProject(projectName, context);
+	}
+
 	public static Project createAndSaveDefaultDroneProject(String projectName, Context context) throws IOException,
 			IllegalArgumentException {
 		DefaultProjectCreatorDrone defaultProjectCreatorDrone = new DefaultProjectCreatorDrone();
 		return defaultProjectCreatorDrone.createDefaultProject(projectName, context);
+	}
+
+	public static Project createAndSaveDefaultJumpingSumoProject(String projectName, Context context) throws IOException,
+			IllegalArgumentException {
+		DefaultProjectCreatorJumpingSumo defaultProjectCreatorJumpingSumo = new DefaultProjectCreatorJumpingSumo();
+		return defaultProjectCreatorJumpingSumo.createDefaultProject(projectName, context);
 	}
 
 	public static Project createProjectWithGlobalValues(String name, String spriteName, String valueName, Context context) {
