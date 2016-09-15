@@ -407,7 +407,7 @@ public class SpriteAdapter extends BaseExpandableListAdapter implements ActionMo
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (which == 0) {
-					BackPackSpriteController.getInstance().backpackVisibleSprite((Sprite) getChild(0, 0));
+					BackPackSpriteController.getInstance().backpackVisibleSprite((Sprite) getGroup(0));
 					spritesListFragment.switchToBackPack();
 				}
 				dialog.dismiss();

@@ -113,10 +113,10 @@ public class UtilDynamicListView {
 		int adapterPosition = position;
 		if (forSpriteList) {
 			adapterPosition = getAdapterPositionForVisibleListViewPosition(position);
-			getSpriteAdapter().getSpriteList().get(adapterPosition).setIsMobile(true);
 			if (adapterPosition == 0) {
 				return true;
 			} else if (getSpriteAdapter().isGroupPosition(adapterPosition)) {
+				getSpriteAdapter().getSpriteList().get(adapterPosition).setIsMobile(true);
 				spritesListFragment.collapseAllGroups();
 			}
 		}
