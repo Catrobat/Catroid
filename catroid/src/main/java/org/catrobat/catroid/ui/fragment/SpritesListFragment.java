@@ -971,6 +971,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 		int currentNumberOfGroups = spriteAdapter.getNumberOfGroups();
 		String text = getString(R.string.group) + " " + (currentNumberOfGroups + 1);
 		groupNameEditText.setText(text);
+		UtilUi.positionCursorForEditText(groupNameEditText);
 
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
