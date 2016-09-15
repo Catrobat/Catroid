@@ -102,7 +102,6 @@ public class StageActivity extends AndroidApplication {
 		setupAskHandler();
 		controller = JumpingSumoDeviceController.getInstance();
 
-
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {

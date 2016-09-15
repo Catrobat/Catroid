@@ -40,7 +40,6 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 
 	protected static final float JUMPING_SUMO_ROTATE_ZERO = 0.0f;
 
-
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
 	private static final String TAG = JumpingSumoRotateLeftAction.class.getSimpleName();

@@ -50,7 +50,6 @@ public class JumpingSumoRotateLeftBrick extends JumpingSumoRotateBrick {
 		super(degree);
 	}
 
-
 	@Override
 	protected String getBrickLabel(View view) {
 		return view.getResources().getString(R.string.brick_jumping_sumo_rotate_left);
@@ -99,5 +98,4 @@ public class JumpingSumoRotateLeftBrick extends JumpingSumoRotateBrick {
 
 		return view;
 	}
-
 }
