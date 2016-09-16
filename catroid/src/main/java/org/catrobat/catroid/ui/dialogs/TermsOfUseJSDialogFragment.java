@@ -38,7 +38,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.drone.JumpingSumoInitializer;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 

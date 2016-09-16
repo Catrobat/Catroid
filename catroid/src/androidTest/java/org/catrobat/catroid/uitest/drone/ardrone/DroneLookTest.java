@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.drone;
+package org.catrobat.catroid.uitest.drone.ardrone;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.drone.DroneTestUtils;

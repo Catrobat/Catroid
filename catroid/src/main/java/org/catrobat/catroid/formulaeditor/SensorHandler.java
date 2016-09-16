@@ -43,7 +43,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.drone;
+package org.catrobat.catroid.drone.jumpingsumo;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.actions.JumpingSumoShowBatteryStatusAction;
@@ -30,6 +30,7 @@ public final class JumpingSumoDataContainer {
 
 	public static final String TAG = JumpingSumoDataContainer.class.getSimpleName();
 	private static JumpingSumoDataContainer ourInstance = new JumpingSumoDataContainer();
+
 	public static final String BATTERY_STATUS = "Battery_Status";
 	private JumpingSumoShowBatteryStatusAction batteryAction = null;
 	private boolean positionHeadUp = true;
@@ -55,7 +56,6 @@ public final class JumpingSumoDataContainer {
 	}
 
 	public void setBatteryStatus(Object battery) {
-		//Object value = "Battery " + battery;
 		batteryVariable.setValue(battery);
 		if (batteryAction != null) {
 			batteryAction.updateBatteryStatus();

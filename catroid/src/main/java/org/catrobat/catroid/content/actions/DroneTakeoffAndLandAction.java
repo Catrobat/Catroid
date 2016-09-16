@@ -25,7 +25,7 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.freeflight.service.DroneControlService;
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 
 public class DroneTakeoffAndLandAction extends TemporalAction {
 

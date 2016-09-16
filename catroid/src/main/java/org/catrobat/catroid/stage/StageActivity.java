@@ -57,7 +57,7 @@ import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.drone.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;

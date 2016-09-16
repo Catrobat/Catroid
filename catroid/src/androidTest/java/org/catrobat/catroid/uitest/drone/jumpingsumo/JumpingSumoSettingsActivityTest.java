@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.drone;
+package org.catrobat.catroid.uitest.drone.jumpingsumo;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -62,7 +62,7 @@ public class JumpingSumoSettingsActivityTest extends BaseActivityInstrumentation
 		super.tearDown();
 	}
 
-	public void testJumpingSumoTermsOfUsePermanentAgree() {
+	public void testJumpingSumoAgreeTermsOfUsePermanently() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), false);
@@ -71,13 +71,13 @@ public class JumpingSumoSettingsActivityTest extends BaseActivityInstrumentation
 		assertFalse("Terms of service should not be accepted", preferences.getBoolean(SettingsActivity
 				.SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
 
-
 		SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 		assertTrue("Terms of service should be permanently accepted", SettingsActivity
 				.areTermsOfServiceJSAgreedPermanently(getActivity()));
 		assertTrue("Terms of service should be permanently accepted", preferences.getBoolean(SettingsActivity
 				.SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
+
 
 	public void testJumpingSumoConnectToJumpingSumoDialog() {
 		assertTrue("JumpingSumoBricks not activated!", SettingsActivity.isJSSharedPreferenceEnabled(getActivity()));
@@ -114,26 +114,5 @@ public class JumpingSumoSettingsActivityTest extends BaseActivityInstrumentation
 		UiTestUtils.clickOnPlayButton(solo);
 		solo.waitForText(solo.getString(R.string.error_no_jumpingsumo_connected_title));
 		assertTrue("JumpingSumoBrick present but no jumping sumo connection dialog", !solo.searchText(solo.getString(R.string.error_no_jumpingsumo_connected_title)));
-	}
-
-	public void testJumpingSumoOrientation() throws PackageManager.NameNotFoundException {
-		solo.waitForActivity(MainMenuActivity.class);
-		solo.clickOnMenuItem(solo.getString(R.string.settings));
-		solo.waitForActivity(SettingsActivity.class.getSimpleName());
-
-		/// Method 1: Assert it is currently in portrait mode.
-		assertEquals("SettingsActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity().getResources().getConfiguration().orientation);
-
-		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
-		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
-		PackageManager packageManager = getActivity().getPackageManager();
-		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(), PackageManager.GET_META_DATA);
-
-		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscapeMode mode (and so could we, programmatically)
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-
-		assertEquals(SettingsActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
-		solo.waitForText(solo.getString(R.string.preference_title_enable_jumpingsumo_bricks));
 	}
 }

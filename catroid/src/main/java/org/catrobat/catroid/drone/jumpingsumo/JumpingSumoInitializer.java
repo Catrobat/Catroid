@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.drone;
+package org.catrobat.catroid.drone.jumpingsumo;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -137,7 +137,7 @@ public class JumpingSumoInitializer {
 
 	public void checkJumpingSumoAvailability(PreStageActivity prestageStageActivityNow) {
 		setPreStageActivity(prestageStageActivityNow);
-		Log.d(TAG, "TGr count jumpSumo: " + jumpingSumoCount);
+		Log.d(TAG, "JumpSumo Count: " + jumpingSumoCount);
 
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
@@ -170,7 +170,6 @@ public class JumpingSumoInitializer {
 
 		Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery;
 		batteryStatus.setBatteryStatus(value);
-		//TODO TGr JUMPING_SUMO_BATTERY_THRESHOLD???
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
 			disconnect();
 			showUnCancellableErrorDialog(prestageStageActivity,

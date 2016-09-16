@@ -28,8 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_PILOTING_POSTURE_TYPE_ENUM;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.drone.JumpingSumoDataContainer;
-import org.catrobat.catroid.drone.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDataContainer;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 
 public class JumpingSumoTurnAction extends TemporalAction {
 

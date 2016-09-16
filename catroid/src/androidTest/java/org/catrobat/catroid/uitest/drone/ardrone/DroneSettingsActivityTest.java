@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.drone;
+package org.catrobat.catroid.uitest.drone.ardrone;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -68,8 +68,10 @@ public class DroneSettingsActivityTest extends BaseActivityInstrumentationTestCa
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), false);
-		assertFalse("Terms of servie should not be accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
-		assertFalse("Terms of servie should not be accepted", preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+		assertFalse("Terms of service should not be accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(
+				getActivity()));
+		assertFalse("Terms of service should not be accepted", preferences.getBoolean(SettingsActivity
+				.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
 
 		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 		assertTrue("Terms of servie should be permanently accepted", SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));

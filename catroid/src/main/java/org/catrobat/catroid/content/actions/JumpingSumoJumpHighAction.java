@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_JUMP_TYPE_ENUM;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.drone.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 
 public class JumpingSumoJumpHighAction extends TemporalAction {
 

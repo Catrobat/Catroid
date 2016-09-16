@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.drone.JumpingSumoBrickFactory;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoBrickFactory;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;

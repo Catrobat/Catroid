@@ -29,8 +29,8 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.drone.JumpingSumoBrickFactory;
-import org.catrobat.catroid.drone.JumpingSumoBrickFactory.JumpingSumoBricks;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoBrickFactory;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoBrickFactory.JumpingSumoBricks;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public abstract class JumpingSumoTestUtils {

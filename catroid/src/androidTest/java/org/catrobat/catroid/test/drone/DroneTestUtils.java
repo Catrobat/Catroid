@@ -29,8 +29,8 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.drone.DroneBrickFactory;
-import org.catrobat.catroid.drone.DroneBrickFactory.DroneBricks;
+import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
+import org.catrobat.catroid.drone.ardrone.DroneBrickFactory.DroneBricks;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public abstract class DroneTestUtils {
