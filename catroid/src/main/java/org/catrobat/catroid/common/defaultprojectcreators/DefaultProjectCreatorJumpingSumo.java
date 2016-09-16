@@ -202,7 +202,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		File animationFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, animationName + Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down, context, true,
 				iconImageScaleFactor);
 
-		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(animationName, JumpingSumoBrickFactory.JumpingSumoBricks.JUMPING_SUMO_ANIMATION,
+		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(animationName, JumpingSumoBrickFactory.JumpingSumoBricks.JUMPING_SUMO_ANIMATIONS,
 				(int) (350 / landscapePortraitFactor), 0, animationFile));
 
 		//battery brick

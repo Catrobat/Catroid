@@ -40,7 +40,7 @@ public final class JumpingSumoBrickFactory {
 
 	public enum JumpingSumoBricks {
 		JUMPING_SUMO_TURN, JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD, JUMPING_SUMO_ROTATE_LEFT, JUMPING_SUMO_ROTATE_RIGHT,
-		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH, JUMPING_SUMO_SHOW_BATTERY_STATUS, JUMPING_SUMO_ANIMATION
+		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH, JUMPING_SUMO_SHOW_BATTERY_STATUS, JUMPING_SUMO_ANIMATIONS
 	}
 
 	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
@@ -64,8 +64,8 @@ public final class JumpingSumoBrickFactory {
 				return new JumpingSumoJumpHighBrick();
 			case JUMPING_SUMO_SHOW_BATTERY_STATUS:
 				return new JumpingSumoShowBatteryStatusBrick(xPosition, yPosition);
-			case JUMPING_SUMO_ANIMATION:
-				return new JumpingSumoAnimationsBrick();
+			case JUMPING_SUMO_ANIMATIONS:
+				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
 			default:
 				return null;
 		}
