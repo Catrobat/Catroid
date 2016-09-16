@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
-import org.catrobat.catroid.drone.DroneBrickFactory;
+import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;

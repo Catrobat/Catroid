@@ -37,7 +37,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.JumpingSumoDataContainer;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;

@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 

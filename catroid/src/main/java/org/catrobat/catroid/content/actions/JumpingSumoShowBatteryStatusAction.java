@@ -33,7 +33,7 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.drone.JumpingSumoDataContainer;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDataContainer;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;

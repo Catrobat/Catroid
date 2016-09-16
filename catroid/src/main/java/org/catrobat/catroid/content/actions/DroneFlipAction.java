@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 
 public class DroneFlipAction extends TemporalAction {
 
