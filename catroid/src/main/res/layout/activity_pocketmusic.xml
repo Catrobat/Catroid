@@ -39,17 +39,11 @@
         android:weightSum="1"
         android:layout_above="@id/musicdroid_button_play"
         android:orientation="horizontal"> 
-        <ImageView
+        <org.catrobat.catroid.pocketmusic.ui.PianoView
             android:id="@+id/musicdroid_piano"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".215"
-            android:src="@drawable/musicdroid_piano_portrait"/> 
-        <View
-            android:id="@+id/musicdroid_spacing"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".005"/> 
+            android:layout_height="match_parent"
+            android:layout_weight=".22" />
         <org.catrobat.catroid.pocketmusic.ui.TrackView
             android:id="@+id/musicdroid_note_grid"
             android:layout_width="0dp"
