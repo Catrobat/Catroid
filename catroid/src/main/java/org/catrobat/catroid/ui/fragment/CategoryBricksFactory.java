@@ -504,7 +504,7 @@ public class CategoryBricksFactory {
 		jumpingSumoBrickList.add(new JumpingSumoTurnBrick());
 		jumpingSumoBrickList.add(new JumpingSumoJumpLongBrick());
 		jumpingSumoBrickList.add(new JumpingSumoJumpHighBrick());
-		jumpingSumoBrickList.add(new JumpingSumoAnimationsBrick());
+		jumpingSumoBrickList.add(new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN));
 		jumpingSumoBrickList.add(new JumpingSumoMoveForwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoMoveBackwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoRotateLeftBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));

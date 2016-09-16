@@ -147,6 +147,7 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -906,8 +907,11 @@ public class ActionFactory extends Actions {
 		return action(JumpingSumoTurnAction.class);
 	}
 
-	public Action createJumpingSumoAnimationAction() {
-		return action(JumpingSumoAnimationAction.class);
+	public Action createJumpingSumoAnimationAction(Sprite sprite, JumpingSumoAnimationsBrick.Animation animationEnum) {
+		JumpingSumoAnimationAction action = action(JumpingSumoAnimationAction.class);
+		action.setAnimationEnum(animationEnum);
+		action.setSprite(sprite);
+		return action;
 	}
 
 	public Action createJumpingSumoJumpLongAction() {

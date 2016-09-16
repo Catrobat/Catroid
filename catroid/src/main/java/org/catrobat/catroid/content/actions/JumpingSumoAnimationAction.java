@@ -28,12 +28,18 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 
 public class JumpingSumoAnimationAction extends TemporalAction {
 
 	private ARDeviceController deviceController;
 	private JumpingSumoDeviceController controller;
+
+	private JumpingSumoAnimationsBrick.Animation animationEnum;
+	private Sprite sprite;
+
 	private static final String TAG = JumpingSumoAnimationAction.class.getSimpleName();
 
 	@Override
@@ -41,15 +47,39 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 		super.begin();
 		controller = JumpingSumoDeviceController.getInstance();
 		deviceController = controller.getDeviceController();
-		if (deviceController != null) {
-			deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SLALOM);
-			Log.d(TAG, "send animation command JS down");
-		} else {
-			Log.d(TAG, "error: send animaton command JS");
-		}
+
+		animation();
 	}
+
 	@Override
 	protected void update(float percent) {
-		//Nothing to do
+	}
+
+	protected void animation() {
+
+		if (deviceController != null) {
+
+
+			switch (animationEnum) {
+				case SPIN:
+					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SPIN);
+					break;
+				case TAB:
+					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_TAP);
+					break;
+				case SLALOM:
+					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_SLALOM);
+			}
+		}else {
+			Log.d(TAG, "error: send -stop command JS");
+		}
+	}
+
+	public void setAnimationEnum(JumpingSumoAnimationsBrick.Animation animationEnum) {
+		this.animationEnum = animationEnum;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }
