@@ -23,6 +23,7 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -35,10 +36,10 @@ public class NoteView extends View implements View.OnClickListener {
 
 	public NoteView(Context context) {
 		super(context);
+		whiteColor = ContextCompat.getColor(context, R.color.white);
+		blackColor = ContextCompat.getColor(context, R.color.grey);
 		setBackgroundColor(getToggledColor());
 		setOnClickListener(this);
-		whiteColor = getResources().getColor(R.color.white);
-		blackColor = getResources().getColor(R.color.grey);
 	}
 
 	@Override
