@@ -428,13 +428,13 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void finish() {
-		finished = true;
 		SoundManager.getInstance().clear();
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 		PhysicsShapeBuilder.getInstance().reset();
 		CameraManager.getInstance().setToDefaultCamera();
+		finished = true;
 	}
 
 	@Override
