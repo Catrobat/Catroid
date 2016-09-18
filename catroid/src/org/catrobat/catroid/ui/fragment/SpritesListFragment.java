@@ -71,6 +71,7 @@ import org.catrobat.catroid.ui.adapter.SpriteBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -771,13 +772,24 @@ public class SpritesListFragment extends ScriptActivityFragment implements Sprit
 			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
 			dialog.show(this.getActivity().getFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
+		if (needToShowLegoEV3InfoDialog()) {
+			DialogFragment dialog = new LegoEV3SensorConfigInfoDialog();
+			dialog.show(this.getActivity().getFragmentManager(), LegoEV3SensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
 	}
 
 	private boolean needToShowLegoNXTInfoDialog() {
-		boolean isLegoNXTInfoDialogDisabled = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
+		boolean isLegoNXTInfoDialogDisabled = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		return !isLegoNXTInfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) != 0;
+	}
+
+	private boolean needToShowLegoEV3InfoDialog() {
+		boolean isLegoEV3InfoDialogDisabled = SettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		return !isLegoEV3InfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_EV3) != 0;
 	}
 
 	@Override

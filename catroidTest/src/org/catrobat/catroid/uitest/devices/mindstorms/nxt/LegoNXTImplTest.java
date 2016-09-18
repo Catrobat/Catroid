@@ -75,7 +75,7 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		disableSensors();
-		SettingsActivity.disableLegoMindstormsSensorInfoDialog(
+		SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(
 				this.getInstrumentation().getTargetContext().getApplicationContext());
 	}
 

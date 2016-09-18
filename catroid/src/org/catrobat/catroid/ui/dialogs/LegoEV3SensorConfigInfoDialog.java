@@ -33,30 +33,30 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.ui.SettingsActivity;
 
-public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
+public class LegoEV3SensorConfigInfoDialog extends DialogFragment {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_nxt_sensor_config_info";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_ev3_sensor_config_info";
 
 	private CheckBox disableShowInfoDialog;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
+		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_ev3_sensor_config_info, null);
 
 		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id
-				.lego_nxt_sensor_config_info_disable_show_dialog);
+				.lego_ev3_sensor_config_info_disable_show_dialog);
 
-		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(this.getActivity());
-		String[] sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);
+		EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(this.getActivity());
+		String[] sensorMappingStrings = getResources().getStringArray(R.array.ev3_sensor_chooser);
 
-		TextView mapping1 = (TextView) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_port_1_mapping);
-		TextView mapping2 = (TextView) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_port_2_mapping);
-		TextView mapping3 = (TextView) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_port_3_mapping);
-		TextView mapping4 = (TextView) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_port_4_mapping);
+		TextView mapping1 = (TextView) dialogView.findViewById(R.id.lego_ev3_sensor_config_info_port_1_mapping);
+		TextView mapping2 = (TextView) dialogView.findViewById(R.id.lego_ev3_sensor_config_info_port_2_mapping);
+		TextView mapping3 = (TextView) dialogView.findViewById(R.id.lego_ev3_sensor_config_info_port_3_mapping);
+		TextView mapping4 = (TextView) dialogView.findViewById(R.id.lego_ev3_sensor_config_info_port_4_mapping);
 
 		mapping1.setText(sensorMappingStrings[sensorMapping[0].ordinal()]);
 		mapping2.setText(sensorMappingStrings[sensorMapping[1].ordinal()]);
@@ -65,11 +65,11 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
 		Dialog dialog = new AlertDialog.Builder(getActivity())
 				.setView(dialogView)
-				.setTitle(R.string.lego_nxt_sensor_config_info_title)
+				.setTitle(R.string.lego_ev3_sensor_config_info_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (disableShowInfoDialog.isChecked()) {
-							SettingsActivity.disableLegoNXTMindstormsSensorInfoDialog(LegoNXTSensorConfigInfoDialog.this.getActivity());
+							SettingsActivity.disableLegoEV3MindstormsSensorInfoDialog(LegoEV3SensorConfigInfoDialog.this.getActivity());
 						}
 					}
 				}).create();

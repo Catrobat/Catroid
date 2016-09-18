@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uitest.devices.mindstorms.nxt;
+package org.catrobat.catroid.uitest.devices.mindstorms.ev3;
 
 import android.content.Context;
 
@@ -30,10 +30,10 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -43,15 +43,15 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class LegoEV3SensorInfoTests extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Context applicationContext;
 
-	private final String projectNameNxt = UiTestUtils.PROJECTNAME1;
-	private final String projectNameNoNxt = UiTestUtils.PROJECTNAME2;
+	private final String projectNameEv3 = UiTestUtils.PROJECTNAME1;
+	private final String projectNameNoEv3 = UiTestUtils.PROJECTNAME2;
 	private final String spriteName = "testSprite";
 
-	public LegoNXTSensorInfoTests() {
+	public LegoEV3SensorInfoTests() {
 		super(MainMenuActivity.class);
 	}
 
@@ -59,44 +59,44 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		setSensors(NXTSensor.Sensor.TOUCH);
+		setSensors(EV3Sensor.Sensor.TOUCH);
 
 		applicationContext = getInstrumentation().getTargetContext().getApplicationContext();
 	}
 
-	private void setSensors(NXTSensor.Sensor sensor) {
-		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
-				new NXTSensor.Sensor[] { sensor, sensor, sensor, sensor });
+	private void setSensors(EV3Sensor.Sensor sensor) {
+		SettingsActivity.setLegoMindstormsEV3SensorMapping(this.getInstrumentation().getTargetContext(),
+				new EV3Sensor.Sensor[] { sensor, sensor, sensor, sensor });
 	}
 
-	public void testNXTSensorInfoDialog() throws InterruptedException {
-		createBrickTestproject(projectNameNxt);
-		createNoNXTUseTestproject(projectNameNoNxt);
+	public void testEV3SensorInfoDialog() throws InterruptedException {
+		createBrickTestproject(projectNameEv3);
+		createNoEV3UseTestproject(projectNameNoEv3);
 
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
+		boolean ev3BricksEnabledStart = SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(applicationContext);
 
-		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
+		boolean ev3DialogDisabledStart = SettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(applicationContext);
 
-		if (!nxtBricksEnabledStart) {
+		if (!ev3BricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
 
-			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_ev3_bricks);
 			solo.waitForText(preferenceTitle);
 			solo.clickOnText(preferenceTitle);
-			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
 			solo.clickOnText(preferenceTitle);
 
 			solo.goBack();
 			solo.goBack();
 		}
 
-		if (nxtDialogDisabledStart) {
+		if (ev3DialogDisabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
 
-			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_ev3_bricks);
 			solo.waitForText(preferenceTitle);
 			solo.clickOnText(preferenceTitle);
-			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
 			solo.clickOnText(solo.getString(R.string.preference_disable_nxt_info_dialog));
 
 			solo.goBack();
@@ -108,43 +108,43 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
 
-		solo.clickOnText(projectNameNxt);
+		solo.clickOnText(projectNameEv3);
 
-		assertTrue("NXT Sensor Dialog not shown for Project with NXT Brick",
-				solo.waitForText(solo.getString(R.string.lego_nxt_sensor_config_info_title)));
+		assertTrue("EV3 Sensor Dialog not shown for Project with EV3 Brick",
+				solo.waitForText(solo.getString(R.string.lego_ev3_sensor_config_info_title)));
 
-		assertTrue("Wrong Sensors listed in NXT Sensor Dialog",
-				solo.searchText(solo.getString(R.string.nxt_sensor_touch), 4));
-
-		solo.goBack();
-		solo.goBack();
-
-		setSensors(NXTSensor.Sensor.LIGHT_INACTIVE);
-
-		solo.clickOnText(projectNameNxt);
-		solo.waitForText(solo.getString(R.string.lego_nxt_sensor_config_info_title));
-
-		assertTrue("Wrong Sensors listed in NXT Sensor Dialog",
-				solo.searchText(solo.getString(R.string.nxt_sensor_light), 4));
+		assertTrue("Wrong Sensors listed in EV3 Sensor Dialog",
+				solo.searchText(solo.getString(R.string.ev3_sensor_touch), 4));
 
 		solo.goBack();
 		solo.goBack();
 
-		solo.clickOnText(projectNameNoNxt);
+		setSensors(EV3Sensor.Sensor.COLOR);
+
+		solo.clickOnText(projectNameEv3);
+		solo.waitForText(solo.getString(R.string.lego_ev3_sensor_config_info_title));
+
+		assertTrue("Wrong Sensors listed in EV3 Sensor Dialog",
+				solo.searchText(solo.getString(R.string.ev3_sensor_color), 4));
+
+		solo.goBack();
+		solo.goBack();
+
+		solo.clickOnText(projectNameNoEv3);
 		solo.waitForText(solo.getString(R.string.background));
 		solo.sleep(200);
 
-		assertFalse("NXT Sensor Dialog was shown for Project without NXT elements",
-				solo.searchText(solo.getString(R.string.lego_nxt_sensor_config_info_title)));
+		assertFalse("EV3 Sensor Dialog was shown for Project without EV3 elements",
+				solo.searchText(solo.getString(R.string.lego_ev3_sensor_config_info_title)));
 
 		solo.goBack();
 		solo.goBack();
 
 		solo.clickOnActionBarItem(R.id.settings);
-		String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
+		String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_ev3_bricks);
 		solo.waitForText(preferenceTitle);
 		solo.clickOnText(preferenceTitle);
-		solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+		solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
 		solo.clickOnText(solo.getString(R.string.preference_disable_nxt_info_dialog));
 
 		solo.goBack();
@@ -155,16 +155,16 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
 
-		solo.clickOnText(projectNameNxt);
+		solo.clickOnText(projectNameEv3);
 		solo.waitForText(solo.getString(R.string.spritelist_background_headline));
 
-		assertFalse("NXT Sensor Dialog was shown while disabled in settings",
-				solo.searchText(solo.getString(R.string.lego_nxt_sensor_config_info_title)));
+		assertFalse("EV3 Sensor Dialog was shown while disabled in settings",
+				solo.searchText(solo.getString(R.string.lego_ev3_sensor_config_info_title)));
 
 		solo.goBack();
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
-		solo.clickOnText(projectNameNoNxt);
+		solo.clickOnText(projectNameNoEv3);
 
 		solo.clickOnText(spriteName);
 		solo.waitForText(solo.getString(R.string.scripts));
@@ -177,10 +177,10 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		solo.waitForText(solo.getString(R.string.formula_editor_device));
 		solo.clickOnText(solo.getString(R.string.formula_editor_device));
-		solo.sleep(300);
+		solo.sleep(200);
 		solo.waitForText(solo.getString(R.string.formula_editor_device));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_touch), 1, true);
-		solo.clickOnText(solo.getString(R.string.nxt_sensor_light));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_touch), 1, true);
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_color));
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.clickOnText(solo.getString(R.string.ok));
 
@@ -191,7 +191,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.clickOnActionBarItem(R.id.settings);
 		solo.waitForText(preferenceTitle);
 		solo.clickOnText(preferenceTitle);
-		solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+		solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
 		solo.clickOnText(solo.getString(R.string.preference_disable_nxt_info_dialog));
 
 		solo.goBack();
@@ -205,47 +205,47 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 
-		assertTrue("NXT Sensor Dialog not shown for Project with NXT Sensor but no NXT Brick",
-				solo.waitForText(solo.getString(R.string.lego_nxt_sensor_config_info_title)));
+		assertTrue("EV3 Sensor Dialog not shown for Project with EV3 Sensor but no EV3 Brick",
+				solo.waitForText(solo.getString(R.string.lego_ev3_sensor_config_info_title)));
 	}
 
-	public void testNXTSensorConfigurationDialog() throws InterruptedException {
-		createBrickTestproject(projectNameNxt);
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
-		boolean nxtDialogDisabledStart = SettingsActivity.getShowLegoNXTMindstormsSensorInfoDialog(applicationContext);
+	public void testEV3SensorConfigurationDialog() throws InterruptedException {
+		createBrickTestproject(projectNameEv3);
+		boolean ev3BricksEnabledStart = SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(applicationContext);
+		boolean ev3DialogDisabledStart = SettingsActivity.getShowLegoEV3MindstormsSensorInfoDialog(applicationContext);
 
-		if (!nxtBricksEnabledStart) {
+		if (!ev3BricksEnabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
 
-			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_ev3_bricks);
 			solo.waitForText(preferenceTitle);
 			solo.clickOnText(preferenceTitle);
-			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
 			solo.clickOnText(preferenceTitle);
 
 			solo.goBack();
 			solo.goBack();
 		}
 
-		if (!nxtDialogDisabledStart) {
+		if (!ev3DialogDisabledStart) {
 			solo.clickOnActionBarItem(R.id.settings);
 
-			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
+			String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_ev3_bricks);
 			solo.waitForText(preferenceTitle);
 			solo.clickOnText(preferenceTitle);
-			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
+			solo.waitForText(solo.getString(R.string.preference_title_mindstorms_ev3_sensors));
 			solo.clickOnText(solo.getString(R.string.preference_disable_nxt_info_dialog));
 
 			solo.goBack();
 			solo.goBack();
 		}
-		setSensors(NXTSensor.Sensor.LIGHT_ACTIVE);
+		setSensors(EV3Sensor.Sensor.COLOR);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.main_menu_programs));
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForText(solo.getString(R.string.programs));
-		solo.clickOnText(projectNameNxt);
+		solo.clickOnText(projectNameEv3);
 
 		solo.clickOnText(spriteName);
 		solo.waitForText(solo.getString(R.string.scripts));
@@ -260,18 +260,18 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
 		solo.waitForText(solo.getString(R.string.formula_editor_device));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_ultrasonic), 1, true);
-		solo.clickOnText(solo.getString(R.string.nxt_sensor_light));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_touch), 1, true);
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_color));
 		solo.clickOnText(solo.getString(R.string.yes));
 		// Next sensor no replace because set the same sensor
 		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
 		solo.waitForText(solo.getString(R.string.formula_editor_device));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_ultrasonic), 1, true);
-		solo.waitForText(solo.getString(R.string.nxt_sensor_ultrasonic));
-		assertTrue("NXT Sensor was not replaced.",
-				solo.searchText(solo.getString(R.string.nxt_sensor_ultrasonic)));
-		solo.clickOnText(solo.getString(R.string.nxt_sensor_ultrasonic), 2);
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_touch), 1, true);
+		solo.waitForText(solo.getString(R.string.ev3_sensor_touch));
+		assertTrue("EV3 Sensor was not replaced.",
+				solo.searchText(solo.getString(R.string.ev3_sensor_touch)));
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_touch), 2);
 		assertFalse("Replace dialog shown spuriously.",
 				solo.searchText(solo.getString(R.string.yes)));
 		// Next sensor not replaced
@@ -279,8 +279,8 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
 		solo.waitForText(solo.getString(R.string.formula_editor_device));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_light), 1, true);
-		solo.clickOnText(solo.getString(R.string.nxt_sensor_ultrasonic));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_color), 1, true);
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_touch));
 		solo.clickOnText(solo.getString(R.string.no));
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.no));
@@ -294,10 +294,10 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.formula_editor_device));
 		solo.sleep(200);
 		solo.waitForText(solo.getString(R.string.formula_editor_device));
-		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_nxt_light), 1, true);
-		assertTrue("NXT Sensor was not replaced.",
-				solo.searchText(solo.getString(R.string.nxt_sensor_ultrasonic)));
-		solo.clickOnText(solo.getString(R.string.nxt_sensor_ultrasonic));
+		solo.clickOnText(solo.getString(R.string.formula_editor_sensor_lego_ev3_sensor_color), 1, true);
+		assertTrue("EV3 Sensor was not replaced.",
+				solo.searchText(solo.getString(R.string.ev3_sensor_touch)));
+		solo.clickOnText(solo.getString(R.string.ev3_sensor_touch));
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.yes));
@@ -315,11 +315,11 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		Sprite firstSprite = new Sprite(spriteName);
 		Script startScript = new StartScript();
 
-		LegoNxtMotorMoveBrick legoMotorActionBrick = new LegoNxtMotorMoveBrick(
-				LegoNxtMotorMoveBrick.Motor.MOTOR_B_C, 100);
+		LegoEv3MotorMoveBrick legoMotorActionBrick = new LegoEv3MotorMoveBrick(
+				LegoEv3MotorMoveBrick.Motor.MOTOR_B_C, 100, 1.5f);
 		WaitBrick firstWaitBrick = new WaitBrick(500);
 
-		LegoNxtPlayToneBrick legoPlayToneBrick = new LegoNxtPlayToneBrick(50, 1.5f);
+		LegoEv3PlayToneBrick legoPlayToneBrick = new LegoEv3PlayToneBrick(50, 1.5f, 50);
 
 		startScript.addBrick(legoMotorActionBrick);
 		startScript.addBrick(firstWaitBrick);
@@ -334,7 +334,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		StorageHandler.getInstance().saveProject(project);
 	}
 
-	private void createNoNXTUseTestproject(String projectName) {
+	private void createNoEV3UseTestproject(String projectName) {
 
 		Sprite firstSprite = new Sprite(spriteName);
 		Script startScript = new StartScript();
