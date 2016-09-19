@@ -54,12 +54,6 @@ public final class BrickViewProvider {
 	public static void setAlphaForBrick(Brick brick, int alphaValue) {
 		brick.setAlpha(alphaValue);
 		setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
-
-		if (alphaValue == BrickViewProvider.ALPHA_GREYED) {
-			setCheckboxClickability(brick, false);
-		} else {
-			setCheckboxClickability(brick, true);
-		}
 	}
 
 	public static View setAlphaOnView(View view, int alphaValue) {

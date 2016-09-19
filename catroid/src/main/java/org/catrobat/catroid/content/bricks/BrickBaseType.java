@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.tukaani.xz.check.Check;
 
 import java.util.List;
 
@@ -110,6 +111,14 @@ public abstract class BrickBaseType implements Brick {
 		checkbox.setChecked(isChecked);
 		checkbox.setVisibility(checkboxVisibility);
 		checkbox.setEnabled(enabled);
+
+		final Brick instance = this;
+		checkbox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
+			}
+		});
 	}
 
 	@Override

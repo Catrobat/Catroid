@@ -150,7 +150,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
@@ -167,13 +166,13 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			return true;
+			return false;
 		}
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			clearCheckedBricksAndEnableButtons();
+			adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 		}
 	};
 
@@ -210,8 +209,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 					break;
 				}
 			}
-			adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 			clearCheckedBricksAndEnableButtons();
+			adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 		}
 	};
 
@@ -224,10 +223,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
-			adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
+
 			mode.setTag(ACTION_MODE_BACKPACK);
 			addSelectAllActionModeButton(mode, menu);
 
