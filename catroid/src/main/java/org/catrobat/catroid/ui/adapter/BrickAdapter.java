@@ -1287,7 +1287,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		for (Brick brick : brickList) {
 			if (brick.isCommentedOut()) {
 				setCheckbox(brick, true);
-				smartBrickSelection(brick, true);
 			}
 		}
 	}
@@ -1356,6 +1355,9 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				break;
 			}
 
+			setCheckbox(currentBrick, checked);
+			BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
+
 			if (actionMode == ActionModeEnum.COMMENT_OUT) {
 				currentBrick.setCommentedOut(checked);
 				BrickViewProvider.setSaturationOnBrick(currentBrick, checked);
@@ -1364,10 +1366,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 			if (checked) {
 				BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_GREYED);
+				addElementToCheckedBricks(currentBrick);
 			} else {
 				BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_FULL);
+				checkedBricks.remove(currentBrick);
 			}
-			setCheckbox(currentBrick, checked);
 		}
 	}
 
