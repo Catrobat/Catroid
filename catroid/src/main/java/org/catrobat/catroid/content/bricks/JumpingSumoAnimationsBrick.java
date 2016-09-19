@@ -48,10 +48,9 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	private transient AdapterView<?> adapterView;
 	private String animation;
 	private transient Animation animationenum;
-	private transient TextView editVolume;
 
 	public enum Animation {
-		SPIN, TAB, SLALOM
+		SPIN, TAB, SLOWSHAKE, METRONOME, ONDULATION, SPINJUMP, SPINTOPOSTURE, SPIRAL, SLALOM, STOP
 	}
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
