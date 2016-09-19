@@ -99,7 +99,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private List<Brick> animatedBricks;
 
 	private int selectMode;
-	public OnBrickCheckedListener onBrickCheckedListener;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private int clickItemPosition = 0;
@@ -867,8 +866,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 			if (((BrickBaseType) item).isCommentedOut()) {
 				BrickViewProvider.setSaturationOnBrick((BrickBaseType) item, true);
-			} else {
-				BrickViewProvider.doPadding((BrickBaseType) item, this);
 			}
 
 			return scriptBrickView;
@@ -894,8 +891,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 		if (((BrickBaseType) item).isCommentedOut()) {
 			BrickViewProvider.setSaturationOnBrick((BrickBaseType) item, true);
-		} else {
-			BrickViewProvider.doPadding((BrickBaseType) item, this);
 		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
@@ -1013,6 +1008,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	@Override
 	public void onClick(final View view) {
+		if (actionMode != ActionModeEnum.NO_ACTION) {
+			return;
+		}
+
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
@@ -1257,7 +1256,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		notifyDataSetChanged();
 	}
 
-	private void setCheckbox(Brick brick, boolean enabled) {
+	public void setCheckbox(Brick brick, boolean enabled) {
 		CheckBox checkBox = brick.getCheckBox();
 		if (checkBox != null) {
 			checkBox.setChecked(enabled);
@@ -1316,10 +1315,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
-	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
-		onBrickCheckedListener = listener;
-	}
-
 	public void handleCheck(Brick brick, boolean checked) {
 		smartBrickSelection(brick, checked);
 	}
@@ -1342,7 +1337,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		if (actionMode == ActionModeEnum.COMMENT_OUT) {
 			brick.setCommentedOut(checked);
 			BrickViewProvider.setSaturationOnBrick(brick, checked);
-			BrickViewProvider.doPadding(brick, this);
 		}
 
 		if (checked) {
@@ -1365,7 +1359,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			if (actionMode == ActionModeEnum.COMMENT_OUT) {
 				currentBrick.setCommentedOut(checked);
 				BrickViewProvider.setSaturationOnBrick(currentBrick, checked);
-				BrickViewProvider.doPadding(currentBrick, this);
 				continue;
 			}
 
@@ -1470,9 +1463,5 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			}
 		}
 		scrollToPosition(insertedBricksStartPosition);
-	}
-
-	public interface OnBrickCheckedListener {
-		void onBrickChecked();
 	}
 }

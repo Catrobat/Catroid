@@ -56,9 +56,9 @@ public final class BrickViewProvider {
 		setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
 
 		if (alphaValue == BrickViewProvider.ALPHA_GREYED) {
-			brick.getCheckBox().setClickable(false);
+			setCheckboxClickability(brick, false);
 		} else {
-			brick.getCheckBox().setClickable(true);
+			setCheckboxClickability(brick, true);
 		}
 	}
 
@@ -71,17 +71,6 @@ public final class BrickViewProvider {
 
 	public static void setSaturationOnBrick(Brick brick, boolean greyScale) {
 		setSaturationOnView(((BrickBaseType) brick).view, greyScale);
-	}
-
-	public static void doPadding(Brick brick, BrickAdapter brickAdapter) {
-		boolean commentedOut = brick.isCommentedOut();
-		View brickView = ((BrickBaseType) brick).view;
-
-		if (commentedOut) {
-			brickView.setPadding(75, 0, 0, 0);
-		} else {
-			brickView.setPadding(0, 0, 0, 0);
-		}
 	}
 
 	public static void setSaturationOnView(View view, boolean greyScale) {
@@ -99,6 +88,10 @@ public final class BrickViewProvider {
 
 	public static void setCheckboxVisibility(Brick brick, int visibility) {
 		brick.getCheckBox().setVisibility(visibility);
+	}
+
+	public static void setCheckboxClickability(Brick brick, boolean clickable) {
+		brick.getCheckBox().setClickable(clickable);
 	}
 
 	private static View getBrickLayout(View view) {

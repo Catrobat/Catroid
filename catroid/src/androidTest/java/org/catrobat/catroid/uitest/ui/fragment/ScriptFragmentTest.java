@@ -76,8 +76,6 @@ import java.util.Locale;
 public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TAG = ScriptFragmentTest.class.getSimpleName();
 
-	private static final int RESOURCE_IMAGE = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
-	private static final int RESOURCE_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 	private static final int TIME_TO_WAIT_BACKPACK = 800;
 	private static final String DEFAULT_SCRIPT_GROUP_NAME = "Cat";
 	private static final String SECOND_SCRIPT_GROUP_NAME = "Dog";
@@ -562,11 +560,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(0);
-
-		for (int position = 1; position < brickList.size(); position++) {
-			assertEquals("AlphaValue of " + brickList.get(position).toString() + " is not 100", 100,
-					brickList.get(position).getAlphaValue());
-		}
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -1375,8 +1368,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testBackPackSpecialBricks() {
 		UiTestUtils.createEmptyProjectWithoutScript();
 		UiTestUtils.createTestProjectWithSpecialBricksForBackPack(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		UiTestUtils.prepareForSpecialBricksTest(getInstrumentation().getContext(), RESOURCE_IMAGE,
-				RESOURCE_SOUND, TEST_LOOK_NAME, TEST_SOUND_NAME);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		backPackFirstScriptWithContextMenu(DEFAULT_SCRIPT_GROUP_NAME);

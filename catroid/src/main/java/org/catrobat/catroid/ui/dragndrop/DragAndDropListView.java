@@ -91,42 +91,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		dragAndDropListener = listener;
 	}
 
-	public int getTouchedListPosition() {
-		return touchedListPosition;
-	}
-
 	public void setInsertedBrick(int pos) {
 		this.position = pos;
 		newView = true;
-	}
-
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event) {
-		//hack: on Android 2.x getView() is not always called when checkbox is checked.
-		//Therefore the action is caught here and does exactly the same as otherwise the
-		//onCheckedChangeListener would do
-		if (event.getAction() == MotionEvent.ACTION_UP) {
-			int x = (int) event.getX();
-			int y = (int) event.getY();
-			if (y < 0) {
-				y = 0;
-			} else if (y > getHeight()) {
-				y = getHeight();
-			}
-			BrickAdapter adapter = ((BrickAdapter) dragAndDropListener);
-			int itemPosition = pointToPosition(x, y);
-			itemPosition = itemPosition < 0 ? adapter.getCount() - 1 : itemPosition;
-
-			final Brick brick = (Brick) adapter.getItem(itemPosition);
-			boolean checked = !brick.getCheckBox().isChecked();
-			adapter.handleCheck(brick, checked);
-		}
-
-		if (dragAndDropListener != null && dragView != null) {
-			onTouchEvent(event);
-		}
-
-		return super.onInterceptTouchEvent(event);
 	}
 
 	@Override
