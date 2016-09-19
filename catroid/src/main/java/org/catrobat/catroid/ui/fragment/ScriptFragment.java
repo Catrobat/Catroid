@@ -46,6 +46,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -70,7 +71,6 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickCheckedListener;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
@@ -83,8 +83,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
-		OnBrickCheckedListener, OnFormulaChangedListener {
+public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener, OnFormulaChangedListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
@@ -405,7 +404,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		adapter = new BrickAdapter(this, sprite, listView);
-		adapter.setOnBrickCheckedListener(this);
+
 		if (getActivity() instanceof UserBrickScriptActivity) {
 			((UserBrickScriptActivity) getActivity()).setupBrickAdapter(adapter);
 			setupUiForUserBricks();
@@ -720,18 +719,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		registerForContextMenu(listView);
 		BottomBar.showBottomBar(getActivity());
 		adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
-	}
-
-	@Override
-	public void onBrickChecked() {
-		updateActionModeTitle();
-		boolean condition;
-		if (getActivity() instanceof UserBrickScriptActivity) {
-			condition = adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount() - 1;
-		} else {
-			condition = adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount();
-		}
-		UtilUi.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, condition);
 	}
 
 	private void updateActionModeTitle() {
