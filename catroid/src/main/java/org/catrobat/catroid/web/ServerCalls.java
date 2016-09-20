@@ -489,8 +489,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
-			final int notificationId) throws IOException, WebconnectionException {
+	public void downloadProject(final String url, final String filePath, final String programName,
+			final ResultReceiver receiver, final int notificationId) throws IOException, WebconnectionException {
 
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -520,7 +520,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 							.body(new ProgressResponseBody(
 									originalResponse.body(),
 									receiver,
-									notificationId))
+									notificationId,
+									programName,
+									url))
 							.build();
 				} else {
 					return originalResponse;
@@ -540,7 +542,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public void downloadMedia(String url, String filePath, final ResultReceiver receiver)
+	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
 			throws IOException, WebconnectionException {
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -559,7 +561,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 						.body(new ProgressResponseBody(
 								originalResponse.body(),
 								receiver,
-								0))
+								0,
+								null,
+								url))
 						.build();
 			}
 		});

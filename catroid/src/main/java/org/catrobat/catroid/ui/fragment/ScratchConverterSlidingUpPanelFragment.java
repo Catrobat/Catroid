@@ -54,7 +54,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.scratchconverter.Client.DownloadFinishedCallback;
+import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
@@ -68,13 +68,14 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class ScratchConverterSlidingUpPanelFragment extends Fragment
-		implements BaseInfoViewListener, JobViewListener, DownloadFinishedCallback, ScratchJobEditListener,
+		implements BaseInfoViewListener, JobViewListener, Client.DownloadCallback, ScratchJobEditListener,
 		LoadProjectTask.OnLoadProjectCompleteListener {
 
 	private static final String TAG = ScratchConverterSlidingUpPanelFragment.class.getSimpleName();
@@ -231,9 +232,11 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 		}
 	}
 
-	private void updateConvertPanel(Job job, int statusTextID, boolean showProgress) {
+	private void updateConvertPanel(Job job, int statusTextID, boolean showProgress, int progress) {
 		updateAdapterSingleJob(job);
-		if (runningJobs.size() > 1) {
+		HashSet allRunningJobs = new HashSet<>(runningJobs);
+		allRunningJobs.addAll(downloadJobsMap.values());
+		if (allRunningJobs.size() > 1) {
 			showPanelBarSummary();
 			return;
 		}
@@ -241,8 +244,8 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 		convertPanelHeadlineView.setText(job.getTitle());
 
 		if (showProgress) {
-			convertProgressBar.setProgress(job.getProgress());
-			convertStatusProgressTextView.setText(String.format(Locale.getDefault(), "%1$d%%", job.getProgress()));
+			convertProgressBar.setProgress(progress);
+			convertStatusProgressTextView.setText(String.format(Locale.getDefault(), "%1$d%%", progress));
 
 			convertPanelStatusView.setVisibility(View.GONE);
 			convertProgressLayout.setVisibility(View.VISIBLE);
@@ -265,24 +268,53 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 					break;
 				}
 			}
+		} else if (!downloadJobsMap.isEmpty()) {
+			for (Map.Entry<Long, Job> entry : downloadJobsMap.entrySet()) {
+				Job job = entry.getValue();
+				if (webImage == null && job.getImage() != null && job.getImage().getUrl() != null) {
+					webImage = job.getImage();
+					break;
+				}
+			}
 		}
 
 		for (Job job : finishedFailedJobs) {
 			if (webImage == null && job.getImage() != null && job.getImage().getUrl() != null) {
 				webImage = job.getImage();
 			}
-			if (job.getState() == Job.State.FINISHED) {
+			if (job.getState() == Job.State.FINISHED && job.getDownloadState() != Job.DownloadState.DOWNLOADING) {
 				numberFinishedJobs++;
 			}
 		}
 
+		HashSet allRunningJobs = new HashSet<>(runningJobs);
+		allRunningJobs.addAll(downloadJobsMap.values());
+
+		int totalRunningJobs = allRunningJobs.size();
+		int totalFinishedJobs = numberFinishedJobs;
 		convertPanelHeadlineView.setText(getResources().getQuantityString(R.plurals.status_in_progress_x_jobs,
-				runningJobs.size(), runningJobs.size()));
+				totalRunningJobs, totalRunningJobs));
 		convertPanelStatusView.setText(getResources().getQuantityString(R.plurals.status_completed_x_jobs,
-				numberFinishedJobs, numberFinishedJobs));
+				totalFinishedJobs, totalFinishedJobs));
 		convertPanelStatusView.setVisibility(View.VISIBLE);
 		convertProgressLayout.setVisibility(View.GONE);
 		setIconImageView(webImage);
+	}
+
+	private void downloadInProgress(int progress, String url) {
+		final long jobID = Utils.extractScratchJobIDFromURL(url);
+		if (jobID == Constants.INVALID_SCRATCH_PROGRAM_ID) {
+			return;
+		}
+
+		final Job job = downloadJobsMap.get(jobID);
+		if (job == null) {
+			Log.e(TAG, "No job with ID " + jobID + " found in downloadJobsMap!");
+			return;
+		}
+		job.setDownloadState(Job.DownloadState.DOWNLOADING);
+		job.setDownloadProgress((short) progress);
+		updateConvertPanel(job, R.string.status_downloading, true, progress);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -347,24 +379,24 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 	@Override
 	public void onJobScheduled(final Job job) {
 		((ScratchConverterActivity) getActivity()).showSlideUpPanelBar(0);
-		updateConvertPanel(job, R.string.status_scheduled, false);
+		updateConvertPanel(job, R.string.status_scheduled, false, 0);
 	}
 
 	@Override
 	public void onJobReady(final Job job) {
 		job.setProgress((short) 0);
-		updateConvertPanel(job, R.string.status_waiting_for_worker, false);
+		updateConvertPanel(job, R.string.status_waiting_for_worker, false, 0);
 	}
 
 	@Override
 	public void onJobStarted(final Job job) {
 		job.setProgress((short) 0);
-		updateConvertPanel(job, R.string.status_started, false);
+		updateConvertPanel(job, R.string.status_started, false, 0);
 	}
 
 	@Override
 	public void onJobProgress(final Job job, final short progress) {
-		updateConvertPanel(job, R.string.status_started, true);
+		updateConvertPanel(job, R.string.status_started, true, progress);
 	}
 
 	@Override
@@ -375,32 +407,27 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 	@Override
 	public void onJobFinished(final Job job) {
 		downloadJobsMap.put(job.getJobID(), job);
-		updateConvertPanel(job, R.string.status_conversion_finished, false);
+		updateConvertPanel(job, R.string.status_conversion_finished, false, 0);
 	}
 
 	@Override
 	public void onJobFailed(final Job job) {
-		updateConvertPanel(job, R.string.status_conversion_failed, false);
+		updateConvertPanel(job, R.string.status_conversion_failed, false, 0);
 	}
 
 	@Override
 	public void onUserCanceledJob(Job job) {
-		updateConvertPanel(job, R.string.status_conversion_canceled, false);
+		updateConvertPanel(job, R.string.status_conversion_canceled, false, 0);
 	}
 
 	@Override
 	public void onDownloadStarted(String url) {
-		final long jobID = Utils.extractScratchJobIDFromURL(url);
-		if (jobID == Constants.INVALID_SCRATCH_PROGRAM_ID) {
-			return;
-		}
+		downloadInProgress(0, url);
+	}
 
-		final Job job = downloadJobsMap.get(jobID);
-		if (job == null) {
-			Log.e(TAG, "No job with ID " + jobID + " found in downloadJobsMap!");
-			return;
-		}
-		updateConvertPanel(job, R.string.status_downloading, false);
+	@Override
+	public void onDownloadProgress(short progress, String url) {
+		downloadInProgress(progress, url);
 	}
 
 	@Override
@@ -412,7 +439,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 			return;
 		}
 
-		final Job job = downloadJobsMap.get(jobID);
+		final Job job = downloadJobsMap.remove(jobID);
 		downloadedProgramsMap.put(jobID, catrobatProgramName);
 		if (job == null) {
 			Log.e(TAG, "No job with ID " + jobID + " found in downloadJobsMap!");
@@ -428,7 +455,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 		}
 
 		job.setDownloadState(Job.DownloadState.DOWNLOADED);
-		updateConvertPanel(job, R.string.status_download_finished, false);
+		updateConvertPanel(job, R.string.status_download_finished, false, 0);
 	}
 
 	@Override
@@ -440,14 +467,14 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 			return;
 		}
 
-		final Job job = downloadJobsMap.get(jobID);
+		final Job job = downloadJobsMap.remove(jobID);
 		if (job == null) {
 			Log.e(TAG, "No job with ID " + jobID + " found in downloadJobsMap!");
 			return;
 		}
 
-		job.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
-		updateConvertPanel(job, R.string.status_download_canceled, false);
+		job.setDownloadState(Job.DownloadState.CANCELED);
+		updateConvertPanel(job, R.string.status_download_canceled, false, 0);
 	}
 
 	@Override
@@ -482,7 +509,7 @@ public class ScratchConverterSlidingUpPanelFragment extends Fragment
 			return;
 		}
 
-		if (job.getDownloadState() == Job.DownloadState.NOT_DOWNLOADED) {
+		if (job.getDownloadState() == Job.DownloadState.NOT_READY || job.getDownloadState() == Job.DownloadState.CANCELED) {
 			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 			builder.setTitle(R.string.warning);
 			builder.setMessage(R.string.error_cannot_open_not_yet_downloaded_scratch_program);

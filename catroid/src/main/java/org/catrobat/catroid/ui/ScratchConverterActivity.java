@@ -111,10 +111,10 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 		}
 
 		conversionManager = new ScratchConversionManager(this, client, false);
-		conversionManager.addDownloadFinishedCallback(converterSlidingUpPanelFragment);
 		conversionManager.setCurrentActivity(this);
+		conversionManager.addGlobalDownloadCallback(converterSlidingUpPanelFragment);
 		conversionManager.addBaseInfoViewListener(converterSlidingUpPanelFragment);
-		conversionManager.addGlobalJobConsoleViewListener(converterSlidingUpPanelFragment);
+		conversionManager.addGlobalJobViewListener(converterSlidingUpPanelFragment);
 		searchProjectsListFragment.setConversionManager(conversionManager);
 
 		slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -140,6 +140,9 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 		super.onDestroy();
 		Log.d(TAG, "Destroyed: " + TAG);
 		conversionManager.shutdown();
+		conversionManager.removeGlobalDownloadCallback(converterSlidingUpPanelFragment);
+		conversionManager.removeBaseInfoViewListener(converterSlidingUpPanelFragment);
+		conversionManager.removeGlobalJobViewListener(converterSlidingUpPanelFragment);
 		client = null;
 	}
 

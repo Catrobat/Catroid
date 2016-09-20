@@ -98,6 +98,7 @@
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_login">Login</string>
+    <string name="main_menu_scratch_converter">Scratch Converter</string>
     <string name="logout_successful">Logout successful</string>
     <!--  -->
 
@@ -112,8 +113,6 @@
     <string name="preference_description_quadcopter_bricks">Allow to control ARDrone 2.0 quadcopters</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT bricks</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow to control Lego Mindstorms NXT robots</string>
-    <string name="preference_title_scratch_converter">Scratch Converter</string>
-    <string name="preference_description_scratch_converter">Convert your Scratch desktop projects into mobile Pocket Code programs</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT sensors</string>
     <string name="preference_title_drone_config_properties">Drone configuration properties</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>

@@ -164,12 +164,10 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		final Job expectedFirstJob = new Job(1, "Program 1", expectedProgramImage);
 		expectedFirstJob.setState(Job.State.FINISHED);
 		expectedFirstJob.setProgress((short) 10);
-		expectedFirstJob.setDownloadState(Job.DownloadState.DOWNLOADED);
 		expectedFirstJob.setDownloadURL("http://scratch2.catrob.at/download?job_id=1&client_id=1&fname=Program%201");
 		final Job expectedSecondJob = new Job(2, "Program 2", null);
 		expectedSecondJob.setState(Job.State.FINISHED);
 		expectedSecondJob.setProgress((short) 20);
-		expectedSecondJob.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
 		expectedSecondJob.setDownloadURL("http://scratch2.catrob.at/download?job_id=2&client_id=1&fname=Program%202");
 
 		doAnswer(new Answer<Void>() {
@@ -192,8 +190,6 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 						expectedFirstJob.getImage().getUrl(), jobs[0].getImage().getUrl());
 				assertEquals("Wrong progress value extracted of first job",
 						expectedFirstJob.getProgress(), jobs[0].getProgress());
-				assertEquals("Wrong downloadState value extracted of first job",
-						expectedFirstJob.getDownloadState(), jobs[0].getDownloadState());
 				assertEquals("Wrong downloadURL extracted of first job",
 						expectedFirstJob.getDownloadURL(), jobs[0].getDownloadURL());
 
@@ -536,7 +532,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 			}
 		}).when(jobHandlerMock).setCallback(any(Client.ConvertCallback.class));
 
-		Client.DownloadFinishedCallback callback = webSocketMessageListener.restoreJobIfRunning(expectedJob,
+		Client.DownloadCallback callback = webSocketMessageListener.restoreJobIfRunning(expectedJob,
 				convertCallbackMock);
 		assertNull("Already running Job has not been rescheduled despite of enabled force flag", callback);
 		verify(jobHandlerMock, times(1)).setCallback(any(Client.ConvertCallback.class));
@@ -625,8 +621,6 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 					put(JsonKeys.JsonJobDataKeys.IMAGE_URL.toString(), null);
 				}
 				put(JsonKeys.JsonJobDataKeys.PROGRESS.toString(), job.getProgress());
-				put(JsonKeys.JsonJobDataKeys.ALREADY_DOWNLOADED.toString(),
-						job.getDownloadState() == Job.DownloadState.DOWNLOADED);
 				put(JsonKeys.JsonJobDataKeys.DOWNLOAD_URL.toString(), job.getDownloadURL());
 			}
 		};

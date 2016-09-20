@@ -157,6 +157,8 @@ public final class Constants {
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
 	public static final String SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME = "scratchconverter.clientID";
+	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME = "scratchconverter"
+			+ ".downloadStatePref";
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;

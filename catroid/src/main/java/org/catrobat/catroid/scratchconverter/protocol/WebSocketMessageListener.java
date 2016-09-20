@@ -30,7 +30,6 @@ import com.koushikdutta.async.http.WebSocket;
 
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.Client.ConvertCallback;
-import org.catrobat.catroid.scratchconverter.Client.DownloadFinishedCallback;
 import org.catrobat.catroid.scratchconverter.protocol.JsonKeys.JsonDataKeys;
 import org.catrobat.catroid.scratchconverter.protocol.message.Message.CategoryType;
 import org.catrobat.catroid.scratchconverter.protocol.message.base.BaseMessage;
@@ -159,12 +158,11 @@ public class WebSocketMessageListener implements MessageListener, WebSocket.Stri
 	}
 
 	@Override
-	public DownloadFinishedCallback restoreJobIfRunning(Job job, ConvertCallback convertCallback) {
+	public Client.DownloadCallback restoreJobIfRunning(Job job, ConvertCallback convertCallback) {
 		final JobHandler jobHandler = createOrUseExistingJobHandlerForJobIfPossible(job, true, convertCallback);
 		Preconditions.checkState(jobHandler != null);
 
-		if (job.getState() == Job.State.FINISHED && job.getDownloadState() == Job.DownloadState.NOT_DOWNLOADED
-				&& job.getDownloadURL() != null) {
+		if (job.getState() == Job.State.FINISHED && job.getDownloadURL() != null) {
 			return jobHandler;
 		}
 		return null;

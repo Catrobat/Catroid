@@ -71,7 +71,31 @@ public class Job {
 	}
 
 	public enum DownloadState {
-		NOT_DOWNLOADED, DOWNLOADING, DOWNLOADED
+		NOT_READY(0),
+		READY(1),
+		DOWNLOADING(2),
+		DOWNLOADED(3),
+		CANCELED(4);
+
+		private int downloadState;
+
+		private static Map<Integer, DownloadState> map = new HashMap<>();
+		static {
+			for (DownloadState legEnum : DownloadState.values()) {
+				map.put(legEnum.downloadState, legEnum);
+			}
+		}
+		DownloadState(final int downloadState) {
+			this.downloadState = downloadState;
+		}
+
+		public static DownloadState valueOf(int downloadState) {
+			return map.get(downloadState);
+		}
+
+		public int getDownloadStateID() {
+			return downloadState;
+		}
 	}
 
 	private State state;
@@ -79,6 +103,7 @@ public class Job {
 	private String title;
 	private WebImage image;
 	private short progress;
+	private short downloadProgress;
 	private DownloadState downloadState;
 	private String downloadURL;
 
@@ -88,7 +113,7 @@ public class Job {
 		this.title = title;
 		this.image = image;
 		this.progress = 0;
-		this.downloadState = DownloadState.NOT_DOWNLOADED;
+		this.downloadState = DownloadState.NOT_READY;
 		this.downloadURL = null;
 	}
 
@@ -104,12 +129,10 @@ public class Job {
 			image = new WebImage(Uri.parse(imageURL), imageSize[0], imageSize[1]);
 		}
 		final short progress = (short) data.getInt(JsonJobDataKeys.PROGRESS.toString());
-		final boolean alreadyDownloaded = data.getBoolean(JsonJobDataKeys.ALREADY_DOWNLOADED.toString());
 		final String downloadURL = data.getString(JsonJobDataKeys.DOWNLOAD_URL.toString());
 		final Job job = new Job(jobID, title, image);
 		job.state = state;
 		job.progress = progress;
-		job.downloadState = alreadyDownloaded ? DownloadState.DOWNLOADED : DownloadState.NOT_DOWNLOADED;
 		job.downloadURL = downloadURL;
 		return job;
 	}
@@ -144,6 +167,14 @@ public class Job {
 
 	public void setProgress(short progress) {
 		this.progress = progress;
+	}
+
+	public short getDownloadProgress() {
+		return downloadProgress;
+	}
+
+	public void setDownloadProgress(short downloadProgress) {
+		this.downloadProgress = downloadProgress;
 	}
 
 	public WebImage getImage() {

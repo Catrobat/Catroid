@@ -43,7 +43,7 @@ import org.catrobat.catroid.scratchconverter.protocol.message.job.JobReadyMessag
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobRunningMessage;
 import org.catrobat.catroid.utils.Utils;
 
-public class JobHandler implements Client.DownloadFinishedCallback {
+public class JobHandler implements Client.DownloadCallback {
 
 	private static final String TAG = JobHandler.class.getSimpleName();
 
@@ -74,6 +74,10 @@ public class JobHandler implements Client.DownloadFinishedCallback {
 	}
 
 	@Override
+	public void onDownloadProgress(short progress, String url) {
+	}
+
+	@Override
 	public void onDownloadFinished(final String programName, final String url) {
 		Log.d(TAG, "Download finished - Resetting job with ID: " + job.getJobID());
 		job.setDownloadState(Job.DownloadState.DOWNLOADED);
@@ -83,7 +87,7 @@ public class JobHandler implements Client.DownloadFinishedCallback {
 	@Override
 	public void onUserCanceledDownload(final String url) {
 		Log.d(TAG, "User canceled download - Resetting job with ID: " + job.getJobID());
-		job.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
+		job.setDownloadState(Job.DownloadState.CANCELED);
 		job.setState(State.FINISHED);
 	}
 
