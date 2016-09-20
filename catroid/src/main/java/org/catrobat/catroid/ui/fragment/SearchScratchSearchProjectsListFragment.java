@@ -231,6 +231,7 @@ public class SearchScratchSearchProjectsListFragment extends Fragment
 			}
 		});
 		initAdapter();
+
 		return rootView;
 	}
 

@@ -69,6 +69,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteNfcTagDialog;
 import org.catrobat.catroid.ui.dialogs.RenameNfcTagDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -173,6 +174,8 @@ public class NfcTagFragment extends ScriptActivityFragment implements NfcTagBase
 		((NfcTagAdapter) adapter).setNfcTagFragment(this);
 
 		Utils.loadProjectIfNeeded(getActivity());
+
+		DividerUtil.setDivider(getActivity(), listView);
 	}
 
 	@Override

@@ -78,6 +78,7 @@ import org.catrobat.catroid.ui.controller.BackPackSpriteController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicExpandableListView;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -157,6 +158,7 @@ public class SpritesListFragment extends Fragment implements SpriteAdapter.OnSpr
 	public void onStart() {
 		super.onStart();
 		initListeners();
+		DividerUtil.setDivider(getActivity(), getListView());
 	}
 
 	@Override

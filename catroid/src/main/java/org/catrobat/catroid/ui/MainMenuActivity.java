@@ -41,6 +41,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -65,6 +66,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.GetFacebookUserInfoTask;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.IconsUtil;
@@ -124,7 +126,12 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			setContentView(R.layout.activity_main_menu_splashscreen);
 			unzipProgram();
 		} else {
-			setContentView(R.layout.activity_main_menu);
+			if (!DividerUtil.isActivated()) {
+				setContentView(R.layout.activity_main_menu);
+			} else {
+				setContentView(R.layout.activity_main_menu_with_dividers);
+				System.out.println("DIVIDER LAYOUT ACTIVE2:::::::::::::::::::::::::::::::");
+			}
 
 			IconsUtil.setMainMenuIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
 
@@ -145,6 +152,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			}
 		}
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
+		DividerUtil.setDivider(this, (LinearLayout) findViewById(R.id.main_menu_buttons_container));
 	}
 
 	@Override

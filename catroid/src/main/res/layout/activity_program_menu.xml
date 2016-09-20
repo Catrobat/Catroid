@@ -42,42 +42,51 @@
         </ProgressBar >
     </LinearLayout >
 
-    <Button
-        android:id="@+id/program_menu_button_scripts"
-        style="@style/ProgramMenuButton"
-        android:layout_marginTop="3dp"
-        android:drawableLeft="@drawable/ic_program_menu_scripts"
-        android:onClick="handleScriptsButton"
-        android:text="@string/scripts"
-        android:singleLine="true" />
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:layout_above="@+id/include">
 
-    <Button
-        android:id="@+id/program_menu_button_looks"
-        style="@style/ProgramMenuButton"
-        android:layout_below="@id/program_menu_button_scripts"
-        android:drawableLeft="@drawable/ic_program_menu_looks"
-        android:onClick="handleLooksButton"
-        android:text="@string/looks"
-        android:singleLine="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/program_menu_buttons_container" >
 
-    <Button
-        android:id="@+id/program_menu_button_sounds"
-        style="@style/ProgramMenuButton"
-        android:layout_below="@id/program_menu_button_looks"
-        android:drawableLeft="@drawable/ic_program_menu_sounds"
-        android:onClick="handleSoundsButton"
-        android:text="@string/sounds"
-        android:singleLine="true" />
+            <Button
+                android:id="@+id/program_menu_button_scripts"
+                style="@style/ProgramMenuButton"
+                android:layout_marginTop="3dp"
+                android:drawableLeft="@drawable/ic_program_menu_scripts"
+                android:onClick="handleScriptsButton"
+                android:text="@string/scripts" />
 
-    <Button
-        android:id="@+id/program_menu_button_nfctags"
-        style="@style/ProgramMenuButton"
-        android:layout_below="@id/program_menu_button_sounds"
-        android:drawableLeft="@drawable/ic_program_menu_nfc"
-        android:onClick="handleNfcTagsButton"
-        android:text="@string/nfctags"
-        android:singleLine="true" />
+            <Button
+                android:id="@+id/program_menu_button_looks"
+                style="@style/ProgramMenuButton"
+                android:drawableLeft="@drawable/ic_program_menu_looks"
+                android:onClick="handleLooksButton"
+                android:text="@string/looks" />
 
-    <include layout="@layout/bottom_bar" />
+            <Button
+                android:id="@+id/program_menu_button_sounds"
+                style="@style/ProgramMenuButton"
+                android:drawableLeft="@drawable/ic_program_menu_sounds"
+                android:onClick="handleSoundsButton"
+                android:text="@string/sounds" />
 
+            <Button
+                android:id="@+id/program_menu_button_nfctags"
+                style="@style/ProgramMenuButton"
+                android:drawableLeft="@drawable/ic_program_menu_nfc"
+                android:onClick="handleNfcTagsButton"
+                android:text="@string/nfctags" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/bottom_bar"
+        android:id="@+id/include" />
 </RelativeLayout>

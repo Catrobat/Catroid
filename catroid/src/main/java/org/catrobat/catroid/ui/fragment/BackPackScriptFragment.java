@@ -65,6 +65,7 @@ import org.catrobat.catroid.ui.controller.BackPackScriptController;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -119,6 +120,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 
 		singleItemAppendixActionMode = getString(R.string.script_group);
 		multipleItemAppendixActionMode = getString(R.string.script_groups);
+
+		DividerUtil.setDivider(getActivity(), listView);
 	}
 
 	@Override

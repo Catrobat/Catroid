@@ -61,6 +61,7 @@ import org.catrobat.catroid.ui.controller.BackPackSceneController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSceneDialog;
 import org.catrobat.catroid.ui.dynamiclistview.DynamicListView;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -130,6 +131,7 @@ public class ScenesListFragment extends ScriptActivityFragment implements SceneA
 	public void onStart() {
 		super.onStart();
 		initListeners();
+		DividerUtil.setDivider(getActivity(), getListView());
 	}
 
 	@Override

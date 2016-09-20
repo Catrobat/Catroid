@@ -65,6 +65,7 @@ import org.catrobat.catroid.ui.controller.BackPackUserBrickController;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -119,6 +120,8 @@ public class BackPackUserBrickFragment extends BackPackActivityFragment implemen
 
 		singleItemAppendixActionMode = getString(R.string.userbrick_group);
 		multipleItemAppendixActionMode = getString(R.string.userbrick_groups);
+
+		DividerUtil.setDivider(getActivity(), listView);
 	}
 
 	@Override

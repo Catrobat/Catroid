@@ -76,7 +76,7 @@
                 style="@style/ListViewItemTitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="8dp" />
+                android:paddingRight="80dp" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

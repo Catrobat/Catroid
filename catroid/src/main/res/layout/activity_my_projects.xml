@@ -24,7 +24,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:verticalScrollbarPosition="left">
+                android:verticalScrollbarPosition="left" >
 
     <LinearLayout
         android:id="@+id/progress_circle"
@@ -33,7 +33,7 @@
         android:alpha="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/progress_bar_header"

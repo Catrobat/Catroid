@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -73,6 +74,7 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
 		IconsUtil.addIcons((ViewGroup) view, selectedCategory);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+		DividerUtil.setDivider(context, (ViewGroup) view);
 
 		return view;
 	}

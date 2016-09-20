@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.adapter.LookBaseAdapter.OnLookEditListener;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilUi;
@@ -186,6 +187,8 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		adapter.setOnLookEditListener(this);
 		setListAdapter(adapter);
 		checkEmptyBackgroundBackPack();
+
+		DividerUtil.setDivider(getActivity(), listView);
 	}
 
 	@Override

@@ -45,6 +45,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageButton;
@@ -66,6 +67,7 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.dialogs.RenameVariableDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.UtilUi;
 
 public class FormulaEditorDataFragment extends ListFragment implements Dialog.OnKeyListener,
@@ -106,7 +108,15 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_formula_editor_data_list, container, false);
+		View view = inflater.inflate(R.layout.fragment_formula_editor_data_list, container, false);
+		container.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				getListView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				DividerUtil.setDivider(getActivity(), getListView());
+			}
+		});
+		return view;
 	}
 
 	@Override

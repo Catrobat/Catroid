@@ -71,6 +71,7 @@ import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
@@ -283,6 +284,8 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		}
 
 		initAdapter();
+
+		DividerUtil.setDivider(getActivity(), getListView());
 	}
 
 	@Override

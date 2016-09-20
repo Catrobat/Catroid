@@ -37,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -50,6 +51,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
+import org.catrobat.catroid.utils.DividerUtil;
 import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -96,6 +98,7 @@ public class ProgramMenuActivity extends BaseActivity {
 			finish();
 		}
 		TextSizeUtil.enlargeViewGroup((ViewGroup) getWindow().getDecorView().getRootView());
+		DividerUtil.setDivider(this, (LinearLayout) findViewById(R.id.program_menu_buttons_container));
 	}
 
 	@Override
