@@ -34,7 +34,7 @@
     android:paddingRight="10dp"
     android:paddingTop="8dp" >
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,9 +44,9 @@
         android:textColor="@color/solid_white"
         android:textSize="16sp"
         android:textStyle="bold" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/separator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         android:text="@string/separator"
         android:textColor="@color/solid_white"
         android:textSize="20sp" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
     <Button
         android:id="@+id/button"

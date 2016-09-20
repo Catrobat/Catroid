@@ -46,13 +46,13 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_motor_forward_action_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_phiro_motor_forward_action" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/brick_phiro_motor_forward_action_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,27 +60,27 @@
             android:focusable="false" >
 
             <!-- do not add spinner items here! -->
-        </Spinner >
+        </org.catrobat.catroid.utils.BrickSpinner >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_motor_forward_action_speed"
             style="@style/BrickText.SingleLine"
             android:text="@string/phiro_motor_speed" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_motor_forward_action_speed_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
             android:clickable="false" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_phiro_motor_forward_action_percent"
             style="@style/BrickText"
             android:text="@string/percent_symbol" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

@@ -44,13 +44,13 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_note_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_note" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <EditText
+        <org.catrobat.catroid.utils.BrickEditText
             android:id="@+id/brick_note_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"

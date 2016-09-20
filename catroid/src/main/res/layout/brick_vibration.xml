@@ -45,23 +45,23 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_vibration_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_vibration" >
-        </TextView>
+        </org.catrobat.catroid.utils.BrickTextView>
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_vibration_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
-        </TextView>
+        </org.catrobat.catroid.utils.BrickTextView>
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_vibration_second_label"
             style="@style/BrickText.Multiple" >
-        </TextView>
+        </org.catrobat.catroid.utils.BrickTextView>
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

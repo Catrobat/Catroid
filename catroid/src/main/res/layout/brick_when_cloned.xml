@@ -45,11 +45,11 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_when_cloned_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_when_cloned">
-        </TextView>
+        </org.catrobat.catroid.utils.BrickTextView>
 
     </org.catrobat.catroid.ui.BrickLayout>
 

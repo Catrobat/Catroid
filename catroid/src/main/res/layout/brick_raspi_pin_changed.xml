@@ -54,14 +54,14 @@
                     android:layout_width = "match_parent"
                     android:layout_height = "wrap_content"
                     android:orientation = "horizontal">
-                    <TextView
+                    <org.catrobat.catroid.utils.BrickTextView
                         android:id="@+id/raspi_when_label"
                         style="@style/BrickText.Multiple"
                         android:text="@string/brick_raspi_when_begin"
                         android:layout_weight="1">
-                    </TextView >
+                    </org.catrobat.catroid.utils.BrickTextView >
 
-                    <Spinner
+                    <org.catrobat.catroid.utils.BrickSpinner
                         android:id="@+id/brick_raspi_when_pinspinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -73,14 +73,14 @@
                     android:layout_width = "match_parent"
                     android:layout_height = "wrap_content"
                     android:orientation = "horizontal">
-                    <TextView
+                    <org.catrobat.catroid.utils.BrickTextView
                         android:id="@+id/brick_raspi_when_label_second_part"
                         style="@style/BrickText.Multiple"
                         android:paddingLeft="5dip"
                         android:text="@string/brick_raspi_when_equals" >
-                    </TextView >
+                    </org.catrobat.catroid.utils.BrickTextView >
 
-                    <Spinner
+                    <org.catrobat.catroid.utils.BrickSpinner
                         android:id="@+id/brick_raspi_when_valuespinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

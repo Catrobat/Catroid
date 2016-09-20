@@ -46,51 +46,51 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_show_variable_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_show_variable" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/show_variable_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_show_variable_label_at"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/brick_show_variable_position" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_show_variable_x_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/x_label" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_show_variable_edit_text_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_show_variable_y_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/y_label" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_show_variable_edit_text_y"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
     </org.catrobat.catroid.ui.BrickLayout >
 

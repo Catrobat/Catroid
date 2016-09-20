@@ -45,13 +45,13 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
            android:id="@+id/brick_phiro_sensor_label"
            style="@style/BrickText.SingleLine"
            android:text="@string/brick_phiro_sensor_begin" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <Spinner
+        <org.catrobat.catroid.utils.BrickSpinner
             android:id="@+id/brick_phiro_sensor_action_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,14 +59,14 @@
             android:focusable="false" >
 
         <!-- do not add spinner items here! -->
-        </Spinner >
+        </org.catrobat.catroid.utils.BrickSpinner >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/phiro_sensor_label_second_part"
             style="@style/BrickText.SingleLine"
             android:paddingLeft="5dip"
             android:text="@string/brick_phiro_sensor_second_part" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
     </org.catrobat.catroid.ui.BrickLayout >
 

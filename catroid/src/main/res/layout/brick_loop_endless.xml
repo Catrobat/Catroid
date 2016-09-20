@@ -39,7 +39,7 @@
         style="@style/BrickContainer.Control.Small"
         android:background="@drawable/brick_orange_1h_no_plug" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_loop_endless_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_loop_end" />

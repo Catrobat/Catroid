@@ -45,28 +45,25 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <org.catrobat.catroid.utils.BrickTextView
+                android:id="@+id/ValueTextView"
+                style="@style/BrickText.SingleLine"
+                android:text="@string/nxt_motor_stop" >
+            </org.catrobat.catroid.utils.BrickTextView >
+
+            <org.catrobat.catroid.utils.BrickSpinner
+                android:id="@+id/stop_motor_spinner"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:clickable="false"
+                android:focusable="false" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/ValueTextView"
-                    style="@style/BrickText.SingleLine"
-                    android:text="@string/nxt_motor_stop" >
-                </TextView >
-
-                <Spinner
-                    android:id="@+id/stop_motor_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false" />
-            </LinearLayout>
-        </RelativeLayout>
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

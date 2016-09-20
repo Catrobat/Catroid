@@ -45,13 +45,13 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/brick_phiro_rgb_led_action_label"
         style="@style/BrickText.SingleLine"
         android:text="@string/brick_phiro_rgb_led_action" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
-    <Spinner
+    <org.catrobat.catroid.utils.BrickSpinner
         android:id="@+id/brick_phiro_rgb_light_spinner"
         style="@style/BrickText.SingleLine"
         android:layout_width="match_parent"
@@ -59,46 +59,46 @@
         android:clickable="false"
         android:focusable="false" >
     <!-- do not add spinner items here! -->
-    </Spinner>
+    </org.catrobat.catroid.utils.BrickSpinner>
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/brick_phiro_rgb_led_red_text_view"
         style="@style/BrickText"
         android:text="@string/phiro_rgb_led_red" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/brick_phiro_rgb_led_action_red_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
         app:layout_textField="true" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/brick_phiro_rgb_led_green_text_view"
         style="@style/BrickText"
         android:text="@string/phiro_rgb_led_green" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/brick_phiro_rgb_led_action_green_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
         app:layout_textField="true" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/brick_phiro_rgb_led_blue_text_view"
         style="@style/BrickText"
         android:text="@string/phiro_rgb_led_blue" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
-    <TextView
+    <org.catrobat.catroid.utils.BrickTextView
         android:id="@+id/brick_phiro_rgb_led_action_blue_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
         app:layout_textField="true" >
-    </TextView>
+    </org.catrobat.catroid.utils.BrickTextView>
 
     </org.catrobat.catroid.ui.BrickLayout >
 

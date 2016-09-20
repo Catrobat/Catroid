@@ -46,48 +46,48 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_nxt_play_tone_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/nxt_play_tone" />
 
         <!--- Duration -->
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_nxt_play_tone_duration"
             style="@style/BrickText.Multiple"
             app:layout_newLine="true"
             android:text="@string/nxt_tone_duration" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/nxt_tone_duration_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
             android:clickable="false"/>
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_nxt_play_tone_seconds"
             style="@style/BrickText.Multiple"
             android:text="@string/nxt_seconds" />
 
         <!--- Frequency -->
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_nxt_play_tone_frequency"
             style="@style/BrickText.Multiple"
             app:layout_newLine="true"
             android:text="@string/nxt_tone_frequency" >
-        </TextView >
+        </org.catrobat.catroid.utils.BrickTextView >
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/nxt_tone_freq_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
             android:clickable="false" />
 
-        <TextView
+        <org.catrobat.catroid.utils.BrickTextView
             android:id="@+id/brick_nxt_play_tone_hundred_hz"
             style="@style/BrickText.SingleLine"
             android:text="@string/nxt_tone_hundred_hz" />
