@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -117,6 +118,10 @@ public class SetVariableBrick extends UserVariableBrick {
 
 		view = View.inflate(context, R.layout.brick_set_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_set_variable_label),
+				context.getString(R.string.category_data));
+
 		setCheckboxView(R.id.brick_set_variable_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);

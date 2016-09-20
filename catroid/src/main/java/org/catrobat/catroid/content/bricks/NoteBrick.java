@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -69,6 +70,9 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_note, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_note_text_view),
+				context.getString(R.string.category_looks));
 
 		setCheckboxView(R.id.brick_note_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);

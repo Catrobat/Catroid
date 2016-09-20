@@ -27,11 +27,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
@@ -74,6 +76,9 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 		view = View.inflate(context, R.layout.brick_if_else, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_if_else_label),
+				context.getString(R.string.category_control));
 
 		setCheckboxView(R.id.brick_if_else_checkbox);
 

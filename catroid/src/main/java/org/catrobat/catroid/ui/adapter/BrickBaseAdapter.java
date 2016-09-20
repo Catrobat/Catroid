@@ -59,6 +59,7 @@ public abstract class BrickBaseAdapter extends BaseAdapter {
 	protected Button okButtonDelete;
 	protected List<Brick> checkedBricks = new ArrayList<>();
 	protected List<Brick> brickList;
+	protected String selectedCategory;
 
 	protected void showNewGroupBackPackDialog(final List<String> backPackedItems, final boolean backPackUserBricks) {
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);

@@ -74,6 +74,7 @@ import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.ui.fragment.ListItemActionsInterface;
 import org.catrobat.catroid.ui.fragment.ScenesListFragment;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -109,6 +110,8 @@ public class ProjectActivity extends BaseActivity {
 		initializeFacebookSdk();
 
 		setContentView(R.layout.activity_project);
+
+		IconsUtil.setBottomBarIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
 
 		currentFragmentPosition = FRAGMENT_SCENES;
 

@@ -47,7 +47,8 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when" >
+            android:text="@string/brick_when"
+            android:id="@+id/brick_when_label">
         </TextView >
 
         <!--

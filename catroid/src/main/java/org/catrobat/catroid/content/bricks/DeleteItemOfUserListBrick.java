@@ -47,6 +47,7 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -88,6 +89,10 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 		view = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_label),
+				context.getString(R.string.category_data));
+
 		setCheckboxView(R.id.brick_delete_item_of_userlist_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).setTextFieldId(R.id.brick_delete_item_of_userlist_edit_text);

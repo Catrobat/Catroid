@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -100,6 +101,14 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 
 		view = View.inflate(context, layoutId, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		if (type == Constants.SAY_BRICK) {
+			IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_say_for_bubble_label),
+					context.getString(R.string.category_looks));
+		} else {
+			IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_think_for_bubble_label),
+					context.getString(R.string.category_looks));
+		}
 
 		setCheckboxView(checkboxId);
 

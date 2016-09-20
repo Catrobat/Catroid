@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -83,6 +84,9 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 		view = View.inflate(context, R.layout.brick_when_condition_true, null);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.when_conditon_label),
+				context.getString(R.string.category_event));
 
 		setCheckboxView(R.id.brick_when_condition_checkbox);
 

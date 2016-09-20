@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -101,6 +102,9 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 		view = View.inflate(context, R.layout.brick_set_look, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view),
+				context.getString(R.string.category_looks));
 
 		setCheckboxView(R.id.brick_set_look_checkbox);
 

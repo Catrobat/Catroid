@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.io.File;
@@ -80,6 +81,9 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_speak_and_wait, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_speak_and_wait_label),
+				context.getString(R.string.category_sound));
 
 		setCheckboxView(R.id.brick_speak_and_wait_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_and_wait_edit_text);

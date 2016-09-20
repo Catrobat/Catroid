@@ -50,6 +50,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.PlaySceneDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.concurrent.locks.Lock;
@@ -74,6 +75,8 @@ public class ProgramMenuActivity extends BaseActivity {
 		}
 
 		setContentView(R.layout.activity_program_menu);
+
+		IconsUtil.setProgramMenuIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
 
 		BottomBar.hideAddButton(this);
 

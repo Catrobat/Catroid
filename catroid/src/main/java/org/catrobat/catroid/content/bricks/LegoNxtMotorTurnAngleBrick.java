@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -127,6 +128,9 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_nxt_motor_turn_label),
+				context.getString(R.string.category_lego_nxt));
 
 		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
 

@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -96,6 +97,9 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_raspi_pwm, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_text_view),
+				context.getString(R.string.category_raspi));
 
 		setCheckboxView(R.id.brick_raspi_pwm_checkbox);
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_edit_text);

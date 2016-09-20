@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
@@ -52,6 +53,8 @@ public class MyProjectsActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_projects);
 		setUpActionBar();
+
+		IconsUtil.setBottomBarIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
 
 		BottomBar.hidePlayButton(this);
 

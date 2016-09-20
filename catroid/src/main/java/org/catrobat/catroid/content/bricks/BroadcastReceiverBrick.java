@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -111,6 +112,10 @@ public class BroadcastReceiverBrick extends BrickBaseType implements ScriptBrick
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_broadcast_receive_label),
+				context.getString(R.string.category_event));
+
 		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 

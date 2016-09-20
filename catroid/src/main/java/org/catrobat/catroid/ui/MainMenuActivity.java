@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.SignInDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -124,6 +125,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			unzipProgram();
 		} else {
 			setContentView(R.layout.activity_main_menu);
+
+			IconsUtil.setMainMenuIconSize(getApplicationContext(), this.findViewById(android.R.id.content));
 
 			final ActionBar actionBar = getActionBar();
 			actionBar.setDisplayUseLogoEnabled(true);

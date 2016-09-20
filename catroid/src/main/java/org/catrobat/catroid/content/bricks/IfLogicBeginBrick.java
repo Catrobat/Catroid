@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
@@ -111,6 +112,9 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.if_label),
+				context.getString(R.string.category_control));
 
 		setCheckboxView(R.id.brick_if_begin_checkbox);
 

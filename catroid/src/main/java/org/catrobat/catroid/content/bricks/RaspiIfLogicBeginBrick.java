@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.LinkedList;
@@ -76,6 +77,9 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 
 		view = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.raspi_if_label),
+				context.getString(R.string.category_raspi));
 
 		setCheckboxView(R.id.brick_raspi_if_begin_checkbox);
 

@@ -46,7 +46,8 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when_started" >
+            android:text="@string/brick_when_started"
+            android:id="@+id/brick_when_started_textview">
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >
 

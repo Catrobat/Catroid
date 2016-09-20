@@ -48,7 +48,8 @@
         <TextView
             style="@style/BrickText.SingleLine"
             android:paddingTop="25dp"
-            android:text="@string/brick_broadcast_receive" />
+            android:text="@string/brick_broadcast_receive"
+            android:id="@+id/brick_broadcast_receive_label" />
 
         <Spinner
             android:id="@+id/brick_broadcast_receive_spinner"

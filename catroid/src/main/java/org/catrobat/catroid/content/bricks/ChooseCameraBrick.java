@@ -36,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -66,6 +67,9 @@ public class ChooseCameraBrick extends BrickBaseType {
 		}
 		view = View.inflate(context, R.layout.brick_choose_camera, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_choose_camera__prototype_text_view),
+				context.getString(R.string.category_looks));
 
 		setCheckboxView(R.id.brick_choose_camera_checkbox);
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_choose_camera_spinner);

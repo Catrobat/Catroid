@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -76,6 +77,9 @@ public class TurnLeftBrick extends FormulaBrick {
 		}
 		view = View.inflate(context, R.layout.brick_turn_left, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_turn_left_label),
+				context.getString(R.string.category_motion));
 
 		setCheckboxView(R.id.brick_turn_left_checkbox);
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);

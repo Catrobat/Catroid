@@ -30,17 +30,19 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
 
 public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
-	public PrototypeBrickAdapter(Context context, ScriptFragment scriptFragment, AddBrickFragment addBrickFragment, List<Brick> brickList) {
+	public PrototypeBrickAdapter(Context context, ScriptFragment scriptFragment, AddBrickFragment addBrickFragment, List<Brick> brickList, String selectedCategory) {
 		this.context = context;
 		this.scriptFragment = scriptFragment;
 		this.addBrickFragment = addBrickFragment;
 		this.brickList = brickList;
+		this.selectedCategory = selectedCategory;
 	}
 
 	@Override
@@ -69,7 +71,9 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 		View view = brick.getPrototypeView(context);
 		BrickViewProvider.setSpinnerClickability(view, false);
 
+		IconsUtil.addIcons((ViewGroup) view, selectedCategory);
 		TextSizeUtil.enlargeViewGroup((ViewGroup) view);
+
 		return view;
 	}
 }

@@ -37,6 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -101,6 +102,9 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.ValueTextView),
+				context.getString(R.string.category_lego_nxt));
 
 		setCheckboxView(R.id.brick_nxt_motor_stop_checkbox);
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,

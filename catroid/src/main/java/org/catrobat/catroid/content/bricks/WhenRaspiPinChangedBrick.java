@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.ArrayList;
@@ -83,6 +84,10 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 		view = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.raspi_when_label),
+				context.getString(R.string.category_raspi));
+
 		setCheckboxView(R.id.brick_raspi_when_checkbox);
 
 		setupValueSpinner(context);

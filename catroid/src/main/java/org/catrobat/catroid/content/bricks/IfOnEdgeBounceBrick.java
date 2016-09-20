@@ -26,11 +26,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -54,6 +56,9 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 		}
 		view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_if_on_edge_bounce_label),
+				context.getString(R.string.category_control));
 
 		setCheckboxView(R.id.brick_if_on_edge_bounce_checkbox);
 

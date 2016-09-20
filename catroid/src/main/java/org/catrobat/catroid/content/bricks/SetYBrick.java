@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -75,6 +76,9 @@ public class SetYBrick extends FormulaBrick {
 		}
 		view = View.inflate(context, R.layout.brick_set_y, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_set_y_label),
+				context.getString(R.string.category_motion));
 
 		setCheckboxView(R.id.brick_set_y_checkbox);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);

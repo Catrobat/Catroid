@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 import java.util.List;
@@ -73,6 +74,9 @@ public class SpeakBrick extends FormulaBrick {
 		}
 		view = View.inflate(context, R.layout.brick_speak, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.brick_speak_label),
+				context.getString(R.string.category_sound));
 
 		setCheckboxView(R.id.brick_speak_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);

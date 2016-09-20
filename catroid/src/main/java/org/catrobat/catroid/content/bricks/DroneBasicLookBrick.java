@@ -29,6 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.IconsUtil;
 import org.catrobat.catroid.utils.TextSizeUtil;
 
 public abstract class DroneBasicLookBrick extends BrickBaseType {
@@ -43,6 +44,9 @@ public abstract class DroneBasicLookBrick extends BrickBaseType {
 		}
 		view = View.inflate(context, R.layout.brick_drone_look, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		IconsUtil.addIcon(context, (TextView) view.findViewById(R.id.ValueTextViewLook),
+				context.getString(R.string.category_looks));
 
 		setCheckboxView(R.id.brick_drone_basic_look_checkbox);
 		TextView label = (TextView) view.findViewById(R.id.ValueTextViewLook);
