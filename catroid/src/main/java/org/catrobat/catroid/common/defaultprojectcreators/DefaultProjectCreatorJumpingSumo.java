@@ -124,7 +124,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(flipName, JumpingSumoBrickFactory.JumpingSumoBricks
 						.JUMPING_SUMO_TURN, (int) (500 / landscapePortraitFactor), (int)
-				(-125 / landscapePortraitFactor), flipFile));
+				(-150 / landscapePortraitFactor), flipFile));
 
 		//forward brick
 		String forwardName = context.getString(R.string.default_jumping_sumo_project_sprites_forward);
@@ -185,8 +185,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 				iconImageScaleFactor);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(jumpLongName, JumpingSumoBrickFactory.JumpingSumoBricks
-						.JUMPING_SUMO_JUMP_LONG, (int) (500 / landscapePortraitFactor), (int)
-				(25 / landscapePortraitFactor), jumpLongFile));
+						.JUMPING_SUMO_JUMP_LONG, (int) (500 / landscapePortraitFactor), 0, jumpLongFile));
 
 		//jump high brick
 		String jumpHighName = context.getString(R.string.default_jumping_sumo_project_sprites_jump_high);
