@@ -271,21 +271,21 @@ public class JobHandlerTest extends AndroidTestCase {
 						invocation.getArguments()[3]);
 
 				final Job job = (Job) invocation.getArguments()[0];
-				final Client.DownloadFinishedCallback downloadFinishedCallback =
-						(Client.DownloadFinishedCallback) invocation.getArguments()[1];
+				final Client.DownloadCallback downloadCallback =
+						(Client.DownloadCallback) invocation.getArguments()[1];
 				final String downloadURL = (String) invocation.getArguments()[2];
 				final Date cacheDate = (Date) invocation.getArguments()[3];
 
 				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
-				assertEquals("Forwarded parameter downloadFinishedCallback should be the job-handler!",
-						jobHandler, downloadFinishedCallback);
+				assertEquals("Forwarded parameter downloadCallback should be the job-handler!",
+						jobHandler, downloadCallback);
 				assertEquals("Forwarded parameter downloadURL does not equal expectedDownloadURL!",
 						expectedDownloadURL, downloadURL);
 				assertEquals("Forwarded parameter cacheDate does not equal exectedCacheDate!",
 						expectedCacheDate, cacheDate);
 				return null;
 			}
-		}).when(convertCallbackMock).onConversionFinished(any(Job.class), any(Client.DownloadFinishedCallback.class),
+		}).when(convertCallbackMock).onConversionFinished(any(Job.class), any(Client.DownloadCallback.class),
 				any(String.class), any(Date.class));
 
 		for (Job.State givenState : new Job.State[] { Job.State.SCHEDULED, Job.State.RUNNING }) {
@@ -299,7 +299,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		}
 
 		verify(convertCallbackMock, times(2)).onConversionFinished(any(Job.class),
-				any(Client.DownloadFinishedCallback.class), any(String.class), any(Date.class));
+				any(Client.DownloadCallback.class), any(String.class), any(Date.class));
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
@@ -425,7 +425,7 @@ public class JobHandlerTest extends AndroidTestCase {
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
 
 		expectedJob.setState(Job.State.RUNNING);
-		expectedJob.setDownloadState(Job.DownloadState.NOT_DOWNLOADED);
+		expectedJob.setDownloadState(Job.DownloadState.READY);
 		jobHandler.onDownloadStarted(expectedDownloadURL);
 
 		assertEquals("Expecting downloadState to be DOWNLOADING after onDownloadStarted() called",
@@ -459,7 +459,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		jobHandler.onUserCanceledDownload(expectedDownloadURL);
 
 		assertEquals("Expecting downloadState to be NOT_DOWNLOADED after onUserCanceledDownload() called",
-				Job.DownloadState.NOT_DOWNLOADED, expectedJob.getDownloadState());
+				Job.DownloadState.CANCELED, expectedJob.getDownloadState());
 		assertEquals("Expecting state to be FINISHED after onUserCanceledDownload() called",
 				Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);

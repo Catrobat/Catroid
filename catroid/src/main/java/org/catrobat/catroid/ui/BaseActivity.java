@@ -93,7 +93,7 @@ public abstract class BaseActivity extends Activity {
 			if (!(this instanceof MainMenuActivity)) {
 				scratchConverterMenuItem.setVisible(false);
 			} else {
-				final String title = getString(R.string.preference_title_scratch_converter);
+				final String title = getString(R.string.main_menu_scratch_converter);
 				final String beta = getString(R.string.beta).toUpperCase(Locale.getDefault());
 				final SpannableString spanTitle = new SpannableString(title + " " + beta);
 				final int begin = title.length() + 1;
