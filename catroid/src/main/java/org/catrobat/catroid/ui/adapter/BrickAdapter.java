@@ -943,10 +943,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			animatedBricks.remove(brickList.get(position));
 		}
 
-		if (actionMode == ActionModeEnum.COPY_DELETE) {
-			((Brick) item).enableAllViews(currentBrickView, false);
-		} else {
+		if (actionMode == ActionModeEnum.NO_ACTION) {
 			((Brick) item).enableAllViews(currentBrickView, true);
+		} else {
+			((Brick) item).enableAllViews(currentBrickView, false);
 		}
 
 		return wrapper;
