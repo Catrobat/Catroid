@@ -148,6 +148,7 @@ import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -911,6 +912,15 @@ public class ActionFactory extends Actions {
 		JumpingSumoAnimationAction action = action(JumpingSumoAnimationAction.class);
 		action.setAnimationEnum(animationEnum);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createJumpingSumoSoundAction(Sprite sprite, JumpingSumoSoundBrick.Sounds soundEnum,
+														   Formula volume) {
+		JumpingSumoSoundAction action = action(JumpingSumoSoundAction.class);
+		action.setSoundEnum(soundEnum);
+		action.setSprite(sprite);
+		action.setVolume(volume);
 		return action;
 	}
 

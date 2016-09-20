@@ -1116,6 +1116,9 @@
     <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
     <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
+    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_picture">Taking Pictures</string>
+    <string name="default_jumping_sumo_project_sprites_record">Record</string>
     <string name="user_variable_name_battery_status">Battery Status</string>
     <!--  -->
 
@@ -1130,6 +1133,13 @@
     <string name="animation_spiral">Spiral</string>
     <string name="animation_slalom">Slalom</string>
     <string name="animation_stop">Stop</string>
+    <!--  -->
+
+    <!-- Jumping Sumo sound strings -->
+    <string name="jumping_sumo_volume">Volume</string>
+    <string name="sound_robot">Robot</string>
+    <string name="sound_insect">Insect</string>
+    <string name="sound_monster">Monster</string>
     <!--  -->
 
     <!-- Phiro bricks -->

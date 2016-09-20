@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.drone.jumpingsumo;
 
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick;
@@ -31,6 +32,7 @@ import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoShowBatteryStatusBrick;
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick;
 
 public final class JumpingSumoBrickFactory {
@@ -40,11 +42,12 @@ public final class JumpingSumoBrickFactory {
 
 	public enum JumpingSumoBricks {
 		JUMPING_SUMO_TURN, JUMPING_SUMO_FORWARD, JUMPING_SUMO_BACKWARD, JUMPING_SUMO_ROTATE_LEFT, JUMPING_SUMO_ROTATE_RIGHT,
-		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH, JUMPING_SUMO_SHOW_BATTERY_STATUS, JUMPING_SUMO_ANIMATIONS
+		JUMPING_SUMO_JUMP_LONG, JUMPING_SUMO_JUMP_HIGH, JUMPING_SUMO_SHOW_BATTERY_STATUS, JUMPING_SUMO_ANIMATIONS, JUMPING_SUMO_SOUND,
+		JUMPING_SUMO_RECORD, JUMPING_SUMO_PICTURE
 	}
 
 	public static BrickBaseType getInstanceOfJumpingSumoBrick(JumpingSumoBricks brick, int timeInMilliseconds,
-														byte powerInPercent, float degree, int xPosition, int
+														byte powerInPercent, byte volumeInPercent, float degree, int xPosition, int
 			yPosition) {
 
 		switch (brick) {
@@ -65,6 +68,12 @@ public final class JumpingSumoBrickFactory {
 			case JUMPING_SUMO_SHOW_BATTERY_STATUS:
 				return new JumpingSumoShowBatteryStatusBrick(xPosition, yPosition);
 			case JUMPING_SUMO_ANIMATIONS:
+				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
+			case JUMPING_SUMO_SOUND:
+				return new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.ROBOT, volumeInPercent);
+			case JUMPING_SUMO_RECORD:
+				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
+			case JUMPING_SUMO_PICTURE:
 				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
 			default:
 				return null;
