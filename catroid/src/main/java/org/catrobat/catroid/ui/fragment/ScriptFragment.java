@@ -228,7 +228,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			mode.setTag(ACTION_MODE_BACKPACK);
 			addSelectAllActionModeButton(mode, menu);
 
-			adapter.setCheckboxVisibility();
 			return true;
 		}
 
