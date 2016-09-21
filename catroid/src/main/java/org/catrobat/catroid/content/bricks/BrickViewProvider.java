@@ -49,10 +49,6 @@ public final class BrickViewProvider {
 		return prototypeView;
 	}
 
-	public static void enableAllViews(View view, boolean enabled) {
-		
-	}
-
 	public static void setAlphaForBrick(Brick brick, int alphaValue) {
 		brick.setAlpha(alphaValue);
 		setAlphaOnView(((BrickBaseType) brick).view, alphaValue);

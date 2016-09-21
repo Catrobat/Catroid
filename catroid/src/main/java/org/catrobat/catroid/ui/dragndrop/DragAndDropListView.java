@@ -183,6 +183,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	public boolean onLongClick(View view) {
+		if (((BrickAdapter) getAdapter()).getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
+			return true;
+		}
 
 		int itemPosition = calculateItemPositionAndTouchPointY(view);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();

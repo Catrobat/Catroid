@@ -141,24 +141,6 @@ public abstract class BrickBaseType implements Brick {
 		alphaValue = newAlpha;
 	}
 
-	public void enableAllViews(View recursiveView, boolean enable) {
-
-		if (recursiveView != null) {
-			if (!(recursiveView instanceof CheckBox)) {
-				recursiveView.setEnabled(enable);
-			}
-			if (recursiveView instanceof ViewGroup) {
-				ViewGroup viewGroup = (ViewGroup) recursiveView;
-				for (int i = 0; i < viewGroup.getChildCount(); i++) {
-					View child = viewGroup.getChildAt(i);
-					if (child != null) {
-						enableAllViews(child, enable);
-					}
-				}
-			}
-		}
-	}
-
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		return getView(context,brickId,adapter);
 	}

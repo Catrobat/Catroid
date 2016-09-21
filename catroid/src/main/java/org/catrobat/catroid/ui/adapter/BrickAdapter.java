@@ -877,12 +877,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			return insertionView;
 		}
 
-		if (actionMode == ActionModeEnum.NO_ACTION) {
-			brick.enableAllViews(currentBrickView, true);
-		} else {
-			brick.enableAllViews(currentBrickView, false);
-		}
-
 		return currentBrickView;
 	}
 
