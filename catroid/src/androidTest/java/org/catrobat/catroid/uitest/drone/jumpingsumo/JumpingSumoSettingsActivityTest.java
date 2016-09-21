@@ -23,12 +23,7 @@
 package org.catrobat.catroid.uitest.drone.jumpingsumo;
 
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-
-import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

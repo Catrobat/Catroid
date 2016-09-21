@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.actions;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARControllerException;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.content.Sprite;
@@ -71,6 +73,22 @@ public class JumpingSumoRotateLeftAction extends TemporalAction {
 	}
 
 	protected void move() {
+
+		ARCONTROLLER_DEVICE_STATE_ENUM state = ARCONTROLLER_DEVICE_STATE_ENUM
+				.eARCONTROLLER_DEVICE_STATE_UNKNOWN_ENUM_VALUE;
+		try {
+			state = deviceController.getState();
+		} catch (ARControllerException e) {
+			e.printStackTrace();
+		}
+		if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
+			Log.e(TAG, "TGr Device not running");
+			return;
+		} else {
+			Log.d(TAG, "TGr Device running, everything is fine");
+		}
+		Log.d(TAG, "TGr state: " + state.name());
+
 		if (deviceController != null) {
 			newDegree = (float) (newDegree * Math.PI / 180);
 			Log.d(TAG, "TGr rotate with " + newDegree);

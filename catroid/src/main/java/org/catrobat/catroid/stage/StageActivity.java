@@ -43,7 +43,6 @@ import android.widget.EditText;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.parrot.arsdk.arcontroller.ARCONTROLLER_ERROR_ENUM;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
 import org.catrobat.catroid.BuildConfig;
@@ -58,6 +57,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
@@ -141,6 +141,7 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus = new StageAudioFocus(this);
 
 		CameraManager.getInstance().setStageActivity(this);
+		JumpingSumoInitializer.getInstance().setStageActivity(this);
 
 		BackgroundWaitHandler.reset();
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_stage);
@@ -267,17 +268,24 @@ public class StageActivity extends AndroidApplication {
 	public boolean jumpingSumoDisconnect() {
 		boolean success = false;
 		if (!controller.isConnected()) {
+			stageListener.finish();
+			manageLoadAndFinish();
 			return true;
 		}
-		deviceController = controller.getDeviceController();
+		JumpingSumoInitializer.getInstance().disconnect();
+		/*deviceController = controller.getDeviceController();
 		if (deviceController != null) {
+
 			ARCONTROLLER_ERROR_ENUM error = deviceController.stop();
 			if (error == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
 				success = true;
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+				Log.d(TAG, "TGr disconnect");
 				controller.setDeviceController(null);
 			}
-		}
+		}*/
+		stageListener.finish();
+		manageLoadAndFinish();
 		return success;
 	}
 

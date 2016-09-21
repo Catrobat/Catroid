@@ -89,6 +89,7 @@ import org.catrobat.catroid.content.actions.JumpingSumoMoveForwardAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateLeftAction;
 import org.catrobat.catroid.content.actions.JumpingSumoRotateRightAction;
 import org.catrobat.catroid.content.actions.JumpingSumoShowBatteryStatusAction;
+import org.catrobat.catroid.content.actions.JumpingSumoSoundAction;
 import org.catrobat.catroid.content.actions.JumpingSumoTurnAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
@@ -915,8 +916,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createJumpingSumoSoundAction(Sprite sprite, JumpingSumoSoundBrick.Sounds soundEnum,
-														   Formula volume) {
+	public Action createJumpingSumoSoundAction(Sprite sprite, JumpingSumoSoundBrick.Sounds soundEnum, Formula volume) {
 		JumpingSumoSoundAction action = action(JumpingSumoSoundAction.class);
 		action.setSoundEnum(soundEnum);
 		action.setSprite(sprite);

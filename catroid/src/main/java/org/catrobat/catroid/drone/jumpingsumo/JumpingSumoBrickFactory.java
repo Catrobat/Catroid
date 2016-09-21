@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.drone.jumpingsumo;
 
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick;
