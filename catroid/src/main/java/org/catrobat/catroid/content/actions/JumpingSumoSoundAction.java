@@ -38,9 +38,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 public class JumpingSumoSoundAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula duration;
 	private Formula volumeInPercent;
-	private byte normalizedPower;
 	private JumpingSumoSoundBrick.Sounds soundEnum;
 	private byte normalizedVolume;
 
@@ -93,8 +91,11 @@ public class JumpingSumoSoundAction extends TemporalAction {
 
 		if (deviceController != null) {
 
-
 			switch (soundEnum) {
+				case DEFAULT:
+					deviceController.getFeatureJumpingSumo().sendAudioSettingsMasterVolume(normalizedVolume);
+					deviceController.getFeatureJumpingSumo().sendAudioSettingsTheme(ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_ENUM.ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_DEFAULT);
+					break;
 				case ROBOT:
 					deviceController.getFeatureJumpingSumo().sendAudioSettingsMasterVolume(normalizedVolume);
 					deviceController.getFeatureJumpingSumo().sendAudioSettingsTheme(ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_ENUM.ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_ROBOT);
@@ -112,47 +113,7 @@ public class JumpingSumoSoundAction extends TemporalAction {
 			Log.d(TAG, "error: send -stop command JS");
 		}
 	}
-/*
-	@Override
-	protected void begin() {
-		super.begin();
-		controller = JumpingSumoDeviceController.getInstance();
-		deviceController = controller.getDeviceController();
 
-		try {
-			if (duration == null) {
-				normalizedPower = Byte.valueOf(JUMPING_SUMO_MOVE_SPEED_STOP);
-			} else {
-				float normPower = powerInPercent.interpretFloat(sprite);
-				normalizedPower = (byte) -normPower;
-			}
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			normalizedPower = Byte.valueOf(JUMPING_SUMO_MOVE_SPEED_STOP);
-		}
-		move();
-	}
-
-	protected void move() {
-		if (deviceController != null) {
-			deviceController.getFeatureJumpingSumo().setPilotingPCMDSpeed(normalizedPower);
-			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 1);
-			Log.d(TAG, "send -move command JS");
-		} else {
-			Log.d(TAG, "error: send -move command JS");
-		}
-	}
-
-	protected void moveEnd() {
-		if (deviceController != null) {
-			deviceController.getFeatureJumpingSumo().setPilotingPCMDSpeed(Byte.valueOf(JUMPING_SUMO_MOVE_SPEED_STOP));
-			deviceController.getFeatureJumpingSumo().setPilotingPCMDFlag((byte) 0);
-			Log.d(TAG, "send -stop command JS");
-		} else {
-			Log.d(TAG, "error: send -stop command JS");
-		}
-	}
-*/
 	@Override
 	protected void update(float percent) {
 		//Nothing to do

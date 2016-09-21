@@ -201,11 +201,11 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 		//animation brick
 		String animationName = context.getString(R.string.default_jumping_sumo_project_sprites_animation);
 
-		File animationFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, animationName + Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down, context, true,
-				iconImageScaleFactor);
+		File animationFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, animationName + Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_jumping_sumo_project_animations, context, true,
+				0.75);
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(animationName, JumpingSumoBrickFactory.JumpingSumoBricks.JUMPING_SUMO_ANIMATIONS,
-				0, (int) (300 / landscapePortraitFactor), animationFile));
+				0, (int) (325 / landscapePortraitFactor), animationFile));
 
 		//battery brick
 		String batteryName = context.getString(R.string.user_variable_name_battery_status);

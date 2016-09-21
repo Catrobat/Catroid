@@ -183,7 +183,7 @@ public class JumpingSumoInitializer {
 		Log.d(TAG, "Jumping Sumo Battery: " + battery);
 		JumpingSumoDataContainer batteryStatus = JumpingSumoDataContainer.getInstance();
 
-		Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery;
+		Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery + prestageStageActivity.getString(R.string.percent_symbol);
 		batteryStatus.setBatteryStatus(value);
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
 			showUnCancellableErrorDialog(stageActivity,

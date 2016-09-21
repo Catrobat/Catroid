@@ -69,7 +69,7 @@ public final class JumpingSumoBrickFactory {
 			case JUMPING_SUMO_ANIMATIONS:
 				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
 			case JUMPING_SUMO_SOUND:
-				return new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.ROBOT, volumeInPercent);
+				return new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, volumeInPercent);
 			case JUMPING_SUMO_RECORD:
 				return new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN);
 			case JUMPING_SUMO_PICTURE:
