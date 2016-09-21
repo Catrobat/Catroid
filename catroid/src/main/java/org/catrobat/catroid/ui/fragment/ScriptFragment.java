@@ -717,7 +717,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		adapter.setActionMode(BrickAdapter.ActionModeEnum.NO_ACTION);
 	}
 
-	private void updateActionModeTitle() {
+	public void updateActionModeTitle() {
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		String completeTitle;

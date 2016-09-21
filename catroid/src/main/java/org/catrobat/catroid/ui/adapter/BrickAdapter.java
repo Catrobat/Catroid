@@ -1192,7 +1192,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private void enableAllBricks() {
-		uncheckAllItems();
+		unCheckAllItems();
 		for (Brick brick : brickList) {
 			BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
 			BrickViewProvider.setAlphaForBrick(brick, BrickViewProvider.ALPHA_FULL);
@@ -1202,10 +1202,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	public void checkAllItems() {
 		for (Brick brick : brickList) {
 			setCheckbox(brick, true);
+			handleCheck(brick, true);
 		}
 	}
 
-	private void uncheckAllItems() {
+	private void unCheckAllItems() {
 		for (Brick brick : brickList) {
 			setCheckbox(brick, false);
 		}
@@ -1221,6 +1222,11 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public void setCheckboxVisibility() {
 		switch (actionMode) {
+			case NO_ACTION:
+				for (Brick brick : brickList) {
+					BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
+				}
+				break;
 			case BACKPACK:
 				for (Brick brick : brickList) {
 					if (brick instanceof ScriptBrick) {
@@ -1230,15 +1236,12 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					}
 				}
 				break;
-			case NO_ACTION:
-				for (Brick brick : brickList) {
-					BrickViewProvider.setCheckboxVisibility(brick, View.GONE);
-				}
-				break;
-			default:
+			case COPY_DELETE:
+			case COMMENT_OUT:
 				for (Brick brick : brickList) {
 					BrickViewProvider.setCheckboxVisibility(brick, View.VISIBLE);
 				}
+				break;
 		}
 	}
 
@@ -1255,21 +1258,23 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			NestingBrick firstNestingBrick = nestingBricks.get(0);
 			NestingBrick lastNestingBrick = nestingBricks.get(nestingBricks.size() - 1);
 
+			setCheckbox((Brick) firstNestingBrick, checked);
+
 			positionFrom = brickList.indexOf(firstNestingBrick);
 			positionTo = brickList.indexOf(lastNestingBrick);
 		} else if (brick instanceof ScriptBrick) {
 			positionTo = brickList.size() - 1;
 		}
 
-		if (actionMode == ActionModeEnum.COMMENT_OUT) {
-			brick.setCommentedOut(checked);
-			BrickViewProvider.setSaturationOnBrick(brick, checked);
-		}
-
 		if (checked) {
 			addElementToCheckedBricks(brick);
 		} else {
 			checkedBricks.remove(brick);
+		}
+
+		if (actionMode == ActionModeEnum.COMMENT_OUT) {
+			brick.setCommentedOut(checked);
+			BrickViewProvider.setSaturationOnBrick(brick, checked);
 		}
 
 		positionFrom++;
@@ -1286,20 +1291,27 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			setCheckbox(currentBrick, checked);
 			BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
 
-			if (actionMode == ActionModeEnum.COMMENT_OUT) {
-				currentBrick.setCommentedOut(checked);
-				BrickViewProvider.setSaturationOnBrick(currentBrick, checked);
-				continue;
-			}
-
 			if (checked) {
-				BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_GREYED);
 				addElementToCheckedBricks(currentBrick);
 			} else {
-				BrickViewProvider.setAlphaForBrick(currentBrick, BrickViewProvider.ALPHA_FULL);
 				checkedBricks.remove(currentBrick);
 			}
+
+			switch (actionMode) {
+				case NO_ACTION:
+					break;
+				case COPY_DELETE:
+				case BACKPACK:
+					int alphaValue = checked ? BrickViewProvider.ALPHA_GREYED : BrickViewProvider.ALPHA_FULL;
+					BrickViewProvider.setAlphaForBrick(currentBrick, alphaValue);
+					break;
+				case COMMENT_OUT:
+					currentBrick.setCommentedOut(checked);
+					BrickViewProvider.setSaturationOnBrick(currentBrick, checked);
+					break;
+			}
 		}
+		scriptFragment.updateActionModeTitle();
 	}
 
 	void enableCorrespondingScriptBrick(int indexBegin) {
@@ -1314,7 +1326,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {
-		if (!(checkedBricks.contains(brick)) && !brick.getClass().equals(UserScriptDefinitionBrick.class)) {
+		if (!(checkedBricks.contains(brick)) && !(brick instanceof UserScriptDefinitionBrick)) {
 			checkedBricks.add(brick);
 		}
 	}
