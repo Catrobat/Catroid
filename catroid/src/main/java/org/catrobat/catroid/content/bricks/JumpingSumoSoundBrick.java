@@ -62,7 +62,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick{
 			new SingleSeekbar(this, BrickField.JUMPING_SUMO_VOLUME, R.string.jumping_sumo_volume);
 
 	public enum Sounds {
-		ROBOT, INSECT, MONSTER
+		DEFAULT, ROBOT, INSECT, MONSTER
 	}
 
 	public JumpingSumoSoundBrick() {

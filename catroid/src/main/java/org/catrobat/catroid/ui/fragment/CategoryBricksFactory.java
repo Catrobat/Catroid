@@ -506,7 +506,7 @@ public class CategoryBricksFactory {
 		jumpingSumoBrickList.add(new JumpingSumoJumpLongBrick());
 		jumpingSumoBrickList.add(new JumpingSumoJumpHighBrick());
 		jumpingSumoBrickList.add(new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN));
-		jumpingSumoBrickList.add(new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.ROBOT, BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
+		jumpingSumoBrickList.add(new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoMoveForwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoMoveBackwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoRotateLeftBrick(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
