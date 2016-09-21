@@ -121,8 +121,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	void setAlpha(int alphaFull);
 
-	void enableAllViews(View view, boolean enable);
-
 	boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current);
 
 	void storeDataForBackPack(Sprite sprite);
