@@ -92,7 +92,7 @@ public class JumpingSumoAnimationAction extends TemporalAction {
 					deviceController.getFeatureJumpingSumo().sendAnimationsSimpleAnimation(ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_ENUM.ARCOMMANDS_JUMPINGSUMO_ANIMATIONS_SIMPLEANIMATION_ID_STOP);
 					break;
 			}
-		}else {
+		} else {
 			Log.d(TAG, "error: send -stop command JS");
 		}
 	}

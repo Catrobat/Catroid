@@ -59,7 +59,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	protected Object readResolve() {
-		if(animation != null) {
+		if (animation != null) {
 			animationenum = Animation.valueOf(animation);
 		}
 		return this;
@@ -91,10 +91,10 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if(animationState) {
+		if (animationState) {
 			return view;
 		}
-		if(view == null) {
+		if (view == null) {
 			alphaValue = 255;
 		}
 
@@ -116,7 +116,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner animationSpinner = (Spinner) view.findViewById(R.id.brick_jumping_sumo_animation_spinner);
 
-		if(!(checkbox.getVisibility() == View.VISIBLE)) {
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			animationSpinner.setClickable(true);
 			animationSpinner.setEnabled(true);
 		} else {
@@ -147,7 +147,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 
-		if(view != null) {
+		if (view != null) {
 			View layout = view.findViewById(R.id.brick_jumping_sumo_animation_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);

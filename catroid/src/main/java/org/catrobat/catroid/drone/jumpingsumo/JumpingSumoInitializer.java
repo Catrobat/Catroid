@@ -50,6 +50,7 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class JumpingSumoInitializer {
 	public JumpingSumoDiscoverer jsDiscoverer;
 
 	private ARDeviceController deviceController;
+	private static JumpingSumoInitializer instance;
 
 	private final Handler handler = new Handler(getAppContext().getMainLooper());
 
@@ -71,10 +73,11 @@ public class JumpingSumoInitializer {
 	private static final String TAG = JumpingSumoInitializer.class.getSimpleName();
 
 	private PreStageActivity prestageStageActivity;
+	private StageActivity stageActivity;
 	private ARCONTROLLER_DEVICE_STATE_ENUM deviceState = ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_STOPPED;
 
-	private static final int JUMPING_SUMO_BATTERY_THRESHOLD = 2;
-	private static final int CONNECTION_TIME = 4000;
+	private static final int JUMPING_SUMO_BATTERY_THRESHOLD = 3;
+	private static final int CONNECTION_TIME = 10000; //4000;
 	private static int jumpingSumoCount = 0;
 
 	public interface Listener {
@@ -106,22 +109,30 @@ public class JumpingSumoInitializer {
 		 */
 	}
 
-	public JumpingSumoInitializer(PreStageActivity prestageStageActivity) {
-		this.prestageStageActivity = prestageStageActivity;
+	public JumpingSumoInitializer() {
 	}
 
-	private  void setPreStageActivity(PreStageActivity prestageStageActivity) {
+	public static JumpingSumoInitializer getInstance() {
+		if (instance == null) {
+			instance = new JumpingSumoInitializer();
+		}
+		return instance;
+	}
+
+	public void setPreStageActivity(PreStageActivity prestageStageActivity) {
 		this.prestageStageActivity = prestageStageActivity;
 	}
 
 	public boolean disconnect() {
 		boolean success = false;
+		jsDiscoverer.removeListener(discovererListener);
 		if (deviceController != null) {
 			ARCONTROLLER_ERROR_ENUM error = deviceController.stop();
 			if (error == ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
 				success = true;
 				JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
 				controller.setDeviceController(null);
+				Log.d(TAG, "TGr disconnect");
 			}
 		}
 		return success;
@@ -160,6 +171,10 @@ public class JumpingSumoInitializer {
 		}
 	}
 
+	public void setStageActivity(StageActivity stageActivity) {
+		this.stageActivity = stageActivity;
+	}
+
 	private void notifyBatteryChanged(int battery) {
 		List<Listener> listenersCpy = new ArrayList<>(listeners);
 		for (Listener listener : listenersCpy) {
@@ -171,10 +186,9 @@ public class JumpingSumoInitializer {
 		Object value = prestageStageActivity.getString(R.string.user_variable_name_battery_status) + " " + battery;
 		batteryStatus.setBatteryStatus(value);
 		if (battery < JUMPING_SUMO_BATTERY_THRESHOLD) {
-			disconnect();
-			showUnCancellableErrorDialog(prestageStageActivity,
-					prestageStageActivity.getString(R.string.error_jumpingsumo_battery_title),
-					prestageStageActivity.getString(R.string.error_jumpingsumo_battery));
+			showUnCancellableErrorDialog(stageActivity,
+					stageActivity.getString(R.string.error_jumpingsumo_battery_title),
+					stageActivity.getString(R.string.error_jumpingsumo_battery));
 			Log.e(TAG, "Jumping Sumo Battery too low");
 		}
 	}
@@ -199,8 +213,20 @@ public class JumpingSumoInitializer {
 				ARDiscoveryDeviceService service = dronesList.get(0);
 				ARDiscoveryDevice discoveryDevice = createDiscoveryDevice(service, ARDISCOVERY_PRODUCT_ENUM.ARDISCOVERY_PRODUCT_JS);
 				deviceController = createDeviceController(discoveryDevice);
-
+				ARCONTROLLER_DEVICE_STATE_ENUM state = ARCONTROLLER_DEVICE_STATE_ENUM
+						.eARCONTROLLER_DEVICE_STATE_UNKNOWN_ENUM_VALUE;
 				ARCONTROLLER_ERROR_ENUM error = deviceController.start();
+				try {
+					state = deviceController.getState();
+				} catch (ARControllerException e) {
+					e.printStackTrace();
+				}
+				Log.d(TAG, "TGr state: " + state.name());
+				if (deviceController.getFeatureJumpingSumo() != null) {
+					Log.d(TAG, "TGr found JS");
+				} else {
+					Log.d(TAG, "TGr not found JS");
+				}
 				if (error != ARCONTROLLER_ERROR_ENUM.ARCONTROLLER_OK) {
 					Log.e(TAG, "Exception" + error);
 				}
@@ -249,6 +275,21 @@ public class JumpingSumoInitializer {
 		}
 
 		return true;
+	}
+
+	public static void showUnCancellableErrorDialog(final StageActivity context, String title, String message) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+
+		builder.setTitle(title);
+		builder.setCancelable(false);
+		builder.setMessage(message);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				context.jumpingSumoDisconnect();
+			}
+		});
+		builder.show();
 	}
 
 	public static void showUnCancellableErrorDialog(final PreStageActivity context, String title, String message) {

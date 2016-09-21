@@ -137,7 +137,7 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 						.JUMPING_SUMO_FORWARD, (int) (-350 / landscapePortraitFactor), (int)
 				(150 / landscapePortraitFactor), forwardFile, BrickValues
 				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (byte) BrickValues
-				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT,(byte) 0, 0));
+				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT, (byte) 0, 0));
 
 		//backward brick
 		String backwardName = context.getString(R.string.default_jumping_sumo_project_sprites_backward);
@@ -225,7 +225,8 @@ public class DefaultProjectCreatorJumpingSumo extends DefaultProjectCreator {
 
 		defaultJumpingSumoProject.getDefaultScene().addSprite(createJumpingSumoSprite(soundName, JumpingSumoBrickFactory.JumpingSumoBricks
 				.JUMPING_SUMO_SOUND, (int) (250 / landscapePortraitFactor), (int)
-				(325 / landscapePortraitFactor), soundFile, (byte) 0, (byte) 0,(byte) BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT, 0));
+				(325 / landscapePortraitFactor), soundFile, (byte) 0, (byte) 0, (byte) BrickValues
+				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT, 0));
 
 		//picture brick
 		String pictureName = context.getString(R.string.default_jumping_sumo_project_sprites_picture);

@@ -83,7 +83,8 @@ public final class JumpingSumoServiceWrapper {
 
 	public static JumpingSumoInitializer getJumpingSumoInitialiser(PreStageActivity prestageStageActivity) {
 		if (jumpingSumoInitializer == null) {
-			jumpingSumoInitializer = new JumpingSumoInitializer(prestageStageActivity);
+			jumpingSumoInitializer = JumpingSumoInitializer.getInstance();
+			jumpingSumoInitializer.setPreStageActivity(prestageStageActivity);
 		}
 		return jumpingSumoInitializer;
 	}

@@ -36,6 +36,10 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
+import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
+import com.parrot.arsdk.arcontroller.ARControllerException;
+import com.parrot.arsdk.arcontroller.ARDeviceController;
+
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -50,6 +54,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -279,7 +284,8 @@ public class PreStageActivity extends BaseActivity {
 
 	public JumpingSumoInitializer getJumpingSumoInitialiser() {
 		if (jumpingSumoInitializer == null) {
-			jumpingSumoInitializer = new JumpingSumoInitializer(this);
+			jumpingSumoInitializer = JumpingSumoInitializer.getInstance();
+			jumpingSumoInitializer.setPreStageActivity(this);
 		}
 		return jumpingSumoInitializer;
 	}
@@ -404,6 +410,10 @@ public class PreStageActivity extends BaseActivity {
 					failedResourcesMessage = failedResourcesMessage + getString(R.string
 							.prestage_no_camera_available);
 					break;
+				case Brick.JUMPING_SUMO:
+					failedResourcesMessage = failedResourcesMessage + getString(R.string
+							.prestage_no_jumping_sumo_available);
+					break;
 				default:
 					failedResourcesMessage = failedResourcesMessage + getString(R.string
 							.prestage_default_resource_not_available);
@@ -411,6 +421,21 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
+		AlertDialog.Builder failedResourceAlertBuilder = new AlertDialog.Builder(this);
+		failedResourceAlertBuilder.setTitle(R.string.prestage_resource_not_available_title);
+		failedResourceAlertBuilder.setMessage(failedResourcesMessage).setCancelable(false)
+				.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						resourceFailed();
+					}
+				});
+		AlertDialog alert = failedResourceAlertBuilder.create();
+		alert.show();
+	}
+
+	public void showResourceInUseErrorDialog() {
+		String failedResourcesMessage = getString(R.string.prestage_resource_in_use_text);
 		AlertDialog.Builder failedResourceAlertBuilder = new AlertDialog.Builder(this);
 		failedResourceAlertBuilder.setTitle(R.string.prestage_resource_not_available_title);
 		failedResourceAlertBuilder.setMessage(failedResourcesMessage).setCancelable(false)
@@ -434,6 +459,23 @@ public class PreStageActivity extends BaseActivity {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
 			if (failedResources.isEmpty()) {
+				ARCONTROLLER_DEVICE_STATE_ENUM state = ARCONTROLLER_DEVICE_STATE_ENUM
+						.eARCONTROLLER_DEVICE_STATE_UNKNOWN_ENUM_VALUE;
+				try {
+					JumpingSumoDeviceController controller = JumpingSumoDeviceController.getInstance();
+					ARDeviceController deviceController = controller.getDeviceController();
+					state = deviceController.getState();
+				} catch (ARControllerException e) {
+					e.printStackTrace();
+				}
+				if (state != ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING) {
+					Log.e(TAG, "TGr Device not running");
+					resourceFailed(Brick.JUMPING_SUMO);
+					showResourceInUseErrorDialog();
+					return;
+				} else {
+					Log.d(TAG, "TGr Device running, everything is fine");
+				}
 				startStage();
 			} else {
 				showResourceFailedErrorDialog();

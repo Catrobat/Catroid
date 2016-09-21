@@ -47,7 +47,7 @@ import org.catrobat.catroid.ui.fragment.SingleSeekbar;
 
 import java.util.List;
 
-public class JumpingSumoSoundBrick extends FormulaBrick{
+public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 

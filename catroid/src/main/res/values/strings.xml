@@ -468,6 +468,8 @@
     <string name="prestage_resource_not_available_title">Component not available</string>
     <string name="prestage_resource_not_available_text">This game cannot be run on your device. The following
         components are unavailable:\n\n</string>
+    <string name="prestage_resource_in_use_text">Another Device is connected to the Jumping Sumo. Be sure, you
+        are the only Controller for the Drone.</string>
     <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
@@ -476,6 +478,7 @@
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Back facing camera\n</string>
+    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_camera_available">\u2022 Facedetection\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front facing camera\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>

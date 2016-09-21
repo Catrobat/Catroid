@@ -108,7 +108,7 @@ public class JumpingSumoSoundAction extends TemporalAction {
 					deviceController.getFeatureJumpingSumo().sendAudioSettingsTheme(ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_ENUM.ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_MONSTER);
 					break;
 			}
-		}else {
+		} else {
 			Log.d(TAG, "error: send -stop command JS");
 		}
 	}
