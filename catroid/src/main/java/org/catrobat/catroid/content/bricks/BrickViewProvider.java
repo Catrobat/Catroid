@@ -29,8 +29,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-
 public final class BrickViewProvider {
 
 	private BrickViewProvider() {
@@ -49,6 +47,10 @@ public final class BrickViewProvider {
 		View prototypeView = View.inflate(context, layout, null);
 
 		return prototypeView;
+	}
+
+	public static void enableAllViews(View view, boolean enabled) {
+		
 	}
 
 	public static void setAlphaForBrick(Brick brick, int alphaValue) {

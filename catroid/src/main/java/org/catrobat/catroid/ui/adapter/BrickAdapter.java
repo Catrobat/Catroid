@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,11 +31,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -104,7 +100,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private int clickItemPosition = 0;
 	private AlertDialog alertDialog = null;
 
-	private ActionModeEnum actionMode;
+	private ActionModeEnum actionMode = ActionModeEnum.NO_ACTION;
 
 	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, DragAndDropListView listView) {
 		this.scriptFragment = scriptFragment;
@@ -856,74 +852,18 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 		listItemCount = position + 1;
 
-		Object item = getItem(position);
+		BrickBaseType brick = (BrickBaseType) getItem(position);
 
-		if (item instanceof ScriptBrick && (!initInsertedBrick || position != positionOfInsertedBrick)) {
-			View scriptBrickView = ((Brick) item).getView(context, position, this);
-			if (draggedBrick == null) {
-				scriptBrickView.setOnClickListener(this);
-			}
-
-			if (((BrickBaseType) item).isCommentedOut()) {
-				BrickViewProvider.setSaturationOnBrick((BrickBaseType) item, true);
-			}
-
-			return scriptBrickView;
+		if (brick.isCommentedOut()) {
+			BrickViewProvider.setSaturationOnBrick(brick, true);
 		}
 
-		View currentBrickView;
-		// dirty HACK
-		// without the footer, position can be 0, and list.get(-1) caused an Indexoutofboundsexception
-		// no clean solution was found
-		if (position == 0) {
-			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position) instanceof DeadEndBrick) {
-				currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
-			} else {
-				currentBrickView = ((Brick) item).getView(context, position, this);
-			}
-		} else {
-			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position - 1) instanceof DeadEndBrick) {
-				currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
-			} else {
-				currentBrickView = ((Brick) item).getView(context, position, this);
-			}
-		}
+		View currentBrickView = brick.getView(context, position, this);
 
-		if (((BrickBaseType) item).isCommentedOut()) {
-			BrickViewProvider.setSaturationOnBrick((BrickBaseType) item, true);
-		}
+		currentBrickView.setOnClickListener(this);
 
-		// this one is working but causes null pointer exceptions on movement and control bricks?!
-		//		currentBrickView.setOnLongClickListener(longClickListener);
-
-		// Hack!!!
-		// if wrapper isn't used the longClick event won't be triggered
-		@SuppressLint("ViewHolder")
-		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
-		if (currentBrickView.getParent() != null) {
-			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
-		}
-
-		LinearLayout brickElement = (LinearLayout) currentBrickView;
-		final CheckBox checkbox = ((Brick) getItem(position)).getCheckBox();
-
-		wrapper.addView(currentBrickView);
-		if (draggedBrick == null) {
-			if ((selectMode == ListView.CHOICE_MODE_NONE)) {
-				wrapper.setOnClickListener(this);
-				if (!(item instanceof DeadEndBrick)) {
-					wrapper.setOnLongClickListener(dragAndDropListView);
-				}
-			} else {
-				brickElement.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						if (actionMode != ActionModeEnum.BACKPACK) {
-							checkbox.setChecked(!checkbox.isChecked());
-						}
-					}
-				});
-			}
+		if (!(brick instanceof ScriptBrick)) {
+			currentBrickView.setOnLongClickListener(dragAndDropListView);
 		}
 
 		if (position == positionOfInsertedBrick && initInsertedBrick && (selectMode == ListView.CHOICE_MODE_NONE)) {
@@ -937,19 +877,13 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			return insertionView;
 		}
 
-		if (animatedBricks.contains(brickList.get(position))) {
-			Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
-			wrapper.startAnimation(animation);
-			animatedBricks.remove(brickList.get(position));
-		}
-
 		if (actionMode == ActionModeEnum.NO_ACTION) {
-			((Brick) item).enableAllViews(currentBrickView, true);
+			brick.enableAllViews(currentBrickView, true);
 		} else {
-			((Brick) item).enableAllViews(currentBrickView, false);
+			brick.enableAllViews(currentBrickView, false);
 		}
 
-		return wrapper;
+		return currentBrickView;
 	}
 
 	public void updateProjectBrickList() {

@@ -34,7 +34,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.tukaani.xz.check.Check;
 
 import java.util.List;
 
@@ -142,26 +141,26 @@ public abstract class BrickBaseType implements Brick {
 		alphaValue = newAlpha;
 	}
 
-	@Override
 	public void enableAllViews(View recursiveView, boolean enable) {
-		View viewToDisable = recursiveView == null ? view : recursiveView;
 
-		if (viewToDisable != null) {
-			if (!(viewToDisable instanceof CheckBox)) {
-				viewToDisable.setEnabled(enable);
+		if (recursiveView != null) {
+			if (!(recursiveView instanceof CheckBox)) {
+				recursiveView.setEnabled(enable);
 			}
-			if (viewToDisable instanceof ViewGroup) {
-				ViewGroup viewGroup = (ViewGroup) viewToDisable;
+			if (recursiveView instanceof ViewGroup) {
+				ViewGroup viewGroup = (ViewGroup) recursiveView;
 				for (int i = 0; i < viewGroup.getChildCount(); i++) {
 					View child = viewGroup.getChildAt(i);
-					enableAllViews(child, enable);
+					if (child != null) {
+						enableAllViews(child, enable);
+					}
 				}
 			}
 		}
 	}
 
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		return getView(context, brickId, adapter);
+		return getView(context,brickId,adapter);
 	}
 
 	@Override
