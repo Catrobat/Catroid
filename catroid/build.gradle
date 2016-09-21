@@ -113,7 +113,7 @@ dependencies {
 
     compile 'com.thoughtworks.xstream:xstream:1.4.7'
 
-    def gdxVersion = '1.9.3'
+    def gdxVersion = '1.6.2'
     compile 'com.badlogicgames.gdx:gdx:' + gdxVersion
     compile 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
