@@ -134,6 +134,7 @@
 
     <!-- Jumping Sumo sound spinner -->
     <string-array name="brick_jumping_sumo_select_sound_spinner">
+        <item>@string/sound_default</item>
         <item>@string/sound_robot</item>
         <item>@string/sound_insect</item>
         <item>@string/sound_monster</item>
