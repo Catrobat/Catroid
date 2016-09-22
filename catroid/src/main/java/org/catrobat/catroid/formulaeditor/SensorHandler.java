@@ -145,6 +145,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		return instance.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 
+	private static double startWeekWithMonday () {
+		int weekdayOfAndroidCalendar = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		int convertedWeekday;
+
+		if (weekdayOfAndroidCalendar == Calendar.SUNDAY) {
+			convertedWeekday = Calendar.SATURDAY;
+		} else {
+			convertedWeekday = weekdayOfAndroidCalendar - 1;
+		}
+
+		return convertedWeekday;
+	}
+
 	public boolean accelerationAvailable() {
 		return this.accelerationAvailable;
 	}
@@ -397,11 +410,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case DATE_YEAR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH));
+				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1);
 			case DATE_DAY:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 			case DATE_WEEKDAY:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1);
+				return startWeekWithMonday();
 			case TIME_HOUR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 			case TIME_MINUTE:
