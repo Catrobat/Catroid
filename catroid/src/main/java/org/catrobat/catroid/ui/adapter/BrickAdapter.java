@@ -1132,6 +1132,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			brick.setCommentedOut(commentOut);
 			indexBegin = brickList.indexOf(brick);
 			indexEnd = indexBegin;
+			((ScriptBrick) brick).getScriptSafe().setCommentedOut(commentOut);
 		} else {
 			indexBegin = brickList.indexOf(brick);
 			indexEnd = indexBegin;

@@ -68,6 +68,10 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 	public WhenBackgroundChangesBrick(WhenBackgroundChangesScript script) {
 		this.script = script;
+
+		if (script != null && script.isCommentedOut()) {
+			setCommentedOut(true);
+		}
 	}
 
 	public void setLook(LookData lookData) {
