@@ -58,3 +58,4 @@ Thumbs.db
 # Gradle
 .gradle/
 build/
+gradle.properties
