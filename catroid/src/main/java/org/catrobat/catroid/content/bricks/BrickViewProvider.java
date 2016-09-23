@@ -66,6 +66,9 @@ public final class BrickViewProvider {
 	}
 
 	public static void setSaturationOnView(View view, boolean greyScale) {
+		if (view == null) {
+			return;
+		}
 		Drawable background = getBrickLayout(view).getBackground();
 
 		if (greyScale) {
@@ -79,11 +82,15 @@ public final class BrickViewProvider {
 	}
 
 	public static void setCheckboxVisibility(Brick brick, int visibility) {
-		brick.getCheckBox().setVisibility(visibility);
+		if (brick.getCheckBox() != null) {
+			brick.getCheckBox().setVisibility(visibility);
+		}
 	}
 
 	public static void setCheckboxClickability(Brick brick, boolean clickable) {
-		brick.getCheckBox().setClickable(clickable);
+		if (brick.getCheckBox() != null) {
+			brick.getCheckBox().setEnabled(clickable);
+		}
 	}
 
 	private static View getBrickLayout(View view) {
