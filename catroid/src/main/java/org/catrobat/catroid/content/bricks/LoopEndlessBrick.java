@@ -32,7 +32,6 @@ import org.catrobat.catroid.R;
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient boolean isPuzzleView = true;
 
 	public LoopEndlessBrick() {
 	}
@@ -46,8 +45,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null || !isPuzzleView) {
-			isPuzzleView = true;
+		if (view == null) {
 			view = View.inflate(context, R.layout.brick_loop_endless, null);
 			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
@@ -60,15 +58,5 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	@Override
 	public Brick clone() {
 		return new LoopEndlessBrick(getLoopBeginBrick());
-	}
-
-	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null || isPuzzleView) {
-			isPuzzleView = false;
-			view = View.inflate(context, R.layout.brick_loop_endless_no_puzzle, null);
-			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		}
-		return view;
 	}
 }

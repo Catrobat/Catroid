@@ -108,11 +108,6 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 	}
 
 	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		return View.inflate(context, R.layout.brick_if_end_if, null);
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		LinkedList<SequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(sequence);

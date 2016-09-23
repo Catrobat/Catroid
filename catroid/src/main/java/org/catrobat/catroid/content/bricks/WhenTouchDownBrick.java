@@ -78,15 +78,10 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		if (whenTouchDownScript == null) {
-			whenTouchDownScript = new WhenTouchDownScript();
-		}
 
 		view = View.inflate(context, R.layout.brick_screen_touched, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+		setCheckboxView(R.id.brick_when_screen_touched_checkbox);
 
 		return view;
 	}
