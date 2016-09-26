@@ -88,7 +88,15 @@ public class ShowVariableBrick extends UserVariableBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+		switch (view.getId()) {
+			case R.id.brick_show_variable_edit_text_x:
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
+				break;
+
+			case R.id.brick_show_variable_edit_text_y:
+				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
+				break;
+		}
 	}
 
 	@Override
@@ -199,23 +207,6 @@ public class ShowVariableBrick extends UserVariableBrick {
 		TextView textViewY = (TextView) prototypeView.findViewById(R.id.brick_show_variable_prototype_text_view_y);
 		textViewY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		switch (view.getId()) {
-			case R.id.brick_show_variable_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
-				break;
-
-			case R.id.brick_show_variable_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
-				break;
-		}
 	}
 
 	@Override

@@ -83,6 +83,9 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
+		if (adapter.isDragging) {
+			return;
+		}
 		showFormulaEditorToEditFormula(view);
 	}
 

@@ -158,11 +158,15 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
+				getFormulaWithBrickField(BrickField.X_DESTINATION),
+				getFormulaWithBrickField(BrickField.Y_DESTINATION),
+				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
+		return null;
+	}
 
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_glide_to_edit_text_x:
 				FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
@@ -176,19 +180,6 @@ public class GlideToBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.DURATION_IN_SECONDS);
 				break;
 		}
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
-				getFormulaWithBrickField(BrickField.X_DESTINATION),
-				getFormulaWithBrickField(BrickField.Y_DESTINATION),
-				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
 	}
 
 	@Override

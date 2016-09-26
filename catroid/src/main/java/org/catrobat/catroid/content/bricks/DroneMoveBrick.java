@@ -153,10 +153,12 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_drone_move_edit_text_second:
 				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
@@ -165,20 +167,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 			case R.id.brick_drone_move_edit_text_power:
 				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_POWER_IN_PERCENT);
 				break;
-
-			default:
-				return;
 		}
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 	}
 
 	protected abstract String getBrickLabel(View view);

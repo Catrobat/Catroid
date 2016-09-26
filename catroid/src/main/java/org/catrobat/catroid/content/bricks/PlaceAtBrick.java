@@ -117,11 +117,14 @@ public class PlaceAtBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
+				getFormulaWithBrickField(BrickField.X_POSITION),
+				getFormulaWithBrickField(BrickField.Y_POSITION)));
+		return null;
+	}
 
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_place_at_edit_text_x:
 				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
@@ -131,18 +134,6 @@ public class PlaceAtBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
 				break;
 		}
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION),
-				getFormulaWithBrickField(BrickField.Y_POSITION)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 	}
 
 	@Override
