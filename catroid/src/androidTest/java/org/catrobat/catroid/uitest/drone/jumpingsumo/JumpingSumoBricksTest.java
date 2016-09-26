@@ -56,8 +56,6 @@ public class JumpingSumoBricksTest extends BaseActivityInstrumentationTestCase<S
 		SettingsActivity.enableJumpingSumoBricks(getActivity(), true);
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		super.setUp();
-
-
 	}
 
 	@Override
@@ -114,7 +112,6 @@ public class JumpingSumoBricksTest extends BaseActivityInstrumentationTestCase<S
 			UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 					R.id.brick_jumping_sumo_rotate_value, ROTATE_IN_DEGREE,
 					Brick.BrickField.JUMPING_SUMO_ROTATE, currentMoveBrick);
-
 
 			solo.clickOnView(solo.getView(R.id.brick_jumping_sumo_rotate_text));
 			solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));

@@ -73,7 +73,6 @@ public class JumpingSumoSettingsActivityTest extends BaseActivityInstrumentation
 				.SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
 
-
 	public void testJumpingSumoConnectToJumpingSumoDialog() {
 		assertTrue("JumpingSumoBricks not activated!", SettingsActivity.isJSSharedPreferenceEnabled(getActivity()));
 

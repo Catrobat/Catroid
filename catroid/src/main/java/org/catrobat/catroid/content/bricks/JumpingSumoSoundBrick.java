@@ -57,7 +57,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	private transient Sounds soundenum;
 	private transient TextView editVolume;
 
-
 	private transient SingleSeekbar volumeSeekbar =
 			new SingleSeekbar(this, BrickField.JUMPING_SUMO_VOLUME, R.string.jumping_sumo_volume);
 
