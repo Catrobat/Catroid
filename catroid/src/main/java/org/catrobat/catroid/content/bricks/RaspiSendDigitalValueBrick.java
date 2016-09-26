@@ -121,11 +121,14 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSendDigitalRaspiValueAction(sprite,
+				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),
+				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_VALUE)));
+		return null;
+	}
 
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_raspi_set_digital_pin_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
@@ -135,18 +138,6 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_VALUE);
 				break;
 		}
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSendDigitalRaspiValueAction(sprite,
-				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),
-				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_VALUE)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
 	}
 
 	@Override

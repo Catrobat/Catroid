@@ -167,22 +167,6 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
-				.brick_think_for_bubble_edit_text_text;
-
-		if (view.getId() == editTextId) {
-			FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
-		} else {
-			FormulaEditorFragment.showFragment(view, this, BrickField.DURATION_IN_SECONDS);
-		}
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		if (type == Constants.SAY_BRICK) {
 			sequence.addAction(sprite.getActionFactory().createSayForBubbleAction(sprite, getFormulaWithBrickField(BrickField.STRING)));
@@ -195,7 +179,14 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
+		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
+				.brick_think_for_bubble_edit_text_text;
+
+		if (view.getId() == editTextId) {
+			FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
+		} else {
+			FormulaEditorFragment.showFragment(view, this, BrickField.DURATION_IN_SECONDS);
+		}
 	}
 
 	@Override

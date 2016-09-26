@@ -122,11 +122,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.nxt_tone_freq_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_FREQUENCY);
@@ -135,11 +131,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 				break;
 		}
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_FREQUENCY);
 	}
 
 	@Override

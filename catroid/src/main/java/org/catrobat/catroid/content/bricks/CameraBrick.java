@@ -67,6 +67,8 @@ public class CameraBrick extends BrickBaseType {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
 
+		setCheckboxView(R.id.brick_video_checkbox);
+
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			videoSpinner.setClickable(true);
 			videoSpinner.setEnabled(true);

@@ -39,7 +39,8 @@ public final class BrickViewProvider {
 
 	public static View createView(Context context, int layout) {
 		View view = View.inflate(context, layout, null);
-
+		//TODO: - SetCheckboxView()
+		//      - SetOnclickListeners()
 		return view;
 	}
 

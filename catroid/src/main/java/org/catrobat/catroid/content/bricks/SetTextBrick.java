@@ -148,10 +148,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_set_text_edit_text_x:
 				FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
@@ -165,11 +162,6 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 				FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
 				break;
 		}
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
 	}
 
 	@Override

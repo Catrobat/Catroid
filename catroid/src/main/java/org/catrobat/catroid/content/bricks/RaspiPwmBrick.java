@@ -127,11 +127,15 @@ public class RaspiPwmBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSendRaspiPwmValueAction(sprite,
+				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),
+				getFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY),
+				getFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE)));
+		return null;
+	}
 
+	public void showFormulaEditorToEditFormula(View view) {
 		switch (view.getId()) {
 			case R.id.brick_raspi_pwm_pin_edit_text:
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
@@ -145,19 +149,6 @@ public class RaspiPwmBrick extends FormulaBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_PWM_PERCENTAGE);
 				break;
 		}
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSendRaspiPwmValueAction(sprite,
-				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),
-				getFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY),
-				getFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.RASPI_DIGITAL_PIN_NUMBER);
 	}
 
 	@Override
