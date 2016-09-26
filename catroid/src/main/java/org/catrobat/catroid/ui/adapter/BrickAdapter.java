@@ -410,6 +410,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			scrollTo = getCount() - 1;
 		}
 		dragAndDropListView.smoothScrollToPosition(scrollTo);
+		setSpinnersEnabled(true);
 		isDragging = false;
 	}
 
@@ -864,6 +865,10 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			currentBrickView.setOnLongClickListener(dragAndDropListView);
 		}
 
+		if (isDragging) {
+			setSpinnersEnabled(false);
+		}
+
 		if (position == positionOfInsertedBrick && initInsertedBrick && (selectMode == ListView.CHOICE_MODE_NONE)) {
 			initInsertedBrick = false;
 			addingNewBrick = true;
@@ -898,7 +903,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	private int getScriptIndexFromProject(int index) {
 		int scriptIndex = 0;
-		Script temporaryScript = null;
+		Script temporaryScript;
 		for (int i = 0; i < index; ) {
 			temporaryScript = sprite.getScript(scriptIndex);
 			if (temporaryScript == null) {
@@ -1248,6 +1253,12 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		actionMode = ActionModeEnum.COMMENT_OUT;
 		handleCheck(brick, commentOut);
 		actionMode = ActionModeEnum.NO_ACTION;
+	}
+
+	public void setSpinnersEnabled(boolean enabled) {
+		for (Brick brick : brickList) {
+			BrickViewProvider.setSpinnerClickability(((BrickBaseType) brick).view, enabled);
+		}
 	}
 
 	public void handleCheck(Brick brick, boolean checked) {

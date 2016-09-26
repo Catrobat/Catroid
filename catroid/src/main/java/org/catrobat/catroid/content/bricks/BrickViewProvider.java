@@ -28,6 +28,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 public final class BrickViewProvider {
 
@@ -91,6 +92,22 @@ public final class BrickViewProvider {
 	public static void setCheckboxClickability(Brick brick, boolean clickable) {
 		if (brick.getCheckBox() != null) {
 			brick.getCheckBox().setEnabled(clickable);
+		}
+	}
+
+	public static void setSpinnerClickability(View view, boolean clickable) {
+		if (view == null) {
+			return;
+		}
+		if (view instanceof Spinner) {
+			view.setEnabled(clickable);
+		}
+
+		if (view instanceof ViewGroup) {
+			ViewGroup viewGroup = (ViewGroup) view;
+			for (int pos = 0; pos < viewGroup.getChildCount(); pos++) {
+				setSpinnerClickability(viewGroup.getChildAt(pos), clickable);
+			}
 		}
 	}
 
