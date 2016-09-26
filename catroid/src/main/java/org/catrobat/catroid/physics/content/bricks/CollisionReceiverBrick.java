@@ -112,15 +112,6 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		setCheckboxView(R.id.brick_collision_receive_checkbox);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setEnabled(true);
-		} else {
-			broadcastSpinner.setClickable(false);
-			broadcastSpinner.setEnabled(false);
-		}
 
 		broadcastSpinner.setAdapter(getCollisionObjectAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -166,9 +157,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_physics_collision_receive, null);
 		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
-		broadcastReceiverSpinner.setFocusableInTouchMode(false);
-		broadcastReceiverSpinner.setFocusable(false);
-		broadcastReceiverSpinner.setEnabled(false);
+
 		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);
 		broadcastReceiverSpinner.setAdapter(collisionReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);

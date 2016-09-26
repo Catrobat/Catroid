@@ -90,9 +90,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -104,15 +101,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
 		phiroProSensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			phiroProSensorSpinner.setClickable(false);
-			phiroProSensorSpinner.setEnabled(false);
-		} else {
-			phiroProSensorSpinner.setClickable(true);
-			phiroProSensorSpinner.setEnabled(true);
-			phiroProSensorSpinner.setOnItemSelectedListener(this);
-		}
 
 		phiroProSensorSpinner.setAdapter(phiroProSensorAdapter);
 		phiroProSensorSpinner.setSelection(sensorSpinnerPosition);
@@ -145,9 +133,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		View prototypeView = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
 
 		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
-		phiroProSensorSpinner.setFocusableInTouchMode(false);
-		phiroProSensorSpinner.setFocusable(false);
-		phiroProSensorSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);

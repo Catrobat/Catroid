@@ -65,14 +65,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 		spinner.setAdapter(arrayAdapter);
 
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			spinner.setClickable(false);
-			spinner.setEnabled(false);
-		} else {
-			spinner.setClickable(true);
-			spinner.setEnabled(true);
-		}
-
 		spinner.setAdapter(arrayAdapter);
 		spinner.setSelection(spinnerPosition);
 
@@ -101,8 +93,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 		View prototypeView = View.inflate(context, R.layout.brick_drone_spinner, null);
 
 		Spinner spinner = (Spinner) prototypeView.findViewById(R.id.brick_drone_spinner_ID);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
 
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(prototypeView.getContext(),
 				android.R.layout.simple_spinner_item, getSpinnerItems(prototypeView));

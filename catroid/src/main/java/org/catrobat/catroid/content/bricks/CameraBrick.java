@@ -65,17 +65,9 @@ public class CameraBrick extends BrickBaseType {
 		}
 		view = View.inflate(context, R.layout.brick_video, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
 
 		setCheckboxView(R.id.brick_video_checkbox);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			videoSpinner.setClickable(true);
-			videoSpinner.setEnabled(true);
-		} else {
-			videoSpinner.setClickable(false);
-			videoSpinner.setEnabled(false);
-		}
+		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
@@ -103,9 +95,6 @@ public class CameraBrick extends BrickBaseType {
 		prototypeView = View.inflate(context, R.layout.brick_video, null);
 
 		Spinner setVideoSpinner = (Spinner) prototypeView.findViewById(R.id.brick_video_spinner);
-		setVideoSpinner.setFocusableInTouchMode(false);
-		setVideoSpinner.setFocusable(false);
-		setVideoSpinner.setEnabled(false);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);

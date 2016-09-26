@@ -83,9 +83,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -105,14 +102,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		userListSpinner.setAdapter(userListAdapterWrapper);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			userListSpinner.setClickable(true);
-			userListSpinner.setEnabled(true);
-		} else {
-			userListSpinner.setClickable(false);
-			userListSpinner.setFocusable(false);
-		}
 
 		setSpinnerSelection(userListSpinner, null);
 
@@ -161,9 +150,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.delete_item_of_userlist_spinner);
-		userListSpinner.setFocusableInTouchMode(false);
-		userListSpinner.setFocusable(false);
-		userListSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 

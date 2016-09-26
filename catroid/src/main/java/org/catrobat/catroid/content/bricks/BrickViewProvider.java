@@ -41,6 +41,7 @@ public final class BrickViewProvider {
 	public static View createView(Context context, int layout) {
 		View view = View.inflate(context, layout, null);
 		//TODO: - SetCheckboxView()
+		//      - EnableSpinners()
 		//      - SetOnclickListeners()
 		return view;
 	}
@@ -100,7 +101,9 @@ public final class BrickViewProvider {
 			return;
 		}
 		if (view instanceof Spinner) {
+			view.setClickable(clickable);
 			view.setEnabled(clickable);
+			view.setFocusable(false);
 		}
 
 		if (view instanceof ViewGroup) {

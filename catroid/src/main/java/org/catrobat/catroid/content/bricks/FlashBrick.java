@@ -67,14 +67,6 @@ public class FlashBrick extends BrickBaseType {
 		setCheckboxView(R.id.brick_flash_checkbox);
 		Spinner flashSpinner = (Spinner) view.findViewById(R.id.brick_flash_spinner);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			flashSpinner.setClickable(true);
-			flashSpinner.setEnabled(true);
-		} else {
-			flashSpinner.setClickable(false);
-			flashSpinner.setEnabled(false);
-		}
-
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
 		flashSpinner.setAdapter(spinnerAdapter);
@@ -101,9 +93,6 @@ public class FlashBrick extends BrickBaseType {
 		prototypeView = View.inflate(context, R.layout.brick_flash, null);
 
 		Spinner setFlashSpinner = (Spinner) prototypeView.findViewById(R.id.brick_flash_spinner);
-		setFlashSpinner.setFocusableInTouchMode(false);
-		setFlashSpinner.setFocusable(false);
-		setFlashSpinner.setEnabled(false);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setFlashSpinner.setAdapter(spinnerAdapter);

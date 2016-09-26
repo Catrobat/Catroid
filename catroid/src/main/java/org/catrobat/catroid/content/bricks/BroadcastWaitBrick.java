@@ -68,16 +68,8 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_broadcast_wait_checkbox);
+
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setEnabled(true);
-		} else {
-			broadcastSpinner.setClickable(false);
-			broadcastSpinner.setEnabled(false);
-		}
 
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -105,9 +97,6 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_broadcast_wait, null);
 		Spinner broadcastWaitSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_wait_spinner);
-		broadcastWaitSpinner.setFocusableInTouchMode(false);
-		broadcastWaitSpinner.setFocusable(false);
-		broadcastWaitSpinner.setEnabled(false);
 
 		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);

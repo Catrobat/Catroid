@@ -86,15 +86,6 @@ public class HideVariableBrick extends UserVariableBrick {
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		hideVariableSpinner.setAdapter(userVariableAdapterWrapper);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			hideVariableSpinner.setClickable(true);
-			hideVariableSpinner.setEnabled(true);
-		} else {
-			hideVariableSpinner.setClickable(false);
-			hideVariableSpinner.setFocusable(false);
-		}
-
 		setSpinnerSelection(hideVariableSpinner, null);
 
 		hideVariableSpinner.setOnTouchListener(new View.OnTouchListener() {

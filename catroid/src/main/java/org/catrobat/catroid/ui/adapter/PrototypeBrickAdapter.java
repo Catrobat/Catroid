@@ -177,6 +177,7 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 		final Brick brick = brickList.get(position);
 
 		ViewGroup parentView = (ViewGroup) brick.getPrototypeView(context);
+		BrickViewProvider.setSpinnerClickability(parentView, false);
 		convertView = parentView;
 
 		CheckBox checkbox = null;

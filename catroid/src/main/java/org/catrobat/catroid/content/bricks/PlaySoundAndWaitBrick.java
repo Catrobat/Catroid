@@ -100,14 +100,6 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 		final Spinner playSoundAndWaitSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			playSoundAndWaitSpinner.setClickable(true);
-			playSoundAndWaitSpinner.setEnabled(true);
-		} else {
-			playSoundAndWaitSpinner.setClickable(false);
-			playSoundAndWaitSpinner.setEnabled(false);
-		}
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			playSoundAndWaitSpinner.setOnItemSelectedListener(this);
 		}
 
@@ -127,9 +119,6 @@ public class PlaySoundAndWaitBrick extends BrickBaseType implements OnItemSelect
 		View prototypeView = View.inflate(context, R.layout.brick_play_sound_and_wait, null);
 
 		Spinner playSoundAndWaitSpinner = (Spinner) prototypeView.findViewById(R.id.playsound_spinner);
-		playSoundAndWaitSpinner.setFocusableInTouchMode(false);
-		playSoundAndWaitSpinner.setFocusable(false);
-		playSoundAndWaitSpinner.setEnabled(false);
 
 		SpinnerAdapter playSoundSpinnerAdapter = createSoundAdapter(context);
 		playSoundAndWaitSpinner.setAdapter(playSoundSpinnerAdapter);

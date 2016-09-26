@@ -74,23 +74,12 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		view = View.inflate(context, R.layout.brick_scene_start, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_scene_start_checkbox);
 
 		final Spinner sceneSpinner = (Spinner) view.findViewById(R.id.brick_scene_start_spinner);
-		sceneSpinner.setFocusableInTouchMode(false);
-		sceneSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			sceneSpinner.setClickable(true);
-			sceneSpinner.setEnabled(true);
-		} else {
-			sceneSpinner.setClickable(false);
-			sceneSpinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<String> spinnerAdapter = createSceneAdapter(context);
 
@@ -160,9 +149,6 @@ public class SceneStartBrick extends BrickBaseType implements NewSceneDialog.OnN
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_scene_start, null);
 		Spinner sceneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_scene_start_spinner);
-		sceneSpinner.setFocusableInTouchMode(false);
-		sceneSpinner.setFocusable(false);
-		sceneSpinner.setEnabled(false);
 
 		SpinnerAdapter sceneSpinnerAdapter = createSceneAdapter(context);
 		sceneSpinner.setAdapter(sceneSpinnerAdapter);

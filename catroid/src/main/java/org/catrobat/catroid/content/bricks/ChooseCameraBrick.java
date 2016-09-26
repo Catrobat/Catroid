@@ -67,14 +67,6 @@ public class ChooseCameraBrick extends BrickBaseType {
 		setCheckboxView(R.id.brick_choose_camera_checkbox);
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_choose_camera_spinner);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			videoSpinner.setClickable(true);
-			videoSpinner.setEnabled(true);
-		} else {
-			videoSpinner.setClickable(false);
-			videoSpinner.setEnabled(false);
-		}
-
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
 		videoSpinner.setAdapter(spinnerAdapter);
@@ -101,9 +93,6 @@ public class ChooseCameraBrick extends BrickBaseType {
 		prototypeView = View.inflate(context, R.layout.brick_choose_camera, null);
 
 		Spinner setVideoSpinner = (Spinner) prototypeView.findViewById(R.id.brick_choose_camera_spinner);
-		setVideoSpinner.setFocusableInTouchMode(false);
-		setVideoSpinner.setFocusable(false);
-		setVideoSpinner.setEnabled(false);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);

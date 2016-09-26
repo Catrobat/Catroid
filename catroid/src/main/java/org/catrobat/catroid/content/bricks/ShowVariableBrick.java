@@ -143,15 +143,6 @@ public class ShowVariableBrick extends UserVariableBrick {
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		showVariableSpinner.setAdapter(userVariableAdapterWrapper);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			showVariableSpinner.setClickable(true);
-			showVariableSpinner.setEnabled(true);
-		} else {
-			showVariableSpinner.setClickable(false);
-			showVariableSpinner.setFocusable(false);
-		}
-
 		setSpinnerSelection(showVariableSpinner, null);
 
 		showVariableSpinner.setOnTouchListener(new View.OnTouchListener() {

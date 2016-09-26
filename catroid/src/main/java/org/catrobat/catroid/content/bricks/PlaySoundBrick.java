@@ -96,14 +96,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		final Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			soundbrickSpinner.setClickable(true);
-			soundbrickSpinner.setEnabled(true);
-		} else {
-			soundbrickSpinner.setClickable(false);
-			soundbrickSpinner.setEnabled(false);
-		}
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			soundbrickSpinner.setOnItemSelectedListener(this);
 		}
 
@@ -135,9 +127,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_play_sound, null);
 		Spinner playSoundSpinner = (Spinner) prototypeView.findViewById(R.id.playsound_spinner);
-		playSoundSpinner.setFocusableInTouchMode(false);
-		playSoundSpinner.setFocusable(false);
-		playSoundSpinner.setEnabled(false);
 
 		SpinnerAdapter playSoundSpinnerAdapter = createSoundAdapter(context);
 		playSoundSpinner.setAdapter(playSoundSpinnerAdapter);

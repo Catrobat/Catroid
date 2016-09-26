@@ -82,9 +82,6 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -112,14 +109,6 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		userListSpinner.setAdapter(userListAdapterWrapper);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			userListSpinner.setClickable(true);
-			userListSpinner.setEnabled(true);
-		} else {
-			userListSpinner.setClickable(false);
-			userListSpinner.setFocusable(false);
-		}
 
 		setSpinnerSelection(userListSpinner, null);
 
@@ -168,9 +157,6 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.replace_item_in_userlist_spinner);
-		userListSpinner.setFocusableInTouchMode(false);
-		userListSpinner.setFocusable(false);
-		userListSpinner.setEnabled(false);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());

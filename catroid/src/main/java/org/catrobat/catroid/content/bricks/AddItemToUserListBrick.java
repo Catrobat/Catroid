@@ -101,14 +101,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 
 		userListSpinner.setAdapter(userListAdapterWrapper);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			userListSpinner.setClickable(true);
-			userListSpinner.setEnabled(true);
-		} else {
-			userListSpinner.setClickable(false);
-			userListSpinner.setFocusable(false);
-		}
-
 		setSpinnerSelection(userListSpinner, null);
 
 		userListSpinner.setOnTouchListener(new OnTouchListener() {
@@ -156,9 +148,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_add_item_to_userlist, null);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.add_item_to_userlist_spinner);
-		userListSpinner.setFocusableInTouchMode(false);
-		userListSpinner.setFocusable(false);
-		userListSpinner.setEnabled(false);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
