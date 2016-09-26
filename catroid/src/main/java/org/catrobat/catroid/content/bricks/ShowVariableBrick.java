@@ -110,9 +110,6 @@ public class ShowVariableBrick extends UserVariableBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_show_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

@@ -188,6 +188,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		((BrickAdapter) getAdapter()).isDragging = true;
+		((BrickAdapter) getAdapter()).setSpinnersEnabled(false);
 
 		int itemPosition = calculateItemPositionAndTouchPointY(view);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
