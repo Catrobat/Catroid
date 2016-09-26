@@ -96,9 +96,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		textDuration.setText(String.valueOf(BrickValues.PHIRO_DURATION));
 
 		Spinner phiroProToneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_select_tone_spinner);
-		phiroProToneSpinner.setFocusableInTouchMode(false);
-		phiroProToneSpinner.setFocusable(false);
-		phiroProToneSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_tone_spinner,
 				android.R.layout.simple_spinner_item);
@@ -120,9 +117,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_phiro_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -141,14 +135,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 				android.R.layout.simple_spinner_item);
 		toneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner toneSpinner = (Spinner) view.findViewById(R.id.brick_phiro_select_tone_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			toneSpinner.setClickable(true);
-			toneSpinner.setEnabled(true);
-		} else {
-			toneSpinner.setClickable(false);
-			toneSpinner.setEnabled(false);
-		}
 
 		toneSpinner.setAdapter(toneAdapter);
 		toneSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

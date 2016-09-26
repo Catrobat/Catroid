@@ -81,8 +81,6 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 		spinner.setAdapter(createAdapter(context));
 		spinner.setSelection(type.ordinal());
 
-		spinner.setClickable(true);
-		spinner.setFocusable(true);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -115,9 +113,6 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_physics_object_type, null);
 		Spinner pointToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_physics_object_type_spinner);
-		pointToSpinner.setFocusableInTouchMode(false);
-		pointToSpinner.setFocusable(false);
-		pointToSpinner.setEnabled(false);
 		SpinnerAdapter objectTypeSpinnerAdapter = createAdapter(context);
 		pointToSpinner.setAdapter(objectTypeSpinnerAdapter);
 		pointToSpinner.setSelection(PhysicsObject.Type.DYNAMIC.ordinal());

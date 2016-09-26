@@ -128,14 +128,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			nfcSpinner.setClickable(true);
-			nfcSpinner.setEnabled(true);
-		} else {
-			nfcSpinner.setClickable(false);
-			nfcSpinner.setEnabled(false);
-		}
-
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
 
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
@@ -222,8 +214,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_when_nfc, null);
 		Spinner nfcSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_nfc_spinner);
-		nfcSpinner.setFocusableInTouchMode(false);
-		nfcSpinner.setFocusable(false);
+
 		SpinnerAdapter nfcSpinnerAdapter = createNfcTagAdapter(context); //NfcTagContainer.getMessageAdapter(context);
 		nfcSpinner.setAdapter(nfcSpinnerAdapter);
 		setSpinnerSelection(nfcSpinner);

@@ -865,9 +865,8 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			currentBrickView.setOnLongClickListener(dragAndDropListView);
 		}
 
-		if (isDragging) {
-			setSpinnersEnabled(false);
-		}
+		boolean enableSpinners = !isDragging && actionMode == ActionModeEnum.NO_ACTION;
+		setSpinnersEnabled(enableSpinners);
 
 		if (position == positionOfInsertedBrick && initInsertedBrick && (selectMode == ListView.CHOICE_MODE_NONE)) {
 			initInsertedBrick = false;

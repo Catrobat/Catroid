@@ -103,9 +103,6 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 		textSpeed.setText(String.valueOf(BrickValues.PHIRO_SPEED));
 
 		Spinner phiroProMotorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_motor_forward_action_spinner);
-		phiroProMotorSpinner.setFocusableInTouchMode(false);
-		phiroProMotorSpinner.setFocusable(false);
-		phiroProMotorSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_motor_spinner,
 				android.R.layout.simple_spinner_item);
@@ -142,9 +139,6 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_phiro_motor_forward, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -163,14 +157,6 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_motor_forward_action_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-		} else {
-			motorSpinner.setClickable(false);
-			motorSpinner.setEnabled(false);
-		}
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

@@ -96,9 +96,6 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 		textSpeed.setText(String.valueOf(BrickValues.LEGO_SPEED));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
-		legoSpinner.setFocusableInTouchMode(false);
-		legoSpinner.setFocusable(false);
-		legoSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
@@ -125,9 +122,6 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -146,14 +140,6 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-		} else {
-			motorSpinner.setClickable(false);
-			motorSpinner.setEnabled(false);
-		}
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

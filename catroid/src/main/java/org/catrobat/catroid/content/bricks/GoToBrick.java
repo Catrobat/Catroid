@@ -94,14 +94,6 @@ public class GoToBrick extends BrickBaseType {
 
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			goToSpinner.setClickable(true);
-			goToSpinner.setEnabled(true);
-		} else {
-			goToSpinner.setClickable(false);
-			goToSpinner.setEnabled(false);
-		}
-
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
 		spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, goToSpinner, spinnerAdapter);
@@ -147,10 +139,6 @@ public class GoToBrick extends BrickBaseType {
 		View prototypeView = View.inflate(context, R.layout.brick_go_to, null);
 
 		Spinner goToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_go_to_spinner);
-
-		goToSpinner.setFocusableInTouchMode(false);
-		goToSpinner.setFocusable(false);
-		goToSpinner.setEnabled(false);
 
 		SpinnerAdapter goToSpinnerAdapter = createArrayAdapter(context);
 

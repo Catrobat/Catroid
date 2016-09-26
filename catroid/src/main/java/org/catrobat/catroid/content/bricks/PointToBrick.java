@@ -95,15 +95,6 @@ public class PointToBrick extends BrickBaseType {
 
 		setCheckboxView(R.id.brick_point_to_checkbox);
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			spinner.setClickable(true);
-			spinner.setEnabled(true);
-		} else {
-			spinner.setClickable(false);
-			spinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<String> spinnerAdapter = getArrayAdapterFromSpriteList(context);
 
@@ -146,9 +137,6 @@ public class PointToBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_point_to, null);
 		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		pointToSpinner.setFocusableInTouchMode(false);
-		pointToSpinner.setFocusable(false);
-		pointToSpinner.setEnabled(false);
 
 		SpinnerAdapter pointToSpinnerAdapter = getArrayAdapterFromSpriteList(context);
 		pointToSpinner.setAdapter(pointToSpinnerAdapter);

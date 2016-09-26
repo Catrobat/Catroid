@@ -110,14 +110,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			variableSpinner.setClickable(true);
-			variableSpinner.setEnabled(true);
-		} else {
-			variableSpinner.setClickable(false);
-			variableSpinner.setFocusable(false);
-		}
-
 		setSpinnerSelection(variableSpinner, null);
 
 		variableSpinner.setOnTouchListener(new OnTouchListener() {
@@ -165,9 +157,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
-		variableSpinner.setFocusableInTouchMode(false);
-		variableSpinner.setFocusable(false);
-		variableSpinner.setEnabled(false);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 

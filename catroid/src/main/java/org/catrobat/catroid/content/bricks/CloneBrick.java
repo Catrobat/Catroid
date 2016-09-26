@@ -75,9 +75,7 @@ public class CloneBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_clone, null);
 		Spinner cloneSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-		cloneSpinner.setFocusableInTouchMode(false);
-		cloneSpinner.setFocusable(false);
-		cloneSpinner.setEnabled(false);
+
 		cloneSpinner.setAdapter(getSpinnerArrayAdapter(context));
 
 		return view;
@@ -108,12 +106,7 @@ public class CloneBrick extends BrickBaseType {
 	}
 
 	private void setupValueSpinner(final Context context) {
-
 		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-		valueSpinner.setFocusableInTouchMode(false);
-		valueSpinner.setFocusable(false);
-		valueSpinner.setClickable(true);
-		valueSpinner.setEnabled(true);
 
 		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene()
 				.getSpriteList();

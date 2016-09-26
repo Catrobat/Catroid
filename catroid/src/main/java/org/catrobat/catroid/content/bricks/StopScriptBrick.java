@@ -72,16 +72,9 @@ public class StopScriptBrick extends BrickBaseType {
 
 		view = View.inflate(context, R.layout.brick_stop_script, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+
 		setCheckboxView(R.id.brick_stop_script_checkbox);
 		Spinner stopScriptSpinner = (Spinner) view.findViewById(R.id.brick_stop_script_spinner);
-
-		if (!(checkbox.getVisibility() == view.VISIBLE)) {
-			stopScriptSpinner.setClickable(true);
-			stopScriptSpinner.setEnabled(true);
-		} else {
-			stopScriptSpinner.setClickable(false);
-			stopScriptSpinner.setEnabled(false);
-		}
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		stopScriptSpinner.setAdapter(spinnerAdapter);
@@ -108,9 +101,6 @@ public class StopScriptBrick extends BrickBaseType {
 		View prototypeView = View.inflate(context, R.layout.brick_stop_script, null);
 
 		Spinner stopSctiptSpinner = (Spinner) prototypeView.findViewById(R.id.brick_stop_script_spinner);
-		stopSctiptSpinner.setEnabled(false);
-		stopSctiptSpinner.setFocusable(false);
-		stopSctiptSpinner.setFocusableInTouchMode(false);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		stopSctiptSpinner.setAdapter(spinnerAdapter);

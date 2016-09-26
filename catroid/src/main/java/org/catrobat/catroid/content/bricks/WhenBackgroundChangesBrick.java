@@ -118,14 +118,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_when_background_spinner);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			lookbrickSpinner.setClickable(true);
-			lookbrickSpinner.setEnabled(true);
-		} else {
-			lookbrickSpinner.setClickable(false);
-			lookbrickSpinner.setEnabled(false);
-		}
-
 		final ArrayAdapter<LookData> spinnerAdapter = createLookAdapter(context);
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
 		lookbrickSpinner.setAdapter(spinnerAdapterWrapper);
@@ -167,9 +159,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_when_background_changes_to, null);
 		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_background_spinner);
-		setLookSpinner.setFocusableInTouchMode(false);
-		setLookSpinner.setFocusable(false);
-		setLookSpinner.setEnabled(false);
 
 		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
 		setLookSpinner.setAdapter(setLookSpinnerAdapter);

@@ -115,14 +115,6 @@ public class AskBrick extends UserVariableBrick {
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			variableSpinner.setClickable(false);
-			variableSpinner.setEnabled(false);
-		} else {
-			variableSpinner.setClickable(true);
-			variableSpinner.setFocusable(true);
-		}
-
 		setSpinnerSelection(variableSpinner, null);
 
 		variableSpinner.setOnTouchListener(new OnTouchListener() {
@@ -171,10 +163,6 @@ public class AskBrick extends UserVariableBrick {
 		View prototypeView = View.inflate(context, R.layout.brick_ask, null);
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ask_spinner);
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-
-		variableSpinner.setFocusableInTouchMode(false);
-		variableSpinner.setFocusable(false);
-		variableSpinner.setEnabled(false);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getSceneToPlay().getDataContainer()
 				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());

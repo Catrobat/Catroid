@@ -120,9 +120,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		textValueBlue.setText(String.valueOf(BrickValues.PHIRO_VALUE_BLUE));
 
 		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
-		eyeSpinner.setFocusableInTouchMode(false);
-		eyeSpinner.setFocusable(false);
-		eyeSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
@@ -152,9 +149,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 		if (animationState) {
 			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
 		}
 
 		view = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
@@ -193,14 +187,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
 		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner eyeSpinner = (Spinner) view.findViewById(R.id.brick_phiro_rgb_light_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			eyeSpinner.setClickable(true);
-			eyeSpinner.setEnabled(true);
-		} else {
-			eyeSpinner.setClickable(false);
-			eyeSpinner.setEnabled(false);
-		}
 
 		eyeSpinner.setAdapter(eyeAdapter);
 		eyeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

@@ -73,9 +73,6 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
 		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
-		phiroProSpinner.setFocusableInTouchMode(false);
-		phiroProSpinner.setFocusable(false);
-		phiroProSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
@@ -96,9 +93,7 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		view = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
@@ -109,14 +104,6 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-		} else {
-			motorSpinner.setClickable(false);
-			motorSpinner.setEnabled(false);
-		}
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());

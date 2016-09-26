@@ -103,23 +103,15 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 		setCheckboxView(R.id.brick_set_look_checkbox);
 
-		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			lookbrickSpinner.setClickable(true);
-			lookbrickSpinner.setEnabled(true);
-		} else {
-			lookbrickSpinner.setClickable(false);
-			lookbrickSpinner.setEnabled(false);
-		}
+		final Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 
 		final ArrayAdapter<LookData> spinnerAdapter = createLookAdapter(context);
 
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
 
-		lookbrickSpinner.setAdapter(spinnerAdapterWrapper);
+		lookBrickSpinner.setAdapter(spinnerAdapterWrapper);
 
-		lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		lookBrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -136,7 +128,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			}
 		});
 
-		setSpinnerSelection(lookbrickSpinner);
+		setSpinnerSelection(lookBrickSpinner);
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
@@ -174,9 +166,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			prototypeView.findViewById(R.id.brick_set_look_and_wait).setVisibility(View.GONE);
 		}
 		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_look_spinner);
-		setLookSpinner.setFocusableInTouchMode(false);
-		setLookSpinner.setFocusable(false);
-		setLookSpinner.setEnabled(false);
 
 		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
 		setLookSpinner.setAdapter(setLookSpinnerAdapter);

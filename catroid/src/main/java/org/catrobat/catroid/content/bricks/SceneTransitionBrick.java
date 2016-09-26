@@ -84,15 +84,6 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 		setCheckboxView(R.id.brick_scene_transition_checkbox);
 
 		final Spinner sceneSpinner = (Spinner) view.findViewById(R.id.brick_scene_transition_spinner);
-		sceneSpinner.setFocusableInTouchMode(false);
-		sceneSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			sceneSpinner.setClickable(true);
-			sceneSpinner.setEnabled(true);
-		} else {
-			sceneSpinner.setClickable(false);
-			sceneSpinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<String> spinnerAdapter = createSceneAdapter(context);
 
@@ -160,9 +151,6 @@ public class SceneTransitionBrick extends BrickBaseType implements NewSceneDialo
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_scene_transition, null);
 		Spinner sceneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_scene_transition_spinner);
-		sceneSpinner.setFocusableInTouchMode(false);
-		sceneSpinner.setFocusable(false);
-		sceneSpinner.setEnabled(false);
 
 		SpinnerAdapter sceneSpinnerAdapter = createSceneAdapter(context);
 		sceneSpinner.setAdapter(sceneSpinnerAdapter);
