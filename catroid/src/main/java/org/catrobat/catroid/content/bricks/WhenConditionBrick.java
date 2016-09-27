@@ -130,6 +130,6 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		return new WhenConditionBrick();
+		return new WhenConditionBrick(getConditionFormula());
 	}
 }
