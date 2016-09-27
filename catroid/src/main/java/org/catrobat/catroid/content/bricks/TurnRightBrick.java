@@ -77,13 +77,10 @@ public class TurnRightBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_turn_right_checkbox);
 
-		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).setTextFieldId(R.id.brick_turn_right_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).refreshTextField(view);
 
-		textDegrees.setVisibility(View.GONE);
-		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
 		return view;
 	}
@@ -91,7 +88,7 @@ public class TurnRightBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
-		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
+		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_edit_text);
 		textDegrees.setText(Utils.getNumberStringForBricks(BrickValues.TURN_DEGREES));
 		return prototypeView;
 	}

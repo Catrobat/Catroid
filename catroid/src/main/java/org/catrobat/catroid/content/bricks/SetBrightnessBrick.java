@@ -76,12 +76,9 @@ public class SetBrightnessBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_set_brightness_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
 		return view;
@@ -91,7 +88,7 @@ public class SetBrightnessBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototypeView
-				.findViewById(R.id.brick_set_brightness_prototype_text_view);
+				.findViewById(R.id.brick_set_brightness_edit_text);
 		textSetBrightness.setText(Utils.getNumberStringForBricks(BrickValues.SET_BRIGHTNESS_TO));
 		return prototypeView;
 	}

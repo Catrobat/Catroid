@@ -80,7 +80,6 @@ public class VibrationBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_vibration_checkbox);
 
-		TextView textVibrate = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view);
 		TextView editVibrate = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
 		TextView secondTextVibrate = (TextView) view.findViewById(R.id.brick_vibration_second_label);
 
@@ -101,8 +100,6 @@ public class VibrationBrick extends FormulaBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		textVibrate.setVisibility(View.GONE);
-		editVibrate.setVisibility(View.VISIBLE);
 		editVibrate.setOnClickListener(this);
 
 		return view;
@@ -111,7 +108,7 @@ public class VibrationBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
-		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view);
+		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_edit_text);
 		textVibrate.setText(Utils.getNumberStringForBricks(BrickValues.VIBRATE_SECONDS));
 		TextView secondTextVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_label);
 		secondTextVibrate.setText(context.getResources().getQuantityString(R.plurals.second_plural,

@@ -93,14 +93,10 @@ public class PointInDirectionBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_point_in_direction_checkbox);
-		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
 		getFormulaWithBrickField(BrickField.DEGREES).setTextFieldId(R.id.brick_point_in_direction_edit_text);
 		getFormulaWithBrickField(BrickField.DEGREES).refreshTextField(view);
-
-		setAngleTextView.setVisibility(View.GONE);
-		setAngleTextField.setVisibility(View.VISIBLE);
 
 		setAngleTextField.setOnClickListener(this);
 		return view;
@@ -110,7 +106,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
-				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+				.findViewById(R.id.brick_point_in_direction_edit_text);
 		setAngleTextView.setText(Utils.getNumberStringForBricks(BrickValues.POINT_IN_DIRECTION));
 		return prototypeView;
 	}

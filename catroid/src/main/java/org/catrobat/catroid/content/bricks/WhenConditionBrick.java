@@ -87,14 +87,10 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 		setCheckboxView(R.id.brick_when_condition_checkbox);
 
-		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_when_condition_prototype_text_view);
 		TextView conditionEditText = (TextView) view.findViewById(R.id.brick_when_condition_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_when_condition_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
-		prototypeTextView.setVisibility(View.GONE);
-		conditionEditText.setVisibility(View.VISIBLE);
 
 		conditionEditText.setOnClickListener(this);
 
@@ -108,7 +104,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_when_condition_true, null);
-		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_when_condition_prototype_text_view);
+		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_when_condition_edit_text);
 		textView.setText(String.valueOf(BrickValues.IF_CONDITION));
 		return prototypeView;
 	}

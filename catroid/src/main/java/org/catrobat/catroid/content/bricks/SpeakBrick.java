@@ -73,13 +73,9 @@ public class SpeakBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_speak_checkbox);
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
-
-		textHolder.setVisibility(View.GONE);
-		textField.setVisibility(View.VISIBLE);
 
 		textField.setOnClickListener(this);
 		return view;
@@ -88,7 +84,7 @@ public class SpeakBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_speak, null);
-		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
+		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
 		return prototypeView;
 	}

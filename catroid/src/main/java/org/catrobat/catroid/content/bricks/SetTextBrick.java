@@ -98,9 +98,6 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 
 		setCheckboxView(R.id.brick_set_text_checkbox);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_text_prototype_text_view_x);
-		TextView textY = (TextView) view.findViewById(R.id.brick_set_text_prototype_text_view_y);
-
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_text_edit_text_x);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_text_edit_text_y);
 
@@ -112,18 +109,10 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).refreshTextField(view);
 		editY.setOnClickListener(this);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_set_text_prototype_view);
 		TextView editText = (TextView) view.findViewById(R.id.brick_set_text_edit_text);
 
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(R.id.brick_set_text_edit_text);
 		getFormulaWithBrickField(BrickField.STRING).refreshTextField(view);
-
-		text.setVisibility(View.GONE);
-		editText.setVisibility(View.VISIBLE);
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
 
 		editText.setOnClickListener(this);
 		return view;
@@ -133,10 +122,10 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_drone_set_text, null);
 
-		TextView posX = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_text_view_x);
-		TextView posY = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_text_view_y);
+		TextView posX = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text_x);
+		TextView posY = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text_y);
 
-		TextView text = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_view);
+		TextView text = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text);
 		TextView secondText = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
 
 		posX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));

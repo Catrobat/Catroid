@@ -98,7 +98,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 		setCheckboxView(R.id.brick_repeat_checkbox);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
@@ -123,9 +122,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-
 		edit.setOnClickListener(this);
 		return view;
 	}
@@ -133,7 +129,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
-		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
+		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		textRepeat.setText(String.valueOf(BrickValues.REPEAT));
 		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,

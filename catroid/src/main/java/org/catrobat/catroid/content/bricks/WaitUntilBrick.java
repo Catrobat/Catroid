@@ -68,14 +68,10 @@ public class WaitUntilBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_wait_until_checkbox);
 
-		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_wait_until_prototype_text_view);
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_wait_until_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_wait_until_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
-		prototypeTextView.setVisibility(View.GONE);
-		ifBeginTextView.setVisibility(View.VISIBLE);
 
 		ifBeginTextView.setOnClickListener(this);
 
@@ -85,7 +81,7 @@ public class WaitUntilBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_wait_until, null);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_wait_until_prototype_text_view);
+		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_wait_until_edit_text);
 		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
 		return prototypeView;
 	}

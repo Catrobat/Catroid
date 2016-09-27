@@ -89,13 +89,9 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_change_variable_checkbox);
-
-		TextView prototypeText = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
-		prototypeText.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).setTextFieldId(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).refreshTextField(view);
-		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
@@ -169,7 +165,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
+		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_edit_text);
 		textChangeVariable.setText(String.valueOf(BrickValues.CHANGE_VARIABLE));
 		return prototypeView;
 	}

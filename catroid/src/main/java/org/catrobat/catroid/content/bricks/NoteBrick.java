@@ -69,13 +69,10 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_note_checkbox);
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
 
-		textHolder.setVisibility(View.GONE);
-		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		return view;
@@ -84,7 +81,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_note, null);
-		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
+		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_note_default_value));
 		return prototypeView;
 	}

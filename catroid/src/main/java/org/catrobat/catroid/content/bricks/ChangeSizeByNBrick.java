@@ -76,13 +76,9 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_size_by_checkbox);
-		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).setTextFieldId(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).refreshTextField(view);
-
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
@@ -92,7 +88,7 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
 		TextView textChangeSizeBy = (TextView) prototypeView
-				.findViewById(R.id.brick_change_size_by_prototype_text_view);
+				.findViewById(R.id.brick_change_size_by_edit_text);
 		textChangeSizeBy.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_SIZE_BY));
 		return prototypeView;
 	}

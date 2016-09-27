@@ -76,13 +76,10 @@ public class ChangeXByNBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_change_x_checkbox);
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).setTextFieldId(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 		return view;
 	}
@@ -90,7 +87,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
-		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
+		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_edit_text);
 		textXMovement.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_X_BY));
 		return prototypeView;
 	}

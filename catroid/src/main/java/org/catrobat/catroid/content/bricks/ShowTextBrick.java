@@ -117,20 +117,16 @@ public class ShowTextBrick extends UserVariableBrick {
 
 		setCheckboxView(R.id.brick_show_variable_checkbox);
 
-		TextView textViewX = (TextView) view.findViewById(R.id.brick_show_variable_prototype_text_view_x);
 		TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_show_variable_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
-		textViewX.setVisibility(View.GONE);
-		editTextX.setVisibility(View.VISIBLE);
+
 		editTextX.setOnClickListener(this);
 
-		TextView textViewY = (TextView) view.findViewById(R.id.brick_show_variable_prototype_text_view_y);
 		TextView editTextY = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_show_variable_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-		textViewY.setVisibility(View.GONE);
-		editTextY.setVisibility(View.VISIBLE);
+
 		editTextY.setOnClickListener(this);
 
 		Spinner showVariableSpinner = (Spinner) view.findViewById(R.id.show_variable_spinner);
@@ -191,9 +187,9 @@ public class ShowTextBrick extends UserVariableBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_show_variable, null);
-		TextView textViewX = (TextView) prototypeView.findViewById(R.id.brick_show_variable_prototype_text_view_x);
+		TextView textViewX = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_x);
 		textViewX.setText(Utils.getNumberStringForBricks(BrickValues.X_POSITION));
-		TextView textViewY = (TextView) prototypeView.findViewById(R.id.brick_show_variable_prototype_text_view_y);
+		TextView textViewY = (TextView) prototypeView.findViewById(R.id.brick_show_variable_edit_text_y);
 		textViewY.setText(Utils.getNumberStringForBricks(BrickValues.Y_POSITION));
 		return prototypeView;
 	}

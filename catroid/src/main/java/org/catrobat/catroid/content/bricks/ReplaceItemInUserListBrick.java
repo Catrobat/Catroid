@@ -86,20 +86,14 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		view = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_replace_item_in_userlist_checkbox);
-		TextView prototypeTextValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_prototype_view);
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
-		prototypeTextValue.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).setTextFieldId(R.id.brick_replace_item_in_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).refreshTextField(view);
-		textFieldValue.setVisibility(View.VISIBLE);
 		textFieldValue.setOnClickListener(this);
 
-		TextView prototypeTextIndex = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_at_index_prototype_view);
 		TextView textFieldIndex = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_at_index_edit_text);
-		prototypeTextIndex.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).setTextFieldId(R.id.brick_replace_item_in_userlist_at_index_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).refreshTextField(view);
-		textFieldIndex.setVisibility(View.VISIBLE);
 		textFieldIndex.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.replace_item_in_userlist_spinner);
@@ -168,10 +162,10 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		setSpinnerSelection(userListSpinner, null);
 
 		TextView textViewValueToInsert = (TextView) prototypeView
-				.findViewById(R.id.brick_replace_item_in_userlist_value_prototype_view);
+				.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
 		textViewValueToInsert.setText(String.valueOf(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE));
 		TextView textViewInsertIndex = (TextView) prototypeView
-				.findViewById(R.id.brick_replace_item_in_userlist_at_index_prototype_view);
+				.findViewById(R.id.brick_replace_item_in_userlist_at_index_edit_text);
 		textViewInsertIndex.setText(String.valueOf(BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 
 		return prototypeView;

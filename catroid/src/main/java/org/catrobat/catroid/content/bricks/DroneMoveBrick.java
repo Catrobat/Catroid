@@ -88,7 +88,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_drone_move_checkbox);
-		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_second);
+
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
 		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
 				.setTextFieldId(R.id.brick_drone_move_edit_text_second);
@@ -114,11 +114,8 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		TextView label = (TextView) view.findViewById(R.id.brick_drone_move_label);
 		label.setText(getBrickLabel(view));
 
-		textTime.setVisibility(View.GONE);
-		editTime.setVisibility(View.VISIBLE);
 		editTime.setOnClickListener(this);
 
-		TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_power);
 		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
 		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
 				.setTextFieldId(R.id.brick_drone_move_edit_text_power);
@@ -126,8 +123,7 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_power_to_percent);
 		String textPercentString = "% ".concat(view.getResources().getString(R.string.brick_drone_percent_power));
 		textPercent.setText(textPercentString);
-		textPower.setVisibility(View.GONE);
-		editPower.setVisibility(View.VISIBLE);
+
 		editPower.setOnClickListener(this);
 
 		return view;
@@ -138,12 +134,12 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_drone_move, null);
 		TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_move_label);
 		label.setText(getBrickLabel(prototypeView));
-		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
+		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_edit_text_second);
 		TextView textPercent = (TextView) prototypeView.findViewById(R.id.brick_set_power_to_percent);
 		String textPercentString = "% ".concat(prototypeView.getResources().getString(R.string.brick_drone_percent_power));
 		textPercent.setText(textPercentString);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
-		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
+		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_edit_text_power);
 		textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
 		textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
