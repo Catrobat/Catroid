@@ -106,9 +106,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -122,8 +119,18 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 		ifBeginTextView.setOnClickListener(this);
 
+		removePrototypeElseTextViews(view);
 
 		return view;
+	}
+
+	protected void removePrototypeElseTextViews(View view) {
+		TextView prototypeTextPunctuation = (TextView) view.findViewById(R.id.if_else_prototype_punctuation);
+		TextView prototypeTextElse = (TextView) view.findViewById(R.id.if_prototype_else);
+		TextView prototypeTextPunctuation2 = (TextView) view.findViewById(R.id.if_else_prototype_punctuation2);
+		prototypeTextPunctuation.setVisibility(View.GONE);
+		prototypeTextElse.setVisibility(View.GONE);
+		prototypeTextPunctuation2.setVisibility(View.GONE);
 	}
 
 	@Override

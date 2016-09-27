@@ -78,12 +78,9 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_when_condition_true, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+		BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_when_condition_checkbox);
 

@@ -48,12 +48,7 @@
             android:id="@+id/brick_change_size_by_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_change_size_by" >
-        </TextView >
-
-        <TextView
-            android:id="@+id/brick_change_size_by_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
+        </TextView >>
 
         <TextView
             android:id="@+id/brick_change_size_by_edit_text"

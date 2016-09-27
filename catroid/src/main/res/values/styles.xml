@@ -216,7 +216,7 @@
         <item name="android:maxLines" >1</item >
     </style >
 
-    <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText" >
+    <style name="BrickEditText" parent="android:style/Widget.EditText" >
         <item name="android:focusable" >false</item >
         <item name="android:focusableInTouchMode" >false</item >
         <item name="android:clickable" >false</item >
@@ -242,11 +242,6 @@
         <item name="android:layout_height" >wrap_content</item >
         <item name="android:singleLine" >true</item >
         <item name="android:ellipsize" >end</item >
-    </style >
-
-
-    <style name="BrickEditText" parent="@style/BrickPrototypeTextView" >
-        <item name="android:visibility" >gone</item >
     </style >
 
     <style name="BrickContainer" >

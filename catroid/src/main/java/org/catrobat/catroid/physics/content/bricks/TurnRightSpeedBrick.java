@@ -78,14 +78,11 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_turn_right_speed_checkbox);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_turn_right_speed_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_turn_right_speed_edit_text);
 
 		getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED).setTextFieldId(R.id.brick_turn_right_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED).refreshTextField(view);
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 
 		return view;
@@ -94,7 +91,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_turn_right_speed, null);
-		TextView textTurnRightSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_right_speed_prototype_text_view);
+		TextView textTurnRightSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_right_speed_edit_text);
 		textTurnRightSpeed.setText(String.valueOf(BrickValues.PHYSIC_TURN_DEGREES));
 		return prototypeView;
 	}

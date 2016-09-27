@@ -58,18 +58,10 @@
              app:layout_textField="true" />
 
         <TextView
-            android:id="@+id/brick_arduino_set_analog_pin_prototype_text_view"
-            style="@style/BrickPrototypeTextView" />
-
-        <TextView
             android:id="@+id/brick_arduino_set_analog_value_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_arduino_set_pin_value_to"
             app:layout_newLine="true" />
-
-        <TextView
-             android:id="@+id/brick_arduino_set_analog_value_prototype_text_view"
-             style="@style/BrickPrototypeTextView" />
 
         <TextView
              android:id="@+id/brick_arduino_set_analog_value_edit_text"

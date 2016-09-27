@@ -46,7 +46,6 @@ import org.catrobat.catroid.ui.BrickLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 public class UserBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -250,25 +249,21 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 				UserBrickParameter parameter = getUserBrickParameterByUserBrickElement(element);
 				currentEditText = new EditText(context);
 
-				if (prototype) {
-					currentEditText.setTextAppearance(context, R.style.BrickPrototypeTextView);
-					currentEditText.setText(String.format(Locale.US, "%s", 0.0));
-				} else {
-					currentEditText.setId(id);
-					currentEditText.setTextAppearance(context, R.style.BrickEditText);
+				currentEditText.setId(id);
+				currentEditText.setTextAppearance(context, R.style.BrickEditText);
 
-					if (parameter != null) {
-						parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentEditText.getId());
-						String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentEditText.getContext());
-						parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentEditText, formulaString);
-					}
-
-					// This stuff isn't being included by the style when I use setTextAppearance.
-					currentEditText.setFocusable(false);
-					currentEditText.setFocusableInTouchMode(false);
-
-					currentEditText.setOnClickListener(this);
+				if (parameter != null) {
+					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentEditText.getId());
+					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentEditText.getContext());
+					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentEditText, formulaString);
 				}
+
+				// This stuff isn't being included by the style when I use setTextAppearance.
+				currentEditText.setFocusable(false);
+				currentEditText.setFocusableInTouchMode(false);
+
+				currentEditText.setOnClickListener(this);
+
 				currentEditText.setVisibility(View.VISIBLE);
 				if (parameter != null) {
 					if (prototype) {

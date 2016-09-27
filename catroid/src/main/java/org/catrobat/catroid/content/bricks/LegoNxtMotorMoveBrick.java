@@ -92,7 +92,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
+		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_edit_text);
 		textSpeed.setText(String.valueOf(BrickValues.LEGO_SPEED));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
@@ -126,13 +126,10 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
-		TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
+
 		editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).setTextFieldId(R.id.motor_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).refreshTextField(view);
-
-		textSpeed.setVisibility(View.GONE);
-		editSpeed.setVisibility(View.VISIBLE);
 
 		editSpeed.setOnClickListener(this);
 

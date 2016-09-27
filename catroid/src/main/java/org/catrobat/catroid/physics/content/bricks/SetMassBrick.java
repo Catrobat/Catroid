@@ -78,14 +78,11 @@ public class SetMassBrick extends FormulaBrick {
 
 		setCheckboxView(R.id.brick_set_mass_checkbox);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_set_mass_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_mass_edit_text);
 
 		getFormulaWithBrickField(BrickField.PHYSICS_MASS).setTextFieldId(R.id.brick_set_mass_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_MASS).refreshTextField(view);
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 
 		return view;
@@ -94,7 +91,7 @@ public class SetMassBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_mass, null);
-		TextView textMass = (TextView) prototypeView.findViewById(R.id.brick_set_mass_prototype_text_view);
+		TextView textMass = (TextView) prototypeView.findViewById(R.id.brick_set_mass_edit_text);
 		textMass.setText(String.valueOf(BrickValues.PHYSIC_MASS));
 		return prototypeView;
 	}

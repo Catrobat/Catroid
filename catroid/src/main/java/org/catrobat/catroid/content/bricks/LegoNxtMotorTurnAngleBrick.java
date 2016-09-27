@@ -91,7 +91,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
+		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_edit_text);
 		textX.setText(String.valueOf(BrickValues.LEGO_ANGLE));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
@@ -127,13 +127,10 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
 		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
-		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
+
 		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);
-
-		textSpeed.setVisibility(View.GONE);
-		editSpeed.setVisibility(View.VISIBLE);
 
 		editSpeed.setOnClickListener(this);
 

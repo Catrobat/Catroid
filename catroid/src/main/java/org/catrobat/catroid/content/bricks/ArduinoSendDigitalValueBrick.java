@@ -93,9 +93,6 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_arduino_send_digital, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -106,14 +103,11 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).refreshTextField(view);
 
-
 		editPinNumber.setOnClickListener(this);
-
 
 		TextView editPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_digital_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).setTextFieldId(R.id.brick_arduino_set_digital_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).refreshTextField(view);
-
 
 		editPinValue.setOnClickListener(this);
 

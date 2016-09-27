@@ -81,6 +81,9 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void onClick(View view) {
+		if (adapter == null) {
+			return;
+		}
 		if (adapter.getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
 			return;
 		}
