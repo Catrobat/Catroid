@@ -160,9 +160,9 @@ android {
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode 32
+        versionCode 33
         println "VersionCode is " + versionCode
-        versionName "0.9.25"
+        versionName "0.9.26"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
